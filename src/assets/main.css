@@ -58,13 +58,13 @@
 
 @media (min-width: 992px) {
   .auth_container {
-    width: 75%;
+    width: 80%;
   }
 }
 
 @media (min-width: 1200px) {
   .auth_container {
-    width: 74%;
+    width: 80%;
   }
 }
 @layer base {
@@ -149,3 +149,62 @@ ol {
   color: red;
   @apply text-[9px] font-Satoshi500;
 }
+/* Style the tabs */
+
+.tabs {
+  overflow: auto;
+  column-gap: 25px;
+  border-radius: 20.825px;
+  background: #F0F5F3;  padding-bottom: 0 !important;
+  scroll-padding-bottom: 0;
+  text-transform: capitalize !important;
+  color: rgba(33, 37, 41, 0.6);
+  @apply text-[14px] leading-[18.2px] font-Satoshi500
+}
+
+.tabs::-webkit-scrollbar {
+  width: 0px;
+}
+
+.tabs a {
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s;
+  color: rgba(0, 0, 0, 0.50);
+  @apply  p-3 px-8
+}
+
+.tabs a:last-child {
+  border-right: 0px solid #ccc;
+}
+
+/* Change background color of tabs on hover */
+/* .tabs a:hover {
+    color: #484848;
+} */
+
+/* Styling for active tab */
+.tabs a.active {
+  cursor: default;
+  font-weight: 500;
+  border-radius: 20.825px;
+  border: 0.521px solid #31795A;
+   @apply text-brand bg-white 
+}
+
+/* Style the tab content */
+
+
+.tabcontent .map {
+  height: 173px;
+  width: 220px;
+  background: #D3EAFB;
+  margin-left: 60px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.tabcontent {
+  padding-top: 10px;
+}
+

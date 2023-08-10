@@ -10,7 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "ant-design-vue": "^4.0.0",
+    "ant-design-vue": "^4.0.0-rc.6",
     "dayjs": "^1.11.9",
     "pinia": "^2.1.4",
     "vue": "^3.3.4",
