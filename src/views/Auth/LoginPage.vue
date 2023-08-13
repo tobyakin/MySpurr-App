@@ -34,11 +34,9 @@ const formState = reactive({
 
 <template>
   <layout class="bg-[#00474F]">
-    <div
-      class="justify-center w-full md:bg-white rounded-[11.315px] min-h-full p-2 lg:p-8"
-    >
+    <div class="justify-center w-full md:bg-white rounded-[11.315px] p-2 my-8 lg:p-8">
       <!-- form input  -->
-      <div class="py-8">
+      <div class="py-3">
         <h1
           class="md:text-[22.225px] font-EBGaramond400 text-brand my-6 text-center text-2xl"
         >

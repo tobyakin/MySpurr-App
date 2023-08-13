@@ -1,18 +1,12 @@
 <template>
-  <div class="">
+  <div class="min-h-screen md:h-auto">
     <AuthHeader />
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-40 auth_container">
-      <div class="sticky md:flex items-center hidden top-0">
-        <img
-          class="relative md:block"
-          src="@/assets/image/Auth/AuthImage.png"
-          alt="Auth"
-        />
+      <div class="sticky lg:flex flex-shrink-0 items-center hidden top-0">
+        <img class="" src="@/assets/image/Auth/AuthImage.png" alt="Auth" />
       </div>
-      <div
-        class="flex min-h-screen md:h-auto overflow-y-auto justify-center items-center lg:py-10"
-      >
-        <div class="w-[100%]">
+      <div class="flex justify-center items-center lg:py-0">
+        <div class="w-[100%] h-[80vh] overflow-y-auto my-4">
           <slot></slot>
         </div>
       </div>

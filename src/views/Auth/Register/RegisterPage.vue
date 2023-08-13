@@ -142,7 +142,7 @@ const changeScreen = (from, to, type = null) => {
     </div>
     <div
       v-if="steps[1]"
-      class="justify-center w-full md:bg-white rounded-[11.315px] min-h-full p-2 lg:p-10"
+      class="justify-center w-full md:bg-white rounded-[11.315px] min-h-full p-4 md:p-5 lg:p-8"
     >
       <tab-selector>
         <template #tab1title> Signup as a Creative Talent </template>
