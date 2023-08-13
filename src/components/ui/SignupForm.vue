@@ -62,7 +62,7 @@
     </div>
     <div class="mt-4">
       <button
-        @click="submit"
+        @click="handleSignup()"
         class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         create my account
@@ -89,11 +89,25 @@ const togglrRemember = () => {
 };
 
 console.log(formData);
-const emit = defineEmits(["submit", "signupWithGoogle"]);
-const submit = () => {
-  emit("submit");
-};
-const signupWithGoogle = () => {
-  emit("signupWithGoogle");
-};
+const activeTab = ref(localStorage.getItem("activeTab") || "talent");
+
+function handleSignup() {
+  if (activeTab.value === "business") {
+    handleBusinessSignup();
+  } else if (activeTab.value === "talent") {
+    handleTalentSignup();
+  } else {
+    // Handle other cases if needed
+  }
+}
+
+function handleBusinessSignup() {
+  console.log("Business signup");
+  console.log(formData);
+}
+
+function handleTalentSignup() {
+  console.log("Talent signup");
+  console.log(formData);
+}
 </script>

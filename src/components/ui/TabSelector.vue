@@ -1,23 +1,35 @@
 <template>
   <div>
+    <h1
+      v-if="activetab === 'talent'"
+      class="md:text-[22.225px] font-EBGaramond400 text-brand my-6 text-center text-2xl"
+    >
+      <slot name="tab1title"></slot>
+    </h1>
+    <h1
+      v-if="activetab === 'business'"
+      class="md:text-[22.225px] font-EBGaramond400 text-brand my-6 text-center text-2xl"
+    >
+      <slot name="tab2title"></slot>
+    </h1>
+
     <div class="tabs justify-between flex">
-      <a
-        class="px-4"
-        @click="activetab = '1'"
-        :class="[activetab === '1' ? 'active' : '']"
-      >
+      <a @click="activateTab('talent')" :class="[activetab === 'talent' ? 'active' : '']">
         <slot name="tab1"></slot>
       </a>
-      <a @click="activetab = '2'" :class="[activetab === '2' ? 'active' : '']">
+      <a
+        @click="activateTab('business')"
+        :class="[activetab === 'business' ? 'active' : '']"
+      >
         <slot name="tab2"></slot>
       </a>
     </div>
     <!-- tabs  view  start here -->
     <div class="pt-2">
-      <div v-if="activetab === '1'" class="">
+      <div v-if="activetab === 'talent'" class="">
         <slot name="view1"></slot>
       </div>
-      <div v-if="activetab === '2'" class="">
+      <div v-if="activetab === 'business'" class="">
         <slot name="view2"></slot>
       </div>
     </div>
@@ -25,23 +37,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useTabStore } from "@/stores/tab";
 
-// const props = defineProps({
-//   defaultTab: String,
-// });
+const store = useTabStore();
+const activetab = ref(store.activetab);
 
-// const activetab = ref(props.defaultTab);
+// Set initial tab value based on the prop or local storage
+onMounted(() => {
+  const storedTab = localStorage.getItem("activeTab");
+  if (storedTab) {
+    activetab.value = storedTab;
+  }
+});
 
-// const emit = defineEmits();
-const activetab = ref("1");
-
-const onChange = (e) => {
-  activetab.value = e.target.value;
-};
-
-// const setActiveTab = (tab) => {
-//   activetab.value = tab;
-//   emit("update:value", tab); // Emit the current tab value to the parent component using the proper event name
-// };
+function activateTab(tab) {
+  activetab.value = tab;
+  localStorage.setItem("activeTab", tab);
+}
 </script>
