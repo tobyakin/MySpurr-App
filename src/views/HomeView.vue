@@ -1,9 +1,9 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <DashboardLayout
+    ><span class="dashicons dashicons-edit">home page</span></DashboardLayout
+  >
 </template>
