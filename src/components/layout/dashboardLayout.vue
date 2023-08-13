@@ -1,5 +1,10 @@
 <script setup>
 import BaseSidebar from "@/components/SideBar/index.vue";
+import BellIcon from "@/components/icons/bellIcon.vue";
+import BookMarkIcon from "@/components/icons/bookmarkIcon.vue";
+import WalletIcon from "@/components/icons/walletIcon.vue";
+import SearchIcon from "@/components/icons/searchBarIcon.vue";
+
 import { ref } from "vue";
 import "animate.css";
 
@@ -22,7 +27,7 @@ const toggle = () => {
 </script>
 
 <template>
-  <div class="bg-[#e5e5e5]">
+  <div class="bg-[#FDFDF6]">
     <div class="lg:flex">
       <div
         v-if="closeBackdrop"
@@ -40,42 +45,34 @@ const toggle = () => {
         <BaseSidebar />
       </div>
       <div class="p-0 lg:p-6 flex-grow">
-        <nav
-          class="top-menu flex items-center justify-between bg-white py-3 px-4 lg:px-0 lg:bg-[#e5e5e5]"
-        >
+        <nav class="top-menu flex items-center justify-between py-3 px-4 lg:px-0">
           <div class="lg:hidden">
             <div class="logo">
               <router-link :to="{ name: 'dashboard' }"
-                ><img src="@/assets/img/logo.svg" class="h-8 w-24" alt="Kavlr logo"
+                ><img src="@/assets/Logo.png" class="w-[80%]" alt="Myspurr logo"
               /></router-link>
             </div>
           </div>
-
-          <div class="links hidden flex">
-            <div class="flex justify-between gap-2 items-center ml-auto">
-              <span
-                class="notification hidden lg:block p-2 bg-transparent md:bg-[#2B3C87] rounded-full"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="#ffffff"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M19.22,13.27l1.18,1.48A2,2,0,0,1,18.84,18H5.16A2,2,0,0,1,3.6,14.75l1.18-1.48A1,1,0,0,0,5,12.65V9.29A7.2,7.2,0,0,1,11.78,2,7,7,0,0,1,19,9v3.65A1,1,0,0,0,19.22,13.27Z"
-                  ></path>
-                  <path d="M16,18a4,4,0,1,1-8,0"></path>
-                </svg>
-              </span>
+          <div class="w-[40%] relative hidden lg:flex">
+            <SearchIcon class="absolute left-3 top-3" /><input
+              class="w-full font-light font-Satoshi400 text-[14px] p-3 pl-9 pr-24 border-[#F0F0F0] border-[1px] opacity-[0.8029] rounded-[7px] text-sm"
+              placeholder=" Search here.."
+              type="text"
+            /><button
+              class="absolute right-0 top-3 px-[21px] border-l-[#F0F0F0] border-l-[1px]"
+            >
+              Find job
+            </button>
+          </div>
+          <div class="links flex">
+            <div class="flex justify-between gap-1 items-center ml-auto">
+              <span class="notification hidden lg:block px-2"><WalletIcon /> </span>
+              <span class="notification hidden lg:block px-2"><BookMarkIcon /> </span>
+              <span class="notification hidden lg:block px-2"><BellIcon /> </span>
 
               <div class="profile__dropdown">
                 <div
-                  class="profile__dropdown-text items-center flex gap-2 p-2 rounded-3xl"
+                  class="profile__dropdown-text items-center flex gap-2 px-2 rounded-3xl"
                 >
                   <img class="hidden" src="" alt="" />
                   <div
@@ -96,21 +93,6 @@ const toggle = () => {
                       />
                     </svg>
                   </div>
-
-                  <svg
-                    class="hidden lg:block"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    fill="none"
-                    stroke="#2B3C87"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                  </svg>
 
                   <div @click="toggle" class="lg:hidden cursor-pointer">
                     <svg
@@ -135,17 +117,6 @@ const toggle = () => {
         </nav>
 
         <slot></slot>
-        <!-- Footer -->
-        <!-- <div class="md:flex justify-between w-full mt-24">
-          <ul>
-            <li> Kavlr © {{ new Date().getFullYear() }}</li>
-          </ul>
-          <ul class="flex gap-6">
-            <li>Privacy policy</li>
-            <li>Terms & Conditions</li>
-            <li>Support</li>
-          </ul>
-        </div> -->
       </div>
     </div>
   </div>
