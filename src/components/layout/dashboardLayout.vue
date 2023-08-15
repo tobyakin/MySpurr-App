@@ -4,12 +4,13 @@ import BellIcon from "@/components/icons/bellIcon.vue";
 import BookMarkIcon from "@/components/icons/bookmarkIcon.vue";
 import WalletIcon from "@/components/icons/walletIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
-
+import Dropdown from "@/components/ui/Dropdown.vue";
 import { ref } from "vue";
 import "animate.css";
 
 const closeNav = ref(false);
 const closeBackdrop = ref(false);
+const showDropdown = ref(false);
 
 const toggle = () => {
   closeNav.value = !closeNav.value;
@@ -23,6 +24,16 @@ const toggle = () => {
       closeBackdrop.value = !closeBackdrop.value;
     }, 1000);
   }
+};
+const items = [
+  {
+    name: "login",
+    context: "Log out",
+  },
+];
+
+const toogleDropdown = () => {
+  showDropdown.value = !showDropdown.value;
 };
 </script>
 
@@ -72,10 +83,12 @@ const toggle = () => {
 
               <div class="profile__dropdown">
                 <div
-                  class="profile__dropdown-text items-center flex gap-2 px-2 rounded-3xl"
+                  class="profile__dropdown-text relative items-center flex gap-2 px-2 rounded-3xl"
                 >
                   <img class="hidden" src="" alt="" />
                   <div
+                    @click="toogleDropdown()"
+                    role="button"
                     class="h-10 w-10 flex justify-center items-center rounded-full bg-brand"
                   >
                     <svg
@@ -93,6 +106,13 @@ const toggle = () => {
                       />
                     </svg>
                   </div>
+                  <Dropdown
+                    v-if="showDropdown"
+                    :showDropdown="showDropdown"
+                    :link="true"
+                    :items="items"
+                    @closeDropdown="toogleDropdown"
+                  />
 
                   <div @click="toggle" class="lg:hidden cursor-pointer">
                     <svg
