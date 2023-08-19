@@ -8,7 +8,7 @@ import JobCard from "@/components/ui/JobCard.vue";
   <DashboardLayout>
     <div class="container py-4">
       <span class="font-EBGaramond500 text-[#244034] text-[27.673px]">Hi Dave,</span>
-      <div class="flex flex-row flex-grow gap-4 mt-6 w-full">
+      <div class="flex lg:flex-row flex-col flex-grow gap-4 mt-6 w-full">
         <div
           class="p-4 px-10 flex flex-col justify-between rounded-[4.533px] w-full bg-[#EDF0B8] border-[0.567px] border-[#254035AB]"
         >
