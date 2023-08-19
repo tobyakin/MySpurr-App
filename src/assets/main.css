@@ -207,4 +207,6 @@ ol {
 .tabcontent {
   padding-top: 10px;
 }
-
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
