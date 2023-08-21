@@ -1,5 +1,5 @@
 <script setup>
-import CalenderIcon from "@/components/icons/OutlineCalenderIcon.vue";
+import CalenderIcon from "@/components/icons/outlineCalenderIcon.vue";
 import LocationIcon from "@/components/icons/locationIcon.vue";
 import TimerIcon from "@/components/icons/timerIcon.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
