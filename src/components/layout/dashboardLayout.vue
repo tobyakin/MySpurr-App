@@ -30,6 +30,18 @@ const items = [
     name: "login",
     context: "Log out",
   },
+  {
+    name: "login",
+    context: "Log out",
+  },
+  {
+    name: "login",
+    context: "Log out",
+  },
+  {
+    name: "login",
+    context: "Log out",
+  },
 ];
 
 const toogleDropdown = () => {
