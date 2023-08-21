@@ -4,7 +4,7 @@ import BellIcon from "@/components/icons/bellIcon.vue";
 import BookMarkIcon from "@/components/icons/bookmarkIcon.vue";
 import WalletIcon from "@/components/icons/walletIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
-import Dropdown from "@/components/ui/Dropdown.vue";
+import Dropdown from "@/components/ui/DropDown.vue";
 import { ref } from "vue";
 import "animate.css";
 
