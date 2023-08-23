@@ -13,12 +13,19 @@ const router = createRouter({
     {
       path: '/signup',
       name: 'Signup',
-      component: Register
+      component: Register,
+      beforeEnter: [middleware.redirectDashboard],
     },
     {
       path: '/login',
       name: 'Login',
-      component: LoginPage
+      component: LoginPage,
+      beforeEnter: [middleware.redirectDashboard],
+    },
+    {
+      path: "/logout",
+      name: "Logout",
+      beforeEnter: [middleware.deleteSession],
     },
     {
       path: '/dashboard',

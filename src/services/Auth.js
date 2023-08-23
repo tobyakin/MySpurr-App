@@ -22,7 +22,7 @@ export const login = async (email, password) => {
 export const registerBusiness = async (payload) => {
 
     try {
-        let res = await axios.post('customers',payload)
+        let res = await axios.post('business-register',payload)
         let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
         localStorage.setItem('_register_data', ciphertext);
         return res;
@@ -35,7 +35,7 @@ export const registerBusiness = async (payload) => {
 export const registerTalent = async (payload) => {
 
     try {
-        let res = await axios.post('customers',payload)
+        let res = await axios.post('talent-register',payload)
         let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
         localStorage.setItem('_register_data', ciphertext);
         return res;
