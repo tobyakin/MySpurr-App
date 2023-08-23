@@ -1,19 +1,20 @@
 import axios from "../axios";
-import { catchAxiosError }  from "./Response"
-import { encrypt,decrypt } from "./Encryption"
+import { catchAxiosError, catchAxiosSuccess }  from "./Response"
+import { encrypt,decrypt } from "./Encrypt"
 
-export const login = async (email, password) => {
+export const login = async (email_address, password) => {
 
     let data = {
-        email,
+        email_address,
         password,
     }
 
     try {
         let res = await axios.post('login',data)
+        catchAxiosSuccess(res)   
         return res;
     } catch (error) {
-        catchAxiosError(error)   
+        catchAxiosError(error.message)   
         throw error;
     }
   

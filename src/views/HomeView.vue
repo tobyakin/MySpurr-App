@@ -2,12 +2,18 @@
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import LogoIcon from "@/components/icons/logoIcon.vue";
 import JobCard from "@/components/ui/JobCard.vue";
+import { useStore } from "@/stores/user";
+
+let store = useStore();
+console.log(store.getUser);
 </script>
 
 <template>
   <DashboardLayout>
     <div class="container py-4">
-      <span class="font-EBGaramond500 text-[#244034] text-[27.673px]">Hi Dave,</span>
+      <span class="font-EBGaramond500 text-[#244034] text-[27.673px]"
+        >Hi {{ store.getUser.user.first_name }} ,</span
+      >
       <div class="flex lg:flex-row flex-col flex-grow gap-4 mt-6 w-full">
         <div
           class="p-4 px-10 flex flex-col justify-between rounded-[4.533px] w-full bg-[#EDF0B8] border-[0.567px] border-[#254035AB]"

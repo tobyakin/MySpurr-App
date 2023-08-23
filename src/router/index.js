@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import middleware from '../services/Middleware';
+import middleware from './Middleware';
 import LoginPage from '../views/Auth/LoginPage.vue'
 import Register from '../views/Auth/RegisterPage.vue'
 import HomeView from '../views/HomeView.vue'

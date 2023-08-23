@@ -15,7 +15,8 @@ export const useStore = defineStore('user', () => {
         let encryptedData  = localStorage.getItem("_user_data");
         if(encryptedData){
             user.value  = decrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
-            return user.value.user;
+            console.log(user.value.data.user.first_name);
+            return user.value.data;
         }
             return user;
     })
@@ -53,17 +54,17 @@ export const useStore = defineStore('user', () => {
         localStorage.removeItem('_user_data');
     }
 
-    const features = computed(()=>{
-        let account = getUser.value.details.account_type
+    // const features = computed(()=>{
+    //     let account = getUser.value.details.account_type
 
-        let allFeature = ['']
+    //     let allFeature = ['']
          
-        if(account.toLowerCase() == "talent"   || account.toLowerCase() === "business"){
+    //     if(account.toLowerCase() == "talent"   || account.toLowerCase() === "business"){
             
-            return allFeature = ['']
-        }
-        return allFeature
-    })
+    //         return allFeature = ['']
+    //     }
+    //     return allFeature
+    // })
   
     return { 
         user,
@@ -74,7 +75,7 @@ export const useStore = defineStore('user', () => {
         updateRegisteruser,
         token,
         pageTitle,
-        features
+        // features
 
 
     }
