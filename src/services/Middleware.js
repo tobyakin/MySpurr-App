@@ -12,11 +12,11 @@ const redirectLogin = () => {
             return ;
         }
         
-        return { name: 'Login' }
+        return { name: 'login' }
 
     }
 
-    return { name: 'Login' }
+    return { name: 'login' }
 }
     
 const redirectDashboard = () => {
