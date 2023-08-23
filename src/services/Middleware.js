@@ -26,7 +26,7 @@ const redirectDashboard = () => {
         let user = encrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
 
         if(user.token){
-            return { name: 'Dashboard' }
+            return { name: 'dashboard' }
         }
         
     }

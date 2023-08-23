@@ -58,9 +58,9 @@ export const useStore = defineStore('user', () => {
 
         let allFeature = ['']
          
-        if(account.toLowerCase() == "personal"   || account.toLowerCase() === "business"){
+        if(account.toLowerCase() == "talent"   || account.toLowerCase() === "business"){
             
-            return allFeature = ['POUCH','CROWDPOOL','MPOS', 'EXPENSES']
+            return allFeature = ['']
         }
         return allFeature
     })
