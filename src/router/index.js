@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import middleware from '../services/Middleware';
 import LoginPage from '../views/Auth/LoginPage.vue'
 import Register from '../views/Auth/RegisterPage.vue'
 import HomeView from '../views/HomeView.vue'
@@ -11,18 +12,19 @@ const router = createRouter({
     },
     {
       path: '/signup',
-      name: 'signup',
+      name: 'Signup',
       component: Register
     },
     {
       path: '/login',
-      name: 'login',
+      name: 'Login',
       component: LoginPage
     },
     {
       path: '/dashboard',
-      name: 'dashboard',
-      component: HomeView
+      name: 'Dashboard',
+      component: HomeView,
+      beforeEnter: [middleware.redirectLogin]
     },
   ]
 })

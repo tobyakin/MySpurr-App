@@ -81,7 +81,7 @@ const changeScreen = (from, to, type = null) => {
                 Have an account?
                 <router-link
                   class="text-[#31795A] border-b-[#31795A] border-b-[1px]"
-                  to="/"
+                  to="/login"
                 >
                   Sign In</router-link
                 >
@@ -130,7 +130,7 @@ const changeScreen = (from, to, type = null) => {
                 Have an account?
                 <router-link
                   class="text-[#31795A] border-b-[#31795A] border-b-[1px]"
-                  to="/"
+                  to="/login"
                 >
                   Sign In</router-link
                 >

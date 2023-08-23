@@ -84,7 +84,7 @@ const formState = reactive({
         <div class="mt-4 text-center">
           <p class="font-Satoshi400 text-[13.269px] text-[#007582]">
             Need to create an account?
-            <router-link class="" to="/"> Sign Up </router-link>
+            <router-link class="" to="/signup"> Sign Up </router-link>
           </p>
         </div>
       </div>
