@@ -2,7 +2,7 @@ import { encrypt, decrypt } from './Encrypt'
 // import { useRouter } from 'vue-router';
 // const router = useRouter()
 
-const redirectLogin = (to) => {
+const redirectLogin = () => {
 
     let encryptedData  = localStorage.getItem("_user_data");
     if(encryptedData){
@@ -19,7 +19,7 @@ const redirectLogin = (to) => {
     return { name: 'Login' }
 }
     
-const redirectDashboard = (to) => {
+const redirectDashboard = () => {
 
     let encryptedData  = localStorage.getItem("_user_data");
     if(encryptedData){
@@ -33,7 +33,7 @@ const redirectDashboard = (to) => {
     
 }
 
-const deleteSession = (to) => {
+const deleteSession = () => {
 
     let encryptedData  = localStorage.getItem("_user_data");
     if(encryptedData.user){
