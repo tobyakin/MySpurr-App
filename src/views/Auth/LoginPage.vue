@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
 import { login } from "@/services/Auth";
+import PasswordInput from "@/components/ui/PasswordInput.vue";
 
 const store = useStore();
 const router = useRouter();
@@ -12,7 +13,7 @@ const formState = {
   email: "",
   password: "",
 };
-const showPassword = ref(false);
+// const showPassword = ref(false);
 
 const onFinish = async () => {
   loading.value = true;
@@ -27,9 +28,9 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
-const toggleShowPassword = () => {
-  showPassword.value = !showPassword.value;
-};
+// const toggleShowPassword = () => {
+//   showPassword.value = !showPassword.value;
+// };
 </script>
 
 <template>
@@ -66,7 +67,9 @@ const toggleShowPassword = () => {
           </div>
 
           <div>
-            <div class="relative">
+            <PasswordInput v-model="formState.password" placeholder="Password*" />
+
+            <!-- <div class="relative">
               <input
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Password*"
@@ -112,7 +115,7 @@ const toggleShowPassword = () => {
                   </svg>
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="mt-4 text-right">

@@ -24,13 +24,11 @@
       />
     </div>
     <div class="py-6">
-      <div @click="togglrRemember" class="flex gap-2 items-center">
+      <div class="flex gap-2 items-center">
         <p
-          :class="
-            formData.remember
-              ? 'border-[0.764px] border-[#B3B3B3]'
-              : 'bg-brand  border-brand'
-          "
+          @click="togglrTerms()"
+          role="button"
+          :class="formData.terms && 'bg-brand  border-brand'"
           class="w-4 h-4 flex justify-center items-center rounded-[1.018px] border"
         >
           <svg
@@ -59,6 +57,9 @@
           >
         </p>
       </div>
+      <div v-if="error.terms" class="text-xs my-2 text-red-500">
+        {{ error.terms }}
+      </div>
     </div>
     <div class="mt-4">
       <button
@@ -72,9 +73,20 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
+import { registerBusiness, registerTalent } from "@/services/Auth";
+import { useStore } from "@/stores/user";
+import { useRouter } from "vue-router";
+
+const store = useStore();
+const router = useRouter();
+let loading = ref(false);
+
+const error = reactive({
+  terms: "",
+});
 
 const formData = {
   firstName: "",
@@ -82,13 +94,13 @@ const formData = {
   email: "",
   password: "",
   hear_about_us: "",
-  remember: false,
+  terms: false,
 };
-const togglrRemember = () => {
-  formData.remember = !formData.remember;
+const togglrTerms = () => {
+  formData.terms = !formData.terms;
+  error.terms = "";
 };
 
-console.log(formData);
 const activeTab = ref(localStorage.getItem("activeTab") || "talent");
 
 function handleSignup() {
@@ -101,13 +113,57 @@ function handleSignup() {
   }
 }
 
-function handleBusinessSignup() {
+const handleBusinessSignup = async () => {
   console.log("Business signup");
   console.log(formData);
-}
+  loading.value = true;
+  if (!formData.terms) {
+    return (error.terms = "Please agree to our terms and conditions");
+  }
 
-function handleTalentSignup() {
+  let payload = {
+    first_name: formData.firstName,
+    last_name: formData.lastName,
+    email_address: formData.email,
+    password: formData.password,
+    hear_about_us: formData.hear_about_us,
+    terms: formData.terms,
+  };
+  try {
+    const res = await registerBusiness(payload);
+
+    router.push({ name: "login" });
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const handleTalentSignup = async () => {
   console.log("Talent signup");
   console.log(formData);
-}
+  loading.value = true;
+  if (!formData.terms) {
+    return (error.terms = "Please agree to our terms and conditions");
+  }
+
+  let payload = {
+    first_name: formData.firstName,
+    last_name: formData.lastName,
+    email_address: formData.email,
+    password: formData.password,
+    hear_about_us: formData.hear_about_us,
+    terms: formData.terms,
+  };
+  try {
+    const res = await registerTalent(payload);
+
+    router.push({ name: "login" });
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
 </script>

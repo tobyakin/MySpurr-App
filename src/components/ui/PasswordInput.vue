@@ -1,10 +1,10 @@
 <template>
   <div class="relative">
     <input
-      :id="inputId"
+      v-bind="$attrs"
       :type="showPassword ? 'text' : 'password'"
       :value="modelValue"
-      @input="onInput"
+      @input="$emit('update:modelValue', $event.target.value)"
       :placeholder="placeholder"
       class="w-full font-light font-Satoshi400 text-[14px] !p-3 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
     />
@@ -52,19 +52,14 @@
 <script setup>
 import { ref } from "vue";
 
-const props = defineProps({
-  modelValue: String,
+defineProps({
+  type: String,
   placeholder: String,
+  modelValue: String,
 });
+const emit = defineEmits(["update:modelValue"]);
 
-const modelValue = ref(props.modelValue || "");
 const showPassword = ref(false);
-const inputId = `input_${Math.random().toString(36).substr(2, 9)}`;
-
-const onInput = (event) => {
-  const value = event.target.value || "";
-  modelValue.value = value;
-};
 
 const toggleShowPassword = () => {
   showPassword.value = !showPassword.value;
