@@ -5,6 +5,7 @@ import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
 import { login } from "@/services/Auth";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
+import GlobalInput from "@/components/ui/GlobalInput.vue";
 
 const store = useStore();
 const router = useRouter();
@@ -60,11 +61,10 @@ const onFinish = async () => {
 
         <div class="flex flex-col gap-4">
           <div>
-            <input
-              class="w-full font-light font-Satoshi400 text-[14px] !p-3 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
-              placeholder="Email Address*"
-              type="email"
+            <GlobalInput
               v-model="formState.email"
+              type="email"
+              placeholder="Email Address*"
             />
           </div>
 
