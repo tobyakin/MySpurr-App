@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10">
+  <div class="mt-3">
     <button
       @click="signupWithGoogle"
       class="w-full flex justify-center gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
@@ -7,7 +7,7 @@
       <img class="w-[7%]" src="@/assets/svg/googleIcon.svg" alt="" />
       <p class="text-[16px] font-Satoshi400">Signup with Google</p>
     </button>
-    <div class="flex gap-2 my-5">
+    <div class="flex gap-2 my-3">
       <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
       <p>OR</p>
       <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
@@ -17,11 +17,11 @@
       <GlobalInput v-model="formData.lastName" type="text" placeholder="Last Name" />
       <GlobalInput v-model="formData.email" type="email" placeholder="Email Address*" />
       <PasswordInput v-model="formData.password" placeholder="Password*" />
-      <GlobalInput
+      <!-- <GlobalInput
         v-model="formData.hear_about_us"
         type="text"
         placeholder="How did you hear about MySpurr?"
-      />
+      /> -->
     </div>
     <div class="py-6">
       <div class="flex gap-2 items-center">
@@ -61,7 +61,7 @@
         {{ error.terms }}
       </div>
     </div>
-    <div class="mt-4">
+    <div class="my-2">
       <button
         @click="handleSignup()"
         class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"

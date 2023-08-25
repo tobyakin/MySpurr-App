@@ -1,7 +1,7 @@
 <!-- eslint-disable no-unused-vars -->
 <script setup>
 import { ref } from "vue";
-import layout from "@/components/layout/AuthLayout.vue";
+import layout from "@/components/layout/LightAuthLayout.vue";
 import TabSelector from "@/components/ui/TabSelector.vue";
 import SignupForm from "@/components/ui/SignupForm.vue";
 
@@ -25,11 +25,11 @@ const changeScreen = (from, to, type = null) => {
 
 <template>
   <layout class="bg-[#E9FAFB]">
-    <div v-if="steps[0]">
-      <h1 class="md:text-[36px] font-EBGaramond500 text-2xl font-bold mb-1 md:mb-2">
+    <div class="w-[80%] mx-auto" v-if="steps[0]">
+      <h1 class="md:text-[36px] font-EBGaramond500 text-2xl font-bold">
         How will you use MySpurr?
       </h1>
-      <p class="text-[16px] font-Satoshi400 mb-6 md:mb-4">
+      <p class="text-[16px] font-Satoshi400 my-4 md:mb-8">
         Please select an option below.
       </p>
 
@@ -37,8 +37,8 @@ const changeScreen = (from, to, type = null) => {
         class="justify-center w-full md:bg-white rounded-[11.315px] min-h-full p-2 lg:p-8"
       >
         <tab-selector>
-          <template #tab1> Creative talent content </template>
-          <template #tab2> Business content </template>
+          <template #tab1> Creative talent </template>
+          <template #tab2> Business </template>
           <template #view1>
             <div class="bg-[#E6F1F3] rounded-[4.181px] p-4 lg:p-8 mt-10">
               <p class="text-[12.692px] text-[#011B1F] font-Satoshi500 mb-6 md:mb-4">
@@ -142,13 +142,13 @@ const changeScreen = (from, to, type = null) => {
     </div>
     <div
       v-if="steps[1]"
-      class="justify-center w-full md:bg-white rounded-[11.315px] min-h-full p-4 md:p-5 lg:p-8"
+      class="justify-center w-[80%] mx-auto md:bg-white rounded-[11.315px] min-h-auto p-2 lg:px-8"
     >
       <tab-selector>
-        <template #tab1title> Signup as a Creative Talent </template>
-        <template #tab2title>Signup as a Business</template>
-        <template #tab1> Creative talent content </template>
-        <template #tab2> Business content </template>
+        <template #tab1title> Sign up as a Creative Talent </template>
+        <template #tab2title>Sign up as a Business</template>
+        <template #tab1> Creative talent </template>
+        <template #tab2> Business </template>
         <template #view1> <SignupForm /> </template>
         <template #view2> <SignupForm /> </template>
       </tab-selector>

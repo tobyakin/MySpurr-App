@@ -6,7 +6,7 @@
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
       :placeholder="placeholder"
-      class="w-full font-light font-Satoshi400 text-[14px] !p-3 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+      class="w-full font-light font-Satoshi400 text-[14px] !p-2 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
     />
     <div class="absolute right-3 top-3 text-[#D1D1D6]">
       <button type="button" @click="toggleShowPassword()" v-if="showPassword">

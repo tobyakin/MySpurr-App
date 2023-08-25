@@ -6,7 +6,9 @@
         <img class="" src="@/assets/image/Auth/AuthImage.png" alt="Auth" />
       </div>
       <div class="flex justify-center items-center lg:py-0">
-        <div class="w-[100%] h-[80vh] overflow-y-auto my-4">
+        <div
+          class="w-[100%] h-[85vh] overflow-y-auto py-6 overflow-hidden items-center flex"
+        >
           <slot></slot>
         </div>
       </div>
@@ -15,5 +17,5 @@
 </template>
 
 <script setup>
-import AuthHeader from "@/components/Header/AuthHeader.vue";
+import AuthHeader from "@/components/Header/LightAuthHeader.vue";
 </script>

@@ -2,22 +2,27 @@
   <div>
     <h1
       v-if="activetab === 'talent'"
-      class="md:text-[22.225px] font-EBGaramond400 text-brand my-6 text-center text-2xl"
+      class="md:text-[22.225px] font-EBGaramond400 text-brand my-4 text-center text-2xl"
     >
       <slot name="tab1title"></slot>
     </h1>
     <h1
       v-if="activetab === 'business'"
-      class="md:text-[22.225px] font-EBGaramond400 text-brand my-6 text-center text-2xl"
+      class="md:text-[22.225px] font-EBGaramond400 text-brand my-4 text-center text-2xl"
     >
       <slot name="tab2title"></slot>
     </h1>
 
-    <div class="tabs justify-between flex">
-      <a @click="activateTab('talent')" :class="[activetab === 'talent' ? 'active' : '']">
+    <div class="tabs flex flex-row">
+      <a
+        class="w-full"
+        @click="activateTab('talent')"
+        :class="[activetab === 'talent' ? 'active' : '']"
+      >
         <slot name="tab1"></slot>
       </a>
       <a
+        class="w-full"
         @click="activateTab('business')"
         :class="[activetab === 'business' ? 'active' : '']"
       >

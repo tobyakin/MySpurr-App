@@ -50,7 +50,7 @@ const onFinish = async () => {
           class="w-full flex justify-center gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
         >
           <img class="w-[7%]" src="@/assets/svg/googleIcon.svg" alt="" />
-          <p class="text-[16px] font-Satoshi400">Signup with Google</p>
+          <p class="text-[16px] font-Satoshi400">Sign in with Google</p>
         </button>
         <div class="flex gap-2 my-5">
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
