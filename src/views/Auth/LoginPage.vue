@@ -35,7 +35,9 @@ const onFinish = async () => {
 
 <template>
   <layout class="bg-[#00474F]">
-    <div class="justify-center w-full md:bg-white rounded-[11.315px] p-2 my-8 lg:p-8">
+    <div
+      class="justify-center w-[80%] mx-auto md:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
+    >
       <!-- form input  -->
       <div class="py-3">
         <h1
