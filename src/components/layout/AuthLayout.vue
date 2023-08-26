@@ -6,7 +6,9 @@
         <img class="" src="@/assets/image/Auth/circleImages.png" alt="Auth" />
       </div>
       <div class="flex justify-center items-center lg:py-0">
-        <div class="w-[100%] h-[80vh] overflow-y-auto my-4 items-center flex">
+        <div
+          class="w-[100%] h-[80vh] overflow-y-auto my-4 items-center hide-scrollbar flex"
+        >
           <slot></slot>
         </div>
       </div>

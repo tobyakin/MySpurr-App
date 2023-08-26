@@ -7,7 +7,7 @@
       </div>
       <div class="flex justify-center items-center lg:py-0">
         <div
-          class="w-[100%] h-[85vh] overflow-y-auto py-6 overflow-hidden items-center flex"
+          class="w-[100%] h-[85vh] overflow-y-auto py-6 overflow-hidden hide-scrollbar items-center flex"
         >
           <slot></slot>
         </div>
