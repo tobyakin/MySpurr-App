@@ -66,7 +66,8 @@
         @click="handleSignup()"
         class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
-        create my account
+        <span v-if="!loading"> create my account </span>
+        <WhiteLoader v-else />
       </button>
     </div>
   </div>
@@ -79,6 +80,7 @@ import GlobalInput from "@/components/ui/GlobalInput.vue";
 import { registerBusiness, registerTalent } from "@/services/Auth";
 import { useStore } from "@/stores/user";
 import { useRouter } from "vue-router";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
 const store = useStore();
 const router = useRouter();

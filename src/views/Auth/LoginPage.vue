@@ -6,7 +6,7 @@ import layout from "@/components/layout/AuthLayout.vue";
 import { login } from "@/services/Auth";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
-
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 const store = useStore();
 const router = useRouter();
 let loading = ref(false);
@@ -130,7 +130,8 @@ const onFinish = async () => {
             @click="onFinish"
             class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
           >
-            LOG in
+            <span v-if="!loading">LOG in</span>
+            <WhiteLoader v-else />
           </button>
         </div>
         <div class="mt-4 text-center">

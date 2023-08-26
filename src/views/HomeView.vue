@@ -70,7 +70,7 @@ console.log(store.getUser);
         <p class="text-[17.633px] font-Satoshi400 mb-8 text-[#244034]">
           Top job picks for you
         </p>
-        <div class="flex space-x-6 overflow-x-auto hide-scrollbar my-8">
+        <div class="flex gap-6 overflow-x-auto hide-scrollbar my-8">
           <JobCard class="min-w-[95%] lg:min-w-[45%]" v-for="item in 4" :key="item" />
         </div>
       </div>
