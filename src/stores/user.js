@@ -54,17 +54,17 @@ export const useStore = defineStore('user', () => {
         localStorage.removeItem('_user_data');
     }
 
-    // const features = computed(()=>{
-    //     let account = getUser.value.details.account_type
+    const features = computed(()=>{
+        let account = getUser.value.details.account_type
 
-    //     let allFeature = ['']
+        let allFeature = ['']
          
-    //     if(account.toLowerCase() == "talent"   || account.toLowerCase() === "business"){
+        if(account.toLowerCase() == "talent"   || account.toLowerCase() === "business"){
             
-    //         return allFeature = ['']
-    //     }
-    //     return allFeature
-    // })
+            return allFeature = ['']
+        }
+        return allFeature
+    })
   
     return { 
         user,
@@ -75,7 +75,7 @@ export const useStore = defineStore('user', () => {
         updateRegisteruser,
         token,
         pageTitle,
-        // features
+        features
 
 
     }
