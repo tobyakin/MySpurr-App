@@ -3,6 +3,8 @@ import middleware from './Middleware';
 import LoginPage from '../views/Auth/LoginPage.vue'
 import Register from '../views/Auth/RegisterPage.vue'
 import HomeView from '../views/HomeView.vue'
+import TalentOnboarding from '../views/OnBoarding/Talent.vue'
+import BusinessOnboarding from '../views/OnBoarding/Business.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -31,6 +33,18 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: HomeView,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/talent/onboarding',
+      name: 'talent-onboarding',
+      component: TalentOnboarding,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/business/onboarding',
+      name: 'business-onboarding',
+      component: BusinessOnboarding,
       beforeEnter: [middleware.redirectLogin]
     },
   ]
