@@ -2,16 +2,19 @@
 import { ref, onMounted, watch } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
-import { storeToRefs } from "pinia";
+// import { storeToRefs } from "pinia";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
+import { useRouter } from "vue-router";
 
 let store = useStore();
 console.log(store.getUser);
+let loading = ref(false);
+const router = useRouter();
 
 const OnboardingStore = useOnboardingStore();
-const { step } = storeToRefs(OnboardingStore);
-const emit = defineEmits("next");
+// const { step } = storeToRefs(OnboardingStore);
+// const emit = defineEmits("next");
 const formState = {
   compensation: "",
   portfolio_title: "",
@@ -19,6 +22,8 @@ const formState = {
   image: "",
   social_media_link: "",
 };
+const file = ref("");
+const previewImage = ref(null);
 
 onMounted(() => {
   checkVaildlity();
@@ -48,8 +53,45 @@ const checkVaildlity = () => {
       : false;
 };
 
-const next = () => {
-  emit("next", step.value + 1);
+// const next = () => {
+//   emit("next", step.value + 1);
+// };
+const uploadFile = async () => {
+  file.value = previewImage.value.files[0];
+  showImage();
+};
+const showImage = async () => {
+  if (file.value) {
+    previewImage.value = URL.createObjectURL(file.value);
+  } else {
+    previewImage.value = null;
+  }
+};
+const onFinish = async () => {
+  loading.value = true;
+  console.log(formState);
+  let payload = {
+    compensation: formState.compensation,
+    portfolio_title: formState.portfolio_title,
+    portfolio_description: formState.portfolio_description,
+    social_media_link: formState.social_media_link,
+  };
+  const formData = new FormData();
+  formData.append("image", file.value);
+
+  Object.entries(payload).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
+  try {
+    const res = await OnboardingStore.submitTalentPortfolio(formData);
+    router.push({ name: "dashboard" });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
@@ -102,19 +144,22 @@ const next = () => {
 
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-3.5">
           <input
+            id="previewImage"
+            @input="uploadFile"
+            ref="previewImage"
             type="file"
-            name=""
-            @input="uploadBackFile"
-            ref="proof_of_id_front_back"
             accept=""
-            id="uploadFile"
             hidden
           />
           <label
-            for="uploadFile"
+            for="previewImage"
             class="cursor-pointer w-full justify-between flex text-[#01272C] px-4 text-[12px] font-Satoshi400"
-            >Upload photos <AttachFileIcon
-          /></label>
+            >Upload photos <AttachFileIcon /></label
+          ><img
+            :src="previewImage"
+            class="rounded w-full cursor-pointer h-[150px] object-cover"
+            alt=""
+          />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
@@ -137,9 +182,8 @@ const next = () => {
     </div>
     <div class="flex flex-col gap-5 mt-5">
       <button
-        :disabled="!formVaildlity"
         type="primary"
-        @click="next"
+        @click="onFinish"
         :class="{ 'bg-gray-400': !formVaildlity }"
         class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >

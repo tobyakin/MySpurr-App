@@ -10,6 +10,7 @@ const OnboardingStore = useOnboardingStore();
 const { step } = storeToRefs(OnboardingStore);
 let store = useStore();
 console.log(store.getUser);
+let loading = ref(false);
 
 const emit = defineEmits("next");
 const formState = {
@@ -56,10 +57,33 @@ const checkVaildlity = () => {
 };
 
 const next = () => {
-  if (formVaildlity.value) {
-    emit("next", step.value + 1);
+  // if (formVaildlity.value) {
+  emit("next", step.value + 1);
+  // }
+};
+const onFinish = async () => {
+  loading.value = true;
+  console.log(formState);
+  let payload = {
+    skill_title: formState.skill_title,
+    top_skills: formState.top_skills,
+    highest_education: formState.highest_education,
+    year_obtained: formState.year_obtained,
+    work_history: formState.work_history,
+    certificate_earned: formState.certificate_earned,
+    availability: formState.availability,
+  };
+  try {
+    const res = await OnboardingStore.submitTalentWorkDetails(payload);
+    console.log(res);
+    next();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
   }
 };
+
 onMounted(() => {
   checkVaildlity();
 });
@@ -157,7 +181,7 @@ onMounted(() => {
     <div class="flex flex-col gap-5 mt-5">
       <button
         type="primary"
-        @click="next"
+        @click="onFinish"
         :class="{ 'bg-gray-400': !formVaildlity }"
         class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >

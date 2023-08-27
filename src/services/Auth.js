@@ -52,7 +52,7 @@ export const getToken = () => {
     let encryptedData  = localStorage.getItem("_user_data");
     if(encryptedData){
         let user  = decrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
-        return user.token;
+        return user.data.token;
     }
 
     return null;
