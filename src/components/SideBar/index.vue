@@ -40,6 +40,7 @@
         >
       </router-link>
       <router-link
+        v-if="feature.includes('ALL_APPLICATIONS')"
         to="/dashboard"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
@@ -85,6 +86,7 @@
         >
       </router-link>
       <router-link
+        v-if="feature.includes('JOB_LISTING')"
         to="/dashboard"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
@@ -115,6 +117,7 @@
         >
       </router-link>
       <router-link
+        v-if="feature.includes('MY_SCHEDULE')"
         to="/dashboard"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
@@ -148,7 +151,7 @@
   </header>
 </template>
 <script setup>
-// import { useStore } from "@/stores/user";
+import { useStore } from "@/stores/user";
 import HomeIcon from "@/components/icons/homeIcon.vue";
 import MessageIcon from "@/components/icons/messageIcon.vue";
 import ApplicationIcon from "@/components/icons/applicationIcon.vue";
@@ -157,17 +160,17 @@ import Courses from "@/components/icons/coursesIcon.vue";
 import MySchedule from "@/components/icons/calenderIcon.vue";
 import GoProIcon from "@/components/icons/starIcon.vue";
 import { useRoute, useRouter } from "vue-router";
-// import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 
 const route = useRoute();
-// const router = useRouter();
-// const store = useStore();
+const router = useRouter();
+const store = useStore();
 
-// const user = store.getUser;
+const user = store.getUser;
 
-// const feature = computed(() => {
-//   return store.features;
-// });
+const feature = computed(() => {
+  return store.features;
+});
 
 // const logOut = () => {
 //   localStorage.clear();

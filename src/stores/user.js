@@ -21,25 +21,6 @@ export const useStore = defineStore('user', () => {
             return user;
     })
 
-    const registeredUser = ref({});
-
-    const getRegisterUser = computed(() => {
-
-        let encryptedData  = localStorage.getItem("_register_data");
-        if(encryptedData){
-            registeredUser.value  = decrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
-            return  registeredUser.value;
-        }
-
-        return null;
-
-    })
-
-    const updateRegisteruser = (key,data) => {
-        registeredUser.value[key] = data;
-        let ciphertext = encrypt(JSON.stringify(registeredUser.value),import.meta.env.VITE_ENCRYPT_KEY)
-        localStorage.setItem('_register_data', ciphertext);
-    }
 
     const saveUser = (userData) => {
         user.value = userData
@@ -55,13 +36,13 @@ export const useStore = defineStore('user', () => {
     }
 
     const features = computed(()=>{
-        let account = getUser.value.details.account_type
+        let account = getUser.value.user.type
 
-        let allFeature = ['']
+        let allFeature = ['JOBS','MY_APPLICATIONS','GO_PRO','COURSES','JOBS','MESSAGES']
          
-        if(account.toLowerCase() == "talent"   || account.toLowerCase() === "business"){
+        if(account.toLowerCase() === "business"){
             
-            return allFeature = ['']
+            return allFeature = ['JOB_LISTING','MY_SCHEDULE','ALL_APPLICATIONS']
         }
         return allFeature
     })
@@ -69,10 +50,8 @@ export const useStore = defineStore('user', () => {
     return { 
         user,
         getUser,
-        getRegisterUser ,
         saveUser,
         deleteUser,
-        updateRegisteruser,
         token,
         pageTitle,
         features
