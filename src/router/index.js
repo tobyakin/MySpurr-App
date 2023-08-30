@@ -5,6 +5,7 @@ import Register from '../views/Auth/RegisterPage.vue'
 import Verify from '../views/Auth/VerifyPage.vue'
 import HomeView from '../views/HomeView.vue'
 import JobsView from '../views/Jobs/Jobs.vue'
+import CoursesView from '../views/Courses/ComingSoon.vue'
 import TalentOnboarding from '../views/OnBoarding/Talent.vue'
 import BusinessOnboarding from '../views/OnBoarding/Business.vue'
 const router = createRouter({
@@ -34,7 +35,7 @@ const router = createRouter({
     },
     {
       path: "/logout",
-      name: "Logout",
+      name: "logout",
       beforeEnter: [middleware.deleteSession],
     },
     {
@@ -47,6 +48,12 @@ const router = createRouter({
       path: '/jobs',
       name: 'jobs',
       component: JobsView,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/courses',
+      name: 'courses',
+      component: CoursesView,
       beforeEnter: [middleware.redirectLogin]
     },
     {
