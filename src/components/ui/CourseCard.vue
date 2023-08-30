@@ -1,5 +1,5 @@
 <script setup>
-import PeopleIcon from "@/components/icons/PeopleIcon.vue";
+import PeopleIcon from "@/components/icons/peopleIcon.vue";
 import ThumbsUp from "@/components/icons/thumbsUp.vue";
 </script>
 <template>
