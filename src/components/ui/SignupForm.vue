@@ -1,7 +1,7 @@
 <template>
   <div class="mt-3">
     <button
-      @click="signupWithGoogle"
+      @click="handleSignupWithGoogle"
       class="w-full flex justify-center gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
     >
       <img class="w-[7%]" src="@/assets/svg/googleIcon.svg" alt="" />
@@ -77,12 +77,17 @@
 import { ref, reactive } from "vue";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
-import { registerBusiness, registerTalent } from "@/services/Auth";
-import { useStore } from "@/stores/user";
+import {
+  registerBusiness,
+  registerTalent,
+  registerBusinessWithGoogle,
+  registerTalentWithGoogle,
+} from "@/services/Auth";
+// import { useStore } from "@/stores/user";
 import { useRouter } from "vue-router";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
-const store = useStore();
+// const store = useStore();
 const router = useRouter();
 let loading = ref(false);
 
@@ -114,6 +119,38 @@ function handleSignup() {
     // Handle other cases if needed
   }
 }
+function handleSignupWithGoogle() {
+  if (activeTab.value === "business") {
+    handleBusinessSignupWithGoogle();
+  } else if (activeTab.value === "talent") {
+    handleTalentSignupWithGoogle();
+  } else {
+    // Handle other cases if needed
+  }
+}
+
+const handleBusinessSignupWithGoogle = async () => {
+  try {
+    const res = await registerBusinessWithGoogle();
+    router.push({ name: "verify" });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
+const handleTalentSignupWithGoogle = async () => {
+  try {
+    const res = await registerTalentWithGoogle();
+    router.push({ name: "verify" });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
 
 const handleBusinessSignup = async () => {
   console.log("Business signup");

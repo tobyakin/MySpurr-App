@@ -3,7 +3,7 @@ import { useStore } from "@/stores/user";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
-import { login } from "@/services/Auth";
+import { login, loginWithGoogle } from "@/services/Auth";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
@@ -29,6 +29,19 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
+const loginWithGoogleApi = async () => {
+  loading.value = true;
+  try {
+    const res = await loginWithGoogle();
+    store.saveUser(res.data);
+    router.push({ name: "dashboard" });
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
+
 // const toggleShowPassword = () => {
 //   showPassword.value = !showPassword.value;
 // };
@@ -47,7 +60,7 @@ const onFinish = async () => {
           Log in
         </h1>
         <button
-          @click="signupWithGoogle"
+          @click="loginWithGoogleApi"
           class="w-full flex justify-center gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
         >
           <img class="w-[7%]" src="@/assets/svg/googleIcon.svg" alt="" />

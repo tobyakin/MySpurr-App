@@ -61,9 +61,7 @@ const router = createRouter({
       component: BusinessOnboarding,
       beforeEnter: [middleware.redirectLogin]
     },
-  ],  scrollBehavior(to, from) {
-    return { top: 0 }
-  },
+  ], 
 
 })
 
