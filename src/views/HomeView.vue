@@ -2,15 +2,18 @@
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import LogoIcon from "@/components/icons/logoIcon.vue";
 import JobCard from "@/components/ui/JobCard.vue";
+import MyApplicationCard from "@/components/ui/MyApplicationCard.vue";
+import CommunityCard from "@/components/ui/CommunityCard.vue";
+import CourseCard from "@/components/ui/CourseCard.vue";
+import ArticleCard from "@/components/ui/ArticleCard.vue";
 import { useStore } from "@/stores/user";
-
 let store = useStore();
 console.log(store.getUser);
 </script>
 
 <template>
   <DashboardLayout>
-    <div class="container py-4">
+    <div class="container lg:py-0 py-4 mb-5">
       <span class="font-EBGaramond500 text-[#244034] text-[27.673px]"
         >Hi {{ store.getUser.user.first_name }} ,</span
       >
@@ -66,12 +69,70 @@ console.log(store.getUser);
           </button>
         </div>
       </div>
-      <div class="mt-10">
-        <p class="text-[17.633px] font-Satoshi400 mb-8 text-[#244034]">
-          Top job picks for you
-        </p>
-        <div class="flex gap-6 overflow-x-auto hide-scrollbar my-8">
+      <!-- jobs -->
+      <div class="mt-12">
+        <div class="flex justify-between mb-4">
+          <p class="text-[17.633px] font-Satoshi400 text-[#244034]">
+            Top job picks for you
+          </p>
+
+          <router-link
+            class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+            to=""
+            >View all jobs</router-link
+          >
+        </div>
+
+        <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
           <JobCard class="min-w-[95%] lg:min-w-[45%]" v-for="item in 4" :key="item" />
+        </div>
+      </div>
+      <div class="mt-10 flex gap-3 overflow-x-auto">
+        <div class="my-8">
+          <p class="text-[17.633px] font-Satoshi400 mb-8 text-[#244034]">
+            My Applications
+          </p>
+
+          <MyApplicationCard class="min-w-[95%] lg:min-w-[70%]" />
+        </div>
+        <div class="my-8">
+          <div class="flex justify-between mb-8">
+            <p class="text-[17.633px] font-Satoshi400 text-[#244034]">My Courses</p>
+
+            <router-link
+              class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+              to=""
+              >View all courses</router-link
+            >
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <CourseCard v-for="item in 4" :key="item" />
+          </div>
+        </div>
+      </div>
+      <!-- community -->
+      <div class="my-8">
+        <div class="flex justify-between mb-4">
+          <p class="text-[17.633px] font-Satoshi400 text-[#244034]">Communities</p>
+
+          <router-link
+            class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+            to=""
+            >View all communies</router-link
+          >
+        </div>
+        <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
+          <CommunityCard class="" v-for="item in 6" :key="item" />
+        </div>
+      </div>
+      <!-- articles -->
+      <div class="mt-10 overflow-x-auto">
+        <p class="text-[17.633px] font-Satoshi400 mb-8 text-[#244034]">
+          MySpurr Articles
+        </p>
+        <div class="grid grid-cols-2 gap-3">
+          <ArticleCard class="" v-for="item in 4" :key="item" />
         </div>
       </div>
     </div>

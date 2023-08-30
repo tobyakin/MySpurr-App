@@ -56,6 +56,7 @@
         >
       </router-link>
       <router-link
+        v-if="feature.includes('MY_APPLICATIONS')"
         to="/dashboard"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
@@ -71,6 +72,7 @@
         >
       </router-link>
       <router-link
+        v-if="feature.includes('JOBS')"
         to="/dashboard"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
@@ -102,6 +104,7 @@
         >
       </router-link>
       <router-link
+        v-if="feature.includes('COURSES')"
         to="/dashboard"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"

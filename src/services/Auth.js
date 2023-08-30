@@ -14,7 +14,7 @@ export const login = async (email_address, password) => {
         catchAxiosSuccess(res)   
         return res;
     } catch (error) {
-        catchAxiosError(error.message)   
+        catchAxiosError(error)   
         throw error;
     }
   
@@ -25,7 +25,8 @@ export const registerBusiness = async (payload) => {
     try {
         let res = await axios.post('business-register',payload)
         let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
-        localStorage.setItem('_register_data', ciphertext);
+        localStorage.setItem('_register_data', ciphertext);        catchAxiosSuccess(res.message)   
+
         return res;
     } catch (error) {
         catchAxiosError(error)   
@@ -38,7 +39,8 @@ export const registerTalent = async (payload) => {
     try {
         let res = await axios.post('talent-register',payload)
         let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
-        localStorage.setItem('_register_data', ciphertext);
+        localStorage.setItem('_register_data', ciphertext);        catchAxiosSuccess(res.message)   
+
         return res;
     } catch (error) {
         catchAxiosError(error)   

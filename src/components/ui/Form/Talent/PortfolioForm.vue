@@ -6,11 +6,19 @@ import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
 import { useRouter } from "vue-router";
+import Multiselect from "vue-multiselect";
 
 let store = useStore();
 console.log(store.getUser);
 let loading = ref(false);
 const router = useRouter();
+const value = ref([{ name: "Javascript", code: "js" }]);
+
+const options = ref([
+  { name: "Vue.js", code: "vu" },
+  { name: "Javascript", code: "js" },
+  { name: "Open Source", code: "os" },
+]);
 
 const OnboardingStore = useOnboardingStore();
 // const { step } = storeToRefs(OnboardingStore);
@@ -22,7 +30,7 @@ const formState = {
   image: "",
   social_media_link: "",
 };
-const file = ref("");
+const file = ref(null);
 const previewImage = ref(null);
 
 onMounted(() => {
@@ -40,6 +48,9 @@ watch(
   ],
   () => {
     checkVaildlity();
+  },
+  () => {
+    showImage();
   }
 );
 
@@ -56,7 +67,47 @@ const checkVaildlity = () => {
 // const next = () => {
 //   emit("next", step.value + 1);
 // };
-const uploadFile = async () => {
+const onFinish = async () => {
+  loading.value = true;
+
+  let payload = {
+    compensation: formState.compensation,
+    portfolio_title: formState.portfolio_title,
+    portfolio_description: formState.portfolio_description,
+    social_media_link: formState.social_media_link,
+  };
+  console.log(file.value);
+  const formData = new FormData();
+
+  if (file.value) {
+    // Convert the selected image to base64 and append it to the FormData
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      formData.append("image", event.target.result);
+      submitForm(formData, payload);
+    };
+    reader.readAsDataURL(file.value);
+  } else {
+    submitForm(formData, payload);
+  }
+};
+
+const submitForm = async (formData, payload) => {
+  Object.entries(payload).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+  console.log("form data" + " " + formData);
+  try {
+    const res = await OnboardingStore.submitTalentPortfolio(formData);
+    router.push({ name: "dashboard" });
+    return res;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
+const uploadFile = () => {
   file.value = previewImage.value.files[0];
   showImage();
 };
@@ -65,32 +116,6 @@ const showImage = async () => {
     previewImage.value = URL.createObjectURL(file.value);
   } else {
     previewImage.value = null;
-  }
-};
-const onFinish = async () => {
-  loading.value = true;
-  console.log(formState);
-  let payload = {
-    compensation: formState.compensation,
-    portfolio_title: formState.portfolio_title,
-    portfolio_description: formState.portfolio_description,
-    social_media_link: formState.social_media_link,
-  };
-  const formData = new FormData();
-  formData.append("image", file.value);
-
-  Object.entries(payload).forEach(([key, value]) => {
-    formData.append(key, value);
-  });
-
-  try {
-    const res = await OnboardingStore.submitTalentPortfolio(formData);
-    router.push({ name: "dashboard" });
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loading.value = false;
   }
 };
 </script>
@@ -144,23 +169,29 @@ const onFinish = async () => {
 
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-3.5">
           <input
-            id="previewImage"
-            @input="uploadFile"
+            id="preview_Image"
+            @change="uploadFile"
             ref="previewImage"
             type="file"
-            accept=""
             hidden
           />
           <label
-            for="previewImage"
+            for="preview_Image"
             class="cursor-pointer w-full justify-between flex text-[#01272C] px-4 text-[12px] font-Satoshi400"
             >Upload photos <AttachFileIcon /></label
-          ><img
-            :src="previewImage"
-            class="rounded w-full cursor-pointer h-[150px] object-cover"
-            alt=""
-          />
+          ><img :src="previewImage" alt="" />
         </div>
+        <Multiselect
+          v-model="value"
+          tag-placeholder="Add this as new tag"
+          placeholder="Search or add a tag"
+          label="name"
+          track-by="code"
+          :options="options"
+          :multiple="true"
+          :taggable="true"
+        ></Multiselect>
+
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
             >Please select social media link</label

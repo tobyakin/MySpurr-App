@@ -33,7 +33,7 @@
 
 @media (min-width: 1200px) {
   .container {
-    width: 74%;
+    width: 83%;
   }
 }
 .auth_container {
@@ -207,4 +207,24 @@ ol {
 }
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+.Vue-Toastification__toast {
+  @apply font-Satoshi400
+}
+
+.Vue-Toastification__toast--error svg {
+  @apply !text-red-500
+}
+
+.Vue-Toastification__toast--error {
+
+  @apply !bg-white !text-black
+}
+
+.Vue-Toastification__toast--success {
+  @apply !bg-white !text-black
+}
+
+.Vue-Toastification__toast--success svg {
+  @apply !text-green-500
 }

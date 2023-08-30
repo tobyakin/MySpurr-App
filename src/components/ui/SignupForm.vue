@@ -134,7 +134,8 @@ const handleBusinessSignup = async () => {
   try {
     const res = await registerBusiness(payload);
 
-    router.push({ name: "login" });
+    router.push({ name: "verify" });
+    console.log(res);
   } catch (error) {
     console.log(error);
   } finally {
@@ -161,7 +162,8 @@ const handleTalentSignup = async () => {
   try {
     const res = await registerTalent(payload);
 
-    router.push({ name: "login" });
+    router.push({ name: "verify" });
+    console.log(res);
   } catch (error) {
     console.log(error);
   } finally {

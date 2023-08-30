@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import middleware from './Middleware';
 import LoginPage from '../views/Auth/LoginPage.vue'
 import Register from '../views/Auth/RegisterPage.vue'
+import Verify from '../views/Auth/VerifyPage.vue'
 import HomeView from '../views/HomeView.vue'
 import TalentOnboarding from '../views/OnBoarding/Talent.vue'
 import BusinessOnboarding from '../views/OnBoarding/Business.vue'
@@ -23,6 +24,12 @@ const router = createRouter({
       name: 'login',
       component: LoginPage,
       beforeEnter: [middleware.redirectDashboard],
+    },
+    {
+      path: '/verify',
+      name: 'verify',
+      component: Verify,
+      // beforeEnter: [middleware.redirectDashboard],
     },
     {
       path: "/logout",
