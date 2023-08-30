@@ -4,6 +4,7 @@ import LoginPage from '../views/Auth/LoginPage.vue'
 import Register from '../views/Auth/RegisterPage.vue'
 import Verify from '../views/Auth/VerifyPage.vue'
 import HomeView from '../views/HomeView.vue'
+import JobsView from '../views/Jobs/Jobs.vue'
 import TalentOnboarding from '../views/OnBoarding/Talent.vue'
 import BusinessOnboarding from '../views/OnBoarding/Business.vue'
 const router = createRouter({
@@ -43,6 +44,12 @@ const router = createRouter({
       beforeEnter: [middleware.redirectLogin]
     },
     {
+      path: '/jobs',
+      name: 'jobs',
+      component: JobsView,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
       path: '/talent/onboarding',
       name: 'talent-onboarding',
       component: TalentOnboarding,
@@ -54,7 +61,10 @@ const router = createRouter({
       component: BusinessOnboarding,
       beforeEnter: [middleware.redirectLogin]
     },
-  ]
+  ],  scrollBehavior(to, from) {
+    return { top: 0 }
+  },
+
 })
 
 export default router
