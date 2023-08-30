@@ -31,8 +31,10 @@ export const useStore = defineStore('user', () => {
     const deleteUser = () => {
         user.value = {
             token:""
-        }
+        };
         localStorage.removeItem('_user_data');
+        // return { name: 'login' }
+
     }
 
     const features = computed(()=>{

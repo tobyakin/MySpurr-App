@@ -126,7 +126,6 @@ export const registerTalent = async (payload) => {
     }
   
 }
-
 export const getToken = () => {
 
     let encryptedData  = localStorage.getItem("_user_data");

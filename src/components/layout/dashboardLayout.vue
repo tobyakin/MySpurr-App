@@ -46,10 +46,6 @@ const items = [
     name: "dashboard",
     context: "Help Center",
   },
-  {
-    name: "dashboard",
-    context: "Log out",
-  },
 ];
 
 const toogleDropdown = () => {

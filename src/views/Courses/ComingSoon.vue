@@ -1,7 +1,6 @@
 <script setup>
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { useStore } from "@/stores/user";
-import Tabs from "@/components/ui/Jobs/Tabs.vue";
 let store = useStore();
 console.log(store.getUser);
 </script>

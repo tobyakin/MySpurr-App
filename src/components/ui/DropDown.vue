@@ -29,7 +29,7 @@
         </svg>
       </div>
       <div>
-        <p class="text-[19.722px] font-Satoshi500 text-[#000]">
+        <p class="text-[19.722px] font-Satoshi500 capitalize text-[#000]">
           {{ store.getUser.user.first_name }}
         </p>
         <p class="text-[12px] font-Satoshi500 overflow-hidden text-[#E06F6F]">
@@ -49,16 +49,14 @@
         </li>
       </ul>
     </div>
-    <div v-else>
-      <ul>
-        <li v-for="item in items" :key="item.name">
-          k
+    <div>
+      <ul class="w-full">
+        <li class="w-full pb-5 hover:bg-gray-100">
           <a
-            @click="clickedLink(item)"
-            href="javascript:void(0)"
-            class="text-left p-2 hover:bg-gray-100 w-full py-8 font-Satoshi400"
+            @click="logOutUser()"
+            class="text-left cursor-pointer p-2 w-full font-Satoshi400"
           >
-            {{ item.context }}
+            Log out
           </a>
         </li>
       </ul>
@@ -69,6 +67,11 @@
 <script setup>
 import { computed, onMounted, defineProps, defineEmits } from "vue";
 import { useStore } from "@/stores/user";
+import { useRouter } from "vue-router";
+import { handleLogout } from "@/services/Logout";
+
+const router = useRouter();
+
 let store = useStore();
 
 const emit = defineEmits(["closeDropdown", "clickedItem"]);
@@ -91,6 +94,15 @@ const showFeaturesDropdown = computed(() => props.showDropdown);
 
 const clickedLink = (link) => {
   emit("clickedItem", link);
+};
+const logOutUser = async () => {
+  try {
+    const res = await handleLogout();
+    router.push({ name: "login" });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 onMounted(() => {
