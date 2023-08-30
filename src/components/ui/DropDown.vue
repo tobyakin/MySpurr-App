@@ -1,14 +1,48 @@
 <template>
   <div
     :id="id"
-    class="absolute bg-white top-10 w-44 z-10 -left-[8rem] rounded py-4 px-4 shadow-lg"
+    class="absolute bg-white top-10 w-64 z-10 -left-[13rem] rounded py-4 px-8 shadow-lg"
   >
-    <div v-if="link">
-      <ul>
-        <li v-for="item in items" :key="item.name">
+    <div class="flex items-center gap-4 mb-4">
+      <!-- <img
+        class="w-[42.033px] h-[42.033px] rounded-full"
+        src="@/assets/image/blogImage.png"
+        alt=""
+      /> -->
+      <div
+        role="button"
+        class="h-10 w-10 flex justify-center items-center rounded-full bg-brand"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-5 text-gray-100 h-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+          />
+        </svg>
+      </div>
+      <div>
+        <p class="text-[19.722px] font-Satoshi500 text-[#000]">
+          {{ store.getUser.user.first_name }}
+        </p>
+        <p class="text-[12px] font-Satoshi500 overflow-hidden text-[#E06F6F]">
+          Available
+        </p>
+      </div>
+    </div>
+    <div v-if="link" class="w-full">
+      <ul class="w-full">
+        <li class="w-full pb-5 hover:bg-gray-100" v-for="item in items" :key="item.name">
           <router-link
             :to="{ name: item.name }"
-            class="text-left p-2 hover:bg-gray-100 w-full font-Satoshi400"
+            class="text-left p-2 w-full font-Satoshi400"
           >
             {{ item.context }}
           </router-link>
@@ -18,10 +52,11 @@
     <div v-else>
       <ul>
         <li v-for="item in items" :key="item.name">
+          k
           <a
             @click="clickedLink(item)"
             href="javascript:void(0)"
-            class="text-left p-2 hover:bg-gray-100 w-full font-Satoshi400"
+            class="text-left p-2 hover:bg-gray-100 w-full py-8 font-Satoshi400"
           >
             {{ item.context }}
           </a>
@@ -33,6 +68,8 @@
 
 <script setup>
 import { computed, onMounted, defineProps, defineEmits } from "vue";
+import { useStore } from "@/stores/user";
+let store = useStore();
 
 const emit = defineEmits(["closeDropdown", "clickedItem"]);
 
