@@ -8,7 +8,7 @@ console.log(store.getUser);
 
 <template>
   <DashboardLayout>
-    <div class="container lg:py-0 py-5 mb-5">
+    <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
       <Tabs>
         <template #tab1> All jobs </template>
         <template #tab2> Branding Jobs </template>
