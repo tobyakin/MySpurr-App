@@ -49,28 +49,12 @@
         </li>
       </ul>
     </div>
-    <div>
-      <ul class="w-full">
-        <li class="w-full pb-5 hover:bg-gray-100">
-          <a
-            @click="logOutUser()"
-            class="text-left cursor-pointer p-2 w-full font-Satoshi400"
-          >
-            Log out
-          </a>
-        </li>
-      </ul>
-    </div>
   </div>
 </template>
 
 <script setup>
 import { computed, onMounted, defineProps, defineEmits } from "vue";
 import { useStore } from "@/stores/user";
-import { useRouter } from "vue-router";
-import { handleLogout } from "@/services/Logout";
-
-const router = useRouter();
 
 let store = useStore();
 
@@ -91,19 +75,6 @@ const props = defineProps({
 });
 
 const showFeaturesDropdown = computed(() => props.showDropdown);
-
-const clickedLink = (link) => {
-  emit("clickedItem", link);
-};
-const logOutUser = async () => {
-  try {
-    const res = await handleLogout();
-    router.push({ name: "login" });
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 onMounted(() => {
   setTimeout(() => {

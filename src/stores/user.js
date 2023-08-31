@@ -28,14 +28,6 @@ export const useStore = defineStore('user', () => {
         localStorage.setItem('_user_data', ciphertext);
     }
 
-    const deleteUser = () => {
-        user.value = {
-            token:""
-        };
-        localStorage.removeItem('_user_data');
-        // return { name: 'login' }
-
-    }
 
     const features = computed(()=>{
         let account = getUser.value.user.type
@@ -53,7 +45,6 @@ export const useStore = defineStore('user', () => {
         user,
         getUser,
         saveUser,
-        deleteUser,
         token,
         pageTitle,
         features

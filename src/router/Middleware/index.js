@@ -31,8 +31,18 @@ const redirectDashboard = () => {
     }
     
 }
+const deleteSession = () => {
+
+    let encryptedData  = localStorage.getItem("_user_data");
+    if(encryptedData){
+        localStorage.removeItem("_user_data");
+        return { name: 'login' }
+    }
+    
+}
 
 export default{
     redirectLogin,
-    redirectDashboard
+    redirectDashboard,
+    deleteSession
 }
