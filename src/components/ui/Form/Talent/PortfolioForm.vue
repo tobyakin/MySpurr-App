@@ -2,27 +2,27 @@
 import { ref, onMounted, watch } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
-// import { storeToRefs } from "pinia";
+import { storeToRefs } from "pinia";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
 import { useRouter } from "vue-router";
-import Multiselect from "vue-multiselect";
+// import Multiselect from "vue-multiselect";
 
 let store = useStore();
 console.log(store.getUser);
 let loading = ref(false);
 const router = useRouter();
-const value = ref([{ name: "Javascript", code: "js" }]);
+// const value = ref([{ name: "Javascript", code: "js" }]);
 
-const options = ref([
-  { name: "Vue.js", code: "vu" },
-  { name: "Javascript", code: "js" },
-  { name: "Open Source", code: "os" },
-]);
+// const options = ref([
+//   { name: "Vue.js", code: "vu" },
+//   { name: "Javascript", code: "js" },
+//   { name: "Open Source", code: "os" },
+// ]);
 
 const OnboardingStore = useOnboardingStore();
-// const { step } = storeToRefs(OnboardingStore);
-// const emit = defineEmits("next");
+const { step } = storeToRefs(OnboardingStore);
+const emit = defineEmits("next", "prev");
 const formState = {
   compensation: "",
   portfolio_title: "",
@@ -118,6 +118,9 @@ const showImage = async () => {
     previewImage.value = null;
   }
 };
+const prev = () => {
+  emit("prev", step.value - 1);
+};
 </script>
 
 <template>
@@ -181,7 +184,7 @@ const showImage = async () => {
             >Upload photos <AttachFileIcon /></label
           ><img :src="previewImage" alt="" />
         </div>
-        <Multiselect
+        <!-- <Multiselect
           v-model="value"
           tag-placeholder="Add this as new tag"
           placeholder="Search or add a tag"
@@ -191,7 +194,7 @@ const showImage = async () => {
           :multiple="true"
           :taggable="true"
         ></Multiselect>
-
+ -->
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
             >Please select social media link</label
@@ -211,11 +214,18 @@ const showImage = async () => {
         </button>
       </div> -->
     </div>
-    <div class="flex flex-col gap-5 mt-5">
+    <div class="flex flex-row gap-5 mt-5">
+      <button
+        type="primary"
+        @click="prev"
+        class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+      >
+        Back
+      </button>
+
       <button
         type="primary"
         @click="onFinish"
-        :class="{ 'bg-gray-400': !formVaildlity }"
         class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Complete Profile

@@ -54,6 +54,9 @@ const checkVaildlity = () => {
 const next = () => {
   emit("next", step.value + 1);
 };
+const prev = () => {
+  emit("prev", step.value - 1);
+};
 </script>
 
 <template>
@@ -70,7 +73,7 @@ const next = () => {
         MySpurr.
       </p>
       <div
-        class="flex-col flex gap-6 max-h-[65vh] overflow-y-auto py-12 hide-scrollbar overflow-hidden"
+        class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto py-12 hide-scrollbar overflow-hidden"
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-3.5">
           <input
@@ -120,12 +123,18 @@ const next = () => {
         </div>
       </div>
     </div>
-    <div class="flex flex-col gap-5 mt-5">
+    <div class="flex flex-row gap-5 mt-5">
       <button
-        :disabled="!formVaildlity"
+        type="primary"
+        @click="prev"
+        class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+      >
+        Back
+      </button>
+
+      <button
         type="primary"
         @click="next"
-        :class="{ 'bg-gray-400': !formVaildlity }"
         class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Complete Profile

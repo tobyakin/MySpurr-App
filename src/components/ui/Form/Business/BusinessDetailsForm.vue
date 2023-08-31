@@ -79,7 +79,7 @@ onMounted(() => {
         complete your profile on MySpurr.
       </p>
       <div
-        class="flex-col flex gap-6 max-h-[65vh] overflow-y-auto py-12 hide-scrollbar overflow-hidden"
+        class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto py-12 hide-scrollbar overflow-hidden"
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
@@ -154,7 +154,6 @@ onMounted(() => {
       <button
         type="primary"
         @click="next"
-        :class="{ 'bg-gray-400': !formVaildlity }"
         class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Update work details
