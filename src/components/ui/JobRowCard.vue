@@ -4,7 +4,7 @@ import LocationIcon from "@/components/icons/locationIcon.vue";
 import TimerIcon from "@/components/icons/timerIcon.vue";
 import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
 import SearchIcon from "@/components/icons/circleSearchIcon.vue";
-import MatchIcon from "@/components/icons/MatchIcon.vue";
+import MatchIcon from "@/components/icons/matchIcon.vue";
 </script>
 <template>
   <div class="border-[#254035AB] border-[0.735px] rounded-[7.347px] p-4 px-10">
