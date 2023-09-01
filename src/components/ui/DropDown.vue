@@ -1,9 +1,9 @@
 <template>
   <div
     :id="id"
-    class="absolute bg-white top-10 w-64 z-10 -left-[13rem] rounded py-4 px-8 shadow-lg"
+    class="absolute bg-white top-10 w-64 z-10 -left-[13rem] rounded pt-4 px-0 shadow-lg"
   >
-    <div class="flex items-center gap-4 mb-4">
+    <div class="flex items-center gap-4 px-8 mb-4">
       <!-- <img
         class="w-[42.033px] h-[42.033px] rounded-full"
         src="@/assets/image/blogImage.png"
@@ -28,7 +28,7 @@
           />
         </svg>
       </div>
-      <div>
+      <div class="">
         <p class="text-[19.722px] font-Satoshi500 capitalize text-[#000]">
           {{ store.getUser.user.first_name }}
         </p>
@@ -39,7 +39,12 @@
     </div>
     <div v-if="link" class="w-full">
       <ul class="w-full">
-        <li class="w-full pb-5 hover:bg-gray-100" v-for="item in items" :key="item.name">
+        <li
+          :class="(item == 3, item == 5) ? 'border-b-[#000000] border-b-[2.5px]' : ''"
+          class="w-full py-4 hover:bg-gray-100 rounded px-8"
+          v-for="item in items"
+          :key="item.name"
+        >
           <router-link
             :to="{ name: item.name }"
             class="text-left p-2 w-full font-Satoshi400"

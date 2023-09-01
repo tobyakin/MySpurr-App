@@ -79,7 +79,7 @@ const toogleDropdown = () => {
         <!-- top-menu flex items-center justify-between py-3 px-4 lg:px-0 -->
         <!-- flex items-center gap-[3rem] justify-between px-4 min-[370px]:px-6 sticky top-0 pt-4 min-[370px]:pt-5 bg-white z-50  -->
         <nav
-          class="flex bg-[#FDFDF6] items-center gap-[3rem] justify-between px-4 min-[370px]:px-6 sticky top-0 py-3 min-[370px]:pt-5 z-50"
+          class="flex bg-[#FDFDF6] items-center gap-[3rem] justify-between px-3 min-[370px]:px-6 sticky top-0 py-3 min-[370px]:pt-5 z-50"
         >
           <div class="lg:hidden">
             <div class="logo">
@@ -107,8 +107,24 @@ const toogleDropdown = () => {
 
               <div class="profile__dropdown">
                 <div
-                  class="profile__dropdown-text relative items-center flex gap-2 px-2 rounded-3xl"
+                  class="profile__dropdown-text relative items-center flex gap-2 lg:px-2 rounded-3xl"
                 >
+                  <div @click="toggle" class="lg:hidden cursor-pointer">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-8 h-8"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                      />
+                    </svg>
+                  </div>
                   <img class="hidden" src="" alt="" />
                   <div
                     @click="toogleDropdown()"
@@ -137,23 +153,6 @@ const toogleDropdown = () => {
                     :items="items"
                     @closeDropdown="toogleDropdown"
                   />
-
-                  <div @click="toggle" class="lg:hidden cursor-pointer">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-8 h-8"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                      />
-                    </svg>
-                  </div>
                 </div>
               </div>
             </div>
