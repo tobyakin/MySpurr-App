@@ -26,27 +26,29 @@ const toggle = () => {
   }
 };
 const items = [
+  { id: 0, name: "dashboard", context: "My profile" },
   {
-    name: "dashboard",
-    context: "My profile",
-  },
-  {
+    id: 1,
     name: "dashboard",
     context: "My work",
   },
   {
+    id: 2,
     name: "dashboard",
     context: "Wallet",
   },
   {
+    id: 3,
     name: "dashboard",
     context: "Settings",
   },
   {
+    id: 4,
     name: "dashboard",
     context: "Help Center",
   },
   {
+    id: 5,
     name: "logout",
     context: "Log out",
   },

@@ -1,7 +1,7 @@
 <template>
   <div
     :id="id"
-    class="absolute bg-white top-10 w-64 z-10 -left-[13rem] rounded pt-4 px-0 shadow-lg"
+    class="absolute bg-white top-10 w-64 z-10 -left-[13rem] rounded pt-4 px-3 shadow-lg"
   >
     <div class="flex items-center gap-4 px-8 mb-4">
       <!-- <img
@@ -40,8 +40,10 @@
     <div v-if="link" class="w-full">
       <ul class="w-full">
         <li
-          :class="(item == 3, item == 5) ? 'border-b-[#000000] border-b-[2.5px]' : ''"
-          class="w-full py-4 hover:bg-gray-100 rounded px-8"
+          :class="
+            item.id === 4 || item.id === 2 ? 'border-b-[#000000] border-b-[0.5px]' : ''
+          "
+          class="w-full py-4 hover:bg-gray-100 px-8"
           v-for="item in items"
           :key="item.name"
         >
