@@ -4,7 +4,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
 import { login, loginWithGoogle } from "@/services/Auth";
-import PasswordInput from "@/components/ui/PasswordInput.vue";
+// import PasswordInput from "@/components/ui/PasswordInput.vue";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 const store = useStore();
@@ -14,7 +14,7 @@ const formState = {
   email: "",
   password: "",
 };
-// const showPassword = ref(false);
+const showPassword = ref(false);
 
 const onFinish = async () => {
   loading.value = true;
@@ -42,9 +42,9 @@ const loginWithGoogleApi = async () => {
   }
 };
 
-// const toggleShowPassword = () => {
-//   showPassword.value = !showPassword.value;
-// };
+const toggleShowPassword = () => {
+  showPassword.value = !showPassword.value;
+};
 </script>
 
 <template>
@@ -82,9 +82,7 @@ const loginWithGoogleApi = async () => {
           </div>
 
           <div>
-            <PasswordInput v-model="formState.password" placeholder="Password*" />
-
-            <!-- <div class="relative">
+            <div class="relative">
               <input
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Password*"
@@ -130,7 +128,7 @@ const loginWithGoogleApi = async () => {
                   </svg>
                 </button>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
         <div class="mt-4 text-right">
