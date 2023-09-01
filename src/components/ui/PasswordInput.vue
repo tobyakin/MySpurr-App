@@ -1,10 +1,9 @@
 <template>
   <div class="relative">
     <input
-      v-bind="$attrs"
       :type="showPassword ? 'text' : 'password'"
       :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @change="$emit('update:modelValue', $event.target.value)"
       :placeholder="placeholder"
       class="w-full font-light font-Satoshi400 text-[14px] !p-2 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
     />

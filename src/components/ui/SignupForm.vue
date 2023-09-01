@@ -16,19 +16,116 @@
       <GlobalInput v-model="formData.firstName" type="text" placeholder="First Name" />
       <GlobalInput v-model="formData.lastName" type="text" placeholder="Last Name" />
       <GlobalInput v-model="formData.email" type="email" placeholder="Email Address*" />
-      <PasswordInput v-model="formData.password" placeholder="Password*" />
-      <!-- <GlobalInput
-        v-model="formData.hear_about_us"
-        type="text"
-        placeholder="How did you hear about MySpurr?"
-      /> -->
+      <!-- <PasswordInput v-model="formData.password" placeholder="Password*" /> -->
+      <div>
+        <div class="relative">
+          <input
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Password*"
+            v-model="formData.password"
+            class="w-full font-light font-Satoshi400 text-[14px] !p-3 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+          />
+          <div class="absolute right-3 top-3 text-[#D1D1D6]">
+            <button type="button" @click="toggleShowPassword()" v-if="showPassword">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </button>
+            <button type="button" @click="toggleShowPassword()" v-if="!showPassword">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="relative">
+          <!-- TODO: fix password check for match -->
+          <input
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Password*"
+            v-model="formData.confirmPassword"
+            :class="passwordsMatch ? 'border-[#254035]' : 'border-[#ef4b4b]'"
+            class="w-full font-light font-Satoshi400 text-[14px] !p-3 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+          />
+          <div class="absolute right-3 top-3 text-[#D1D1D6]">
+            <button type="button" @click="toggleShowPassword()" v-if="showPassword">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </button>
+            <button type="button" @click="toggleShowPassword()" v-if="!showPassword">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <p v-if="passwordsMatch">Passwords match!</p>
+      <p v-else>Passwords do not match.</p>
     </div>
     <div class="py-6">
       <div class="flex gap-2 items-center">
         <p
           @click="togglrTerms()"
           role="button"
-          :class="formData.terms && 'bg-brand  border-brand'"
+          :class="terms ? 'bg-brand ' : '  border-brand'"
           class="w-4 h-4 flex justify-center items-center rounded-[1.018px] border"
         >
           <svg
@@ -61,7 +158,7 @@
         {{ error.terms }}
       </div>
     </div>
-    <div class="my-2">
+    <div class="mb-2">
       <button
         @click="handleSignup()"
         class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
@@ -74,7 +171,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, watch } from "vue";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
 import {
@@ -90,6 +187,11 @@ import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 // const store = useStore();
 const router = useRouter();
 let loading = ref(false);
+const showPassword = ref(false);
+const terms = ref(false);
+const toggleShowPassword = () => {
+  showPassword.value = !showPassword.value;
+};
 
 const error = reactive({
   terms: "",
@@ -100,13 +202,19 @@ const formData = {
   lastName: "",
   email: "",
   password: "",
-  hear_about_us: "",
-  terms: false,
+  confirmPassword: "",
 };
 const togglrTerms = () => {
-  formData.terms = !formData.terms;
+  terms.value = !terms.value;
   error.terms = "";
 };
+const passwordsMatch = ref(false);
+
+const checkPasswordsMatch = () => {
+  passwordsMatch.value = formData.password === formData.confirmPassword;
+};
+
+watch([() => formData.password, () => formData.confirmPassword], checkPasswordsMatch);
 
 const activeTab = ref(localStorage.getItem("activeTab") || "talent");
 
@@ -165,8 +273,7 @@ const handleBusinessSignup = async () => {
     last_name: formData.lastName,
     email_address: formData.email,
     password: formData.password,
-    hear_about_us: formData.hear_about_us,
-    terms: formData.terms,
+    terms: terms.value,
   };
   try {
     const res = await registerBusiness(payload);
