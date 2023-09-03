@@ -69,7 +69,7 @@
       <div>
         <div class="relative">
           <!-- TODO: fix password check for match -->
-          <input
+          <!-- <input
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password*"
             v-model="formData.confirmPassword"
@@ -114,7 +114,7 @@
                 />
               </svg>
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
       <p v-if="passwordsMatch">Passwords match!</p>
