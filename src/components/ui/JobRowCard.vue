@@ -5,13 +5,22 @@ import TimerIcon from "@/components/icons/timerIcon.vue";
 import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
 import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 import MatchIcon from "@/components/icons/matchIcon.vue";
+import VerifyIcon from "@/components/icons/verifyIcon.vue";
 </script>
 <template>
   <div class="border-[#254035AB] border-[0.735px] rounded-[7.347px] p-4 px-10">
     <div class="flex gap-3 mb-5 w-full">
       <img src="@/assets/image/jobIcon.svg" alt="" />
       <div class="w-full">
-        <p class="text-[13.021px] font-Satoshi500 text-[#2F929C]">MySpurr</p>
+        <div class="flex items-center gap-1">
+          <p class="text-[13.021px] font-Satoshi500 flex text-[#2F929C]">MySpurr</p>
+          <div class="flex mt-1 gap-1">
+            <VerifyIcon class="w-4" />
+            <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
+              Verified Client.
+            </p>
+          </div>
+        </div>
         <div class="flex items-center justify-between w-full gap-3">
           <div class="flex items-center gap-14">
             <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
@@ -37,31 +46,38 @@ import MatchIcon from "@/components/icons/matchIcon.vue";
         <div>
           <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">$30-$50/hour</p>
         </div>
-        <div class="flex gap-3">
-          <button
-            class="bg-[#FBEEEE] font-Satoshi500 text-[6.708px] uppercase p-2 px-6 text-[#000000] rounded-full"
-          >
-            Brand identity
-          </button>
-          <button
-            class="bg-[#FBEEEE] font-Satoshi500 text-[6.708px] uppercase p-2 px-6 text-[#000000] rounded-full"
-          >
-            UI/UI design
-          </button>
-        </div>
-      </div>
-      <div class="flex justify-between">
         <div class="flex gap-2 items-center">
-          <div class="flex gap-1 text-[10.334px] text-[#DA5252] font-Satoshi500">
+          <div
+            class="flex gap-1 text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+          >
             <CalenderIcon /><span class="py-[0.25px]">30 hrs/week</span>
           </div>
-          <div class="flex gap-[2px] text-[10.334px] text-[#DA5252] font-Satoshi500">
+          <div
+            class="flex gap-[2px] text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+          >
             <LocationIcon /><span class="py-[0.25px]">Work from anywhere</span>
           </div>
-          <div class="flex gap-1 text-[10.334px] text-[#DA5252] font-Satoshi500">
+          <div
+            class="flex gap-1 text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+          >
             <TimerIcon /><span class="py-[0.25px]">Anytime</span>
           </div>
         </div>
+      </div>
+      <div class="flex justify-between mt-2">
+        <div class="flex gap-3 items-center">
+          <div
+            class="bg-[#F2F3EF] font-Satoshi500 text-[12.135px] uppercase p-[4px] px-6 text-[#64665D] rounded-full"
+          >
+            Brand identity
+          </div>
+          <div
+            class="bg-[#F2F3EF] font-Satoshi500 text-[12.135px] uppercase p-[4px] px-6 text-[#64665D] rounded-full"
+          >
+            UI/UI design
+          </div>
+        </div>
+
         <div class="flex items-center gap-4">
           <button class="">
             <CircleBookMarkIcon />
