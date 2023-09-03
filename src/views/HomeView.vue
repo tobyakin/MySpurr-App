@@ -1,4 +1,5 @@
 <script setup>
+import { onBeforeMount } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import LogoIcon from "@/components/icons/logoIcon.vue";
 import JobCard from "@/components/ui/JobCard.vue";
@@ -8,7 +9,9 @@ import CourseCard from "@/components/ui/CourseCard.vue";
 import ArticleCard from "@/components/ui/ArticleCard.vue";
 import { useStore } from "@/stores/user";
 let store = useStore();
-console.log(store.getUser);
+onBeforeMount(() => {
+  return store.getUser;
+});
 </script>
 
 <template>

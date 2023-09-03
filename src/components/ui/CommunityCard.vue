@@ -2,8 +2,7 @@
 import SensorDoorIcon from "@/components/icons/sensorDoorIcon.vue";
 import PersonIcon from "@/components/icons/personIcon.vue";
 import { useStore } from "@/stores/user";
-let store = useStore();
-console.log(store.getUser);
+// let store = useStore();
 </script>
 <template>
   <div class="border-[#254035AB] border-[0.735px] rounded-[4.467px]">

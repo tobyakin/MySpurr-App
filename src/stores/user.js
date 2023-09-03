@@ -15,7 +15,6 @@ export const useStore = defineStore('user', () => {
         let encryptedData  = localStorage.getItem("_user_data");
         if(encryptedData){
             user.value  = decrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
-            console.log(user.value.data.user.first_name);
             return user.value.data;
         }
             return user;

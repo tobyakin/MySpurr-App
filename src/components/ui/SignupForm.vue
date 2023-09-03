@@ -172,7 +172,7 @@
 
 <script setup>
 import { ref, reactive, watch } from "vue";
-import PasswordInput from "@/components/ui/PasswordInput.vue";
+// import PasswordInput from "@/components/ui/PasswordInput.vue";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
 import {
   registerBusiness,
