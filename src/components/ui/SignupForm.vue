@@ -117,8 +117,8 @@
           </div> -->
         </div>
       </div>
-      <p v-if="passwordsMatch">Passwords match!</p>
-      <p v-else>Passwords do not match.</p>
+      <!-- <p v-if="passwordsMatch">Passwords match!</p>
+      <p v-else>Passwords do not match.</p> -->
     </div>
     <div class="py-6">
       <div class="flex gap-2 items-center">
@@ -264,7 +264,7 @@ const handleBusinessSignup = async () => {
   console.log("Business signup");
   console.log(formData);
   loading.value = true;
-  if (!formData.terms) {
+  if (!terms.value) {
     return (error.terms = "Please agree to our terms and conditions");
   }
 
@@ -291,7 +291,7 @@ const handleTalentSignup = async () => {
   console.log("Talent signup");
   console.log(formData);
   loading.value = true;
-  if (!formData.terms) {
+  if (!terms.value) {
     return (error.terms = "Please agree to our terms and conditions");
   }
 
@@ -301,7 +301,7 @@ const handleTalentSignup = async () => {
     email_address: formData.email,
     password: formData.password,
     hear_about_us: formData.hear_about_us,
-    terms: formData.terms,
+    terms: terms,
   };
   try {
     const res = await registerTalent(payload);
