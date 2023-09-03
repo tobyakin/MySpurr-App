@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, defineProps, defineEmits } from "vue";
+import { ref, computed, onMounted, defineProps, defineEmits } from "vue";
 import { useStore } from "@/stores/user";
 
 let store = useStore();
@@ -69,7 +69,7 @@ const emit = defineEmits(["closeDropdown", "clickedItem"]);
 
 const onClickOutside = (element, callback) => {
   document.addEventListener("click", (e) => {
-    if (!element.contains(e.target)) callback();
+    if (!element.value.contains(e.target)) callback();
   });
 };
 
@@ -80,12 +80,14 @@ const props = defineProps({
   class: String,
   link: Boolean,
 });
+const dropdown = ref(null);
 
 const showFeaturesDropdown = computed(() => props.showDropdown);
 
 onMounted(() => {
   setTimeout(() => {
-    const dropdown = document.getElementById(props.id);
+    dropdown.value = document.getElementById(props.id);
+    // const dropdown = document.getElementById(props.id);
     onClickOutside(dropdown, () => {
       if (showFeaturesDropdown.value) {
         emit("closeDropdown", false);

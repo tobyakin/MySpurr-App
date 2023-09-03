@@ -18,7 +18,6 @@ const showPassword = ref(false);
 
 const onFinish = async () => {
   loading.value = true;
-  console.log(formState);
   try {
     const res = await login(formState.email, formState.password);
     store.saveUser(res.data);

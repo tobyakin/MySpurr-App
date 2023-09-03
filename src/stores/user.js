@@ -5,9 +5,7 @@ import { encrypt,decrypt } from "../services/Encrypt"
 export const useStore = defineStore('user', () => {
     const token = ref({});
 
-    const pageTitle = ref({});
     const user = ref({})
-
 
 
     const getUser = computed(() => {
@@ -45,7 +43,6 @@ export const useStore = defineStore('user', () => {
         getUser,
         saveUser,
         token,
-        pageTitle,
         features
 
 
