@@ -76,7 +76,7 @@ const accountType = computed(() => {
         </div>
       </div>
       <!-- jobs -->
-      <div class="mt-12">
+      <div v-if="accountType === 'talent'" class="mt-12">
         <div class="flex justify-between mb-4">
           <p class="text-[17.633px] font-Satoshi400 text-[#244034]">
             Top job picks for you
