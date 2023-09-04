@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import LogoIcon from "@/components/icons/logoIcon.vue";
 import JobCard from "@/components/ui/JobCard.vue";
@@ -11,6 +11,9 @@ import { useStore } from "@/stores/user";
 let store = useStore();
 onMounted(() => {
   return store.getUser;
+});
+const accountType = computed(() => {
+  return store.getUser.user.type;
 });
 </script>
 
@@ -90,7 +93,7 @@ onMounted(() => {
           <JobCard class="min-w-[95%] lg:min-w-[45%]" v-for="item in 4" :key="item" />
         </div>
       </div>
-      <div class="mt-10 flex gap-3 overflow-x-auto">
+      <div v-if="accountType === 'talent'" class="mt-10 flex gap-3 overflow-x-auto">
         <div class="my-8">
           <p class="text-[17.633px] font-Satoshi400 mb-8 text-[#244034]">
             My Applications
@@ -115,7 +118,7 @@ onMounted(() => {
         </div>
       </div>
       <!-- community -->
-      <div class="my-8">
+      <div v-if="accountType === 'talent'" class="my-8">
         <div class="flex justify-between mb-4">
           <p class="text-[17.633px] font-Satoshi400 text-[#244034]">Communities</p>
 

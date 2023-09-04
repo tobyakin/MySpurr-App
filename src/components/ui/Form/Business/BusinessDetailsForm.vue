@@ -20,6 +20,7 @@ const formState = {
   website: "",
   business_service: "",
   business_email: "",
+  about_business: "",
 };
 
 const formVaildlity = ref(false);
@@ -60,6 +61,27 @@ const next = () => {
   emit("next", step.value + 1);
   // }
 };
+const onFinish = async () => {
+  console.log(formState);
+  let payload = {
+    business_name: formState.business_name,
+    top_skills: formState.top_skills,
+    location: formState.location,
+    industry: formState.industry,
+    website: formState.website,
+    business_service: formState.business_service,
+    business_email: formState.business_email,
+    about_business: formState.about_business,
+  };
+  try {
+    const res = await OnboardingStore.submitBusinessDetails(payload);
+    console.log(res);
+    next();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 onMounted(() => {
   checkVaildlity();
 });
@@ -92,7 +114,9 @@ onMounted(() => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Location</label>
+          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">
+            Top skills</label
+          >
           <GlobalInput
             v-model="formState.top_skills"
             class="bg-transparent border-none"
@@ -100,9 +124,18 @@ onMounted(() => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Industry</label>
+          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Location</label>
           <GlobalInput
             v-model="formState.location"
+            class="bg-transparent border-none"
+            placeholder=""
+            type="text"
+          />
+        </div>
+        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Industry</label>
+          <GlobalInput
+            v-model="formState.industry"
             class="bg-transparent border-none"
             placeholder=""
             type="text"
@@ -113,7 +146,7 @@ onMounted(() => {
             >About your business</label
           >
           <GlobalInput
-            v-model="formState.industry"
+            v-model="formState.about_business"
             class="bg-transparent border-none"
             placeholder=""
             type="text"
@@ -153,7 +186,7 @@ onMounted(() => {
     <div class="flex flex-col gap-5 mt-5">
       <button
         type="primary"
-        @click="next"
+        @click="onFinish"
         class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Update work details
