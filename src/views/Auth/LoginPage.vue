@@ -3,7 +3,7 @@ import { useStore } from "@/stores/user";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
-import { login, loginWithGoogle } from "@/services/Auth";
+import { login, loginWithGoogle, registerTalentWithGoogle } from "@/services/Auth";
 // import PasswordInput from "@/components/ui/PasswordInput.vue";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
@@ -28,10 +28,16 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
+const click = () => {
+  const urlToOpen = "https://myspurr.azurewebsites.net/api/auth/talent/google";
+
+  window.open(urlToOpen, "_blank");
+};
+
 const loginWithGoogleApi = async () => {
   loading.value = true;
   try {
-    const res = await loginWithGoogle();
+    const res = await registerTalentWithGoogle();
     store.saveUser(res.data);
     router.push({ name: "dashboard" });
   } catch (error) {
