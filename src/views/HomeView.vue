@@ -2,7 +2,7 @@
 import { onMounted, computed } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import LogoIcon from "@/components/icons/logoIcon.vue";
-import JobCard from "@/components/ui/JobCard.vue";
+import JobCard from "@/components/ui/Jobs/JobCard.vue";
 import MyApplicationCard from "@/components/ui/MyApplicationCard.vue";
 import CommunityCard from "@/components/ui/CommunityCard.vue";
 import CourseCard from "@/components/ui/CourseCard.vue";

@@ -1,7 +1,7 @@
 <script setup>
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { useStore } from "@/stores/user";
-import JobRowCard from "@/components/ui/JobRowCard.vue";
+import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
 import Arrow from "@/components/icons/paginationArrow.vue";
 
 import Tabs from "@/components/ui/Jobs/Tabs.vue";
@@ -95,7 +95,7 @@ console.log(store.getUser);
           </div>
           <div class="mt-5 flex">
             <button
-              class="border-[#007582] border-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+              class="border-[#007582] border-l-2 border-t-2 border-b-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
             >
               1
             </button>
