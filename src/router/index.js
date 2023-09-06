@@ -9,35 +9,36 @@ import ViewJob from '../views/Jobs/ViewJobPage.vue'
 import CoursesView from '../views/Courses/ComingSoon.vue'
 import TalentOnboarding from '../views/OnBoarding/TalentPage.vue'
 import BusinessOnboarding from '../views/OnBoarding/BusinessPage.vue'
+import UploadProofOfIdentity from '@/views/UploadIdentity/UploadProofOfIdentity.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      redirect: "/dashboard",
+      redirect: '/dashboard'
     },
     {
       path: '/signup',
       name: 'sign-up',
       component: Register,
-      beforeEnter: [middleware.redirectDashboard],
+      beforeEnter: [middleware.redirectDashboard]
     },
     {
       path: '/login',
       name: 'login',
       component: LoginPage,
-      beforeEnter: [middleware.redirectDashboard],
+      beforeEnter: [middleware.redirectDashboard]
     },
     {
       path: '/verify',
       name: 'verify',
-      component: Verify,
+      component: Verify
       // beforeEnter: [middleware.redirectDashboard],
     },
     {
-      path: "/logout",
-      name: "logout",
-      beforeEnter: [middleware.deleteSession],
+      path: '/logout',
+      name: 'logout',
+      beforeEnter: [middleware.deleteSession]
     },
     {
       path: '/dashboard',
@@ -75,8 +76,13 @@ const router = createRouter({
       component: BusinessOnboarding,
       beforeEnter: [middleware.redirectLogin]
     },
-  ], 
-
+    {
+      path: '/verify-identity',
+      name: 'verify-identity',
+      component: UploadProofOfIdentity,
+      beforeEnter: [middleware.redirectLogin]
+    }
+  ]
 })
 
 export default router
