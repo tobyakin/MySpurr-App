@@ -177,7 +177,7 @@ const validateForm = () => {
   });
   if (!isValidEmail.value) {
     errors.email = true;
-    errorsMsg.email = "invalid email";
+    errorsMsg.email;
     isValid = false;
   }
 

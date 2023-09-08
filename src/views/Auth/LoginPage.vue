@@ -1,10 +1,10 @@
 <script setup>
 import { useStore } from "@/stores/user";
-import { ref } from "vue";
+import { ref, reactive, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
 import { login, loginWithGoogle, registerTalentWithGoogle } from "@/services/Auth";
-// import PasswordInput from "@/components/ui/PasswordInput.vue";
+import PasswordInput from "@/components/ui/PasswordInput.vue";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 const store = useStore();
@@ -15,24 +15,99 @@ const formState = {
   password: "",
 };
 const showPassword = ref(false);
+const errors = reactive({
+  email: false,
+  password: false,
+});
+const errorsMsg = {
+  email: "email is required",
+  password: "Password is required",
+};
+const isValidEmail = computed(() => {
+  return formState.email;
+});
+
+const isValidPassword = computed(() => {
+  return formState.password;
+});
+
+const validateForm = () => {
+  // Reset errorsMsg
+  Object.keys(errors).forEach((key) => {
+    errors[key] = false;
+  });
+
+  // Perform validation before submission
+  let isValid = true;
+
+  Object.keys(formState).forEach((key) => {
+    if (!formState[key]) {
+      errors[key] = true;
+      isValid = false;
+    }
+  });
+  if (!isValidEmail.value) {
+    errors.email = true;
+    errorsMsg.email;
+    isValid = false;
+  }
+
+  if (!isValidPassword.value) {
+    errors.password = true;
+    errorsMsg.password;
+    isValid = false;
+  }
+
+  if (formState.password !== formState.confirmPassword) {
+    errors.confirmPassword = true;
+    isValid = false;
+  }
+
+  return isValid;
+};
+// Function to clear input errors
+const clearInputErrors = () => {
+  Object.keys(errors).forEach((key) => {
+    errors[key] = false;
+  });
+
+  Object.keys(errorsMsg).forEach((key) => {
+    errorsMsg[key] = "";
+  });
+};
+
+watch(formState, () => {
+  clearInputErrors();
+});
 
 const onFinish = async () => {
   loading.value = true;
+  if (!validateForm()) {
+    loading.value = false;
+    return;
+  }
+
   try {
     const res = await login(formState.email, formState.password);
     store.saveUser(res.data);
-    router.push({ name: "dashboard" });
+    console.log(res.data);
+    console.log(res.data.portofolio);
+    if (!res.data.business_details && !res.data.work_details && !res.data.portofolio) {
+      router.push({ name: "onboarding" });
+    } else {
+      router.push({ name: "dashboard" });
+    }
   } catch (error) {
     console.log(error);
   } finally {
     loading.value = false;
   }
 };
-const click = () => {
-  const urlToOpen = "https://myspurr.azurewebsites.net/api/auth/talent/google";
+// const click = () => {
+//   const urlToOpen = "https://myspurr.azurewebsites.net/api/auth/talent/google";
 
-  window.open(urlToOpen, "_blank");
-};
+//   window.open(urlToOpen, "_blank");
+// };
 
 const loginWithGoogleApi = async () => {
   loading.value = true;
@@ -80,6 +155,8 @@ const toggleShowPassword = () => {
         <div class="flex flex-col gap-4">
           <div>
             <GlobalInput
+              :error="errors.email"
+              :errorsMsg="errorsMsg.email || !isValidEmail"
               v-model="formState.email"
               type="email"
               placeholder="Email Address*"
@@ -87,14 +164,21 @@ const toggleShowPassword = () => {
           </div>
 
           <div>
-            <div class="relative">
+            <PasswordInput
+              :error="errors.password"
+              :errorsMsg="errorsMsg.password || !isValidPassword"
+              v-model="formState.password"
+              placeholder="Password*"
+            />
+
+            <div class="relative hidden">
               <input
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Password*"
                 v-model="formState.password"
-                class="w-full font-light font-Satoshi400 text-[14px] !p-3 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+                class="w-full font-light font-Satoshi400 text-[14px] !p-2 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
               />
-              <div class="absolute right-3 top-3 text-[#D1D1D6]">
+              <div class="absolute right-3 top-2 text-[#D1D1D6]">
                 <button type="button" @click="toggleShowPassword()" v-if="showPassword">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
