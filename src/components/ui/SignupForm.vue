@@ -144,9 +144,9 @@ const formData = reactive({
 });
 
 const errorsMsg = {
-  firstName: "first name is required",
-  lastName: "last name is required",
-  email: "email is required",
+  firstName: "First name is required",
+  lastName: "Last name is required",
+  email: "Email is required",
   password: "Password is required",
   confirmPassword: "Password does not match",
 };
@@ -183,7 +183,7 @@ const validateForm = () => {
 
   if (!isValidPassword.value) {
     errors.password = true;
-    errorsMsg.password = "password must contain at least one a-z,A-Z,0-9, @$!%*?&";
+    errorsMsg.password = "Password must contain at least one a-z,A-Z,0-9, @$!%*?&";
     isValid = false;
   }
 
