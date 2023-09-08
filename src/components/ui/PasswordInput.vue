@@ -2,12 +2,12 @@
   <div class="relative">
     <input
       :type="showPassword ? 'text' : 'password'"
-      :value="modelValue"
-      @change="$emit('update:modelValue', $event.target.value)"
+      @input="$emit('update:modelValue', $event.target.value)"
       :placeholder="placeholder"
-      class="w-full font-light font-Satoshi400 text-[14px] !p-2 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+      :class="error ? 'border-[#ef4b4b]' : 'border-[#254035]'"
+      class="w-full font-light font-Satoshi400 text-[14px] !p-2 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
     />
-    <div class="absolute right-3 top-3 text-[#D1D1D6]">
+    <div class="absolute right-3 top-2 text-[#D1D1D6]">
       <button type="button" @click="toggleShowPassword()" v-if="showPassword">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -46,15 +46,17 @@
         </svg>
       </button>
     </div>
+    <span v-if="error" class="text-red-600 font-Satoshi400 text-sm">{{ errorsMsg }}</span>
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
 
 defineProps({
-  type: String,
   placeholder: String,
   modelValue: String,
+  error: Boolean,
+  errorsMsg: String,
 });
 const emit = defineEmits(["update:modelValue"]);
 
