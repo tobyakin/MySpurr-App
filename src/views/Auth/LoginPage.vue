@@ -24,11 +24,11 @@ const errorsMsg = {
   password: "Password is required",
 };
 const isValidEmail = computed(() => {
-  return formState.email;
+  return formState.email.trim() !== "";
 });
 
 const isValidPassword = computed(() => {
-  return formState.password;
+  return formState.password.trim() !== "";
 });
 
 const validateForm = () => {
@@ -40,32 +40,21 @@ const validateForm = () => {
   // Perform validation before submission
   let isValid = true;
 
-  Object.keys(formState).forEach((key) => {
-    if (!formState[key]) {
-      errors[key] = true;
-      isValid = false;
-    }
-  });
   if (!isValidEmail.value) {
     errors.email = true;
-    errorsMsg.email;
+    errorsMsg.email = "Email is required";
     isValid = false;
   }
 
   if (!isValidPassword.value) {
     errors.password = true;
-    errorsMsg.password;
-    isValid = false;
-  }
-
-  if (formState.password !== formState.confirmPassword) {
-    errors.confirmPassword = true;
+    errorsMsg.password = "Password is required";
     isValid = false;
   }
 
   return isValid;
 };
-// Function to clear input errors
+
 const clearInputErrors = () => {
   Object.keys(errors).forEach((key) => {
     errors[key] = false;
@@ -92,11 +81,11 @@ const onFinish = async () => {
     store.saveUser(res.data);
     console.log(res.data);
     console.log(res.data.portofolio);
-    if (!res.data.business_details && !res.data.work_details && !res.data.portofolio) {
-      router.push({ name: "onboarding" });
-    } else {
-      router.push({ name: "dashboard" });
-    }
+    // if (!res.data.business_details && !res.data.work_details && !res.data.portofolio) {
+    //   router.push({ name: "onboarding" });
+    // } else {
+    router.push({ name: "dashboard" });
+    // }
   } catch (error) {
     console.log(error);
   } finally {
