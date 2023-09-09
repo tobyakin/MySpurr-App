@@ -1,44 +1,16 @@
 <script setup>
-import { ref, onMounted, watch, defineAsyncComponent } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
 import { useRouter } from "vue-router";
-const SelectGroup = defineAsyncComponent(() =>
-  import("@/component/ui/Form/Input/SelectGroup.vue")
-);
 
 let store = useStore();
 console.log(store.getUser);
 let loading = ref(false);
 const router = useRouter();
-const value = ref([]);
-
-const options = [
-  {
-    language: "Javascript",
-    libs: [
-      { name: "Vue.js", category: "Front-end" },
-      { name: "Adonis", category: "Backend" },
-    ],
-  },
-  {
-    language: "Ruby",
-    libs: [
-      { name: "Rails", category: "Backend" },
-      { name: "Sinatra", category: "Backend" },
-    ],
-  },
-  {
-    language: "Other",
-    libs: [
-      { name: "Laravel", category: "Backend" },
-      { name: "Phoenix", category: "Backend" },
-    ],
-  },
-];
 
 const OnboardingStore = useOnboardingStore();
 const { step } = storeToRefs(OnboardingStore);
@@ -84,9 +56,6 @@ const checkVaildlity = () => {
       : false;
 };
 
-// const next = () => {
-//   emit("next", step.value + 1);
-// };
 const onFinish = async () => {
   loading.value = true;
 
@@ -226,13 +195,6 @@ const prev = () => {
           />
         </div> -->
       </div>
-      <!-- <div class="my-6">
-        <button
-          class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
-        >
-          Complete Profile
-        </button>
-      </div> -->
     </div>
     <div class="flex flex-row gap-5 mt-5">
       <button

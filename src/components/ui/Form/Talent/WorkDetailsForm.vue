@@ -33,13 +33,21 @@ const educationLevel = [
   "MD/DO ",
   "Doctorate ",
 ];
-const options = [
+const options = ref([
   { name: "Vue.js" },
   { name: "Adonis" },
   { name: "Rails" },
   { name: "React" },
   { name: "Sinatra" },
-];
+]);
+const addTag = (newTagName) => {
+  const tag = {
+    name: newTagName,
+  };
+  options.value.push(tag);
+  top_skills.value.push(tag);
+};
+
 const years = ref([]);
 
 onMounted(() => {
@@ -150,6 +158,7 @@ onMounted(() => {
             v-model="formState.skill_title"
             class="bg-transparent border-none"
             placeholder="Graphics Designer"
+            type="text"
             required
           />
         </div>
@@ -165,19 +174,9 @@ onMounted(() => {
             placeholder=""
             track-by="name"
             label="name"
+            @tag="addTag"
             required
-            ><span slot="noResult"
-              >No skill found. Consider changing the search query.</span
-            ></multiselect
-          >
-          <!-- <pre class="language-json"><code>{{ top_skills  }}</code></pre> -->
-
-          <!-- <GlobalInput
-            v-model="formState.top_skills"
-            class="bg-transparent border-none"
-            placeholder=""
-            required
-          /> -->
+          ></multiselect>
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
@@ -188,17 +187,10 @@ onMounted(() => {
             DropdownItem="level of education"
             placeholder=""
             :items="educationLevel"
-            type="text"
             name=""
             required
             class="w-full flex border-none"
           />
-
-          <!-- <GlobalInput
-            v-model="formState.highest_education"
-            class="bg-transparent border-none"
-            placeholder=""
-          /> -->
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
@@ -209,18 +201,10 @@ onMounted(() => {
             DropdownItem="year"
             placeholder=" year"
             :items="years"
-            type="text"
             name=""
             required
             class="w-full flex border-none"
           />
-
-          <!-- <GlobalInput
-            v-model="formState.year_obtained"
-            class="bg-transparent border-none"
-            placeholder=""
-            required
-          /> -->
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
@@ -230,6 +214,7 @@ onMounted(() => {
             v-model="formState.work_history"
             class="bg-transparent border-none"
             placeholder=""
+            type="text"
             required
           />
         </div>
@@ -241,6 +226,7 @@ onMounted(() => {
             v-model="formState.certificate_earned"
             class="bg-transparent border-none"
             placeholder=""
+            type="text"
             required
           />
         </div>
@@ -253,18 +239,10 @@ onMounted(() => {
             DropdownItem=""
             :items="availability"
             placeholder=""
-            type="text"
             required
             name=""
             class="bg-transparent border-none"
           />
-
-          <!-- <GlobalInput
-            v-model="formState.availability"
-            class="bg-transparent border-none"
-            placeholder=""
-            required
-          /> -->
         </div>
       </div>
     </div>
