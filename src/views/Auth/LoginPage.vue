@@ -10,10 +10,10 @@ import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 const store = useStore();
 const router = useRouter();
 let loading = ref(false);
-const formState = {
+const formState = reactive({
   email: "",
   password: "",
-};
+});
 const showPassword = ref(false);
 const errors = reactive({
   email: false,
@@ -21,7 +21,7 @@ const errors = reactive({
 });
 const errorsMsg = {
   email: "email is required",
-  password: "Password is required",
+  password: "",
 };
 const isValidEmail = computed(() => {
   return formState.email.trim() !== "";
@@ -52,7 +52,7 @@ const validateForm = () => {
     isValid = false;
   }
 
-  return isValid;
+  return isValid; // Only return false if there are validation errors
 };
 
 const clearInputErrors = () => {
