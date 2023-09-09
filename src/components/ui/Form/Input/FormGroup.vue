@@ -1,5 +1,5 @@
 <template>
-  <div class="form__group">
+  <div class="w-full">
     <Label :class="labelClasses">{{ label }}</Label>
     <Input
       @update:modelValue="passInputValue"
@@ -9,7 +9,12 @@
       :type="type"
       :name="name"
     />
-    <Label class="text-error text-2xl text-left" :name="name" />
+    <ErrorLabel
+      class="text-error text-2xl text-left"
+      :name="name"
+      :class="labelClasses"
+      >{{ errorMsg }}</ErrorLabel
+    >
   </div>
 </template>
 
@@ -18,6 +23,7 @@ import { defineAsyncComponent } from "vue";
 
 const Input = defineAsyncComponent(() => import("./Input.vue"));
 const Label = defineAsyncComponent(() => import("./Label.vue"));
+const ErrorLabel = defineAsyncComponent(() => import("./ErrorLabel.vue"));
 
 const emit = defineEmits(["update:modelValue"]);
 

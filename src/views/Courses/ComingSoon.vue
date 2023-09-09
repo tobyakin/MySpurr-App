@@ -1,5 +1,10 @@
 <script setup>
+import { defineAsyncComponent } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
+const FormGroup = defineAsyncComponent(() =>
+  import("@/components/ui/Form/Input/FormGroup.vue")
+);
+
 import { useStore } from "@/stores/user";
 let store = useStore();
 console.log(store.getUser);
@@ -35,20 +40,22 @@ console.log(store.getUser);
           Get the latest news and updates from MySpurr
         </p>
         <div class="flex gap-6 mt-4">
-          <div class="w-full">
-            <label class="font-Satoshi500 text-[15.606px]" for=""> Name </label>
-            <input
-              class="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
-              type="text"
-            />
-          </div>
-          <div class="w-full">
-            <label class="font-Satoshi500 text-[15.606px]" for=""> Email </label>
-            <input
-              class="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
-              type="email"
-            />
-          </div>
+          <FormGroup
+            labelClasses="font-Satoshi500 text-[15.606px]"
+            label="Name"
+            name="text"
+            placeholder=""
+            type=" text"
+            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+          ></FormGroup>
+          <FormGroup
+            labelClasses="font-Satoshi500 text-[15.606px]"
+            label="Emaill"
+            name="email"
+            placeholder=""
+            type="email"
+            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+          ></FormGroup>
         </div>
       </div>
     </div>
