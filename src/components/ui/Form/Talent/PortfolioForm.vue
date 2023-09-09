@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, computed } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
@@ -15,55 +15,34 @@ const router = useRouter();
 const OnboardingStore = useOnboardingStore();
 const { step } = storeToRefs(OnboardingStore);
 const emit = defineEmits("next", "prev");
-const formState = {
+const formState = ref({
   compensation: "",
   portfolio_title: "",
   portfolio_description: "",
   image: "",
   social_media_link: "",
-};
+});
 const file = ref(null);
 const uploadedFile = ref(null);
 
-onMounted(() => {
-  checkVaildlity();
+const isFormValid = computed(() => {
+  return (
+    formState.value.compensation.trim() !== "" &&
+    file.value !== null &&
+    formState.value.portfolio_title.trim() !== "" &&
+    formState.value.portfolio_description.trim() !== "" &&
+    formState.value.social_media_link.trim() !== ""
+  );
 });
-
-const formVaildlity = ref(false);
-
-watch(
-  () => [
-    formState.compensation,
-    formState.portfolio_title,
-    formState.portfolio_description,
-    formState.social_media_link,
-  ],
-  () => {
-    checkVaildlity();
-  },
-  () => {
-    uploadFile();
-  }
-);
-
-const checkVaildlity = () => {
-  formVaildlity.value =
-    formState.compensation &&
-    formState.portfolio_title &&
-    formState.portfolio_description &&
-    formState.social_media_link
-      ? true
-      : false;
-};
 
 const onFinish = async () => {
   loading.value = true;
 
   let payload = {
-    compensation: formState.compensation,
-    portfolio_title: formState.portfolio_title,
-    portfolio_description: formState.portfolio_description,
-    social_media_link: formState.social_media_link,
+    compensation: formState.value.compensation,
+    portfolio_title: formState.value.portfolio_title,
+    portfolio_description: formState.value.portfolio_description,
+    social_media_link: formState.value.social_media_link,
   };
   console.log(file.value);
   const formData = new FormData();
@@ -140,6 +119,7 @@ const prev = () => {
             class="bg-transparent border-none"
             placeholder=""
             required
+            type="number"
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
@@ -160,7 +140,7 @@ const prev = () => {
           <textarea
             v-model="formState.portfolio_description"
             rows="4"
-            class="bg-transparent opacity-[0.8029] w-full outline-none border-0 p-4 py-1.5"
+            class="bg-transparent font-Satoshi400 w-full outline-none border-0 p-2 py-1.5"
             required
           />
         </div>
@@ -184,7 +164,7 @@ const prev = () => {
           /></label>
         </div>
 
-        <!-- <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Please select social media link</label
           >
@@ -193,7 +173,7 @@ const prev = () => {
             class="bg-transparent border-none"
             placeholder=""
           />
-        </div> -->
+        </div>
       </div>
     </div>
     <div class="flex flex-row gap-5 mt-5">
@@ -208,7 +188,9 @@ const prev = () => {
       <button
         type="submit"
         @click="onFinish"
-        class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+        :disabled="!isFormValid"
+        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
+        class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Complete Profile
       </button>

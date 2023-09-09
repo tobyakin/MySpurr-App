@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch, defineAsyncComponent } from "vue";
+import { ref, onMounted, watch, computed, defineAsyncComponent } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/GlobalInput.vue";
@@ -59,7 +59,7 @@ onMounted(() => {
 });
 
 const emit = defineEmits("next");
-const formState = {
+const formState = ref({
   skill_title: "",
   // top_skills: "",
   highest_education: "",
@@ -67,57 +67,33 @@ const formState = {
   work_history: "",
   certificate_earned: "",
   availability: "",
-};
-
-const formVaildlity = ref(false);
-
-watch(
-  () => [
-    formState.skill_title,
-    top_skills,
-    formState.highest_education,
-    formState.year_obtained,
-    formState.work_history,
-    formState.certificate_earned,
-    formState.availability,
-  ],
-  () => {
-    checkVaildlity();
-  }
-);
-const checkVaildlity = () => {
-  console.log("Checking validity...");
-  console.log(formState);
-
-  formVaildlity.value =
-    formState.skill_title &&
-    top_skills &&
-    formState.highest_education &&
-    formState.year_obtained &&
-    formState.work_history &&
-    formState.certificate_earned &&
-    formState.availability
-      ? true
-      : false;
-  console.log("Form validity:", formVaildlity.value);
-};
+});
+const isFormValid = computed(() => {
+  return (
+    formState.value.skill_title.trim() !== "" &&
+    top_skills.value.length >= 0 && // Check if top_skills is not empty
+    formState.value.highest_education.trim() !== "" &&
+    formState.value.year_obtained.trim() !== "" &&
+    formState.value.work_history.trim() !== "" &&
+    formState.value.certificate_earned.trim() !== "" &&
+    formState.value.availability.trim() !== ""
+  );
+});
 
 const next = () => {
-  // if (formVaildlity.value) {
   emit("next", step.value + 1);
-  // }
 };
 const onFinish = async () => {
   loading.value = true;
   console.log(formState);
   let payload = {
-    skill_title: formState.skill_title,
+    skill_title: formState.value.skill_title,
     top_skills: top_skills,
-    highest_education: formState.highest_education,
-    year_obtained: formState.year_obtained,
-    work_history: formState.work_history,
-    certificate_earned: formState.certificate_earned,
-    availability: formState.availability,
+    highest_education: formState.value.highest_education,
+    year_obtained: formState.value.year_obtained,
+    work_history: formState.value.work_history,
+    certificate_earned: formState.value.certificate_earned,
+    availability: formState.value.availability,
   };
   try {
     const res = await OnboardingStore.submitTalentWorkDetails(payload);
@@ -129,10 +105,6 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
-
-onMounted(() => {
-  checkVaildlity();
-});
 </script>
 
 <template>
@@ -167,7 +139,7 @@ onMounted(() => {
             >Select your top 5 skills</label
           >
           <multiselect
-            v-model="top_skills"
+            v-model="formState.top_skills"
             :options="options"
             :multiple="true"
             :taggable="true"
@@ -250,7 +222,9 @@ onMounted(() => {
       <button
         @click="onFinish"
         type="submit"
-        class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+        :disabled="!isFormValid"
+        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
+        class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Update work details
       </button>
