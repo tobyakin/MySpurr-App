@@ -13,21 +13,21 @@
       <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
     </div>
     <div class="flex flex-col gap-4">
-      <GlobalInput
+      <AuthInput
         :error="errors.firstName"
         :errorsMsg="errorsMsg.firstName"
         v-model="formData.firstName"
         type="text"
         placeholder="First Name"
       />
-      <GlobalInput
+      <AuthInput
         :error="errors.lastName"
         :errorsMsg="errorsMsg.lastName"
         v-model="formData.lastName"
         type="text"
         placeholder="Last Name"
       />
-      <GlobalInput
+      <AuthInput
         :error="errors.email"
         :errorsMsg="errorsMsg.email || !isValidEmail"
         v-model="formData.email"
@@ -100,7 +100,7 @@
 <script setup>
 import { ref, reactive, watch, computed } from "vue";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
-import GlobalInput from "@/components/ui/GlobalInput.vue";
+import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import {
   registerBusiness,
   registerTalent,

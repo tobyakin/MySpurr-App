@@ -9,12 +9,12 @@
       :type="type"
       :name="name"
     />
-    <ErrorLabel
+    <!-- <ErrorLabel
       class="text-error text-2xl text-left"
       :name="name"
       :class="labelClasses"
       >{{ errorMsg }}</ErrorLabel
-    >
+    > -->
   </div>
 </template>
 
@@ -35,6 +35,7 @@ defineProps({
   labelClasses: String, // Optional
   inputClasses: String, // Optional
   modelValue: String | Number,
+  errorMsg: String,
 });
 
 const passInputValue = (value) => {

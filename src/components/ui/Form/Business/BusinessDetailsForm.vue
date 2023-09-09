@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
-import GlobalInput from "@/components/ui/GlobalInput.vue";
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 
 const OnboardingStore = useOnboardingStore();

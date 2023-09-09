@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import GlobalInput from "@/components/ui/GlobalInput.vue";
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
 import { useRouter } from "vue-router";
 

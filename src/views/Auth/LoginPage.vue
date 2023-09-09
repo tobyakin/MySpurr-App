@@ -5,7 +5,7 @@ import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
 import { login, loginWithGoogle, registerTalentWithGoogle } from "@/services/Auth";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
-import GlobalInput from "@/components/ui/GlobalInput.vue";
+import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 const store = useStore();
 const router = useRouter();
@@ -143,7 +143,7 @@ const toggleShowPassword = () => {
 
         <div class="flex flex-col gap-4">
           <div>
-            <GlobalInput
+            <AuthInput
               :error="errors.email"
               :errorsMsg="errorsMsg.email || !isValidEmail"
               v-model="formState.email"
