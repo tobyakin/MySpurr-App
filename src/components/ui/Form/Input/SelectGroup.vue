@@ -6,7 +6,6 @@
       :value="modelValue"
       :class="inputClasses"
       :placeholder="placeholder"
-      :type="type"
       :name="name"
       :items="items"
     />
