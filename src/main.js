@@ -5,7 +5,7 @@ import { createPinia } from 'pinia'
 import VueNextSelect from 'vue-next-select'
 import Toast, { POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css";
-
+import 'vue-multiselect/dist/vue-multiselect.css'
 import App from './App.vue'
 import router from './router'
 import Antd from "ant-design-vue";
