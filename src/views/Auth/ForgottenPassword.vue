@@ -92,11 +92,6 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
-// const click = () => {
-//   const urlToOpen = "https://myspurr.azurewebsites.net/api/auth/talent/google";
-
-//   window.open(urlToOpen, "_blank");
-// };
 
 const loginWithGoogleApi = async () => {
   loading.value = true;
@@ -117,7 +112,7 @@ const toggleShowPassword = () => {
 </script>
 
 <template>
-  <layout :showLandingUrl="true" class="bg-[#00474F]">
+  <layout :showLandingUrl="false" class="bg-[#00474F]">
     <div
       class="justify-center w-[80%] mx-auto md:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
     >
@@ -126,9 +121,9 @@ const toggleShowPassword = () => {
         <h1
           class="md:text-[22.225px] font-EBGaramond400 text-brand my-6 text-center text-2xl"
         >
-          Log in
+          Forgot your password?
         </h1>
-        <button
+        <!-- <button
           @click="loginWithGoogleApi"
           class="w-full flex justify-center gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
         >
@@ -139,7 +134,7 @@ const toggleShowPassword = () => {
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
           <p>OR</p>
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
-        </div>
+        </div> -->
 
         <div class="flex flex-col gap-4">
           <div>
@@ -153,13 +148,13 @@ const toggleShowPassword = () => {
           </div>
 
           <div>
-            <PasswordInput
+            <!-- <PasswordInput
               :error="errors.password"
               :errorsMsg="errorsMsg.password || !isValidPassword"
               v-model="formState.password"
               placeholder="Password*"
             />
-
+ -->
             <div class="relative hidden">
               <input
                 :type="showPassword ? 'text' : 'password'"
@@ -209,9 +204,10 @@ const toggleShowPassword = () => {
             </div>
           </div>
         </div>
-        <div class="mt-4 text-right">
-          <p class="font-Satoshi400 text-[13.269px] text-[#007582]">
-            <router-link class="" to="/forgotten-password"> Forgot Password?</router-link>
+        <div class="mt-4 text-left">
+          <p class="font-Satoshi400 text-[9.69px] text-[#000]">
+            If you have an account with MySpurr, a reset password link has been sent to
+            your email. Please click the link to verify your account.
           </p>
         </div>
         <div class="mt-4">
@@ -219,16 +215,16 @@ const toggleShowPassword = () => {
             @click="onFinish"
             class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
           >
-            <span v-if="!loading">LOG in</span>
+            <span v-if="!loading">RESET PASSWORD</span>
             <WhiteLoader v-else />
           </button>
         </div>
-        <div class="mt-4 text-center">
+        <!-- <div class="mt-4 text-center">
           <p class="font-Satoshi400 text-[13.269px] text-[#007582]">
             Need to create an account?
             <router-link class="" to="/signup"> Sign Up </router-link>
           </p>
-        </div>
+        </div> -->
       </div>
     </div>
   </layout>
