@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen md:h-auto">
-    <AuthHeader />
+    <AuthHeader :showLandingUrl="showLandingUrl" />
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-40 auth_container">
       <div class="sticky lg:flex flex-shrink-0 items-center hidden top-0">
         <img class="" src="@/assets/image/Auth/circleImages.png" alt="Auth" />
@@ -18,4 +18,7 @@
 
 <script setup>
 import AuthHeader from "@/components/Header/AuthHeader.vue";
+defineProps({
+  showLandingUrl: Boolean,
+});
 </script>

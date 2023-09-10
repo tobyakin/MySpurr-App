@@ -13,6 +13,9 @@ const toogleMobileMenu = () => {
     body.classList.remove("overflow-hidden");
   }
 };
+defineProps({
+  showLandingUrl: Boolean,
+});
 
 const landingUrl = import.meta.env.VITE_LANDING_PAGE;
 </script>
@@ -38,7 +41,7 @@ const landingUrl = import.meta.env.VITE_LANDING_PAGE;
         </div>
         <div class="hidden md:flex items-center gap-12">
           <ul class="hidden lg:flex gap-14 text-sm"></ul>
-          <div role="button" class="flex gap-2">
+          <div v-if="showLandingUrl" role="button" class="flex gap-2">
             <a :href="landingUrl" class="font-Satoshi400 text-center text-white">
               back to website
             </a>
