@@ -47,11 +47,11 @@ import SearchIcon from "@/components/icons/circleSearchIcon.vue";
         </button>
       </div>
       <div class="flex justify-between mt-7">
-        <button
+        <router-link to="/view/job"
           class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-6 text-[#000000] rounded-full"
         >
           APPLY
-        </button>
+        </router-link>
         <div>
           <button class="">
             <CircleBookMarkIcon />

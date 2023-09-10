@@ -14,7 +14,7 @@ console.log(store.getUser);
   <DashboardLayout>
     <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
       <p class="text-[#244034] text-[75.221px] mt-8 leading-[113%] font-EBGaramond500">
-        MySpurr Courses are <br />
+        MySpurr Community are <br />
         yet to go live.
       </p>
       <p class="text-[#244034] text-[17.633px] mt-10 leading-[27.356px] font-Satoshi400">

@@ -12,11 +12,12 @@
             MySpurr <span class="pl-2">Abuja, Nigeria.</span>
           </p>
         </div>
-        <button
+        <router-link
+          to="/view/job"
           class="bg-[#43D0DF] font-Satoshi500 text-[7.708px] items-center overflow-hidden flex p-2 px-4 text-[#000000] rounded-full"
         >
           IN REVIEW
-        </button>
+        </router-link>
       </div>
       <hr v-if="item < 3" class="text-[#EAEAEA]" />
     </div>

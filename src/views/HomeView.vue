@@ -42,17 +42,17 @@ const accountType = computed(() => {
           <div class="flex gap-4 mt-6">
             <router-link
               class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
-              to=""
+              to="/jobs"
               >Find jobs</router-link
             >
             <router-link
               class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
-              to=""
+              to="/courses"
               >Take courses</router-link
             >
             <router-link
               class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
-              to=""
+              to="/community"
               >Community</router-link
             >
           </div>
@@ -68,11 +68,12 @@ const accountType = computed(() => {
               In order for you to receive payments, we need to verify your identity.
             </p>
           </div>
-          <button
-            class="text-[12.299px] font-Satoshi500 text-white bg-[#43D0DF] p-3 px-[20px] w-[60%] rounded-full"
+          <router-link
+            to="/verify-identity"
+            class="text-[12.299px] font-Satoshi500 text-white text-center bg-[#43D0DF] p-3 px-[20px] w-[60%] rounded-full"
           >
             Verify Identity
-          </button>
+          </router-link>
         </div>
       </div>
       <!-- jobs -->
@@ -84,7 +85,7 @@ const accountType = computed(() => {
 
           <router-link
             class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
-            to=""
+            to="/jobs"
             >View all jobs</router-link
           >
         </div>
@@ -107,7 +108,7 @@ const accountType = computed(() => {
 
             <router-link
               class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
-              to=""
+              to="/courses"
               >View all courses</router-link
             >
           </div>
@@ -124,7 +125,7 @@ const accountType = computed(() => {
 
           <router-link
             class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
-            to=""
+            to="/community"
             >View all communies</router-link
           >
         </div>
