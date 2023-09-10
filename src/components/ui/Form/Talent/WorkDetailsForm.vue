@@ -35,15 +35,15 @@ const educationLevel = [
   "Doctorate ",
 ];
 const options = ref([
-  { name: "Vue.js" },
-  { name: "Adonis" },
-  { name: "Rails" },
-  { name: "React" },
-  { name: "Sinatra" },
+  { skill: "Vue.js" },
+  { skill: "Adonis" },
+  { skill: "Rails" },
+  { skill: "React" },
+  { skill: "Sinatra" },
 ]);
 const addTag = (newTagName) => {
   const tag = {
-    name: newTagName,
+    skill: newTagName,
   };
   options.value.push(tag);
   top_skills.value.push(tag);
@@ -86,10 +86,9 @@ const next = () => {
 };
 const onFinish = async () => {
   loading.value = true;
-  console.log(formState);
   let payload = {
     skill_title: formState.value.skill_title,
-    top_skills: top_skills,
+    top_skills: top_skills.value,
     highest_education: formState.value.highest_education,
     year_obtained: formState.value.year_obtained,
     work_history: formState.value.work_history,
@@ -140,16 +139,21 @@ const onFinish = async () => {
             >Select your top 5 skills</label
           >
           <multiselect
-            v-model="formState.top_skills"
+            v-model="top_skills"
             :options="options"
             :multiple="true"
             :taggable="true"
             placeholder=""
-            track-by="name"
-            label="name"
+            track-by="skill"
+            label="skill"
             @tag="addTag"
             required
-          ></multiselect>
+            :close-on-select="false"
+            :clear-on-select="false"
+            :preserve-search="true"
+            :preselect-first="true"
+          >
+          </multiselect>
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
