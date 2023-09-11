@@ -6,6 +6,7 @@ import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import Multiselect from "vue-multiselect";
+import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 
 const OnboardingStore = useOnboardingStore();
 const SelectGroup = defineAsyncComponent(() =>
@@ -234,6 +235,70 @@ const onFinish = async () => {
         Update work details
       </button>
     </div>
+    <CenteredModalLarge class="!hidden"
+      ><p>What is your most recent work history</p>
+      <div
+        class="border-[0.737px] w-full border-[#254035AB] mt-6 rounded-[5.897px] p-4 py-1.5"
+      >
+        <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Title </label>
+        <GlobalInput
+          v-model="formState.skill_title"
+          class="bg-transparent border-none"
+          placeholder="Graphics Designer"
+          type="text"
+          required
+        />
+      </div>
+      <div class="flex w-full mt-8 gap-4">
+        <div
+          class="border-[0.737px] w-full border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+        >
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            >Start date</label
+          >
+          <GlobalInput
+            v-model="formState.skill_title"
+            class="bg-transparent border-none"
+            placeholder="Graphics Designer"
+            type="date"
+            required
+          />
+        </div>
+        <div
+          class="border-[0.737px] w-full border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+        >
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">End date</label>
+          <GlobalInput
+            v-model="formState.skill_title"
+            class="bg-transparent border-none"
+            placeholder="Graphics Designer"
+            type="date"
+            required
+          />
+        </div>
+      </div>
+
+      <div
+        class="border-[0.737px] w-full border-[#254035AB] mt-6 rounded-[5.897px] p-4 py-1.5"
+      >
+        <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Description</label>
+        <textarea
+          v-model="formState.portfolio_description"
+          rows="4"
+          class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
+          required
+          placeholder="Give a brief description about the job, what was done?, how was it done?, what was the impact?"
+        />
+      </div>
+      <div class="flex flex-row gap-5 pb-8 mt-5">
+        <button
+          type="submit"
+          class="font-Satoshi500 text-white text-[14px] bg-[#43D0DF] uppercase leading-[11.593px] rounded-full p-5 w-full"
+        >
+          Done
+        </button>
+      </div>
+    </CenteredModalLarge>
   </form>
 </template>
 <style>
