@@ -6,7 +6,6 @@ import { storeToRefs } from "pinia";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
 import { useRouter } from "vue-router";
-
 let store = useStore();
 console.log(store.getUser);
 let loading = ref(false);
@@ -112,7 +111,7 @@ const prev = () => {
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Rate/Compensation - Per hour</label
+            >Rate/Compensation - Per hour (USD)</label
           >
           <GlobalInput
             v-model="formState.compensation"
@@ -129,7 +128,7 @@ const prev = () => {
           <GlobalInput
             v-model="formState.portfolio_title"
             class="bg-transparent border-none"
-            placeholder=""
+            placeholder="share your most recent portfolio (what is the title)"
             required
           />
         </div>
@@ -140,8 +139,9 @@ const prev = () => {
           <textarea
             v-model="formState.portfolio_description"
             rows="4"
-            class="bg-transparent font-Satoshi400 w-full outline-none border-0 p-2 py-1.5"
+            class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
             required
+            placeholder="Give a brief description about the job, what was done?, how was it done?, what was the impact?"
           />
         </div>
 
@@ -154,12 +154,13 @@ const prev = () => {
             hidden
             accept="image/*"
             required
+            multiple
           />
           <label
             for="preview_Image"
             class="cursor-pointer w-full justify-between flex text-[#01272C] px-4 text-[12px] font-Satoshi400"
           >
-            <span v-if="!file">Upload photos</span
+            <span v-if="!file">Upload photos (max 3mb each)</span
             ><span v-if="file">{{ file.name }}</span> <AttachFileIcon
           /></label>
         </div>
