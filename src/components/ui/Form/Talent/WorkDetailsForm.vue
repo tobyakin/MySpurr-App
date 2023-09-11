@@ -25,16 +25,7 @@ const availability = [
   "Internship ",
   "Contract ",
 ];
-const educationLevel = [
-  "Certificate",
-  "Associates",
-  "Bachelors",
-  "Masters ",
-  "MBA ",
-  "JD ",
-  "MD/DO ",
-  "Doctorate ",
-];
+const educationLevel = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
 const options = ref([
   { skill: "Vue.js" },
   { skill: "Adonis" },
