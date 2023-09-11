@@ -194,7 +194,7 @@ const onFinish = async () => {
           <GlobalInput
             v-model="formState.certificate_earned"
             class="bg-transparent border-none"
-            placeholder=""
+            placeholder="Specialization in digital marketing"
             type="text"
             required
           />
