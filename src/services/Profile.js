@@ -4,14 +4,14 @@ import { getToken } from "./Auth";
 
 
 
-export const handleTalentWorkDetails = async (payload) => {
+export const getUserProfile= async () => {
 
     const token = await getToken()
     try {
-        let res = await axios.post(`talent-work-details`,payload,{ 
-            headers:{
-                Authorization: 'Bearer ' + token
-            }
+        let res = await axios.get(`profile`, {
+          headers: {
+            Authorization: 'Bearer ' + token
+          }
         })
         catchAxiosSuccess(res)   
         return res.data;

@@ -30,7 +30,7 @@
       </div>
       <div class="">
         <p class="text-[19.722px] font-Satoshi500 capitalize text-[#000]">
-          {{ store.getUser.user.first_name }}
+          {{ store.userDetails.data.first_name }}
         </p>
         <p class="text-[12px] font-Satoshi500 overflow-hidden text-[#E06F6F]">
           Available
