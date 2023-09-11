@@ -46,7 +46,7 @@ const years = ref([]);
 onMounted(() => {
   // Populate the years array with a range of years, e.g., from 2000 to the current year.
   const currentYear = new Date().getFullYear();
-  for (let year = 1950; year <= currentYear; year++) {
+  for (let year = currentYear; year >= 1950; year--) {
     years.value.push(year.toString());
   }
 });
