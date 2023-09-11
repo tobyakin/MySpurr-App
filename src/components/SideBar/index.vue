@@ -162,17 +162,16 @@ import MyjobsIcon from "@/components/icons/searchIcon.vue";
 import Courses from "@/components/icons/coursesIcon.vue";
 import MySchedule from "@/components/icons/calenderIcon.vue";
 import GoProIcon from "@/components/icons/starIcon.vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { computed } from "vue";
 
 const route = useRoute();
-const router = useRouter();
 const store = useStore();
 
 const user = store.getUser;
 
 const feature = computed(() => {
-  return store.features;
+  return Array.isArray(store.features) ? store.features : [];
 });
 
 // const logOut = () => {
