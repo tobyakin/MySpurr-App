@@ -1,10 +1,10 @@
 <script setup>
-import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue";
+// import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue";
 </script>
 
 <template>
   <RouterView />
-  <OnboardingRequest />
+  <!-- <OnboardingRequest /> -->
 </template>
 
 <style scoped></style>

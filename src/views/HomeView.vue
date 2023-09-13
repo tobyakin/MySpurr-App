@@ -9,6 +9,8 @@ import CourseCard from "@/components/ui/CourseCard.vue";
 import ArticleCard from "@/components/ui/ArticleCard.vue";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
+import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue";
+
 let store = useStore();
 let profile = useUserProfile();
 onMounted(() => {
@@ -24,6 +26,7 @@ const accountType = computed(() => {
 
 <template>
   <DashboardLayout>
+    <OnboardingRequest />
     <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
       <span class="font-EBGaramond500 text-[#244034] text-[27.673px]"
         >Hi {{ userDetails?.first_name }} ,</span
