@@ -30,7 +30,7 @@
       </div>
       <div class="">
         <p class="text-[19.722px] font-Satoshi500 capitalize text-[#000]">
-          {{ store.userDetails.data.first_name }}
+          {{ userDetails?.first_name }}
         </p>
         <p class="text-[12px] font-Satoshi500 overflow-hidden text-[#E06F6F]">
           Available
@@ -61,10 +61,15 @@
 
 <script setup>
 import { ref, computed, onMounted, defineProps, defineEmits } from "vue";
-import { useStore } from "@/stores/user";
+import { useUserProfile } from "@/stores/profile";
 
-let store = useStore();
-
+let profile = useUserProfile();
+onMounted(() => {
+  return profile.userProfile();
+});
+const userDetails = computed(() => {
+  return profile.user.data;
+});
 const emit = defineEmits(["closeDropdown", "clickedItem"]);
 
 const onClickOutside = (element, callback) => {

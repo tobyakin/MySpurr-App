@@ -57,7 +57,7 @@ const prev = () => {
 };
 
 const next = (data) => {
-  if (step.value == 2) {
+  if (step.value === 2) {
     return router.push({
       name: "dashboard",
     });
