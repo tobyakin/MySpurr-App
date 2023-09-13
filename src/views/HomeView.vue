@@ -8,21 +8,26 @@ import CommunityCard from "@/components/ui/CommunityCard.vue";
 import CourseCard from "@/components/ui/CourseCard.vue";
 import ArticleCard from "@/components/ui/ArticleCard.vue";
 import { useStore } from "@/stores/user";
+import { useUserProfile } from "@/stores/profile";
 let store = useStore();
+let profile = useUserProfile();
 onMounted(() => {
-  return store.userProfile;
+  return profile.userProfile();
+});
+const userDetails = computed(() => {
+  return profile.user.data;
 });
 const accountType = computed(() => {
-  return store.userProfile.type;
+  return store.getUser.data.user.type;
 });
 </script>
 
 <template>
   <DashboardLayout>
     <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
-      <!-- <span class="font-EBGaramond500 text-[#244034] text-[27.673px]"
-        >Hi {{ store.getUser.user.first_name }} ,</span
-      > -->
+      <span class="font-EBGaramond500 text-[#244034] text-[27.673px]"
+        >Hi {{ userDetails?.first_name }} ,</span
+      >
       <div class="flex lg:flex-row flex-col flex-grow gap-4 mt-6 w-full">
         <div
           class="p-4 px-10 flex flex-col justify-between rounded-[4.533px] w-full bg-[#EDF0B8] border-[0.567px] border-[#254035AB]"

@@ -54,6 +54,7 @@ const onFinish = async () => {
       submitForm(formData, payload);
     };
     reader.readAsDataURL(file.value);
+    next();
   } else {
     submitForm(formData, payload);
   }
@@ -87,6 +88,9 @@ const uploadFile = () => {
     file.value = null;
   }
 };
+const next = () => {
+  emit("next", step.value + 1);
+};
 
 const prev = () => {
   emit("prev", step.value - 1);
@@ -111,7 +115,7 @@ const prev = () => {
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Rate/Compensation - Per hour (USD)</label
+            >Rate/compensation - Per hour (USD)</label
           >
           <GlobalInput
             v-model="formState.compensation"

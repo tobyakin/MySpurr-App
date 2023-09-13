@@ -1,10 +1,10 @@
 <template>
   <CenteredModalLarge
     v-if="
-      getUser &&
-      !getUser.business_details &&
-      !getUser.work_details &&
-      !getUser.portfolio &&
+      userProfileDetails &&
+      !userProfileDetails.business_details &&
+      !userProfileDetails.work_details &&
+      !userProfileDetails.portfolio &&
       checkRoute
     "
   >
@@ -32,18 +32,22 @@
 <script setup>
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import { useStore } from "@/stores/user";
-import { computed } from "vue";
+import { useUserProfile } from "@/stores/profile";
+import { computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
+const profileDetails = useUserProfile();
 const userStore = useStore();
 const router = useRouter();
 const route = useRoute();
-const getUser = computed(() => {
-  return userStore.getUser;
+const userProfileDetails = computed(() => profileDetails.user);
+onMounted(async () => {
+  await profileDetails.userProfile();
+  console.log(userProfileDetails.value.work_details);
 });
 
 const accountType = computed(() => {
-  return userStore.getUser.user.type;
+  return userStore.getUser.data.user.type;
 });
 
 const checkRoute = computed(() => {

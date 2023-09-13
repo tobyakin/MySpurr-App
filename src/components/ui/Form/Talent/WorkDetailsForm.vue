@@ -27,11 +27,11 @@ const availability = [
 ];
 const educationLevel = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
 const options = ref([
-  { skill: "Vue.js" },
-  { skill: "Adonis" },
-  { skill: "Rails" },
-  { skill: "React" },
-  { skill: "Sinatra" },
+  { name: "Vue.js" },
+  { name: "Adonis" },
+  { name: "Rails" },
+  { name: "React" },
+  { name: "Sinatra" },
 ]);
 const addTag = (newTagName) => {
   const tag = {
@@ -54,7 +54,6 @@ onMounted(() => {
 const emit = defineEmits("next");
 const formState = ref({
   skill_title: "",
-  // top_skills: "",
   highest_education: "",
   year_obtained: "",
   work_history: "",
@@ -136,8 +135,8 @@ const onFinish = async () => {
             :multiple="true"
             :taggable="true"
             placeholder=""
-            track-by="skill"
-            label="skill"
+            track-by="name"
+            label="name"
             @tag="addTag"
             required
             :close-on-select="false"

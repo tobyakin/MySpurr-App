@@ -1,19 +1,22 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import {
-  getPouchAccounts,
-} from '@/services/Profile'
+import { getUserProfile } from '@/services/Profile'
 
-export const usePouchSavingStore = defineStore('profile', () => {
-  const user = ref([])
+export const useUserProfile = defineStore('profile', () => {
+  const user = ref({})
 
-  const getUserProfile = async () => {
-    user.value = await getPouchAccounts()
-    return user.value
+  const userProfile = async () => {
+    try {
+    user.value = await getUserProfile()
+      console.log('User Profile:', user.value) // Add this line
+      return user.value;
+    } catch (error) {
+      console.error('Error fetching user profile:', error)
+    }
   }
 
   return {
     user,
-    getUserProfile,
+    userProfile
   }
 })
