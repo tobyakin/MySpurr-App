@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import { encrypt,decrypt } from "../services/Encrypt"
 
 export const useStore = defineStore('user', () => {
-  const token = ref(null)
 
   const user = ref(null)
 
@@ -43,7 +42,6 @@ export const useStore = defineStore('user', () => {
     user,
     getUser,
     saveUser,
-    token,
     features,
   }
 })
