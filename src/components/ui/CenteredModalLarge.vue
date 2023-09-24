@@ -1,5 +1,7 @@
 <template>
-  <div class="modal backdrop-blur z-[100] fixed h-screen">
+  <div
+    class="modal backdrop-blur z-[100] fixed animate__zoomIn animate__rubberBand animate__fadeOut h-screen"
+  >
     <div
       class="modal__body relative w-full md:max-w-[600px] bg-white m-0 md:px-5 py-4 px-4 md:max-w-2/12 md:w-2/5"
     >
@@ -34,7 +36,7 @@
     border-radius: 12px;
     // padding: 20px 30px;
     // padding-bottom: 0px;
-    animation: slidedown 0.5s ease;
+    animation: slidedown 0.8s ease;
     // border:'2px solid red';
     // height: 100vh;
     overflow: auto;
