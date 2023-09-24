@@ -79,24 +79,15 @@ const onFinish = async () => {
   try {
     const res = await login(formState.email, formState.password);
     store.saveUser(res.data);
+    router.push({ name: "dashboard" });
     console.log(res.data);
     console.log(res.data.portofolio);
-    // if (!res.data.business_details && !res.data.work_details && !res.data.portofolio) {
-    //   router.push({ name: "onboarding" });
-    // } else {
-    router.push({ name: "dashboard" });
-    // }
   } catch (error) {
     console.log(error);
   } finally {
     loading.value = false;
   }
 };
-// const click = () => {
-//   const urlToOpen = "https://myspurr.azurewebsites.net/api/auth/talent/google";
-
-//   window.open(urlToOpen, "_blank");
-// };
 
 const loginWithGoogleApi = async () => {
   loading.value = true;
@@ -129,7 +120,7 @@ const toggleShowPassword = () => {
           Log in
         </h1>
         <button
-          @click="loginWithGoogleApi"
+          @click="click"
           class="w-full flex justify-center gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
         >
           <img class="w-[7%]" src="@/assets/svg/googleIcon.svg" alt="" />

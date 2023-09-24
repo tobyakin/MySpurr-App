@@ -142,7 +142,7 @@ const onFinish = async () => {
             :close-on-select="false"
             :clear-on-select="false"
             :preserve-search="true"
-            :preselect-first="true"
+            :preselect-first="false"
           >
           </multiselect>
         </div>

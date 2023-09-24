@@ -1,13 +1,5 @@
 <template>
-  <CenteredModalLarge
-    v-if="
-      userProfileDetails &&
-      !userProfileDetails.business_details &&
-      !userProfileDetails.work_details &&
-      !userProfileDetails.portfolio &&
-      checkRoute
-    "
-  >
+  <CenteredModalLarge>
     <div class="my-8">
       <header class="">
         <h1 class="text-[#000000] text-center text-[20px] font-Satoshi700">
@@ -32,28 +24,28 @@
 <script setup>
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import { useStore } from "@/stores/user";
-import { useUserProfile } from "@/stores/profile";
+// import { useUserProfile } from "@/stores/profile";
 import { computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
-const profileDetails = useUserProfile();
+// const profileDetails = useUserProfile();
 const userStore = useStore();
 const router = useRouter();
-const route = useRoute();
-const userProfileDetails = computed(() => profileDetails.user);
-onMounted(async () => {
-  await profileDetails.userProfile();
-  console.log(userProfileDetails.value.work_details);
-});
+// const route = useRoute();
+// const userProfileDetails = computed(() => profileDetails.user);
+// onMounted(async () => {
+//   await profileDetails.userProfile();
+//   console.log(userProfileDetails.value.work_details);
+// });
 
 const accountType = computed(() => {
   return userStore.getUser.data.user.type;
 });
 
-const checkRoute = computed(() => {
-  const param = `dashboard`;
-  return route.fullPath.includes(param);
-});
+// const checkRoute = computed(() => {
+//   const param = `dashboard`;
+//   return route.fullPath.includes(param);
+// });
 
 const goToVerificationPage = () => {
   if (accountType.value.toLowerCase() === "talent") {

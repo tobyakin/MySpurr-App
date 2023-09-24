@@ -13,20 +13,35 @@ import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue"
 
 let store = useStore();
 let profile = useUserProfile();
-onMounted(() => {
-  return profile.userProfile();
-});
 const userDetails = computed(() => {
   return profile.user.data;
 });
 const accountType = computed(() => {
   return store.getUser.data.user.type;
 });
+onMounted(() => {
+  return profile.userProfile();
+});
+onMounted(() => {
+  return accountType;
+});
+const isOnBoarded = computed(() => profile.user);
+onMounted(async () => {
+  await profile.userProfile();
+  console.log(isOnBoarded.value.work_details);
+});
 </script>
 
 <template>
   <DashboardLayout>
-    <OnboardingRequest />
+    <OnboardingRequest
+      v-if="
+        isOnBoarded &&
+        !isOnBoarded.business_details &&
+        !isOnBoarded.work_details &&
+        !isOnBoarded.portofolio
+      "
+    />
     <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
       <span class="font-EBGaramond500 text-[#244034] text-[27.673px]"
         >Hi {{ userDetails?.first_name }} ,</span
