@@ -1,9 +1,12 @@
 import { defineStore } from 'pinia';
+import { ref } from 'vue'
 
-export const useTabStore = defineStore('tab', {
-  state: () => ({
-    activeTab: 'talent',
-  }),
-  actions: {
-  },
+  export const useTabStore = defineStore('tab', () => {
+
+    const activeTab = ref('talent')
+
+
+      return {
+        activeTab
+      }
 });

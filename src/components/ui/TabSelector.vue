@@ -46,7 +46,7 @@ import { ref, onMounted } from "vue";
 import { useTabStore } from "@/stores/tab";
 
 const store = useTabStore();
-const activetab = ref(store.activetab);
+const activetab = ref(store.activeTab);
 
 // Set initial tab value based on the prop or local storage
 onMounted(() => {
@@ -54,6 +54,7 @@ onMounted(() => {
   if (storedTab) {
     activetab.value = storedTab;
   }
+  return activetab.value;
 });
 
 function activateTab(tab) {

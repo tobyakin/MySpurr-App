@@ -109,6 +109,10 @@ import {
 } from "@/services/Auth";
 import { useRouter } from "vue-router";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import { useTabStore } from "@/stores/tab";
+
+const store = useTabStore();
+const activeTab = ref(store.activetab);
 
 const router = useRouter();
 let loading = ref(false);
@@ -213,8 +217,6 @@ const togglrTerms = () => {
   terms.value = !terms.value;
   error.terms = "";
 };
-
-const activeTab = ref(localStorage.getItem("activeTab") || "talent");
 
 function handleSignup() {
   if (activeTab.value === "business") {
