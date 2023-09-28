@@ -1,8 +1,11 @@
 <!-- eslint-disable no-unused-vars -->
 <script setup>
 import { ref } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
 import layout from "@/components/layout/LightAuthLayout.vue";
 import ErrorOutline from "@/components/icons/errorOutline.vue";
+const userEmail = ref(route.params.email);
 </script>
 
 <template>
@@ -17,7 +20,7 @@ import ErrorOutline from "@/components/icons/errorOutline.vue";
           Check your inbox and confirm your email address
         </h1>
         <p class="text-[11.303px] font-Satoshi400 my-4 md:mb-8 text-[#01181B]">
-          We’ve sent a confirmation email to tobyakin7@gmail.com
+          We’ve sent a confirmation email to {{ userEmail }}
         </p>
         <p
           class="text-[11.303px] flex items-center gap-2 font-Satoshi400 my-4 md:mb-8 text-[#DA5252]"
