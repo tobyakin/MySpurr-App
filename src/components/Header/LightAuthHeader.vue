@@ -31,24 +31,28 @@ const landingUrl = import.meta.env.VITE_LANDING_PAGE;
         <div class="hidden md:flex items-center gap-12">
           <ul class="hidden lg:flex gap-14 text-sm"></ul>
           <div role="button" class="flex gap-2">
-            <a :href="landingUrl" class="font-Satoshi400 text-center text-brand">
-              back to website
-            </a>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="21"
-              viewBox="0 0 20 21"
-              fill="none"
+            <a
+              :href="landingUrl"
+              target="_blank"
+              class="font-Satoshi400 flex gap-2 text-center items-center text-[#000000]"
             >
-              <path
-                d="M3.75 10.5391L16.25 10.5391M16.25 10.5391L10.625 4.91406M16.25 10.5391L10.625 16.1641"
-                stroke="#2F929C"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+              <span>back to website </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="21"
+                viewBox="0 0 20 21"
+                fill="none"
+              >
+                <path
+                  d="M3.75 10.5391L16.25 10.5391M16.25 10.5391L10.625 4.91406M16.25 10.5391L10.625 16.1641"
+                  stroke="#2F929C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
           </div>
         </div>
         <div class="hidden">
