@@ -110,12 +110,12 @@ const toggleShowPassword = () => {
 <template>
   <layout :showLandingUrl="true" :showWelcomeMsg="false" class="bg-[#00474F]">
     <div
-      class="justify-center w-[80%] mx-auto md:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
+      class="justify-center xl:w-[80%] w-full mx-auto lg:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
     >
       <!-- form input  -->
       <div class="py-3">
         <h1
-          class="md:text-[22.225px] font-EBGaramond400 text-brand my-6 text-center text-2xl"
+          class="md:text-[22.225px] font-EBGaramond400 text-white lg:text-brand my-6 text-center text-2xl"
         >
           Log in
         </h1>
@@ -128,7 +128,7 @@ const toggleShowPassword = () => {
         </button>
         <div class="flex gap-2 my-5">
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
-          <p>OR</p>
+          <p class="text-white lg:text-black">OR</p>
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
         </div>
 
@@ -201,7 +201,7 @@ const toggleShowPassword = () => {
           </div>
         </div>
         <div class="mt-4 text-right">
-          <p class="font-Satoshi400 text-[13.269px] text-[#007582]">
+          <p class="font-Satoshi400 text-[13.269px] text-white lg:text-[#007582]">
             <router-link class="" to="/forgotten-password"> Forgot Password?</router-link>
           </p>
         </div>
@@ -215,7 +215,7 @@ const toggleShowPassword = () => {
           </button>
         </div>
         <div class="mt-4 text-center">
-          <p class="font-Satoshi400 text-[13.269px] text-[#007582]">
+          <p class="font-Satoshi400 text-[13.269px] text-white lg:text-[#007582]">
             Need to create an account?
             <router-link class="" to="/signup"> Sign Up </router-link>
           </p>
