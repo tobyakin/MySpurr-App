@@ -1,12 +1,15 @@
 <script setup>
 import { defineAsyncComponent } from "vue";
-
+import { storeToRefs } from "pinia";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { useStore } from "@/stores/user";
 import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
 import Arrow from "@/components/icons/paginationArrow.vue";
-
 import Tabs from "@/components/ui/Jobs/Tabs.vue";
+import { useJobsStore } from "@/stores/jobs";
+const jobsStore = useJobsStore();
+const { Job } = storeToRefs(jobsStore);
+
 const FormGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/FormGroup.vue")
 );
