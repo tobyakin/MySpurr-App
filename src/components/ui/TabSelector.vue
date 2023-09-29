@@ -15,14 +15,14 @@
 
     <div class="tabs flex flex-row">
       <a
-        class="w-full"
+        class="w-full !text-[10px] xl:!text-[14px]"
         @click="activateTab('talent')"
         :class="[activetab === 'talent' ? 'active' : '']"
       >
         <slot name="tab1"></slot>
       </a>
       <a
-        class="w-full"
+        class="w-full !text-[10px] xl:!text-[14px]"
         @click="activateTab('business')"
         :class="[activetab === 'business' ? 'active' : '']"
       >

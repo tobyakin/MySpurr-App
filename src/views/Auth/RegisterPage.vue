@@ -25,7 +25,7 @@ const changeScreen = (from, to, type = null) => {
 
 <template>
   <layout class="bg-[#E9FAFB]">
-    <div class="w-[80%] mx-auto" v-if="steps[0]">
+    <div class="xl:w-[80%] w-full mx-auto" v-if="steps[0]">
       <h1 class="md:text-[36px] font-EBGaramond500 text-2xl font-bold">
         How will you use MySpurr?
       </h1>
