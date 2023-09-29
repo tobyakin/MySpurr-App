@@ -19,7 +19,9 @@ const userEmail = ref(route.params.email);
         >
           Check your inbox and confirm your email address
         </h1>
-        <p class="text-[11.303px] font-Satoshi400 my-4 md:mb-8 text-[#01181B]">
+        <p
+          class="text-[11.303px] font-Satoshi400 my-4 md:mb-8 overflow-hidden text-[#01181B]"
+        >
           We’ve sent a confirmation email to
           <span class="font-Satoshi700">{{ userEmail }}</span>
         </p>
