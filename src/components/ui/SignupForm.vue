@@ -109,6 +109,10 @@ import {
 } from "@/services/Auth";
 import { useRouter } from "vue-router";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import { useTabStore } from "@/stores/tab";
+
+const store = useTabStore();
+const activeTab = ref(store.activeTab);
 
 const router = useRouter();
 let loading = ref(false);
@@ -183,7 +187,7 @@ const validateForm = () => {
 
   if (!isValidPassword.value) {
     errors.password = true;
-    errorsMsg.password = "Password must contain at least one a-z,A-Z,0-9, @$!%*?&";
+    errorsMsg.password = "Password must contain at least a-z,A-Z,0-9,@$!%*&";
     isValid = false;
   }
 
@@ -214,12 +218,10 @@ const togglrTerms = () => {
   error.terms = "";
 };
 
-const activeTab = ref(localStorage.getItem("activeTab") || "talent");
-
 function handleSignup() {
-  if (activeTab.value === "business") {
+  if (activeTab.value == "business") {
     handleBusinessSignup();
-  } else if (activeTab.value === "talent") {
+  } else if (activeTab.value == "talent") {
     handleTalentSignup();
   } else {
     // Handle other cases if needed
@@ -273,7 +275,7 @@ const handleBusinessSignup = async () => {
   };
   try {
     const res = await registerBusiness(payload);
-    router.push({ name: "verify" });
+    router.push({ name: "verify", params: { email: formData.email } });
     console.log(res);
   } catch (error) {
     console.log(error);
@@ -295,12 +297,11 @@ const handleTalentSignup = async () => {
     last_name: formData.lastName,
     email_address: formData.email,
     password: formData.password,
-    hear_about_us: formData.hear_about_us,
     terms: terms,
   };
   try {
     const res = await registerTalent(payload);
-    router.push({ name: "verify" });
+    router.push({ name: "verify", params: { email: formData.email } });
     console.log(res);
   } catch (error) {
     console.log(error);
