@@ -69,7 +69,7 @@ const router = createRouter({
       beforeEnter: [middleware.redirectLogin]
     },
     {
-      path: '/view/job',
+      path: '/view/job/:id',
       name: 'view-jobs',
       component: ViewJob,
       beforeEnter: [middleware.redirectLogin]
