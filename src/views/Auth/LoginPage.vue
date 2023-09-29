@@ -108,7 +108,7 @@ const toggleShowPassword = () => {
 </script>
 
 <template>
-  <layout :showLandingUrl="true" class="bg-[#00474F]">
+  <layout :showLandingUrl="true" :showWelcomeMsg="false" class="bg-[#00474F]">
     <div
       class="justify-center w-[80%] mx-auto md:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
     >

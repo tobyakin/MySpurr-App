@@ -187,7 +187,7 @@ const validateForm = () => {
 
   if (!isValidPassword.value) {
     errors.password = true;
-    errorsMsg.password = "Password must contain at least one a-z,A-Z,0-9, @$!%*?&";
+    errorsMsg.password = "Password must contain at least a-z,A-Z,0-9,@$!%*&";
     isValid = false;
   }
 
