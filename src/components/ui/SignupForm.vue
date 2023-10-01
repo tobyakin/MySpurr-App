@@ -40,6 +40,63 @@
         v-model="formData.password"
         placeholder="Password*"
       />
+
+      <!-- password reg dropdown -->
+      <div
+        v-if="formData.password.length && !isValidPassword"
+        class="flex flex-col font-Satoshi400 text-gray-400 text-[12px] gap-2"
+      >
+        <div class="flex items-center gap-2">
+          <div
+            :class="{
+              ' bg-[#55eb37]': isMinLengthMet,
+              ' bg-gray-200': !isMinLengthMet,
+            }"
+            class="h-3 w-3 flex justify-center items-center rounded-full"
+          ></div>
+          <p>A minimum of 8 characters</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <div
+            :class="{
+              ' bg-[#55eb37]': isAtLeastOneNumber,
+              ' bg-gray-200': !isAtLeastOneNumber,
+            }"
+            class="h-3 w-3 flex justify-center items-center rounded-full"
+          ></div>
+          <p>Atleast one number</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <div
+            :class="{
+              ' bg-[#55eb37]': isAtLeastOneSpecialChar,
+              ' bg-gray-200': !isAtLeastOneSpecialChar,
+            }"
+            class="h-3 w-3 flex justify-center items-center rounded-full"
+          ></div>
+          <p>Atleast one special character</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <div
+            :class="{
+              ' bg-[#55eb37]': isAtLeastOneLowercase,
+              ' bg-gray-200': !isAtLeastOneLowercase,
+            }"
+            class="h-3 w-3 flex justify-center items-center rounded-full"
+          ></div>
+          <p>Atleast one lowercase letter</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <div
+            :class="{
+              ' bg-[#55eb37]': isAtLeastOneUppercase,
+              ' bg-gray-200': !isAtLeastOneUppercase,
+            }"
+            class="h-3 w-3 flex justify-center items-center rounded-full"
+          ></div>
+          <p>Atleast one uppercase letter</p>
+        </div>
+      </div>
       <PasswordInput
         :error="errors.confirmPassword || !passwordsMatch"
         :errorsMsg="errorsMsg.confirmPassword"
@@ -130,6 +187,25 @@ const isValidEmail = computed(() => {
 const isValidPassword = computed(() => {
   return passwordRegex.test(formData.password);
 });
+const isMinLengthMet = computed(() => {
+  return formData.password.length >= 8;
+});
+
+const isAtLeastOneNumber = computed(() => {
+  return /\d/.test(formData.password);
+});
+
+const isAtLeastOneSpecialChar = computed(() => {
+  return /[!@#$%^&*()_+[\]{};':"\\|,.<>/?]+/.test(formData.password);
+});
+
+const isAtLeastOneLowercase = computed(() => {
+  return /[a-z]/.test(formData.password);
+});
+
+const isAtLeastOneUppercase = computed(() => {
+  return /[A-Z]/.test(formData.password);
+});
 
 const errors = reactive({
   firstName: false,
@@ -187,7 +263,7 @@ const validateForm = () => {
 
   if (!isValidPassword.value) {
     errors.password = true;
-    errorsMsg.password = "Password must contain at least a-z,A-Z,0-9,@$!%*&";
+    errorsMsg.password = "Password is required";
     isValid = false;
   }
 

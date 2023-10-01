@@ -67,23 +67,6 @@ const disableButton = () => {
     }
   }, 1000);
 };
-const updateCountdownDisplay = () => {
-  if (countdown.value > 0) {
-    countdown.value--;
-  }
-};
-// const startCountdown = () => {
-//   const button = document.querySelector(".reset-button");
-//   button.disabled = true;
-
-//   const interval = setInterval(() => {
-//     countdown--;
-//     if (countdown <= 0) {
-//       button.disabled = false;
-//       clearInterval(interval);
-//     }
-//   }, 1000);
-// };
 const onFinish = async () => {
   loading.value = true;
   if (!validateForm()) {
@@ -96,11 +79,8 @@ const onFinish = async () => {
     // Store the email in local storage after submission
     localStorage.setItem("email", formState.email);
     // Disable the button for 60 seconds
-
     countdown.value = 60;
     disableButton();
-    // Start countdown display update
-    // setInterval(updateCountdownDisplay, 1000);
   } catch (error) {
     console.log(error);
   } finally {
