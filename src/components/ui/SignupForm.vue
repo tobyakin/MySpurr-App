@@ -109,8 +109,8 @@
         <p
           @click="togglrTerms()"
           role="button"
-          :class="terms ? 'bg-brand ' : '  border-brand'"
-          class="w-4 h-4 flex justify-center items-center rounded-[1.018px] border"
+          :class="terms ? 'bg-brand  ' : '  border-[#B3B3B3]'"
+          class="w-[25px] h-[17px] flex justify-center items-center rounded-[3.018px] border"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
