@@ -4,10 +4,10 @@ import { encrypt,decrypt } from "./Encrypt"
 import { auth }  from '../firebase';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 
-export const login = async (email_address, password) => {
+export const login = async (email, password) => {
 
     let data = {
-        email_address,
+        email,
         password,
     }
 
@@ -159,6 +159,40 @@ export const registerTalent = async (payload) => {
     }
   
 }
+// forgot password
+export const forgottenPassword = async (email) => {
+  let data = {
+    email
+  }
+
+  try {
+    let res = await axios.post('forgot-password', data)
+    catchAxiosSuccess(res)
+    return res
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+// reset password
+export const resetPassword = async (token,email,password, password_confirmation) => {
+  let data = {
+    token,
+    email,
+    password,
+    password_confirmation
+  }
+
+  try {
+    let res = await axios.post('reset-password', data)
+    catchAxiosSuccess(res)
+    return res
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
 export const getToken = () => {
 
     let encryptedData  = localStorage.getItem("_user_data");
