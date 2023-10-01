@@ -64,6 +64,8 @@ const onFinish = async () => {
   try {
     const res = await forgottenPassword(formState.email);
     message.value = res.data.message;
+    // Store the email in local storage after submission
+    localStorage.setItem("email", formState.email);
   } catch (error) {
     console.log(error);
   } finally {
