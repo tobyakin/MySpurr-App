@@ -47,7 +47,7 @@ const router = createRouter({
     },
     {
       path: '/reset-password',
-      name: 'reset-passwordify',
+      name: 'reset-password',
       component: ResetPassword
       // beforeEnter: [middleware.redirectDashboard],
     },

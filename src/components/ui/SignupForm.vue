@@ -269,9 +269,9 @@ const handleBusinessSignup = async () => {
   let payload = {
     first_name: formData.firstName,
     last_name: formData.lastName,
-    email_address: formData.email,
+    email: formData.email,
     password: formData.password,
-    terms: terms.value,
+    // terms: terms.value,
   };
   try {
     const res = await registerBusiness(payload);
@@ -295,9 +295,9 @@ const handleTalentSignup = async () => {
   let payload = {
     first_name: formData.firstName,
     last_name: formData.lastName,
-    email_address: formData.email,
+    email: formData.email,
     password: formData.password,
-    terms: terms,
+    // terms: terms,
   };
   try {
     const res = await registerTalent(payload);

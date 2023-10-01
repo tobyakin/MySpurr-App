@@ -1,17 +1,25 @@
 <script setup>
 // import { useStore } from "@/stores/user";
 import { ref, reactive, watch, computed } from "vue";
-// import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
-// import { login } from "@/services/Auth";
+import { resetPassword } from "@/services/Auth";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 // const store = useStore();
-// const router = useRouter();
+const router = useRouter();
 let loading = ref(false);
+// Create a function to parse the URL and get the token value
+const getTokenFromURL = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get("token") || "";
+};
+
 const formState = reactive({
-  confirmPassword: "",
+  token: getTokenFromURL(), // Get the token value from the URL
+  email: "",
   password: "",
+  confirmPassword: "",
 });
 const errors = reactive({
   confirmPassword: false,
@@ -73,8 +81,13 @@ const onFinish = async () => {
   }
 
   try {
-    // const res = await login(formState.email, formState.password);
-    // router.push({ name: "dashboard" });
+    const res = await resetPassword(
+      formState.token,
+      formState.email,
+      formState.password,
+      formState.confirmPassword
+    );
+    router.push({ name: "login" });
   } catch (error) {
     console.log(error);
   } finally {
