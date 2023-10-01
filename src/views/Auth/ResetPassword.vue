@@ -14,10 +14,13 @@ const getTokenFromURL = () => {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get("token") || "";
 };
-
+// Create a function to retrieve the email from local storage
+const getEmailFromLocalStorage = () => {
+  return localStorage.getItem("email") || "";
+};
 const formState = reactive({
   token: getTokenFromURL(), // Get the token value from the URL
-  email: "",
+  email: getEmailFromLocalStorage(), // Get the email value from local storage
   password: "",
   confirmPassword: "",
 });
