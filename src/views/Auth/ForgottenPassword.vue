@@ -10,7 +10,7 @@ const store = useStore();
 const router = useRouter();
 let loading = ref(false);
 const message = ref("");
-let countdown = 0;
+let countdown = ref(0);
 
 const formState = reactive({
   email: "",
@@ -60,19 +60,30 @@ const disableButton = () => {
   const button = document.querySelector(".reset-button");
   button.disabled = true;
   const interval = setInterval(() => {
-    countdown--;
-    if (countdown === 0) {
+    countdown.value--;
+    if (countdown.value <= 0) {
       button.disabled = false;
       clearInterval(interval);
     }
   }, 1000);
 };
 const updateCountdownDisplay = () => {
-  if (countdown > 0) {
-    countdown--;
+  if (countdown.value > 0) {
+    countdown.value--;
   }
 };
+// const startCountdown = () => {
+//   const button = document.querySelector(".reset-button");
+//   button.disabled = true;
 
+//   const interval = setInterval(() => {
+//     countdown--;
+//     if (countdown <= 0) {
+//       button.disabled = false;
+//       clearInterval(interval);
+//     }
+//   }, 1000);
+// };
 const onFinish = async () => {
   loading.value = true;
   if (!validateForm()) {
@@ -86,10 +97,10 @@ const onFinish = async () => {
     localStorage.setItem("email", formState.email);
     // Disable the button for 60 seconds
 
-    countdown = 60;
+    countdown.value = 60;
     disableButton();
     // Start countdown display update
-    setInterval(updateCountdownDisplay, 1000);
+    // setInterval(updateCountdownDisplay, 1000);
   } catch (error) {
     console.log(error);
   } finally {
