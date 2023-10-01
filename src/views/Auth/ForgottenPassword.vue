@@ -67,6 +67,11 @@ const disableButton = () => {
     }
   }, 1000);
 };
+const updateCountdownDisplay = () => {
+  if (countdown > 0) {
+    countdown--;
+  }
+};
 
 const onFinish = async () => {
   loading.value = true;
@@ -80,8 +85,11 @@ const onFinish = async () => {
     // Store the email in local storage after submission
     localStorage.setItem("email", formState.email);
     // Disable the button for 60 seconds
+
     countdown = 60;
     disableButton();
+    // Start countdown display update
+    setInterval(updateCountdownDisplay, 1000);
   } catch (error) {
     console.log(error);
   } finally {
