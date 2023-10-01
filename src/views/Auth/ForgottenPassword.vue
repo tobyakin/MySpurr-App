@@ -10,6 +10,8 @@ const store = useStore();
 const router = useRouter();
 let loading = ref(false);
 const message = ref("");
+let countdown = 0;
+
 const formState = reactive({
   email: "",
 });
@@ -54,6 +56,17 @@ const clearInputErrors = () => {
 watch(formState, () => {
   clearInputErrors();
 });
+const disableButton = () => {
+  const button = document.querySelector(".reset-button");
+  button.disabled = true;
+  const interval = setInterval(() => {
+    countdown--;
+    if (countdown === 0) {
+      button.disabled = false;
+      clearInterval(interval);
+    }
+  }, 1000);
+};
 
 const onFinish = async () => {
   loading.value = true;
@@ -66,6 +79,9 @@ const onFinish = async () => {
     message.value = res.data.message;
     // Store the email in local storage after submission
     localStorage.setItem("email", formState.email);
+    // Disable the button for 60 seconds
+    countdown = 60;
+    disableButton();
   } catch (error) {
     console.log(error);
   } finally {
@@ -80,7 +96,7 @@ const onFinish = async () => {
       class="justify-center w-[80%] mx-auto md:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
     >
       <!-- form input  -->
-      <div v-if="!message" class="py-3">
+      <div class="py-3">
         <h1
           class="md:text-[22.225px] font-EBGaramond400 text-brand my-6 text-center text-2xl"
         >
@@ -109,19 +125,20 @@ const onFinish = async () => {
         <div class="mt-4">
           <button
             @click="onFinish"
-            class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+            class="bg-[#43D0DF] reset-button font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
           >
             <span v-if="!loading">RESET PASSWORD</span>
             <WhiteLoader v-else />
           </button>
         </div>
+        <p
+          v-if="countdown > 0"
+          :class="countdown <= 10 ? 'text-red-500' : 'text-green-500'"
+          class="mt-2 text-center text-[14px] font-Satoshi400"
+        >
+          Resend in {{ countdown }} seconds
+        </p>
       </div>
-      <p
-        v-else
-        class="font-Satoshi400 text-[14.69px] overflow-hidden flex flex-wrap text-[#000]"
-      >
-        {{ message }}
-      </p>
     </div>
   </layout>
 </template>
