@@ -5,14 +5,20 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 import layout from "@/components/layout/LightAuthLayout.vue";
 import ErrorOutline from "@/components/icons/errorOutline.vue";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+
 import { resendEmail } from "@/services/Auth";
+let loading = ref(false);
 
 const email = ref(route.params.email);
 const handleResendEmail = async () => {
+  loading.value = true;
   try {
     const res = await resendEmail(email);
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 };
 </script>
@@ -48,7 +54,8 @@ const handleResendEmail = async () => {
             @click="handleResendEmail"
             class="bg-[#43D0DF] font-Satoshi500 text-[10.14px] uppercase leading-[11.593px] rounded-full p-3 w-full"
           >
-            RESEND EMAIL
+            <span v-if="!loading">RESEND EMAIL</span>
+            <WhiteLoader v-else />
           </button>
           <router-link
             to="/login"
