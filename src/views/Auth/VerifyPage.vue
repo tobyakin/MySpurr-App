@@ -5,7 +5,16 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 import layout from "@/components/layout/LightAuthLayout.vue";
 import ErrorOutline from "@/components/icons/errorOutline.vue";
-const userEmail = ref(route.params.email);
+import { resendEmail } from "@/services/Auth";
+
+const email = ref(route.params.email);
+const handleResendEmail = async () => {
+  try {
+    const res = await resendEmail(email);
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
 
 <template>
@@ -23,7 +32,7 @@ const userEmail = ref(route.params.email);
           class="text-[11.303px] font-Satoshi400 my-4 md:mb-8 overflow-hidden text-[#01181B]"
         >
           We’ve sent a confirmation email to
-          <span class="font-Satoshi700">{{ userEmail }}</span>
+          <span class="font-Satoshi700">{{ email }}</span>
         </p>
         <p
           class="text-[11.303px] flex items-center gap-2 font-Satoshi400 my-4 md:mb-8 text-[#DA5252]"
@@ -36,6 +45,7 @@ const userEmail = ref(route.params.email);
         </p>
         <div class="mt-8 flex justify-between gap-6">
           <button
+            @click="handleResendEmail"
             class="bg-[#43D0DF] font-Satoshi500 text-[10.14px] uppercase leading-[11.593px] rounded-full p-3 w-full"
           >
             RESEND EMAIL

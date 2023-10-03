@@ -192,6 +192,21 @@ export const resetPassword = async (token,email,password, password_confirmation)
     throw error
   }
 }
+// reset password
+export const resendEmail = async (email ) => {
+  let data = {
+    email,
+  }
+
+  try {
+    let res = await axios.post('resend', data)
+    catchAxiosSuccess(res)
+    return res
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
 
 export const getToken = () => {
 
