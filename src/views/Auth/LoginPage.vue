@@ -10,6 +10,15 @@ import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 const store = useStore();
 const router = useRouter();
 let loading = ref(false);
+const getVerificationStatusFromURL = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const verificationParam = urlParams.get("verification");
+  return verificationParam === "true"; // Convert the value to a boolean
+};
+const state = reactive({
+  status: getVerificationStatusFromURL(),
+});
+
 const formState = reactive({
   email: "",
   password: "",
@@ -108,7 +117,7 @@ const toggleShowPassword = () => {
 </script>
 
 <template>
-  <layout :showLandingUrl="true" :showWelcomeMsg="false" class="bg-[#00474F]">
+  <layout :showLandingUrl="true" :showWelcomeMsg="state.status" class="bg-[#00474F]">
     <div
       class="justify-center xl:w-[80%] w-full mx-auto lg:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
     >
