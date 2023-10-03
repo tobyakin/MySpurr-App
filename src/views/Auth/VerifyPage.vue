@@ -1,4 +1,3 @@
-<!-- eslint-disable no-unused-vars -->
 <script setup>
 import { ref } from "vue";
 import { useRoute } from "vue-router";
@@ -15,6 +14,7 @@ const handleResendEmail = async () => {
   loading.value = true;
   try {
     const res = await resendEmail(email.value);
+    console.log(res);
   } catch (error) {
     console.log(error);
   } finally {
