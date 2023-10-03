@@ -2,11 +2,14 @@
 import { ref, onMounted, watch, computed, defineAsyncComponent } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
+import { useSkillsStore } from "@/stores/skills";
 // import GlobalInput from "@/components/ui/GlobalInput.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import Multiselect from "vue-multiselect";
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
+const skillsStore = useSkillsStore();
+const { skills } = storeToRefs(skillsStore);
 
 const OnboardingStore = useOnboardingStore();
 const SelectGroup = defineAsyncComponent(() =>
@@ -26,6 +29,7 @@ const availability = [
   "Contract ",
 ];
 const educationLevel = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
+// const options = skills.value;
 const options = ref([
   { name: "Vue.js" },
   { name: "Adonis" },
