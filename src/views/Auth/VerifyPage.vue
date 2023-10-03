@@ -14,7 +14,7 @@ const email = ref(route.params.email);
 const handleResendEmail = async () => {
   loading.value = true;
   try {
-    const res = await resendEmail(email);
+    const res = await resendEmail(email.value);
   } catch (error) {
     console.log(error);
   } finally {
