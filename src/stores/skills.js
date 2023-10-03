@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { getAllSkills } from '@/services/skills'
+import { getAllSkills } from '@/services/Skills'
 
 export const useSkillsStore = defineStore('skills', () => {
   const skills = ref({})
