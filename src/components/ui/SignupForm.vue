@@ -28,6 +28,14 @@
         placeholder="Last Name"
       />
       <AuthInput
+        v-if="storedTab === 'business'"
+        :error="errors.business_name"
+        :errorsMsg="errorsMsg.business_name"
+        v-model="formData.business_name"
+        type="text"
+        placeholder="Business Name"
+      />
+      <AuthInput
         :error="errors.email"
         :errorsMsg="errorsMsg.email || !isValidEmail"
         v-model="formData.email"
@@ -98,10 +106,11 @@
         </div>
       </div>
       <PasswordInput
+        v-if="storedTab === 'talent'"
         :error="errors.confirmPassword || !passwordsMatch"
         :errorsMsg="errorsMsg.confirmPassword"
         placeholder="Confirm Password*"
-        v-model="formData.confirmPassword"
+        v-model="confirmPassword"
       />
     </div>
     <div class="py-6">
@@ -158,12 +167,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
 import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
-import {
-  registerBusiness,
-  registerTalent,
-  registerBusinessWithGoogle,
-  registerTalentWithGoogle,
-} from "@/services/Auth";
+import { registerBusiness, registerTalent, authWithGoogle } from "@/services/Auth";
 import { useRouter } from "vue-router";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useTabStore } from "@/stores/tab";
@@ -174,6 +178,7 @@ const activeTab = ref(store.activeTab);
 const router = useRouter();
 let loading = ref(false);
 const terms = ref(false);
+const storedTab = localStorage.getItem("activeTab");
 
 const error = reactive({
   terms: "",
@@ -213,6 +218,7 @@ const errors = reactive({
   email: false,
   password: false,
   confirmPassword: false,
+  business_name: false,
 });
 
 const formData = reactive({
@@ -220,21 +226,66 @@ const formData = reactive({
   lastName: "",
   email: "",
   password: "",
-  confirmPassword: "",
+  // confirmPassword: "",
+  // business_name: "",
 });
-
+const confirmPassword = ref("");
+const business_name = ref("");
 const errorsMsg = {
   firstName: "First name is required",
   lastName: "Last name is required",
   email: "Email is required",
   password: "Password is required",
   confirmPassword: "Password does not match",
+  business_name: "Business name is required",
 };
 // Watch for changes in input fields and clear errors when input is valid
 watch(formData, () => {
   clearInputErrors();
 });
+watch(
+  () => storedTab,
+  () => {}
+);
+const validateBusinessForm = () => {
+  // Reset errorsMsg
+  Object.keys(errors).forEach((key) => {
+    errors[key] = false;
+  });
 
+  // Perform validation before submission
+  let isValid = true;
+
+  if (!terms.value) {
+    error.terms = "Please agree to our terms and conditions";
+    isValid = false;
+  }
+
+  Object.keys(formData).forEach((key) => {
+    if (!formData[key]) {
+      errors[key] = true;
+      isValid = false;
+    }
+  });
+  if (!isValidEmail.value) {
+    errors.email = true;
+    errorsMsg.email;
+    isValid = false;
+  }
+
+  if (!isValidPassword.value) {
+    errors.password = true;
+    errorsMsg.password = "Password is required";
+    isValid = false;
+  }
+
+  if (!formData.business_name) {
+    errors.business_name = true;
+    isValid = false;
+  }
+
+  return isValid;
+};
 const validateForm = () => {
   // Reset errorsMsg
   Object.keys(errors).forEach((key) => {
@@ -267,7 +318,7 @@ const validateForm = () => {
     isValid = false;
   }
 
-  if (formData.password !== formData.confirmPassword) {
+  if (formData.password !== confirmPassword.value) {
     errors.confirmPassword = true;
     isValid = false;
   }
@@ -286,7 +337,7 @@ const clearInputErrors = () => {
 };
 
 const passwordsMatch = computed(() => {
-  return formData.password === formData.confirmPassword;
+  return formData.password === confirmPassword.value;
 });
 
 const togglrTerms = () => {
@@ -295,9 +346,9 @@ const togglrTerms = () => {
 };
 
 function handleSignup() {
-  if (activeTab.value == "business") {
+  if (storedTab === "business") {
     handleBusinessSignup();
-  } else if (activeTab.value == "talent") {
+  } else if (storedTab === "talent") {
     handleTalentSignup();
   } else {
     // Handle other cases if needed
@@ -314,8 +365,8 @@ function handleSignupWithGoogle() {
 }
 const handleBusinessSignupWithGoogle = async () => {
   try {
-    const res = await registerBusinessWithGoogle();
-    router.push({ name: "verify" });
+    const res = await authWithGoogle();
+    router.push({ name: "dashboard" });
     console.log(res);
   } catch (error) {
     console.log(error);
@@ -325,8 +376,8 @@ const handleBusinessSignupWithGoogle = async () => {
 };
 const handleTalentSignupWithGoogle = async () => {
   try {
-    const res = await registerTalentWithGoogle();
-    router.push({ name: "verify" });
+    const res = await authWithGoogle();
+    router.push({ name: "dashboard" });
     console.log(res);
   } catch (error) {
     console.log(error);
@@ -338,7 +389,7 @@ const handleTalentSignupWithGoogle = async () => {
 const handleBusinessSignup = async () => {
   console.log("Business signup");
   loading.value = true;
-  if (!validateForm()) {
+  if (!validateBusinessForm()) {
     loading.value = false;
     return;
   }
@@ -347,7 +398,7 @@ const handleBusinessSignup = async () => {
     last_name: formData.lastName,
     email: formData.email,
     password: formData.password,
-    // terms: terms.value,
+    business_name: formData.business_name,
   };
   try {
     const res = await registerBusiness(payload);
