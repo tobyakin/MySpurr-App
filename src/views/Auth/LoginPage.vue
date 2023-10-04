@@ -145,6 +145,7 @@ const toggleShowPassword = () => {
               v-model="formState.email"
               type="email"
               placeholder="Email Address*"
+              @keyup.enter="onFinish"
             />
           </div>
 
@@ -154,6 +155,7 @@ const toggleShowPassword = () => {
               :errorsMsg="errorsMsg.password || !isValidPassword"
               v-model="formState.password"
               placeholder="Password*"
+              @keyup.enter="onFinish"
             />
 
             <div class="relative hidden">
