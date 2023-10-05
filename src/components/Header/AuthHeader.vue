@@ -44,7 +44,6 @@ const landingUrl = import.meta.env.VITE_LANDING_PAGE;
           <div v-if="showLandingUrl" role="button" class="flex gap-2">
             <a
               :href="landingUrl"
-              target="_blank"
               class="font-Satoshi400 flex gap-2 text-center items-center text-white"
             >
               <span>back to website </span>
