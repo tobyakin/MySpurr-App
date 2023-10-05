@@ -7,7 +7,6 @@ import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import Multiselect from "vue-multiselect";
-import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 // const skillsStore = useSkillsStore();
 // const { skills } = storeToRefs(skillsStore);
 
@@ -59,9 +58,9 @@ const emit = defineEmits("next");
 const formState = ref({
   skill_title: "",
   highest_education: "",
-  year_obtained: "",
-  work_history: "",
-  certificate_earned: "",
+  overview: "",
+  location: "",
+  rate: "",
   availability: "",
 });
 const isFormValid = computed(() => {
@@ -69,9 +68,9 @@ const isFormValid = computed(() => {
     formState.value.skill_title.trim() !== "" &&
     top_skills.value.length >= 0 && // Check if top_skills is not empty
     formState.value.highest_education.trim() !== "" &&
-    formState.value.year_obtained.trim() !== "" &&
-    formState.value.work_history.trim() !== "" &&
-    formState.value.certificate_earned.trim() !== "" &&
+    formState.value.overview.trim() !== "" &&
+    formState.value.location.trim() !== "" &&
+    formState.value.rate.trim() !== "" &&
     formState.value.availability.trim() !== ""
   );
 });
@@ -85,14 +84,14 @@ const onFinish = async () => {
     skill_title: formState.value.skill_title,
     top_skills: top_skills.value,
     highest_education: formState.value.highest_education,
-    year_obtained: formState.value.year_obtained,
-    work_history: formState.value.work_history,
-    certificate_earned: formState.value.certificate_earned,
+    overview: formState.value.overview,
+    location: formState.value.location,
+    rate: formState.value.rate,
     availability: formState.value.availability,
   };
   try {
-    const res = await OnboardingStore.submitTalentWorkDetails(payload);
-    console.log(res);
+    // const res = await OnboardingStore.submitTalentWorkDetails(payload);
+    console.log(payload);
     next();
   } catch (error) {
     console.log(error);
@@ -111,8 +110,8 @@ const onFinish = async () => {
       <p
         class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
       >
-        Please provide your work details, it will be used to complete your profile on
-        MySpurr.
+        Please provide details fo your most recent work detail. You will have a chance to
+        add to this when your onboarding as been completed
       </p>
       <div
         class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
@@ -125,6 +124,26 @@ const onFinish = async () => {
             v-model="formState.skill_title"
             class="bg-transparent border-none"
             placeholder="Graphics Designer"
+            type="text"
+            required
+          />
+        </div>
+        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-3.5">
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Overview</label>
+          <textarea
+            v-model="formState.overview"
+            rows="4"
+            class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
+            required
+            placeholder="Give a brief description about yourself"
+          />
+        </div>
+        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Location</label>
+          <GlobalInput
+            v-model="formState.location"
+            class="bg-transparent border-none"
+            placeholder=""
             type="text"
             required
           />
@@ -166,45 +185,7 @@ const onFinish = async () => {
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >What year was it obtained?</label
-          >
-          <SelectGroup
-            v-model="formState.year_obtained"
-            DropdownItem="year"
-            placeholder=" year"
-            :items="years"
-            name=""
-            required
-            class="w-full flex border-none"
-          />
-        </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >What is your most recent work history</label
-          >
-          <GlobalInput
-            v-model="formState.work_history"
-            class="bg-transparent border-none"
-            placeholder=""
-            type="text"
-            required
-          />
-        </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >What is your most recent certificate earned?</label
-          >
-          <GlobalInput
-            v-model="formState.certificate_earned"
-            class="bg-transparent border-none"
-            placeholder="Specialization in digital marketing"
-            type="text"
-            required
-          />
-        </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Select availability
+            >Employment type
           </label>
           <SelectGroup
             v-model="formState.availability"
@@ -214,6 +195,18 @@ const onFinish = async () => {
             required
             name=""
             class="bg-transparent border-none"
+          />
+        </div>
+        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            >Rate /yr ($)</label
+          >
+          <GlobalInput
+            v-model="formState.rate"
+            class="bg-transparent border-none"
+            placeholder="$100"
+            type="number"
+            required
           />
         </div>
       </div>
@@ -226,73 +219,9 @@ const onFinish = async () => {
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
         class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
-        Update work details
+        Next
       </button>
     </div>
-    <CenteredModalLarge class="!hidden"
-      ><p>What is your most recent work history</p>
-      <div
-        class="border-[0.737px] w-full border-[#254035AB] mt-6 rounded-[5.897px] p-4 py-1.5"
-      >
-        <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Title </label>
-        <GlobalInput
-          v-model="formState.skill_title"
-          class="bg-transparent border-none"
-          placeholder="Graphics Designer"
-          type="text"
-          required
-        />
-      </div>
-      <div class="flex w-full mt-8 gap-4">
-        <div
-          class="border-[0.737px] w-full border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Start date</label
-          >
-          <GlobalInput
-            v-model="formState.skill_title"
-            class="bg-transparent border-none"
-            placeholder="Graphics Designer"
-            type="date"
-            required
-          />
-        </div>
-        <div
-          class="border-[0.737px] w-full border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">End date</label>
-          <GlobalInput
-            v-model="formState.skill_title"
-            class="bg-transparent border-none"
-            placeholder="Graphics Designer"
-            type="date"
-            required
-          />
-        </div>
-      </div>
-
-      <div
-        class="border-[0.737px] w-full border-[#254035AB] mt-6 rounded-[5.897px] p-4 py-1.5"
-      >
-        <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Description</label>
-        <textarea
-          v-model="formState.portfolio_description"
-          rows="4"
-          class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
-          required
-          placeholder="Give a brief description about the job, what was done?, how was it done?, what was the impact?"
-        />
-      </div>
-      <div class="flex flex-row gap-5 pb-8 mt-5">
-        <button
-          type="submit"
-          class="font-Satoshi500 text-white text-[14px] bg-[#43D0DF] uppercase leading-[11.593px] rounded-full p-5 w-full"
-        >
-          Done
-        </button>
-      </div>
-    </CenteredModalLarge>
   </form>
 </template>
 <style>

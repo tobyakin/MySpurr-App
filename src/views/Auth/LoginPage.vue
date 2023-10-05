@@ -3,7 +3,7 @@ import { useStore } from "@/stores/user";
 import { ref, reactive, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
-import { login, loginWithGoogle, registerTalentWithGoogle } from "@/services/Auth";
+import { login, authWithGoogle } from "@/services/Auth";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
 import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
@@ -18,7 +18,6 @@ const getVerificationStatusFromURL = () => {
 const state = reactive({
   status: getVerificationStatusFromURL(),
 });
-
 const formState = reactive({
   email: "",
   password: "",
@@ -89,8 +88,6 @@ const onFinish = async () => {
     const res = await login(formState.email, formState.password);
     store.saveUser(res.data);
     router.push({ name: "dashboard" });
-    console.log(res.data);
-    console.log(res.data.portofolio);
   } catch (error) {
     console.log(error);
   } finally {
@@ -98,10 +95,10 @@ const onFinish = async () => {
   }
 };
 
-const loginWithGoogleApi = async () => {
+const loginWithGoogle = async () => {
   loading.value = true;
   try {
-    const res = await registerTalentWithGoogle();
+    let res = await authWithGoogle();
     store.saveUser(res.data);
     router.push({ name: "dashboard" });
   } catch (error) {
@@ -129,7 +126,7 @@ const toggleShowPassword = () => {
           Log in
         </h1>
         <button
-          @click="click"
+          @click="loginWithGoogle"
           class="w-full flex justify-center gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
         >
           <img class="w-[7%]" src="@/assets/svg/googleIcon.svg" alt="" />
@@ -140,7 +137,6 @@ const toggleShowPassword = () => {
           <p class="text-white lg:text-black">OR</p>
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
         </div>
-
         <div class="flex flex-col gap-4">
           <div>
             <AuthInput
@@ -149,6 +145,7 @@ const toggleShowPassword = () => {
               v-model="formState.email"
               type="email"
               placeholder="Email Address*"
+              @keyup.enter="onFinish"
             />
           </div>
 
@@ -158,6 +155,7 @@ const toggleShowPassword = () => {
               :errorsMsg="errorsMsg.password || !isValidPassword"
               v-model="formState.password"
               placeholder="Password*"
+              @keyup.enter="onFinish"
             />
 
             <div class="relative hidden">

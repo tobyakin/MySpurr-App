@@ -13,8 +13,8 @@
         </h1>
       </header>
       <div v-if="accountType == 'talent'" class="my-4 font-Satoshi400 text-center">
-        Please give us some information to set up your talent dashboard (It'll take less
-        than 3 mins)
+        Please give us some information to set up your talent dashboard. <br />
+        It'll take less than 3 mins
       </div>
       <div v-else class="my-4 font-Satoshi400 text-center">
         Please give us some information to set up your business dashboard (It'll take less
