@@ -195,12 +195,10 @@ const onFinish = async () => {
             />
           </div>
         </div>
-        <div class="flex gap-3 items-center">
-          <Input
+        <div class="flex gap-3 justify-start items-center">
+          <input
             class="bg-transparent !border-[0.737px] !border-[#254035AB] rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
-            placeholder=""
             type="checkbox"
-            required
           />
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >I am currently still schooling here
