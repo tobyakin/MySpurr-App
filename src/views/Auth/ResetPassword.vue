@@ -132,7 +132,7 @@ const onFinish = async () => {
           </div>
         </div>
         <div class="mt-4 text-left">
-          <p class="font-Satoshi400 text-[9.69px] text-[#000]">
+          <p class="font-Satoshi400 text-[12.69px] text-[#000]">
             If you have an account with MySpurr, a reset password link has been sent to
             your email. Please click the link to verify your account.
           </p>
