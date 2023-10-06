@@ -1,63 +1,45 @@
 <script setup>
-import { ref, computed, defineAsyncComponent, onMounted } from "vue";
+import { ref, computed, defineAsyncComponent, onMounted, watch } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
+import dayjs from "dayjs";
 const SelectGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/SelectGroup.vue")
 );
 
 const OnboardingStore = useOnboardingStore();
 
-const { step } = storeToRefs(OnboardingStore);
+const { step, certificate } = storeToRefs(OnboardingStore);
 let store = useStore();
 console.log(store.getUser);
 let loading = ref(false);
-const years = ref([]);
-
-onMounted(() => {
-  // Populate the years array with a range of years, e.g., from 2000 to the current year.
-  const currentYear = new Date().getFullYear();
-  for (let year = currentYear; year >= 1950; year--) {
-    years.value.push(year.toString());
-  }
-});
 
 const emit = defineEmits("next");
 const formState = ref({
-  school: "",
-  degree: "",
-  field_of_study: "",
-  start_date: "",
-  end_date: "",
+  certificate_date: "",
+  certificate_year: "",
 });
 const isFormValid = computed(() => {
   return (
-    formState.value.school.trim() !== "" &&
-    formState.value.degree.trim() !== "" &&
-    formState.value.field_of_study.trim() !== "" &&
-    formState.value.start_date.trim() !== "" &&
-    formState.value.end_date.trim() !== ""
+    certificate.value.title.trim() !== "" &&
+    certificate.value.institute.trim() !== "" &&
+    certificate.value.certificate_date.trim() !== "" &&
+    certificate.value.certificate_link.trim() !== "" &&
+    certificate.value.certificate_year.trim() !== ""
   );
 });
 
 const next = () => {
   emit("next", step.value + 1);
 };
+
 const onFinish = async () => {
   loading.value = true;
-  let payload = {
-    school: formState.value.school,
-    degree: formState.value.degree,
-    field_of_study: formState.value.field_of_study,
-    start_date: formState.value.start_date,
-    end_date: formState.value.end_date,
-    availability: formState.value.availability,
-  };
   try {
-    // const res = await OnboardingStore.submitTalentWorkDetails(payload);
-    console.log(payload);
+    const res = await OnboardingStore.submitTalentWorkDetails();
+    console.log(res);
     next();
   } catch (error) {
     console.log(error);
@@ -65,6 +47,20 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
+
+const CertificateDate = computed(() => {
+  return dayjs(formState.value.certificate_date).format("YYYY-MM-DD");
+});
+const CertificateYear = computed(() => {
+  return dayjs(formState.value.certificate_year).format("YYYY");
+});
+
+watch(CertificateDate, (newCertificateDate) => {
+  certificate.value.certificate_date = newCertificateDate;
+});
+watch(CertificateYear, (newCertificateYear) => {
+  certificate.value.certificate_year = newCertificateYear;
+});
 </script>
 
 <template>
@@ -85,6 +81,7 @@ const onFinish = async () => {
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Title</label>
           <GlobalInput
+            v-model="certificate.title"
             class="bg-transparent border-none"
             placeholder=""
             type="text"
@@ -96,6 +93,7 @@ const onFinish = async () => {
             >Institution obtained from
           </label>
           <GlobalInput
+            v-model="certificate.institute"
             class="bg-transparent border-none"
             placeholder=""
             type="text"
@@ -106,26 +104,21 @@ const onFinish = async () => {
         <div
           class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
-          <!-- <div class="w-full">
+          <div class="w-full flex flex-col gap-2 justify-between">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"> Date</label>
-            <GlobalInput
-              class="bg-transparent border-none"
-              placeholder=""
-              type="text"
-              required
+            <a-date-picker
+              :bordered="false"
+              v-model:value="formState.certificate_date"
+              class="bg-transparent border-none !outline-none w-full shadow-none"
             />
-          </div> -->
-          <!-- <div
-            class="border-l-[0.737px] border-l-[#254035AB] flex h-full mt-6 py-4"
-          ></div> -->
-          <div class="w-full">
+          </div>
+          <div class="w-full flex flex-col gap-2 justify-between">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Year</label>
-            <SelectGroup
-              class="bg-transparent border-none"
-              placeholder="year"
-              :items="years"
-              required
-              name=""
+            <a-date-picker
+              picker="year"
+              :bordered="false"
+              v-model:value="formState.certificate_year"
+              class="bg-transparent border-none !outline-none w-full shadow-none"
             />
           </div>
         </div>
@@ -134,12 +127,23 @@ const onFinish = async () => {
             >Link to certificate (optional)</label
           >
           <GlobalInput
+            v-model="certificate.certificate_link"
             class="bg-transparent border-none"
             placeholder=""
-            type="text"
+            type="link"
             required
           />
         </div>
+        <!-- <div class="flex gap-3 justify-start items-center">
+          <input
+            class="bg-transparent !border-[0.737px] !border-[#254035AB] rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
+            type="checkbox"
+            required
+          />
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            >I am under going role
+          </label>
+        </div> -->
       </div>
     </div>
     <div class="flex flex-row gap-5 pb-8 mt-5">

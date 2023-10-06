@@ -15,12 +15,23 @@ const SelectGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/SelectGroup.vue")
 );
 
-const { step } = storeToRefs(OnboardingStore);
+const {
+  step,
+  skill_title,
+  highest_education,
+  overview,
+  location,
+  rate,
+  availability,
+  top_skills,
+  employment_type,
+} = storeToRefs(OnboardingStore);
 let store = useStore();
 console.log(store.getUser);
-let loading = ref(false);
-const top_skills = ref([]);
-const availability = [
+// let loading = ref(false);
+// const top_skills = ref([]);
+const availabilityData = ["Immediately", "One week"];
+const employmentType = [
   "Freelance",
   "Full-time ",
   "Part-time ",
@@ -55,49 +66,29 @@ onMounted(() => {
 });
 
 const emit = defineEmits("next");
-const formState = ref({
-  skill_title: "",
-  highest_education: "",
-  overview: "",
-  location: "",
-  rate: "",
-  availability: "",
-});
+// const formState = ref({
+//   skill_title: "",
+//   highest_education: "",
+//   overview: "",
+//   location: "",
+//   rate: "",
+//   availability: "",
+// });
 const isFormValid = computed(() => {
   return (
-    formState.value.skill_title.trim() !== "" &&
+    skill_title.value.trim() !== "" &&
     top_skills.value.length >= 0 && // Check if top_skills is not empty
-    formState.value.highest_education.trim() !== "" &&
-    formState.value.overview.trim() !== "" &&
-    formState.value.location.trim() !== "" &&
-    formState.value.rate.trim() !== "" &&
-    formState.value.availability.trim() !== ""
+    highest_education.value.trim() !== "" &&
+    overview.value.trim() !== "" &&
+    location.value.trim() !== "" &&
+    rate.value.trim() !== "" &&
+    employment_type.value.trim() !== "" &&
+    availability.value.trim() !== ""
   );
 });
 
 const next = () => {
   emit("next", step.value + 1);
-};
-const onFinish = async () => {
-  loading.value = true;
-  let payload = {
-    skill_title: formState.value.skill_title,
-    top_skills: top_skills.value,
-    highest_education: formState.value.highest_education,
-    overview: formState.value.overview,
-    location: formState.value.location,
-    rate: formState.value.rate,
-    availability: formState.value.availability,
-  };
-  try {
-    // const res = await OnboardingStore.submitTalentWorkDetails(payload);
-    console.log(payload);
-    next();
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loading.value = false;
-  }
 };
 </script>
 
@@ -121,7 +112,7 @@ const onFinish = async () => {
             >Skill title</label
           >
           <GlobalInput
-            v-model="formState.skill_title"
+            v-model="skill_title"
             class="bg-transparent border-none"
             placeholder="Graphics Designer"
             type="text"
@@ -131,7 +122,7 @@ const onFinish = async () => {
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-3.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Overview</label>
           <textarea
-            v-model="formState.overview"
+            v-model="overview"
             rows="4"
             class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
             required
@@ -141,7 +132,7 @@ const onFinish = async () => {
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Location</label>
           <GlobalInput
-            v-model="formState.location"
+            v-model="location"
             class="bg-transparent border-none"
             placeholder=""
             type="text"
@@ -174,7 +165,7 @@ const onFinish = async () => {
             >What is your highest level of education?</label
           >
           <SelectGroup
-            v-model="formState.highest_education"
+            v-model="highest_education"
             DropdownItem="level of education"
             placeholder=""
             :items="educationLevel"
@@ -188,10 +179,24 @@ const onFinish = async () => {
             >Employment type
           </label>
           <SelectGroup
-            v-model="formState.availability"
+            v-model="employment_type"
             DropdownItem=""
-            :items="availability"
-            placeholder=""
+            :items="employmentType"
+            placeholder="Employment type"
+            required
+            name=""
+            class="bg-transparent border-none"
+          />
+        </div>
+        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            >Availability
+          </label>
+          <SelectGroup
+            v-model="availability"
+            DropdownItem=""
+            :items="availabilityData"
+            placeholder="Availability"
             required
             name=""
             class="bg-transparent border-none"
@@ -202,7 +207,7 @@ const onFinish = async () => {
             >Rate /yr ($)</label
           >
           <GlobalInput
-            v-model="formState.rate"
+            v-model="rate"
             class="bg-transparent border-none"
             placeholder="$100"
             type="number"
@@ -213,8 +218,7 @@ const onFinish = async () => {
     </div>
     <div class="flex flex-row gap-5 pb-8 mt-5">
       <button
-        @click="onFinish"
-        type="submit"
+        @click="next"
         :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
         class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"

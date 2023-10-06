@@ -5,7 +5,7 @@
         class="flex font-Satoshi400 text-[14.908px] justify-center items-center lg:w-[50%] gap-1"
       >
         <TickCircle class="text-[#43D0DF]" />
-        <p>Create an account</p>
+        <p class="mb-0">Create an account</p>
       </div>
       <div class="flex items-center justify-around mx-auto w-auto">
         <hr class="border-b-[#000000] lg:w-[191.862px] border-b-[0.932px]" />
@@ -14,7 +14,7 @@
         class="flex font-Satoshi400 text-[14.908px] overflow-hidden items-center justify-center lg:w-[50%] gap-1"
       >
         <TickCircle :class="step >= 4 ? 'text-[#43D0DF]' : 'text-[#B2ECF2]'" />
-        <p>Your Profile details</p>
+        <p class="mb-0">Your Profile details</p>
       </div>
       <!-- <div class="flex items-center justify-around w-auto">
         <hr class="border-b-[#000000] w-[41.862px] border-b-[0.932px]" />

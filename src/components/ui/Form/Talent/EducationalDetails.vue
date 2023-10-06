@@ -1,85 +1,56 @@
 <script setup>
-import { ref, computed, defineAsyncComponent, onMounted } from "vue";
+import { ref, computed, defineAsyncComponent, onMounted, watch } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import Input from "@/components/ui/Form/Input/Input.vue";
 import { storeToRefs } from "pinia";
+import dayjs from "dayjs";
 const SelectGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/SelectGroup.vue")
 );
 
 const OnboardingStore = useOnboardingStore();
 
-const { step } = storeToRefs(OnboardingStore);
+const { step, education } = storeToRefs(OnboardingStore);
 let store = useStore();
 console.log(store.getUser);
-let loading = ref(false);
-const years = ref([]);
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-onMounted(() => {
-  // Populate the years array with a range of years, e.g., from 2000 to the current year.
-  const currentYear = new Date().getFullYear();
-  for (let year = currentYear; year >= 1950; year--) {
-    years.value.push(year.toString());
-  }
-});
 
 const emit = defineEmits("next");
 const formState = ref({
-  school: "",
-  degree: "",
-  field_of_study: "",
-  start_date: { date: "", year: "" },
-  end_date: { date: "", year: "" },
+  start_date: "",
+  end_date: "",
 });
 const isFormValid = computed(() => {
   return (
-    formState.value.school.trim() !== "" &&
-    formState.value.degree.trim() !== "" &&
-    formState.value.field_of_study.trim() !== "" &&
-    formState.value.start_date.trim() !== "" &&
-    formState.value.end_date.trim() !== ""
+    education.value.school_name.trim() !== "" &&
+    education.value.degree.trim() !== "" &&
+    education.value.field_of_study.trim() !== "" &&
+    education.value.start_date !== "" &&
+    education.value.end_date !== ""
   );
 });
 
 const next = () => {
   emit("next", step.value + 1);
 };
-const onFinish = async () => {
-  loading.value = true;
-  let payload = {
-    school: formState.value.school,
-    degree: formState.value.degree,
-    field_of_study: formState.value.field_of_study,
-    start_date: formState.value.start_date,
-    end_date: formState.value.end_date,
-    availability: formState.value.availability,
-  };
-  try {
-    // const res = await OnboardingStore.submitTalentWorkDetails(payload);
-    console.log(payload);
-    next();
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loading.value = false;
-  }
-};
+// Create computed properties to format and update StartDate and EndDate
+const StartDate = computed(() => {
+  return dayjs(formState.value.start_date).format("YYYY-MM-DD");
+});
+
+const EndDate = computed(() => {
+  return dayjs(formState.value.end_date).format("YYYY-MM-DD");
+});
+
+// Update employment_details.value.end_date when EndDate changes
+watch(EndDate, (newEndDate) => {
+  education.value.end_date = newEndDate;
+});
+// Update employment_details.value.start_date when StartDate changes
+watch(StartDate, (newStartDate) => {
+  education.value.start_date = newStartDate;
+});
 </script>
 
 <template>
@@ -100,7 +71,7 @@ const onFinish = async () => {
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">School</label>
           <GlobalInput
-            v-model="formState.school"
+            v-model="education.school_name"
             class="bg-transparent border-none"
             placeholder=""
             type="text"
@@ -110,7 +81,7 @@ const onFinish = async () => {
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Degree</label>
           <GlobalInput
-            v-model="formState.degree"
+            v-model="education.degree"
             class="bg-transparent border-none"
             placeholder=""
             type="text"
@@ -122,7 +93,7 @@ const onFinish = async () => {
             >Field of Study</label
           >
           <GlobalInput
-            v-model="formState.field_of_study"
+            v-model="education.field_of_study"
             class="bg-transparent border-none"
             placeholder=""
             type="text"
@@ -132,66 +103,28 @@ const onFinish = async () => {
         <div
           class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
-          <div class="w-full">
+          <div class="w-full flex flex-col gap-2 justify-between">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
               >Start Date</label
             >
-            <SelectGroup
-              class="bg-transparent border-none"
-              placeholder="month"
-              :items="monthNames"
-              required
-              name=""
-            />
-          </div>
-          <div
-            class="border-l-[0.737px] border-l-[#254035AB] flex h-full mt-6 py-4"
-          ></div>
-          <div class="w-full">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Year</label>
-            <SelectGroup
-              class="bg-transparent border-none"
-              placeholder="year"
-              :items="years"
-              required
-              name=""
+            <a-date-picker
+              :bordered="false"
+              v-model:value="formState.start_date"
+              class="bg-transparent border-none !outline-none w-full shadow-none"
             />
           </div>
         </div>
         <div
           class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
-          <div class="w-full">
+          <div class="w-full flex flex-col gap-2 justify-between">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
               >End Date</label
             >
-            <SelectGroup
-              placeholder="month"
-              required
-              name=""
-              :items="monthNames"
-              class="bg-transparent border-none"
-            />
-
-            <!-- <GlobalInput
-              v-model="formState.end_date.date"
-              class="bg-transparent border-none"
-              placeholder=""
-              type=""
-              required
-            /> -->
-          </div>
-          <div
-            class="border-l-[0.737px] border-l-[#254035AB] flex h-full mt-6 py-4"
-          ></div>
-          <div class="w-full">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Year</label>
-            <SelectGroup
-              class="bg-transparent border-none"
-              placeholder="year"
-              :items="years"
-              required
-              name=""
+            <a-date-picker
+              :bordered="false"
+              v-model:value="formState.end_date"
+              class="bg-transparent border-none !outline-none w-full shadow-none"
             />
           </div>
         </div>
@@ -208,8 +141,8 @@ const onFinish = async () => {
     </div>
     <div class="flex flex-row gap-5 pb-8 mt-5">
       <button
-        @click="onFinish"
-        type="submit"
+        @click="next"
+        :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
         class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
