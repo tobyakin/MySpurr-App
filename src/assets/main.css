@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+p{
+  @apply font-Satoshi400 !mb-0
+}
 
 .container {
   max-width: 1200px;
