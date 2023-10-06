@@ -57,7 +57,8 @@ export const registerBusiness = async (payload) => {
 export const authWithGoogle = async () => {
 
   try {
-    let res = await axios.get('auth/talent/google')
+    const res = 'https://myspurr.azurewebsites.net/api/v1/auth/talent/google'
+    window.location.href = res
     catchAxiosSuccess(res)
     return res
   } catch (error) {
