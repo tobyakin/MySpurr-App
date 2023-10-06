@@ -1,141 +1,139 @@
 <script setup>
-import { useStore } from '@/stores/user'
-import { ref, reactive, watch, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import layout from '@/components/layout/AuthLayout.vue'
-import { login, authWithGoogle } from '@/services/Auth'
-import PasswordInput from '@/components/ui/PasswordInput.vue'
-import AuthInput from '@/components/ui/Form/Input/AuthInput.vue'
-import WhiteLoader from '@/components/ui/WhiteLoader.vue'
-const store = useStore()
-const router = useRouter()
-let loading = ref(false)
+import { useStore } from "@/stores/user";
+import { ref, reactive, watch, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import layout from "@/components/layout/AuthLayout.vue";
+import { login, authWithGoogle } from "@/services/Auth";
+import PasswordInput from "@/components/ui/PasswordInput.vue";
+import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+const store = useStore();
+const router = useRouter();
+let loading = ref(false);
 const getVerificationStatusFromURL = () => {
-  const urlParams = new URLSearchParams(window.location.search)
-  const verificationParam = urlParams.get('verification')
-  return verificationParam === 'true' // Convert the value to a boolean
-}
+  const urlParams = new URLSearchParams(window.location.search);
+  const verificationParam = urlParams.get("verification");
+  return verificationParam === "true"; // Convert the value to a boolean
+};
 // Define refs for your URL parameters and structure them
 const user = reactive({
   data: {
     portfolio: false,
-    token: '',
+    token: "",
     user: {
-      status: '',
-      type: ''
+      status: "",
+      type: "",
     },
-    work_details: false
+    work_details: false,
   },
   message: null,
-  status: ''
-})
+  status: "",
+});
 
 const state = reactive({
-  status: getVerificationStatusFromURL()
-})
+  status: getVerificationStatusFromURL(),
+});
 const formState = reactive({
-  email: '',
-  password: ''
-})
-const showPassword = ref(false)
+  email: "",
+  password: "",
+});
+const showPassword = ref(false);
 const errors = reactive({
   email: false,
-  password: false
-})
+  password: false,
+});
 const errorsMsg = {
-  email: 'email is required',
-  password: ''
-}
+  email: "email is required",
+  password: "",
+};
 const isValidEmail = computed(() => {
-  return formState.email.trim() !== ''
-})
+  return formState.email.trim() !== "";
+});
 
 const isValidPassword = computed(() => {
-  return formState.password.trim() !== ''
-})
+  return formState.password.trim() !== "";
+});
 
 const validateForm = () => {
   // Reset errorsMsg
   Object.keys(errors).forEach((key) => {
-    errors[key] = false
-  })
+    errors[key] = false;
+  });
 
   // Perform validation before submission
-  let isValid = true
+  let isValid = true;
 
   if (!isValidEmail.value) {
-    errors.email = true
-    errorsMsg.email = 'Email is required'
-    isValid = false
+    errors.email = true;
+    errorsMsg.email = "Email is required";
+    isValid = false;
   }
 
   if (!isValidPassword.value) {
-    errors.password = true
-    errorsMsg.password = 'Password is required'
-    isValid = false
+    errors.password = true;
+    errorsMsg.password = "Password is required";
+    isValid = false;
   }
 
-  return isValid // Only return false if there are validation errors
-}
+  return isValid; // Only return false if there are validation errors
+};
 
 const clearInputErrors = () => {
   Object.keys(errors).forEach((key) => {
-    errors[key] = false
-  })
+    errors[key] = false;
+  });
 
   Object.keys(errorsMsg).forEach((key) => {
-    errorsMsg[key] = ''
-  })
-}
+    errorsMsg[key] = "";
+  });
+};
 
 watch(formState, () => {
-  clearInputErrors()
-})
+  clearInputErrors();
+});
 
 const onFinish = async () => {
-  loading.value = true
+  loading.value = true;
   if (!validateForm()) {
-    loading.value = false
-    return
+    loading.value = false;
+    return;
   }
 
   try {
-    const res = await login(formState.email, formState.password)
-    store.saveUser(res.data)
-    router.push({ name: 'dashboard' })
+    const res = await login(formState.email, formState.password);
+    store.saveUser(res.data);
+    router.push({ name: "dashboard" });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const loginWithGoogle = async () => {
-  loading.value = true
+  loading.value = true;
 
   try {
-    const res = authWithGoogle()
-    // store.saveUser(user);
-    // router.push({ name: "dashboard" });
+    const res = authWithGoogle();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const toggleShowPassword = () => {
-  showPassword.value = !showPassword.value
-}
+  showPassword.value = !showPassword.value;
+};
 onMounted(() => {
-  const urlString = window.location.href
-  const urlParams = new URLSearchParams(urlString)
-  user.data.portfolio = urlParams.get('portfolio') === 'true'
-  user.data.token = urlParams.get('token') || ''
-  user.data.user.status = urlParams.get('user[status]') || ''
-  user.data.user.type = urlParams.get('user[type]') || ''
-  user.data.work_details = urlParams.get('work_details') === 'true'
-  user.status = urlParams.get('status') || ''
+  const urlString = window.location.href;
+  const urlParams = new URLSearchParams(urlString);
+  user.data.portfolio = urlParams.get("portfolio") === "true";
+  user.data.token = urlParams.get("token") || "";
+  user.data.user.status = urlParams.get("user[status]") || "";
+  user.data.user.type = urlParams.get("user[type]") || "";
+  user.data.work_details = urlParams.get("work_details") === "true";
+  user.status = urlParams.get("status") || "";
   // Check if the user data has values and then save it to the store
   if (
     user.data.portfolio ||
@@ -145,11 +143,11 @@ onMounted(() => {
     user.data.work_details ||
     user.status
   ) {
-    store.saveUser(user)
+    store.saveUser(user);
     // Redirect to the "dashboard" route
-    router.push({ name: 'dashboard' })
+    router.push({ name: "dashboard" });
   }
-})
+});
 </script>
 
 <template>

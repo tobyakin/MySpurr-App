@@ -1,13 +1,10 @@
 <script setup>
-import { ref, computed, defineAsyncComponent, onMounted, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import dayjs from "dayjs";
-const SelectGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/SelectGroup.vue")
-);
 
 const OnboardingStore = useOnboardingStore();
 
@@ -134,16 +131,6 @@ watch(CertificateYear, (newCertificateYear) => {
             required
           />
         </div>
-        <!-- <div class="flex gap-3 justify-start items-center">
-          <input
-            class="bg-transparent !border-[0.737px] !border-[#254035AB] rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
-            type="checkbox"
-            required
-          />
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >I am under going role
-          </label>
-        </div> -->
       </div>
     </div>
     <div class="flex flex-row gap-5 pb-8 mt-5">

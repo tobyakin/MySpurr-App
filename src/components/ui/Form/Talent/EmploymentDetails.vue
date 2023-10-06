@@ -1,15 +1,11 @@
 <script setup>
-import { ref, onMounted, watch, computed, defineAsyncComponent } from "vue";
+import { ref, watch, computed } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
-import Input from "@/components/ui/Form/Input/Input.vue";
 import { storeToRefs } from "pinia";
 import dayjs from "dayjs";
 const OnboardingStore = useOnboardingStore();
-const SelectGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/SelectGroup.vue")
-);
 
 const { step, employment_details } = storeToRefs(OnboardingStore);
 let store = useStore();
