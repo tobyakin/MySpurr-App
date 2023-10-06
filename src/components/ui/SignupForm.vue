@@ -164,7 +164,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive, watch, computed, onMounted } from "vue";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
 import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import { registerBusiness, registerTalent, authWithGoogle } from "@/services/Auth";
@@ -178,7 +178,7 @@ const activeTab = ref(store.activeTab);
 const router = useRouter();
 let loading = ref(false);
 const terms = ref(false);
-const storedTab = localStorage.getItem("activeTab");
+const storedTab = localStorage.getItem("activeTab") || "talent";
 
 const error = reactive({
   terms: "",
@@ -219,6 +219,20 @@ const errors = reactive({
   password: false,
   confirmPassword: false,
   business_name: false,
+});
+// Define refs for your URL parameters and structure them
+const user = reactive({
+  data: {
+    portfolio: false,
+    token: "",
+    user: {
+      status: "",
+      type: "",
+    },
+    work_details: false,
+  },
+  message: null,
+  status: "",
 });
 
 const formData = reactive({
@@ -375,16 +389,39 @@ const handleBusinessSignupWithGoogle = async () => {
   }
 };
 const handleTalentSignupWithGoogle = async () => {
+  loading.value = true;
+
   try {
-    const res = await authWithGoogle();
-    router.push({ name: "dashboard" });
-    console.log(res);
+    const res = authWithGoogle();
   } catch (error) {
     console.log(error);
   } finally {
     loading.value = false;
   }
 };
+onMounted(() => {
+  const urlString = window.location.href;
+  const urlParams = new URLSearchParams(urlString);
+  user.data.portfolio = urlParams.get("portfolio") === "true";
+  user.data.token = urlParams.get("token") || "";
+  user.data.user.status = urlParams.get("user[status]") || "";
+  user.data.user.type = urlParams.get("user[type]") || "";
+  user.data.work_details = urlParams.get("work_details") === "true";
+  user.status = urlParams.get("status") || "";
+  // Check if the user data has values and then save it to the store
+  if (
+    user.data.portfolio ||
+    user.data.token ||
+    user.data.user.status ||
+    user.data.user.type ||
+    user.data.work_details ||
+    user.status
+  ) {
+    store.saveUser(user);
+    // Redirect to the "dashboard" route
+    router.push({ name: "dashboard" });
+  }
+});
 
 const handleBusinessSignup = async () => {
   console.log("Business signup");
