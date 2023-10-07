@@ -169,6 +169,7 @@ watch(currentPage, (newPage) => {
             </div>
             <div class="flex gap-8">
               <FormGroup
+                v-model="sortInput.jobType"
                 labelClasses="font-Satoshi500 text-[15.606px]"
                 label=" Job Type"
                 name="Name"
