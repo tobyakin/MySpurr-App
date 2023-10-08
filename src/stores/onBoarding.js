@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { handleTalentWorkDetails,handleTalentPortfolio,handleBusinessDetails,handleBusinessPortfolio } from "@/services/Onboarding"
 
@@ -98,6 +98,6 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
       education,
       employment_details,
       certificate,
-      availability
+      availability,
     }
 })

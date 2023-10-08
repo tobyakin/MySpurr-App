@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
@@ -14,72 +14,60 @@ const router = useRouter();
 const OnboardingStore = useOnboardingStore();
 const { step } = storeToRefs(OnboardingStore);
 const emit = defineEmits("next");
-const formState = {
-  company_logo: "",
+const formState = ref({
+  company_logo: null,
   company_type: "",
   social_media: "",
   social_media_two: "",
-};
-
-onMounted(() => {
-  checkVaildlity();
 });
-
-const formVaildlity = ref(false);
-
-watch(
-  () => [
-    formState.company_logo,
-    formState.company_type,
-    formState.social_media,
-    formState.social_media_two,
-  ],
-  () => {
-    checkVaildlity();
-  }
-);
-
-const checkVaildlity = () => {
-  console.log("Checking profile validity...");
-  console.log(formState);
-
-  formVaildlity.value =
-    formState.company_logo &&
-    formState.company_type &&
-    formState.social_media &&
-    formState.social_media_two
-      ? true
-      : false;
-  console.log("Form validity:", formVaildlity.value);
-};
+const isFormValid = computed(() => {
+  return (
+    formState.value.company_logo !== null &&
+    formState.value.company_type.trim() !== "" &&
+    formState.value.social_media.trim() !== "" &&
+    formState.value.social_media_two.trim() !== ""
+  );
+});
 
 const prev = () => {
   emit("prev", step.value - 1);
 };
-const file = ref(null);
 const previewImage = ref(null);
+const uploadFile = () => {
+  formState.value.company_logo = previewImage.value.files[0];
+  showImage();
+};
+
+const showImage = async () => {
+  if (formState.value.company_logo) {
+    previewImage.value = URL.createObjectURL(formState.value.company_logo);
+  } else {
+    previewImage.value = null;
+  }
+};
 
 const onFinish = async () => {
   let payload = {
-    company_type: formState.company_type,
-    social_media: formState.social_media,
-    social_media_two: formState.social_media_two,
+    company_type: formState.value.company_type,
+    social_media: formState.value.social_media,
+    social_media_two: formState.value.social_media_two,
   };
-  console.log(file.value);
+  console.log(formState.value.company_logo);
   const formData = new FormData();
 
-  if (file.value) {
+  if (formState.value.company_logo) {
     // Convert the selected image to base64 and append it to the FormData
     const reader = new FileReader();
     reader.onload = (event) => {
       formData.append("company_logo", event.target.result);
       submitForm(formData, payload);
     };
-    reader.readAsDataURL(file.value);
+    reader.readAsDataURL(formState.value.company_logo);
   } else {
     submitForm(formData, payload);
   }
 };
+
 const submitForm = async (formData, payload) => {
   Object.entries(payload).forEach(([key, value]) => {
     formData.append(key, value);
@@ -91,17 +79,6 @@ const submitForm = async (formData, payload) => {
     return res;
   } catch (error) {
     console.log(error);
-  }
-};
-const uploadFile = () => {
-  file.value = previewImage.value.files[0];
-  showImage();
-};
-const showImage = async () => {
-  if (file.value) {
-    previewImage.value = URL.createObjectURL(file.value);
-  } else {
-    previewImage.value = null;
   }
 };
 </script>
@@ -127,18 +104,23 @@ const showImage = async () => {
             type="file"
             name=""
             @change="uploadFile"
-            ref="proof_of_id_front_back"
-            accept=""
+            ref="previewImage"
+            accept="image/*"
             id="uploadFile"
             hidden
           />
           <label
             for="uploadFile"
             class="cursor-pointer w-full justify-between flex text-[#01272C] px-4 text-[12px] font-Satoshi400"
-            >Upload company logo <AttachFileIcon
+          >
+            <span v-if="!formState.company_logo">Upload company logo (max 3mb)</span
+            ><span v-if="formState.company_logo">{{ formState.company_logo.name }} </span>
+            <AttachFileIcon
           /></label>
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div
+          class="border-[0.737px] border-[rgba(37,64,53,0.67)] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
             >Company type - startup, agency, corporation</label
           >
@@ -180,9 +162,10 @@ const showImage = async () => {
       </button>
 
       <button
-        type="primary"
+        :disabled="!isFormValid"
+        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
         @click="onFinish"
-        class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+        class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Complete Profile
       </button>

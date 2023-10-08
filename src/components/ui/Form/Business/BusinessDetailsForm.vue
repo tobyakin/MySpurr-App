@@ -1,77 +1,54 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, reactive, computed } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
+import { useUserProfile } from "@/stores/profile";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
-
+const userProfile = useUserProfile();
 const OnboardingStore = useOnboardingStore();
+const { user } = storeToRefs(userProfile);
+const { step, businessDetails } = storeToRefs(OnboardingStore);
 
-const { step } = storeToRefs(OnboardingStore);
 let store = useStore();
-console.log(store.getUser);
-
 const emit = defineEmits("next");
-const formState = {
+const formState = ref({
   business_name: "",
-  top_skills: "",
+  // top_skills: "",
   location: "",
   industry: "",
   website: "",
   business_service: "",
   business_email: "",
   about_business: "",
-};
+});
 
-const formVaildlity = ref(false);
-
-watch(
-  () => [
-    formState.business_name,
-    formState.top_skills,
-    formState.location,
-    formState.industry,
-    formState.website,
-    formState.business_service,
-    formState.business_email,
-  ],
-  () => {
-    checkVaildlity();
-  }
-);
-const checkVaildlity = () => {
-  console.log("Checking business validity...");
-  console.log(formState);
-
-  formVaildlity.value =
-    formState.business_name &&
-    formState.top_skills &&
-    formState.location &&
-    formState.industry &&
-    formState.website &&
-    formState.business_service &&
-    formState.business_email
-      ? true
-      : false;
-  console.log("Form validity:", formVaildlity.value);
-};
+const isFormValid = computed(() => {
+  return (
+    formState.value.business_name.trim() !== "" &&
+    formState.value.location.trim() !== "" &&
+    formState.value.industry.trim() !== "" &&
+    formState.value.website.trim() !== "" &&
+    formState.value.business_service.trim() !== "" &&
+    formState.value.business_email.trim() !== "" &&
+    formState.value.about_business.trim() !== ""
+  );
+});
 
 const next = () => {
-  // if (formVaildlity.value) {
   emit("next", step.value + 1);
-  // }
 };
 const onFinish = async () => {
   console.log(formState);
   let payload = {
-    business_name: formState.business_name,
-    top_skills: formState.top_skills,
-    location: formState.location,
-    industry: formState.industry,
-    website: formState.website,
-    business_service: formState.business_service,
-    business_email: formState.business_email,
-    about_business: formState.about_business,
+    business_name: formState.value.business_name,
+    // top_skills: formState.top_skills,
+    location: formState.value.location,
+    industry: formState.value.industry,
+    website: formState.value.website,
+    business_service: formState.value.business_service,
+    business_email: formState.value.business_email,
+    about_business: formState.value.about_business,
   };
   try {
     const res = await OnboardingStore.submitBusinessDetails(payload);
@@ -81,9 +58,13 @@ const onFinish = async () => {
     console.log(error);
   }
 };
+const prefillDetails = () => {
+  formState.value.business_name = userProfile.user?.data?.business_name || "";
+};
 
-onMounted(() => {
-  checkVaildlity();
+onMounted(async () => {
+  prefillDetails();
+  await userProfile.userProfile();
 });
 </script>
 
@@ -91,12 +72,12 @@ onMounted(() => {
   <section class="lg:w-[40%] animate__animated animate__fadeIn">
     <div class="w-auto">
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
-        Your work details
+        Your business details
       </h1>
       <p
         class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
       >
-        Please provide your work details, they will be used to
+        Please provide your business details, they will be used to
         <br class="lg:block hidden" />
         complete your profile on MySpurr.
       </p>
@@ -107,13 +88,21 @@ onMounted(() => {
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
             >Business name</label
           >
-          <GlobalInput
+          <input
+            class="w-full font-light font-Satoshi400 text-[14px] !p-2 bg-transparent border-none opacity-[0.8029] rounded-[4.074px] text-sm"
+            v-model="formState.business_name"
+            type="text"
+          />
+          <!-- <GlobalInput
             v-model="formState.business_name"
             class="bg-transparent border-none"
             placeholder=""
-          />
+            type="text"
+          /> -->
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div
+          class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">
             Top skills</label
           >
@@ -145,11 +134,12 @@ onMounted(() => {
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
             >About your business</label
           >
-          <GlobalInput
+          <textarea
             v-model="formState.about_business"
-            class="bg-transparent border-none"
-            placeholder=""
-            type="text"
+            rows="4"
+            class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
+            required
+            placeholder="Give a brief description about your business"
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
@@ -170,6 +160,7 @@ onMounted(() => {
             class="bg-transparent border-none"
             placeholder=""
             type="text"
+            :key="true"
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
@@ -185,9 +176,10 @@ onMounted(() => {
     </div>
     <div class="flex flex-col gap-5 mt-5">
       <button
-        type="primary"
+        :disabled="!isFormValid"
+        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
         @click="onFinish"
-        class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+        class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Update work details
       </button>
