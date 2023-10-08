@@ -23,7 +23,6 @@ const isFormValid = computed(() => {
     certificate.value.title.trim() !== "" &&
     certificate.value.institute.trim() !== "" &&
     certificate.value.certificate_date.trim() !== "" &&
-    certificate.value.certificate_link.trim() !== "" &&
     certificate.value.certificate_year.trim() !== ""
   );
 });
