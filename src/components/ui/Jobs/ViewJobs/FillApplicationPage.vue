@@ -1,14 +1,14 @@
 <script setup>
-import { useStore } from '@/stores/user'
-import VerifyIcon from '@/components/icons/verifyIcon.vue'
-import LinkIcon from '@/components/icons/linkIcon.vue'
-import CloudUploadIcon from '@/components/icons/cloudUploadIcon.vue'
-let store = useStore()
-console.log(store.getUser)
-const emit = defineEmits(['back'])
+import { useStore } from "@/stores/user";
+import VerifyIcon from "@/components/icons/verifyIcon.vue";
+import LinkIcon from "@/components/icons/linkIcon.vue";
+import CloudUploadIcon from "@/components/icons/cloudUploadIcon.vue";
+let store = useStore();
+console.log(store.getUser);
+const emit = defineEmits(["back"]);
 const back = () => {
-  emit('back')
-}
+  emit("back");
+};
 </script>
 
 <template>
@@ -28,7 +28,9 @@ const back = () => {
               <p class="text-[17.435px] font-Satoshi400 flex text-[#000]">Adobe Inc.</p>
               <div class="flex mt-1 gap-1">
                 <VerifyIcon class="w-4" />
-                <p class="text-[12.781px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
+                <p class="text-[12.781px] font-Satoshi700 text-[#000000B2]">
+                  Verified Client.
+                </p>
               </div>
             </div>
             <div class="flex flex-col justify-between">
@@ -103,21 +105,29 @@ const back = () => {
         <p class="text-[#244034] text-[13.076px] font-Satoshi500">2 Years</p>
       </div>
     </div>
-    <p class="text-[36.637px] font-Satoshi400 text-[#244034] my-6">Fill out your Application</p>
+    <p class="text-[36.637px] font-Satoshi400 text-[#244034] my-6">
+      Fill out your Application
+    </p>
     <div class="flex flex-col gap-4 lg:flex-row mt-10 w-full">
       <div class="lg:w-[40%] flex flex-col gap-6">
-        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
+        <div
+          class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
+        >
           <p class="text-[17.887px] font-Satoshi500 text-[#000]">Profile URL</p>
           <div class="bg-[#EDF0B8] p-2 flex relative rounded-[5.982px] mt-3">
             <a href="" class="text-[15.495px] font-Satoshi500 text-[#01272C]"
               >https://www.myspurr.talent/tobiakinyele</a
             >
-            <div class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full">
+            <div
+              class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full"
+            >
               <LinkIcon />
             </div>
           </div>
         </div>
-        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
+        <div
+          class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
+        >
           <p class="text-[17.887px] font-Satoshi500 text-[#000] leading-[22.621px]">
             What is your hourly rate for this job?
           </p>
@@ -152,7 +162,9 @@ const back = () => {
             </button>
           </div>
         </div>
-        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
+        <div
+          class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
+        >
           <p class="text-[17.887px] font-Satoshi500 text-[#000] leading-[22.621px]">
             When are you available to start?
           </p>
@@ -176,13 +188,19 @@ const back = () => {
             </button>
           </div>
         </div>
-        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
-          <p class="text-[17.887px] font-Satoshi500 text-[#000]">Add your booking meeting url</p>
+        <div
+          class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
+        >
+          <p class="text-[17.887px] font-Satoshi500 text-[#000]">
+            Add your booking meeting url
+          </p>
           <div class="bg-[#EDF0B8] p-2 flex relative rounded-[5.982px] mt-3">
             <a href="" class="text-[15.495px] font-Satoshi500 text-[#01272C]"
               >https://www.myspurr.talent/tobiakinyele</a
             >
-            <div class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full">
+            <div
+              class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full"
+            >
               <LinkIcon />
             </div>
           </div>
@@ -209,7 +227,9 @@ const back = () => {
       </div>
 
       <div class="lg:w-[60%] flex flex-col gap-4">
-        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
+        <div
+          class="border-[1.137px] bg-[#FFFFFD] h-full rounded-[11.367px] border-[#254035]/[0.6] p-4"
+        >
           <p class="text-[#2F929C] font-Satoshi500 my-2 text-[13.552px]">
             Please answer this question from the Client
           </p>
@@ -226,7 +246,9 @@ const back = () => {
             rows="6"
           ></textarea>
         </div>
-        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
+        <div
+          class="border-[1.137px] bg-[#FFFFFD] h-full rounded-[11.367px] border-[#254035]/[0.6] p-4"
+        >
           <p class="text-[#2F929C] font-Satoshi500 my-2 text-[13.552px]">
             Please answer this question from the Client
           </p>
@@ -243,7 +265,9 @@ const back = () => {
             rows="5"
           ></textarea>
         </div>
-        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
+        <div
+          class="border-[1.137px] bg-[#FFFFFD] h-full rounded-[11.367px] border-[#254035]/[0.6] p-4"
+        >
           <p class="text-[#2F929C] font-Satoshi500 my-2 text-[13.552px]">
             Please answer this question from the Client
           </p>
