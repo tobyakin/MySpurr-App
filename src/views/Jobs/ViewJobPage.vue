@@ -8,6 +8,7 @@ import CircleTick from "@/components/icons/circleTick.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import ViewJobDetailsPage from "@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue";
 import FillApplicationPage from "@/components/ui/Jobs/ViewJobs/FillApplicationPage.vue";
+import SucessPage from "@/components/ui/Jobs/ViewJobs/SucessPage.vue";
 let store = useStore();
 console.log(store.getUser);
 const steps = ref([true, false]);
@@ -22,7 +23,12 @@ const changeScreen = (from, to, type = null) => {
   <DashboardLayout>
     <div class="container p-0 lg:p-6 lg:py-10 py-4 mb-5">
       <ViewJobDetailsPage @apply="changeScreen(0, 1)" v-if="steps[0]" />
-      <FillApplicationPage @back="changeScreen(1, 0)" v-if="steps[1]" />
+      <FillApplicationPage
+        @back="changeScreen(1, 0)"
+        @next="changeScreen(1, 2)"
+        v-if="steps[1]"
+      />
+      <SucessPage v-if="steps[2]" />
       <div class="bg-[#E9FAFB] hidden border-[0.735px] rounded-[17.104px] p-10">
         <div class="flex gap-3 w-full">
           <div>

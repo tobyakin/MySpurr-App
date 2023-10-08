@@ -5,9 +5,12 @@ import LinkIcon from "@/components/icons/linkIcon.vue";
 import CloudUploadIcon from "@/components/icons/cloudUploadIcon.vue";
 let store = useStore();
 console.log(store.getUser);
-const emit = defineEmits(["back"]);
+const emit = defineEmits(["back", "next"]);
 const back = () => {
   emit("back");
+};
+const next = () => {
+  emit("next");
 };
 </script>
 
@@ -67,7 +70,7 @@ const back = () => {
                 back
               </button>
               <button
-                @click="back"
+                @click="next"
                 class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-8 text-[#000000] rounded-full"
               >
                 SEND ApplicatIon
