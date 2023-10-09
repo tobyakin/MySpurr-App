@@ -3,6 +3,7 @@ import { onMounted, computed } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import LogoIcon from "@/components/icons/logoIcon.vue";
 import JobCard from "@/components/ui/Jobs/JobCard.vue";
+import BusinessJobCard from "@/components/ui/Jobs/Business/JobCard.vue";
 import MyApplicationCard from "@/components/ui/MyApplicationCard.vue";
 import CommunityCard from "@/components/ui/CommunityCard.vue";
 import CourseCard from "@/components/ui/CourseCard.vue";
@@ -10,7 +11,8 @@ import ArticleCard from "@/components/ui/ArticleCard.vue";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
 import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue";
-
+import BusinessValuesCard from "@/components/ui/Cards/BusinessValuesCard.vue";
+import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
 let store = useStore();
 let profile = useUserProfile();
 const userDetails = computed(() => {
@@ -34,41 +36,65 @@ onMounted(async () => {
 
 <template>
   <DashboardLayout>
-    <OnboardingRequest
+    <!-- <OnboardingRequest
       v-if="
         isOnBoarded &&
         !isOnBoarded.business_details &&
         !isOnBoarded.work_details &&
         !isOnBoarded.portofolio
       "
-    />
+    /> -->
     <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
       <span class="font-EBGaramond500 text-[#244034] text-[27.673px]"
         >Hi {{ userDetails?.first_name }} ,</span
       >
-      <div class="flex lg:flex-row flex-col flex-grow gap-4 mt-6 w-full">
+      <div class="flex lg:flex-row flex-col flex-grow gap-[31.92px] mt-6 w-full">
         <div
-          class="p-4 px-10 flex flex-col justify-between rounded-[4.533px] w-full bg-[#EDF0B8] border-[0.567px] border-[#254035AB]"
+          class="p-4 px-6 flex flex-col justify-between rounded-[4.533px] w-full bg-[#EDF0B8] border-[0.567px] border-[#254035AB]"
         >
           <div>
             <div
-              class="text-[25.739px] gap-2 font-EBGaramond500 leading-[44.616px] flex text-[#244034]"
+              class="text-[25.739px] lg:flex-row flex-col gap-2 font-EBGaramond500 lg:leading-[44.616px] flex text-[#244034]"
             >
               <p>Welcome to</p>
-              <LogoIcon class="my-2" />
+              <LogoIcon class="lg:my-2 lg:mb-0 mb-3" />
             </div>
-            <p class="text-[#011B1F] text-[12.299px] leading-[16.707px] font-Satoshi400">
+            <p
+              v-if="accountType === 'talent'"
+              class="text-[#011B1F] text-[12.299px] leading-[16.707px] font-Satoshi400"
+            >
               You now have full access to our network of job openings and thriving
               community. Are you ready to take on new opportunities?
+            </p>
+            <p
+              v-if="accountType !== 'talent'"
+              class="text-[#011B1F] text-[12.299px] leading-[16.707px] font-Satoshi400"
+            >
+              You now have full access to our network of talents and thriving community.
+              Are you ready to start hiring?
             </p>
           </div>
           <div class="flex gap-4 mt-6">
             <router-link
+              v-if="accountType === 'talent'"
               class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/jobs"
               >Find jobs</router-link
             >
             <router-link
+              v-if="accountType !== 'talent'"
+              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              to="/jobs"
+              >Post a job</router-link
+            >
+            <router-link
+              v-if="accountType !== 'talent'"
+              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              to="/jobs"
+              >Find talent</router-link
+            >
+            <router-link
+              v-if="accountType === 'talent'"
               class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/courses"
               >Take courses</router-link
@@ -81,14 +107,18 @@ onMounted(async () => {
           </div>
         </div>
         <div
-          class="p-4 px-6 flex flex-col justify-between rounded-[4.533px] w-full bg-[#EDF0B8] border-[0.567px] border-[#254035AB]"
+          class="p-4 px-6 flex flex-col gap-3 justify-between rounded-[4.533px] w-full bg-[#EDF0B8] border-[0.567px] border-[#254035AB]"
         >
           <div>
-            <p class="text-[#244034] text-[28.2px] font-Satoshi500">
+            <p
+              class="text-[#244034] lg:text-[28.2px] text-[19px] leading-[51.2px] font-Satoshi500"
+            >
               Verify your account details
             </p>
-            <p class="text-[#011B1F] text-[12.299px] font-Satoshi400">
-              In order for you to receive payments, we need to verify your identity.
+            <p class="text-[#011B1F] text-[12.299px] leading-[17.284px] font-Satoshi400">
+              In order for you to receive payments, we need to
+              <br class="lg:block hidden" />
+              verify your identity.
             </p>
           </div>
           <router-link
@@ -99,6 +129,108 @@ onMounted(async () => {
           </router-link>
         </div>
       </div>
+      <!-- Update -->
+      <div v-if="accountType !== 'talent'" class="mt-12">
+        <div class="flex lg:flex-row flex-col gap-[32.11px] my-8">
+          <BusinessValuesCard
+            class=""
+            title="New candidates to review"
+            digit="76"
+            buttonPlaceholder="REVIEW CANDIDATES"
+          />
+          <BusinessValuesCard
+            class=""
+            title="Schedules for today"
+            digit="3"
+            buttonPlaceholder="Book meeting"
+          />
+          <BusinessValuesCard
+            class=""
+            title="Messages received"
+            digit="24"
+            buttonPlaceholder="read messages"
+          />
+        </div>
+      </div>
+
+      <!-- Jobs Statistics -->
+      <div
+        v-if="accountType !== 'talent'"
+        class="flex lg:flex-row flex-col gap-[32.12px] my-8"
+      >
+        <JobsStatistics class="min-w-[95%] lg:min-w-[65.9%]" />
+        <div class="flex flex-col gap-4 w-full">
+          <div
+            class="p-[28.26px] px-[22.48px] rounded-[4.533px] w-full bg-[#FFF] flex flex-row justify-between h-full border-[0.567px] border-[#254035AB]"
+          >
+            <div class="flex flex-col gap-3 h-full w-full">
+              <h4
+                class="text-[#244034] leading-[17.646px] font-Satoshi700 text-[23.467px]"
+              >
+                Jobs Open
+              </h4>
+              <div class="flex flex-row gap-2">
+                <h4 class="text-[#244034] font-Satoshi700 leading-none text-[60.722px]">
+                  12
+                </h4>
+                <div class="flex flex-col h-full justify-between">
+                  <div class="flex flex-row"></div>
+                  <p
+                    class="text-[#4B7226] flex flex-row mt-10 text-[13.486px] uppercase tracking-[1.124px] lg:leading-[21.353px]"
+                  >
+                    jobs opened
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="p-[28.26px] px-[22.48px] rounded-[4.533px] w-full h-full bg-[#FFF] border-[0.567px] border-[#254035AB]"
+          >
+            <div class="flex flex-col gap-3 h-full w-full">
+              <h4
+                class="text-[#244034] leading-[17.646px] font-Satoshi700 text-[23.467px]"
+              >
+                Applicants Summary
+              </h4>
+              <div class="flex flex-row gap-2">
+                <h4 class="text-[#244034] font-Satoshi700 leading-none text-[60.722px]">
+                  69
+                </h4>
+                <div class="flex flex-col h-full justify-between">
+                  <div class="flex flex-row"></div>
+                  <p
+                    class="text-[#4B7226] flex flex-row mt-10 text-[13.486px] uppercase tracking-[1.124px] lg:leading-[21.353px]"
+                  >
+                    applicants
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- jobs updates -->
+      <div v-if="accountType !== 'talent'" class="mt-12">
+        <div class="flex justify-between mb-4">
+          <p class="text-[17.633px] font-Satoshi400 text-[#244034]">Job Updates</p>
+
+          <router-link
+            class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+            to="/jobs"
+            >View all jobs</router-link
+          >
+        </div>
+
+        <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
+          <BusinessJobCard
+            class="min-w-[95%] lg:min-w-[40%]"
+            v-for="item in 4"
+            :key="item"
+          />
+        </div>
+      </div>
+
       <!-- jobs -->
       <div v-if="accountType === 'talent'" class="mt-12">
         <div class="flex justify-between mb-4">
@@ -158,10 +290,10 @@ onMounted(async () => {
       </div>
       <!-- articles -->
       <div class="mt-10 overflow-x-auto">
-        <p class="text-[17.633px] font-Satoshi400 mb-8 text-[#244034]">
+        <p class="text-[17.633px] font-Satoshi400 !mb-[60px] text-[#244034]">
           MySpurr Articles
         </p>
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid md:grid-cols-2 grid-cols-1 gap-3">
           <ArticleCard class="" v-for="item in 4" :key="item" />
         </div>
       </div>

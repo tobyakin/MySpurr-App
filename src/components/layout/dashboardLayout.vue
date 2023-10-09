@@ -86,7 +86,10 @@ const toogleDropdown = () => {
           <div class="lg:hidden">
             <div class="logo">
               <router-link :to="{ name: 'dashboard' }"
-                ><img src="@/assets/Logo.png" class="w-[80%]" alt="Myspurr logo"
+                ><img
+                  src="@/assets/Logo.png"
+                  class="lg:w-[80%] md:w-[40%]"
+                  alt="Myspurr logo"
               /></router-link>
             </div>
           </div>
