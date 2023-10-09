@@ -1,11 +1,131 @@
 <script setup>
-import { useStore } from "@/stores/user";
+import { onMounted, reactive, ref, computed, watch } from "vue";
+import { useJobsStore } from "@/stores/jobs";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import LinkIcon from "@/components/icons/linkIcon.vue";
 import CloudUploadIcon from "@/components/icons/cloudUploadIcon.vue";
-let store = useStore();
-console.log(store.getUser);
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+// import { storeToRefs } from "pinia";
+const JobsStore = useJobsStore();
+import { useRoute } from "vue-router";
+const route = useRoute();
+
+// const { jobApplicationForm } = storeToRefs(JobsStore);
 const emit = defineEmits(["back", "next"]);
+const JobId = ref(route.params.id);
+
+let onButton1 = ref(false);
+let onButton3 = ref(false);
+let onButton4 = ref(false);
+let onButton5 = ref(false);
+let onButton5Val = ref(0);
+let onButton2 = ref(false);
+let toDisable = ref(true);
+const jobApplicationForm = reactive({
+  job_id: "",
+  rate: "",
+  available_start: "",
+  resume: "",
+  other_file: "",
+  question_answers: [],
+});
+
+const handleJobApplication = async () => {
+  let payload = {
+    job_id: JobId,
+    rate: jobApplicationForm.rate,
+    available_start: jobApplicationForm.available_start,
+    resume: jobApplicationForm.resume,
+    other_file: jobApplicationForm.other_file,
+    question_answers: jobApplicationForm.question_answers,
+  };
+  try {
+    const res = await JobsStore.applyForJob(JobId, payload);
+    next();
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(() => {
+  jobApplicationForm.rate = finalTotal.value;
+
+  watch(finalTotal, (newFinalTotal) => {
+    jobApplicationForm.rate = newFinalTotal;
+    console.log(jobApplicationForm.rate);
+  });
+});
+
+const disable = computed(() => {
+  return (
+    onButton1.value ||
+    onButton2.value ||
+    onButton3.value ||
+    onButton4.value ||
+    onButton5.value
+  );
+});
+
+watch(
+  () => [
+    onButton1.value,
+    onButton2.value,
+    onButton3.value,
+    onButton4.value,
+    onButton5.value,
+  ],
+  () => {
+    toDisable.value =
+      onButton1.value ||
+      onButton2.value ||
+      onButton3.value ||
+      onButton4.value ||
+      onButton5.value;
+    console.log(toDisable.value);
+  }
+);
+
+const buttons = reactive({
+  1: { price: 10, active: false },
+  2: { price: 20, active: false },
+  3: { price: 50, active: false },
+  4: { price: 100, active: false },
+});
+
+const toggleButton = (buttonId) => {
+  buttons[buttonId].active = !buttons[buttonId].active;
+  onButton5.value = false;
+};
+
+const totalPrice = computed(() => {
+  let total = 0;
+  for (const button of Object.values(buttons)) {
+    if (button.active) {
+      total += button.price;
+    }
+  }
+  return total;
+});
+
+const finalTotal = computed(() => {
+  const value = onButton5.value ? onButton5Val.value : totalPrice.value;
+  return parseInt(value);
+});
+
+const resetButton = () => {
+  for (const button of Object.values(buttons)) {
+    if (button.active) {
+      button.active = false;
+    }
+  }
+  onButton1.value = false;
+  onButton2.value = false;
+  onButton3.value = false;
+  onButton4.value = false;
+  onButton5.value = true;
+};
+
 const back = () => {
   emit("back");
 };
@@ -70,8 +190,10 @@ const next = () => {
                 back
               </button>
               <button
-                @click="next"
-                class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-8 text-[#000000] rounded-full"
+                :disabled="!disable"
+                @click="handleJobApplication()"
+                :class="!disable ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
+                class="font-Satoshi500 uppercase text-[9.708px] p-3 px-8 text-[#000000] rounded-full"
               >
                 SEND ApplicatIon
               </button>
@@ -137,32 +259,65 @@ const next = () => {
           <span class="text-[#DA5252] text-[10.165px] font-Satoshi500 leading-[25.232px]"
             >Client budget: $30 – $35/hr</span
           >
-          <div class="flex gap-3 justify-between mt-4">
-            <button
-              class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
-            >
-              $30
-            </button>
-            <button
-              class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
-            >
-              $30
-            </button>
-            <button
-              class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
-            >
-              $30
-            </button>
-            <button
-              class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
-            >
-              $30
-            </button>
-            <button
-              class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
-            >
-              Custom
-            </button>
+          <div class="flex-col justify-between gap-2 w-full">
+            <div class="flex gap-3 justify-between mt-4">
+              <button
+                @click="(onButton1 = !onButton1), toggleButton(1)"
+                :class="{
+                  'bg-brand text-white': onButton1,
+                  'bg-[#ffffff] text-[#2540358C]': !onButton1,
+                }"
+                class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[14.26px] rounded-[6.303px] p-2"
+              >
+                $10
+              </button>
+              <button
+                @click="(onButton2 = !onButton2), toggleButton(2)"
+                :class="{
+                  'bg-brand text-white': onButton2,
+                  'bg-[#ffffff] text-[#2540358C]': !onButton2,
+                }"
+                class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
+              >
+                $20
+              </button>
+              <button
+                @click="(onButton3 = !onButton3), toggleButton(3)"
+                :class="{
+                  'bg-brand text-white': onButton3,
+                  'bg-[#ffffff] text-[#2540358C]': !onButton3,
+                }"
+                class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
+              >
+                $30
+              </button>
+              <button
+                @click="(onButton4 = !onButton4), toggleButton(4)"
+                :class="{
+                  'bg-brand text-white': onButton4,
+                  'bg-[#ffffff] text-[#2540358C]': !onButton4,
+                }"
+                class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
+              >
+                $100
+              </button>
+              <button
+                @click="(onButton5 = !onButton5), resetButton()"
+                :class="{
+                  'bg-brand text-white': onButton5,
+                  'bg-[#ffffff] text-black': !onButton5,
+                }"
+                class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
+              >
+                Custom
+              </button>
+            </div>
+            <GlobalInput
+              type="number"
+              v-show="onButton5"
+              v-model="onButton5Val"
+              class="mt-2"
+            />
           </div>
         </div>
         <div
