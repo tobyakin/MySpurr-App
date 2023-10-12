@@ -32,17 +32,13 @@ onMounted(async () => {
   await profile.userProfile();
   console.log(isOnBoarded.value.work_details);
 });
+//!isOnBoarded.portofolio;
 </script>
 
 <template>
   <DashboardLayout>
     <OnboardingRequest
-      v-if="
-        isOnBoarded &&
-        !isOnBoarded.business_details &&
-        !isOnBoarded.work_details &&
-        !isOnBoarded.portofolio
-      "
+      v-if="isOnBoarded && !isOnBoarded.business_details && !isOnBoarded.work_details"
     />
     <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
       <span class="font-EBGaramond500 text-[#244034] text-[27.673px]"
