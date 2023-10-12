@@ -15,19 +15,21 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
 
     const top_skills= ref([]);
     const education = ref({
-        school_name: "",
-        degree: "",
-        field_of_study: "",
-        start_date: "",
-        end_date: "",
-    });
+      school_name: '',
+      degree: '',
+      field_of_study: '',
+      start_date: '',
+      end_date: '',
+      description:'',
+    })
     const employment_details = ref({
-        company_name: "",
-        title: "",
-        employment_type: "",
-        start_date: "",
-        end_date: ""
-    });
+      company_name: '',
+      title: '',
+      employment_type: '',
+      start_date: '',
+      end_date: '',
+      description: ''
+    })
     const certificate =ref( {
         title: "",
         institute: "",
@@ -56,6 +58,7 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
           school_name: education.value.school_name,
           degree: education.value.degree,
           field_of_study: education.value.field_of_study,
+          description:education.value.description,
           start_date: education.value.start_date,
           end_date: education.value.end_date
         },
@@ -63,6 +66,7 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
           company_name: employment_details.value.company_name,
           title: employment_details.value.title,
           employment_type: employment_details.value.employment_type,
+          description:employment_details.value.description,
           start_date: employment_details.value.start_date,
           end_date: employment_details.value.end_date
         },

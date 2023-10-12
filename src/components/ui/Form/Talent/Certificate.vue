@@ -5,15 +5,16 @@ import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import dayjs from "dayjs";
-
+import { useUserProfile } from "@/stores/profile";
 const OnboardingStore = useOnboardingStore();
+let profile = useUserProfile();
 
 const { step, certificate } = storeToRefs(OnboardingStore);
 let store = useStore();
 console.log(store.getUser);
 let loading = ref(false);
 
-const emit = defineEmits("next");
+const emit = defineEmits("next", "prev");
 const formState = ref({
   certificate_date: "",
   certificate_year: "",
@@ -30,11 +31,15 @@ const isFormValid = computed(() => {
 const next = () => {
   emit("next", step.value + 1);
 };
+const prev = () => {
+  emit("prev", step.value - 1);
+};
 
 const onFinish = async () => {
   loading.value = true;
   try {
     const res = await OnboardingStore.submitTalentWorkDetails();
+    profile.userProfile();
     console.log(res);
     next();
   } catch (error) {
@@ -78,7 +83,7 @@ watch(CertificateYear, (newCertificateYear) => {
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Title</label>
           <GlobalInput
             v-model="certificate.title"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="text"
             required
@@ -90,7 +95,7 @@ watch(CertificateYear, (newCertificateYear) => {
           </label>
           <GlobalInput
             v-model="certificate.institute"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="text"
             required
@@ -124,15 +129,20 @@ watch(CertificateYear, (newCertificateYear) => {
           >
           <GlobalInput
             v-model="certificate.certificate_link"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="link"
-            required
           />
         </div>
       </div>
     </div>
     <div class="flex flex-row gap-5 pb-8 mt-5">
+      <button
+        @click="prev"
+        class="font-Satoshi500 text-white text-[14px] uppercase bg-[#43D0DF] leading-[11.593px] rounded-full p-5 w-full"
+      >
+        prev
+      </button>
       <button
         @click="onFinish"
         type="submit"

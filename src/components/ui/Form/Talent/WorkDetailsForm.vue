@@ -1,14 +1,13 @@
 <script setup>
 import { ref, onMounted, watch, computed, defineAsyncComponent } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
-import { useStore } from "@/stores/user";
-// import { useSkillsStore } from "@/stores/skills";
-// import GlobalInput from "@/components/ui/GlobalInput.vue";
+// import { useStore } from "@/stores/user";
+import { useSkillsStore } from "@/stores/skills";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import Multiselect from "vue-multiselect";
-// const skillsStore = useSkillsStore();
-// const { skills } = storeToRefs(skillsStore);
+const skillsStore = useSkillsStore();
+const { skills } = storeToRefs(skillsStore);
 
 const OnboardingStore = useOnboardingStore();
 const SelectGroup = defineAsyncComponent(() =>
@@ -26,10 +25,9 @@ const {
   top_skills,
   employment_type,
 } = storeToRefs(OnboardingStore);
-let store = useStore();
-console.log(store.getUser);
+// let store = useStore();
+// console.log(store.getUser);
 // let loading = ref(false);
-// const top_skills = ref([]);
 const availabilityData = ["Immediately", "One week"];
 const employmentType = [
   "Freelance",
@@ -38,42 +36,29 @@ const employmentType = [
   "Internship ",
   "Contract ",
 ];
+let options = ref([]);
 const educationLevel = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
-// const options = skills.value;
-const options = ref([
-  { name: "Vue.js" },
-  { name: "Adonis" },
-  { name: "Rails" },
-  { name: "React" },
-  { name: "Sinatra" },
-]);
+
 const addTag = (newTagName) => {
   const tag = {
-    skill: newTagName,
+    name: newTagName,
   };
   options.value.push(tag);
   top_skills.value.push(tag);
 };
 
-const years = ref([]);
+// const years = ref([]);
 
-onMounted(() => {
-  // Populate the years array with a range of years, e.g., from 2000 to the current year.
-  const currentYear = new Date().getFullYear();
-  for (let year = currentYear; year >= 1950; year--) {
-    years.value.push(year.toString());
-  }
-});
+// onMounted(() => {
+//   // Populate the years array with a range of years, e.g., from 2000 to the current year.
+//   const currentYear = new Date().getFullYear();
+//   for (let year = currentYear; year >= 1950; year--) {
+//     years.value.push(year.toString());
+//   }
+//   console.log("options", skills.value.data);
+// });
 
 const emit = defineEmits("next");
-// const formState = ref({
-//   skill_title: "",
-//   highest_education: "",
-//   overview: "",
-//   location: "",
-//   rate: "",
-//   availability: "",
-// });
 const isFormValid = computed(() => {
   return (
     skill_title.value.trim() !== "" &&
@@ -90,6 +75,10 @@ const isFormValid = computed(() => {
 const next = () => {
   emit("next", step.value + 1);
 };
+onMounted(async () => {
+  await skillsStore.getskills();
+  options.value = skills.value.data;
+});
 </script>
 
 <template>
@@ -113,10 +102,9 @@ const next = () => {
           >
           <GlobalInput
             v-model="skill_title"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent !border-none"
             placeholder="Graphics Designer"
             type="text"
-            required
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-3.5">
@@ -125,7 +113,6 @@ const next = () => {
             v-model="overview"
             rows="4"
             class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
-            required
             placeholder="Give a brief description about yourself"
           />
         </div>
@@ -133,12 +120,12 @@ const next = () => {
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Location</label>
           <GlobalInput
             v-model="location"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="text"
-            required
           />
         </div>
+
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Select your top 5 skills</label
@@ -148,11 +135,11 @@ const next = () => {
             :options="options"
             :multiple="true"
             :taggable="true"
+            :max="5"
             placeholder=""
             track-by="name"
             label="name"
             @tag="addTag"
-            required
             :close-on-select="false"
             :clear-on-select="false"
             :preserve-search="true"
@@ -170,7 +157,6 @@ const next = () => {
             placeholder=""
             :items="educationLevel"
             name=""
-            required
             class="w-full flex border-none"
           />
         </div>
@@ -183,7 +169,6 @@ const next = () => {
             DropdownItem=""
             :items="employmentType"
             placeholder="Employment type"
-            required
             name=""
             class="bg-transparent border-none"
           />
@@ -197,21 +182,19 @@ const next = () => {
             DropdownItem=""
             :items="availabilityData"
             placeholder="Availability"
-            required
             name=""
             class="bg-transparent border-none"
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Rate /yr ($)</label
+            >Rate /hr ($)</label
           >
           <GlobalInput
             v-model="rate"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder="$100"
             type="number"
-            required
           />
         </div>
       </div>

@@ -8,7 +8,6 @@ export const useSkillsStore = defineStore('skills', () => {
   const getskills = async () => {
     try {
       skills.value = await getAllSkills()
-      console.log('skills :', skills.value) // Add this line
       return skills.value
     } catch (error) {
       console.error('Error fetching skills :', error)

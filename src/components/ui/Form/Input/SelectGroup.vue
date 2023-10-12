@@ -1,5 +1,5 @@
 <template>
-  <div class="form__group">
+  <div class="w-full">
     <Label :class="labelClasses">{{ label }}</Label>
     <Select
       @update:modelValue="passInputValue"

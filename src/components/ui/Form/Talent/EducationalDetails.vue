@@ -10,8 +10,9 @@ const OnboardingStore = useOnboardingStore();
 const { step, education } = storeToRefs(OnboardingStore);
 let store = useStore();
 console.log(store.getUser);
+const present = ref(false); // Add a variable to track if the checkbox is checked
 
-const emit = defineEmits("next");
+const emit = defineEmits("next", "prev");
 const formState = ref({
   start_date: "",
   end_date: "",
@@ -21,10 +22,14 @@ const isFormValid = computed(() => {
     education.value.school_name.trim() !== "" &&
     education.value.degree.trim() !== "" &&
     education.value.field_of_study.trim() !== "" &&
+    education.value.description !== "" &&
     education.value.start_date !== "" &&
     education.value.end_date !== ""
   );
 });
+const prev = () => {
+  emit("prev", step.value - 1);
+};
 
 const next = () => {
   emit("next", step.value + 1);
@@ -37,9 +42,12 @@ const StartDate = computed(() => {
 const EndDate = computed(() => {
   return dayjs(formState.value.end_date).format("YYYY-MM-DD");
 });
+const EndDateValue = computed(() => {
+  return present.value ? " " : EndDate.value; // If checked, return " "
+});
 
 // Update employment_details.value.end_date when EndDate changes
-watch(EndDate, (newEndDate) => {
+watch(EndDateValue, (newEndDate) => {
   education.value.end_date = newEndDate;
 });
 // Update employment_details.value.start_date when StartDate changes
@@ -67,20 +75,18 @@ watch(StartDate, (newStartDate) => {
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">School</label>
           <GlobalInput
             v-model="education.school_name"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="text"
-            required
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Degree</label>
           <GlobalInput
             v-model="education.degree"
-            class="bg-transparent border-none"
-            placeholder=""
+            inputClasses="bg-transparent border-none"
+            placeholder="Ex. Bachelor of Science - BS"
             type="text"
-            required
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
@@ -89,10 +95,9 @@ watch(StartDate, (newStartDate) => {
           >
           <GlobalInput
             v-model="education.field_of_study"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="text"
-            required
           />
         </div>
         <div
@@ -110,6 +115,7 @@ watch(StartDate, (newStartDate) => {
           </div>
         </div>
         <div
+          :class="present ? 'opacity-30' : ''"
           class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
           <div class="w-full flex flex-col gap-2 justify-between">
@@ -119,14 +125,32 @@ watch(StartDate, (newStartDate) => {
             <a-date-picker
               :bordered="false"
               v-model:value="formState.end_date"
+              :disabled="present"
               class="bg-transparent border-none !outline-none w-full shadow-none"
             />
           </div>
         </div>
+        <div
+          class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+        >
+          <div class="w-full flex flex-col gap-2 justify-between">
+            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+              >Description</label
+            >
+            <textarea
+              v-model="education.description"
+              rows="4"
+              class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
+              placeholder="Give a brief description about your education"
+            />
+          </div>
+        </div>
+
         <div class="flex gap-3 justify-start items-center">
           <input
             class="bg-transparent !border-[0.737px] !border-[#254035AB] rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
             type="checkbox"
+            v-model="present"
           />
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >I am currently still schooling here
@@ -135,6 +159,12 @@ watch(StartDate, (newStartDate) => {
       </div>
     </div>
     <div class="flex flex-row gap-5 pb-8 mt-5">
+      <button
+        @click="prev"
+        class="font-Satoshi500 text-white text-[14px] uppercase bg-[#43D0DF] leading-[11.593px] rounded-full p-5 w-full"
+      >
+        Prev
+      </button>
       <button
         @click="next"
         :disabled="!isFormValid"

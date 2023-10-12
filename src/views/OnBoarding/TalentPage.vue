@@ -28,9 +28,9 @@
     </div>
     <div class="justify-center flex py-6 p-4">
       <WorkDetailsForm v-if="step == 1" @next="next" />
-      <EducationalDetails v-if="step == 2" @next="next" />
-      <EmploymentDetails v-if="step == 3" @next="next" />
-      <Certificate v-if="step == 4" @next="next" />
+      <EducationalDetails v-if="step == 2" @next="next" @prev="prev" />
+      <EmploymentDetails v-if="step == 3" @next="next" @prev="prev" />
+      <Certificate v-if="step == 4" @next="next" @prev="prev" />
       <!-- <PortfolioForm v-if="step == 2" @prev="prev" @next="next" /> -->
     </div>
   </div>
