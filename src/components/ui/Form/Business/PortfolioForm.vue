@@ -126,7 +126,7 @@ const submitForm = async (formData, payload) => {
           >
           <GlobalInput
             v-model="formState.company_type"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
           />
         </div>
@@ -136,7 +136,7 @@ const submitForm = async (formData, payload) => {
           >
           <GlobalInput
             v-model="formState.social_media"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
           />
         </div>
 
@@ -146,7 +146,7 @@ const submitForm = async (formData, payload) => {
           >
           <GlobalInput
             v-model="formState.social_media_two"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
           />
         </div>

@@ -60,6 +60,7 @@ const onFinish = async () => {
 };
 const prefillDetails = () => {
   formState.value.business_name = userProfile.user?.data?.business_name || "";
+  formState.value.business_email = userProfile.user?.data?.email || "";
 };
 
 onMounted(async () => {
@@ -108,7 +109,7 @@ onMounted(async () => {
           >
           <GlobalInput
             v-model="formState.top_skills"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
           />
         </div>
@@ -116,7 +117,7 @@ onMounted(async () => {
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Location</label>
           <GlobalInput
             v-model="formState.location"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="text"
           />
@@ -125,7 +126,7 @@ onMounted(async () => {
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Industry</label>
           <GlobalInput
             v-model="formState.industry"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="text"
           />
@@ -146,7 +147,7 @@ onMounted(async () => {
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Website</label>
           <GlobalInput
             v-model="formState.website"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="url"
           />
@@ -157,7 +158,7 @@ onMounted(async () => {
           >
           <GlobalInput
             v-model="formState.business_service"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="text"
             :key="true"
@@ -167,7 +168,7 @@ onMounted(async () => {
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">E-mail</label>
           <GlobalInput
             v-model="formState.business_email"
-            class="bg-transparent border-none"
+            inputClasses="bg-transparent border-none"
             placeholder=""
             type="email"
           />
