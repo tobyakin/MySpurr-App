@@ -5,6 +5,15 @@ import TimerIcon from "@/components/icons/timerIcon.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
 import SearchIcon from "@/components/icons/circleSearchIcon.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const redirectToJobDetails = (id) => {
+  router.push({ name: "view-jobs", params: { id } });
+};
+defineProps({
+  job: Object,
+});
 </script>
 <template>
   <div class="border-[#254035AB] border-[0.735px] rounded-[7.347px] p-4">
@@ -47,11 +56,13 @@ import SearchIcon from "@/components/icons/circleSearchIcon.vue";
         </button>
       </div>
       <div class="flex justify-between mt-7">
-        <router-link to="/view/job"
+        <button
+          @click="redirectToJobDetails(1)"
           class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-6 text-[#000000] rounded-full"
         >
           APPLY
-        </router-link>
+        </button>
+
         <div>
           <button class="">
             <CircleBookMarkIcon />
