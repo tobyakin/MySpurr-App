@@ -14,6 +14,8 @@ import BusinessOnboarding from '../views/OnBoarding/BusinessPage.vue'
 import UploadProofOfIdentity from '@/views/UploadIdentity/UploadProofOfIdentity.vue'
 import OnboardingRequest from '@/components/ui/Onboarding/OnboardingRequest.vue'
 import Community from '@/views/Community/ComingSoon.vue'
+import PostJob from '@/views/Jobs/Business/PostJob.vue'
+import MyApplications from '@/views/MyApplications/MyApplications.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -66,6 +68,18 @@ const router = createRouter({
       path: '/jobs',
       name: 'jobs',
       component: JobsView,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/my-applications',
+      name: 'my-applications',
+      component: MyApplications,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/post-job',
+      name: 'post-jobs',
+      component: PostJob,
       beforeEnter: [middleware.redirectLogin]
     },
     {

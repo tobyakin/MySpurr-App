@@ -271,12 +271,12 @@ watch(currentPage, (newPage) => {
 </template>
 <style>
 .vue-slider-process {
-  @apply !bg-brand;
+  @apply !bg-[#007582];
 }
 .vue-slider-dot-handle {
-  @apply !border-brand;
+  @apply !border-[#007582];
 }
 .vue-slider-rail {
-  @apply !bg-white;
+  @apply !bg-[#43D0DF];
 }
 </style>

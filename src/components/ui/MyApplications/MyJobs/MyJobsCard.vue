@@ -1,14 +1,17 @@
 <script setup>
+import { ref } from "vue";
 import CalenderIcon from "@/components/icons/outlineCalenderIcon.vue";
 import LocationIcon from "@/components/icons/locationIcon.vue";
 import TimerIcon from "@/components/icons/timerIcon.vue";
 import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
 import SearchIcon from "@/components/icons/circleSearchIcon.vue";
-import MatchIcon from "@/components/icons/matchIcon.vue";
+// import MatchIcon from "@/components/icons/matchIcon.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import { useRouter } from "vue-router";
-const router = useRouter();
+import VueSlider from "vue-slider-component";
 
+const router = useRouter();
+const value = ref(0);
 const redirectToJobDetails = (id) => {
   router.push({ name: "view-jobs", params: { id } });
 };
@@ -47,7 +50,7 @@ defineProps({
         </div>
         <div class="flex items-center justify-between w-full gap-3">
           <div class="flex items-center gap-14">
-            <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
+            <p class="text-[20.128px] font-Satoshi700 text-[#000000]">
               {{ job.job_title }}
             </p>
             <button
@@ -56,17 +59,17 @@ defineProps({
               {{ job.employee_type }}
             </button>
           </div>
-          <a
+          <!-- <a
             v-if="job.match"
             class="font-Satoshi500 text-[11.74px] flex items-center gap-1 text-[#000000]"
           >
             <MatchIcon />You’re a Match
-          </a>
+          </a> -->
         </div>
-        <div class="flex flex-col justify-between mt-5">
+        <div class="flex flex-col justify-between mt-2">
           <div class="flex gap-4 items-center">
             <div>
-              <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
+              <p class="text-[17.239px] font-Satoshi500 text-[#244034E5]">
                 {{ job.rate }}
               </p>
             </div>
@@ -88,7 +91,18 @@ defineProps({
               </div>
             </div>
           </div>
-          <div class="flex justify-between mt-2">
+
+          <vue-slider class="w-full my-8" v-model="value" :tooltip="'always'">
+            <template v-slot:tooltip="{ value, focus }">
+              <div
+                class="bg-[#84B358] px-[9.33px] py-[4.2px] text-[#FBFBEE] font-Satoshi700 text-[14.331px] rounded-full"
+                :class="['custom-tooltip', { focus }]"
+              >
+                {{ value }}%
+              </div>
+            </template>
+          </vue-slider>
+          <!-- <div class="flex justify-between mt-2">
             <div class="flex gap-3 items-center">
               <div
                 v-for="skill in job.skills"
@@ -113,10 +127,18 @@ defineProps({
                 APPLY
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
     <!-- <hr class="text-[#EAEAEA]" /> -->
   </div>
 </template>
+<style>
+.custom-tooltip {
+  transform: translateY(5px);
+}
+.custom-tooltip.focus {
+  font-weight: bold;
+}
+</style>
