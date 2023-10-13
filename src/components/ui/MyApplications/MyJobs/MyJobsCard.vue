@@ -1,14 +1,17 @@
 <script setup>
-import { ref } from "vue";
+import { ref, defineAsyncComponent } from "vue";
 import CalenderIcon from "@/components/icons/outlineCalenderIcon.vue";
 import LocationIcon from "@/components/icons/locationIcon.vue";
 import TimerIcon from "@/components/icons/timerIcon.vue";
 import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
 import SearchIcon from "@/components/icons/circleSearchIcon.vue";
-// import MatchIcon from "@/components/icons/matchIcon.vue";
+import CopyIcon from "@/components/icons/copyIcon.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import { useRouter } from "vue-router";
 import VueSlider from "vue-slider-component";
+const SelectGroup = defineAsyncComponent(() =>
+  import("@/components/ui/Form/Input/SelectGroup.vue")
+);
 
 const router = useRouter();
 const value = ref(0);
@@ -21,7 +24,7 @@ defineProps({
 </script>
 <template>
   <div class="border-[#254035AB] border-[0.735px] bg-white rounded-[7.347px] p-5 px-6">
-    <div class="flex gap-3 w-full">
+    <div class="flex lg:flex-row flex-col gap-3 w-full">
       <div>
         <img
           v-if="job.company_image !== null"
@@ -54,7 +57,7 @@ defineProps({
               {{ job.job_title }}
             </p>
             <button
-              class="bg-[#EDF0B8] font-Satoshi500 text-[9.708px] p-2 px-6 text-[#000000] rounded-full"
+              class="bg-[#EDF0B8] font-Satoshi500 text-[9.708px] p-2 lg:px-6 px-2 text-[#000000] rounded-full"
             >
               {{ job.employee_type }}
             </button>
@@ -67,7 +70,7 @@ defineProps({
           </a> -->
         </div>
         <div class="flex flex-col justify-between mt-2">
-          <div class="flex gap-4 items-center">
+          <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
               <p class="text-[17.239px] font-Satoshi500 text-[#244034E5]">
                 {{ job.rate }}
@@ -92,7 +95,7 @@ defineProps({
             </div>
           </div>
 
-          <vue-slider class="w-full my-8" v-model="value" :tooltip="'always'">
+          <vue-slider class="w-full mt-8" v-model="value" :tooltip="'always'">
             <template v-slot:tooltip="{ value, focus }">
               <div
                 class="bg-[#84B358] px-[9.33px] py-[4.2px] text-[#FBFBEE] font-Satoshi700 text-[14.331px] rounded-full"
@@ -102,32 +105,63 @@ defineProps({
               </div>
             </template>
           </vue-slider>
-          <!-- <div class="flex justify-between mt-2">
-            <div class="flex gap-3 items-center">
-              <div
-                v-for="skill in job.skills"
-                :key="skill"
-                class="bg-[#F2F3EF] font-Satoshi500 text-[12.135px] uppercase p-[4px] px-6 text-[#64665D] rounded-full"
-              >
-                {{ skill.name }}
-              </div>
-            </div>
+          <hr class="text-[#EAEAEA] my-[23px]" />
 
-            <div class="flex items-center gap-4">
+          <div class="flex lg:flex-row flex-col gap-8">
+            <SelectGroup
+              labelClasses="font-Satoshi500 text-[15.606px]"
+              label="Project Status"
+              name="Name"
+              :items="['In Progress', 'Pending Approval', 'On Hold']"
+              placeholder="Project Status"
+              type="text"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+            ></SelectGroup>
+            <SelectGroup
+              labelClasses="font-Satoshi500 text-[15.606px]"
+              label="Deadline"
+              name="Name"
+              placeholder="Deadline Date"
+              type="text"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+            ></SelectGroup>
+            <SelectGroup
+              labelClasses="font-Satoshi500 text-[15.606px]"
+              label="Payment Status"
+              name="Name"
+              :items="['Paid', 'Pending Payment', 'Milestone 1']"
+              placeholder="Payment Status"
+              type="text"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+            ></SelectGroup>
+          </div>
+          <div
+            class="flex lg:flex-row flex-col items-center justify-between gap-4 mt-[39.94px]"
+          >
+            <button
+              class="bg-[#43D0DF] font-Satoshi500 text-[11.573px] p-3 px-[15.58px] uppercase text-[#000000] rounded-full"
+            >
+              Message business
+            </button>
+            <div class="flex items-center gap-[12px]">
+              <h4 class="text-[#000000] text-[16.142px] font-Satoshi500">Document</h4>
               <button class="">
-                <CircleBookMarkIcon />
+                <CopyIcon />
               </button>
               <button class="">
-                <SearchIcon />
+                <CopyIcon />
               </button>
-              <button
-                @click="redirectToJobDetails(1)"
-                class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
-              >
-                APPLY
+              <button class="">
+                <CopyIcon />
+              </button>
+              <button class="">
+                <CopyIcon />
+              </button>
+              <button class="">
+                <CopyIcon />
               </button>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>

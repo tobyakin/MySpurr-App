@@ -8,7 +8,7 @@ import MyJobs from "@/components/ui/MyApplications/MyJobs/MyJobs.vue";
 </script>
 <template>
   <DashboardLayout
-    ><div class="container">
+    ><div class="container mb-20">
       <Tab>
         <template #tab1> Invites </template>
         <template #tab2> Applications </template>

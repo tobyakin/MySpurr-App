@@ -52,10 +52,9 @@ function activateTab(tab) {
 }
 
 .applications_tabs a {
-  font-size: 26.036px;
   cursor: pointer;
   transition: color 0.2s;
-  @apply p-0 py-2 text-center text-[#244034] font-Satoshi400;
+  @apply p-0 py-2 text-center lg:text-[26.036px] text-[#244034] font-Satoshi400;
 }
 
 .applications_tabs a:last-child {

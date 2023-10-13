@@ -18,7 +18,7 @@ defineProps({
 </script>
 <template>
   <div class="border-[#254035AB] border-[0.735px] bg-white rounded-[7.347px] p-5 px-6">
-    <div class="flex gap-3 w-full">
+    <div class="flex lg:flex-row flex-col gap-3 w-full">
       <div>
         <img
           v-if="job.company_image !== null"
@@ -45,8 +45,10 @@ defineProps({
             </p>
           </div>
         </div>
-        <div class="flex items-center justify-between w-full gap-3">
-          <div class="flex items-center gap-14">
+        <div class="flex flex-col lg:flex-row items-center justify-between w-full gap-3">
+          <div
+            class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14"
+          >
             <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
               {{ job.job_title }}
             </p>
@@ -64,7 +66,7 @@ defineProps({
           </a>
         </div>
         <div class="flex flex-col justify-between mt-5">
-          <div class="flex gap-4 items-center">
+          <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
               <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
                 {{ job.rate }}
@@ -88,7 +90,7 @@ defineProps({
               </div>
             </div>
           </div>
-          <div class="flex justify-between mt-2">
+          <div class="flex lg:flex-row flex-col gap-4 justify-between mt-2">
             <div class="flex gap-3 items-center">
               <div
                 v-for="skill in job.skills"
@@ -99,13 +101,17 @@ defineProps({
               </div>
             </div>
 
-            <div class="flex items-center gap-4">
-              <button class="">
-                <CircleBookMarkIcon />
-              </button>
-              <button class="">
-                <SearchIcon />
-              </button>
+            <div
+              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4"
+            >
+              <div class="flex items-center gap-4">
+                <button class="">
+                  <CircleBookMarkIcon />
+                </button>
+                <button class="">
+                  <SearchIcon />
+                </button>
+              </div>
               <button
                 @click="redirectToJobDetails(1)"
                 class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
