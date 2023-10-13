@@ -7,7 +7,8 @@ import SearchIcon from "@/components/icons/searchBarIcon.vue";
 import Dropdown from "@/components/ui/DropDown.vue";
 import { ref } from "vue";
 import "animate.css";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 const closeNav = ref(false);
 const closeBackdrop = ref(false);
 const showDropdown = ref(false);
@@ -56,6 +57,9 @@ const items = [
 
 const toogleDropdown = () => {
   showDropdown.value = !showDropdown.value;
+};
+const redirectToWallet = () => {
+  router.push({ name: "wallet" });
 };
 </script>
 
@@ -106,9 +110,18 @@ const toogleDropdown = () => {
           </div>
           <div class="links flex">
             <div class="flex justify-between gap-1 items-center ml-auto">
-              <span class="notification hidden lg:block px-2"><WalletIcon /> </span>
-              <span class="notification hidden lg:block px-2"><BookMarkIcon /> </span>
-              <span class="notification hidden lg:block px-2"><BellIcon /> </span>
+              <span
+                role="button"
+                @click="redirectToWallet"
+                class="notification cusor-pointer hidden lg:block px-2"
+                ><WalletIcon />
+              </span>
+              <span role="button" class="notification cusor-pointer hidden lg:block px-2"
+                ><BookMarkIcon />
+              </span>
+              <span role="button" class="notification cusor-pointer hidden lg:block px-2"
+                ><BellIcon />
+              </span>
 
               <div class="profile__dropdown">
                 <div

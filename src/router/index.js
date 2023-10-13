@@ -17,6 +17,7 @@ import Community from '@/views/Community/ComingSoon.vue'
 import PostJob from '@/views/Jobs/Business/PostJob.vue'
 import MyApplications from '@/views/MyApplications/MyApplications.vue'
 import MessagesPage from '@/views/Messages/MessagesPage.vue'
+import WalletOverviewPage from '@/views/Wallet/OverviewPage.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -75,6 +76,12 @@ const router = createRouter({
       path: '/messages',
       name: 'messages',
       component: MessagesPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/wallet',
+      name: 'wallet',
+      component: WalletOverviewPage,
       beforeEnter: [middleware.redirectLogin]
     },
     {
