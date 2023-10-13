@@ -1,7 +1,7 @@
 <template>
   <div
     :id="id"
-    class="absolute bg-white top-10 w-64 z-10 -left-[13rem] rounded pt-4 px-3 shadow-lg"
+    class="absolute bg-white top-20 w-64 z-10 -left-[13rem] rounded pt-4 px-3 shadow-lg"
   >
     <div class="flex items-center gap-4 px-8 mb-4">
       <!-- <img
