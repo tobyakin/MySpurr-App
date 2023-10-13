@@ -16,6 +16,7 @@ import OnboardingRequest from '@/components/ui/Onboarding/OnboardingRequest.vue'
 import Community from '@/views/Community/ComingSoon.vue'
 import PostJob from '@/views/Jobs/Business/PostJob.vue'
 import MyApplications from '@/views/MyApplications/MyApplications.vue'
+import MessagesPage from '@/views/Messages/MessagesPage.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -68,6 +69,12 @@ const router = createRouter({
       path: '/jobs',
       name: 'jobs',
       component: JobsView,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: MessagesPage,
       beforeEnter: [middleware.redirectLogin]
     },
     {
