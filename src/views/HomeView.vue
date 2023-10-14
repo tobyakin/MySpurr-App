@@ -91,12 +91,12 @@ onMounted(async () => {
             >
             <router-link
               v-if="accountType === 'talent'"
-              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              class="text-[#011B1F] font-Satoshi500 hidden border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/courses"
               >Take courses</router-link
             >
             <router-link
-              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              class="text-[#011B1F] font-Satoshi500 hidden border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/community"
               >Community</router-link
             >
@@ -107,7 +107,7 @@ onMounted(async () => {
         >
           <div>
             <p
-              class="text-[#244034] lg:text-[28.2px] text-[19px] leading-[51.2px] font-Satoshi500"
+              class="text-[#244034] lg:text-[26.2px] text-[19px] leading-[51.2px] font-Satoshi500"
             >
               Verify your account details
             </p>
@@ -242,18 +242,22 @@ onMounted(async () => {
         </div>
 
         <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
-          <JobCard class="min-w-[95%] lg:min-w-[45%]" v-for="item in 4" :key="item" />
+          <JobCard
+            class="min-w-[95%] lg:min-w-[45%] xl:min-w-[45%] md:min-w-[60%]"
+            v-for="item in 4"
+            :key="item"
+          />
         </div>
       </div>
       <div v-if="accountType === 'talent'" class="mt-10 flex gap-3 overflow-x-auto">
-        <div class="my-8">
-          <p class="text-[17.633px] font-Satoshi400 mb-8 text-[#244034]">
+        <div class="my-8 w-full">
+          <p class="text-[17.633px] font-Satoshi400 !mb-8 text-[#244034]">
             My Applications
           </p>
-
-          <MyApplicationCard class="min-w-[95%] lg:min-w-[70%]" />
+          <!-- min-w-[95%] lg:min-w-[70%] -->
+          <MyApplicationCard class="w-full" />
         </div>
-        <div class="my-8">
+        <div class="my-8 hidden">
           <div class="flex justify-between mb-8">
             <p class="text-[17.633px] font-Satoshi400 text-[#244034]">My Courses</p>
 
@@ -270,7 +274,7 @@ onMounted(async () => {
         </div>
       </div>
       <!-- community -->
-      <div v-if="accountType === 'talent'" class="my-8">
+      <div v-if="accountType === 'talent'" class="my-8 hidden">
         <div class="flex justify-between mb-4">
           <p class="text-[17.633px] font-Satoshi400 text-[#244034]">Communities</p>
 

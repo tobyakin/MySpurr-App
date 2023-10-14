@@ -108,7 +108,7 @@
       <router-link
         v-if="feature.includes('COURSES')"
         to="/courses"
-        class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
+        class="p-[10px] flex justify-start hidden hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === 'courses' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
@@ -139,7 +139,7 @@
       </router-link>
       <router-link
         to="/dashboard"
-        class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
+        class="p-[10px] flex justify-start hidden hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
