@@ -2,7 +2,7 @@
   <header class="h-screen bg-[#E9FAFB]">
     <div class="logo">
       <router-link to="/">
-        <img src="@/assets/Logo.png" class="h-8" alt="MySpurr logo" />
+        <img src="@/assets/Logobeta.png" class="h-12" alt="MySpurr logo" />
       </router-link>
     </div>
     <!-- The nav -->
