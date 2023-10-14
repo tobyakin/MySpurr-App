@@ -91,8 +91,8 @@ const redirectToWallet = () => {
             <div class="logo">
               <router-link :to="{ name: 'dashboard' }"
                 ><img
-                  src="@/assets/Logo.png"
-                  class="lg:w-[80%] md:w-[40%]"
+                  src="@/assets/Logobeta.png"
+                  class="lg:w-[80%] h-[40px] md:w-[40%]"
                   alt="Myspurr logo"
               /></router-link>
             </div>
