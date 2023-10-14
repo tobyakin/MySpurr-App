@@ -63,9 +63,9 @@ watch(StartDate, (newStartDate) => {
         Educational details
       </h1>
       <p
-        class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
+        class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 my-4 md:!mb-8"
       >
-        Please provide details fo your most recent educational detail. You will have a
+        Please provide details to your most recent educational detail. You will have a
         chance to add to this when your onboarding as been completed.
       </p>
       <div
@@ -76,7 +76,7 @@ watch(StartDate, (newStartDate) => {
           <GlobalInput
             v-model="education.school_name"
             inputClasses="bg-transparent border-none"
-            placeholder=""
+            placeholder="University of Nigeria, Nsuka"
             type="text"
           />
         </div>
@@ -96,7 +96,7 @@ watch(StartDate, (newStartDate) => {
           <GlobalInput
             v-model="education.field_of_study"
             inputClasses="bg-transparent border-none"
-            placeholder=""
+            placeholder="Computer Engineering"
             type="text"
           />
         </div>

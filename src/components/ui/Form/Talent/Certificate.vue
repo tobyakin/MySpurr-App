@@ -71,7 +71,7 @@ watch(CertificateYear, (newCertificateYear) => {
         Certificate
       </h1>
       <p
-        class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
+        class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 my-4 md:!mb-8"
       >
         Please provide details fo your most recent certificate. You will have a chance to
         add to this when your onboarding as been completed
@@ -84,7 +84,7 @@ watch(CertificateYear, (newCertificateYear) => {
           <GlobalInput
             v-model="certificate.title"
             inputClasses="bg-transparent border-none"
-            placeholder=""
+            placeholder="Diploma in Graphic Design"
             type="text"
             required
           />
@@ -96,7 +96,7 @@ watch(CertificateYear, (newCertificateYear) => {
           <GlobalInput
             v-model="certificate.institute"
             inputClasses="bg-transparent border-none"
-            placeholder=""
+            placeholder="Cousera"
             type="text"
             required
           />

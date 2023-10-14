@@ -39,7 +39,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (min-width: 1200px) {
   .container {
-    width: 83%;
+    width: 70%;
   }
 }
 .auth_container {
@@ -234,3 +234,10 @@ ol {
 .Vue-Toastification__toast--success svg {
   @apply !text-green-500
 }
+/* ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today  */
+/* .ant-picker-cell-in-view, */
+/* .ant-picker-cell-today,
+.ant-picker-cell-selected,
+{
+  @apply  !bg-brand
+} */
