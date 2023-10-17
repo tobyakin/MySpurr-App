@@ -5,6 +5,7 @@ import BookMarkIcon from "@/components/icons/bookmarkIcon.vue";
 import WalletIcon from "@/components/icons/walletIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
 import Dropdown from "@/components/ui/DropDown.vue";
+import NotificationDropDown from "@/components/ui/NotificationDropDown.vue";
 import { ref } from "vue";
 import "animate.css";
 import { useRouter } from "vue-router";
@@ -12,6 +13,7 @@ const router = useRouter();
 const closeNav = ref(false);
 const closeBackdrop = ref(false);
 const showDropdown = ref(false);
+const showNotificationDropdown = ref(false);
 
 const toggle = () => {
   closeNav.value = !closeNav.value;
@@ -27,25 +29,25 @@ const toggle = () => {
   }
 };
 const items = [
-  { id: 0, name: "dashboard", context: "My profile" },
+  { id: 0, name: "profile", context: "My profile" },
   {
     id: 1,
-    name: "dashboard",
+    name: "my-work",
     context: "My work",
   },
   {
     id: 2,
-    name: "dashboard",
+    name: "wallet",
     context: "Wallet",
   },
   {
     id: 3,
-    name: "dashboard",
+    name: "settings",
     context: "Settings",
   },
   {
     id: 4,
-    name: "dashboard",
+    name: "help-center",
     context: "Help Center",
   },
   {
@@ -54,12 +56,35 @@ const items = [
     context: "Log out",
   },
 ];
-
+const notificationItems = [
+  {
+    id: 0,
+    name: "",
+    context: "`Lorem ipsum dolor sit amet, iat nulla pariatur. E`",
+  },
+  {
+    id: 1,
+    name: "",
+    context: "`Lorem ipsum dolor sit amet, iat nulla pariatur. E`",
+  },
+];
 const toogleDropdown = () => {
   showDropdown.value = !showDropdown.value;
+  if (showNotificationDropdown.value === true) {
+    showNotificationDropdown.value = false;
+  }
+};
+const toogleNotificationDropdown = () => {
+  showNotificationDropdown.value = !showNotificationDropdown.value;
+  if (showDropdown.value === true) {
+    showDropdown.value = false;
+  }
 };
 const redirectToWallet = () => {
   router.push({ name: "wallet" });
+};
+const redirectToBookmark = () => {
+  router.push({ name: "bookmark" });
 };
 </script>
 
@@ -116,10 +141,16 @@ const redirectToWallet = () => {
                 class="notification cusor-pointer hidden lg:block px-2"
                 ><WalletIcon />
               </span>
-              <span role="button" class="notification cusor-pointer hidden lg:block px-2"
+              <span
+                @click="redirectToBookmark"
+                role="button"
+                class="notification cusor-pointer hidden lg:block px-2"
                 ><BookMarkIcon />
               </span>
-              <span role="button" class="notification cusor-pointer hidden lg:block px-2"
+              <span
+                @click="toogleNotificationDropdown"
+                role="button"
+                class="notification cusor-pointer hidden lg:block px-2"
                 ><BellIcon />
               </span>
 
@@ -170,6 +201,12 @@ const redirectToWallet = () => {
                     :link="true"
                     :items="items"
                     @closeDropdown="toogleDropdown"
+                  /><NotificationDropDown
+                    v-if="showNotificationDropdown"
+                    :showDropdown="showNotificationDropdown"
+                    :link="true"
+                    :items="notificationItems"
+                    @closeDropdown="toogleNotificationDropdown"
                   />
                 </div>
               </div>

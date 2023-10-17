@@ -18,6 +18,11 @@ import PostJob from '@/views/Jobs/Business/PostJob.vue'
 import MyApplications from '@/views/MyApplications/MyApplications.vue'
 import MessagesPage from '@/views/Messages/MessagesPage.vue'
 import WalletOverviewPage from '@/views/Wallet/OverviewPage.vue'
+import ProfilePage from '@/views/Profile/ProfilePage.vue'
+import SettingsPage from '@/views/Settings/SettingsPage.vue'
+import MyWork from '@/views/MyWork/MyWork.vue'
+import HelpCenterPage from '@/views/HelpCenter/HelpCenterPage.vue'
+import BookMarkPage from '@/views/BookMark/BookMarkPage.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -76,6 +81,36 @@ const router = createRouter({
       path: '/messages',
       name: 'messages',
       component: MessagesPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfilePage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: SettingsPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/my-work',
+      name: 'my-work',
+      component: MyWork,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/help-center',
+      name: 'help-center',
+      component: HelpCenterPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/bookmark',
+      name: 'bookmark',
+      component: BookMarkPage,
       beforeEnter: [middleware.redirectLogin]
     },
     {
