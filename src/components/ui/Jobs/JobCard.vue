@@ -24,7 +24,7 @@ defineProps({
         <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
           Developer in java c++
         </p>
-        <div class="flex gap-2">
+        <div class="flex flex-wrap mt-2 gap-2">
           <div class="flex gap-1 text-[10.334px] text-[#DA5252] font-Satoshi500">
             <CalenderIcon /><span class="py-[0.25px]">30 hrs/week</span>
           </div>
