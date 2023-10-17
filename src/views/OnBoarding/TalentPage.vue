@@ -1,17 +1,20 @@
 <template>
   <div class="bg-[#ffffff] min-h-screen h-full">
-    <div class="lg:w-[40%] mx-auto text-center px-3 justify-between flex lg:py-4 mt-10">
+    <div
+      :class="step === 5 ? 'hidden' : ''"
+      class="md:w-[60%] lg:w-[45%] mx-auto text-center px-3 justify-between flex lg:py-4 !mt-10"
+    >
       <div
-        class="flex font-Satoshi400 text-[14.908px] justify-center items-center lg:w-[50%] gap-1"
+        class="flex font-Satoshi400 md:text-[14.908px] text-[12px] justify-center items-center lg:w-[50%] gap-1"
       >
         <TickCircle class="text-[#43D0DF]" />
         <p class="mb-0">Create an account</p>
       </div>
       <div class="flex items-center justify-around mx-auto w-auto">
-        <hr class="border-b-[#000000] lg:w-[191.862px] border-b-[0.932px]" />
+        <hr class="border-b-[#000000] lg:w-[190px] md:w-[100px] border-b-[0.932px]" />
       </div>
       <div
-        class="flex font-Satoshi400 text-[14.908px] overflow-hidden items-center justify-center lg:w-[50%] gap-1"
+        class="flex font-Satoshi400 md:text-[14.908px] text-[12px] overflow-hidden items-center justify-center lg:w-[50%] gap-1"
       >
         <TickCircle :class="step >= 4 ? 'text-[#43D0DF]' : 'text-[#B2ECF2]'" />
         <p class="mb-0">Your Profile details</p>
@@ -31,6 +34,7 @@
       <EducationalDetails v-if="step == 2" @next="next" @prev="prev" />
       <EmploymentDetails v-if="step == 3" @next="next" @prev="prev" />
       <Certificate v-if="step == 4" @next="next" @prev="prev" />
+      <SuccessPage v-if="step == 5" @next="next" />
       <!-- <PortfolioForm v-if="step == 2" @prev="prev" @next="next" /> -->
     </div>
   </div>
@@ -45,6 +49,7 @@ import WorkDetailsForm from "@/components/ui/Form/Talent/WorkDetailsForm.vue";
 import EducationalDetails from "@/components/ui/Form/Talent/EducationalDetails.vue";
 import EmploymentDetails from "@/components/ui/Form/Talent/EmploymentDetails.vue";
 import Certificate from "@/components/ui/Form/Talent/Certificate.vue";
+import SuccessPage from "@/components/ui/Form/Talent/SuccessPage.vue";
 import TickCircle from "@/components/icons/tickCircle.vue";
 import { useStore } from "@/stores/user";
 const OnboardingStore = useOnboardingStore();
@@ -63,7 +68,7 @@ const prev = () => {
 };
 
 const next = (data) => {
-  if (step.value === 4) {
+  if (step.value === 5) {
     return router.push({
       name: "dashboard",
     });

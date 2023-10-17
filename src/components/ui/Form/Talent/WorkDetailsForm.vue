@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch, computed, defineAsyncComponent } from "vue";
+import { ref, onMounted, watch, computed, defineAsyncComponent, reactive } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 // import { useStore } from "@/stores/user";
 import { useSkillsStore } from "@/stores/skills";
@@ -7,7 +7,7 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import Multiselect from "vue-multiselect";
 const skillsStore = useSkillsStore();
-const { skills } = storeToRefs(skillsStore);
+const { skills, jobTitle } = storeToRefs(skillsStore);
 
 const OnboardingStore = useOnboardingStore();
 const SelectGroup = defineAsyncComponent(() =>
@@ -37,6 +37,8 @@ const employmentType = [
   "Contract ",
 ];
 let options = ref([]);
+let skillTitles = ref([]);
+
 const educationLevel = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
 
 const addTag = (newTagName) => {
@@ -61,7 +63,7 @@ const addTag = (newTagName) => {
 const emit = defineEmits("next");
 const isFormValid = computed(() => {
   return (
-    skill_title.value.trim() !== "" &&
+    // skill_title.value.trim() !== "" &&
     top_skills.value.length >= 0 && // Check if top_skills is not empty
     highest_education.value.trim() !== "" &&
     overview.value.trim() !== "" &&
@@ -77,8 +79,103 @@ const next = () => {
 };
 onMounted(async () => {
   await skillsStore.getskills();
+  await skillsStore.getJobTitles();
   options.value = skills.value.data;
+  skillTitles.value = jobTitle.value.data;
 });
+
+const showJobTitleDropdown = ref(false);
+const highlightedJobTitleIndex = ref(-1);
+
+const filteredOptionsJobTitle = computed(() => {
+  const searchJobTitle = skill_title.value.toLowerCase();
+  return skillTitles.value.filter((option) =>
+    option.name.toLowerCase().includes(searchJobTitle)
+  );
+});
+
+const filterJobTitleOptions = () => {
+  showJobTitleDropdown.value = true;
+  highlightedJobTitleIndex.value = -1;
+};
+
+const selectJobTitleOptions = (option) => {
+  skill_title.value = option.name;
+  showJobTitleDropdown.value = false;
+};
+
+const highlightNextJobTitle = () => {
+  if (highlightedJobTitleIndex.value < filteredOptionsJobTitle.value.length - 1) {
+    highlightedJobTitleIndex.value++;
+  }
+};
+
+const highlightPreviousJobTitle = () => {
+  if (highlightedJobTitleIndex.value > 0) {
+    highlightedJobTitleIndex.value--;
+  }
+};
+
+const selectHighlightedJobTitleOption = () => {
+  if (highlightedJobTitleIndex.value >= 0) {
+    selectJobTitleOptions(filteredOptionsJobTitle.value[highlightedJobTitleIndex.value]);
+  }
+};
+// multi select
+const search = ref("");
+const showDropdown = ref(false);
+const highlightedIndex = ref(-1);
+
+const filteredOptions = computed(() => {
+  const searchTerm = search.value.toLowerCase();
+  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
+});
+
+const filterOptions = () => {
+  showDropdown.value = true;
+  highlightedIndex.value = -1;
+};
+
+const selectOption = (option) => {
+  if (top_skills.value.length < 5) {
+    search.value = "";
+    showDropdown.value = false;
+    highlightedIndex.value = -1;
+    top_skills.value.push(option);
+  }
+};
+
+const removeSelectedItem = (index) => {
+  top_skills.value.splice(index, 1);
+};
+
+const highlightNext = () => {
+  if (highlightedIndex.value < filteredOptions.value.length - 1) {
+    highlightedIndex.value++;
+  }
+};
+
+const highlightPrevious = () => {
+  if (highlightedIndex.value > 0) {
+    highlightedIndex.value--;
+  }
+};
+const getNextId = () => {
+  const ids = options.value.map((option) => parseInt(option.id));
+  const maxId = Math.max(...ids);
+  return (maxId + 1).toString();
+};
+
+const selectHighlightedOption = () => {
+  if (highlightedIndex.value >= 0) {
+    selectOption(filteredOptions.value[highlightedIndex.value]);
+  } else if (search.value && !filteredOptions.value.length) {
+    // If no options match the search term, add the typed item to the list
+    const nextId = getNextId();
+
+    selectOption({ id: nextId, name: search.value });
+  }
+};
 </script>
 
 <template>
@@ -88,9 +185,9 @@ onMounted(async () => {
         Your work details
       </h1>
       <p
-        class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
+        class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 !my-4 md:!mb-8"
       >
-        Please provide details fo your most recent work detail. You will have a chance to
+        Please provide details to your most recent work detail. You will have a chance to
         add to this when your onboarding as been completed
       </p>
       <div
@@ -100,12 +197,45 @@ onMounted(async () => {
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Skill title</label
           >
-          <GlobalInput
+          <div class="relative">
+            <GlobalInput
+              v-model="skill_title"
+              @input="filterJobTitleOptions"
+              @keydown.down="highlightNextJobTitle"
+              @keydown.up="highlightPreviousJobTitle"
+              @keydown.enter="selectHighlightedJobTitleOption"
+              ref="searchInput"
+              inputClasses="bg-transparent !border-none"
+              placeholder="Graphics Designer"
+              type=""
+            />
+
+            <ul
+              v-if="showJobTitleDropdown"
+              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+            >
+              <li
+                v-for="(option, index) in filteredOptionsJobTitle"
+                :key="option.id"
+                @click="selectJobTitleOptions(option)"
+                :class="{ highlighted: index === highlightedJobTitleIndex }"
+                class="hover:bg-brand hover:text-white"
+              >
+                {{ option.name }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- <multiselect
             v-model="skill_title"
-            inputClasses="bg-transparent !border-none"
-            placeholder="Graphics Designer"
-            type="text"
-          />
+            :options="skillTitles"
+            placeholder="Ex. Graphics Designer"
+            @tag="addTag"
+            :searchable="true"
+            :close-on-select="false"
+            :show-labels="false"
+          >
+          </multiselect> -->
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-3.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Overview</label>
@@ -130,7 +260,7 @@ onMounted(async () => {
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Select your top 5 skills</label
           >
-          <multiselect
+          <!-- <multiselect
             v-model="top_skills"
             :options="options"
             :multiple="true"
@@ -145,7 +275,60 @@ onMounted(async () => {
             :preserve-search="true"
             :preselect-first="false"
           >
-          </multiselect>
+          </multiselect> -->
+          <div>
+            <div class="selected-items p-2 gap-2">
+              <div
+                v-for="(selectedItem, index) in top_skills"
+                :key="selectedItem.id"
+                class="selected-item bg-brand text-sm font-Satoshi400 p-[5px] text-white rounded-[5px]"
+              >
+                {{ selectedItem.name }}
+                <span
+                  @click="removeSelectedItem(index)"
+                  class="remove-btn text-black hover:text-white"
+                  >x</span
+                >
+              </div>
+            </div>
+            <div>
+              <GlobalInput
+                v-model="search"
+                @input="filterOptions"
+                @keydown.down="highlightNext"
+                @keydown.up="highlightPrevious"
+                @keydown.enter="selectHighlightedOption"
+                ref="searchInput"
+                inputClasses="bg-transparent !border-none"
+                placeholder="Graphics Designer"
+                type="text"
+              />
+
+              <!-- <input
+              v-model="search"
+              @input="filterOptions"
+              @keydown.down="highlightNext"
+              @keydown.up="highlightPrevious"
+              @keydown.enter="selectHighlightedOption"
+              ref="searchInput"
+              placeholder="Type to add or select..."
+            /> -->
+              <ul
+                v-if="showDropdown"
+                class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+              >
+                <li
+                  v-for="(option, index) in filteredOptions"
+                  :key="option.id"
+                  @click="selectOption(option)"
+                  :class="{ highlighted: index === highlightedIndex }"
+                  class="hover:bg-brand hover:text-white"
+                >
+                  {{ option.name }}
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
@@ -226,5 +409,51 @@ onMounted(async () => {
 }
 .multiselect__select {
   @apply !p-3 !py-3 !w-0;
+}
+.multiselect__option:hover {
+  @apply !bg-brand;
+}
+.multiselect__option:active {
+  @apply !bg-brand;
+}
+.multiselect__option--highlight {
+  @apply !bg-brand;
+}
+.selected-items {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.selected-item {
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.remove-btn {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.dropdown {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.drop_down_section {
+  position: absolute;
+  top: 70px;
+  transform-origin: center top;
+  z-index: 2003;
+  padding: 12px;
+  overflow: auto;
+}
+.dropdown li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown li.highlighted {
+  background-color: #f0f0f0;
 }
 </style>

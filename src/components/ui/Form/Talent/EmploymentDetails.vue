@@ -22,6 +22,7 @@ const isFormValid = computed(() => {
     employment_details.value.company_name.trim() !== "" &&
     employment_details.value.title.trim() !== "" &&
     employment_details.value.employment_type.trim() !== "" &&
+    employment_details.value.description !== "" &&
     employment_details.value.start_date !== "" &&
     employment_details.value.end_date !== ""
   );
