@@ -14,8 +14,8 @@ const apply = () => {
 
 <template>
   <div>
-    <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-10">
-      <div class="flex gap-3 w-full">
+    <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
+      <div class="flex lg:flex-row flex-col gap-3 w-full">
         <div>
           <img
             class="h-[61.011px] w-[61.011px] rounded-full"
@@ -24,7 +24,7 @@ const apply = () => {
           />
         </div>
         <div class="w-full">
-          <div class="flex justify-between">
+          <div class="flex lg:flex-row flex-col gap-4 justify-between">
             <div class="">
               <p class="text-[22.805px] font-Satoshi400 flex text-[#000]">Adobe Inc.</p>
               <div class="flex mt-1 gap-1">
@@ -37,10 +37,12 @@ const apply = () => {
             <div>
               <div class="flex gap-2">
                 <button class="">
-                  <CircleBookMarkIcon class="w-[54.215px] h-[54.215px]" />
+                  <CircleBookMarkIcon
+                    class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]"
+                  />
                 </button>
                 <button class="">
-                  <SearchIcon class="w-[54.215px] h-[54.215px]" />
+                  <SearchIcon class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]" />
                 </button>
               </div>
             </div>
@@ -48,8 +50,10 @@ const apply = () => {
         </div>
       </div>
       <div class="flex flex-col justify-between mt-5">
-        <div class="flex items-center justify-between w-full gap-3">
-          <p class="text-[26.625px] font-Satoshi500 text-[#000000]">
+        <div
+          class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
+        >
+          <p class="lg:text-[26.625px] text-[19px] font-Satoshi500 text-[#000000]">
             Senior Product & Brand Design
           </p>
           <button
@@ -59,8 +63,8 @@ const apply = () => {
             APPLY
           </button>
         </div>
-        <div class="flex justify-between mt-2">
-          <div class="flex gap-3 items-center">
+        <div class="flex justify-between lg:mt-2 mt-6">
+          <div class="flex gap-3 flex-wrap items-center">
             <div
               class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
             >
@@ -81,7 +85,7 @@ const apply = () => {
       </div>
     </div>
     <div
-      class="bg-[#E9FAFB] border-[0.735px] flex justify-between rounded-[17.104px] mt-10 p-6 px-10"
+      class="bg-[#E9FAFB] border-[0.735px] flex lg:flex-row flex-col gap-5 justify-between rounded-[17.104px] mt-10 p-6 lg:px-10"
     >
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
@@ -127,7 +131,7 @@ const apply = () => {
           </p>
         </div>
 
-        <p class="text-[16.236px] text-[#000] font-Satoshi500 mb-4 mt-6">
+        <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
           Responsibilities
         </p>
         <div class="flex flex-col gap-3">
@@ -146,13 +150,13 @@ const apply = () => {
           </div>
         </div>
 
-        <p class="text-[16.236px] text-[#000] font-Satoshi500 mb-4 mt-6">
+        <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
           Required Skills:
         </p>
         <div
           class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
         >
-          <ul class="pl-8">
+          <ul class="lg:pl-8 pl-4">
             <li v-for="item in 5" :key="item" class="list-disc pb-3">
               You’ve been designing digital products for 2+ years.
             </li>
@@ -163,7 +167,7 @@ const apply = () => {
         <div
           class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
         >
-          <ul class="pl-8">
+          <ul class="lg:pl-8 pl-4">
             <li v-for="item in 5" :key="item" class="list-disc pb-3">
               You’ve been designing digital products for 2+ years.
             </li>

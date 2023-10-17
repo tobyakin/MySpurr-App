@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="my_applications_tabs flex py-[25.3px] px-[51.65px] justify-between bg-[#E9FAFB] rounded-[13.076px] border-[0.872px] border-[#F6F6F6] gap-12 mt-6"
+      class="my_applications_tabs lg:flex hidden py-[25.3px] px-[51.65px] justify-between bg-[#E9FAFB] rounded-[13.076px] border-[0.872px] border-[#F6F6F6] gap-12 mt-6"
     >
       <a
         class=""
@@ -46,6 +46,32 @@
         <slot name="tab6"></slot>
       </a>
     </div>
+    <!-- tabs for mobile screen size start here -->
+    <div
+      class="my_applications_tabs lg:hidden flex lg:py-[25.3px] lg:px-[51.65px] p-4 justify-between bg-[#E9FAFB] rounded-[13.076px] border-[0.872px] border-[#F6F6F6] gap-12 mt-6"
+    >
+      <select class="py-3 w-full rounded px-4 outline-none" v-model="activetab">
+        <option value="invites">
+          <slot name="tab1"></slot>
+        </option>
+        <option value="applications">
+          <slot name="tab2"></slot>
+        </option>
+        <option value="job_offers">
+          <slot name="tab3"></slot>
+        </option>
+        <option value="my_job">
+          <slot name="tab4"></slot>
+        </option>
+        <option value="invoices">
+          <slot name="tab5"></slot>
+        </option>
+        <option value="help">
+          <slot name="tab6"></slot>
+        </option>
+      </select>
+    </div>
+
     <!-- my_applications_tabs  view  start here -->
     <div class="pt-12">
       <div v-if="activetab === 'invites'" class="">

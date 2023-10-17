@@ -136,8 +136,8 @@ const next = () => {
 
 <template>
   <div>
-    <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-10">
-      <div class="flex gap-3 w-full">
+    <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
+      <div class="flex lg:flex-row flex-col gap-3 w-full">
         <div>
           <img
             class="h-[57.102px] w-[57.102px] rounded-full"
@@ -146,7 +146,7 @@ const next = () => {
           />
         </div>
         <div class="w-full">
-          <div class="flex justify-between items-center">
+          <div class="flex lg:flex-row flex-col gap-4 justify-between">
             <div class="">
               <p class="text-[17.435px] font-Satoshi400 flex text-[#000]">Adobe Inc.</p>
               <div class="flex mt-1 gap-1">
@@ -157,13 +157,15 @@ const next = () => {
               </div>
             </div>
             <div class="flex flex-col justify-between">
-              <div class="flex items-center justify-between w-full gap-3">
-                <p class="text-[20.356px] font-Satoshi500 text-[#000000]">
+              <div
+                class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
+              >
+                <p class="lg:text-[26.625px] text-[19px] font-Satoshi500 text-[#000000]">
                   Senior Product & Brand Design
                 </p>
               </div>
-              <div class="flex justify-between mt-2">
-                <div class="flex gap-3 items-center">
+              <div class="flex justify-between lg:mt-2 mt-6">
+                <div class="flex gap-3 flex-wrap items-center">
                   <div
                     class="bg-[#2F929C] font-Satoshi500 text-[7.58px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
                   >
@@ -185,7 +187,7 @@ const next = () => {
             <div class="flex gap-3">
               <button
                 @click="back"
-                class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-8 text-[#000000] rounded-full"
+                class="bg-[#43D0DF] font-Satoshi500 uppercase lg:w-auto w-full text-[9.708px] p-3 lg:px-8 text-[#000000] rounded-full"
               >
                 back
               </button>
@@ -193,7 +195,7 @@ const next = () => {
                 :disabled="!disable"
                 @click="handleJobApplication()"
                 :class="!disable ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-                class="font-Satoshi500 uppercase text-[9.708px] p-3 px-8 text-[#000000] rounded-full"
+                class="font-Satoshi500 uppercase text-[9.708px] p-3 lg:px-8 lg:w-auto w-full text-[#000000] rounded-full"
               >
                 SEND ApplicatIon
               </button>
@@ -203,7 +205,7 @@ const next = () => {
       </div>
     </div>
     <div
-      class="bg-[#E9FAFB] border-[0.735px] flex justify-between rounded-[17.104px] mt-10 p-6 px-10"
+      class="bg-[#E9FAFB] border-[0.735px] flex lg:flex-row flex-col gap-5 justify-between rounded-[17.104px] mt-10 p-6 lg:px-10"
     >
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[13.076px] font-Satoshi400">Salary</p>
@@ -239,7 +241,9 @@ const next = () => {
           class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
         >
           <p class="text-[17.887px] font-Satoshi500 text-[#000]">Profile URL</p>
-          <div class="bg-[#EDF0B8] p-2 flex relative rounded-[5.982px] mt-3">
+          <div
+            class="bg-[#EDF0B8] p-2 flex relative overflow-hidden rounded-[5.982px] mt-3"
+          >
             <a href="" class="text-[15.495px] font-Satoshi500 text-[#01272C]"
               >https://www.myspurr.talent/tobiakinyele</a
             >
@@ -260,7 +264,7 @@ const next = () => {
             >Client budget: $30 – $35/hr</span
           >
           <div class="flex-col justify-between gap-2 w-full">
-            <div class="flex gap-3 justify-between mt-4">
+            <div class="flex flex-wrap lg:gap-3 justify-between mt-4">
               <button
                 @click="(onButton1 = !onButton1), toggleButton(1)"
                 :class="{
@@ -352,7 +356,9 @@ const next = () => {
           <p class="text-[17.887px] font-Satoshi500 text-[#000]">
             Add your booking meeting url
           </p>
-          <div class="bg-[#EDF0B8] p-2 flex relative rounded-[5.982px] mt-3">
+          <div
+            class="bg-[#EDF0B8] p-2 flex relative overflow-hidden rounded-[5.982px] mt-3"
+          >
             <a href="" class="text-[15.495px] font-Satoshi500 text-[#01272C]"
               >https://www.myspurr.talent/tobiakinyele</a
             >

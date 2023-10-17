@@ -17,7 +17,9 @@ defineProps({
 });
 </script>
 <template>
-  <div class="border-[#254035AB] border-[0.735px] bg-white rounded-[7.347px] p-5 px-6">
+  <div
+    class="border-[#254035AB] border-[0.735px] bg-white rounded-[7.347px] lg:p-5 p-4 lg:px-6"
+  >
     <div class="flex lg:flex-row flex-col gap-3 w-full">
       <div>
         <img
@@ -53,7 +55,7 @@ defineProps({
               {{ job.job_title }}
             </p>
             <button
-              class="bg-[#EDF0B8] font-Satoshi500 text-[9.708px] p-2 px-6 text-[#000000] rounded-full"
+              class="bg-[#EDF0B8] font-Satoshi500 lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
             >
               {{ job.employee_type }}
             </button>
@@ -74,28 +76,28 @@ defineProps({
             </div>
             <div class="flex gap-2 items-center">
               <div
-                class="flex gap-1 text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
                 <CalenderIcon /><span class="py-[0.25px]">{{ job.weekly_hours }}</span>
               </div>
               <div
-                class="flex gap-[2px] text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
                 <LocationIcon /><span class="py-[0.25px]">{{ job.location }}</span>
               </div>
               <div
-                class="flex gap-1 text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
                 <TimerIcon /><span class="py-[0.25px]">Anytime</span>
               </div>
             </div>
           </div>
           <div class="flex lg:flex-row flex-col gap-4 justify-between mt-2">
-            <div class="flex gap-3 items-center">
+            <div class="flex flex-wrap gap-3 items-center">
               <div
                 v-for="skill in job.skills"
                 :key="skill"
-                class="bg-[#F2F3EF] font-Satoshi500 text-[12.135px] uppercase p-[4px] px-6 text-[#64665D] rounded-full"
+                class="bg-[#F2F3EF] font-Satoshi500 text-[10px] lg:text-[12.135px] uppercase p-[4px] lg:px-6 px-4 text-[#64665D] rounded-full"
               >
                 {{ skill.name }}
               </div>

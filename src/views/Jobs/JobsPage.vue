@@ -136,9 +136,9 @@ watch(currentPage, (newPage) => {
         <template #tab2> Branding Jobs </template>
         <template #view1
           ><div
-            class="bg-[#F3F5CD] rounded-[14.957px] flex flex-col gap-8 p-8 px-12 border-[0.491px] border-[#97A6A8]"
+            class="bg-[#F3F5CD] rounded-[14.957px] flex flex-col gap-8 p-8 lg:px-12 border-[0.491px] border-[#97A6A8]"
           >
-            <div class="flex gap-8">
+            <div class="flex lg:flex-row flex-col gap-8">
               <FormGroup
                 v-model="sortInput.name"
                 labelClasses="font-Satoshi500 text-[15.606px]"
@@ -167,7 +167,7 @@ watch(currentPage, (newPage) => {
                 inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
               ></FormGroup>
             </div>
-            <div class="flex gap-8">
+            <div class="flex lg:flex-row flex-col gap-8">
               <FormGroup
                 v-model="sortInput.jobType"
                 labelClasses="font-Satoshi500 text-[15.606px]"
@@ -227,7 +227,7 @@ watch(currentPage, (newPage) => {
 
             <div class="flex gap-12">
               <button
-                class="border-[#007582] bg-[#31795A] text-white w-[40%] text-center mx-auto border-2 p-4 py-2 justify-center rounded-full font-Satoshi500 text-[10.672px] items-center flex"
+                class="border-[#007582] bg-[#31795A] text-white lg:w-[40%] text-center mx-auto border-2 p-4 py-2 justify-center rounded-full font-Satoshi500 text-[10.672px] items-center flex"
               >
                 Apply Filter
               </button>

@@ -52,8 +52,8 @@ defineProps({
           </div>
         </div>
         <div class="flex items-center justify-between w-full gap-3">
-          <div class="flex items-center gap-14">
-            <p class="text-[20.128px] font-Satoshi700 text-[#000000]">
+          <div class="flex lg:items-center justify-between gap-14">
+            <p class="lg:text-[20.128px] text-[13px] font-Satoshi700 text-[#000000]">
               {{ job.job_title }}
             </p>
             <button
@@ -78,17 +78,17 @@ defineProps({
             </div>
             <div class="flex gap-2 items-center">
               <div
-                class="flex gap-1 text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
                 <CalenderIcon /><span class="py-[0.25px]">{{ job.weekly_hours }}</span>
               </div>
               <div
-                class="flex gap-[2px] text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
                 <LocationIcon /><span class="py-[0.25px]">{{ job.location }}</span>
               </div>
               <div
-                class="flex gap-1 text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
                 <TimerIcon /><span class="py-[0.25px]">Anytime</span>
               </div>
@@ -143,7 +143,7 @@ defineProps({
             >
               Message business
             </button>
-            <div class="flex items-center gap-[12px]">
+            <div class="flex flex-wrap items-center gap-[12px]">
               <h4 class="text-[#000000] text-[16.142px] font-Satoshi500">Document</h4>
               <button class="">
                 <CopyIcon />

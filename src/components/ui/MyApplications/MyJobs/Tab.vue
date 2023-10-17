@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="myJobs_tabs flex gap-[38px] py-4 mt-6">
+    <div class="myJobs_tabs flex lg:gap-[38px] gap-5 py-4 mt-6">
       <a
         class=""
         @click="activateTab('in_progress')"
