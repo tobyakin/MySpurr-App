@@ -1,6 +1,6 @@
 <template>
   <header class="h-screen bg-[#E9FAFB]">
-    <div class="logo">
+    <div class="logo lg:visible invisible">
       <router-link to="/">
         <img src="@/assets/Logobeta.png" class="h-12" alt="MySpurr logo" />
       </router-link>
