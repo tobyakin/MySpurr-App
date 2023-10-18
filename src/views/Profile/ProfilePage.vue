@@ -132,7 +132,9 @@ const workItems = ref([
               <!--               {{ talents?.top_skills.length - 10 }}+
  -->
             </div>
-            <p class="text-[28px] text-[#000] font-Satoshi500 !mb-4 mt-6">Skills</p>
+            <p class="text-[28px] text-[#000] flex gap-[96px] font-Satoshi500 !mb-4 mt-6">
+              Skills <EditIcon />
+            </p>
             <div class="flex gap-4 flex-wrap">
               <div
                 v-for="(item, index) in userDetails?.top_skills"
@@ -146,15 +148,25 @@ const workItems = ref([
                 class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
               ></div>
             </div>
-            <p class="text-[28px] text-[#000] font-Satoshi500 !mb-12 mt-8">Education</p>
+            <p
+              class="text-[28px] text-[#000] font-Satoshi500 flex gap-[96px] !mb-12 mt-8"
+            >
+              Education <EditIcon />
+            </p>
             <EducationDetails :items="userDetails?.education" />
             <!-- <SampleFive :items="items" /> -->
 
-            <p class="text-[28px] text-[#000] font-Satoshi500 !mb-12 mt-8">
-              Work Experience
+            <p
+              class="text-[28px] text-[#000] font-Satoshi500 flex gap-[46px] !mb-12 mt-8"
+            >
+              Work Experience <EditIcon />
             </p>
             <WorkExperience :items="userDetails?.employment" />
-            <p class="text-[28px] text-[#000] font-Satoshi500 !mb-12 mt-8">Portfolio</p>
+            <p
+              class="text-[28px] text-[#000] font-Satoshi500 flex gap-[96px] !mb-12 mt-8"
+            >
+              Portfolio <EditIcon />
+            </p>
             <div
               class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
             >
