@@ -1,7 +1,7 @@
 <template>
   <div class="bg-[#ffffff] min-h-screen h-full">
     <div
-      :class="step === 5 ? 'hidden' : ''"
+      :class="step === 6 || step === 1 ? 'hidden' : ''"
       class="md:w-[60%] lg:w-[45%] mx-auto text-center px-3 justify-between flex lg:py-4 !mt-10"
     >
       <div
@@ -30,11 +30,12 @@
       </div> -->
     </div>
     <div class="justify-center flex py-6 p-4">
-      <WorkDetailsForm v-if="step == 1" @next="next" />
-      <EducationalDetails v-if="step == 2" @next="next" @prev="prev" />
-      <EmploymentDetails v-if="step == 3" @next="next" @prev="prev" />
-      <Certificate v-if="step == 4" @next="next" @prev="prev" />
-      <SuccessPage v-if="step == 5" @next="next" />
+      <IntroPage v-if="step == 1" @next="next" />
+      <WorkDetailsForm v-if="step == 2" @next="next" />
+      <EducationalDetails v-if="step == 3" @next="next" @prev="prev" />
+      <EmploymentDetails v-if="step == 4" @next="next" @prev="prev" />
+      <Certificate v-if="step == 5" @next="next" @prev="prev" />
+      <SuccessPage v-if="step == 6" @next="next" />
       <!-- <PortfolioForm v-if="step == 2" @prev="prev" @next="next" /> -->
     </div>
   </div>
@@ -46,6 +47,7 @@ import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import WorkDetailsForm from "@/components/ui/Form/Talent/WorkDetailsForm.vue";
 // import PortfolioForm from "@/components/ui/Form/Talent/PortfolioForm.vue";
+import IntroPage from "@/components/ui/Form/Talent/StepOne.vue";
 import EducationalDetails from "@/components/ui/Form/Talent/EducationalDetails.vue";
 import EmploymentDetails from "@/components/ui/Form/Talent/EmploymentDetails.vue";
 import Certificate from "@/components/ui/Form/Talent/Certificate.vue";
@@ -68,7 +70,7 @@ const prev = () => {
 };
 
 const next = (data) => {
-  if (step.value === 5) {
+  if (step.value === 6) {
     return router.push({
       name: "dashboard",
     });

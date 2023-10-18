@@ -1,5 +1,6 @@
 <script setup>
 import { useStore } from "@/stores/user";
+import { useUserProfile } from "@/stores/profile";
 import { ref, reactive, watch, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
@@ -8,6 +9,8 @@ import PasswordInput from "@/components/ui/PasswordInput.vue";
 import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 const store = useStore();
+let profile = useUserProfile();
+
 const router = useRouter();
 let loading = ref(false);
 const getVerificationStatusFromURL = () => {
@@ -91,6 +94,15 @@ const clearInputErrors = () => {
 watch(formState, () => {
   clearInputErrors();
 });
+const accountType = computed(() => {
+  return store.getUser.data.user.type;
+});
+
+const isOnBoarded = computed(() => profile.user);
+onMounted(async () => {
+  await profile.userProfile();
+  console.log(isOnBoarded.value.work_details);
+});
 
 const onFinish = async () => {
   loading.value = true;
@@ -102,7 +114,20 @@ const onFinish = async () => {
   try {
     const res = await login(formState.email, formState.password);
     store.saveUser(res.data);
-    router.push({ name: "dashboard" });
+    await profile.userProfile();
+    if (
+      isOnBoarded.value &&
+      !isOnBoarded.value.business_details &&
+      !isOnBoarded.value.work_details
+    ) {
+      if (accountType.value === "talent") {
+        router.push({ name: "talent-onboarding" });
+      } else if (accountType.value === "business") {
+        router.push({ name: "business-onboarding" });
+      }
+    } else {
+      router.push({ name: "dashboard" });
+    }
   } catch (error) {
     console.log(error);
   } finally {
