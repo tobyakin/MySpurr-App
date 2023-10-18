@@ -17,6 +17,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+    @apply font-Satoshi400 
 }
 
 @media (min-width: 576px) {
