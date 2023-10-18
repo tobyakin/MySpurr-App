@@ -75,7 +75,19 @@ onMounted(async () => {
               v-if="accountType === 'talent'"
               class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/jobs"
+              >MySpurr profile</router-link
+            >
+            <router-link
+              v-if="accountType === 'talent'"
+              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              to="/jobs"
               >Find jobs</router-link
+            >
+            <router-link
+              v-if="accountType === 'talent'"
+              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              to="/jobs"
+              >Wallet</router-link
             >
             <router-link
               v-if="accountType !== 'talent'"
