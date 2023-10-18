@@ -41,13 +41,13 @@ let skillTitles = ref([]);
 
 const educationLevel = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
 
-const addTag = (newTagName) => {
-  const tag = {
-    name: newTagName,
-  };
-  options.value.push(tag);
-  top_skills.value.push(tag);
-};
+// const addTag = (newTagName) => {
+//   const tag = {
+//     name: newTagName,
+//   };
+//   options.value.push(tag);
+//   top_skills.value.push(tag);
+// };
 
 // const years = ref([]);
 
@@ -135,6 +135,12 @@ const filterOptions = () => {
   showDropdown.value = true;
   highlightedIndex.value = -1;
 };
+const placeholderText = computed(() => {
+  return top_skills.value.length >= 5 ? "" : "select your top skills Ex. Graphics Design";
+});
+const shouldDisplayInput = computed(() => {
+  return top_skills.value.length < 5;
+});
 
 const selectOption = (option) => {
   if (top_skills.value.length < 5) {
@@ -293,6 +299,7 @@ const selectHighlightedOption = () => {
             </div>
             <div>
               <GlobalInput
+                v-if="shouldDisplayInput"
                 v-model="search"
                 @input="filterOptions"
                 @keydown.down="highlightNext"
@@ -300,7 +307,7 @@ const selectHighlightedOption = () => {
                 @keydown.enter="selectHighlightedOption"
                 ref="searchInput"
                 inputClasses="bg-transparent !border-none"
-                placeholder="Graphics Designer"
+                :placeholder="placeholderText"
                 type="text"
               />
 

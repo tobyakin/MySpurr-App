@@ -241,3 +241,6 @@ ol {
 {
   @apply  !bg-brand
 } */
+input[type="checkbox"] {
+    accent-color: #2F929C;
+}

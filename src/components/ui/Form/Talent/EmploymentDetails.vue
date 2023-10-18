@@ -1,9 +1,17 @@
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted, defineAsyncComponent } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
+import { useSkillsStore } from "@/stores/skills";
+const SelectGroup = defineAsyncComponent(() =>
+  import("@/components/ui/Form/Input/SelectGroup.vue")
+);
+
+const skillsStore = useSkillsStore();
+const { skills, jobTitle } = storeToRefs(skillsStore);
+
 import dayjs from "dayjs";
 const OnboardingStore = useOnboardingStore();
 
@@ -27,6 +35,14 @@ const isFormValid = computed(() => {
     employment_details.value.end_date !== ""
   );
 });
+const employmentType = [
+  "Freelance",
+  "Full-time ",
+  "Part-time ",
+  "Internship ",
+  "Contract ",
+];
+
 const prev = () => {
   emit("prev", step.value - 1);
 };
@@ -54,6 +70,53 @@ watch(EndDateValue, (newEndDate) => {
 watch(StartDate, (newStartDate) => {
   employment_details.value.start_date = newStartDate;
 });
+let skillTitles = ref([]);
+let options = ref([]);
+
+onMounted(async () => {
+  await skillsStore.getskills();
+  await skillsStore.getJobTitles();
+  options.value = skills.value.data;
+  skillTitles.value = jobTitle.value.data;
+});
+
+const showJobTitleDropdown = ref(false);
+const highlightedJobTitleIndex = ref(-1);
+
+const filteredOptionsJobTitle = computed(() => {
+  const searchJobTitle = employment_details.value.title.toLowerCase();
+  return skillTitles.value.filter((option) =>
+    option.name.toLowerCase().includes(searchJobTitle)
+  );
+});
+
+const filterJobTitleOptions = () => {
+  showJobTitleDropdown.value = true;
+  highlightedJobTitleIndex.value = -1;
+};
+
+const selectJobTitleOptions = (option) => {
+  employment_details.value.title = option.name;
+  showJobTitleDropdown.value = false;
+};
+
+const highlightNextJobTitle = () => {
+  if (highlightedJobTitleIndex.value < filteredOptionsJobTitle.value.length - 1) {
+    highlightedJobTitleIndex.value++;
+  }
+};
+
+const highlightPreviousJobTitle = () => {
+  if (highlightedJobTitleIndex.value > 0) {
+    highlightedJobTitleIndex.value--;
+  }
+};
+
+const selectHighlightedJobTitleOption = () => {
+  if (highlightedJobTitleIndex.value >= 0) {
+    selectJobTitleOptions(filteredOptionsJobTitle.value[highlightedJobTitleIndex.value]);
+  }
+};
 </script>
 
 <template>
@@ -84,22 +147,50 @@ watch(StartDate, (newStartDate) => {
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Title</label>
-          <GlobalInput
-            inputClasses="bg-transparent border-none"
-            v-model="employment_details.title"
-            placeholder=""
-            type="text"
-          />
+          <div class="relative">
+            <GlobalInput
+              inputClasses="bg-transparent border-none"
+              v-model="employment_details.title"
+              placeholder=""
+              @input="filterJobTitleOptions"
+              @keydown.down="highlightNextJobTitle"
+              @keydown.up="highlightPreviousJobTitle"
+              @keydown.enter="selectHighlightedJobTitleOption"
+              type="text"
+            />
+            <ul
+              v-if="showJobTitleDropdown"
+              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+            >
+              <li
+                v-for="(option, index) in filteredOptionsJobTitle"
+                :key="option.id"
+                @click="selectJobTitleOptions(option)"
+                :class="{ highlighted: index === highlightedJobTitleIndex }"
+                class="hover:bg-brand hover:text-white"
+              >
+                {{ option.name }}
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Employment type</label
           >
-          <GlobalInput
+          <!-- <GlobalInput
             inputClasses="bg-transparent border-none"
             v-model="employment_details.employment_type"
             placeholder=""
             type="text"
+          /> -->
+          <SelectGroup
+            v-model="employment_details.employment_type"
+            DropdownItem=""
+            :items="employmentType"
+            placeholder=""
+            name=""
+            class="bg-transparent bg-none border-none"
           />
         </div>
         <div
@@ -149,7 +240,7 @@ watch(StartDate, (newStartDate) => {
 
         <div class="flex gap-3 justify-start items-center">
           <input
-            class="bg-transparent !border-[0.737px] !border-[#254035AB] rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
+            class="bg-transparent !border-[0.737px] !border-[#254035AB] accent-brand rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
             type="checkbox"
             v-model="present"
           />
