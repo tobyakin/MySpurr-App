@@ -74,7 +74,7 @@ onMounted(async () => {
             <router-link
               v-if="accountType === 'talent'"
               class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
-              to="/jobs"
+              to="/profile"
               >MySpurr profile</router-link
             >
             <router-link
@@ -86,7 +86,7 @@ onMounted(async () => {
             <router-link
               v-if="accountType === 'talent'"
               class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
-              to="/jobs"
+              to="/wallet"
               >Wallet</router-link
             >
             <router-link
