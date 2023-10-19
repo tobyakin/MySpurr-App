@@ -17,6 +17,7 @@ import EditModal from "@/components/ui/ProfileEdit/EditModal.vue";
 import ProfilePicture from "@/components/ui/ProfileEdit/Forms/ProfilePicture.vue";
 import HeadlineBio from "@/components/ui/ProfileEdit/Forms/HeadlineBio.vue";
 import OverviewPage from "@/components/ui/ProfileEdit/Forms/OverviewPage.vue";
+import SkillsPage from "../../components/ui/ProfileEdit/Forms/SkillsPage.vue";
 let profile = useUserProfile();
 const userDetails = computed(() => {
   return profile.user.data;
@@ -38,6 +39,11 @@ const HandleToggleEditOverviewModal = () => {
   showModal.value = !showModal.value;
   formTitle.value = "Overview";
   view = OverviewPage;
+};
+const HandleToggleSkillsPageModal = () => {
+  showModal.value = !showModal.value;
+  formTitle.value = "Skills";
+  view = SkillsPage;
 };
 const closeModal = () => {
   showModal.value = !showModal.value;
@@ -150,7 +156,9 @@ onMounted(async () => {
             </div>
             <div class="flex flex-row items-center gap-[96px] !mb-4 mt-6">
               <p class="text-[28px] text-[#000] font-Satoshi500">Skills</p>
-              <button><EditIcon class="text-[#297F88]" /></button>
+              <button @click="HandleToggleSkillsPageModal">
+                <EditIcon class="text-[#297F88]" />
+              </button>
             </div>
 
             <!-- <p class="text-[28px] text-[#000] flex gap-[96px] font-Satoshi500 !mb-4 mt-6">

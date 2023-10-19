@@ -1,0 +1,158 @@
+<script setup>
+import { ref, onMounted, computed } from "vue";
+import { useUserProfile } from "@/stores/profile";
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+import { useSkillsStore } from "@/stores/skills";
+import { storeToRefs } from "pinia";
+
+const skillsStore = useSkillsStore();
+const { skills } = storeToRefs(skillsStore);
+const userProfile = useUserProfile();
+const formState = ref({
+  overview: "",
+});
+let options = ref([]);
+let top_skills = ref([]);
+// multi select
+const search = ref("");
+const showDropdown = ref(false);
+const highlightedIndex = ref(-1);
+
+const filteredOptions = computed(() => {
+  const searchTerm = search.value.toLowerCase();
+  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
+});
+
+const filterOptions = () => {
+  showDropdown.value = true;
+  highlightedIndex.value = -1;
+};
+const placeholderText = computed(() => {
+  return top_skills.value.length >= 5 ? "" : "select your top skills Ex. Graphics Design";
+});
+const shouldDisplayInput = computed(() => {
+  return top_skills.value.length < 5;
+});
+
+const selectOption = (option) => {
+  if (top_skills.value.length < 5) {
+    search.value = "";
+    showDropdown.value = false;
+    highlightedIndex.value = -1;
+    top_skills.value.push(option);
+  }
+};
+
+const removeSelectedItem = (index) => {
+  top_skills.value.splice(index, 1);
+};
+
+const highlightNext = () => {
+  if (highlightedIndex.value < filteredOptions.value.length - 1) {
+    highlightedIndex.value++;
+  }
+};
+
+const highlightPrevious = () => {
+  if (highlightedIndex.value > 0) {
+    highlightedIndex.value--;
+  }
+};
+const getNextId = () => {
+  const ids = options.value.map((option) => parseInt(option.id));
+  const maxId = Math.max(...ids);
+  return (maxId + 1).toString();
+};
+
+const selectHighlightedOption = () => {
+  if (highlightedIndex.value >= 0) {
+    selectOption(filteredOptions.value[highlightedIndex.value]);
+  } else if (search.value && !filteredOptions.value.length) {
+    // If no options match the search term, add the typed item to the list
+    const nextId = getNextId();
+
+    selectOption({ id: nextId, name: search.value });
+  }
+};
+
+const prefillDetails = () => {
+  formState.value.overview = userProfile.user?.data?.overview || "";
+  top_skills.value = userProfile.user?.data?.top_skills || [];
+};
+
+onMounted(async () => {
+  prefillDetails();
+  await userProfile.userProfile();
+  await skillsStore.getskills();
+  options.value = skills.value.data;
+});
+</script>
+<template>
+  <div>
+    <div class="flex flex-row justify-between gap-[21px]">
+      <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div>
+          <div class="selected-items p-2 gap-2">
+            <div
+              v-for="(selectedItem, index) in top_skills"
+              :key="selectedItem.id"
+              class="selected-item bg-brand text-sm font-Satoshi400 p-[5px] text-white rounded-[5px]"
+            >
+              {{ selectedItem.name }}
+              <span
+                @click="removeSelectedItem(index)"
+                class="remove-btn text-black hover:text-white"
+                >x</span
+              >
+            </div>
+          </div>
+          <div>
+            <GlobalInput
+              v-if="shouldDisplayInput"
+              v-model="search"
+              @input="filterOptions"
+              @keydown.down="highlightNext"
+              @keydown.up="highlightPrevious"
+              @keydown.enter="selectHighlightedOption"
+              ref="searchInput"
+              inputClasses="bg-transparent !border-none"
+              :placeholder="placeholderText"
+              type="text"
+            />
+
+            <!-- <input
+              v-model="search"
+              @input="filterOptions"
+              @keydown.down="highlightNext"
+              @keydown.up="highlightPrevious"
+              @keydown.enter="selectHighlightedOption"
+              ref="searchInput"
+              placeholder="Type to add or select..."
+            /> -->
+            <ul
+              v-if="showDropdown"
+              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+            >
+              <li
+                v-for="(option, index) in filteredOptions"
+                :key="option.id"
+                @click="selectOption(option)"
+                :class="{ highlighted: index === highlightedIndex }"
+                class="hover:bg-brand hover:text-white"
+              >
+                {{ option.name }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full flex justify-center mt-8">
+      <button
+        class="btn-brand !border-none !w-[30%] mx-auto !py-3 !px-10 !text-[#FFFFFF] text-center !bg-[#2F929C]"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</template>
