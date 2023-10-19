@@ -20,7 +20,7 @@ const previewImage = (event) => {
 <template>
   <div class="flex flex-col justify-center items-center gap-[40px]">
     <UserAvater :imageUrl="imageUrl" />
-    <div>
+    <div class="flex lg:flex-row flex-col w-[60%] lg:gap-[31px] gap-4">
       <input
         type="file"
         id="upload_image"
@@ -31,16 +31,22 @@ const previewImage = (event) => {
       <label
         for="upload_image"
         role="button"
-        class="btn-brand !border-none !w-full !py-3 !px-10 !text-[#FFFFFF] text-center !bg-[#2F929C]"
+        class="btn-brand !border-none w-full !py-3 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
-        <span class="text-[12.067px]">Update photo</span>
+        <span class="text-[12.067px]">Add photo</span>
       </label>
+      <button
+        role="button"
+        class="btn-brand !border-none !w-full !py-3 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
+      >
+        <span class="text-[12.067px]">Save</span>
+      </button>
     </div>
     <p
-      class="text-[14px] w-[70%] text-center leading-[18.599px] text-[#011B1F] font-Satoshi400"
+      class="text-[14px] lg:w-[70%] text-center leading-[18.599px] text-[#011B1F] font-Satoshi400"
     >
-      On MySpurr, we require members to use their real identities, so take or upload a
-      photo of yourself. Photos will be cropped automatically to a preferred circular size
+      On MySpurr, we require members to use their real identities, upload a square photo
+      of yourself. Photos will be cropped automatically to a preferred circular size
     </p>
   </div>
 </template>
