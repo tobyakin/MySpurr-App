@@ -17,7 +17,7 @@ const formState = ref({
 });
 const present = ref(false); // Add a variable to track if the checkbox is checked
 
-const step = ref([true, false]);
+const step = ref([true, false, false]);
 const changeScreen = (from, to, type = null) => {
   step.value[from] = false;
   step.value[to] = true;
@@ -171,6 +171,7 @@ onMounted(async () => {
       </div>
       <div class="w-full flex justify-center mt-8">
         <button
+          @click="changeScreen(1, 0)"
           class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
         >
           Save
@@ -267,6 +268,7 @@ onMounted(async () => {
       </div>
       <div class="w-full flex justify-center mt-8">
         <button
+          @click="changeScreen(2, 0)"
           class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
         >
           Save
