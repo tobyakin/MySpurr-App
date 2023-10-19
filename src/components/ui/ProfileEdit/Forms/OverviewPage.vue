@@ -28,7 +28,7 @@ onMounted(async () => {
     </div>
     <div class="w-full flex justify-center mt-8">
       <button
-        class="btn-brand !border-none !w-[30%] mx-auto !py-3 !px-10 !text-[#FFFFFF] text-center !bg-[#2F929C]"
+        class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
         Save
       </button>
