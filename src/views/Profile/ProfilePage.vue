@@ -19,6 +19,7 @@ import HeadlineBio from "@/components/ui/ProfileEdit/Forms/HeadlineBio.vue";
 import OverviewPage from "@/components/ui/ProfileEdit/Forms/OverviewPage.vue";
 import SkillsPage from "@/components/ui/ProfileEdit/Forms/SkillsPage.vue";
 import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
+import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience.vue";
 let profile = useUserProfile();
 const userDetails = computed(() => {
   return profile.user.data;
@@ -50,6 +51,11 @@ const HandleToggleEducationPageModal = () => {
   showModal.value = !showModal.value;
   formTitle.value = "Education";
   view = EducationPage;
+};
+const HandleToggleWorkExperiencePageModal = () => {
+  showModal.value = !showModal.value;
+  formTitle.value = "Work experience";
+  view = WorkExperiencePage;
 };
 const closeModal = () => {
   showModal.value = !showModal.value;
@@ -201,7 +207,9 @@ onMounted(async () => {
             <!-- <SampleFive :items="items" /> -->
             <div class="flex flex-row items-center gap-[16px] !mb-12 mt-8">
               <p class="text-[28px] text-[#000] font-Satoshi500">Work Experience</p>
-              <button><EditIcon class="text-[#297F88]" /></button>
+              <button @click="HandleToggleWorkExperiencePageModal">
+                <EditIcon class="text-[#297F88]" />
+              </button>
             </div>
 
             <!-- <p
