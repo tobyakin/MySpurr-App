@@ -17,7 +17,8 @@ import EditModal from "@/components/ui/ProfileEdit/EditModal.vue";
 import ProfilePicture from "@/components/ui/ProfileEdit/Forms/ProfilePicture.vue";
 import HeadlineBio from "@/components/ui/ProfileEdit/Forms/HeadlineBio.vue";
 import OverviewPage from "@/components/ui/ProfileEdit/Forms/OverviewPage.vue";
-import SkillsPage from "../../components/ui/ProfileEdit/Forms/SkillsPage.vue";
+import SkillsPage from "@/components/ui/ProfileEdit/Forms/SkillsPage.vue";
+import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
 let profile = useUserProfile();
 const userDetails = computed(() => {
   return profile.user.data;
@@ -44,6 +45,11 @@ const HandleToggleSkillsPageModal = () => {
   showModal.value = !showModal.value;
   formTitle.value = "Skills";
   view = SkillsPage;
+};
+const HandleToggleEducationPageModal = () => {
+  showModal.value = !showModal.value;
+  formTitle.value = "Education";
+  view = EducationPage;
 };
 const closeModal = () => {
   showModal.value = !showModal.value;
@@ -143,7 +149,9 @@ onMounted(async () => {
           <div class="lg:w-[70%] p-4">
             <div class="flex flex-row items-center gap-[96px]">
               <p class="text-[28px] text-[#000] font-Satoshi500">Overview</p>
-              <button @click="HandleToggleEditOverviewModal"><EditIcon /></button>
+              <button @click="HandleToggleEditOverviewModal">
+                <EditIcon class="text-[#297F88]" />
+              </button>
             </div>
             <div class="text-[#000000BF] font-Satoshi400 text-[16px] mt-4 leading-[35px]">
               <p>{{ userDetails?.overview }}</p>
@@ -179,7 +187,9 @@ onMounted(async () => {
             </div>
             <div class="flex flex-row items-center gap-[96px] !mb-12 mt-8">
               <p class="text-[28px] text-[#000] font-Satoshi500">Education</p>
-              <button><EditIcon class="text-[#297F88]" /></button>
+              <button @click="HandleToggleEducationPageModal">
+                <EditIcon class="text-[#297F88]" />
+              </button>
             </div>
 
             <!-- <p
