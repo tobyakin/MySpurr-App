@@ -1,0 +1,197 @@
+<script setup>
+import { ref, onMounted } from "vue";
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
+import InstagramIcon from "@/components/icons/instagramIcon.vue";
+import BeIcon from "@/components/icons/beIcon.vue";
+import TwitterIcon from "@/components/icons/twitterIcon.vue";
+import FacebookIcon from "@/components/icons/facebookIcon.vue";
+import { useUserProfile } from "@/stores/profile";
+
+const userProfile = useUserProfile();
+const formState = ref({
+  first_name: "",
+  last_name: "",
+  skill_title: "",
+  rate: "",
+  location: "",
+  linkedInURL: "",
+  instagramURL: "",
+  twitterURL: "",
+  behanceURL: "",
+  facebookURL: "",
+});
+const prefillDetails = () => {
+  formState.value.first_name = userProfile.user?.data?.first_name || "";
+  formState.value.last_name = userProfile.user?.data?.last_name || "";
+  formState.value.skill_title = userProfile.user?.data?.skill_title || "";
+  formState.value.rate = userProfile.user?.data?.rate || "";
+  formState.value.location = userProfile.user?.data?.location || "";
+  //   formState.value.linkedInURL = userProfile.user?.data?.email || "";
+  //   formState.value.instagramURL = userProfile.user?.data?.first_name || "";
+  //   formState.value.twitterURL = userProfile.user?.data?.email || "";
+  //   formState.value.behanceURL = userProfile.user?.data?.email || "";
+  //   formState.value.facebookURL = userProfile.user?.data?.email || "";
+};
+
+onMounted(async () => {
+  prefillDetails();
+  await userProfile.userProfile();
+});
+</script>
+<template>
+  <div>
+    <div class="flex flex-row justify-between gap-[21px]">
+      <div class="flex flex-col w-[50%] gap-[20px]">
+        <p class="text-[24px] text-[#244034] font-Satoshi400 leading-[40.393px]">
+          Basic Info
+        </p>
+        <div class="flex-col flex gap-[19px]">
+          <div
+            class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+          >
+            <label class="text-[#01272C] text-[10px] flex font-Satoshi400"
+              >First Name</label
+            >
+            <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+              v-model="formState.first_name"
+              type="text"
+            />
+          </div>
+
+          <div
+            class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+          >
+            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              >Last Name
+            </label>
+            <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+              v-model="formState.last_name"
+              type="text"
+            />
+          </div>
+          <div
+            class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+          >
+            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              >Skill Title</label
+            >
+            <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+              v-model="formState.skill_title"
+              type="text"
+            />
+          </div>
+
+          <div
+            class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+          >
+            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              >Rate /hr</label
+            >
+            <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+              v-model="formState.rate"
+              type="text"
+            />
+          </div>
+          <div
+            class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+          >
+            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              >Location</label
+            >
+            <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+              v-model="formState.location"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col w-[50%] gap-[20px]">
+        <p class="text-[24px] text-[#244034] font-Satoshi400 leading-[40.393px]">
+          Your online profiles
+        </p>
+        <div class="flex-col flex gap-[19px]">
+          <div
+            class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+          >
+            <label
+              class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
+              ><LinkdeinIcon class="w-[11.414px] h-[10.78px]" />LinkedIn</label
+            >
+            <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+              v-model="formState.linkedInURL"
+              type="text"
+            />
+          </div>
+
+          <div
+            class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+          >
+            <label
+              class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
+              ><InstagramIcon class="w-[11.508px] h-[11.508px]" />Instagram
+            </label>
+            <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+              v-model="formState.instagramURL"
+              type="text"
+            />
+          </div>
+          <div
+            class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+          >
+            <label
+              class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
+              ><TwitterIcon class="w-[14.036px] h-[11.229px]" />X</label
+            >
+            <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+              v-model="formState.twitterURL"
+              type="text"
+            />
+          </div>
+
+          <div
+            class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+          >
+            <label
+              class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
+              ><BeIcon class="w-[16.289px] h-[10.859px]" />Behance</label
+            >
+            <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+              v-model="formState.behanceURL"
+              type="text"
+            />
+          </div>
+          <div
+            class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+          >
+            <label
+              class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
+              ><FacebookIcon class="h-[13px] w-[13px]" />Facebook</label
+            >
+            <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+              v-model="formState.facebookURL"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full flex justify-center mt-8">
+      <button
+        class="btn-brand !border-none !w-[30%] mx-auto !py-3 !px-10 !text-[#FFFFFF] text-center !bg-[#2F929C]"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</template>

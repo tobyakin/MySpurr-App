@@ -7,55 +7,43 @@ import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
 import InstagramIcon from "@/components/icons/instagramIcon.vue";
 import BeIcon from "@/components/icons/beIcon.vue";
 import TwitterIcon from "@/components/icons/twitterIcon.vue";
-import SearchIconVeritical from "@/components/icons/searchIconVeritical.vue";
 import RateStar from "@/components/icons/rateStar.vue";
 import CertificateBadge from "@/components/icons/certificateBadge.vue";
-import JobAvater from "@/components/ui/Avater/JobAvater.vue";
+import LinkIcon from "@/components/icons/linkIcon.vue";
+import EditProfileAvater from "@/components/ui/Avater/EditProfileAvater.vue";
 import { useUserProfile } from "@/stores/profile";
 import EditIcon from "@/components/icons/editIcon.vue";
+import EditModal from "@/components/ui/ProfileEdit/EditModal.vue";
+import ProfilePicture from "@/components/ui/ProfileEdit/Forms/ProfilePicture.vue";
+import HeadlineBio from "@/components/ui/ProfileEdit/Forms/HeadlineBio.vue";
 let profile = useUserProfile();
-const isOnBoarded = computed(() => profile.user);
 const userDetails = computed(() => {
   return profile.user.data;
 });
-
+let view = null;
+let showModal = ref(false);
+let formTitle = ref("");
+const HandleToggleEditImageModal = () => {
+  showModal.value = !showModal.value;
+  formTitle.value = "Profile Picture";
+  view = ProfilePicture;
+};
+const HandleToggleEditHeadlineBioModal = () => {
+  showModal.value = !showModal.value;
+  formTitle.value = "Headline Bio";
+  view = HeadlineBio;
+};
+const closeModal = () => {
+  showModal.value = !showModal.value;
+  view = null;
+};
 onMounted(() => {
   return profile.userProfile();
 });
 
 onMounted(async () => {
   await profile.userProfile();
-  console.log(isOnBoarded.value.work_details);
 });
-
-const items = ref([
-  {
-    heading: "University of Boston",
-    name: "Bachelor Degree of Design",
-    content:
-      "Mauris nec erat ut libero vulputate pulvinar. Aliquam ante erat, blandit at pretium et, accumsan ac est.",
-  },
-  {
-    heading: "Design Collage",
-    name: "UI/UX Design Course",
-    content:
-      "Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus.",
-  },
-]);
-const workItems = ref([
-  {
-    heading: "02/03/18 - 13/05/20",
-    name: "Product Designer (Google)",
-    content:
-      "Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus.",
-  },
-  {
-    heading: "02/03/18 - 13/05/20",
-    name: "UI/UX Engineer (Adobe)",
-    content:
-      "Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus.",
-  },
-]);
 </script>
 
 <template>
@@ -68,7 +56,11 @@ const workItems = ref([
           <div
             class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
           >
-            <JobAvater inputClasses="!h-[89.536px] !w-[89.536px]" class="" />
+            <EditProfileAvater
+              @toggleModal="HandleToggleEditImageModal"
+              inputClasses="!h-[89.536px] !w-[89.536px]"
+              class=""
+            />
             <div class="lg:text-left text-center">
               <p
                 class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]"
@@ -91,8 +83,8 @@ const workItems = ref([
               </div>
             </div>
           </div>
-          <div class="flex flex-col items-center lg:justify-normal justify-center gap-6">
-            <div class="flex items-center gap-3">
+          <div class="flex flex-col items-center lg:justify-center lg:items-end gap-6">
+            <div class="flex flex-row justify-center gap-3">
               <button>
                 <LinkdeinIcon />
               </button>
@@ -107,22 +99,40 @@ const workItems = ref([
               </button>
             </div>
             <div class="flex items-center gap-5">
-              <button>
+              <div
+                class="bg-[#EDF0B8] p-2 flex relative overflow-hidden pr-6 rounded-[5.982px] mt-0"
+              >
+                <a href="" class="text-[10.476px] font-Satoshi500 text-[#01272C]"
+                  >myspurr.talent/tobiakinyele</a
+                >
+                <div
+                  class="bg-[#2C4C50] p-1 absolute right-1 top-[6px] flex items-start rounded-full"
+                >
+                  <LinkIcon class="h-[7.596px] w-[7.596px]" />
+                </div>
+              </div>
+
+              <button @click="HandleToggleEditHeadlineBioModal">
+                <EditIcon class="text-[#297F88]" />
+              </button>
+
+              <!-- <button>
                 <SearchIconVeritical />
               </button>
               <button
                 class="btn-brand !bg-[#31795A] !border-none text-center flex items-start !py-2 !text-white"
               >
                 <span style="display: grid; place-content: center" class="">Message</span>
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
         <div class="flex flex-col lg:flex-row mt-10 w-full">
           <div class="lg:w-[70%] p-4">
-            <p class="text-[28px] text-[#000] flex gap-[96px] font-Satoshi500">
-              Overview <EditIcon />
-            </p>
+            <div class="flex flex-row items-center gap-[96px]">
+              <p class="text-[28px] text-[#000] font-Satoshi500">Overview</p>
+              <button><EditIcon /></button>
+            </div>
             <div class="text-[#000000BF] font-Satoshi400 text-[16px] mt-4 leading-[35px]">
               <p>{{ userDetails?.overview }}</p>
               <!-- <p class="mt-4"></p> -->
@@ -132,9 +142,14 @@ const workItems = ref([
               <!--               {{ talents?.top_skills.length - 10 }}+
  -->
             </div>
-            <p class="text-[28px] text-[#000] flex gap-[96px] font-Satoshi500 !mb-4 mt-6">
+            <div class="flex flex-row items-center gap-[96px] !mb-4 mt-6">
+              <p class="text-[28px] text-[#000] font-Satoshi500">Skills</p>
+              <button><EditIcon class="text-[#297F88]" /></button>
+            </div>
+
+            <!-- <p class="text-[28px] text-[#000] flex gap-[96px] font-Satoshi500 !mb-4 mt-6">
               Skills <EditIcon />
-            </p>
+            </p> -->
             <div class="flex gap-4 flex-wrap">
               <div
                 v-for="(item, index) in userDetails?.top_skills"
@@ -148,25 +163,39 @@ const workItems = ref([
                 class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
               ></div>
             </div>
-            <p
+            <div class="flex flex-row items-center gap-[96px] !mb-12 mt-8">
+              <p class="text-[28px] text-[#000] font-Satoshi500">Education</p>
+              <button><EditIcon class="text-[#297F88]" /></button>
+            </div>
+
+            <!-- <p
               class="text-[28px] text-[#000] font-Satoshi500 flex gap-[96px] !mb-12 mt-8"
             >
               Education <EditIcon />
-            </p>
+            </p> -->
             <EducationDetails :items="userDetails?.education" />
             <!-- <SampleFive :items="items" /> -->
+            <div class="flex flex-row items-center gap-[16px] !mb-12 mt-8">
+              <p class="text-[28px] text-[#000] font-Satoshi500">Work Experience</p>
+              <button><EditIcon class="text-[#297F88]" /></button>
+            </div>
 
-            <p
+            <!-- <p
               class="text-[28px] text-[#000] font-Satoshi500 flex gap-[46px] !mb-12 mt-8"
             >
               Work Experience <EditIcon />
-            </p>
+            </p> -->
             <WorkExperience :items="userDetails?.employment" />
-            <p
+            <div class="flex flex-row items-center gap-[96px] !mb-12 mt-8">
+              <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
+              <button><EditIcon class="text-[#297F88]" /></button>
+            </div>
+
+            <!-- <p
               class="text-[28px] text-[#000] font-Satoshi500 flex gap-[96px] !mb-12 mt-8"
             >
               Portfolio <EditIcon />
-            </p>
+            </p> -->
             <div
               class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
             >
@@ -178,7 +207,7 @@ const workItems = ref([
                 alt=""
               /> -->
             </div>
-            <p class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8">Reviews</p>
+            <p class="text-[28px] text-[#000] font-Satoshi500 !mb-12 mt-8">Reviews</p>
             <div class="flex flex-col gap-4">
               <div
                 v-for="i in 3"
@@ -207,7 +236,12 @@ const workItems = ref([
             </div>
           </div>
           <div class="lg:w-[30%] p-4">
-            <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p>
+            <div class="flex flex-row items-center gap-[26px]">
+              <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p>
+              <button><EditIcon class="text-[#297F88]" /></button>
+            </div>
+
+            <!-- <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p> -->
             <div
               class="bg-[#E9FAFB] p-6 border-[#F6F6F6] border-[1px] flex flex-col gap-10 mt-4 rounded-[15px]"
             >
@@ -246,11 +280,17 @@ const workItems = ref([
             </div>
             <p class="text-[20px] text-[#000] font-Satoshi500 mt-16">Location</p>
             <div class="flex flex-col gap-12 mt-4 rounded-[15px]">
-              <img src="@/assets/image/Map.webp" alt="" />
+              <img src="@/assets/image/Map.webp" alt="map" />
             </div>
           </div>
         </div>
       </div>
     </div>
+    <EditModal
+      v-if="showModal"
+      @closeModal="closeModal"
+      :formTitle="formTitle"
+      :view="view"
+    />
   </DashboardLayout>
 </template>

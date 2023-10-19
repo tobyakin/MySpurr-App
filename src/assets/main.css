@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    @apply font-Satoshi400
+
+}
 p{
   @apply font-Satoshi400 !mb-0
 }
