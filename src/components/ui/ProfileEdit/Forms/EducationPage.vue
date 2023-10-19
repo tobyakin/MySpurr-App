@@ -96,7 +96,7 @@ onMounted(async () => {
             />
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[12px] font-Satoshi400">Degree</label>
+            <label class="text-[#01272C] text-[10px] font-Satoshi400">Degree</label>
             <GlobalInput
               v-model="formState.degree"
               inputClasses="bg-transparent border-none !p-0"
@@ -105,7 +105,7 @@ onMounted(async () => {
             />
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[12px] font-Satoshi400"
+            <label class="text-[#01272C] text-[10px] font-Satoshi400"
               >Field of Study</label
             >
             <GlobalInput
@@ -117,7 +117,7 @@ onMounted(async () => {
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <div class="w-full flex flex-col gap-1 justify-between">
-              <label class="text-[#01272C] text-[12px] font-Satoshi400">Start Date</label>
+              <label class="text-[#01272C] text-[10px] font-Satoshi400">Start Date</label>
               <a-date-picker
                 v-model="formState.start_date"
                 :bordered="false"
@@ -131,7 +131,7 @@ onMounted(async () => {
             class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1"
           >
             <div class="w-full flex flex-col gap-1 justify-between">
-              <label class="text-[#01272C] text-[12px] font-Satoshi400">End Date</label>
+              <label class="text-[#01272C] text-[10px] font-Satoshi400">End Date</label>
               <a-date-picker
                 v-model="formState.end_date"
                 :bordered="false"
@@ -142,10 +142,10 @@ onMounted(async () => {
             </div>
           </div>
           <div
-            class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+            class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
           >
             <div class="w-full flex flex-col gap-2 justify-between">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+              <label class="text-[#01272C] text-[10px] font-Satoshi400"
                 >Description</label
               >
               <textarea
