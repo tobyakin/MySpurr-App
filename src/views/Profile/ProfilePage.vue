@@ -16,6 +16,7 @@ import EditIcon from "@/components/icons/editIcon.vue";
 import EditModal from "@/components/ui/ProfileEdit/EditModal.vue";
 import ProfilePicture from "@/components/ui/ProfileEdit/Forms/ProfilePicture.vue";
 import HeadlineBio from "@/components/ui/ProfileEdit/Forms/HeadlineBio.vue";
+import OverviewPage from "@/components/ui/ProfileEdit/Forms/OverviewPage.vue";
 let profile = useUserProfile();
 const userDetails = computed(() => {
   return profile.user.data;
@@ -32,6 +33,11 @@ const HandleToggleEditHeadlineBioModal = () => {
   showModal.value = !showModal.value;
   formTitle.value = "Headline Bio";
   view = HeadlineBio;
+};
+const HandleToggleEditOverviewModal = () => {
+  showModal.value = !showModal.value;
+  formTitle.value = "Overview";
+  view = OverviewPage;
 };
 const closeModal = () => {
   showModal.value = !showModal.value;
@@ -131,7 +137,7 @@ onMounted(async () => {
           <div class="lg:w-[70%] p-4">
             <div class="flex flex-row items-center gap-[96px]">
               <p class="text-[28px] text-[#000] font-Satoshi500">Overview</p>
-              <button><EditIcon /></button>
+              <button @click="HandleToggleEditOverviewModal"><EditIcon /></button>
             </div>
             <div class="text-[#000000BF] font-Satoshi400 text-[16px] mt-4 leading-[35px]">
               <p>{{ userDetails?.overview }}</p>
