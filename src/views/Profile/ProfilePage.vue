@@ -57,6 +57,11 @@ const HandleToggleWorkExperiencePageModal = () => {
   formTitle.value = "Work experience";
   view = WorkExperiencePage;
 };
+const HandleTogglePortfolioModal = () => {
+  showModal.value = !showModal.value;
+  formTitle.value = "Portfolio";
+  view = null;
+};
 const closeModal = () => {
   showModal.value = !showModal.value;
   view = null;
@@ -220,7 +225,9 @@ onMounted(async () => {
             <WorkExperience :items="userDetails?.employment" />
             <div class="flex flex-row items-center gap-[96px] !mb-12 mt-8">
               <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
-              <button><EditIcon class="text-[#297F88]" /></button>
+              <button @click="HandleTogglePortfolioModal">
+                <EditIcon class="text-[#297F88]" />
+              </button>
             </div>
 
             <!-- <p
