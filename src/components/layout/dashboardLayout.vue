@@ -29,7 +29,7 @@ const toggle = () => {
   }
 };
 const items = [
-  { id: 0, name: "MySpurr profile", context: "My profile" },
+  { id: 0, name: "profile", context: "MySpurr profile" },
   {
     id: 1,
     name: "my-work",
