@@ -20,6 +20,14 @@ import OverviewPage from "@/components/ui/ProfileEdit/Forms/OverviewPage.vue";
 import SkillsPage from "@/components/ui/ProfileEdit/Forms/SkillsPage.vue";
 import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
 import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience.vue";
+import SampleOne from "@/assets/image/sampleOne.webp";
+const Porfolio = [
+  { img: SampleOne },
+  { img: SampleOne },
+  { img: SampleOne },
+  { img: SampleOne },
+];
+
 let profile = useUserProfile();
 const userDetails = computed(() => {
   return profile.user.data;
@@ -144,15 +152,6 @@ onMounted(async () => {
               <button @click="HandleToggleEditHeadlineBioModal">
                 <EditIcon class="text-[#297F88]" />
               </button>
-
-              <!-- <button>
-                <SearchIconVeritical />
-              </button>
-              <button
-                class="btn-brand !bg-[#31795A] !border-none text-center flex items-start !py-2 !text-white"
-              >
-                <span style="display: grid; place-content: center" class="">Message</span>
-              </button> -->
             </div>
           </div>
         </div>
@@ -180,9 +179,6 @@ onMounted(async () => {
               </button>
             </div>
 
-            <!-- <p class="text-[28px] text-[#000] flex gap-[96px] font-Satoshi500 !mb-4 mt-6">
-              Skills <EditIcon />
-            </p> -->
             <div class="flex gap-4 flex-wrap">
               <div
                 v-for="(item, index) in userDetails?.top_skills"
@@ -203,13 +199,7 @@ onMounted(async () => {
               </button>
             </div>
 
-            <!-- <p
-              class="text-[28px] text-[#000] font-Satoshi500 flex gap-[96px] !mb-12 mt-8"
-            >
-              Education <EditIcon />
-            </p> -->
             <EducationDetails :items="userDetails?.education" />
-            <!-- <SampleFive :items="items" /> -->
             <div class="flex flex-row items-center gap-[16px] !mb-12 mt-8">
               <p class="text-[28px] text-[#000] font-Satoshi500">Work Experience</p>
               <button @click="HandleToggleWorkExperiencePageModal">
@@ -217,11 +207,6 @@ onMounted(async () => {
               </button>
             </div>
 
-            <!-- <p
-              class="text-[28px] text-[#000] font-Satoshi500 flex gap-[46px] !mb-12 mt-8"
-            >
-              Work Experience <EditIcon />
-            </p> -->
             <WorkExperience :items="userDetails?.employment" />
             <div class="flex flex-row items-center gap-[96px] !mb-12 mt-8">
               <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
@@ -230,21 +215,18 @@ onMounted(async () => {
               </button>
             </div>
 
-            <!-- <p
-              class="text-[28px] text-[#000] font-Satoshi500 flex gap-[96px] !mb-12 mt-8"
-            >
-              Portfolio <EditIcon />
-            </p> -->
             <div
               class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
             >
-              <!-- <img
+              <img
+                @click="HandleTogglePortfolioModal"
+                role="button"
                 v-for="img in Porfolio"
                 :key="img"
                 :src="img.img"
                 class="h-[214.078px] flex flex-col w-auto rounded-lg"
                 alt=""
-              /> -->
+              />
             </div>
             <p class="text-[28px] text-[#000] font-Satoshi500 !mb-12 mt-8">Reviews</p>
             <div class="flex flex-col gap-4">
@@ -280,7 +262,6 @@ onMounted(async () => {
               <button><EditIcon class="text-[#297F88]" /></button>
             </div>
 
-            <!-- <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p> -->
             <div
               class="bg-[#E9FAFB] p-6 border-[#F6F6F6] border-[1px] flex flex-col gap-10 mt-4 rounded-[15px]"
             >
