@@ -100,7 +100,7 @@ const accountType = computed(() => {
 
 const isOnBoarded = computed(() => profile.user);
 onMounted(async () => {
-  await profile.userProfile();
+  // await profile.userProfile();
   console.log(isOnBoarded.value.work_details);
 });
 
@@ -155,10 +155,10 @@ onMounted(() => {
   const urlParams = new URLSearchParams(urlString);
   user.data.portfolio = urlParams.get("portfolio") === "true";
   user.data.token = urlParams.get("token") || "";
-  user.data.user.status = urlParams.get("user[status]") || "";
+  user.data.user.status = urlParams.get("user[status]").toLowerCase() || "";
   user.data.user.type = urlParams.get("user[type]") || "";
   user.data.work_details = urlParams.get("work_details") === "true";
-  user.status = urlParams.get("status") || "";
+  user.status = urlParams.get("status") || "true";
   // Check if the user data has values and then save it to the store
   if (
     user.data.portfolio ||
@@ -170,7 +170,19 @@ onMounted(() => {
   ) {
     store.saveUser(user);
     // Redirect to the "dashboard" route
-    router.push({ name: "dashboard" });
+    if (
+      isOnBoarded.value &&
+      !isOnBoarded.value.business_details &&
+      !isOnBoarded.value.work_details
+    ) {
+      if (accountType.value === "talent") {
+        router.push({ name: "talent-onboarding" });
+      } else if (accountType.value === "business") {
+        router.push({ name: "business-onboarding" });
+      }
+    } else {
+      router.push({ name: "dashboard" });
+    }
   }
 });
 </script>
