@@ -21,6 +21,7 @@ import SkillsPage from "@/components/ui/ProfileEdit/Forms/SkillsPage.vue";
 import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
 import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience.vue";
 import SampleOne from "@/assets/image/sampleOne.webp";
+import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
 const Porfolio = [
   { img: SampleOne },
   { img: SampleOne },
@@ -68,7 +69,7 @@ const HandleToggleWorkExperiencePageModal = () => {
 const HandleTogglePortfolioModal = () => {
   showModal.value = !showModal.value;
   formTitle.value = "Portfolio";
-  view = null;
+  view = PortfolioPage;
 };
 const closeModal = () => {
   showModal.value = !showModal.value;

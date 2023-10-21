@@ -23,6 +23,7 @@ import SettingsPage from '@/views/Settings/SettingsPage.vue'
 import MyWork from '@/views/MyWork/MyWork.vue'
 import HelpCenterPage from '@/views/HelpCenter/HelpCenterPage.vue'
 import BookMarkPage from '@/views/BookMark/BookMarkPage.vue'
+import SinglePortfolio from '@/views/Portfolio/SinglePortfolio.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -135,6 +136,12 @@ const router = createRouter({
       path: '/view/job/:id',
       name: 'view-jobs',
       component: ViewJob,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/single-portfolio/:id',
+      name: 'single-portfolio',
+      component: SinglePortfolio,
       beforeEnter: [middleware.redirectLogin]
     },
     {
