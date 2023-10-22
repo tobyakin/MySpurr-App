@@ -15,7 +15,7 @@
           </div>
         </div>
         <router-link
-          to="/view/job"
+          :to="{ name: 'view-jobs', params: { id: 1 } }"
           class="bg-[#43D0DF] font-Satoshi500 lg:text-[7.708px] text-[5px] items-center overflow-hidden flex lg:p-2 lg:px-4 px-2 text-[#000000] rounded-full"
         >
           IN REVIEW
