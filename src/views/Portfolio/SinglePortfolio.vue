@@ -1,7 +1,6 @@
 <script setup>
-import { defineAsyncComponent, ref, computed, reactive, watch } from "vue";
+import { defineAsyncComponent, ref, computed, reactive, watch, onMounted } from "vue";
 import { storeToRefs } from "pinia";
-import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
@@ -9,70 +8,182 @@ import { useStore } from "@/stores/user";
 import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
 import Arrow from "@/components/icons/paginationArrow.vue";
 import Tabs from "@/components/ui/Jobs/Tabs.vue";
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+
 import { useJobsStore } from "@/stores/jobs";
 const jobsStore = useJobsStore();
-const { Job } = storeToRefs(jobsStore);
+import { useSkillsStore } from "@/stores/skills";
+import { useUserProfile } from "@/stores/profile";
+
+const skillsStore = useSkillsStore();
+const { skills } = storeToRefs(skillsStore);
+const userProfile = useUserProfile();
 
 const FormGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/FormGroup.vue")
 );
 const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
-
+const portfolio = reactive({
+  title: "",
+  client_name: "",
+  job_type: "",
+  location: "",
+  rate: "",
+  tags: ["Branding", "Finance"],
+  cover_image: "",
+  body: "",
+});
 let store = useStore();
-console.log(store.getUser);
+console.log(store.getUser, portfolio);
+
+// add tag
+let options = ref([
+  { name: "Design" },
+  { name: "UI" },
+  { name: "Digital" },
+  { name: "Graphics" },
+  { name: "Developer" },
+  { name: "Product" },
+  { name: "Microsoft" },
+  { name: "Brand" },
+  { name: "Photoshop" },
+  { name: "Business" },
+  { name: "IT & Technology" },
+]);
+let top_skills = ref([]);
+
+const search = ref("");
+const showDropdown = ref(false);
+const highlightedIndex = ref(-1);
+
+const filteredOptions = computed(() => {
+  const searchTerm = search.value.toLowerCase();
+  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
+});
+
+const filterOptions = () => {
+  showDropdown.value = true;
+  highlightedIndex.value = -1;
+};
+const placeholderText = computed(() => {
+  return top_skills.value.length >= 5 ? "" : "Type or select tags";
+});
+const shouldDisplayInput = computed(() => {
+  return top_skills.value.length < 5;
+});
+
+const selectOption = (option) => {
+  if (top_skills.value.length < 5) {
+    search.value = "";
+    showDropdown.value = false;
+    highlightedIndex.value = -1;
+    top_skills.value.push(option);
+  }
+};
+
+const removeSelectedItem = (index) => {
+  top_skills.value.splice(index, 1);
+};
+
+const highlightNext = () => {
+  if (highlightedIndex.value < filteredOptions.value.length - 1) {
+    highlightedIndex.value++;
+  }
+};
+
+const highlightPrevious = () => {
+  if (highlightedIndex.value > 0) {
+    highlightedIndex.value--;
+  }
+};
+const getNextId = () => {
+  const ids = options.value.map((option) => parseInt(option.id));
+  const maxId = Math.max(...ids);
+  return (maxId + 1).toString();
+};
+
+const selectHighlightedOption = () => {
+  if (highlightedIndex.value >= 0) {
+    selectOption(filteredOptions.value[highlightedIndex.value]);
+  } else if (search.value && !filteredOptions.value.length) {
+    // If no options match the search term, add the typed item to the list
+    const nextId = getNextId();
+
+    selectOption({ id: nextId, name: search.value });
+  }
+};
+// end tag ends here
+// upload image
+const uploadedImage = ref(null);
+const uploadedImageName = ref("");
+
+const uploadImage = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const imageUrl = URL.createObjectURL(file);
+    uploadedImage.value = imageUrl;
+    uploadedImageName.value = file.name;
+  }
+};
+
+const removeImage = () => {
+  uploadedImage.value = null;
+  uploadedImageName.value = "";
+};
 </script>
 
 <template>
   <DashboardLayout>
     <div class="container lg:py-3 py-4 mb-20">
       <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">
-        Job Details
+        Project details
       </h4>
-      <div class="mt-8 flex flex-col gap-8">
+      <div class="mt-8 flex flex-col gap-[49px]">
         <FormGroup
+          v-model="portfolio.title"
           labelClasses="font-Satoshi500 !text-[17.792px]"
-          label="Job Title*"
+          label="Title"
           name="Name"
-          placeholder="Ex: Product Designer"
+          placeholder="Vino brand identity"
           type="text"
           inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
         ></FormGroup>
         <div class="flex flex-row w-full gap-8">
           <SelectGroup
             labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Job Category"
+            label="Creative work"
             name="Name"
-            :items="['Freelance', 'Full Time', 'Part Time']"
-            placeholder="Job Category"
+            :items="['Brand Identity Design ', 'Logo Design', 'Graphic Design']"
+            placeholder="Creative work"
             type="text"
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
           ></SelectGroup>
           <SelectGroup
+            v-model="portfolio.job_type"
             labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Job Type"
+            label="Employment type"
             name="Name"
             :items="['Freelance', 'Full Time', 'Part Time']"
-            placeholder="Job Type"
+            placeholder="Employment type"
             type="text"
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
           ></SelectGroup>
         </div>
         <div class="flex flex-row w-full gap-8">
           <div class="lg:w-[50%]">
-            <SelectGroup
+            <FormGroup
+              v-model="portfolio.location"
               labelClasses="font-Satoshi500 text-[15.606px]"
-              label="Salary*"
-              name="Name"
-              :items="['Monthly', 'Yearly', 'Hourly']"
-              placeholder="Job Category"
+              label="Location"
+              placeholder="Lagos, Nigeria"
               type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup>
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+            ></FormGroup>
           </div>
           <div class="lg:w-[50%] flex flex-row gap-9">
             <FormGroup
-              labelClasses=" invisible"
-              label="Min"
+              labelClasses=" "
+              label="Rate (Optional)"
               name="Min"
               placeholder="Min"
               type="number"
@@ -90,112 +201,122 @@ console.log(store.getUser);
         </div>
       </div>
       <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
-        Skills & Experience
+        Start building your project
       </h4>
+      <div class="mt-8 flex flex-col h-[58vh]">
+        <QuillEditor
+          v-model:content="portfolio.body"
+          class=""
+          theme="snow"
+          toolbar="full"
+          placeholder="Write about the job in details..."
+          contentType="html"
+        />
+      </div>
+      <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">Tags</h4>
       <div class="mt-8 flex flex-col gap-8">
-        <FormGroup
-          labelClasses="font-Satoshi500 !text-[17.792px]"
-          label="Skills*"
-          name="Name"
-          placeholder="Add Skills"
-          type="text"
-          inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-        ></FormGroup>
-        <div class="flex flex-row w-full gap-8">
-          <SelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Experience*"
-            name="Name"
-            :items="['Freelance', 'Full Time', 'Part Time']"
-            placeholder="Experience"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></SelectGroup>
-          <SelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Qualification*"
-            name="Name"
-            :items="['Freelance', 'Full Time', 'Part Time']"
-            placeholder="Qualification"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></SelectGroup>
-        </div>
-        <div class="flex flex-row w-full gap-8">
-          <SelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Industry*"
-            name="Name"
-            :items="['Freelance', 'Full Time', 'Part Time']"
-            placeholder="Industry"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></SelectGroup>
-          <SelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Career Level*"
-            name="Name"
-            :items="['Freelance', 'Full Time', 'Part Time']"
-            placeholder="Career Level"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></SelectGroup>
+        <div class="border-[0.737px] border-[#254035AB] rounded-[9.489px] p-4 py-1.5">
+          <div>
+            <p class="text-[#00000080] p-2 text-[18.979px] font-Satoshi400">
+              Add up 4 Tags
+            </p>
+            <div class="selected-items p-2 gap-2">
+              <div
+                v-for="(selectedItem, index) in top_skills"
+                :key="selectedItem.id"
+                class="selected-item bg-[#31795A1A] text-sm font-Satoshi400 gap-2 px-4 p-[5px] text-[#0000008A] !rounded-full"
+              >
+                {{ selectedItem.name }}
+                <span
+                  @click="removeSelectedItem(index)"
+                  class="remove-btn text-black hover:text-red-500"
+                  >x</span
+                >
+              </div>
+            </div>
+            <div>
+              <GlobalInput
+                v-if="shouldDisplayInput"
+                v-model="search"
+                @input="filterOptions"
+                @keydown.down="highlightNext"
+                @keydown.up="highlightPrevious"
+                @keydown.enter="selectHighlightedOption"
+                ref="searchInput"
+                inputClasses="bg-transparent !border-none"
+                :placeholder="placeholderText"
+                type="text"
+              />
+
+              <ul
+                v-if="showDropdown"
+                class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+              >
+                <li
+                  v-for="(option, index) in filteredOptions"
+                  :key="option.id"
+                  @click="selectOption(option)"
+                  :class="{ highlighted: index === highlightedIndex }"
+                  class="hover:bg-brand hover:text-white"
+                >
+                  {{ option.name }}
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-      <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
-        Address & Location
+      <h4 class="text-[#2B7551] font-Satoshi500 text-[28.468px] mt-[64.05px]">
+        Featured image
       </h4>
       <div class="mt-8 flex flex-col gap-8">
-        <FormGroup
-          labelClasses="font-Satoshi500 !text-[17.792px]"
-          label="Address*"
-          name="Name"
-          placeholder="Address of Job resident"
-          type="text"
-          inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-        ></FormGroup>
-        <div class="flex flex-row w-full gap-8">
-          <SelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Country*"
-            name="Name"
-            :items="['Nigeria', 'Uk', 'Niger']"
-            placeholder="Country"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></SelectGroup>
-          <SelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="City*"
-            name="Name"
-            :items="['', '', '']"
-            placeholder="City"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></SelectGroup>
-          <SelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="State*"
-            name="Name"
-            :items="['Lagos', 'Abuja', 'Uyo']"
-            placeholder="State"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></SelectGroup>
+        <Label class="font-Satoshi500 text-[15.606px]">File Attachment*</Label>
+        <div class="flex flex-col gap-4" f>
+          <div
+            v-if="uploadedImage"
+            class="w-full bg-[#EDF2F7] flex flex-row items-center justify-between rounded-[11.862px] py-[20px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
+          >
+            <p>{{ uploadedImageName }}</p>
+            <button
+              @click="removeImage"
+              class="origin-center rotate-45 text-[28.468px] font-Satoshi400 text-[#3F634D]"
+            >
+              +
+            </button>
+          </div>
+          <!-- <img :src="uploadedImage" alt="Uploaded Image" /> -->
+
+          <div class="flex gap-2 items-center">
+            <input id="cover_image" hidden type="file" @change="uploadImage" />
+            <label
+              for="cover_image"
+              class="bg-[#3F634D33] px-8 p-3 cursor-pointer rounded-[8.303px] text-[17.792px] text-[#3F634D] font-Satoshi500"
+              ><span>Upload File</span></label
+            >
+            <p class="text-[#00000080] font-Satoshi400 text-[16.606px]">
+              Upload file .jpeg, .png, .svg
+            </p>
+          </div>
         </div>
       </div>
-      <div class="flex gap-4 mt-12">
+      <div class="flex gap-4 justify-center mt-12">
         <button
-          class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
+          class="bg-[#2F929C] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] text-white rounded-full px-8 p-4 w-auto"
         >
-          review</button
-        ><button
-          class="bg-[#fff] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
-        >
-          CANCEL
+          SAVE
         </button>
       </div>
     </div>
   </DashboardLayout>
 </template>
-<style></style>
+<style>
+.ql-toolbar {
+  @apply rounded-t-[11.862px];
+}
+.ql-container {
+  @apply rounded-b-[11.862px];
+}
+/* .ql-editor {
+  @apply min-h-[58.122px];
+} */
+</style>
