@@ -99,10 +99,10 @@ const accountType = computed(() => {
 });
 
 const isOnBoarded = computed(() => profile.user);
-onMounted(async () => {
-  // await profile.userProfile();
-  console.log(isOnBoarded.value.work_details);
-});
+// onMounted(async () => {
+//   // await profile.userProfile();
+//   console.log(isOnBoarded.value.work_details);
+// });
 
 const onFinish = async () => {
   loading.value = true;
@@ -128,6 +128,7 @@ const onFinish = async () => {
     } else {
       router.push({ name: "dashboard" });
     }
+    loading.value = false;
   } catch (error) {
     console.log(error);
   } finally {
