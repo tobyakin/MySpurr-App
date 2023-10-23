@@ -29,7 +29,7 @@ const portfolio = reactive({
   job_type: "",
   location: "",
   rate: "",
-  tags: ["Branding", "Finance"],
+  tags: [],
   cover_image: "",
   body: "",
 });
@@ -49,6 +49,8 @@ let options = ref([
   { name: "Photoshop" },
   { name: "Business" },
   { name: "IT & Technology" },
+  { name: "Branding" },
+  { name: "Finance" },
 ]);
 let top_skills = ref([]);
 
