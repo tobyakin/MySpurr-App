@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent, computed, onMounted } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import MessageUserActiveIcon from "@/components/icons/messageUserActiveIcon.vue";
 import PushPinIcon from "@/components/icons/pushPinIcon.vue";
@@ -9,6 +9,47 @@ import AttachFile from "@/components/icons/attachFile.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import SendIcon from "@/components/icons/sendIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
+import { useSocketStore } from "@/stores/socket";
+const store = useSocketStore();
+import { useUserProfile } from "@/stores/profile";
+let profile = useUserProfile();
+
+let receiverId = "211950a8-c8bd-4f12-9b92-db142c85ddd4";
+let message = ref("");
+const userDetails = computed(() => {
+  return profile.user.data;
+});
+
+const connectSocket = async () => {
+  try {
+    await store.connectSocket(receiverId);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const sendMessage = async () => {
+  let payload = {
+    sender_id: userDetails.value.uniqueId,
+    receiver_id: receiverId,
+    message: message.value,
+  };
+  try {
+    await store.sendSocketMessage(receiverId, payload);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(() => {
+  return profile.userProfile();
+});
+onMounted(async () => {
+  // await store.connectSocket(receiverId);
+});
+onMounted(async () => {
+  await profile.userProfile();
+});
 </script>
 
 <template>
@@ -149,12 +190,14 @@ import SearchIcon from "@/components/icons/searchBarIcon.vue";
             </button>
             <div class="w-full">
               <GlobalInput
+                v-model="message"
                 inputClasses="bg-transparent flex w-full border-none"
                 placeholder=""
                 type="text"
               />
             </div>
             <button
+              @click="sendMessage"
               class="btn-brand !bg-[#43D0DF] border-none justify-end !py-[5.33px] !px-[26.68px] !rounded-[4.745px]"
             >
               <SendIcon />
