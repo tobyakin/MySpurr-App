@@ -57,7 +57,7 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
         education: {
           school_name: education.value.school_name,
           degree: education.value.degree,
-          field_of_study: education.value.field_of_study,
+          // field_of_study: education.value.field_of_study,
           description:education.value.description,
           start_date: education.value.start_date,
           end_date: education.value.end_date

@@ -21,7 +21,7 @@ const isFormValid = computed(() => {
   return (
     education.value.school_name.trim() !== "" &&
     education.value.degree.trim() !== "" &&
-    education.value.field_of_study.trim() !== "" &&
+    // education.value.field_of_study.trim() !== "" &&
     education.value.description !== "" &&
     education.value.start_date !== "" &&
     education.value.end_date !== ""
@@ -89,7 +89,9 @@ watch(StartDate, (newStartDate) => {
             type="text"
           />
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div
+          class="border-[0.737px] border-[#254035AB] hidden rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Field of Study</label
           >
