@@ -180,7 +180,10 @@ const router = createRouter({
       component: UploadProofOfIdentity,
       beforeEnter: [middleware.redirectLogin]
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 }
+  }
 })
 
 export default router
