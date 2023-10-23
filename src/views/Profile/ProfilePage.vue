@@ -22,6 +22,9 @@ import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
 import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience.vue";
 import SampleOne from "@/assets/image/sampleOne.webp";
 import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 const Porfolio = [
   { img: SampleOne },
   { img: SampleOne },
@@ -75,6 +78,10 @@ const closeModal = () => {
   showModal.value = !showModal.value;
   view = null;
 };
+const redirectToSinglePortfolio = () => {
+  router.push({ name: "single-portfolio", params: { id: 1 } });
+};
+
 onMounted(() => {
   return profile.userProfile();
 });
@@ -220,7 +227,7 @@ onMounted(async () => {
               class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
             >
               <img
-                @click="HandleTogglePortfolioModal"
+                @click="redirectToSinglePortfolio"
                 role="button"
                 v-for="img in Porfolio"
                 :key="img"

@@ -6,7 +6,9 @@
       </router-link>
       <div>
         <div class="flex items-center justify-between gap-2 py-[13px]">
-          <EditIcon class="text-[#297F88] h-[16.193px] w-[16.193px]" />
+          <button @click="redirectToSinglePortfolio">
+            <EditIcon class="text-[#297F88] h-[16.193px] w-[16.193px]" />
+          </button>
 
           <div class="flex items-center gap-2">
             <div class="flex items-center gap-[1px] font-Satoshi500">
@@ -28,6 +30,8 @@
 import EyeIcon from "@/components/icons/eyeIcon.vue";
 import CommentIcon from "@/components/icons/commentIcon.vue";
 import EditIcon from "@/components/icons/editIcon.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const props = defineProps({
   image: String,
@@ -39,6 +43,9 @@ const props = defineProps({
   blog_category: String,
   blog: Object,
 });
+const redirectToSinglePortfolio = () => {
+  router.push({ name: "single-portfolio", params: { id: 1 } });
+};
 </script>
 
 <style scoped></style>
