@@ -1,19 +1,21 @@
 <template>
   <div class="bg-[#ECFAFC] border-[#254035AB] py-[20px] border-[0.567px] rounded-[10px]">
-    <div class="flex items-center justify-between px-[20px]">
+    <div class="flex items-center flex-col lg:flex-row justify-between px-[20px]">
       <h4 class="text-[20px text-[#000000] font-Satoshi700">Transaction Summary</h4>
-      <div class="flex items-center gap-3">
-        <div
-          class="text-[#7E9294] text-[12px] font-Satoshi400 flex items-center gap-[4px]"
-        >
-          <div class="h-[10px] w-[10px] rounded-[4px] my-2 bg-[#A7DDFC]"></div>
-          Withdrawal
-        </div>
-        <div
-          class="text-[#7E9294] text-[12px] font-Satoshi400 flex items-center gap-[4px]"
-        >
-          <div class="h-[10px] w-[10px] rounded-[4px] my-2 bg-[#AFF5ED]"></div>
-          Income
+      <div class="flex flex-col lg:flex-row items-center gap-3">
+        <div class="flex gap-3">
+          <div
+            class="text-[#7E9294] text-[12px] font-Satoshi400 flex items-center gap-[4px]"
+          >
+            <div class="h-[10px] w-[10px] rounded-[4px] my-2 bg-[#A7DDFC]"></div>
+            Withdrawal
+          </div>
+          <div
+            class="text-[#7E9294] text-[12px] font-Satoshi400 flex items-center gap-[4px]"
+          >
+            <div class="h-[10px] w-[10px] rounded-[4px] my-2 bg-[#AFF5ED]"></div>
+            Income
+          </div>
         </div>
 
         <button
