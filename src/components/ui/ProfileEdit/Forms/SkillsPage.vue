@@ -8,11 +8,13 @@ import { storeToRefs } from "pinia";
 const skillsStore = useSkillsStore();
 const { skills } = storeToRefs(skillsStore);
 const userProfile = useUserProfile();
+const { top_skills } = storeToRefs(userProfile);
+let loading = ref(false);
+
 const formState = ref({
   overview: "",
 });
 let options = ref([]);
-let top_skills = ref([]);
 // multi select
 const search = ref("");
 const showDropdown = ref(false);
@@ -35,12 +37,10 @@ const shouldDisplayInput = computed(() => {
 });
 
 const selectOption = (option) => {
-  if (top_skills.value.length < 5) {
-    search.value = "";
-    showDropdown.value = false;
-    highlightedIndex.value = -1;
-    top_skills.value.push(option);
-  }
+  search.value = "";
+  showDropdown.value = false;
+  highlightedIndex.value = -1;
+  top_skills.value.push(option);
 };
 
 const removeSelectedItem = (index) => {
@@ -79,6 +79,18 @@ const prefillDetails = () => {
   formState.value.overview = userProfile.user?.data?.overview || "";
   top_skills.value = userProfile.user?.data?.top_skills || [];
 };
+const onFinish = async () => {
+  loading.value = true;
+  try {
+    const res = await userProfile.handleAddSkills();
+    userProfile.userProfile();
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
 
 onMounted(async () => {
   prefillDetails();
@@ -110,7 +122,6 @@ onMounted(async () => {
           </div>
           <div>
             <GlobalInput
-              v-if="shouldDisplayInput"
               v-model="search"
               @input="filterOptions"
               @keydown.down="highlightNext"
@@ -118,7 +129,7 @@ onMounted(async () => {
               @keydown.enter="selectHighlightedOption"
               ref="searchInput"
               inputClasses="bg-transparent !border-none"
-              :placeholder="placeholderText"
+              placeholder="select your top skills"
               type="text"
             />
 
@@ -151,6 +162,7 @@ onMounted(async () => {
     </div>
     <div class="w-full flex justify-center mt-8">
       <button
+        @click="onFinish"
         class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
         Save
