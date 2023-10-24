@@ -12,7 +12,9 @@ import {
 
 export const useUserProfile = defineStore('profile', () => {
   const user = ref({})
+
   const profileImage = ref('')
+
   const bioInfo = ref({
     first_name: "",
     last_name: "",
@@ -123,6 +125,12 @@ const overview = ref('')
     handleUpdateOverview,
     handleAddWorkDetails,
     handleAddSkills,
-    handleAddEducation
+    handleAddEducation,
+    profileImage,
+    bioInfo,
+    overview,
+    employment_details,
+    top_skills,
+    education
   }
 })
