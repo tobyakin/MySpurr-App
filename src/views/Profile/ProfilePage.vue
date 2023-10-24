@@ -102,6 +102,7 @@ onMounted(async () => {
             class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
           >
             <EditProfileAvater
+              :imageUrl="userDetails?.image"
               @toggleModal="HandleToggleEditImageModal"
               inputClasses="!h-[89.536px] !w-[89.536px]"
               class=""
