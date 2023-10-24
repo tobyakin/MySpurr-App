@@ -7,31 +7,48 @@ import BeIcon from "@/components/icons/beIcon.vue";
 import TwitterIcon from "@/components/icons/twitterIcon.vue";
 import FacebookIcon from "@/components/icons/facebookIcon.vue";
 import { useUserProfile } from "@/stores/profile";
+import { storeToRefs } from "pinia";
+
+const profileStore = useUserProfile();
+const { bioInfo } = storeToRefs(profileStore);
+let loading = ref(false);
 
 const userProfile = useUserProfile();
-const formState = ref({
-  first_name: "",
-  last_name: "",
-  skill_title: "",
-  rate: "",
-  location: "",
-  linkedInURL: "",
-  instagramURL: "",
-  twitterURL: "",
-  behanceURL: "",
-  facebookURL: "",
-});
+// const bioInfo = ref({
+//   first_name: "",
+//   last_name: "",
+//   skill_title: "",
+//   rate: "",
+//   location: "",
+//   linkedInURL: "",
+//   instagramURL: "",
+//   twitterURL: "",
+//   behanceURL: "",
+//   facebookURL: "",
+// });
 const prefillDetails = () => {
-  formState.value.first_name = userProfile.user?.data?.first_name || "";
-  formState.value.last_name = userProfile.user?.data?.last_name || "";
-  formState.value.skill_title = userProfile.user?.data?.skill_title || "";
-  formState.value.rate = userProfile.user?.data?.rate || "";
-  formState.value.location = userProfile.user?.data?.location || "";
-  //   formState.value.linkedInURL = userProfile.user?.data?.email || "";
-  //   formState.value.instagramURL = userProfile.user?.data?.first_name || "";
-  //   formState.value.twitterURL = userProfile.user?.data?.email || "";
-  //   formState.value.behanceURL = userProfile.user?.data?.email || "";
-  //   formState.value.facebookURL = userProfile.user?.data?.email || "";
+  bioInfo.value.first_name = userProfile.user?.data?.first_name || "";
+  bioInfo.value.last_name = userProfile.user?.data?.last_name || "";
+  bioInfo.value.skill_title = userProfile.user?.data?.skill_title || "";
+  bioInfo.value.rate = userProfile.user?.data?.rate || "";
+  bioInfo.value.location = userProfile.user?.data?.location || "";
+  //   bioInfo.value.linkedInURL = userProfile.user?.data?.email || "";
+  //   bioInfo.value.instagramURL = userProfile.user?.data?.first_name || "";
+  //   bioInfo.value.twitterURL = userProfile.user?.data?.email || "";
+  //   bioInfo.value.behanceURL = userProfile.user?.data?.email || "";
+  //   bioInfo.value.facebookURL = userProfile.user?.data?.email || "";
+};
+const onFinish = async () => {
+  loading.value = true;
+  try {
+    const res = await profileStore.handleUpdateBio();
+    profileStore.userProfile();
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
 };
 
 onMounted(async () => {
@@ -55,7 +72,7 @@ onMounted(async () => {
             >
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              v-model="formState.first_name"
+              v-model="bioInfo.first_name"
               type="text"
             />
           </div>
@@ -68,7 +85,7 @@ onMounted(async () => {
             </label>
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              v-model="formState.last_name"
+              v-model="bioInfo.last_name"
               type="text"
             />
           </div>
@@ -80,7 +97,7 @@ onMounted(async () => {
             >
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              v-model="formState.skill_title"
+              v-model="bioInfo.skill_title"
               type="text"
             />
           </div>
@@ -93,7 +110,7 @@ onMounted(async () => {
             >
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              v-model="formState.rate"
+              v-model="bioInfo.rate"
               type="text"
             />
           </div>
@@ -105,7 +122,7 @@ onMounted(async () => {
             >
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              v-model="formState.location"
+              v-model="bioInfo.location"
               type="text"
             />
           </div>
@@ -125,7 +142,7 @@ onMounted(async () => {
             >
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              v-model="formState.linkedInURL"
+              v-model="bioInfo.linkedin"
               type="text"
             />
           </div>
@@ -139,7 +156,7 @@ onMounted(async () => {
             </label>
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              v-model="formState.instagramURL"
+              v-model="bioInfo.instagram"
               type="text"
             />
           </div>
@@ -152,7 +169,7 @@ onMounted(async () => {
             >
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              v-model="formState.twitterURL"
+              v-model="bioInfo.twitter"
               type="text"
             />
           </div>
@@ -166,7 +183,7 @@ onMounted(async () => {
             >
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              v-model="formState.behanceURL"
+              v-model="bioInfo.behance"
               type="text"
             />
           </div>
@@ -179,7 +196,7 @@ onMounted(async () => {
             >
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              v-model="formState.facebookURL"
+              v-model="bioInfo.facebook"
               type="text"
             />
           </div>
@@ -188,6 +205,7 @@ onMounted(async () => {
     </div>
     <div class="w-full flex justify-center mt-8">
       <button
+        @click="onFinish"
         class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
         Save
