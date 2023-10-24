@@ -59,10 +59,35 @@ const highlightPrevious = () => {
   }
 };
 const getNextId = () => {
-  const ids = options.value.map((option) => parseInt(option.id));
-  const maxId = Math.max(...ids);
-  return (maxId + 1).toString();
+  // Create an array of all IDs in options and top_skills
+  const allIds = [
+    ...options.value.map((option) => parseInt(option.id)),
+    ...top_skills.value.map((option) => parseInt(option.id)),
+  ];
+
+  const maxId = Math.max(...allIds);
+
+  // If there are no skills in top_skills and options, start with ID 1
+  if (isNaN(maxId)) {
+    return "1";
+  }
+
+  // Find the next available ID that is not in options or top_skills
+  for (let i = maxId + 1; i <= maxId + 100; i++) {
+    if (!allIds.includes(i)) {
+      return i.toString();
+    }
+  }
+
+  // If no available ID is found, you can handle the error here.
+  throw new Error("No available ID found.");
 };
+
+// const getNextId = () => {
+//   const ids = options.value.map((option) => parseInt(option.id));
+//   const maxId = Math.max(...ids);
+//   return (maxId + 1).toString();
+// };
 
 const selectHighlightedOption = () => {
   if (highlightedIndex.value >= 0) {
