@@ -89,8 +89,10 @@ onMounted(async () => {
 </script>
 <template>
   <div>
-    <div class="flex flex-row justify-between gap-[21px]">
-      <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+    <div class="flex flex-row justify-between gap-[21px] w-full">
+      <div
+        class="border-[0.737px] border-[#254035AB] w-full rounded-[5.897px] p-4 py-1.5"
+      >
         <div>
           <div class="selected-items p-2 gap-2">
             <div
