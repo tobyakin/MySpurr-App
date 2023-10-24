@@ -22,3 +22,94 @@ export const getUserProfile= async () => {
     }
 
 }
+export const updateProfilePhoto = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.patch(`update-photo`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const updateBio = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.patch(`update-bio`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const updateOverview = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.patch(`update-overview`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const addWorkDetails = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.post(`add-work-details`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const addSkills = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.post(`add-skills`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const addEducation = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.post(`add-skills`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
