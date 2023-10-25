@@ -20,7 +20,8 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
       field_of_study: '',
       start_date: '',
       end_date: '',
-      description:'',
+      description: '',
+      currently_schooling_here: ''
     })
     const employment_details = ref({
       company_name: '',
@@ -28,7 +29,8 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
       employment_type: '',
       start_date: '',
       end_date: '',
-      description: ''
+      description: '',
+      currently_working_here: '',
     })
     const certificate =ref( {
         title: "",
