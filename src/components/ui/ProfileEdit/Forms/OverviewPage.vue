@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useUserProfile } from "@/stores/profile";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
 const userProfile = useUserProfile();
 import { storeToRefs } from "pinia";
@@ -45,7 +46,8 @@ onMounted(async () => {
         @click="onFinish"
         class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
-        Save
+        <span v-if="!loading" class="text-[12.067px]">Save</span>
+        <WhiteLoader v-if="loading" />
       </button>
     </div>
   </div>
