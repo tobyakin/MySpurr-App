@@ -3,6 +3,7 @@ import UserAvater from "../../Avater/UserAvater.vue";
 import { ref, onMounted, computed } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
 const profileStore = useUserProfile();
 const { profileImage } = storeToRefs(profileStore);
@@ -67,7 +68,8 @@ onMounted(async () => {
         role="button"
         class="btn-brand !border-none !w-full !py-3 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
-        <span class="text-[12.067px]">Save</span>
+        <span v-if="!loading" class="text-[12.067px]">Save</span>
+        <WhiteLoader v-if="loading" />
       </button>
     </div>
     <p
