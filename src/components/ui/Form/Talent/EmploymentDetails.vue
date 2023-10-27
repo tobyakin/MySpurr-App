@@ -58,8 +58,11 @@ const StartDate = computed(() => {
 const EndDate = computed(() => {
   return dayjs(formState.value.end_date).format("YYYY-MM-DD");
 });
+const currentlyWorkingHere = computed(() => {
+  return present.value ? "present" : "false"; // If checked, return " "
+});
 const EndDateValue = computed(() => {
-  return present.value ? " " : EndDate.value; // If checked, return " "
+  return present.value ? "present" : EndDate.value; // If checked, return " "
 });
 
 // Update employment_details.value.end_date when EndDate changes
@@ -70,6 +73,11 @@ watch(EndDateValue, (newEndDate) => {
 watch(StartDate, (newStartDate) => {
   employment_details.value.start_date = newStartDate;
 });
+// Update employment_details.value.currently_working_here when currentlyWorkingHere changes
+watch(currentlyWorkingHere, (newCurrentlyWorkingHere) => {
+  employment_details.value.currently_working_here = newCurrentlyWorkingHere;
+});
+
 let skillTitles = ref([]);
 let options = ref([]);
 
@@ -240,7 +248,7 @@ const selectHighlightedJobTitleOption = () => {
 
         <div class="flex gap-3 justify-start items-center">
           <input
-            class="bg-transparent !border-[0.737px] !border-[#254035AB] accent-brand rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
+            class="bg-transparent !border-[0.737px] cursor-pointer !border-[#254035AB] accent-brand rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
             type="checkbox"
             v-model="present"
           />
