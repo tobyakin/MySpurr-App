@@ -1,38 +1,24 @@
 <script setup>
-import { defineAsyncComponent, ref, computed, reactive, watch, onMounted } from "vue";
+import { defineAsyncComponent, ref, computed } from "vue";
 import { storeToRefs } from "pinia";
 import "vue-slider-component/theme/antd.css";
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { useStore } from "@/stores/user";
-import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
-import Arrow from "@/components/icons/paginationArrow.vue";
-import Tabs from "@/components/ui/Jobs/Tabs.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
-
-import { useJobsStore } from "@/stores/jobs";
-const jobsStore = useJobsStore();
-import { useSkillsStore } from "@/stores/skills";
+import { useOnboardingStore } from "@/stores/onBoarding";
 import { useUserProfile } from "@/stores/profile";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
-const skillsStore = useSkillsStore();
-const { skills } = storeToRefs(skillsStore);
+const OnboardingStore = useOnboardingStore();
+const { portfolio } = storeToRefs(OnboardingStore);
+
 const userProfile = useUserProfile();
 
 const FormGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/FormGroup.vue")
 );
 const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
-const portfolio = reactive({
-  title: "",
-  client_name: "",
-  job_type: "",
-  location: "",
-  rate: "",
-  tags: [],
-  cover_image: "",
-  body: "",
-});
 let store = useStore();
 console.log(store.getUser, portfolio);
 
@@ -52,7 +38,7 @@ let options = ref([
   { name: "Branding" },
   { name: "Finance" },
 ]);
-let top_skills = ref([]);
+let loading = ref(false);
 
 const search = ref("");
 const showDropdown = ref(false);
@@ -68,23 +54,23 @@ const filterOptions = () => {
   highlightedIndex.value = -1;
 };
 const placeholderText = computed(() => {
-  return top_skills.value.length >= 5 ? "" : "Type or select tags";
+  return portfolio.value.tags.length >= 5 ? "" : "Type or select tags";
 });
 const shouldDisplayInput = computed(() => {
-  return top_skills.value.length < 5;
+  return portfolio.value.tags.length < 5;
 });
 
 const selectOption = (option) => {
-  if (top_skills.value.length < 5) {
+  if (portfolio.value.tags.length < 5) {
     search.value = "";
     showDropdown.value = false;
     highlightedIndex.value = -1;
-    top_skills.value.push(option);
+    portfolio.value.tags.push(option);
   }
 };
 
 const removeSelectedItem = (index) => {
-  top_skills.value.splice(index, 1);
+  portfolio.value.tags.splice(index, 1);
 };
 
 const highlightNext = () => {
@@ -116,21 +102,43 @@ const selectHighlightedOption = () => {
 };
 // end tag ends here
 // upload image
-const uploadedImage = ref(null);
 const uploadedImageName = ref("");
 
 const uploadImage = (event) => {
   const file = event.target.files[0];
+  // if (file) {
+  //   const imageUrl = URL.createObjectURL(file);
+  //   portfolio.value.cover_image = file;
+  //   uploadedImageName.value = file.name;
+  // }
   if (file) {
-    const imageUrl = URL.createObjectURL(file);
-    uploadedImage.value = imageUrl;
+    const reader = new FileReader();
     uploadedImageName.value = file.name;
+
+    reader.onload = () => {
+      portfolio.value.cover_image = reader.result;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    portfolio.value.cover_image = "";
   }
 };
 
 const removeImage = () => {
-  uploadedImage.value = null;
+  portfolio.value.cover_image = null;
   uploadedImageName.value = "";
+};
+const onFinish = async () => {
+  loading.value = true;
+  try {
+    const res = await OnboardingStore.submitTalentPortfolio();
+    userProfile.userProfile();
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
@@ -152,6 +160,7 @@ const removeImage = () => {
         ></FormGroup>
         <div class="flex flex-row w-full gap-8">
           <SelectGroup
+            v-model="portfolio.client_name"
             labelClasses="font-Satoshi500 text-[15.606px]"
             label="Creative work"
             name="Name"
@@ -184,6 +193,7 @@ const removeImage = () => {
           </div>
           <div class="lg:w-[50%] flex flex-row gap-9">
             <FormGroup
+              v-model="portfolio.min"
               labelClasses=" "
               label="Rate (Optional)"
               name="Min"
@@ -192,6 +202,7 @@ const removeImage = () => {
               inputClasses="w-full mt-2 font-light font-Satoshi400 !p-[10px] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></FormGroup>
             <FormGroup
+              v-model="portfolio.max"
               labelClasses=" invisible"
               label="Max "
               name="Max"
@@ -224,7 +235,7 @@ const removeImage = () => {
             </p>
             <div class="selected-items p-2 gap-2">
               <div
-                v-for="(selectedItem, index) in top_skills"
+                v-for="(selectedItem, index) in portfolio.tags"
                 :key="selectedItem.id"
                 class="selected-item bg-[#31795A1A] text-sm font-Satoshi400 gap-2 px-4 p-[5px] text-[#0000008A] !rounded-full"
               >
@@ -275,7 +286,7 @@ const removeImage = () => {
         <Label class="font-Satoshi500 text-[15.606px]">File Attachment*</Label>
         <div class="flex flex-col gap-4" f>
           <div
-            v-if="uploadedImage"
+            v-if="portfolio.cover_image"
             class="w-full bg-[#EDF2F7] flex flex-row items-center justify-between rounded-[11.862px] py-[20px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
           >
             <p>{{ uploadedImageName }}</p>
@@ -303,9 +314,11 @@ const removeImage = () => {
       </div>
       <div class="flex gap-4 justify-center mt-12">
         <button
+          @click="onFinish"
           class="bg-[#2F929C] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] text-white rounded-full px-8 p-4 w-auto"
         >
-          SAVE
+          <span v-if="!loading" class="text-[12.067px]">Save</span>
+          <WhiteLoader v-if="loading" />
         </button>
       </div>
     </div>
