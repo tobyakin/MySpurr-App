@@ -8,35 +8,24 @@ import TwitterIcon from "@/components/icons/twitterIcon.vue";
 import FacebookIcon from "@/components/icons/facebookIcon.vue";
 import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
 const profileStore = useUserProfile();
 const { bioInfo } = storeToRefs(profileStore);
 let loading = ref(false);
 
 const userProfile = useUserProfile();
-// const bioInfo = ref({
-//   first_name: "",
-//   last_name: "",
-//   skill_title: "",
-//   rate: "",
-//   location: "",
-//   linkedInURL: "",
-//   instagramURL: "",
-//   twitterURL: "",
-//   behanceURL: "",
-//   facebookURL: "",
-// });
 const prefillDetails = () => {
   bioInfo.value.first_name = userProfile.user?.data?.first_name || "";
   bioInfo.value.last_name = userProfile.user?.data?.last_name || "";
   bioInfo.value.skill_title = userProfile.user?.data?.skill_title || "";
   bioInfo.value.rate = userProfile.user?.data?.rate || "";
   bioInfo.value.location = userProfile.user?.data?.location || "";
-  //   bioInfo.value.linkedInURL = userProfile.user?.data?.email || "";
-  //   bioInfo.value.instagramURL = userProfile.user?.data?.first_name || "";
-  //   bioInfo.value.twitterURL = userProfile.user?.data?.email || "";
-  //   bioInfo.value.behanceURL = userProfile.user?.data?.email || "";
-  //   bioInfo.value.facebookURL = userProfile.user?.data?.email || "";
+  bioInfo.value.linkedin = userProfile.user?.data?.linkedin || "";
+  bioInfo.value.instagram = userProfile.user?.data?.instagram || "";
+  bioInfo.value.twitter = userProfile.user?.data?.twitter || "";
+  bioInfo.value.behance = userProfile.user?.data?.behance || "";
+  bioInfo.value.facebook = userProfile.user?.data?.facebook || "";
 };
 const onFinish = async () => {
   loading.value = true;

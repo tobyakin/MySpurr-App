@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineAsyncComponent, computed, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
 import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
@@ -131,18 +131,26 @@ onMounted(async () => {
           </div>
           <div class="flex flex-col items-center lg:justify-center lg:items-end gap-6">
             <div class="flex flex-row justify-center gap-3">
-              <button>
+              <a
+                v-if="userDetails?.linkedin"
+                :href="userDetails?.linkedin"
+                target="_blank"
+              >
                 <LinkdeinIcon />
-              </button>
-              <button>
+              </a>
+              <a
+                v-if="userDetails?.instagram"
+                :href="userDetails?.instagram"
+                target="_blank"
+              >
                 <InstagramIcon />
-              </button>
-              <button>
+              </a>
+              <a v-if="userDetails?.behance" :href="userDetails?.behance" target="_blank">
                 <BeIcon />
-              </button>
-              <button>
+              </a>
+              <a v-if="userDetails?.twitter" :href="userDetails?.twitter" target="_blank">
                 <TwitterIcon />
-              </button>
+              </a>
             </div>
             <div class="flex items-center gap-5">
               <div
@@ -230,7 +238,7 @@ onMounted(async () => {
               <img
                 @click="redirectToSinglePortfolio"
                 role="button"
-                v-for="img in Porfolio"
+                v-for="img in userDetails?.portfolio"
                 :key="img"
                 :src="img.img"
                 class="h-[214.078px] flex flex-col w-auto rounded-lg"
