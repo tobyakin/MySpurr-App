@@ -1,4 +1,4 @@
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { handleTalentWorkDetails,handleTalentPortfolio,handleBusinessDetails,handleBusinessPortfolio } from "@/services/Onboarding"
 
@@ -21,7 +21,7 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
       start_date: '',
       end_date: '',
       description: '',
-      currently_schooling_here: ''
+      currently_schooling_here: 'no'
     })
     const employment_details = ref({
       company_name: '',
@@ -30,7 +30,7 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
       start_date: '',
       end_date: '',
       description: '',
-      currently_working_here: '',
+      currently_working_here: 'no',
     })
     const certificate =ref( {
         title: "",
@@ -38,10 +38,35 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
         certificate_date: "",
         certificate_year: "",
         certificate_link: "",
-        currently_working_here: ""
+        currently_working_here: "no"
     });
+const portfolio = ref({
+  title: '',
+  client_name: '',
+  job_type: '',
+  location: '',
+  rate: '',
+  tags: [],
+  cover_image: null,
+  body: '',
+  max:'',
+  min:''
+})
+const portfolioRate = ref(`${portfolio.value.min} ${portfolio.value.max}`)
+    const submitTalentPortfolio = async() => {
+            let payload = {
+              portfolio: {
+                title: portfolio.value.title,
+                client_name: portfolio.value.client_name,
+                job_type: portfolio.value.job_type,
+                location: portfolio.value.location,
+                rate: String(`${portfolio.value.min}-${portfolio.value.max}`),
+                tags: portfolio.value.tags,
+                cover_image: portfolio.value.cover_image,
+                body: portfolio.value.body
+              }
+            }
 
-    const submitTalentPortfolio = async(payload) => {
           handleTalentPortfolio(payload)
     }
     const submitBusinessPortfolio = async(payload) => {
@@ -60,17 +85,19 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
           school_name: education.value.school_name,
           degree: education.value.degree,
           // field_of_study: education.value.field_of_study,
-          description:education.value.description,
+          description: education.value.description,
           start_date: education.value.start_date,
-          end_date: education.value.end_date
+          end_date: education.value.end_date,
+          currently_schooling_here: education.value.currently_schooling_here
         },
         employment_details: {
           company_name: employment_details.value.company_name,
           title: employment_details.value.title,
           employment_type: employment_details.value.employment_type,
-          description:employment_details.value.description,
+          description: employment_details.value.description,
           start_date: employment_details.value.start_date,
-          end_date: employment_details.value.end_date
+          end_date: employment_details.value.end_date,
+          currently_working_here: employment_details.value.currently_working_here
         },
         certificate: {
           title: certificate.value.title,
@@ -105,5 +132,7 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
       employment_details,
       certificate,
       availability,
+      portfolio,
+      portfolioRate
     }
 })
