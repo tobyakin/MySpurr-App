@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
@@ -43,16 +43,23 @@ const EndDate = computed(() => {
   return dayjs(formState.value.end_date).format("YYYY-MM-DD");
 });
 const EndDateValue = computed(() => {
-  return present.value ? " " : EndDate.value; // If checked, return " "
+  return present.value ? "present" : EndDate.value; // If checked, return " "
+});
+const currentlySchoolingHere = computed(() => {
+  return present.value ? "present" : "false"; //
 });
 
-// Update employment_details.value.end_date when EndDate changes
+// Update education.value.end_date when EndDate changes
 watch(EndDateValue, (newEndDate) => {
   education.value.end_date = newEndDate;
 });
-// Update employment_details.value.start_date when StartDate changes
+// Update education.value.start_date when StartDate changes
 watch(StartDate, (newStartDate) => {
   education.value.start_date = newStartDate;
+});
+// Update education.value.currently_schooling_here when currentlySchoolingHere changes
+watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
+  education.value.currently_schooling_here = newCurrentlySchoolingHere;
 });
 </script>
 
@@ -150,7 +157,7 @@ watch(StartDate, (newStartDate) => {
 
         <div class="flex gap-3 justify-start items-center">
           <input
-            class="bg-transparent !border-[0.737px] !border-[#254035AB] rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
+            class="bg-transparent !border-[0.737px] cursor-pointer !border-[#254035AB] rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
             type="checkbox"
             v-model="present"
           />
