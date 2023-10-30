@@ -158,7 +158,7 @@ const onFinish = async () => {
           type="text"
           inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
         ></FormGroup>
-        <div class="flex flex-row w-full gap-8">
+        <div class="flex lg:flex-row flex-col w-full gap-8">
           <SelectGroup
             v-model="portfolio.client_name"
             labelClasses="font-Satoshi500 text-[15.606px]"
@@ -180,7 +180,7 @@ const onFinish = async () => {
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
           ></SelectGroup>
         </div>
-        <div class="flex flex-row w-full gap-8">
+        <div class="flex lg:flex-row flex-col w-full gap-8">
           <div class="lg:w-[50%]">
             <FormGroup
               v-model="portfolio.location"
@@ -299,7 +299,7 @@ const onFinish = async () => {
           </div>
           <!-- <img :src="uploadedImage" alt="Uploaded Image" /> -->
 
-          <div class="flex gap-2 items-center">
+          <div class="flex lg:flex-row flex-col gap-2 items-center">
             <input id="cover_image" hidden type="file" @change="uploadImage" />
             <label
               for="cover_image"
