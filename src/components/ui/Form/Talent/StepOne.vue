@@ -1,38 +1,42 @@
 <template>
-  <CenteredModalLarge>
-    <div class="my-8">
-      <header class="">
-        <h1
-          v-if="accountType === 'talent'"
-          class="text-[#000000] text-center text-[20px] font-Satoshi700"
-        >
-          Complete your talent profile
-        </h1>
-        <h1 v-else class="text-[#000000] text-center text-[20px] font-Satoshi700">
-          Complete your business profile
-        </h1>
-      </header>
-      <div v-if="accountType == 'talent'" class="my-4 font-Satoshi400 text-center">
-        Please give us some information to set up your talent dashboard. <br />
-        It'll take less than 3 mins
+  <div>
+    <HomeView />
+    <CenteredModalLarge>
+      <div class="my-8">
+        <header class="">
+          <h1
+            v-if="accountType === 'talent'"
+            class="text-[#000000] text-center text-[20px] font-Satoshi700"
+          >
+            Complete your talent profile
+          </h1>
+          <h1 v-else class="text-[#000000] text-center text-[20px] font-Satoshi700">
+            Complete your business profile
+          </h1>
+        </header>
+        <div v-if="accountType == 'talent'" class="my-4 font-Satoshi400 text-center">
+          Please give us some information to set up your talent dashboard. <br />
+          It'll take less than 3 mins
+        </div>
+        <div v-else class="my-4 font-Satoshi400 text-center">
+          Please give us some information to set up your business dashboard (It'll take
+          less than 3 mins)
+        </div>
+        <div class="flex justify-center">
+          <button
+            @click="next"
+            class="bg-brand text-center font-Satoshi400 rounded-md px-6 text-gray-100 py-3"
+          >
+            Proceed
+          </button>
+        </div>
       </div>
-      <div v-else class="my-4 font-Satoshi400 text-center">
-        Please give us some information to set up your business dashboard (It'll take less
-        than 3 mins)
-      </div>
-      <div class="flex justify-center">
-        <button
-          @click="next"
-          class="bg-brand text-center font-Satoshi400 rounded-md px-6 text-gray-100 py-3"
-        >
-          Proceed
-        </button>
-      </div>
-    </div>
-  </CenteredModalLarge>
+    </CenteredModalLarge>
+  </div>
 </template>
 
 <script setup>
+import HomeView from "@/views/HomeView.vue";
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
