@@ -1,11 +1,16 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import CirclePlus from "@/components/icons/circlePlus.vue";
 import SampleThree from "@/assets/image/sampleThree.webp";
 import PortfolioCard from "@/components/ui/ProfileEdit/PorfolioCard.vue";
 import { useRouter } from "vue-router";
+
 const router = useRouter();
+let profile = useUserProfile();
+const userDetails = computed(() => {
+  return profile.user.data;
+});
 
 const blogPost = [
   {
@@ -43,14 +48,9 @@ onMounted(async () => {
         class="flex lg:grid-cols-4 lg:grid flex-row gap-3 hide-scrollbar overflow-x-auto w-full"
       >
         <PortfolioCard
-          v-for="blog in blogPost"
-          :key="blog"
-          :image="blog.cover_image"
-          :heading="blog.title"
-          :text="blog.blog_description"
-          :date="blog.created_at"
-          :blog_category="blog.blog_category"
-          :blog="blog"
+          v-for="img in userDetails?.portfolio"
+          :key="img"
+          :image="img.cover_image"
         />
       </div>
     </div>

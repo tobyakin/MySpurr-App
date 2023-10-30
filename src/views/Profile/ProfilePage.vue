@@ -240,7 +240,7 @@ onMounted(async () => {
                 role="button"
                 v-for="img in userDetails?.portfolio"
                 :key="img"
-                :src="img.img"
+                :src="img.cover_image"
                 class="h-[214.078px] flex flex-col w-auto rounded-lg"
                 alt=""
               />
