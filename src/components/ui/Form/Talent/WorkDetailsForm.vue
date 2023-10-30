@@ -136,14 +136,14 @@ const filterOptions = () => {
   highlightedIndex.value = -1;
 };
 const placeholderText = computed(() => {
-  return top_skills.value.length >= 5 ? "" : "select your top skills Ex. Graphics Design";
+  return top_skills.value.length >= 3 ? "" : "select your top skills Ex. Graphics Design";
 });
 const shouldDisplayInput = computed(() => {
-  return top_skills.value.length < 5;
+  return top_skills.value.length < 3;
 });
 
 const selectOption = (option) => {
-  if (top_skills.value.length < 5) {
+  if (top_skills.value.length < 3) {
     search.value = "";
     showDropdown.value = false;
     highlightedIndex.value = -1;
@@ -264,7 +264,7 @@ const selectHighlightedOption = () => {
 
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Select your top 5 skills</label
+            >Select your top 3 skills</label
           >
           <!-- <multiselect
             v-model="top_skills"
