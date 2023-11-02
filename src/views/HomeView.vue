@@ -37,6 +37,7 @@ onMounted(async () => {
 
 <template>
   <DashboardLayout>
+    <slot></slot>
     <!-- <OnboardingRequest
       v-if="isOnBoarded && !isOnBoarded.business_details && !isOnBoarded.work_details"
     /> -->

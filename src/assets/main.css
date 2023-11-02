@@ -224,7 +224,7 @@ ol {
 }
 
 .Vue-Toastification__toast--error svg {
-  @apply !text-red-500
+  @apply !text-[#E06F6F]
 }
 
 .Vue-Toastification__toast--error {
@@ -237,7 +237,7 @@ ol {
 }
 
 .Vue-Toastification__toast--success svg {
-  @apply !text-green-500
+  @apply !text-[#D3DA51]
 }
 /* ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today  */
 /* .ant-picker-cell-in-view, */

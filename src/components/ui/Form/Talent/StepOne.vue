@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <HomeView />
+  <HomeView>
     <CenteredModalLarge>
       <div class="my-8">
         <header class="">
@@ -32,7 +31,7 @@
         </div>
       </div>
     </CenteredModalLarge>
-  </div>
+  </HomeView>
 </template>
 
 <script setup>

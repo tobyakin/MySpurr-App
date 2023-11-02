@@ -1,6 +1,6 @@
 <template>
   <div
-    class="modal backdrop-blur z-[100] fixed animate__zoomIn animate__rubberBand animate__fadeOut h-screen"
+    class="modal backdrop-blur z-[100] fixed animate__zoomIn animate__rubberBand animate__fadeOut min-h-screen h-full"
   >
     <div class="modal__body relative mx-auto bg-white m-0 md:px-5 py-4 px-4">
       <div class="lds-roller">
