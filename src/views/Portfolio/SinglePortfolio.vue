@@ -9,6 +9,8 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const OnboardingStore = useOnboardingStore();
 const { portfolio } = storeToRefs(OnboardingStore);
@@ -133,7 +135,8 @@ const onFinish = async () => {
   try {
     const res = await OnboardingStore.submitTalentPortfolio();
     userProfile.userProfile();
-    console.log(res);
+    router.push({ name: "profile" });
+    return res;
   } catch (error) {
     console.log(error);
   } finally {

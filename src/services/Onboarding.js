@@ -31,7 +31,7 @@ export const handleTalentPortfolio = async (payload) => {
                 Authorization: 'Bearer ' + token
             }
         })
-        catchAxiosSuccess(res.message)   
+        catchAxiosSuccess(res)   
         return res.data;
 
     } catch (error) {
@@ -49,7 +49,7 @@ export const handleBusinessDetails = async (payload) => {
                 Authorization: 'Bearer ' + token
             }
         })
-        catchAxiosSuccess(res.message)   
+        catchAxiosSuccess(res)   
         return res.data;
 
     } catch (error) {
@@ -67,7 +67,7 @@ export const handleBusinessPortfolio = async (payload) => {
                 Authorization: 'Bearer ' + token
             }
         })
-        catchAxiosSuccess(res.message)   
+        catchAxiosSuccess(res)   
         return res.data;
 
     } catch (error) {

@@ -46,7 +46,6 @@ export const registerBusiness = async (payload) => {
         let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
         localStorage.setItem('_register_data', ciphertext);       
          catchAxiosSuccess(res)   
-
         return res;
     } catch (error) {
         catchAxiosError(error)   
@@ -134,7 +133,6 @@ export const getToken = () => {
         let user  = decrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
         return user.data.token;
     }
-
     return null;
 }
 export const getUser = () => {
@@ -144,7 +142,6 @@ export const getUser = () => {
         let user  = decrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
         return user;
     }
-
     return null;
 }
 
