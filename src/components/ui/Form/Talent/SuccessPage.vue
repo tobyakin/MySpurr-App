@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <HomeView />
-
+  <HomeView>
     <CenteredModalLarge>
       <div class="my-8 flex flex-col gap-10">
         <header class="">
@@ -19,12 +17,11 @@
         </div>
       </div>
     </CenteredModalLarge>
-  </div>
+  </HomeView>
 </template>
 
 <script setup>
 import HomeView from "@/views/HomeView.vue";
-
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { storeToRefs } from "pinia";
