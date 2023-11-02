@@ -289,6 +289,8 @@ onMounted(() => {
         </div>
         <div class="mt-4">
           <button
+            :disabled="loading"
+            :class="loading ? 'cursor-not-allowed' : ''"
             @click="onFinish"
             class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
           >

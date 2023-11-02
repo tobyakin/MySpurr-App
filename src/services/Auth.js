@@ -71,8 +71,7 @@ export const registerTalent = async (payload) => {
         let res = await axios.post('talent-register',payload)
         let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
         localStorage.setItem('_register_data', ciphertext);        
-        catchAxiosSuccess(res.message)   
-
+        catchAxiosSuccess(res)   
         return res;
     } catch (error) {
         catchAxiosError(error)   

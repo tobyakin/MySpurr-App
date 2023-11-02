@@ -153,7 +153,9 @@
     </div>
     <div class="mb-2">
       <button
+        :disabled="loading"
         @click="handleSignup()"
+        :class="loading ? 'cursor-not-allowed' : ''"
         class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         <span v-if="!loading"> create my account </span>
