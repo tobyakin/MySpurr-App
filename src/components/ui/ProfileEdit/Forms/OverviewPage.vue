@@ -8,7 +8,11 @@ import { storeToRefs } from "pinia";
 
 const { overview } = storeToRefs(userProfile);
 let loading = ref(false);
+const emit = defineEmits(["closeModal"]);
 
+const closeModal = () => {
+  emit("closeModal");
+};
 const prefillDetails = () => {
   overview.value = userProfile.user?.data?.overview || "";
 };
@@ -17,6 +21,7 @@ const onFinish = async () => {
   try {
     const res = await userProfile.handleUpdateOverview();
     userProfile.userProfile();
+    closeModal();
     console.log(res);
   } catch (error) {
     console.log(error);

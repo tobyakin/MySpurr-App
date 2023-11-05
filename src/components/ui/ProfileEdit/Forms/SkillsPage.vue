@@ -12,6 +12,12 @@ const userProfile = useUserProfile();
 const { top_skills } = storeToRefs(userProfile);
 let loading = ref(false);
 
+const emit = defineEmits(["closeModal"]);
+
+const closeModal = () => {
+  emit("closeModal");
+};
+
 const formState = ref({
   overview: "",
 });
@@ -110,6 +116,7 @@ const onFinish = async () => {
   try {
     const res = await userProfile.handleAddSkills();
     userProfile.userProfile();
+    closeModal();
     console.log(res);
   } catch (error) {
     console.log(error);

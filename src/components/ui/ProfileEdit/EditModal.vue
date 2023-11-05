@@ -7,7 +7,7 @@
         <h4 class="text-[32px] font-EBGaramond500 text-[#244034]">{{ formTitle }}</h4>
         <button @click="closeModal"><CloseEditModalIcon /></button>
       </header>
-      <component :is="view" />
+      <component :is="view" @closeModal="closeModal" />
     </div>
   </CenteredModalLarge>
 </template>

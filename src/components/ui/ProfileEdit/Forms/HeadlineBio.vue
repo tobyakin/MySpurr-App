@@ -27,11 +27,18 @@ const prefillDetails = () => {
   bioInfo.value.behance = userProfile.user?.data?.behance || "";
   bioInfo.value.facebook = userProfile.user?.data?.facebook || "";
 };
+const emit = defineEmits(["closeModal"]);
+
+const closeModal = () => {
+  emit("closeModal");
+};
+
 const onFinish = async () => {
   loading.value = true;
   try {
     const res = await profileStore.handleUpdateBio();
     profileStore.userProfile();
+    closeModal();
     console.log(res);
   } catch (error) {
     console.log(error);

@@ -46,6 +46,7 @@ const onFinish = async () => {
     cropImage();
     const res = await profileStore.handleUpdateProfilePhoto();
     profileStore.userProfile();
+    closeModal();
     console.log(res);
   } catch (error) {
     console.log(error);
@@ -65,6 +66,11 @@ onMounted(async () => {
   await profileStore.userProfile();
 });
 watch(profileImage, () => {});
+const emit = defineEmits(["closeModal"]);
+
+const closeModal = () => {
+  emit("closeModal");
+};
 </script>
 <template>
   <div class="flex flex-col justify-center items-center gap-[40px]">
