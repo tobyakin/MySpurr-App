@@ -1,29 +1,49 @@
 <script setup>
 import UserAvater from "../../Avater/UserAvater.vue";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import VueCropper from "vue-cropperjs";
+import "cropperjs/dist/cropper.css";
 
 const profileStore = useUserProfile();
 const { profileImage } = storeToRefs(profileStore);
 
 let loading = ref(false);
+let cropper = ref(null);
+let imageFile = ref(null);
+
+const cropImage = () => {
+  if (cropper.value) {
+    const croppedCanvas = cropper.value.getCroppedCanvas();
+    if (croppedCanvas) {
+      const dataURL = croppedCanvas.toDataURL();
+      profileImage.value = dataURL;
+    }
+  }
+};
+
 const previewImage = (event) => {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
     reader.onload = () => {
-      profileImage.value = reader.result;
+      imageFile.value = reader.result;
+      if (cropper.value) {
+        cropper.value.replace(reader.result);
+      }
     };
     reader.readAsDataURL(file);
   } else {
-    profileImage.value = "";
+    imageFile.value = "";
   }
 };
+
 const onFinish = async () => {
   loading.value = true;
   try {
+    cropImage();
     const res = await profileStore.handleUpdateProfilePhoto();
     profileStore.userProfile();
     console.log(res);
@@ -44,10 +64,26 @@ onMounted(() => {
 onMounted(async () => {
   await profileStore.userProfile();
 });
+watch(profileImage, () => {});
 </script>
 <template>
   <div class="flex flex-col justify-center items-center gap-[40px]">
-    <UserAvater :imageUrl="profileImage ? profileImage : userDetails" />
+    <UserAvater v-if="!imageFile" :imageUrl="profileImage ? profileImage : userDetails" />
+    <div v-if="imageFile" class="content">
+      <section
+        class="cropper-area w-[60%] h-[50%] flex-col flex gap-2 items-center mx-auto justify-center"
+      >
+        <div class="img-cropper">
+          <vue-cropper
+            :aspect-ratio="4 / 4"
+            :src="imageFile"
+            preview=".preview"
+            ref="cropper"
+          />
+        </div>
+      </section>
+    </div>
+
     <div class="flex lg:flex-row flex-col w-[60%] lg:gap-[31px] gap-4">
       <input
         type="file"
