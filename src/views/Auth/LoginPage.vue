@@ -141,6 +141,7 @@ const loginWithGoogle = async () => {
 
   try {
     const res = authWithGoogle();
+    return res;
   } catch (error) {
     console.log(error);
   } finally {
@@ -156,7 +157,7 @@ onMounted(() => {
   const urlParams = new URLSearchParams(urlString);
   user.data.portfolio = urlParams.get("portfolio") === "true";
   user.data.token = urlParams.get("token") || "";
-  user.data.user.status = urlParams.get("user[status]").toLowerCase() || "";
+  user.data.user.status = urlParams.get("user[status]") || "";
   user.data.user.type = urlParams.get("user[type]") || "";
   user.data.work_details = urlParams.get("work_details") === "true";
   user.status = urlParams.get("status") || "true";
