@@ -54,7 +54,9 @@ onMounted(async () => {
 </script>
 <template>
   <div>
-    <div class="flex md:flex-row flex-col justify-between gap-[21px]">
+    <div
+      class="flex md:flex-row flex-col justify-between lg:h-auto h-[45vh] overflow-y-auto hide-scrollbar gap-[21px]"
+    >
       <div class="flex flex-col md:w-[50%] gap-[20px]">
         <p class="text-[24px] text-[#244034] font-Satoshi400 leading-[40.393px]">
           Basic Info
