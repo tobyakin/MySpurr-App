@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUpdated } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
 import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
@@ -84,6 +84,9 @@ const redirectToSinglePortfolio = () => {
 
 onMounted(() => {
   return profile.userProfile();
+});
+onUpdated(async () => {
+  await profile.userProfile();
 });
 
 onMounted(async () => {
