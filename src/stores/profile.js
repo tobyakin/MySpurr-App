@@ -35,7 +35,7 @@ const overview = ref('')
     start_date: '',
     end_date: '',
     description: '',
-    currently_working_here: '',
+    currently_working_here: 'no',
   })
     const top_skills = ref([])
     const education = ref({
@@ -44,7 +44,7 @@ const overview = ref('')
       start_date: '',
       end_date: '',
       description: '',
-      currently_schooling_here: ''
+      currently_schooling_here: 'no'
     })
 
 

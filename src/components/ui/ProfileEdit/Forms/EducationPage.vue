@@ -4,7 +4,7 @@ import { useUserProfile } from "@/stores/profile";
 import CirclePlus from "@/components/icons/circlePlus.vue";
 import EducationDetails from "@/components/ui/genericComponents/EditEducationDetails.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
-// import dayjs from "dayjs";
+import dayjs from "dayjs";
 import { storeToRefs } from "pinia";
 
 const profileStore = useUserProfile();
@@ -27,21 +27,34 @@ const handleOpenEdit = (index) => {
 const handleAddNew = () => {
   changeScreen(0, 2);
 };
+const formState = ref({
+  school_name: "",
+  degree: "",
+  field_of_study: "",
+  start_date: "",
+  end_date: "",
+  description: "",
+  currently_schooling_here: "no",
+});
+// const formData = ref({
+//   start_date: "",
+//   end_date: "",
+// });
 
 const prefillDetails = (SingleObject) => {
-  education.value.school_name = SingleObject.school_name || "";
-  education.value.degree = SingleObject.degree || "";
-  education.value.field_of_study = SingleObject.field_of_study || "";
-  education.value.description = SingleObject.description || "";
-  education.value.start_date = SingleObject.start_date || "";
-  education.value.end_date = SingleObject.end_date || "";
+  formState.value.school_name = SingleObject.school_name || "";
+  formState.value.degree = SingleObject.degree || "";
+  formState.value.field_of_study = SingleObject.field_of_study || "";
+  formState.value.description = SingleObject.description || "";
+  formState.value.start_date = SingleObject.start_date || "";
+  formState.value.end_date = SingleObject.end_date || "";
 };
 const onFinish = async () => {
   loading.value = true;
   try {
     const res = await profileStore.handleAddEducation();
     profileStore.userProfile();
-    changeScreen(1, 0);
+    changeScreen(2, 0);
     console.log(res);
   } catch (error) {
     console.log(error);
@@ -49,30 +62,38 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
-const EndDateValue = computed(() => {
-  return present.value ? " " : EndDate.value; // If checked, return " "
+// const EndDateValue = computed(() => {
+//   return present.value ? " " : EndDate.value; // If checked, return " "
+// });
+const currentlySchoolingHere = computed(() => {
+  return present.value ? "till date" : "no"; //
 });
 
-// // Create computed properties to format and update StartDate and EndDate
-// const StartDate = computed(() => {
-//   return dayjs(education.value.start_date).format("DD-MM-YYYY");
-// });
+// Create computed properties to format and update StartDate and EndDate
+const StartDate = computed(() => {
+  return dayjs(formState.value.start_date).format("DD-MM-YYYY");
+});
 
-// const EndDate = computed(() => {
-//   return dayjs(education.value.end_date).format("DD-MM-YYYY");
-// });
+const EndDate = computed(() => {
+  return present.value
+    ? "00-01-0000"
+    : dayjs(formState.value.end_date).format("DD-MM-YYYY");
+});
 // Update employment_details.value.end_date when EndDate changes
-// watch(EndDate, (newEndDate) => {
-//   employment_details.value.end_date = newEndDate;
-// });
+watch(EndDate, (newEndDate) => {
+  education.value.end_date = newEndDate;
+});
 // Update employment_details.value.start_date when StartDate changes
-// watch(StartDate, (newStartDate) => {
-//   employment_details.value.start_date = newStartDate;
-// });
+watch(StartDate, (newStartDate) => {
+  education.value.start_date = newStartDate;
+});
 
 // Define a watcher to react to changes in SingleObject
 watch(SingleObject, (newSingleObject) => {
   prefillDetails(newSingleObject);
+});
+watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
+  education.value.currently_schooling_here = newCurrentlySchoolingHere;
 });
 
 onMounted(async () => {
@@ -103,7 +124,7 @@ onMounted(async () => {
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <label class="text-[#01272C] text-[10px] font-Satoshi400">School</label>
             <GlobalInput
-              v-model="education.school_name"
+              v-model="formState.school_name"
               inputClasses="bg-transparent border-none !p-0"
               placeholder="University of Nigeria, Nsuka"
               type="text"
@@ -112,7 +133,7 @@ onMounted(async () => {
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <label class="text-[#01272C] text-[10px] font-Satoshi400">Degree</label>
             <GlobalInput
-              v-model="education.degree"
+              v-model="formState.degree"
               inputClasses="bg-transparent border-none !p-0"
               placeholder="Ex. Bachelor of Science - BS"
               type="text"
@@ -123,7 +144,7 @@ onMounted(async () => {
               >Field of Study</label
             >
             <GlobalInput
-              v-model="education.field_of_study"
+              v-model="formState.field_of_study"
               inputClasses="bg-transparent border-none !p-0"
               placeholder="Computer Engineering"
               type="text"
@@ -133,9 +154,9 @@ onMounted(async () => {
             <div class="w-full flex flex-col gap-1 justify-between">
               <label class="text-[#01272C] text-[10px] font-Satoshi400">Start Date</label>
               <a-date-picker
-                v-model="education.start_date"
+                v-model="formState.start_date"
                 :bordered="false"
-                :placeholder="education.start_date"
+                :placeholder="formState.start_date"
                 class="bg-transparent border-none !outline-none w-full !p-0 shadow-none"
               />
             </div>
@@ -147,9 +168,9 @@ onMounted(async () => {
             <div class="w-full flex flex-col gap-1 justify-between">
               <label class="text-[#01272C] text-[10px] font-Satoshi400">End Date</label>
               <a-date-picker
-                v-model="education.end_date"
+                v-model="formState.end_date"
                 :bordered="false"
-                :placeholder="education.end_date"
+                :placeholder="formState.end_date"
                 :disabled="present"
                 class="bg-transparent border-none !outline-none w-full !p-0 shadow-none"
               />
@@ -163,7 +184,7 @@ onMounted(async () => {
                 >Description</label
               >
               <textarea
-                v-model="education.description"
+                v-model="formState.description"
                 rows="4"
                 class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
                 placeholder="Give a brief description about your education"
@@ -185,7 +206,7 @@ onMounted(async () => {
       </div>
       <div class="w-full flex justify-center mt-8">
         <button
-          @click="onFinish()"
+          @click="changeScreen(1, 0)"
           class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
         >
           Save
@@ -197,6 +218,7 @@ onMounted(async () => {
         <div
           class="flex-col flex gap-6 w-full max-h-[50vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
         >
+          add new
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <label class="text-[#01272C] text-[10px] font-Satoshi400">School</label>
             <GlobalInput
@@ -230,9 +252,8 @@ onMounted(async () => {
             <div class="w-full flex flex-col gap-1 justify-between">
               <label class="text-[#01272C] text-[12px] font-Satoshi400">Start Date</label>
               <a-date-picker
-                v-model="education.start_date"
+                v-model:value="formState.start_date"
                 :bordered="false"
-                :placeholder="education.start_date"
                 class="bg-transparent border-none !outline-none w-full !p-0 shadow-none"
               />
             </div>
@@ -244,9 +265,8 @@ onMounted(async () => {
             <div class="w-full flex flex-col gap-1 justify-between">
               <label class="text-[#01272C] text-[12px] font-Satoshi400">End Date</label>
               <a-date-picker
-                v-model="education.end_date"
+                v-model:value="formState.end_date"
                 :bordered="false"
-                :placeholder="education.end_date"
                 :disabled="present"
                 class="bg-transparent border-none !outline-none w-full !p-0 shadow-none"
               />
@@ -282,7 +302,7 @@ onMounted(async () => {
       </div>
       <div class="w-full flex justify-center mt-8">
         <button
-          @click="changeScreen(2, 0)"
+          @click="onFinish()"
           class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
         >
           Save

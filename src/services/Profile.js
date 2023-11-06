@@ -100,7 +100,7 @@ export const addSkills = async (payload) => {
 export const addEducation = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`add-skills`, payload, {
+    let res = await axios.post(`add-education`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
