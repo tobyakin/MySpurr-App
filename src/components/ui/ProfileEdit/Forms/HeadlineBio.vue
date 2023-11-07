@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUpdated } from "vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
 import InstagramIcon from "@/components/icons/instagramIcon.vue";
@@ -37,7 +37,7 @@ const onFinish = async () => {
   loading.value = true;
   try {
     const res = await profileStore.handleUpdateBio();
-    profileStore.userProfile();
+    await profileStore.userProfile();
     closeModal();
     console.log(res);
   } catch (error) {
@@ -46,6 +46,9 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
+onUpdated(async () => {
+  await userProfile.userProfile();
+});
 
 onMounted(async () => {
   prefillDetails();
@@ -204,10 +207,10 @@ onMounted(async () => {
     <div class="w-full flex justify-center mt-8">
       <button
         @click="onFinish"
-        class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
+        class="btn-brand !border-none !w-[30%] flex items-center justify-center mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
-        <span v-if="!loading" class="text-[12.067px]">Save</span>
-        <WhiteLoader v-if="loading" />
+        <span v-if="loading" class="text-[12.067px]">Save</span>
+        <WhiteLoader class="my-1" v-if="!loading" />
       </button>
     </div>
   </div>
