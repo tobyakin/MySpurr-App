@@ -6,14 +6,20 @@ import WalletIcon from "@/components/icons/walletIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
 import Dropdown from "@/components/ui/DropDown.vue";
 import NotificationDropDown from "@/components/ui/NotificationDropDown.vue";
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import "animate.css";
 import { useRouter } from "vue-router";
+import { useUserProfile } from "@/stores/profile";
+
+const profileStore = useUserProfile();
 const router = useRouter();
 const closeNav = ref(false);
 const closeBackdrop = ref(false);
 const showDropdown = ref(false);
 const showNotificationDropdown = ref(false);
+const userDetails = computed(() => {
+  return profileStore?.user?.data;
+});
 
 const toggle = () => {
   closeNav.value = !closeNav.value;
@@ -86,6 +92,9 @@ const redirectToWallet = () => {
 const redirectToBookmark = () => {
   router.push({ name: "bookmark" });
 };
+onMounted(async () => {
+  await profileStore.userProfile();
+});
 </script>
 
 <template>
@@ -180,7 +189,13 @@ const redirectToBookmark = () => {
                     role="button"
                     class="h-10 w-10 flex justify-center items-center rounded-full bg-brand"
                   >
+                    <img
+                      v-if="userDetails?.image"
+                      :src="userDetails?.image"
+                      class="h-10 w-10 bg-[#0A090991] rounded-full"
+                    />
                     <svg
+                      v-else
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
