@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, onUpdated } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useSkillsStore } from "@/stores/skills";
@@ -115,7 +115,7 @@ const onFinish = async () => {
   loading.value = true;
   try {
     const res = await userProfile.handleAddSkills();
-    userProfile.userProfile();
+    await userProfile.userProfile();
     closeModal();
     console.log(res);
   } catch (error) {
@@ -124,6 +124,9 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
+onUpdated(async () => {
+  await userProfile.userProfile();
+});
 
 onMounted(async () => {
   prefillDetails();
@@ -199,7 +202,7 @@ onMounted(async () => {
         class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
         <span v-if="!loading" class="text-[12.067px]">Save</span>
-        <WhiteLoader v-if="loading" />
+        <WhiteLoader class="my-1" v-if="loading" />
       </button>
     </div>
   </div>
