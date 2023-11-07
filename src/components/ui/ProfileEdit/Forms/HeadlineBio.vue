@@ -207,10 +207,11 @@ onMounted(async () => {
     <div class="w-full flex justify-center mt-8">
       <button
         @click="onFinish"
+        :disabled="loading"
         class="btn-brand !border-none !w-[30%] flex items-center justify-center mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
-        <span v-if="loading" class="text-[12.067px]">Save</span>
-        <WhiteLoader class="my-1" v-if="!loading" />
+        <span v-if="!loading" class="text-[12.067px]">Save</span>
+        <WhiteLoader class="my-1" v-if="loading" />
       </button>
     </div>
   </div>
