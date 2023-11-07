@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUpdated } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
@@ -20,7 +20,7 @@ const onFinish = async () => {
   loading.value = true;
   try {
     const res = await userProfile.handleUpdateOverview();
-    userProfile.userProfile();
+    await userProfile.userProfile();
     closeModal();
     console.log(res);
   } catch (error) {
@@ -29,6 +29,9 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
+onUpdated(async () => {
+  await userProfile.userProfile();
+});
 
 onMounted(async () => {
   prefillDetails();
@@ -49,10 +52,11 @@ onMounted(async () => {
     <div class="w-full flex justify-center mt-8">
       <button
         @click="onFinish"
+        :disabled="loading"
         class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
         <span v-if="!loading" class="text-[12.067px]">Save</span>
-        <WhiteLoader v-if="loading" />
+        <WhiteLoader class="my-1" v-if="loading" />
       </button>
     </div>
   </div>

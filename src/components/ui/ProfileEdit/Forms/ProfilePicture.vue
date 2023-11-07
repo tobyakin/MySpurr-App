@@ -1,6 +1,6 @@
 <script setup>
 import UserAvater from "../../Avater/UserAvater.vue";
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed, watch, onUpdated } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
@@ -45,7 +45,7 @@ const onFinish = async () => {
   try {
     cropImage();
     const res = await profileStore.handleUpdateProfilePhoto();
-    profileStore.userProfile();
+    await profileStore.userProfile();
     closeModal();
     console.log(res);
   } catch (error) {
@@ -60,6 +60,9 @@ const userDetails = computed(() => {
 
 onMounted(() => {
   return profileStore.userProfile();
+});
+onUpdated(async () => {
+  await profileStore.userProfile();
 });
 
 onMounted(async () => {
@@ -77,7 +80,7 @@ const closeModal = () => {
     <UserAvater v-if="!imageFile" :imageUrl="profileImage ? profileImage : userDetails" />
     <div v-if="imageFile" class="content">
       <section
-        class="cropper-area w-[60%] h-[50%] flex-col flex gap-2 items-center mx-auto justify-center"
+        class="cropper-area w-[60%] !h-[20%] flex-col flex gap-2 items-center mx-auto justify-center"
       >
         <div class="img-cropper">
           <vue-cropper
@@ -103,11 +106,17 @@ const closeModal = () => {
         role="button"
         class="btn-brand !border-none w-full !py-3 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
-        <span class="text-[12.067px]">Add photo</span>
+        <span v-if="profileImage === '' && imageFile === null" class="text-[12.067px]"
+          >Add photo</span
+        >
+        <span v-else class="text-[12.067px]">Change photo</span>
       </label>
       <button
+        v-if="imageFile !== null"
         @click="onFinish"
+        :disabled="imageFile === null"
         role="button"
+        :class="imageFile === null ? '!bg-[#2f919c9e] cursor-not-allowed' : ''"
         class="btn-brand !border-none !w-full !py-3 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
       >
         <span v-if="!loading" class="text-[12.067px]">Save</span>
