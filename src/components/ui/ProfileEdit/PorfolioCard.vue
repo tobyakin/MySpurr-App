@@ -1,7 +1,7 @@
 <template>
   <div class="w-full font-Satoshi400" :class="{ 'md:w-[45%]': two, 'md:w-[31%]': three }">
-    <div class="">
-      <router-link :to="{ name: 'single-portfolio', params: { id: 1 } }">
+    <div class="flex flex-col justify-between h-full">
+      <router-link :to="{ name: 'edit-portfolio', params: { id: profolioId } }">
         <img class="w-full h-auto max-h-[283.472px] rounded-lg" :src="image" />
       </router-link>
       <div>
@@ -35,6 +35,7 @@ const router = useRouter();
 
 const props = defineProps({
   image: String,
+  profolioId: Number,
   heading: String,
   text: String,
   two: Boolean,
@@ -44,7 +45,7 @@ const props = defineProps({
   blog: Object,
 });
 const redirectToSinglePortfolio = () => {
-  router.push({ name: "single-portfolio", params: { id: 1 } });
+  router.push({ name: "edit-portfolio", params: { id: props.profolioId } });
 };
 </script>
 

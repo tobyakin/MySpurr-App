@@ -23,7 +23,8 @@ import SettingsPage from '@/views/Settings/SettingsPage.vue'
 import MyWork from '@/views/MyWork/MyWork.vue'
 import HelpCenterPage from '@/views/HelpCenter/HelpCenterPage.vue'
 import BookMarkPage from '@/views/BookMark/BookMarkPage.vue'
-import SinglePortfolio from '@/views/Portfolio/SinglePortfolio.vue'
+import AddPortfolio from '@/views/Portfolio/AddPortfolio.vue'
+import EditPortfolio from '@/views/Portfolio/EditPortfolio.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -139,9 +140,15 @@ const router = createRouter({
       beforeEnter: [middleware.redirectLogin]
     },
     {
-      path: '/single-portfolio/:id',
-      name: 'single-portfolio',
-      component: SinglePortfolio,
+      path: '/add-portfolio',
+      name: 'add-portfolio',
+      component: AddPortfolio,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/edit-portfolio/:id',
+      name: 'edit-portfolio',
+      component: EditPortfolio,
       beforeEnter: [middleware.redirectLogin]
     },
     {

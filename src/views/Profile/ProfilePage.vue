@@ -85,8 +85,8 @@ const closeModal = () => {
   showModal.value = !showModal.value;
   view = null;
 };
-const redirectToSinglePortfolio = () => {
-  router.push({ name: "single-portfolio", params: { id: 1 } });
+const redirectToSinglePortfolio = (id) => {
+  router.push({ name: "edit-portfolio", params: { id: id } });
 };
 
 onMounted(() => {
@@ -237,6 +237,7 @@ onMounted(async () => {
             <WorkExperience :items="userDetails?.employment" />
             <div class="flex flex-row items-center gap-[96px] !mb-12 mt-8">
               <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
+
               <button @click="HandleTogglePortfolioModal">
                 <EditIcon class="text-[#297F88]" />
               </button>
@@ -246,7 +247,7 @@ onMounted(async () => {
               class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
             >
               <img
-                @click="redirectToSinglePortfolio"
+                @click="redirectToSinglePortfolio(img.id)"
                 role="button"
                 v-for="img in userDetails?.portfolio"
                 :key="img"

@@ -30,7 +30,7 @@ const handleOpenEdit = (index) => {
   SingleObject.value = userProfile?.user?.data?.employment[index];
 };
 const redirectToSinglePortfolio = () => {
-  router.push({ name: "single-portfolio", params: { id: 1 } });
+  // router.push({ name: "add-portfolio" });
 };
 
 onMounted(async () => {
@@ -51,6 +51,7 @@ onMounted(async () => {
           v-for="img in userDetails?.portfolio"
           :key="img"
           :image="img.cover_image"
+          :profolioId="img.id"
         />
       </div>
     </div>
