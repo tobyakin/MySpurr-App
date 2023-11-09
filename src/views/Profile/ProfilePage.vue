@@ -22,6 +22,8 @@ import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
 import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience.vue";
 import SampleOne from "@/assets/image/sampleOne.webp";
 import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
+import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.vue";
+import Map from "@/components/ui/Map/Map.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
@@ -73,6 +75,11 @@ const HandleTogglePortfolioModal = () => {
   showModal.value = !showModal.value;
   formTitle.value = "Portfolio";
   view = PortfolioPage;
+};
+const HandleToggleCertificateModal = () => {
+  showModal.value = !showModal.value;
+  formTitle.value = "Certificate";
+  view = CertificatePage;
 };
 const closeModal = () => {
   showModal.value = !showModal.value;
@@ -279,7 +286,9 @@ onMounted(async () => {
           <div class="lg:w-[30%] p-4">
             <div class="flex flex-row items-center gap-[26px]">
               <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p>
-              <button><EditIcon class="text-[#297F88]" /></button>
+              <button @click="HandleToggleCertificateModal">
+                <EditIcon class="text-[#297F88]" />
+              </button>
             </div>
 
             <div
@@ -303,7 +312,7 @@ onMounted(async () => {
                     {{ i.institute }}
                   </p>
                   <div class="flex items-center gap-2">
-                    <CalenderWithPen />
+                    <!-- <CalenderWithPen /> -->
                     <p class="font-Satoshi500 text-[12.9px] text-[#000000]">
                       {{ i.certificate_year }}
                     </p>
@@ -319,8 +328,9 @@ onMounted(async () => {
               </div>
             </div>
             <p class="text-[20px] text-[#000] font-Satoshi500 mt-16">Location</p>
-            <div class="flex flex-col gap-12 mt-4 rounded-[15px]">
-              <img src="@/assets/image/Map.webp" alt="map" />
+            <div class="flex flex-col gap-12 mt-4 relative rounded-[15px]">
+              <!-- <img src="@/assets/image/Map.webp" alt="map" /> -->
+              <Map />
             </div>
           </div>
         </div>

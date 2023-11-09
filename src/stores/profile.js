@@ -48,6 +48,14 @@ const overview = ref('')
       description: '',
       currently_schooling_here: 'no'
     })
+    const certificateDetails = ref({
+      title: '',
+      institute: '',
+      certificate_year: '',
+      certificate_link: '',
+      curently_working_here: 'no',
+      certificate_date: ''
+    })
 
 
   const userProfile = async () => {
@@ -141,6 +149,7 @@ const overview = ref('')
     top_skills,
     education,
     handleUpdateEducation,
-    handleUpdateEmploymentDetails
+    handleUpdateEmploymentDetails,
+    certificateDetails
   }
 })
