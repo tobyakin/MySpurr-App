@@ -13,12 +13,35 @@ import 'ant-design-vue/dist/reset.css'
 import Multiselect from 'vue-multiselect'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import {
+  LRectangle,
+  LMap,
+  LIcon,
+  LTileLayer,
+  LMarker,
+  LControlLayers,
+  LTooltip,
+  LPopup,
+  LPolyline,
+  LPolygon
+} from '@vue-leaflet/vue-leaflet'
+import 'leaflet/dist/leaflet.css'
 
 
 const app = createApp(App)
 app.component('QuillEditor', QuillEditor)
 app.component('vue-select', VueNextSelect)
 app.component('multi-select', Multiselect)
+app.component('l-rectangle', LRectangle)
+app.component('l-map', LMap)
+app.component('l-icon', LIcon)
+app.component('l-tile-layer', LTileLayer)
+app.component('l-marker', LMarker)
+app.component('l-control-layers', LControlLayers)
+app.component('l-tooltip', LTooltip)
+app.component('l-popup', LPopup)
+app.component('l-polyline', LPolyline)
+app.component('l-polygon', LPolygon)
 app.use(Toast, { position: POSITION.TOP_RIGHT});
 
 app.use(createPinia())
