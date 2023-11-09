@@ -123,9 +123,9 @@ watch(SingleObject, (newSingleObject) => {
 watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
   education.value.currently_schooling_here = newCurrentlySchoolingHere;
 });
-onUpdated(async () => {
-  await userProfile.userProfile();
-});
+// onUpdated(async () => {
+//   await userProfile.userProfile();
+// });
 
 onMounted(async () => {
   prefillDetails(SingleObject.value);
@@ -172,7 +172,9 @@ onMounted(async () => {
               type="text"
             />
           </div>
-          <div class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1">
+          <div
+            class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1"
+          >
             <label class="text-[#01272C] text-[10px] font-Satoshi400"
               >Field of Study</label
             >

@@ -50,7 +50,7 @@ const updateEducationDetails = async () => {
   };
 
   try {
-    const res = await userProfile.handleUpdateEducation(workDetailID, payload);
+    const res = await userProfile.handleUpdateEmploymentDetails(workDetailID, payload);
     await userProfile.userProfile();
     changeScreen(1, 0);
     console.log(res);
@@ -120,9 +120,9 @@ watch(currentlyWorkingingHere, (newcurrentlyWorkingingHere) => {
 watch(SingleObject, (newSingleObject) => {
   prefillDetails(newSingleObject);
 });
-onUpdated(async () => {
-  await userProfile.userProfile();
-});
+// onUpdated(async () => {
+//   await userProfile.userProfile();
+// });
 
 onMounted(async () => {
   prefillDetails(SingleObject.value);
