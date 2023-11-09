@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onMounted, watch, computed } from "vue";
+import { ref, onMounted, watch, onUpdated, computed } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import CirclePlus from "@/components/icons/circlePlus.vue";
 import EducationDetails from "@/components/ui/genericComponents/EditEducationDetails.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import dayjs from "dayjs";
 import { storeToRefs } from "pinia";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
 const profileStore = useUserProfile();
 const { education } = storeToRefs(profileStore);
@@ -122,6 +123,9 @@ watch(SingleObject, (newSingleObject) => {
 watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
   education.value.currently_schooling_here = newCurrentlySchoolingHere;
 });
+onUpdated(async () => {
+  await userProfile.userProfile();
+});
 
 onMounted(async () => {
   prefillDetails(SingleObject.value);
@@ -137,10 +141,12 @@ onMounted(async () => {
         </h4>
         <button @click="handleAddNew"><CirclePlus /></button>
       </div>
-      <EducationDetails
-        :items="userProfile?.user?.data?.education"
-        @openEdit="handleOpenEdit"
-      />
+      <div class="overflow-y-auto hide-scrollbar h-[24vh]">
+        <EducationDetails
+          :items="userProfile?.user?.data?.education"
+          @openEdit="handleOpenEdit"
+        />
+      </div>
     </div>
 
     <div v-if="step[1]">
@@ -166,7 +172,7 @@ onMounted(async () => {
               type="text"
             />
           </div>
-          <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
+          <div class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <label class="text-[#01272C] text-[10px] font-Satoshi400"
               >Field of Study</label
             >
@@ -236,7 +242,8 @@ onMounted(async () => {
           @click="updateEducationDetails()"
           class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
         >
-          Save
+          <span v-if="!loading">Save</span>
+          <WhiteLoader v-else />
         </button>
       </div>
     </div>
@@ -245,7 +252,6 @@ onMounted(async () => {
         <div
           class="flex-col flex gap-6 w-full max-h-[50vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
         >
-          add new
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <label class="text-[#01272C] text-[10px] font-Satoshi400">School</label>
             <GlobalInput
@@ -264,7 +270,9 @@ onMounted(async () => {
               type="text"
             />
           </div>
-          <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
+          <div
+            class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1"
+          >
             <label class="text-[#01272C] text-[12px] font-Satoshi400"
               >Field of Study</label
             >
@@ -332,7 +340,8 @@ onMounted(async () => {
           @click="onFinish()"
           class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
         >
-          Save
+          <span v-if="!loading">Save</span>
+          <WhiteLoader v-else />
         </button>
       </div>
     </div>

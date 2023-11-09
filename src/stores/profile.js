@@ -8,7 +8,8 @@ import {
   addWorkDetails,
   addSkills,
   addEducation,
-  updateEducation
+  updateEducation,
+  updateEmployment
 } from '@/services/Profile'
 
 export const useUserProfile = defineStore('profile', () => {
@@ -120,6 +121,9 @@ const overview = ref('')
     const handleUpdateEducation = async (id, payload) => {
       updateEducation(id, payload)
     }
+    const handleUpdateEmploymentDetails = async (id, payload) => {
+      updateEmployment(id, payload)
+    }
 
   return {
     user,
@@ -136,6 +140,7 @@ const overview = ref('')
     employment_details,
     top_skills,
     education,
-    handleUpdateEducation
+    handleUpdateEducation,
+    handleUpdateEmploymentDetails
   }
 })
