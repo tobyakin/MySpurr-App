@@ -28,6 +28,7 @@ const handleAddNew = () => {
   changeScreen(0, 2);
 };
 const formState = ref({
+  id: "",
   school_name: "",
   degree: "",
   field_of_study: "",
@@ -42,6 +43,7 @@ const formState = ref({
 // });
 
 const prefillDetails = (SingleObject) => {
+  formState.value.id = SingleObject.id || "";
   formState.value.school_name = SingleObject.school_name || "";
   formState.value.degree = SingleObject.degree || "";
   formState.value.field_of_study = SingleObject.field_of_study || "";
@@ -53,8 +55,33 @@ const onFinish = async () => {
   loading.value = true;
   try {
     const res = await profileStore.handleAddEducation();
-    profileStore.userProfile();
+    await profileStore.userProfile();
     changeScreen(2, 0);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
+const updateEducationDetails = async () => {
+  loading.value = true;
+  let educationID = formState.value.id;
+  // let startDate = dayjs(formState.value.start_date).format("DD-MM-YYYY");
+  // let endDate = dayjs(formState.value.end_date).format("DD-MM-YYYY");
+  let payload = {
+    school_name: formState.value.school_name,
+    degree: formState.value.degree,
+    description: formState.value.description,
+    start_date: StartDate.value,
+    end_date: EndDate.value,
+    currently_schooling_here: formState.value.currently_schooling_here,
+  };
+
+  try {
+    const res = await profileStore.handleUpdateEducation(educationID, payload);
+    await profileStore.userProfile();
+    changeScreen(1, 0);
     console.log(res);
   } catch (error) {
     console.log(error);
@@ -206,7 +233,7 @@ onMounted(async () => {
       </div>
       <div class="w-full flex justify-center mt-8">
         <button
-          @click="changeScreen(1, 0)"
+          @click="updateEducationDetails()"
           class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
         >
           Save

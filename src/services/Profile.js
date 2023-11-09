@@ -112,4 +112,18 @@ export const addEducation = async (payload) => {
     throw error
   }
 }
-
+export const updateEducation = async (id, payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.patch(`update-education/${id}`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
