@@ -23,7 +23,8 @@ import {
   LTooltip,
   LPopup,
   LPolyline,
-  LPolygon
+  LPolygon,
+  LGeoJson
 } from '@vue-leaflet/vue-leaflet'
 import 'leaflet/dist/leaflet.css'
 
@@ -42,7 +43,8 @@ app.component('l-tooltip', LTooltip)
 app.component('l-popup', LPopup)
 app.component('l-polyline', LPolyline)
 app.component('l-polygon', LPolygon)
-app.use(Toast, { position: POSITION.TOP_RIGHT});
+app.component('l-geo-json', LGeoJson),
+ app.use(Toast, { position: POSITION.TOP_RIGHT })
 
 app.use(createPinia())
 app.use(router)

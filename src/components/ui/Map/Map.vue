@@ -1,11 +1,12 @@
 <template>
   <div>
     <l-map :useGlobalLeaflet="false" :zoom="zoom">
-      <l-geo-json :geojson="geojson" :options="geojsonOptions" />
+      <l-geo-json />
       <l-tile-layer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         :attribution="attribution"
       ></l-tile-layer>
+      <!-- :geojson="geojson" :options="geojsonOptions" -->
       <l-marker :lat-lng="markerLatLng">
         <l-popup>Marker Popup</l-popup>
       </l-marker>
@@ -25,6 +26,7 @@ import {
   LPopup,
   LPolyline,
   LPolygon,
+  LGeoJson,
 } from "@vue-leaflet/vue-leaflet";
 
 import "leaflet/dist/leaflet.css";
