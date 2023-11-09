@@ -20,13 +20,13 @@ const changeScreen = (from, to, type = null) => {
   step.value[from] = false;
   step.value[to] = true;
 };
-const SingleObject = ref({});
+const SingleCertificateObject = ref({});
 const handleOpenEdit = (index) => {
-  SingleObject.value = userProfile?.user?.data.certificate[index];
-  changeScreen(0, 2);
+  SingleCertificateObject.value = userProfile?.user?.data.certificate[index];
+  changeScreen(0, 1);
 };
 const handleAddNew = () => {
-  changeScreen(0, 1);
+  changeScreen(0, 2);
 };
 const formState = ref({
   id: "",
@@ -104,18 +104,15 @@ watch(StartDate, (newStartDate) => {
 });
 
 // Define a watcher to react to changes in SingleObject
-watch(SingleObject, (newSingleObject) => {
+watch(SingleCertificateObject, (newSingleObject) => {
   prefillDetails(newSingleObject);
 });
 watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
   certificateDetails.curently_working_here = newCurrentlySchoolingHere;
 });
-onUpdated(async () => {
-  await userProfile.userProfile();
-});
 
 onMounted(async () => {
-  prefillDetails(SingleObject.value);
+  prefillDetails(SingleCertificateObject.value);
   await userProfile.userProfile();
 });
 </script>
@@ -165,7 +162,8 @@ onMounted(async () => {
               <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"> Date</label>
               <a-date-picker
                 :bordered="false"
-                v-model:value="formState.certificate_date"
+                v-model="formState.certificate_date"
+                :placeholder="formState.certificate_date"
                 class="bg-transparent border-none !outline-none w-full shadow-none"
               />
             </div>
@@ -174,7 +172,8 @@ onMounted(async () => {
               <a-date-picker
                 picker="year"
                 :bordered="false"
-                v-model:value="formState.certificate_year"
+                v-model="formState.certificate_year"
+                :placeholder="formState.certificate_year"
                 class="bg-transparent border-none !outline-none w-full shadow-none"
               />
             </div>
