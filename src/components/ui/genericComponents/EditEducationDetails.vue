@@ -14,7 +14,7 @@
                 <div class="h-16 bg-[#EFF6F3] my-4 w-[0.8px]"></div>
               </div>
             </div>
-            <div class="flex flex-row justify-between">
+            <div class="flex w-full flex-row justify-between">
               <div class="flex flex-col">
                 <h1
                   class="text-[14.878px] font-Satoshi500 text-[#000000] leading-[25.277px]"
