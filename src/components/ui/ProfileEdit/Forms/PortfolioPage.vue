@@ -30,7 +30,7 @@ const handleOpenEdit = (index) => {
   SingleObject.value = userProfile?.user?.data?.employment[index];
 };
 const redirectToSinglePortfolio = () => {
-  // router.push({ name: "add-portfolio" });
+  router.push({ name: "add-portfolio" });
 };
 
 onMounted(async () => {

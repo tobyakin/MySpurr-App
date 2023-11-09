@@ -1,5 +1,5 @@
 <script setup>
-import { defineAsyncComponent, ref, computed } from "vue";
+import { defineAsyncComponent, ref, computed, onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 import "vue-slider-component/theme/antd.css";
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
@@ -9,8 +9,10 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
+
 const router = useRouter();
+const route = useRoute();
 
 const OnboardingStore = useOnboardingStore();
 const { portfolio } = storeToRefs(OnboardingStore);
@@ -22,7 +24,6 @@ const FormGroup = defineAsyncComponent(() =>
 );
 const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
 let store = useStore();
-console.log(store.getUser, portfolio);
 
 // add tag
 let options = ref([
@@ -41,6 +42,7 @@ let options = ref([
   { name: "Finance" },
 ]);
 let loading = ref(false);
+const SingleCertificateObject = ref({});
 
 const search = ref("");
 const showDropdown = ref(false);
@@ -143,6 +145,39 @@ const onFinish = async () => {
     loading.value = false;
   }
 };
+
+const formState = ref({
+  id: 3,
+  title: "",
+  client_name: "",
+  job_type: "Full Time",
+  location: "dfgh",
+  rate: "45-66",
+  tags: [{ name: "Photoshop" }],
+  cover_image: "",
+  body: "",
+});
+const prefillDetails = (SingleObject) => {
+  portfolio.value.title = SingleObject.title || "";
+  portfolio.value.client_name = SingleObject.client_name || "";
+  portfolio.value.job_type = SingleObject.job_type || "";
+  portfolio.value.location = SingleObject.location || "";
+  portfolio.value.rate = SingleObject.rate || "";
+  portfolio.value.cover_image = SingleObject.cover_image || null;
+  portfolio.value.tags = SingleObject.tags || "";
+  portfolio.value.body = SingleObject.body || "";
+};
+watch(SingleCertificateObject, (newSingleObject) => {
+  prefillDetails(newSingleObject);
+});
+
+// let IIindex = ref(route.params.id - 1);
+onMounted(async () => {
+  prefillDetails(SingleCertificateObject.value);
+  SingleCertificateObject.value = userProfile?.user?.data?.portfolio[0];
+  await userProfile.userProfile();
+  console.log(SingleCertificateObject.value);
+});
 </script>
 
 <template>
