@@ -24,6 +24,20 @@ let dataValue = ref([
     price: "Withdraw",
     tile: "Withdraw",
   },
+  {
+    type: "debit",
+    status: "completed",
+    date: "Withdraw",
+    price: "Withdraw",
+    tile: "Withdraw",
+  },
+  {
+    type: "credit",
+    status: "failed",
+    date: "Withdraw",
+    price: "Withdraw",
+    tile: "Withdraw",
+  },
 ]);
 </script>
 <template>
@@ -84,7 +98,7 @@ let dataValue = ref([
         </button>
       </div>
     </div>
-    <div class="h-[35vh] flex flex-col gap-[10px] overflow-y-auto hide-scrollbar">
+    <div class="h-[50vh] flex flex-col gap-[10px] overflow-y-auto hide-scrollbar">
       <TransactionCard :items="i" v-for="i in dataValue" :key="i" />
     </div>
   </div>
