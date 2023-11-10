@@ -26,10 +26,12 @@ export const handleTalentPortfolio = async (payload) => {
 
     const token = await getToken()
     try {
-        let res = await axios.post(`talent-portfolio`,payload,{ 
-            headers:{
-                Authorization: 'Bearer ' + token
-            }
+        let res = await axios.post(`talent-portfolio`, payload, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Transfer-Encoding': 'chunked',
+            'Content-Type': 'application/json'
+          }
         })
         catchAxiosSuccess(res)   
         return res.data;
