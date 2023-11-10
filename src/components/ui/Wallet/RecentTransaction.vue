@@ -1,9 +1,34 @@
 <script setup>
+import { ref } from "vue";
 import chartCalenderIcon from "@/components/icons/chartCalenderIcon.vue";
+import TransactionCard from "./TransactionCard.vue";
+let dataValue = ref([
+  {
+    type: "debit",
+    status: "completed",
+    date: "Withdraw",
+    price: "Withdraw",
+    tile: "Withdraw",
+  },
+  {
+    type: "credit",
+    status: "failed",
+    date: "Withdraw",
+    price: "Withdraw",
+    tile: "Withdraw",
+  },
+  {
+    type: "credit",
+    status: "pending",
+    date: "Withdraw",
+    price: "Withdraw",
+    tile: "Withdraw",
+  },
+]);
 </script>
 <template>
   <div
-    class="bg-[#ECFAFC] border-[#254035AB] lg:p-[28px] p-[19px] border-[0.567px] rounded-[10px]"
+    class="bg-[#ECFAFC] border-[#254035AB] lg:p-[28px] flex flex-col gap-[30px] p-[19px] border-[0.567px] rounded-[10px]"
   >
     <div class="flex lg:flex-row flex-col items-center gap-3 justify-between">
       <h4 class="text-[20px text-[#000000] font-Satoshi700">Recent Transactions</h4>
@@ -58,6 +83,9 @@ import chartCalenderIcon from "@/components/icons/chartCalenderIcon.vue";
           </svg>
         </button>
       </div>
+    </div>
+    <div class="h-[35vh] flex flex-col gap-[10px] overflow-y-auto hide-scrollbar">
+      <TransactionCard :items="i" v-for="i in dataValue" :key="i" />
     </div>
   </div>
 </template>

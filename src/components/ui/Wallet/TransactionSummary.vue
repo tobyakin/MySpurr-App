@@ -105,10 +105,12 @@ export default {
           toolbar: {
             show: false, // Hide the toolbar
           },
-          height: 90,
+          width: "100%",
+          height: 380,
         },
         xaxis: {
           categories: [],
+          tickAmount: 10,
           labels: {
             style: {
               cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
@@ -116,9 +118,12 @@ export default {
           },
         },
         yaxis: {
+          min: 40,
+          // max: 100,
+          tickAmount: 3,
           labels: {
             formatter: function (value) {
-              return value + "k"; // Replace 'Prefix' with your desired prefix
+              return value.toFixed(0) + "k"; // Replace 'Prefix' with your desired prefix
             },
             style: {
               cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
@@ -148,11 +153,11 @@ export default {
       },
       chartSeries: [
         {
+          name: "Income",
           data: [],
+          color: "#0097FF",
         },
-        {
-          data: [],
-        },
+        { name: "Withdrawal", data: [], color: "#1AE8CE" },
       ],
     };
   },
@@ -165,24 +170,24 @@ export default {
     },
   },
   mounted() {
-    //Sample data for the area chart
-    const chartData = [
-      { x: "04", y: 0 },
-      { x: "05", y: 40 },
-      { x: "06", y: 35 },
-      { x: "07", y: 10 },
-      { x: "08", y: 45 },
-      { x: "09", y: 45 },
-      { x: "10", y: 45 },
-    ];
-
+    const Incomedata = [45, 22, 78, 25, 19, 23, 50];
+    const Widthdrawaldata = [20, 62, 19, 53, 2, 28, 25];
+    const getFormattedDate = (day) => {
+      const date = new Date(2023, 0, day); // Assuming the year is 2023
+      const options = { day: "2-digit", month: "short" };
+      return date.toLocaleDateString("en-US", options);
+    };
     // Extract x-axis categories and y-axis values from chart data
-    const categories = chartData.map((item) => item.x);
-    const values = chartData.map((item) => item.y);
+    const values = Widthdrawaldata.map((item) => item);
+    const Incomevalues = Incomedata.map((item) => item);
+    const DateValues = Array.from({ length: 31 }, (_, index) =>
+      getFormattedDate(index + 1)
+    );
 
     // Update chart options and series
-    this.chartOptions.xaxis.categories = categories;
+    this.chartOptions.xaxis.categories = DateValues;
     this.chartSeries[0].data = values;
+    this.chartSeries[1].data = Incomevalues;
     this.renderChart = true;
     //Refresh the chart to reflect the updated data
     //this.$refs.chart.refresh();
