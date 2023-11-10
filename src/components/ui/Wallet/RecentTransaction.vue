@@ -6,7 +6,7 @@ import chartCalenderIcon from "@/components/icons/chartCalenderIcon.vue";
     class="bg-[#ECFAFC] border-[#254035AB] lg:p-[28px] p-[19px] border-[0.567px] rounded-[10px]"
   >
     <div class="flex lg:flex-row flex-col items-center gap-3 justify-between">
-      <h4 class="text-[20px text-[#000000] font-Satoshi700">Transaction Summary</h4>
+      <h4 class="text-[20px text-[#000000] font-Satoshi700">Recent Transactions</h4>
       <div class="flex items-center gap-3">
         <button
           class="p-2 py-1.5 text-[#01181B] flex-row gap-1 font-Satoshi700 bg-[#E6F1F3] items-center lg:text-[12px] text-[10px] border-[#254035AB] border-[1px] rounded-[10px] flex"

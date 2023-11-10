@@ -249,3 +249,6 @@ ol {
 input[type="checkbox"] {
     accent-color: #2F929C;
 }
+.vue-apexcharts {
+  max-height: 30%
+}

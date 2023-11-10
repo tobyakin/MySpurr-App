@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#ECFAFC] border-[#254035AB] py-[20px] border-[0.567px] rounded-[10px]">
+  <div class="bg-[#ECFAFC] border-[#254035AB] pt-[20px] border-[0.567px] rounded-[10px]">
     <div class="flex items-center flex-col lg:flex-row justify-between px-[20px]">
       <h4 class="text-[20px text-[#000000] font-Satoshi700">Transaction Summary</h4>
       <div class="flex flex-col lg:flex-row items-center gap-3">
@@ -45,14 +45,15 @@
         </button>
       </div>
     </div>
-    <!-- <apexchart
-      class="!min-h-[40px]"
+
+    <apexchart
+      class="pl-[10px] pr-[18px]"
       v-if="renderChart"
       type="area"
       :options="chartOptions"
       :series="chartSeries"
       ref="chart"
-    /> -->
+    />
   </div>
 </template>
 
@@ -69,18 +70,48 @@ export default {
     return {
       renderChart: false,
       chartOptions: {
+        grid: {
+          show: true,
+          borderColor: "#E4EAF0",
+          strokeDashArray: 4,
+          position: "back",
+          xaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          yaxis: {
+            lines: {
+              show: false,
+            },
+          },
+          row: {
+            colors: undefined,
+            opacity: 0.5,
+          },
+          column: {
+            colors: undefined,
+            opacity: 0.5,
+          },
+          padding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+          },
+        },
         chart: {
           id: "area-chart",
           toolbar: {
             show: false, // Hide the toolbar
           },
-          height: 350,
+          height: 90,
         },
         xaxis: {
           categories: [],
           labels: {
             style: {
-              cssClass: "!font-Satoshi400", // Add your custom font class name here
+              cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
             },
           },
         },
@@ -90,9 +121,12 @@ export default {
               return value + "k"; // Replace 'Prefix' with your desired prefix
             },
             style: {
-              cssClass: "!font-Satoshi400", // Add your custom font class name here
+              cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
             },
           },
+        },
+        legend: {
+          show: false,
         },
         dataLabels: {
           enabled: false,
@@ -114,11 +148,9 @@ export default {
       },
       chartSeries: [
         {
-          name: "Series 1",
           data: [],
         },
         {
-          name: "Series 2",
           data: [],
         },
       ],
@@ -135,13 +167,13 @@ export default {
   mounted() {
     //Sample data for the area chart
     const chartData = [
-      { x: "Mon", y: 0 },
-      { x: "Tue", y: 40 },
-      { x: "Wed", y: 35 },
-      { x: "Thur", y: 100 },
-      { x: "Fri", y: 45 },
-      { x: "Sat", y: 45 },
-      { x: "Sun", y: 45 },
+      { x: "04", y: 0 },
+      { x: "05", y: 40 },
+      { x: "06", y: 35 },
+      { x: "07", y: 10 },
+      { x: "08", y: 45 },
+      { x: "09", y: 45 },
+      { x: "10", y: 45 },
     ];
 
     // Extract x-axis categories and y-axis values from chart data
