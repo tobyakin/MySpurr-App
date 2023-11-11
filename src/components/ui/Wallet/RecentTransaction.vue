@@ -95,6 +95,7 @@ const selectOption = (option) => {
             :class="[
               index === 0 || index === 1 ? 'border-b-[#254035AB] border-b-[0.5px]' : '',
               (index === 2 && 'rounded-b-[10px]') || (index === 0 && 'rounded-t-[10px]'),
+              option == selectedOption && 'bg-[#ECFAFC]',
             ]"
             v-for="(option, index) in options"
             :key="option"
