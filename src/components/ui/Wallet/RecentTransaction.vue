@@ -66,6 +66,8 @@ const selectOption = (option) => {
         >
           {{ selectedOption }}
           <svg
+            :class="!isDropdownOpen ? 'rotate-180' : ''"
+            class="transition ease-in-out delay-150 duration-300"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -87,7 +89,7 @@ const selectOption = (option) => {
         </button>
         <ul
           v-if="isDropdownOpen"
-          class="absolute bg-white top-12 w-40 flex flex-col z-10 rounded-[10px] shadow-lg"
+          class="absolute bg-white top-12 w-40 flex flex-col z-10 transition-all ease-in-out delay-150 duration-300 rounded-[10px] shadow-lg"
         >
           <li
             :class="[
