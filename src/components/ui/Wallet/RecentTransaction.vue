@@ -39,6 +39,19 @@ let dataValue = ref([
     tile: "Withdraw",
   },
 ]);
+
+const isDropdownOpen = ref(false);
+const selectedOption = ref("All Transactions");
+const options = ref(["All Transactions", "Debit Transactions", "Credit Transactions"]);
+
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+const selectOption = (option) => {
+  selectedOption.value = option;
+  isDropdownOpen.value = false;
+};
 </script>
 <template>
   <div
@@ -46,11 +59,12 @@ let dataValue = ref([
   >
     <div class="flex lg:flex-row flex-col items-center gap-3 justify-between">
       <h4 class="text-[20px text-[#000000] font-Satoshi700">Recent Transactions</h4>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center relative gap-3">
         <button
+          @click="toggleDropdown"
           class="p-2 py-1.5 text-[#01181B] flex-row gap-1 font-Satoshi700 bg-[#E6F1F3] items-center lg:text-[12px] text-[10px] border-[#254035AB] border-[1px] rounded-[10px] flex"
         >
-          All Transactions
+          {{ selectedOption }}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -71,6 +85,23 @@ let dataValue = ref([
             </defs>
           </svg>
         </button>
+        <ul
+          v-if="isDropdownOpen"
+          class="absolute bg-white top-12 w-40 flex flex-col z-10 rounded-[10px] shadow-lg"
+        >
+          <li
+            :class="[
+              index === 0 || index === 1 ? 'border-b-[#254035AB] border-b-[0.5px]' : '',
+              (index === 2 && 'rounded-b-[10px]') || (index === 0 && 'rounded-t-[10px]'),
+            ]"
+            v-for="(option, index) in options"
+            :key="option"
+            @click="selectOption(option)"
+            class="py-2 cursor-pointer hover:bg-[#ECFAFC] px-3 text-[12px]"
+          >
+            {{ option }}
+          </li>
+        </ul>
         <button
           class="p-2 py-1.5 text-[#01181B] flex-row gap-1 font-Satoshi700 bg-[#E6F1F3] items-center lg:text-[12px] text-[10px] border-[#254035AB] border-[1px] rounded-[10px] flex"
         >
@@ -103,4 +134,3 @@ let dataValue = ref([
     </div>
   </div>
 </template>
-<style></style>
