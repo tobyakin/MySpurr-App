@@ -2,6 +2,14 @@
 import WithdrawIcon from "@/components/icons/withdrawIcon.vue";
 import SettingsIcon from "@/components/icons/settingsIcon.vue";
 import AddFundsIcon from "@/components/icons/AddFundsIcon.vue";
+const emit = defineEmits("goToWithdraw");
+
+const goToWithdraw = () => {
+  emit("goToWithdraw");
+};
+defineProps({
+  hide: Boolean,
+});
 </script>
 <template>
   <div
@@ -39,9 +47,11 @@ import AddFundsIcon from "@/components/icons/AddFundsIcon.vue";
       </p>
     </div>
     <div
+      v-if="hide"
       class="lg:p-[20px] p-[12px] bg-[#ECFAFC] rounded-[10px] flex flex-row gap-[10px] lg:gap-[20px]"
     >
       <button
+        @click="goToWithdraw"
         class="bg-white flex flex-col w-full gap-1 text-center items-center justify-center rounded-[10px] p-[10px]"
       >
         <WithdrawIcon />
