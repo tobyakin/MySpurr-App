@@ -1,8 +1,17 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import Tab from "./Tab.vue";
 import BalanceCard from "@/components/ui/Wallet/BalanceCard.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+import OtpInput from "@/components/ui/Form/Input/OtpInput.vue";
+import PasswordEyeIcon from "@/components/icons/PasswordEyeIcon.vue";
+import PasswordSlashEyeIcon from "@/components/icons/PasswordSlashEyeIcon.vue";
+import { useWalletStore } from "@/stores/wallet";
+import { storeToRefs } from "pinia";
+
+const walletStore = useWalletStore();
+const { banks } = storeToRefs(walletStore);
+
 const emit = defineEmits("goToWallet");
 let amount = ref(null);
 const step = ref([true, false, false, false, false]);
@@ -59,6 +68,15 @@ const handleKeyDown = function (event, index) {
     }
   }
 };
+const showPassword = ref(false);
+
+const toggleShowPassword = () => {
+  showPassword.value = !showPassword.value;
+};
+onMounted(async () => {
+  await walletStore.getBanks();
+  console.log(banks.value);
+});
 </script>
 <template>
   <div>
@@ -197,11 +215,11 @@ const handleKeyDown = function (event, index) {
             >
               <div class="grid lg:grid-cols-2 grid-cols-1 gap-[22px] w-full">
                 <div
-                  v-for="i in 9"
+                  v-for="i in banks.data"
                   :key="i"
                   class="bg-[#E9FAFB] rounded-[7.277px] p-5 w-full"
                 >
-                  2
+                  {{ i.name }}
                 </div>
               </div>
             </div>
@@ -237,48 +255,19 @@ const handleKeyDown = function (event, index) {
               class="text-[#254035] flex gap-4 items-center text-[18px] font-Satoshi400 leading-[24px]"
             >
               Enter 4 Digit Pin
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="21"
-                height="21"
-                viewBox="0 0 21 21"
-                fill="none"
-              >
-                <path
-                  d="M1.99146 10.4952C1.93389 10.3225 1.93384 10.1355 1.9913 9.96275C3.14827 6.48467 6.42916 3.97656 10.2958 3.97656C14.1607 3.97656 17.4404 6.48233 18.5988 9.9579C18.6563 10.1306 18.6564 10.3176 18.5989 10.4904C17.442 13.9685 14.1611 16.4766 10.2944 16.4766C6.4295 16.4766 3.14987 13.9708 1.99146 10.4952Z"
-                  stroke="#2B8C97"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+              <button @click="toggleShowPassword">
+                <PasswordEyeIcon
+                  class="h-[20px] w-[20px] text-[#2B8C97]"
+                  v-if="showPassword"
                 />
-                <path
-                  d="M12.7952 10.2266C12.7952 11.6073 11.6759 12.7266 10.2952 12.7266C8.91446 12.7266 7.79517 11.6073 7.79517 10.2266C7.79517 8.84585 8.91446 7.72656 10.2952 7.72656C11.6759 7.72656 12.7952 8.84585 12.7952 10.2266Z"
-                  stroke="#2B8C97"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                <PasswordSlashEyeIcon
+                  class="h-[20px] w-[20px] text-[#2B8C97]"
+                  v-if="!showPassword"
                 />
-              </svg>
+              </button>
             </p>
             <div class="flex flex-row items-center rounded-[10px] gap-[24px]">
-              <!-- <div
-              class="border-[0.737px] w-full border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
-            > -->
-              <div
-                ref="otpCont"
-                class="flex flex-row w-full lg:justify-normal justify-between lg:gap-[102px]"
-              >
-                <input
-                  type="password"
-                  class="border-[0.737px] w-[60px] h-[66px] password-input text-center flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
-                  v-for="(el, ind) in digits"
-                  :key="el + ind"
-                  v-model="digits[ind]"
-                  :autofocus="ind === 0"
-                  maxlength="1"
-                  @keydown="handleKeyDown($event, ind)"
-                />
-              </div>
+              <OtpInput :type="showPassword ? 'text' : 'password'" />
             </div>
           </div>
 

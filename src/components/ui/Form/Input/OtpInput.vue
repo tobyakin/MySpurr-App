@@ -1,0 +1,95 @@
+<template>
+  <div
+    ref="otpCont"
+    class="flex flex-row w-full lg:justify-normal justify-between lg:gap-[102px]"
+  >
+    <input
+      :type="type"
+      class="border-[0.737px] w-[60px] h-[66px] password-input text-center flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+      v-for="(el, ind) in digits"
+      :key="el + ind"
+      v-model="digits[ind]"
+      :autofocus="ind === 0"
+      maxlength="1"
+      @keydown="handleKeyDown($event, ind)"
+    />
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive } from "vue";
+
+const props = defineProps({
+  default: String,
+  type: String,
+  digitCount: {
+    type: Number,
+    required: true,
+  },
+});
+
+const digits = reactive([]);
+
+if (props.default && props.default.length === 4) {
+  for (let i = 0; i < 4; i++) {
+    digits[i] = props.default.charAt(i);
+  }
+} else {
+  for (let i = 0; i < 4; i++) {
+    digits[i] = null;
+  }
+}
+const otpCont = ref(null);
+const handleKeyDown = function (event, index) {
+  if (event.key !== "Tab" && event.key !== "ArrowRight" && event.key !== "ArrowLeft") {
+    event.preventDefault();
+  }
+
+  if (event.key === "Backspace") {
+    digits[index] = null;
+
+    if (index != 0) {
+      otpCont.value.children[index - 1].focus();
+    }
+
+    return;
+  }
+
+  if (new RegExp("^([0-9])$").test(event.key)) {
+    digits[index] = event.key;
+
+    if (index != props.digitCount - 1) {
+      otpCont.value.children[index + 1].focus();
+    }
+  }
+};
+</script>
+
+<style scoped>
+.digit-box {
+  height: 4rem;
+  width: 2rem;
+  border: 2px solid black;
+  display: inline-block;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 15px;
+  font-size: 3rem;
+  color: black;
+}
+
+.digit-box:focus {
+  outline: 3px solid black;
+}
+.password-input::part(eye)::before {
+  /* change the default password eye from . to * */
+  content: "*";
+}
+.password-input::part(eye)::after {
+  /* change the default password eye from . to * */
+  content: "*";
+}
+input[type="password"] {
+  -webkit-text-security: square !important;
+}
+</style>
