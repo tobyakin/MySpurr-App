@@ -1,11 +1,11 @@
 <template>
   <div
     ref="otpCont"
-    class="flex flex-row w-full lg:justify-normal justify-between lg:gap-[102px]"
+    class="flex flex-row w-full lg:justify-normal justify-between lg:gap-[12px]"
   >
     <input
       :type="type"
-      class="border-[0.737px] w-[60px] h-[66px] password-input text-center flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+      class="border-[1px] lg:w-[60px] lg:h-[66px] h-[55px] w-[50px] password-input text-center flex flex-row border-[#254035AB] rounded-[8px] p-4 py-1.5"
       v-for="(el, ind) in digits"
       :key="el + ind"
       v-model="digits[ind]"
@@ -30,12 +30,12 @@ const props = defineProps({
 
 const digits = reactive([]);
 
-if (props.default && props.default.length === 4) {
-  for (let i = 0; i < 4; i++) {
+if (props.default && props.default.length === props.digitCount) {
+  for (let i = 0; i < props.digitCount; i++) {
     digits[i] = props.default.charAt(i);
   }
 } else {
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < props.digitCount; i++) {
     digits[i] = null;
   }
 }
