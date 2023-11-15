@@ -34,7 +34,7 @@ const formState = ref({
   institute: "",
   certificate_year: "",
   certificate_link: "",
-  curently_working_here: "",
+  currently_working_here: "",
   certificate_date: "",
 });
 
@@ -43,17 +43,17 @@ const prefillDetails = (SingleObject) => {
   formState.value.title = SingleObject.title || "";
   formState.value.institute = SingleObject.institute || "";
   formState.value.certificate_link = SingleObject.certificate_link || "";
-  formState.value.curently_working_here = SingleObject.curently_working_here || "";
+  formState.value.currently_working_here = SingleObject.currently_working_here || "no";
   formState.value.certificate_date = SingleObject.certificate_date || "";
   formState.value.certificate_year = SingleObject.certificate_year || "";
 };
-const onFinish = async () => {
+const addNewCertificate = async () => {
   loading.value = true;
   try {
-    // const res = await profileStore.handleAddCertificate();
+    const res = await profileStore.handleAddCertificate();
     await profileStore.userProfile();
-    changeScreen(1, 0);
-    // console.log(res);
+    changeScreen(2, 0);
+    return res;
   } catch (error) {
     console.log(error);
   } finally {
@@ -62,20 +62,20 @@ const onFinish = async () => {
 };
 const updateCertificateDetails = async () => {
   loading.value = true;
-  //   let certificateID = formState.value.id;
-  //   let payload = {
-  //     title: formState.value.title,
-  //     institute: formState.value.institute,
-  //     curently_working_here: formState.value.curently_working_here,
-  //     certificate_date: StartDate.value,
-  //     certificate_year: EndDate.value,
-  //   };
+  let certificateID = formState.value.id;
+  let payload = {
+    title: formState.value.title,
+    institute: formState.value.institute,
+    currently_working_here: formState.value.currently_working_here,
+    certificate_date: certificatDate.value,
+    certificate_year: certificateYear.value,
+  };
 
   try {
-    // const res = await profileStore.handleUpdateCertificate(certificateID, payload);
+    const res = await profileStore.handleUpdateCertificate(certificateID, payload);
     await profileStore.userProfile();
-    changeScreen(2, 0);
-    // console.log(res);
+    changeScreen(1, 0);
+    return res;
   } catch (error) {
     console.log(error);
   } finally {
@@ -86,21 +86,21 @@ const currentlySchoolingHere = computed(() => {
   return present.value ? "till date" : "no"; //
 });
 
-// Create computed properties to format and update StartDate and EndDate
-const StartDate = computed(() => {
+// Create computed properties to format and update certificatDate and certificateYear
+const certificatDate = computed(() => {
   return dayjs(formState.value.certificate_date).format("DD-MM-YYYY");
 });
 
-const EndDate = computed(() => {
+const certificateYear = computed(() => {
   return present.value ? "0000" : dayjs(formState.value.certificate_year).format("YYYY");
 });
-// Update employment_details.value.certificate_year when EndDate changes
-watch(EndDate, (newEndDate) => {
-  certificateDetails.certificate_year = newEndDate;
+// Update employment_details.value.certificate_year when certificateYear changes
+watch(certificateYear, (newcertificateYear) => {
+  certificateDetails.value.certificate_year = newcertificateYear;
 });
-// Update employment_details.value.certificate_date when StartDate changes
-watch(StartDate, (newStartDate) => {
-  certificateDetails.certificate_date = newStartDate;
+// Update employment_details.value.certificate_date when certificatDate changes
+watch(certificatDate, (newcertificatDate) => {
+  certificateDetails.value.certificate_date = newcertificatDate;
 });
 
 // Define a watcher to react to changes in SingleObject
@@ -108,7 +108,7 @@ watch(SingleCertificateObject, (newSingleObject) => {
   prefillDetails(newSingleObject);
 });
 watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
-  certificateDetails.curently_working_here = newCurrentlySchoolingHere;
+  certificateDetails.value.currently_working_here = newCurrentlySchoolingHere;
 });
 
 onMounted(async () => {
@@ -130,7 +130,7 @@ onMounted(async () => {
         />
       </div>
     </div>
-
+    <!-- edit certificate details -->
     <div v-if="step[1]">
       <div class="flex flex-row justify-between w-full gap-[21px]">
         <div
@@ -208,7 +208,7 @@ onMounted(async () => {
       </div>
       <div class="w-full flex justify-center mt-8">
         <button
-          @click="onFinish"
+          @click="updateCertificateDetails"
           class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
         >
           <span v-if="!loading">Save</span>
@@ -216,11 +216,13 @@ onMounted(async () => {
         </button>
       </div>
     </div>
+    <!-- add new Certificate Details -->
     <div v-if="step[2]">
       <div class="flex flex-row justify-between w-full gap-[21px]">
         <div
           class="flex-col flex gap-6 w-full max-h-[50vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
         >
+          new
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <label class="text-[#01272C] text-[10px] font-Satoshi400">Title</label>
             <GlobalInput
@@ -290,7 +292,7 @@ onMounted(async () => {
       </div>
       <div class="w-full flex justify-center mt-8">
         <button
-          @click="updateCertificateDetails()"
+          @click="addNewCertificate"
           class="btn-brand !border-none !w-[30%] mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
         >
           <span v-if="!loading">Save</span>

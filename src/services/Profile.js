@@ -142,3 +142,33 @@ export const updateEmployment = async (id, payload) => {
     throw error
   }
 }
+export const addCertificate = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.post(`add-certificate`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const updateCertificate = async (id, payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.patch(`update-certificate/${id}`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}

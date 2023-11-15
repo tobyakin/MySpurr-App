@@ -9,7 +9,9 @@ import {
   addSkills,
   addEducation,
   updateEducation,
-  updateEmployment
+  updateEmployment,
+  addCertificate,
+  updateCertificate
 } from '@/services/Profile'
 
 export const useUserProfile = defineStore('profile', () => {
@@ -18,18 +20,18 @@ export const useUserProfile = defineStore('profile', () => {
   const profileImage = ref('')
 
   const bioInfo = ref({
-    first_name: "",
-    last_name: "",
-    skill_title: "",
-    rate: "",
-    location: "",
-    linkedin: "",
-    instagram: "",
-    twitter: "",
-    behance: "",
-    facebook: ""
-})
-const overview = ref('')
+    first_name: '',
+    last_name: '',
+    skill_title: '',
+    rate: '',
+    location: '',
+    linkedin: '',
+    instagram: '',
+    twitter: '',
+    behance: '',
+    facebook: ''
+  })
+  const overview = ref('')
   const employment_details = ref({
     company_name: '',
     title: '',
@@ -37,101 +39,114 @@ const overview = ref('')
     start_date: '',
     end_date: '',
     description: '',
-    currently_working_here: 'no',
+    currently_working_here: 'no'
   })
-    const top_skills = ref([])
-    const education = ref({
-      school_name: '',
-      degree: '',
-      start_date: '',
-      end_date: '',
-      description: '',
-      currently_schooling_here: 'no'
-    })
-    const certificateDetails = ref({
-      title: '',
-      institute: '',
-      certificate_year: '',
-      certificate_link: '',
-      curently_working_here: 'no',
-      certificate_date: ''
-    })
-
+  const top_skills = ref([])
+  const education = ref({
+    school_name: '',
+    degree: '',
+    start_date: '',
+    end_date: '',
+    description: '',
+    currently_schooling_here: 'no'
+  })
+  const certificateDetails = ref({
+    title: '',
+    institute: '',
+    certificate_year: '',
+    certificate_link: '',
+    currently_working_here: 'no',
+    certificate_date: ''
+  })
 
   const userProfile = async () => {
     try {
-    user.value = await getUserProfile()
-      return user.value;
+      user.value = await getUserProfile()
+      return user.value
     } catch (error) {
       console.error('Error fetching user profile:', error)
     }
   }
-    const handleUpdateProfilePhoto = async () => {
-            let payload = {
-              image: profileImage.value
-            }
-      updateProfilePhoto(payload)
+  const handleUpdateProfilePhoto = async () => {
+    let payload = {
+      image: profileImage.value
     }
-    const handleUpdateBio = async () => {
-      let payload = {
-        first_name: bioInfo.value.first_name,
-        last_name: bioInfo.value.last_name,
-        skill_title: bioInfo.value.skill_title,
-        rate: bioInfo.value.rate,
-        location: bioInfo.value.location,
-        linkedin: bioInfo.value.linkedin,
-        instagram: bioInfo.value.instagram,
-        twitter: bioInfo.value.twitter,
-        behance: bioInfo.value.behance,
-        facebook: bioInfo.value.facebook
+    updateProfilePhoto(payload)
+  }
+  const handleUpdateBio = async () => {
+    let payload = {
+      first_name: bioInfo.value.first_name,
+      last_name: bioInfo.value.last_name,
+      skill_title: bioInfo.value.skill_title,
+      rate: bioInfo.value.rate,
+      location: bioInfo.value.location,
+      linkedin: bioInfo.value.linkedin,
+      instagram: bioInfo.value.instagram,
+      twitter: bioInfo.value.twitter,
+      behance: bioInfo.value.behance,
+      facebook: bioInfo.value.facebook
+    }
+    updateBio(payload)
+  }
+  const handleUpdateOverview = async () => {
+    let payload = {
+      overview: overview.value
+    }
+    updateOverview(payload)
+  }
+  const handleAddWorkDetails = async () => {
+    let payload = {
+      employment_details: {
+        company_name: employment_details.value.company_name,
+        title: employment_details.value.title,
+        employment_type: employment_details.value.employment_type,
+        description: employment_details.value.description,
+        start_date: employment_details.value.start_date,
+        end_date: employment_details.value.end_date,
+        currently_working_here: employment_details.value.currently_working_here
       }
-      updateBio(payload)
     }
-    const handleUpdateOverview = async () => {
-      let payload = {
-        overview: overview.value
+    addWorkDetails(payload)
+  }
+  const handleAddSkills = async () => {
+    let payload = {
+      top_skills: top_skills.value
+    }
+    addSkills(payload)
+  }
+  const handleAddEducation = async () => {
+    let payload = {
+      education: {
+        school_name: education.value.school_name,
+        degree: education.value.degree,
+        description: education.value.description,
+        start_date: education.value.start_date,
+        end_date: education.value.end_date,
+        currently_schooling_here: education.value.currently_schooling_here
       }
-      updateOverview(payload)
     }
-    const handleAddWorkDetails = async () => {
-      let payload = {
-        employment_details: {
-          company_name: employment_details.value.company_name,
-          title: employment_details.value.title,
-          employment_type: employment_details.value.employment_type,
-          description: employment_details.value.description,
-          start_date: employment_details.value.start_date,
-          end_date: employment_details.value.end_date,
-          currently_working_here: employment_details.value.currently_working_here
-        }
-      }
-      addWorkDetails(payload)
+    addEducation(payload)
+  }
+  const handleUpdateEducation = async (id, payload) => {
+    updateEducation(id, payload)
+  }
+  const handleUpdateEmploymentDetails = async (id, payload) => {
+    updateEmployment(id, payload)
+  }
+  const handleAddCertificate = async () => {
+    let payload = {
+        title: certificateDetails.value.title,
+        institute: certificateDetails.value.institute,
+        certificate_date: certificateDetails.value.certificate_date,
+        certificate_year: certificateDetails.value.certificate_year,
+        certificate_link: certificateDetails.value.certificate_link,
+        currently_working_here: certificateDetails.value.currently_working_here
     }
-    const handleAddSkills = async () => {
-      let payload = {
-        top_skills: top_skills.value
-      }
-      addSkills(payload)
-    }
-    const handleAddEducation = async () => {
-      let payload = {
-        education: {
-          school_name: education.value.school_name,
-          degree: education.value.degree,
-          description: education.value.description,
-          start_date: education.value.start_date,
-          end_date: education.value.end_date,
-          currently_schooling_here: education.value.currently_schooling_here
-        }
-      }
-      addEducation(payload)
-    }
-    const handleUpdateEducation = async (id, payload) => {
-      updateEducation(id, payload)
-    }
-    const handleUpdateEmploymentDetails = async (id, payload) => {
-      updateEmployment(id, payload)
-    }
+    addCertificate(payload)
+  }
+  const handleUpdateCertificate = async (id, payload) => {
+    updateCertificate(id, payload)
+  }
 
   return {
     user,
@@ -150,6 +165,8 @@ const overview = ref('')
     education,
     handleUpdateEducation,
     handleUpdateEmploymentDetails,
-    certificateDetails
+    certificateDetails,
+    handleAddCertificate,
+    handleUpdateCertificate
   }
 })
