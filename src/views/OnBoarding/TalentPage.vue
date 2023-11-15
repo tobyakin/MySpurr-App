@@ -29,7 +29,7 @@
         <p>Your Porfolio</p>
       </div> -->
     </div>
-    <div class="justify-center flex py-6 p-4">
+    <div class="justify-center lg:flex lg:w-full py-6 p-4">
       <IntroPage v-if="step == 1" @next="next" />
       <WorkDetailsForm v-if="step == 2" @next="next" />
       <EducationalDetails v-if="step == 3" @next="next" @prev="prev" />
