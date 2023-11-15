@@ -11,7 +11,8 @@ import {
   updateEducation,
   updateEmployment,
   addCertificate,
-  updateCertificate
+  updateCertificate,
+  updatePortfolio
 } from '@/services/Profile'
 
 export const useUserProfile = defineStore('profile', () => {
@@ -147,6 +148,9 @@ export const useUserProfile = defineStore('profile', () => {
   const handleUpdateCertificate = async (id, payload) => {
     updateCertificate(id, payload)
   }
+  const handleUpdatePortfolio = async (id, payload) => {
+    updatePortfolio(id, payload)
+  }
 
   return {
     user,
@@ -167,6 +171,7 @@ export const useUserProfile = defineStore('profile', () => {
     handleUpdateEmploymentDetails,
     certificateDetails,
     handleAddCertificate,
-    handleUpdateCertificate
+    handleUpdateCertificate,
+    handleUpdatePortfolio
   }
 })

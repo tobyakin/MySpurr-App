@@ -43,6 +43,7 @@ let options = ref([
 ]);
 let loading = ref(false);
 const SingleCertificateObject = ref({});
+const portfolioID = ref(route.params.id);
 
 const search = ref("");
 const showDropdown = ref(false);
@@ -134,15 +135,38 @@ const removeImage = () => {
 };
 const onFinish = async () => {
   loading.value = true;
+  // let portfolioID = route.params.id;
+  let payload = {
+    title: portfolio.value.title,
+    client_name: portfolio.value.client_name,
+    job_type: portfolio.value.job_type,
+    location: portfolio.value.location,
+    rate: portfolio.value.rate,
+    tags: portfolio.value.tags,
+    cover_image: portfolio.value.cover_image,
+    body: portfolio.value.body,
+  };
   try {
-    const res = await OnboardingStore.submitTalentPortfolio();
+    const res = await userProfile.handleUpdatePortfolio(portfolioID.value, payload);
     userProfile.userProfile();
-    router.push({ name: "profile" });
+    // router.push({ name: "profile" });
     return res;
   } catch (error) {
     console.log(error);
   } finally {
     loading.value = false;
+    (portfolio.value.title = ""),
+      (portfolio.value.client_name = ""),
+      (portfolio.value.job_type = ""),
+      (portfolio.value.location = ""),
+      (portfolio.value.rate = ""),
+      (portfolio.value.tags = []),
+      (portfolio.value.cover_imag = null),
+      (portfolio.value.body = ""),
+      (portfolio.value.max = ""),
+      (portfolio.value.min = "");
+
+    router.push({ name: "profile" });
   }
 };
 
@@ -174,7 +198,8 @@ watch(SingleCertificateObject, (newSingleObject) => {
 // let IIindex = ref(route.params.id - 1);
 onMounted(async () => {
   prefillDetails(SingleCertificateObject.value);
-  SingleCertificateObject.value = userProfile?.user?.data?.portfolio[0];
+  SingleCertificateObject.value =
+    userProfile?.user?.data?.portfolio[portfolioID.value - 1];
   await userProfile.userProfile();
   console.log(SingleCertificateObject.value);
 });
@@ -335,7 +360,12 @@ onMounted(async () => {
               +
             </button>
           </div>
-          <!-- <img :src="uploadedImage" alt="Uploaded Image" /> -->
+          <img
+            v-if="portfolio.cover_image"
+            :src="portfolio?.cover_image"
+            alt="Uploaded Image"
+            class="rounded-[11.862px]"
+          />
 
           <div class="flex lg:flex-row flex-col gap-2 items-center">
             <input id="cover_image" hidden type="file" @change="uploadImage" />

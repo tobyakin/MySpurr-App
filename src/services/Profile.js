@@ -172,3 +172,18 @@ export const updateCertificate = async (id, payload) => {
     throw error
   }
 }
+export const updatePortfolio = async (id, payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.patch(`update-portfolio/${id}`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}

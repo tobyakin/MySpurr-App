@@ -135,12 +135,23 @@ const onFinish = async () => {
   try {
     const res = await OnboardingStore.submitTalentPortfolio();
     userProfile.userProfile();
-    router.push({ name: "profile" });
+    // router.push({ name: "profile" });
     return res;
   } catch (error) {
     console.log(error);
   } finally {
     loading.value = false;
+    (portfolio.value.title = ""),
+      (portfolio.value.client_name = ""),
+      (portfolio.value.job_type = ""),
+      (portfolio.value.location = ""),
+      (portfolio.value.rate = ""),
+      (portfolio.value.tags = []),
+      (portfolio.value.cover_imag = null),
+      (portfolio.value.body = ""),
+      (portfolio.value.max = ""),
+      (portfolio.value.min = "");
+    router.push({ name: "profile" });
   }
 };
 </script>
@@ -300,7 +311,12 @@ const onFinish = async () => {
               +
             </button>
           </div>
-          <!-- <img :src="uploadedImage" alt="Uploaded Image" /> -->
+          <img
+            v-if="portfolio.cover_image"
+            :src="portfolio?.cover_image"
+            alt="Uploaded Image"
+            class="rounded-[11.862px]"
+          />
 
           <div class="flex lg:flex-row flex-col gap-2 items-center">
             <input id="cover_image" hidden type="file" @change="uploadImage" />
