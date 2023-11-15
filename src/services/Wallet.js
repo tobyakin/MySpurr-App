@@ -1,5 +1,5 @@
 import axios from '../axios'
-import { catchAxiosError } from './Response'
+import { catchAxiosError, catchAxiosSuccess } from './Response'
 import { getToken } from './Auth'
 
 export const getBankList = async () => {
@@ -26,21 +26,23 @@ export const verifyPin = async () => {
         Authorization: 'Bearer ' + token
       }
     })
+    catchAxiosSuccess(res)   
     return res.data
   } catch (error) {
     catchAxiosError(error)
     throw error
   }
 }
-export const addBankAccount = async () => {
-        const token = await getToken()
+export const addBankAccount = async (payload) => {
+  const token = await getToken()
 
   try {
-    let res = await axios.post(`add-bank-account`, {
+    let res = await axios.post(`add-bank-account`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
     })
+    catchAxiosSuccess(res)
     return res.data
   } catch (error) {
     catchAxiosError(error)
@@ -56,6 +58,7 @@ export const setWithdrawalPin = async () => {
         Authorization: 'Bearer ' + token
       }
     })
+    catchAxiosSuccess(res)   
     return res
   } catch (error) {
     catchAxiosError(error)

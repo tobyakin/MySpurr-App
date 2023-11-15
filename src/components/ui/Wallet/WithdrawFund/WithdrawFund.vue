@@ -20,14 +20,9 @@ const maskedEmail = computed(() => {
   const maskedPart = "*".repeat(email.length - 14); // Mask all characters except the first 4 and last 10
   return maskedPart + email.slice(-10);
 });
-
-const SelectGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/SelectGroup.vue")
-);
-
 const walletStore = useWalletStore();
 const { banks } = storeToRefs(walletStore);
-
+let loading = ref(false);
 const emit = defineEmits("goToWallet");
 let amount = ref(null);
 const step = ref([true, false, false, false, false, false, false, false]);
@@ -40,55 +35,40 @@ const changeScreen = (from, to, type = null) => {
 const goToWallet = () => {
   emit("goToWallet");
 };
-const props = defineProps({
-  default: String,
 
-  digitCount: {
-    type: Number,
-    required: true,
-  },
-});
-
-const digits = reactive([]);
-
-if (props.default && props.default.length === 4) {
-  for (let i = 0; i < 4; i++) {
-    digits[i] = props.default.charAt(i);
-  }
-} else {
-  for (let i = 0; i < 4; i++) {
-    digits[i] = null;
-  }
-}
-const otpCont = ref(null);
-const handleKeyDown = function (event, index) {
-  if (event.key !== "Tab" && event.key !== "ArrowRight" && event.key !== "ArrowLeft") {
-    event.preventDefault();
-  }
-
-  if (event.key === "Backspace") {
-    digits[index] = null;
-
-    if (index != 0) {
-      otpCont.value.children[index - 1].focus();
-    }
-
-    return;
-  }
-
-  if (new RegExp("^([0-9])$").test(event.key)) {
-    digits[index] = event.key;
-
-    if (index != props.digitCount - 1) {
-      otpCont.value.children[index + 1].focus();
-    }
-  }
-};
 const showPassword = ref(false);
 
 const toggleShowPassword = () => {
   showPassword.value = !showPassword.value;
 };
+const addBankState = reactive({
+  talent_id: userDetails.value.uniqueId,
+  account_number: "",
+  bank_name: "",
+  account_name: "",
+});
+const withdrawPin = ref(""); //Withdrawal Pin
+
+const addBankAccount = async () => {
+  loading.value = true;
+  let payload = {
+    talent_id: addBankState.talent_id,
+    account_number: addBankState.account_number,
+    bank_name: addBankState.bank_name,
+    account_name: addBankState.account_name,
+  };
+  try {
+    const res = await walletStore.addBank(payload);
+    return res;
+  } catch (error) {
+    console.log(error);
+    return error;
+  } finally {
+    loading.value = false;
+    changeScreen(5, 6);
+  }
+};
+
 onMounted(async () => {
   await walletStore.getBanks();
   await profileStore.userProfile();
@@ -192,6 +172,7 @@ onMounted(async () => {
             </button>
           </div>
         </div>
+        <!-- Select Bank Account -->
         <div v-if="step[2]" class="flex flex-col gap-[60px]">
           <div class="flex flex-col gap-[13px]">
             <h3
@@ -246,6 +227,7 @@ onMounted(async () => {
             </button>
           </div>
         </div>
+        <!--  Enter Your Pin -->
         <div v-if="step[3]" class="flex flex-col gap-[60px]">
           <div class="flex flex-col gap-[13px]">
             <h3
@@ -339,17 +321,19 @@ onMounted(async () => {
                 inputClasses="bg-transparent border-none"
                 placeholder=""
                 type="text"
+                v-model="addBankState.account_number"
               />
             </div>
 
             <div class="border-[0.737px] border-[#254035AB] rounded-[8px] p-4 py-1.5">
               <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Bank </label>
               <select
+                v-model="addBankState.bank_name"
                 class="form__input block w-full p-2 bg-transparent border-none px-1 text-sm font-Satoshi400 text-gray-800 transition duration-500 focus:outline-none rounded"
               >
                 <option disabled>Select Bank</option>
                 <option></option>
-                <option v-for="item in banks.data" :key="item.id" :value="item.id">
+                <option v-for="item in banks.data" :key="item.id" :value="item.code">
                   {{ item.name }}
                 </option>
               </select>
@@ -359,6 +343,7 @@ onMounted(async () => {
                 >Beneficiary Name</label
               >
               <GlobalInput
+                v-model="addBankState.account_name"
                 inputClasses="bg-transparent border-none"
                 placeholder=""
                 type="text"
@@ -367,7 +352,7 @@ onMounted(async () => {
           </div>
           <div class="flex flex-row w-full">
             <button
-              @click="changeScreen(5, 6)"
+              @click="addBankAccount"
               :class="amount === null ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
               class="font-Satoshi500 text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
@@ -402,6 +387,7 @@ onMounted(async () => {
                 Enter 4 Digit Pin
                 <button @click="toggleShowPassword">
                   <PasswordEyeIcon
+                    v-model="withdrawPin"
                     class="h-[20px] w-[20px] text-[#2B8C97]"
                     v-if="showPassword"
                   />
@@ -469,9 +455,19 @@ onMounted(async () => {
               }}</span>
             </p>
           </div>
-          <div class="flex flex-row items-center rounded-[10px]">
-            <OtpInput :digit-count="6" :type="showPassword ? 'text' : 'password'" />
+          <div class="flex flex-col gap-3">
+            <p
+              class="text-[#254035] flex gap-4 items-center text-[18px] font-Satoshi400 leading-[24px]"
+            >
+              Enter OTP Here
+            </p>
+            <div class="flex flex-row items-center rounded-[10px] gap-[24px]">
+              <OtpInput :digit-count="6" :type="showPassword ? 'text' : 'password'" />
+            </div>
           </div>
+          <!-- <div class="flex flex-row items-center rounded-[10px]">
+            <OtpInput :digit-count="6" :type="showPassword ? 'text' : 'password'" />
+          </div> -->
           <div class="flex flex-row w-full">
             <button
               @click="changeScreen(7, 8)"
@@ -483,11 +479,12 @@ onMounted(async () => {
           </div>
         </div>
         <div v-if="step[8]" class="flex flex-col gap-[60px]">
-          <div class="flex flex-col gap-[23px]">
+          <div class="flex flex-col gap-[30px]">
             <h3
               class="text-[#01181B] text-[40px] lg:text-[56px] font-EBGaramond500 lg:leading-[63.84px]"
             >
-              Your Bank Account and Pin has been set successfully
+              Your Bank Account and Pin <br />
+              has been set successfully
             </h3>
             <p class="text-[#000000] text-[18px] font-Satoshi400 leading-[24px]">
               You will be redirected to continue your transaction, If you are not
