@@ -3,6 +3,7 @@ import { ref, defineAsyncComponent } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import Tab from "@/components/ui/Settings/Tab.vue";
 import Accounts from "@/components/ui/Settings/Pages/Accounts.vue";
+import PrivacySecurity from "@/components/ui/Settings/Pages/PrivacySecurity.vue";
 </script>
 
 <template>
@@ -15,9 +16,9 @@ import Accounts from "@/components/ui/Settings/Pages/Accounts.vue";
         <template #tab3> Payments </template>
         <template #tab4> Notification </template>
         <template #view1><Accounts /></template>
-        <template #view2>oo</template>
-        <template #view3>ooo</template>
-        <template #view4>oo0o</template>
+        <template #view2><PrivacySecurity /></template>
+        <template #view3>Payments</template>
+        <template #view4>Notification</template>
       </Tab>
     </div>
   </DashboardLayout>
