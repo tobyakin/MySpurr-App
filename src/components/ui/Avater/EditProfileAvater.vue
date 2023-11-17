@@ -1,11 +1,11 @@
 <template>
   <div
     :class="inputClasses"
-    class="relative h-[126.955px] w-[126.955px] bg-[#0a0909c4] rounded-full"
+    class="relative h-[126.955px] w-[126.955px] bg-[#2F929C] rounded-full"
   >
     <img
       :class="inputClasses"
-      :src="imageUrl ? imageUrl : imgAlt"
+      :src="imageUrl ? imageUrl : Avater"
       class="h-[126.955px] w-[126.955px] bg-[#0A090991] opacity-40 rounded-full"
     /><button @click="toggleModal" class="absolute top-8 text-[#FFFFFF] right-8">
       <EditIcon />
@@ -14,7 +14,8 @@
 </template>
 <script setup>
 import EditIcon from "@/components/icons/editIcon.vue";
-import imgAlt from "@/assets/image/icon.webp";
+import Avater from "@/assets/svg/avater.svg";
+
 defineProps({
   inputClasses: String,
   imageUrl: String,

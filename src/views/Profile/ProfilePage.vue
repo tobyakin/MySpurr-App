@@ -20,19 +20,11 @@ import OverviewPage from "@/components/ui/ProfileEdit/Forms/OverviewPage.vue";
 import SkillsPage from "@/components/ui/ProfileEdit/Forms/SkillsPage.vue";
 import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
 import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience.vue";
-import SampleOne from "@/assets/image/sampleOne.webp";
 import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
 import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.vue";
 import Map from "@/components/ui/Map/Map.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
-
-const Porfolio = [
-  { img: SampleOne },
-  { img: SampleOne },
-  { img: SampleOne },
-  { img: SampleOne },
-];
 
 let profile = useUserProfile();
 const userDetails = computed(() => {
