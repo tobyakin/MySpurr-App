@@ -1,42 +1,42 @@
 <script setup>
-import { ref, onMounted, onUpdated } from "vue";
-import { useUserProfile } from "@/stores/profile";
-import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import { ref, onMounted, onUpdated } from 'vue'
+import { useUserProfile } from '@/stores/profile'
+import WhiteLoader from '@/components/ui/WhiteLoader.vue'
 
-const userProfile = useUserProfile();
-import { storeToRefs } from "pinia";
+const userProfile = useUserProfile()
+import { storeToRefs } from 'pinia'
 
-const { overview } = storeToRefs(userProfile);
-let loading = ref(false);
-const emit = defineEmits(["closeModal"]);
+const { overview } = storeToRefs(userProfile)
+let loading = ref(false)
+const emit = defineEmits(['closeModal'])
 
 const closeModal = () => {
-  emit("closeModal");
-};
+  emit('closeModal')
+}
 const prefillDetails = () => {
-  overview.value = userProfile.user?.data?.overview || "";
-};
+  overview.value = userProfile.user?.data?.overview || ''
+}
 const onFinish = async () => {
-  loading.value = true;
+  loading.value = true
   try {
-    const res = await userProfile.handleUpdateOverview();
-    await userProfile.userProfile();
-    closeModal();
-    console.log(res);
+    const res = await userProfile.handleUpdateOverview()
+    await userProfile.userProfile()
+    closeModal()
+    return res
   } catch (error) {
-    console.log(error);
+    console.log(error)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 onUpdated(async () => {
-  await userProfile.userProfile();
-});
+  await userProfile.userProfile()
+})
 
 onMounted(async () => {
-  prefillDetails();
-  await userProfile.userProfile();
-});
+  prefillDetails()
+  await userProfile.userProfile()
+})
 </script>
 <template>
   <div>

@@ -1,34 +1,34 @@
 <script setup>
-import { onMounted, reactive, ref, computed, watch } from "vue";
-import { useJobsStore } from "@/stores/jobs";
-import VerifyIcon from "@/components/icons/verifyIcon.vue";
-import LinkIcon from "@/components/icons/linkIcon.vue";
-import CloudUploadIcon from "@/components/icons/cloudUploadIcon.vue";
-import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+import { onMounted, reactive, ref, computed, watch } from 'vue'
+import { useJobsStore } from '@/stores/jobs'
+import VerifyIcon from '@/components/icons/verifyIcon.vue'
+import LinkIcon from '@/components/icons/linkIcon.vue'
+import CloudUploadIcon from '@/components/icons/cloudUploadIcon.vue'
+import GlobalInput from '@/components/ui/Form/Input/GlobalInput.vue'
 // import { storeToRefs } from "pinia";
-const JobsStore = useJobsStore();
-import { useRoute } from "vue-router";
-const route = useRoute();
+const JobsStore = useJobsStore()
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
 // const { jobApplicationForm } = storeToRefs(JobsStore);
-const emit = defineEmits(["back", "next"]);
-const JobId = ref(route.params.id);
+const emit = defineEmits(['back', 'next'])
+const JobId = ref(route.params.id)
 
-let onButton1 = ref(false);
-let onButton3 = ref(false);
-let onButton4 = ref(false);
-let onButton5 = ref(false);
-let onButton5Val = ref(0);
-let onButton2 = ref(false);
-let toDisable = ref(true);
+let onButton1 = ref(false)
+let onButton3 = ref(false)
+let onButton4 = ref(false)
+let onButton5 = ref(false)
+let onButton5Val = ref(0)
+let onButton2 = ref(false)
+let toDisable = ref(true)
 const jobApplicationForm = reactive({
-  job_id: "",
-  rate: "",
-  available_start: "",
-  resume: "",
-  other_file: "",
-  question_answers: [],
-});
+  job_id: '',
+  rate: '',
+  available_start: '',
+  resume: '',
+  other_file: '',
+  question_answers: []
+})
 
 const handleJobApplication = async () => {
   let payload = {
@@ -37,101 +37,85 @@ const handleJobApplication = async () => {
     available_start: jobApplicationForm.available_start,
     resume: jobApplicationForm.resume,
     other_file: jobApplicationForm.other_file,
-    question_answers: jobApplicationForm.question_answers,
-  };
-  try {
-    const res = await JobsStore.applyForJob(JobId, payload);
-    next();
-    console.log(res);
-  } catch (error) {
-    console.log(error);
+    question_answers: jobApplicationForm.question_answers
   }
-};
+  try {
+    const res = await JobsStore.applyForJob(JobId, payload)
+    next()
+    return res
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 onMounted(() => {
-  jobApplicationForm.rate = finalTotal.value;
+  jobApplicationForm.rate = finalTotal.value
 
   watch(finalTotal, (newFinalTotal) => {
-    jobApplicationForm.rate = newFinalTotal;
-    console.log(jobApplicationForm.rate);
-  });
-});
+    jobApplicationForm.rate = newFinalTotal
+    console.log(jobApplicationForm.rate)
+  })
+})
 
 const disable = computed(() => {
-  return (
-    onButton1.value ||
-    onButton2.value ||
-    onButton3.value ||
-    onButton4.value ||
-    onButton5.value
-  );
-});
+  return onButton1.value || onButton2.value || onButton3.value || onButton4.value || onButton5.value
+})
 
 watch(
-  () => [
-    onButton1.value,
-    onButton2.value,
-    onButton3.value,
-    onButton4.value,
-    onButton5.value,
-  ],
+  () => [onButton1.value, onButton2.value, onButton3.value, onButton4.value, onButton5.value],
   () => {
     toDisable.value =
-      onButton1.value ||
-      onButton2.value ||
-      onButton3.value ||
-      onButton4.value ||
-      onButton5.value;
-    console.log(toDisable.value);
+      onButton1.value || onButton2.value || onButton3.value || onButton4.value || onButton5.value
+    console.log(toDisable.value)
   }
-);
+)
 
 const buttons = reactive({
   1: { price: 10, active: false },
   2: { price: 20, active: false },
   3: { price: 50, active: false },
-  4: { price: 100, active: false },
-});
+  4: { price: 100, active: false }
+})
 
 const toggleButton = (buttonId) => {
-  buttons[buttonId].active = !buttons[buttonId].active;
-  onButton5.value = false;
-};
+  buttons[buttonId].active = !buttons[buttonId].active
+  onButton5.value = false
+}
 
 const totalPrice = computed(() => {
-  let total = 0;
+  let total = 0
   for (const button of Object.values(buttons)) {
     if (button.active) {
-      total += button.price;
+      total += button.price
     }
   }
-  return total;
-});
+  return total
+})
 
 const finalTotal = computed(() => {
-  const value = onButton5.value ? onButton5Val.value : totalPrice.value;
-  return parseInt(value);
-});
+  const value = onButton5.value ? onButton5Val.value : totalPrice.value
+  return parseInt(value)
+})
 
 const resetButton = () => {
   for (const button of Object.values(buttons)) {
     if (button.active) {
-      button.active = false;
+      button.active = false
     }
   }
-  onButton1.value = false;
-  onButton2.value = false;
-  onButton3.value = false;
-  onButton4.value = false;
-  onButton5.value = true;
-};
+  onButton1.value = false
+  onButton2.value = false
+  onButton3.value = false
+  onButton4.value = false
+  onButton5.value = true
+}
 
 const back = () => {
-  emit("back");
-};
+  emit('back')
+}
 const next = () => {
-  emit("next");
-};
+  emit('next')
+}
 </script>
 
 <template>
@@ -151,9 +135,7 @@ const next = () => {
               <p class="text-[17.435px] font-Satoshi400 flex text-[#000]">Adobe Inc.</p>
               <div class="flex mt-1 gap-1">
                 <VerifyIcon class="w-4" />
-                <p class="text-[12.781px] font-Satoshi700 text-[#000000B2]">
-                  Verified Client.
-                </p>
+                <p class="text-[12.781px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
               </div>
             </div>
             <div class="flex flex-col justify-between">
@@ -232,31 +214,21 @@ const next = () => {
         <p class="text-[#244034] text-[13.076px] font-Satoshi500">2 Years</p>
       </div>
     </div>
-    <p class="text-[36.637px] font-Satoshi400 text-[#244034] my-6">
-      Fill out your Application
-    </p>
+    <p class="text-[36.637px] font-Satoshi400 text-[#244034] my-6">Fill out your Application</p>
     <div class="flex flex-col gap-4 lg:flex-row mt-10 w-full">
       <div class="lg:w-[40%] flex flex-col gap-6">
-        <div
-          class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
-        >
+        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
           <p class="text-[17.887px] font-Satoshi500 text-[#000]">Profile URL</p>
-          <div
-            class="bg-[#EDF0B8] p-2 flex relative overflow-hidden rounded-[5.982px] mt-3"
-          >
+          <div class="bg-[#EDF0B8] p-2 flex relative overflow-hidden rounded-[5.982px] mt-3">
             <a href="" class="text-[15.495px] font-Satoshi500 text-[#01272C]"
               >https://www.myspurr.talent/tobiakinyele</a
             >
-            <div
-              class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full"
-            >
+            <div class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full">
               <LinkIcon />
             </div>
           </div>
         </div>
-        <div
-          class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
-        >
+        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
           <p class="text-[17.887px] font-Satoshi500 text-[#000] leading-[22.621px]">
             What is your hourly rate for this job?
           </p>
@@ -269,7 +241,7 @@ const next = () => {
                 @click="(onButton1 = !onButton1), toggleButton(1)"
                 :class="{
                   'bg-brand text-white': onButton1,
-                  'bg-[#ffffff] text-[#2540358C]': !onButton1,
+                  'bg-[#ffffff] text-[#2540358C]': !onButton1
                 }"
                 class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[14.26px] rounded-[6.303px] p-2"
               >
@@ -279,7 +251,7 @@ const next = () => {
                 @click="(onButton2 = !onButton2), toggleButton(2)"
                 :class="{
                   'bg-brand text-white': onButton2,
-                  'bg-[#ffffff] text-[#2540358C]': !onButton2,
+                  'bg-[#ffffff] text-[#2540358C]': !onButton2
                 }"
                 class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
               >
@@ -289,7 +261,7 @@ const next = () => {
                 @click="(onButton3 = !onButton3), toggleButton(3)"
                 :class="{
                   'bg-brand text-white': onButton3,
-                  'bg-[#ffffff] text-[#2540358C]': !onButton3,
+                  'bg-[#ffffff] text-[#2540358C]': !onButton3
                 }"
                 class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
               >
@@ -299,7 +271,7 @@ const next = () => {
                 @click="(onButton4 = !onButton4), toggleButton(4)"
                 :class="{
                   'bg-brand text-white': onButton4,
-                  'bg-[#ffffff] text-[#2540358C]': !onButton4,
+                  'bg-[#ffffff] text-[#2540358C]': !onButton4
                 }"
                 class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
               >
@@ -309,24 +281,17 @@ const next = () => {
                 @click="(onButton5 = !onButton5), resetButton()"
                 :class="{
                   'bg-brand text-white': onButton5,
-                  'bg-[#ffffff] text-black': !onButton5,
+                  'bg-[#ffffff] text-black': !onButton5
                 }"
                 class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
               >
                 Custom
               </button>
             </div>
-            <GlobalInput
-              type="number"
-              v-show="onButton5"
-              v-model="onButton5Val"
-              class="mt-2"
-            />
+            <GlobalInput type="number" v-show="onButton5" v-model="onButton5Val" class="mt-2" />
           </div>
         </div>
-        <div
-          class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
-        >
+        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
           <p class="text-[17.887px] font-Satoshi500 text-[#000] leading-[22.621px]">
             When are you available to start?
           </p>
@@ -350,21 +315,13 @@ const next = () => {
             </button>
           </div>
         </div>
-        <div
-          class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
-        >
-          <p class="text-[17.887px] font-Satoshi500 text-[#000]">
-            Add your booking meeting url
-          </p>
-          <div
-            class="bg-[#EDF0B8] p-2 flex relative overflow-hidden rounded-[5.982px] mt-3"
-          >
+        <div class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4">
+          <p class="text-[17.887px] font-Satoshi500 text-[#000]">Add your booking meeting url</p>
+          <div class="bg-[#EDF0B8] p-2 flex relative overflow-hidden rounded-[5.982px] mt-3">
             <a href="" class="text-[15.495px] font-Satoshi500 text-[#01272C]"
               >https://www.myspurr.talent/tobiakinyele</a
             >
-            <div
-              class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full"
-            >
+            <div class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full">
               <LinkIcon />
             </div>
           </div>

@@ -23,8 +23,11 @@ import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience
 import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
 import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.vue";
 import Map from "@/components/ui/Map/Map.vue";
+import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
+
 import { useRouter } from "vue-router";
 const router = useRouter();
+const showPageLoader = ref(true);
 
 let profile = useUserProfile();
 const userDetails = computed(() => {
@@ -81,23 +84,40 @@ const redirectToSinglePortfolio = (id) => {
   router.push({ name: "edit-portfolio", params: { id: id } });
 };
 
-onMounted(() => {
-  return profile.userProfile();
-});
+// onMounted(() => {
+//   return profile.userProfile();
+// });
 onUpdated(async () => {
   await profile.userProfile();
 });
 
+// onMounted(async () => {
+//   await profile.userProfile();
+// });
+// onBeforeMount(async () => {
+//   try {
+//     await profile.userProfile();
+//   } catch (error) {
+//     /* empty */
+//   } finally {
+//     showPageLoader.value = !showPageLoader.value;
+//   }
+// });
 onMounted(async () => {
-  await profile.userProfile();
-});
-onBeforeMount(async () => {
-  await profile.userProfile();
+  try {
+    await profile.userProfile();
+  } catch (error) {
+    /* empty */
+  } finally {
+    showPageLoader.value = !showPageLoader.value;
+  }
 });
 </script>
 
 <template>
   <DashboardLayout>
+    <PagePreLoader v-if="showPageLoader" />
+
     <div class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10">
       <div id="talent-cv" class="py-20 container talent-cv">
         <div

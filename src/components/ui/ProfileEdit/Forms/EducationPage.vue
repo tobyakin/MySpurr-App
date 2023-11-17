@@ -1,73 +1,73 @@
 <script setup>
-import { ref, onMounted, watch, onUpdated, computed } from "vue";
-import { useUserProfile } from "@/stores/profile";
-import CirclePlus from "@/components/icons/circlePlus.vue";
-import EducationDetails from "@/components/ui/genericComponents/EditEducationDetails.vue";
-import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
-import dayjs from "dayjs";
-import { storeToRefs } from "pinia";
-import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import { ref, onMounted, watch, onUpdated, computed } from 'vue'
+import { useUserProfile } from '@/stores/profile'
+import CirclePlus from '@/components/icons/circlePlus.vue'
+import EducationDetails from '@/components/ui/genericComponents/EditEducationDetails.vue'
+import GlobalInput from '@/components/ui/Form/Input/GlobalInput.vue'
+import dayjs from 'dayjs'
+import { storeToRefs } from 'pinia'
+import WhiteLoader from '@/components/ui/WhiteLoader.vue'
 
-const profileStore = useUserProfile();
-const { education } = storeToRefs(profileStore);
-let loading = ref(false);
+const profileStore = useUserProfile()
+const { education } = storeToRefs(profileStore)
+let loading = ref(false)
 
-const userProfile = useUserProfile();
-const present = ref(false); // Add a variable to track if the checkbox is checked
+const userProfile = useUserProfile()
+const present = ref(false) // Add a variable to track if the checkbox is checked
 
-const step = ref([true, false, false]);
+const step = ref([true, false, false])
 const changeScreen = (from, to, type = null) => {
-  step.value[from] = false;
-  step.value[to] = true;
-};
-const SingleObject = ref({});
+  step.value[from] = false
+  step.value[to] = true
+}
+const SingleObject = ref({})
 const handleOpenEdit = (index) => {
-  SingleObject.value = userProfile?.user?.data?.education[index];
-  changeScreen(0, 1);
-};
+  SingleObject.value = userProfile?.user?.data?.education[index]
+  changeScreen(0, 1)
+}
 const handleAddNew = () => {
-  changeScreen(0, 2);
-};
+  changeScreen(0, 2)
+}
 const formState = ref({
-  id: "",
-  school_name: "",
-  degree: "",
-  field_of_study: "",
-  start_date: "",
-  end_date: "",
-  description: "",
-  currently_schooling_here: "no",
-});
+  id: '',
+  school_name: '',
+  degree: '',
+  field_of_study: '',
+  start_date: '',
+  end_date: '',
+  description: '',
+  currently_schooling_here: 'no'
+})
 // const formData = ref({
 //   start_date: "",
 //   end_date: "",
 // });
 
 const prefillDetails = (SingleObject) => {
-  formState.value.id = SingleObject.id || "";
-  formState.value.school_name = SingleObject.school_name || "";
-  formState.value.degree = SingleObject.degree || "";
-  formState.value.field_of_study = SingleObject.field_of_study || "";
-  formState.value.description = SingleObject.description || "";
-  formState.value.start_date = SingleObject.start_date || "";
-  formState.value.end_date = SingleObject.end_date || "";
-};
+  formState.value.id = SingleObject.id || ''
+  formState.value.school_name = SingleObject.school_name || ''
+  formState.value.degree = SingleObject.degree || ''
+  formState.value.field_of_study = SingleObject.field_of_study || ''
+  formState.value.description = SingleObject.description || ''
+  formState.value.start_date = SingleObject.start_date || ''
+  formState.value.end_date = SingleObject.end_date || ''
+}
 const onFinish = async () => {
-  loading.value = true;
+  loading.value = true
   try {
-    const res = await profileStore.handleAddEducation();
-    await profileStore.userProfile();
-    changeScreen(2, 0);
-    console.log(res);
+    const res = await profileStore.handleAddEducation()
+    await profileStore.userProfile()
+    changeScreen(2, 0)
+    return res
   } catch (error) {
-    console.log(error);
+    console.log(error)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 const updateEducationDetails = async () => {
-  loading.value = true;
-  let educationID = formState.value.id;
+  loading.value = true
+  let educationID = formState.value.id
   // let startDate = dayjs(formState.value.start_date).format("DD-MM-YYYY");
   // let endDate = dayjs(formState.value.end_date).format("DD-MM-YYYY");
   let payload = {
@@ -76,76 +76,69 @@ const updateEducationDetails = async () => {
     description: formState.value.description,
     start_date: StartDate.value,
     end_date: EndDate.value,
-    currently_schooling_here: formState.value.currently_schooling_here,
-  };
+    currently_schooling_here: formState.value.currently_schooling_here
+  }
 
   try {
-    const res = await profileStore.handleUpdateEducation(educationID, payload);
-    await profileStore.userProfile();
-    changeScreen(1, 0);
-    console.log(res);
+    const res = await profileStore.handleUpdateEducation(educationID, payload)
+    await profileStore.userProfile()
+    changeScreen(1, 0)
+    return res
   } catch (error) {
-    console.log(error);
+    console.log(error)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 // const EndDateValue = computed(() => {
 //   return present.value ? " " : EndDate.value; // If checked, return " "
 // });
 const currentlySchoolingHere = computed(() => {
-  return present.value ? "till date" : "no"; //
-});
+  return present.value ? 'till date' : 'no' //
+})
 
 // Create computed properties to format and update StartDate and EndDate
 const StartDate = computed(() => {
-  return dayjs(formState.value.start_date).format("DD-MM-YYYY");
-});
+  return dayjs(formState.value.start_date).format('DD-MM-YYYY')
+})
 
 const EndDate = computed(() => {
-  return present.value
-    ? "00-01-0000"
-    : dayjs(formState.value.end_date).format("DD-MM-YYYY");
-});
+  return present.value ? '00-01-0000' : dayjs(formState.value.end_date).format('DD-MM-YYYY')
+})
 // Update employment_details.value.end_date when EndDate changes
 watch(EndDate, (newEndDate) => {
-  education.value.end_date = newEndDate;
-});
+  education.value.end_date = newEndDate
+})
 // Update employment_details.value.start_date when StartDate changes
 watch(StartDate, (newStartDate) => {
-  education.value.start_date = newStartDate;
-});
+  education.value.start_date = newStartDate
+})
 
 // Define a watcher to react to changes in SingleObject
 watch(SingleObject, (newSingleObject) => {
-  prefillDetails(newSingleObject);
-});
+  prefillDetails(newSingleObject)
+})
 watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
-  education.value.currently_schooling_here = newCurrentlySchoolingHere;
-});
+  education.value.currently_schooling_here = newCurrentlySchoolingHere
+})
 // onUpdated(async () => {
 //   await userProfile.userProfile();
 // });
 
 onMounted(async () => {
-  prefillDetails(SingleObject.value);
-  await userProfile.userProfile();
-});
+  prefillDetails(SingleObject.value)
+  await userProfile.userProfile()
+})
 </script>
 <template>
   <div class="">
     <div v-if="step[0]" class="flex flex-col gap-[66px]">
       <div class="flex flex-row justify-between items-center gap-[21px]">
-        <h4 class="text-[#000000] font-Satoshi500 text-[23.144px]">
-          Add educational details
-        </h4>
+        <h4 class="text-[#000000] font-Satoshi500 text-[23.144px]">Add educational details</h4>
         <button @click="handleAddNew"><CirclePlus /></button>
       </div>
       <div class="overflow-y-auto hide-scrollbar h-[24vh]">
-        <EducationDetails
-          :items="userProfile?.user?.data?.education"
-          @openEdit="handleOpenEdit"
-        />
+        <EducationDetails :items="userProfile?.user?.data?.education" @openEdit="handleOpenEdit" />
       </div>
     </div>
 
@@ -172,12 +165,8 @@ onMounted(async () => {
               type="text"
             />
           </div>
-          <div
-            class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1"
-          >
-            <label class="text-[#01272C] text-[10px] font-Satoshi400"
-              >Field of Study</label
-            >
+          <div class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1">
+            <label class="text-[#01272C] text-[10px] font-Satoshi400">Field of Study</label>
             <GlobalInput
               v-model="formState.field_of_study"
               inputClasses="bg-transparent border-none !p-0"
@@ -215,9 +204,7 @@ onMounted(async () => {
             class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
           >
             <div class="w-full flex flex-col gap-2 justify-between">
-              <label class="text-[#01272C] text-[10px] font-Satoshi400"
-                >Description</label
-              >
+              <label class="text-[#01272C] text-[10px] font-Satoshi400">Description</label>
               <textarea
                 v-model="formState.description"
                 rows="4"
@@ -272,12 +259,8 @@ onMounted(async () => {
               type="text"
             />
           </div>
-          <div
-            class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1"
-          >
-            <label class="text-[#01272C] text-[12px] font-Satoshi400"
-              >Field of Study</label
-            >
+          <div class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1">
+            <label class="text-[#01272C] text-[12px] font-Satoshi400">Field of Study</label>
             <GlobalInput
               v-model="education.field_of_study"
               inputClasses="bg-transparent border-none !p-0"
@@ -313,9 +296,7 @@ onMounted(async () => {
             class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
           >
             <div class="w-full flex flex-col gap-2 justify-between">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-                >Description</label
-              >
+              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Description</label>
               <textarea
                 v-model="education.description"
                 rows="4"

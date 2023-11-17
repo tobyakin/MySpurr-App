@@ -1,5 +1,5 @@
 <script setup>
-import Loader from "@/components/ui/Loader.vue";
+import Loader from "@/components/ui/Loader/Loader.vue";
 </script>
 
 <template>

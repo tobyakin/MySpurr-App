@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import LogoIcon from "@/components/icons/logoIcon.vue";
 import JobCard from "@/components/ui/Jobs/JobCard.vue";
@@ -10,11 +10,14 @@ import CourseCard from "@/components/ui/CourseCard.vue";
 import ArticleCard from "@/components/ui/ArticleCard.vue";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
-import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue";
+// import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue";
 import BusinessValuesCard from "@/components/ui/Cards/BusinessValuesCard.vue";
 import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
+import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 let store = useStore();
 let profile = useUserProfile();
+const showPageLoader = ref(true);
+
 const userDetails = computed(() => {
   return profile.user.data;
 });
@@ -27,16 +30,26 @@ onMounted(() => {
 onMounted(() => {
   return accountType;
 });
-const isOnBoarded = computed(() => profile.user);
+// const isOnBoarded = computed(() => profile.user);
+// onMounted(async () => {
+//   await profile.userProfile();
+//   console.log(isOnBoarded.value.work_details);
+// });
 onMounted(async () => {
-  await profile.userProfile();
-  console.log(isOnBoarded.value.work_details);
+  try {
+    await profile.userProfile();
+  } catch (error) {
+    /* empty */
+  } finally {
+    showPageLoader.value = !showPageLoader.value;
+  }
 });
 //!isOnBoarded.portofolio;
 </script>
 
 <template>
   <DashboardLayout>
+    <PagePreLoader v-if="showPageLoader" />
     <slot></slot>
     <!-- <OnboardingRequest
       v-if="isOnBoarded && !isOnBoarded.business_details && !isOnBoarded.work_details"
