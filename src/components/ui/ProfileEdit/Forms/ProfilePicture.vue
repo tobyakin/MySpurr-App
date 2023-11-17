@@ -1,6 +1,6 @@
 <script setup>
 import UserAvater from "../../Avater/UserAvater.vue";
-import { ref, onMounted, computed, watch, onUpdated } from "vue";
+import { ref, onMounted, computed, watch, onUpdated, onBeforeMount } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
@@ -74,6 +74,9 @@ const emit = defineEmits(["closeModal"]);
 const closeModal = () => {
   emit("closeModal");
 };
+onBeforeMount(async () => {
+  await profileStore.userProfile();
+});
 </script>
 <template>
   <div class="flex flex-col justify-center items-center gap-[40px]">

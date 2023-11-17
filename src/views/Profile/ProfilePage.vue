@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUpdated } from "vue";
+import { ref, computed, onMounted, onUpdated, onBeforeMount } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
 import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
@@ -99,6 +99,9 @@ onUpdated(async () => {
 onMounted(async () => {
   await profile.userProfile();
 });
+onBeforeMount(async () => {
+  await profile.userProfile();
+});
 </script>
 
 <template>
@@ -190,7 +193,9 @@ onMounted(async () => {
                 <EditIcon class="text-[#297F88]" />
               </button>
             </div>
-            <div class="text-[#000000BF] font-Satoshi400 text-[16px] mt-4 leading-[35px]">
+            <div
+              class="text-[#000000BF] font-Satoshi400 text-justify text-[16px] mt-4 leading-[35px]"
+            >
               <p>{{ userDetails?.overview }}</p>
               <!-- <p class="mt-4"></p> -->
               <!-- .slice(0, 10) -->

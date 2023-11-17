@@ -27,7 +27,9 @@ export const updateProfilePhoto = async (payload) => {
   try {
     let res = await axios.patch(`update-photo`, payload, {
       headers: {
-        Authorization: 'Bearer ' + token
+        Authorization: 'Bearer ' + token,
+        'Transfer-Encoding': 'chunked',
+        'Content-Type': 'application/json'
       }
     })
     catchAxiosSuccess(res)
