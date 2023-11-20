@@ -68,13 +68,18 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, defineProps, defineEmits } from "vue";
+import { ref, computed, onMounted, defineProps, defineEmits, onUpdated } from "vue";
 import { useUserProfile } from "@/stores/profile";
 
 let profile = useUserProfile();
-onMounted(() => {
-  return profile.userProfile();
+onMounted(async () => {
+  await profile.userProfile();
 });
+onUpdated(async () => {
+  await profile.userProfile();
+  return userDetails.value?.image;
+});
+
 const userDetails = computed(() => {
   return profile.user.data;
 });

@@ -6,7 +6,7 @@ import WalletIcon from "@/components/icons/walletIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
 import Dropdown from "@/components/ui/DropDown.vue";
 import NotificationDropDown from "@/components/ui/NotificationDropDown.vue";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUpdated } from "vue";
 import "animate.css";
 import { useRouter } from "vue-router";
 import { useUserProfile } from "@/stores/profile";
@@ -94,6 +94,10 @@ const redirectToBookmark = () => {
 };
 onMounted(async () => {
   await profileStore.userProfile();
+});
+onUpdated(async () => {
+  await profileStore.userProfile();
+  return userDetails.value?.image;
 });
 </script>
 
