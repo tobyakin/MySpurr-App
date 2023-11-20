@@ -64,7 +64,7 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
 </script>
 
 <template>
-  <form class="lg:w-[40%] animate__animated animate__fadeIn">
+  <div class="lg:w-[40%] animate__animated animate__fadeIn">
     <div class="w-auto">
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Educational details
@@ -183,5 +183,5 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
         Next
       </button>
     </div>
-  </form>
+  </div>
 </template>

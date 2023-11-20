@@ -1,45 +1,45 @@
 <script setup>
-import { ref, onMounted, watch, reactive, computed } from 'vue'
-import { useOnboardingStore } from '@/stores/onBoarding'
-import { useStore } from '@/stores/user'
-import { useUserProfile } from '@/stores/profile'
-import GlobalInput from '@/components/ui/Form/Input/GlobalInput.vue'
-import { storeToRefs } from 'pinia'
-const userProfile = useUserProfile()
-const OnboardingStore = useOnboardingStore()
-const { user } = storeToRefs(userProfile)
-const { step, businessDetails } = storeToRefs(OnboardingStore)
+import { ref, onMounted, watch, reactive, computed } from "vue";
+import { useOnboardingStore } from "@/stores/onBoarding";
+import { useStore } from "@/stores/user";
+import { useUserProfile } from "@/stores/profile";
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+import { storeToRefs } from "pinia";
+const userProfile = useUserProfile();
+const OnboardingStore = useOnboardingStore();
+const { user } = storeToRefs(userProfile);
+const { step, businessDetails } = storeToRefs(OnboardingStore);
 
-let store = useStore()
-const emit = defineEmits('next')
+let store = useStore();
+const emit = defineEmits("next");
 const formState = ref({
-  business_name: '',
+  business_name: "",
   // top_skills: "",
-  location: '',
-  industry: '',
-  website: '',
-  business_service: '',
-  business_email: '',
-  about_business: ''
-})
+  location: "",
+  industry: "",
+  website: "",
+  business_service: "",
+  business_email: "",
+  about_business: "",
+});
 
 const isFormValid = computed(() => {
   return (
-    formState.value.business_name.trim() !== '' &&
-    formState.value.location.trim() !== '' &&
-    formState.value.industry.trim() !== '' &&
-    formState.value.website.trim() !== '' &&
-    formState.value.business_service.trim() !== '' &&
-    formState.value.business_email.trim() !== '' &&
-    formState.value.about_business.trim() !== ''
-  )
-})
+    formState.value.business_name.trim() !== "" &&
+    formState.value.location.trim() !== "" &&
+    formState.value.industry.trim() !== "" &&
+    formState.value.website.trim() !== "" &&
+    formState.value.business_service.trim() !== "" &&
+    formState.value.business_email.trim() !== "" &&
+    formState.value.about_business.trim() !== ""
+  );
+});
 
 const next = () => {
-  emit('next', step.value + 1)
-}
+  emit("next", step.value + 1);
+};
 const onFinish = async () => {
-  console.log(formState)
+  console.log(formState);
   let payload = {
     business_name: formState.value.business_name,
     // top_skills: formState.top_skills,
@@ -48,25 +48,25 @@ const onFinish = async () => {
     website: formState.value.website,
     business_service: formState.value.business_service,
     business_email: formState.value.business_email,
-    about_business: formState.value.about_business
-  }
+    about_business: formState.value.about_business,
+  };
   try {
-    const res = await OnboardingStore.submitBusinessDetails(payload)
-    return res
-    next()
+    const res = await OnboardingStore.submitBusinessDetails(payload);
+    next();
+    return res;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 const prefillDetails = () => {
-  formState.value.business_name = userProfile.user?.data?.business_name || ''
-  formState.value.business_email = userProfile.user?.data?.email || ''
-}
+  formState.value.business_name = userProfile.user?.data?.business_name || "";
+  formState.value.business_email = userProfile.user?.data?.email || "";
+};
 
 onMounted(async () => {
-  prefillDetails()
-  await userProfile.userProfile()
-})
+  prefillDetails();
+  await userProfile.userProfile();
+});
 </script>
 
 <template>
@@ -75,7 +75,9 @@ onMounted(async () => {
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Your business details
       </h1>
-      <p class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8">
+      <p
+        class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
+      >
         Please provide your business details, they will be used to
         <br class="lg:block hidden" />
         complete your profile on MySpurr.
@@ -84,7 +86,9 @@ onMounted(async () => {
         class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto py-12 hide-scrollbar overflow-hidden"
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Business name</label>
+          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
+            >Business name</label
+          >
           <input
             class="w-full font-light font-Satoshi400 text-[14px] !p-2 bg-transparent border-none opacity-[0.8029] rounded-[4.074px] text-sm"
             v-model="formState.business_name"
@@ -97,8 +101,12 @@ onMounted(async () => {
             type="text"
           /> -->
         </div>
-        <div class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"> Top skills</label>
+        <div
+          class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+        >
+          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">
+            Top skills</label
+          >
           <GlobalInput
             v-model="formState.top_skills"
             inputClasses="bg-transparent border-none"
@@ -124,7 +132,9 @@ onMounted(async () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">About your business</label>
+          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
+            >About your business</label
+          >
           <textarea
             v-model="formState.about_business"
             rows="4"
@@ -143,7 +153,9 @@ onMounted(async () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Business services</label>
+          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
+            >Business services</label
+          >
           <GlobalInput
             v-model="formState.business_service"
             inputClasses="bg-transparent border-none"
