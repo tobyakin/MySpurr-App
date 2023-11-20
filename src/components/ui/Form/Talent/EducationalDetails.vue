@@ -43,7 +43,7 @@ const EndDate = computed(() => {
   return dayjs(formState.value.end_date).format("YYYY-MM-DD");
 });
 const EndDateValue = computed(() => {
-  return present.value ? "00-01-0000" : EndDate.value; // If checked, return " "
+  return present.value ? "11-11-1111" : EndDate.value; // If checked, return " "
 });
 const currentlySchoolingHere = computed(() => {
   return present.value ? "till date" : "no"; //

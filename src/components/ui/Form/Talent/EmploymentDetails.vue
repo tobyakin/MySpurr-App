@@ -62,7 +62,7 @@ const currentlyWorkingHere = computed(() => {
   return present.value ? "till date" : "no"; //
 });
 const EndDateValue = computed(() => {
-  return present.value ? "00-01-0000" : EndDate.value; // If checked, return " "
+  return present.value ? "11-11-1111" : EndDate.value; // If checked, return " "
 });
 
 // Update employment_details.value.end_date when EndDate changes
