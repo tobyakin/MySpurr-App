@@ -1,18 +1,16 @@
 <script setup>
-import { ref, onMounted, watch, computed, defineAsyncComponent, reactive } from "vue";
-import { useOnboardingStore } from "@/stores/onBoarding";
+import { ref, onMounted, watch, computed, defineAsyncComponent, reactive } from 'vue'
+import { useOnboardingStore } from '@/stores/onBoarding'
 // import { useStore } from "@/stores/user";
-import { useSkillsStore } from "@/stores/skills";
-import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
-import { storeToRefs } from "pinia";
-import Multiselect from "vue-multiselect";
-const skillsStore = useSkillsStore();
-const { skills, jobTitle } = storeToRefs(skillsStore);
+import { useSkillsStore } from '@/stores/skills'
+import GlobalInput from '@/components/ui/Form/Input/GlobalInput.vue'
+import { storeToRefs } from 'pinia'
+import Multiselect from 'vue-multiselect'
+const skillsStore = useSkillsStore()
+const { skills, jobTitle } = storeToRefs(skillsStore)
 
-const OnboardingStore = useOnboardingStore();
-const SelectGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/SelectGroup.vue")
-);
+const OnboardingStore = useOnboardingStore()
+const SelectGroup = defineAsyncComponent(() => import('@/components/ui/Form/Input/SelectGroup.vue'))
 
 const {
   step,
@@ -23,23 +21,17 @@ const {
   rate,
   availability,
   top_skills,
-  employment_type,
-} = storeToRefs(OnboardingStore);
+  employment_type
+} = storeToRefs(OnboardingStore)
 // let store = useStore();
-// console.log(store.getUser);
+//
 // let loading = ref(false);
-const availabilityData = ["Immediately", "One week"];
-const employmentType = [
-  "Freelance",
-  "Full-time ",
-  "Part-time ",
-  "Internship ",
-  "Contract ",
-];
-let options = ref([]);
-let skillTitles = ref([]);
+const availabilityData = ['Immediately', 'One week']
+const employmentType = ['Freelance', 'Full-time ', 'Part-time ', 'Internship ', 'Contract ']
+let options = ref([])
+let skillTitles = ref([])
 
-const educationLevel = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
+const educationLevel = ['Certificate', 'Bachelors', 'Masters ', 'Doctorate ']
 
 // const addTag = (newTagName) => {
 //   const tag = {
@@ -60,128 +52,126 @@ const educationLevel = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
 //   console.log("options", skills.value.data);
 // });
 
-const emit = defineEmits("next");
+const emit = defineEmits('next')
 const isFormValid = computed(() => {
   return (
     // skill_title.value.trim() !== "" &&
     top_skills.value.length >= 0 && // Check if top_skills is not empty
-    highest_education.value.trim() !== "" &&
-    overview.value.trim() !== "" &&
-    location.value.trim() !== "" &&
-    rate.value.trim() !== "" &&
-    employment_type.value.trim() !== "" &&
-    availability.value.trim() !== ""
-  );
-});
+    highest_education.value.trim() !== '' &&
+    overview.value.trim() !== '' &&
+    location.value.trim() !== '' &&
+    rate.value.trim() !== '' &&
+    employment_type.value.trim() !== '' &&
+    availability.value.trim() !== ''
+  )
+})
 
 const next = () => {
-  emit("next", step.value + 1);
-};
+  emit('next', step.value + 1)
+}
 onMounted(async () => {
-  await skillsStore.getskills();
-  await skillsStore.getJobTitles();
-  options.value = skills.value.data;
-  skillTitles.value = jobTitle.value.data;
-});
+  await skillsStore.getskills()
+  await skillsStore.getJobTitles()
+  options.value = skills.value.data
+  skillTitles.value = jobTitle.value.data
+})
 
-const showJobTitleDropdown = ref(false);
-const highlightedJobTitleIndex = ref(-1);
+const showJobTitleDropdown = ref(false)
+const highlightedJobTitleIndex = ref(-1)
 
 const filteredOptionsJobTitle = computed(() => {
-  const searchJobTitle = skill_title.value.toLowerCase();
-  return skillTitles.value.filter((option) =>
-    option.name.toLowerCase().includes(searchJobTitle)
-  );
-});
+  const searchJobTitle = skill_title.value.toLowerCase()
+  return skillTitles.value.filter((option) => option.name.toLowerCase().includes(searchJobTitle))
+})
 
 const filterJobTitleOptions = () => {
-  showJobTitleDropdown.value = true;
-  highlightedJobTitleIndex.value = -1;
-};
+  showJobTitleDropdown.value = true
+  highlightedJobTitleIndex.value = -1
+}
 
 const selectJobTitleOptions = (option) => {
-  skill_title.value = option.name;
-  showJobTitleDropdown.value = false;
-};
+  skill_title.value = option.name
+  showJobTitleDropdown.value = false
+}
 
 const highlightNextJobTitle = () => {
   if (highlightedJobTitleIndex.value < filteredOptionsJobTitle.value.length - 1) {
-    highlightedJobTitleIndex.value++;
+    highlightedJobTitleIndex.value++
   }
-};
+}
 
 const highlightPreviousJobTitle = () => {
   if (highlightedJobTitleIndex.value > 0) {
-    highlightedJobTitleIndex.value--;
+    highlightedJobTitleIndex.value--
   }
-};
+}
 
 const selectHighlightedJobTitleOption = () => {
   if (highlightedJobTitleIndex.value >= 0) {
-    selectJobTitleOptions(filteredOptionsJobTitle.value[highlightedJobTitleIndex.value]);
+    selectJobTitleOptions(filteredOptionsJobTitle.value[highlightedJobTitleIndex.value])
   }
-};
+}
 // multi select
-const search = ref("");
-const showDropdown = ref(false);
-const highlightedIndex = ref(-1);
+const search = ref('')
+const showDropdown = ref(false)
+const highlightedIndex = ref(-1)
 
 const filteredOptions = computed(() => {
-  const searchTerm = search.value.toLowerCase();
-  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
-});
+  const searchTerm = search.value.toLowerCase()
+  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm))
+})
 
 const filterOptions = () => {
-  showDropdown.value = true;
-  highlightedIndex.value = -1;
-};
+  showDropdown.value = true
+  highlightedIndex.value = -1
+}
 const placeholderText = computed(() => {
-  return top_skills.value.length >= 3 ? "" : "select your top skills Ex. Graphics Design";
-});
+  return top_skills.value.length >= 3 ? '' : 'select your top skills Ex. Graphics Design'
+})
 const shouldDisplayInput = computed(() => {
-  return top_skills.value.length < 3;
-});
+  return top_skills.value.length < 3
+})
 
 const selectOption = (option) => {
   if (top_skills.value.length < 3) {
-    search.value = "";
-    showDropdown.value = false;
-    highlightedIndex.value = -1;
-    top_skills.value.push(option);
+    search.value = ''
+    showDropdown.value = false
+    highlightedIndex.value = -1
+    top_skills.value.push(option)
   }
-};
+}
 
 const removeSelectedItem = (index) => {
-  top_skills.value.splice(index, 1);
-};
+  top_skills.value.splice(index, 1)
+}
 
 const highlightNext = () => {
   if (highlightedIndex.value < filteredOptions.value.length - 1) {
-    highlightedIndex.value++;
+    highlightedIndex.value++
   }
-};
+}
 
 const highlightPrevious = () => {
   if (highlightedIndex.value > 0) {
-    highlightedIndex.value--;
+    highlightedIndex.value--
   }
-};
+}
 const getNextId = () => {
-  const ids = options.value.map((option) => parseInt(option.id));
-  const maxId = Math.max(...ids);
-  return (maxId + 1).toString();
-};
+  const ids = options.value.map((option) => parseInt(option.id))
+  const maxId = Math.max(...ids)
+  return (maxId + 1).toString()
+}
 
 const selectHighlightedOption = () => {
   if (highlightedIndex.value >= 0) {
-    selectOption(filteredOptions.value[highlightedIndex.value]);
+    selectOption(filteredOptions.value[highlightedIndex.value])
   } else if (search.value && !filteredOptions.value.length) {
     // If no options match the search term, add the typed item to the list
-    const nextId = getNextId();
+    const nextId = getNextId()
 
-    selectOption({ id: nextId, name: search.value });
+    selectOption({ id: nextId, name: search.value })
   }
-};
+}
 </script>
 
 <template>
@@ -190,19 +180,15 @@ const selectHighlightedOption = () => {
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Your work details
       </h1>
-      <p
-        class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 !my-4 md:!mb-8"
-      >
-        Please provide details to your most recent work detail. You will have a chance to
-        add to this when your onboarding as been completed
+      <p class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 !my-4 md:!mb-8">
+        Please provide details to your most recent work detail. You will have a chance to add to
+        this when your onboarding as been completed
       </p>
       <div
         class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Skill title</label
-          >
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Skill title</label>
           <div class="relative">
             <GlobalInput
               v-model="skill_title"
@@ -351,9 +337,7 @@ const selectHighlightedOption = () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Employment type
-          </label>
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Employment type </label>
           <SelectGroup
             v-model="employment_type"
             DropdownItem=""
@@ -364,9 +348,7 @@ const selectHighlightedOption = () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Availability
-          </label>
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Availability </label>
           <SelectGroup
             v-model="availability"
             DropdownItem=""
@@ -377,9 +359,7 @@ const selectHighlightedOption = () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Rate /hr ($)</label
-          >
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Rate /hr ($)</label>
           <GlobalInput
             v-model="rate"
             inputClasses="bg-transparent border-none"

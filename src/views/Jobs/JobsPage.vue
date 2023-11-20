@@ -1,131 +1,129 @@
 <script setup>
-import { defineAsyncComponent, ref, computed, reactive, watch } from "vue";
-import { storeToRefs } from "pinia";
-import VueSlider from "vue-slider-component";
-import "vue-slider-component/theme/antd.css";
-import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
-import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import { useStore } from "@/stores/user";
-import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
-import Arrow from "@/components/icons/paginationArrow.vue";
-import Tabs from "@/components/ui/Jobs/Tabs.vue";
-import { useJobsStore } from "@/stores/jobs";
-const jobsStore = useJobsStore();
-const { Job } = storeToRefs(jobsStore);
+import { defineAsyncComponent, ref, computed, reactive, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/antd.css'
+import SelectGroup from '@/components/ui/Form/Input/SelectGroup.vue'
+import DashboardLayout from '@/components/layout/dashboardLayout.vue'
+import { useStore } from '@/stores/user'
+import JobRowCard from '@/components/ui/Jobs/JobRowCard.vue'
+import Arrow from '@/components/icons/paginationArrow.vue'
+import Tabs from '@/components/ui/Jobs/Tabs.vue'
+import { useJobsStore } from '@/stores/jobs'
+const jobsStore = useJobsStore()
+const { Job } = storeToRefs(jobsStore)
 
-const FormGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/FormGroup.vue")
-);
-const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
+const FormGroup = defineAsyncComponent(() => import('@/components/ui/Form/Input/FormGroup.vue'))
+const Label = defineAsyncComponent(() => import('@/components/ui/Form/Input/Label.vue'))
 
-let store = useStore();
-console.log(store.getUser);
+let store = useStore()
+
 const sortInput = reactive({
-  name: "",
-  jobType: "",
-  Location: "",
-  experienceLevel: "",
-  Category: "",
-});
-let start = ref(10);
-let end = ref(10000000);
-let range = ref([start.value, end.value]);
+  name: '',
+  jobType: '',
+  Location: '',
+  experienceLevel: '',
+  Category: ''
+})
+let start = ref(10)
+let end = ref(10000000)
+let range = ref([start.value, end.value])
 
 const updateRange = (value) => {
-  start.value = value[0];
-  end.value = value[1];
-};
+  start.value = value[0]
+  end.value = value[1]
+}
 
 // Create a computed property to synchronize the range with start and end
 const computedRange = computed(() => {
-  return [start.value, end.value];
-});
+  return [start.value, end.value]
+})
 
 // Watch for changes in the computedRange and update the range
 watch(computedRange, (newRange) => {
-  range.value = newRange;
-});
+  range.value = newRange
+})
 
 // Watch for changes in the range and update start and end
 watch(range, (newRange) => {
-  updateRange(newRange);
-});
+  updateRange(newRange)
+})
 
 const jobsdata = [
   {
     company_image: null,
-    company_name: "MySpurr",
+    company_name: 'MySpurr',
     verify: false,
-    job_title: "Software Engineer",
-    skills: [{ name: "React" }, { name: "NodeJS" }, { name: "MongoDB" }],
-    employee_type: "Part-Time",
-    location: "Remote",
-    rate: " $30 - $50 / hour",
-    weekly_hours: "20 hrs/week",
+    job_title: 'Software Engineer',
+    skills: [{ name: 'React' }, { name: 'NodeJS' }, { name: 'MongoDB' }],
+    employee_type: 'Part-Time',
+    location: 'Remote',
+    rate: ' $30 - $50 / hour',
+    weekly_hours: '20 hrs/week',
     availablity: true,
-    match: true,
+    match: true
   },
   {
     company_image: null,
-    company_name: "Trigo meadia",
+    company_name: 'Trigo meadia',
     verify: true,
-    job_title: " Developer in java c++kk",
-    skills: [{ name: "React" }, { name: "NodeJS" }, { name: "MongoDB" }],
-    employee_type: "Full-Time",
-    location: "Remote",
-    rate: " $30 - $50 / hour",
-    weekly_hours: "30 hrs/week",
+    job_title: ' Developer in java c++kk',
+    skills: [{ name: 'React' }, { name: 'NodeJS' }, { name: 'MongoDB' }],
+    employee_type: 'Full-Time',
+    location: 'Remote',
+    rate: ' $30 - $50 / hour',
+    weekly_hours: '30 hrs/week',
     availablity: true,
-    match: false,
+    match: false
   },
   {
     company_image: null,
-    company_name: "Kavlr.io",
+    company_name: 'Kavlr.io',
     verify: false,
-    job_title: "Vue Developer",
-    skills: [{ name: "React" }, { name: "NodeJS" }, { name: "MongoDB" }],
-    employee_type: "Full-Time",
-    location: "Remote",
-    rate: " $230 - $500 / hour",
-    weekly_hours: "50 hrs/week",
+    job_title: 'Vue Developer',
+    skills: [{ name: 'React' }, { name: 'NodeJS' }, { name: 'MongoDB' }],
+    employee_type: 'Full-Time',
+    location: 'Remote',
+    rate: ' $230 - $500 / hour',
+    weekly_hours: '50 hrs/week',
     availablity: true,
-    match: true,
-  },
-];
-const currentPage = ref(1);
+    match: true
+  }
+]
+const currentPage = ref(1)
 
 // Create a computed property to paginate the talent data
 const paginatedTalent = computed(() => {
-  const perPage = 2;
-  const startIndex = (currentPage.value - 1) * perPage;
-  const endIndex = startIndex + perPage;
-  return jobsdata.slice(startIndex, endIndex);
-});
-const totalPages = computed(() => Math.ceil(jobsdata.length / 2));
+  const perPage = 2
+  const startIndex = (currentPage.value - 1) * perPage
+  const endIndex = startIndex + perPage
+  return jobsdata.slice(startIndex, endIndex)
+})
+const totalPages = computed(() => Math.ceil(jobsdata.length / 2))
 
 // Function to change the current page
 const setPage = (page) => {
   if (page >= 1 && page <= (2 || 1)) {
-    currentPage.value = page;
+    currentPage.value = page
   }
-};
+}
 const displayedPageNumbers = computed(() => {
-  const maxDisplayedPages = 4;
-  const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1);
-  const endPage = Math.min(startPage + maxDisplayedPages - 1, totalPages.value);
-  const pageNumbers = [];
+  const maxDisplayedPages = 4
+  const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1)
+  const endPage = Math.min(startPage + maxDisplayedPages - 1, totalPages.value)
+  const pageNumbers = []
 
   for (let i = startPage; i <= endPage; i++) {
-    pageNumbers.push(i);
+    pageNumbers.push(i)
   }
 
-  return pageNumbers;
-});
+  return pageNumbers
+})
 
 // You can also watch the currentPage to react to page changes
 watch(currentPage, (newPage) => {
-  console.log("Current Page:", newPage);
-});
+  console.log('Current Page:', newPage)
+})
 </script>
 
 <template>
@@ -216,11 +214,7 @@ watch(currentPage, (newPage) => {
                   </div>
                 </div>
                 <div>
-                  <vue-slider
-                    v-model="range"
-                    :tooltip="'none'"
-                    :enable-cross="false"
-                  ></vue-slider>
+                  <vue-slider v-model="range" :tooltip="'none'" :enable-cross="false"></vue-slider>
                 </div>
               </div>
             </div>
@@ -250,7 +244,7 @@ watch(currentPage, (newPage) => {
                 pageNumber === 1
                   ? 'border-t-2 border-b-2 border-l-2 rounded-l-[6.032px]'
                   : 'border-y-2 border-r-2',
-                pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
+                pageNumber === currentPage ? 'bg-[#007582] text-white' : ''
               ]"
               @click="setPage(pageNumber)"
             >

@@ -1,13 +1,10 @@
 <script setup>
-import { defineAsyncComponent } from "vue";
-import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-const FormGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/FormGroup.vue")
-);
+import { defineAsyncComponent } from 'vue'
+import DashboardLayout from '@/components/layout/dashboardLayout.vue'
+const FormGroup = defineAsyncComponent(() => import('@/components/ui/Form/Input/FormGroup.vue'))
 
-import { useStore } from "@/stores/user";
-let store = useStore();
-console.log(store.getUser);
+import { useStore } from '@/stores/user'
+let store = useStore()
 </script>
 
 <template>
@@ -26,8 +23,7 @@ console.log(store.getUser);
         >
       </p>
       <p class="text-[#244034] text-[17.633px] mt-6 leading-[27.356px] font-Satoshi400">
-        We also love amazing partnerships, so if you can help to making MySpurr courses
-        work, <br />
+        We also love amazing partnerships, so if you can help to making MySpurr courses work, <br />
         be sure to get in touch.
       </p>
       <p class="text-[#244034] text-[17.633px] mt-6 leading-[27.356px] font-Satoshi400">

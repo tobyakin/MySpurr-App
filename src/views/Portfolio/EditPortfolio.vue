@@ -201,7 +201,6 @@ onMounted(async () => {
   SingleCertificateObject.value =
     userProfile?.user?.data?.portfolio[portfolioID.value - 1];
   await userProfile.userProfile();
-  console.log(SingleCertificateObject.value);
 });
 </script>
 

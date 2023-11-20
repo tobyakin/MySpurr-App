@@ -1,33 +1,28 @@
 <script setup>
-import { defineAsyncComponent, ref, computed, reactive, watch } from "vue";
-import { storeToRefs } from "pinia";
-import VueSlider from "vue-slider-component";
-import "vue-slider-component/theme/antd.css";
-import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
-import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import { useStore } from "@/stores/user";
-import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
-import Arrow from "@/components/icons/paginationArrow.vue";
-import Tabs from "@/components/ui/Jobs/Tabs.vue";
-import { useJobsStore } from "@/stores/jobs";
-const jobsStore = useJobsStore();
-const { Job } = storeToRefs(jobsStore);
+import { defineAsyncComponent, ref, computed, reactive, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/antd.css'
+import SelectGroup from '@/components/ui/Form/Input/SelectGroup.vue'
+import DashboardLayout from '@/components/layout/dashboardLayout.vue'
+import { useStore } from '@/stores/user'
+import JobRowCard from '@/components/ui/Jobs/JobRowCard.vue'
+import Arrow from '@/components/icons/paginationArrow.vue'
+import Tabs from '@/components/ui/Jobs/Tabs.vue'
+import { useJobsStore } from '@/stores/jobs'
+const jobsStore = useJobsStore()
+const { Job } = storeToRefs(jobsStore)
 
-const FormGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/FormGroup.vue")
-);
-const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
+const FormGroup = defineAsyncComponent(() => import('@/components/ui/Form/Input/FormGroup.vue'))
+const Label = defineAsyncComponent(() => import('@/components/ui/Form/Input/Label.vue'))
 
-let store = useStore();
-console.log(store.getUser);
+let store = useStore()
 </script>
 
 <template>
   <DashboardLayout>
     <div class="container lg:py-3 py-4 mb-20">
-      <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">
-        Job Details
-      </h4>
+      <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">Job Details</h4>
       <div class="mt-8 flex flex-col gap-8">
         <FormGroup
           labelClasses="font-Satoshi500 !text-[17.792px]"

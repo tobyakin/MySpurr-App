@@ -22,7 +22,6 @@ const FormGroup = defineAsyncComponent(() =>
 );
 const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
 let store = useStore();
-console.log(store.getUser, portfolio);
 
 // add tag
 let options = ref([

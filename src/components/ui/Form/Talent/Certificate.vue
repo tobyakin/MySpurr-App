@@ -1,67 +1,67 @@
 <script setup>
-import { ref, computed, watch } from "vue";
-import { useOnboardingStore } from "@/stores/onBoarding";
-import { useStore } from "@/stores/user";
-import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
-import { storeToRefs } from "pinia";
-import dayjs from "dayjs";
-import { useUserProfile } from "@/stores/profile";
-const OnboardingStore = useOnboardingStore();
-let profile = useUserProfile();
+import { ref, computed, watch } from 'vue'
+import { useOnboardingStore } from '@/stores/onBoarding'
+import { useStore } from '@/stores/user'
+import GlobalInput from '@/components/ui/Form/Input/GlobalInput.vue'
+import { storeToRefs } from 'pinia'
+import dayjs from 'dayjs'
+import { useUserProfile } from '@/stores/profile'
+const OnboardingStore = useOnboardingStore()
+let profile = useUserProfile()
 
-const { step, certificate } = storeToRefs(OnboardingStore);
-let store = useStore();
-console.log(store.getUser);
-let loading = ref(false);
+const { step, certificate } = storeToRefs(OnboardingStore)
+let store = useStore()
 
-const emit = defineEmits("next", "prev");
+let loading = ref(false)
+
+const emit = defineEmits('next', 'prev')
 const formState = ref({
-  certificate_date: "",
-  certificate_year: "",
-});
+  certificate_date: '',
+  certificate_year: ''
+})
 const isFormValid = computed(() => {
   return (
-    certificate.value.title.trim() !== "" &&
-    certificate.value.institute.trim() !== "" &&
-    certificate.value.certificate_date.trim() !== "" &&
-    certificate.value.certificate_year.trim() !== ""
-  );
-});
+    certificate.value.title.trim() !== '' &&
+    certificate.value.institute.trim() !== '' &&
+    certificate.value.certificate_date.trim() !== '' &&
+    certificate.value.certificate_year.trim() !== ''
+  )
+})
 
 const next = () => {
-  emit("next", step.value + 1);
-};
+  emit('next', step.value + 1)
+}
 const prev = () => {
-  emit("prev", step.value - 1);
-};
+  emit('prev', step.value - 1)
+}
 
 const onFinish = async () => {
-  loading.value = true;
+  loading.value = true
   try {
-    const res = await OnboardingStore.submitTalentWorkDetails();
-    profile.userProfile();
-    next();
-    return res;
+    const res = await OnboardingStore.submitTalentWorkDetails()
+    profile.userProfile()
+    next()
+    return res
   } catch (error) {
-    console.log(error);
+    console.log(error)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 
 const CertificateDate = computed(() => {
-  return dayjs(formState.value.certificate_date).format("YYYY-MM-DD");
-});
+  return dayjs(formState.value.certificate_date).format('YYYY-MM-DD')
+})
 const CertificateYear = computed(() => {
-  return dayjs(formState.value.certificate_year).format("YYYY");
-});
+  return dayjs(formState.value.certificate_year).format('YYYY')
+})
 
 watch(CertificateDate, (newCertificateDate) => {
-  certificate.value.certificate_date = newCertificateDate;
-});
+  certificate.value.certificate_date = newCertificateDate
+})
 watch(CertificateYear, (newCertificateYear) => {
-  certificate.value.certificate_year = newCertificateYear;
-});
+  certificate.value.certificate_year = newCertificateYear
+})
 </script>
 
 <template>
@@ -70,11 +70,9 @@ watch(CertificateYear, (newCertificateYear) => {
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Certificate
       </h1>
-      <p
-        class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 my-4 md:!mb-8"
-      >
-        Please provide details fo your most recent certificate. You will have a chance to
-        add to this when your onboarding as been completed
+      <p class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 my-4 md:!mb-8">
+        Please provide details fo your most recent certificate. You will have a chance to add to
+        this when your onboarding as been completed
       </p>
       <div
         class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"

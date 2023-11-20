@@ -51,7 +51,6 @@ onMounted(() => {
 const isOnBoarded = computed(() => profile.user);
 onMounted(async () => {
   await profile.userProfile();
-  console.log(isOnBoarded.value.work_details);
 });
 
 const route = useRoute();

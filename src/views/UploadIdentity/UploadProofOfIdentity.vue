@@ -1,19 +1,17 @@
 <script setup>
-import { ref, defineAsyncComponent } from "vue";
-import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-const SelectGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/SelectGroup.vue")
-);
+import { ref, defineAsyncComponent } from 'vue'
+import DashboardLayout from '@/components/layout/dashboardLayout.vue'
+const SelectGroup = defineAsyncComponent(() => import('@/components/ui/Form/Input/SelectGroup.vue'))
 
-import { useStore } from "@/stores/user";
-let store = useStore();
-console.log(store.getUser);
-const steps = ref([true, false]);
+import { useStore } from '@/stores/user'
+let store = useStore()
+
+const steps = ref([true, false])
 
 const changeScreen = (from, to, type = null) => {
-  steps.value[from] = false;
-  steps.value[to] = true;
-};
+  steps.value[from] = false
+  steps.value[to] = true
+}
 </script>
 
 <template>
@@ -22,16 +20,11 @@ const changeScreen = (from, to, type = null) => {
       class="container flex flex-col lg:gap-[79.735px] gap-[40px] p-0 lg:p-6 lg:py-10 py-6 mb-10"
     >
       <div class="mt-10">
-        <p
-          class="lg:text-[40.705px] text-[23px] font-Satoshi400 text-center text-[#244034]"
-        >
+        <p class="lg:text-[40.705px] text-[23px] font-Satoshi400 text-center text-[#244034]">
           Upload a proof of your identity
         </p>
-        <p
-          class="lg:text-[25.382px] text-[15px] font-Satoshi400 text-center text-[#244034]"
-        >
-          MySpurr requires a valid government issue ID (drivers license, passport,
-          national ID)
+        <p class="lg:text-[25.382px] text-[15px] font-Satoshi400 text-center text-[#244034]">
+          MySpurr requires a valid government issue ID (drivers license, passport, national ID)
         </p>
       </div>
       <div class="flex lg:flex-row flex-col gap-10">
@@ -59,9 +52,7 @@ const changeScreen = (from, to, type = null) => {
           class="bg-[#EDF0B8] w-full border-dashed border-[#254035AB] items-center justify-center min-h-[268.976px] border-[1.789px] p-2 py-6 flex flex-col gap-10 text-center relative rounded-[5.982px] mt-3"
         >
           <div>
-            <p class="font-Satoshi500 text-[25.744px] text-[#000]">
-              Front side of your document
-            </p>
+            <p class="font-Satoshi500 text-[25.744px] text-[#000]">Front side of your document</p>
             <p class="text-[#000000] text-[13.314px] font-Satoshi500">
               Upload the front side of your document. <br />
               Supports JPG, PNG, PDF
@@ -78,9 +69,7 @@ const changeScreen = (from, to, type = null) => {
           class="bg-[#EDF0B8] w-full border-dashed border-[#254035AB] items-center justify-center min-h-[268.976px] border-[1.789px] p-2 py-6 flex flex-col gap-10 text-center relative rounded-[5.982px] mt-3"
         >
           <div>
-            <p class="font-Satoshi500 text-[25.744px] text-[#000]">
-              Back side of your document
-            </p>
+            <p class="font-Satoshi500 text-[25.744px] text-[#000]">Back side of your document</p>
             <p class="text-[#000000] text-[13.314px] font-Satoshi500">
               Upload the front side of your document. <br />
               Supports JPG, PNG, PDF
@@ -101,8 +90,8 @@ const changeScreen = (from, to, type = null) => {
           type="checkbox"
         />
         <label class="text-[#244034] px-2 lg:text-[25.382px] text-[13px] font-Satoshi400"
-          >I Confirm that I uploaded valid government-issued photo ID. This ID include my
-          picture, signature, name, date of birth, and address
+          >I Confirm that I uploaded valid government-issued photo ID. This ID include my picture,
+          signature, name, date of birth, and address
         </label>
       </div>
       <div class="w-full justify-center flex items-center">

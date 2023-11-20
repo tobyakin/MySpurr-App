@@ -58,7 +58,6 @@ const OnboardingStore = useOnboardingStore();
 const { step } = storeToRefs(OnboardingStore);
 const router = useRouter();
 let store = useStore();
-console.log(store.getUser);
 
 const prev = () => {
   if (step.value == 1) {

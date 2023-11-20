@@ -72,7 +72,6 @@ const addBankAccount = async () => {
 onMounted(async () => {
   await walletStore.getBanks();
   await profileStore.userProfile();
-  console.log(banks.value);
 });
 </script>
 <template>
