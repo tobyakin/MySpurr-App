@@ -75,8 +75,8 @@ let profile = useUserProfile();
 onMounted(async () => {
   await profile.userProfile();
 });
-onUpdated(async () => {
-  await profile.userProfile();
+onUpdated(() => {
+  // await profile.userProfile();
   return userDetails.value?.image;
 });
 

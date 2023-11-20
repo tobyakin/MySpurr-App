@@ -60,8 +60,8 @@ const userDetails = computed(() => {
 onMounted(() => {
   return profileStore.userProfile();
 });
-onUpdated(async () => {
-  await profileStore.userProfile();
+onUpdated(() => {
+  // await profileStore.userProfile();
   return userDetails.value;
 });
 
