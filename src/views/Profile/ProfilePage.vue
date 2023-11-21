@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUpdated, onBeforeMount } from "vue";
+import { ref, computed, onMounted, onUpdated, onBeforeMount, onBeforeUpdate } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
 import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
@@ -88,21 +88,24 @@ const redirectToSinglePortfolio = (id) => {
 //   return profile.userProfile();
 // });
 onUpdated(async () => {
-  await profile.userProfile();
+  try {
+    await profile.userProfile();
+  } catch (error) {
+    /* empty */
+  } finally {
+    /* empty */
+  }
 });
 
-// onMounted(async () => {
-//   await profile.userProfile();
-// });
-// onBeforeMount(async () => {
-//   try {
-//     await profile.userProfile();
-//   } catch (error) {
-//     /* empty */
-//   } finally {
-//     showPageLoader.value = !showPageLoader.value;
-//   }
-// });
+onBeforeUpdate(async () => {
+  try {
+    await profile.userProfile();
+  } catch (error) {
+    /* empty */
+  } finally {
+    /* empty */
+  }
+});
 onMounted(async () => {
   try {
     await profile.userProfile();
@@ -127,7 +130,7 @@ onMounted(async () => {
             class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
           >
             <EditProfileAvater
-              :imageUrl="userDetails?.image"
+              :imageUrl="profile?.user?.data?.image"
               @toggleModal="HandleToggleEditImageModal"
               inputClasses="!h-[89.536px] !w-[89.536px]"
               class=""

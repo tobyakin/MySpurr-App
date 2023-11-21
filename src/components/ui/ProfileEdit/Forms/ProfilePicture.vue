@@ -1,6 +1,6 @@
 <script setup>
 import UserAvater from "../../Avater/UserAvater.vue";
-import { ref, onMounted, computed, watch, onUpdated, onBeforeMount } from "vue";
+import { ref, onMounted, computed, watch, onUpdated, onBeforeMount, nextTick } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
@@ -67,6 +67,7 @@ onUpdated(() => {
 
 onMounted(async () => {
   await profileStore.userProfile();
+  await nextTick();
   return userDetails.value;
 });
 watch(profileImage, () => {});
@@ -77,6 +78,7 @@ const closeModal = () => {
 };
 onBeforeMount(async () => {
   await profileStore.userProfile();
+  await nextTick();
   return userDetails.value;
 });
 </script>
