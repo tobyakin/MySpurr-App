@@ -72,7 +72,12 @@ export const useUserProfile = defineStore('profile', () => {
     let payload = {
       image: profileImage.value
     }
-    updateProfilePhoto(payload)
+    try {
+      let res = await updateProfilePhoto(payload)
+      return res
+    } catch (error) {
+      /**/
+    }
   }
   const handleUpdateBio = async () => {
     let payload = {
@@ -136,12 +141,12 @@ export const useUserProfile = defineStore('profile', () => {
   }
   const handleAddCertificate = async () => {
     let payload = {
-        title: certificateDetails.value.title,
-        institute: certificateDetails.value.institute,
-        certificate_date: certificateDetails.value.certificate_date,
-        certificate_year: certificateDetails.value.certificate_year,
-        certificate_link: certificateDetails.value.certificate_link,
-        currently_working_here: certificateDetails.value.currently_working_here
+      title: certificateDetails.value.title,
+      institute: certificateDetails.value.institute,
+      certificate_date: certificateDetails.value.certificate_date,
+      certificate_year: certificateDetails.value.certificate_year,
+      certificate_link: certificateDetails.value.certificate_link,
+      currently_working_here: certificateDetails.value.currently_working_here
     }
     addCertificate(payload)
   }

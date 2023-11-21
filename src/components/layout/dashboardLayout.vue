@@ -97,7 +97,7 @@ onMounted(async () => {
   return userDetails.value?.image;
 });
 onUpdated(async () => {
-  await profileStore.userProfile();
+  // await profileStore.userProfile();
   return userDetails.value?.image;
 });
 </script>

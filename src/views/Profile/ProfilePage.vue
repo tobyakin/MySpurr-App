@@ -89,7 +89,7 @@ const redirectToSinglePortfolio = (id) => {
 // });
 onUpdated(async () => {
   try {
-    await profile.userProfile();
+    //await profile.userProfile();
     return profile.user.data.image;
   } catch (error) {
     /* empty */
@@ -100,7 +100,7 @@ onUpdated(async () => {
 
 onBeforeUpdate(async () => {
   try {
-    await profile.userProfile();
+    //await profile.userProfile();
     return profile.user.data.image;
   } catch (error) {
     /* empty */
