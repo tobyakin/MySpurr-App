@@ -90,6 +90,7 @@ const redirectToSinglePortfolio = (id) => {
 onUpdated(async () => {
   try {
     await profile.userProfile();
+    return profile.user.data.image;
   } catch (error) {
     /* empty */
   } finally {
@@ -100,6 +101,7 @@ onUpdated(async () => {
 onBeforeUpdate(async () => {
   try {
     await profile.userProfile();
+    return profile.user.data.image;
   } catch (error) {
     /* empty */
   } finally {
@@ -109,6 +111,7 @@ onBeforeUpdate(async () => {
 onMounted(async () => {
   try {
     await profile.userProfile();
+    return profile.user.data.image;
   } catch (error) {
     /* empty */
   } finally {

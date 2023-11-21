@@ -60,15 +60,15 @@ const userDetails = computed(() => {
 onMounted(() => {
   return profileStore.userProfile();
 });
-onUpdated(() => {
-  // await profileStore.userProfile();
-  return userDetails.value;
+onUpdated(async () => {
+  await profileStore.userProfile();
+  return profileStore.user.data.image;
 });
 
 onMounted(async () => {
   await profileStore.userProfile();
   await nextTick();
-  return userDetails.value;
+  return profileStore.user.data.image;
 });
 watch(profileImage, () => {});
 const emit = defineEmits(["closeModal"]);
@@ -79,12 +79,15 @@ const closeModal = () => {
 onBeforeMount(async () => {
   await profileStore.userProfile();
   await nextTick();
-  return userDetails.value;
+  return profileStore.user.data.image;
 });
 </script>
 <template>
   <div class="flex flex-col justify-center items-center gap-[40px]">
-    <UserAvater v-if="!imageFile" :imageUrl="profileImage ? profileImage : userDetails" />
+    <UserAvater
+      v-if="!imageFile"
+      :imageUrl="profileImage ? profileImage : profileStore?.user.data.image"
+    />
     <div v-if="imageFile" class="content">
       <section
         class="cropper-area w-[60%] !h-[20%] flex-col flex gap-2 items-center mx-auto justify-center"
