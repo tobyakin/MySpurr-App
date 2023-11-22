@@ -40,14 +40,14 @@ const formState = reactive({
   email: "",
   password: "",
 });
-const showPassword = ref(false);
+// const showPassword = ref(false);
 const errors = reactive({
   email: false,
   password: false,
 });
 const errorsMsg = {
   email: "email is required",
-  password: "",
+  password: "Password is required",
 };
 const isValidEmail = computed(() => {
   return formState.email.trim() !== "";
@@ -68,13 +68,13 @@ const validateForm = () => {
 
   if (!isValidEmail.value) {
     errors.email = true;
-    errorsMsg.email = "Email is required";
+    // errorsMsg.email;
     isValid = false;
   }
 
   if (!isValidPassword.value) {
     errors.password = true;
-    errorsMsg.password = "Password is required";
+    // errorsMsg.password;
     isValid = false;
   }
 
@@ -129,8 +129,9 @@ const onFinish = async () => {
       router.push({ name: "dashboard" });
     }
     loading.value = false;
+    return res;
   } catch (error) {
-    console.log(error);
+    return error;
   } finally {
     loading.value = false;
   }
@@ -143,15 +144,15 @@ const loginWithGoogle = async () => {
     const res = authWithGoogle();
     return res;
   } catch (error) {
-    console.log(error);
+    return error;
   } finally {
     loading.value = false;
   }
 };
 
-const toggleShowPassword = () => {
-  showPassword.value = !showPassword.value;
-};
+// const toggleShowPassword = () => {
+//   showPassword.value = !showPassword.value;
+// };
 onMounted(() => {
   const urlString = window.location.href;
   const urlParams = new URLSearchParams(urlString);
@@ -186,6 +187,7 @@ onMounted(() => {
       router.push({ name: "dashboard" });
     }
   }
+  return user;
 });
 </script>
 
@@ -234,7 +236,7 @@ onMounted(() => {
               @keyup.enter="onFinish"
             />
 
-            <div class="relative hidden">
+            <!-- <div class="relative hidden">
               <input
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Password*"
@@ -280,7 +282,7 @@ onMounted(() => {
                   </svg>
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="mt-4 text-right">
