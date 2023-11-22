@@ -92,13 +92,24 @@ export const useUserProfile = defineStore('profile', () => {
       behance: bioInfo.value.behance,
       facebook: bioInfo.value.facebook
     }
-    updateBio(payload)
+    try {
+        let res = await updateBio(payload)
+        return res
+    }catch (error) {
+      /**/
+    }
   }
   const handleUpdateOverview = async () => {
     let payload = {
       overview: overview.value
     }
-    updateOverview(payload)
+        try {
+          let res = await updateOverview(payload)
+          return res
+        } catch (error) {
+          /**/
+        }
+
   }
   const handleAddWorkDetails = async () => {
     let payload = {
@@ -112,13 +123,23 @@ export const useUserProfile = defineStore('profile', () => {
         currently_working_here: employment_details.value.currently_working_here
       }
     }
-    addWorkDetails(payload)
+    try{
+      let res = await addWorkDetails(payload)
+      return res
+    }catch (error) {
+      /**/
+    }
   }
   const handleAddSkills = async () => {
     let payload = {
       top_skills: top_skills.value
     }
-    addSkills(payload)
+      try {
+        let res = await addSkills(payload)
+        return res
+      } catch (error) {
+        /**/
+      }
   }
   const handleAddEducation = async () => {
     let payload = {
@@ -131,13 +152,28 @@ export const useUserProfile = defineStore('profile', () => {
         currently_schooling_here: education.value.currently_schooling_here
       }
     }
-    addEducation(payload)
+      try {
+        let res = await addEducation(payload)
+        return res
+      } catch (error) {
+        /**/
+      }
   }
   const handleUpdateEducation = async (id, payload) => {
-    updateEducation(id, payload)
+    try {
+      let res = await updateEducation(id, payload)
+      return res
+    } catch (error) {
+      /**/
+    }
   }
   const handleUpdateEmploymentDetails = async (id, payload) => {
-    updateEmployment(id, payload)
+    try{
+      let res = await updateEmployment(id, payload)
+      return res
+    }catch (error) {
+      /**/
+    }
   }
   const handleAddCertificate = async () => {
     let payload = {
@@ -148,13 +184,28 @@ export const useUserProfile = defineStore('profile', () => {
       certificate_link: certificateDetails.value.certificate_link,
       currently_working_here: certificateDetails.value.currently_working_here
     }
-    addCertificate(payload)
+    try{
+      let res = await addCertificate(payload)
+      return res
+    }catch (error) {
+      /**/
+    }
   }
   const handleUpdateCertificate = async (id, payload) => {
-    updateCertificate(id, payload)
+    try{
+      let res = await updateCertificate(id, payload)
+      return res
+    }catch (error) {
+      /**/
+    }
   }
   const handleUpdatePortfolio = async (id, payload) => {
-    updatePortfolio(id, payload)
+    try{
+      let res = await updatePortfolio(id, payload)
+      return res
+    }catch (error) {
+      /**/
+    }
   }
 
   return {

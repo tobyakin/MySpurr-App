@@ -39,7 +39,12 @@ export const useJobsStore = defineStore('jobs', () => {
       //   other_file: jobApplicationForm.value.other_file,
       //   question_answers: jobApplicationForm.value.question_answers
       // }
-      applyForJobs(id, payload)
+      try{
+        let res = await applyForJobs(id, payload)
+        return res
+      }catch (error) {
+        /**/
+      }
     }
   return {
     Job,

@@ -14,14 +14,29 @@ export const useWalletStore = defineStore('wallet', () => {
     }
   }
       const verifyPIN = async (payload) => {
-        verifyPin(payload)
+        try{
+          let res = await verifyPin(payload)
+          return res
+        }catch (error) {
+          /**/
+        }
       }
 
       const addBank = async (payload) => {
-          addBankAccount(payload)
+        try{
+          let res = await addBankAccount(payload)
+          return res
+        }catch (error) {
+          /**/
+        }
       }
       const setPin = async (payload) => {
-        setWithdrawalPin(payload)
+        try{
+          let res = await setWithdrawalPin(payload)
+          return res
+        }catch (error) {
+          /**/
+        }
       }
   return {
     banks,

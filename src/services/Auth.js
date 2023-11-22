@@ -10,7 +10,6 @@ export const login = async (email, password) => {
         email,
         password,
     }
-
     try {
         let res = await axios.post('login',data)
         catchAxiosSuccess(res)   

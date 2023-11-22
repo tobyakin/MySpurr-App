@@ -66,11 +66,20 @@ const portfolioRate = ref(`${portfolio.value.min} ${portfolio.value.max}`)
                 body: portfolio.value.body
               }
             }
-
-          handleTalentPortfolio(payload)
+try {
+  let res = await handleTalentPortfolio(payload)
+  return res
+} catch (error) {
+  /**/
+}
     }
     const submitBusinessPortfolio = async(payload) => {
-          handleBusinessPortfolio(payload)
+      try{
+        let res = await handleBusinessPortfolio(payload)
+        return res
+      }catch (error) {
+        /**/
+      }
     }
     const submitTalentWorkDetails = async() => {
       let payload = {
@@ -109,10 +118,21 @@ const portfolioRate = ref(`${portfolio.value.min} ${portfolio.value.max}`)
         },
         availability: availability.value
       }
-          handleTalentWorkDetails(payload)
+            try {
+              let res = await handleTalentWorkDetails(payload)
+              return res
+            } catch (error) {
+              /**/
+            }
+
     }
     const submitBusinessDetails = async(payload) => {
-          handleBusinessDetails(payload)
+      try{
+        let res = await handleBusinessDetails(payload)
+        return res
+      }catch (error) {
+        /**/
+      }
     }
 
     return {
