@@ -18,7 +18,7 @@ const cropImage = () => {
   if (cropper.value) {
     const croppedCanvas = cropper.value.getCroppedCanvas();
     if (croppedCanvas) {
-      const dataURL = croppedCanvas.toDataURL();
+      const dataURL = croppedCanvas.toDataURL("image/jpeg", 0.7);
       profileImage.value = dataURL;
     }
   }
@@ -94,7 +94,7 @@ onBeforeMount(async () => {
       >
         <div class="img-cropper">
           <vue-cropper
-            :aspect-ratio="4 / 4"
+            :aspect-ratio="6 / 6"
             :src="imageFile"
             preview=".preview"
             ref="cropper"
@@ -141,3 +141,7 @@ onBeforeMount(async () => {
     </p>
   </div>
 </template>
+<style>
+.vue-advanced-cropper__foreground {
+}
+</style>
