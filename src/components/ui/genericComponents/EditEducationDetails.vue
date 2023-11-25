@@ -30,11 +30,12 @@
                   class="text-[11.572px] font-Satoshi500 !mb-3 text-[#011B1F] leading-[23.797px]"
                 >
                   {{ item.start_date }} -
-                  {{ item.end_date }}
+                  {{ item.end_date === "11 Nov 1111" ? "Present" : item.end_date }}
                 </p>
-                <p class="text-[#000000BF] text-[16px] flex flex-wrap">
-                  {{ item.description }}
-                </p>
+                <div
+                  v-html="item.description"
+                  class="text-[#000000BF] editor text-[16px] flex flex-wrap"
+                ></div>
               </div>
               <button class="flex justify-normal">
                 <EditIcon @click="openEdit(index)" class="text-[#297F88]" />
@@ -50,7 +51,7 @@
 <script setup>
 import EditIcon from "@/components/icons/editIcon.vue";
 
-const props = defineProps({
+defineProps({
   sectionInfo: Array,
   text: String,
   image: String,

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUpdated, watch, computed } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import CirclePlus from "@/components/icons/circlePlus.vue";
 import EditWorkExperience from "@/components/ui/genericComponents/EditWorkExperience.vue";
@@ -96,7 +96,7 @@ const StartDate = computed(() => {
 
 const EndDate = computed(() => {
   return present.value
-    ? "00-01-0000"
+    ? "11-11-1111"
     : dayjs(formState.value.end_date).format("DD-MM-YYYY");
 });
 // Update employment_details.value.end_date when EndDate changes
@@ -207,19 +207,26 @@ onMounted(async () => {
               />
             </div>
           </div>
-          <div
-            class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
-          >
-            <div class="w-full flex flex-col gap-2 justify-between">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+          <div class="flex flex-row rounded-[5.897px ] py-1.5">
+            <div class="w-full flex flex-col justify-between">
+              <label class="text-[#01272C] px-4 mb-2 text-[12px] font-Satoshi400"
                 >Description</label
               >
-              <textarea
+              <QuillEditor
+                v-model:content="formState.description"
+                class=""
+                theme="snow"
+                toolbar="full"
+                placeholder="Write about the job in details..."
+                contentType="html"
+              />
+
+              <!-- <textarea
                 v-model="formState.description"
                 rows="4"
                 class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
                 placeholder="Give a brief description about your education"
-              />
+              /> -->
             </div>
           </div>
 
@@ -302,8 +309,23 @@ onMounted(async () => {
               />
             </div>
           </div>
-          <div
-            class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+          <div class="flex flex-row rounded-[5.897px] py-1.5">
+            <div class="w-full flex flex-col justify-between">
+              <label class="text-[#01272C] px-4 mb-2 text-[12px] font-Satoshi400"
+                >Description</label
+              >
+              <QuillEditor
+                v-model:content="employment_details.description"
+                class=""
+                theme="snow"
+                toolbar="full"
+                placeholder="Give a brief description about your work "
+                contentType="html"
+              />
+            </div>
+          </div>
+          <!-- <div
+            class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px ] p-4 py-1.5"
           >
             <div class="w-full flex flex-col gap-2 justify-between">
               <label class="text-[#01272C] text-[12px] font-Satoshi400"
@@ -316,7 +338,7 @@ onMounted(async () => {
                 placeholder="Give a brief description about your work "
               />
             </div>
-          </div>
+          </div> -->
 
           <div class="flex gap-3 justify-start items-center">
             <input

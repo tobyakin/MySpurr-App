@@ -349,7 +349,7 @@ onMounted(async () => {
         <div class="flex flex-col gap-4" f>
           <div
             v-if="portfolio.cover_image"
-            class="w-full bg-[#EDF2F7] flex flex-row items-center justify-between rounded-[11.862px] py-[20px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
+            class="w-full bg-[#EDF2F7] flex flex-row items-center justify-between rounded-[5.897px] py-[20px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
           >
             <p>{{ uploadedImageName }}</p>
             <button
@@ -363,7 +363,7 @@ onMounted(async () => {
             v-if="portfolio.cover_image"
             :src="portfolio?.cover_image"
             alt="Uploaded Image"
-            class="rounded-[11.862px]"
+            class="rounded-[5.897px]"
           />
 
           <div class="flex lg:flex-row flex-col gap-2 items-center">
@@ -393,10 +393,10 @@ onMounted(async () => {
 </template>
 <style>
 .ql-toolbar {
-  @apply rounded-t-[11.862px];
+  @apply rounded-t-[5.897px];
 }
 .ql-container {
-  @apply rounded-b-[11.862px];
+  @apply rounded-b-[5.897px];
 }
 /* .ql-editor {
   @apply min-h-[58.122px];
