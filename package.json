@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@vueup/vue-quill": "^1.2.0",
+    "@vueuse/core": "^10.6.1",
     "animate.css": "^4.1.1",
     "ant-design-vue": "^4.0.3",
     "axios": "^1.4.0",
