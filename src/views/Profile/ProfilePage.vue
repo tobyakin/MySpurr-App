@@ -41,7 +41,11 @@ let view = null;
 let showModal = ref(false);
 let formTitle = ref("");
 
-const source = ref(import.meta.env.VITE_LANDING_PAGE + userDetails.value?.first_name);
+const source = ref(
+  import.meta.env.VITE_LANDING_PAGE +
+    `${userDetails.value?.first_name}/` +
+    userDetails.value?.uniqueId
+);
 const { copy, copied, isSupported } = useClipboard({ source });
 
 const HandleToggleEditImageModal = () => {
@@ -98,7 +102,7 @@ const redirectToSinglePortfolio = (id) => {
 const copyUrl = () => {
   if (isSupported) {
     if (copied) {
-      console.lo
+      console.log(source.value);
       copy(source.value);
       toast.success("Link Copied", {
         timeout: 4000,
