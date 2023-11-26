@@ -40,7 +40,8 @@ const userDetails = computed(() => {
 let view = null;
 let showModal = ref(false);
 let formTitle = ref("");
-const source = ref(`myspurr.talent/` + userDetails.value?.first_name);
+
+const source = ref(import.meta.env.VITE_LANDING_PAGE + userDetails.value?.first_name);
 const { copy, copied, isSupported } = useClipboard({ source });
 
 const HandleToggleEditImageModal = () => {
@@ -97,6 +98,7 @@ const redirectToSinglePortfolio = (id) => {
 const copyUrl = () => {
   if (isSupported) {
     if (copied) {
+      console.lo
       copy(source.value);
       toast.success("Link Copied", {
         timeout: 4000,
