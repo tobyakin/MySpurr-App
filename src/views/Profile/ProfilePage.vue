@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUpdated, onBeforeMount, onBeforeUpdate } from "vue";
+import { ref, computed, onMounted, onUpdated, onBeforeUpdate } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
 import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
@@ -24,6 +24,10 @@ import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
 import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.vue";
 import Map from "@/components/ui/Map/Map.vue";
 import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
+import { useClipboard } from "@vueuse/core";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -36,6 +40,9 @@ const userDetails = computed(() => {
 let view = null;
 let showModal = ref(false);
 let formTitle = ref("");
+const source = ref(`myspurr.talent/` + userDetails.value?.first_name);
+const { copy, copied, isSupported } = useClipboard({ source });
+
 const HandleToggleEditImageModal = () => {
   showModal.value = !showModal.value;
   formTitle.value = "Profile Picture";
@@ -87,6 +94,21 @@ const redirectToSinglePortfolio = (id) => {
 // onMounted(() => {
 //   return profile.userProfile();
 // });
+const copyUrl = () => {
+  if (isSupported) {
+    if (copied) {
+      copy(source.value);
+      toast.success("Link Copied", {
+        timeout: 4000,
+      });
+    }
+  } else {
+    toast.error("Your browser does not support Clipboard API", {
+      timeout: 4000,
+    });
+  }
+};
+
 onUpdated(async () => {
   try {
     //await profile.userProfile();
@@ -185,10 +207,14 @@ onMounted(async () => {
             </div>
             <div class="flex items-center gap-5">
               <div
+                v-if="isSupported"
                 class="bg-[#EDF0B8] p-2 flex relative overflow-hidden pr-6 rounded-[5.982px] mt-0"
               >
-                <a href="" class="text-[10.476px] font-Satoshi500 text-[#01272C]"
-                  >myspurr.talent/tobiakinyele</a
+                <a
+                  role="button"
+                  @click="copyUrl()"
+                  class="text-[10.476px] font-Satoshi500 text-[#01272C]"
+                  >myspurr.talent/{{ userDetails?.first_name }}</a
                 >
                 <div
                   class="bg-[#2C4C50] p-1 absolute right-1 top-[6px] flex items-start rounded-full"
@@ -231,7 +257,7 @@ onMounted(async () => {
 
             <div class="flex gap-4 flex-wrap">
               <div
-                v-for="(item, index) in userDetails?.top_skills"
+                v-for="item in userDetails?.top_skills"
                 :key="item.name"
                 class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[17px] text-center font-Satoshi400 text-[#276A4D]"
               >
