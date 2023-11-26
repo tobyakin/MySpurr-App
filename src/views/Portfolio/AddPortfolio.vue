@@ -169,7 +169,7 @@ const onFinish = async () => {
           name="Name"
           placeholder="Vino brand identity"
           type="text"
-          inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+          inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
         ></FormGroup>
         <div class="flex lg:flex-row flex-col w-full gap-8">
           <SelectGroup
@@ -180,7 +180,7 @@ const onFinish = async () => {
             :items="['Brand Identity Design ', 'Logo Design', 'Graphic Design']"
             placeholder="Creative work"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+            inputClasses="w-full mt-2 font-light bg-white font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
           ></SelectGroup>
           <SelectGroup
             v-model="portfolio.job_type"
@@ -190,7 +190,7 @@ const onFinish = async () => {
             :items="['Freelance', 'Full Time', 'Part Time']"
             placeholder="Employment type"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+            inputClasses="w-full mt-2 font-light bg-white font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
           ></SelectGroup>
         </div>
         <div class="flex lg:flex-row flex-col w-full gap-8">
@@ -201,7 +201,7 @@ const onFinish = async () => {
               label="Location"
               placeholder="Lagos, Nigeria"
               type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
             ></FormGroup>
           </div>
           <div class="lg:w-[50%] flex flex-row gap-9">
@@ -212,7 +212,7 @@ const onFinish = async () => {
               name="Min"
               placeholder="Min"
               type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-[10px] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-[10px] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
             ></FormGroup>
             <FormGroup
               v-model="portfolio.max"
@@ -221,7 +221,7 @@ const onFinish = async () => {
               name="Max"
               placeholder="Max"
               type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-[10px] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-[10px] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
             ></FormGroup>
           </div>
         </div>
@@ -241,7 +241,7 @@ const onFinish = async () => {
       </div>
       <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">Tags</h4>
       <div class="mt-8 flex flex-col gap-8">
-        <div class="border-[0.737px] border-[#254035AB] rounded-[9.489px] p-4 py-1.5">
+        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <div>
             <p class="text-[#00000080] p-2 text-[18.979px] font-Satoshi400">
               Add up 4 Tags

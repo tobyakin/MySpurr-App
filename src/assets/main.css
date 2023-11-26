@@ -16,7 +16,7 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 select {
-  @apply !bg-[#fff] !bg-transparent
+  @apply  bg-transparent
 }
 .container {
   max-width: 1200px;
@@ -279,4 +279,7 @@ input[type="checkbox"] {
 }
 .editor ul{
   list-style-type: disc !important;
+}
+.editor p{
+  @apply  flex flex-wrap break-words text-justify
 }

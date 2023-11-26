@@ -4,7 +4,7 @@
     <Select
       @update:modelValue="passInputValue"
       :value="modelValue"
-      :class="inputClasses"
+      :inputClasses="inputClasses"
       :placeholder="placeholder"
       :name="name"
       :items="items"
