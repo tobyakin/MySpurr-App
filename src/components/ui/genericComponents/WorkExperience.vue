@@ -34,7 +34,7 @@
               </h1>
               <div
                 v-html="item.description"
-                class="text-[#000000BF] editor overflow-hidden text-[16px] flex flex-wrap"
+                class="text-[#000000BF] editor text-[16px] flex flex-wrap"
               ></div>
             </div>
           </div>
