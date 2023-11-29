@@ -1,6 +1,6 @@
 <script setup>
-import { ref, defineAsyncComponent } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
+import DefultPage from "@/components/ui/HelpCenter/DefultPage.vue";
 </script>
 
 <template>
@@ -11,6 +11,7 @@ import DashboardLayout from "@/components/layout/dashboardLayout.vue";
       <h4 class="text-[#244034] font-EBGaramond500 capitalize text-[27px]">
         Help center
       </h4>
+      <div><DefultPage /></div>
     </div>
   </DashboardLayout>
 </template>
