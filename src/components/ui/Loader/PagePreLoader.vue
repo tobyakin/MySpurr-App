@@ -1,8 +1,6 @@
 <template>
-  <div class="w-full flex z-[100] bg-white fixed justify-center items-center h-screen">
-    <div
-      class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-brand"
-    ></div>
+  <div class="w-full flex z-[100] justify-center items-center h-[70vh]">
+    <img class="w-[80px] h-[80px]" src="./myspurrLoader.gif" alt="" />
   </div>
 </template>
 <style scoped></style>

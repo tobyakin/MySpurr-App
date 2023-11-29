@@ -11,7 +11,7 @@ const { user } = storeToRefs(userProfile);
 const { step, businessDetails } = storeToRefs(OnboardingStore);
 
 let store = useStore();
-const emit = defineEmits("next");
+const emit = defineEmits(["next"]);
 const formState = ref({
   business_name: "",
   // top_skills: "",

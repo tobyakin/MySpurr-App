@@ -12,7 +12,7 @@ let store = useStore();
 
 const present = ref(false); // Add a variable to track if the checkbox is checked
 
-const emit = defineEmits("next", "prev");
+const emit = defineEmits(["next", "prev"]);
 const formState = ref({
   start_date: "",
   end_date: "",

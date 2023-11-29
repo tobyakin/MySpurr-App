@@ -13,10 +13,17 @@ import { useUserProfile } from "@/stores/profile";
 // import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue";
 import BusinessValuesCard from "@/components/ui/Cards/BusinessValuesCard.vue";
 import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
-import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
+// import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
+import { useTabStore } from "@/stores/tab";
+
+import { storeToRefs } from "pinia";
+
+const tabStore = useTabStore();
+const { isLoading } = storeToRefs(tabStore);
+
 let store = useStore();
 let profile = useUserProfile();
-const showPageLoader = ref(true);
+// const showPageLoader = ref(true);
 
 const userDetails = computed(() => {
   return profile.user.data;
@@ -41,7 +48,7 @@ onMounted(async () => {
   } catch (error) {
     /* empty */
   } finally {
-    showPageLoader.value = !showPageLoader.value;
+    isLoading.value = !isLoading.value;
   }
 });
 //!isOnBoarded.portofolio;
@@ -49,11 +56,12 @@ onMounted(async () => {
 
 <template>
   <DashboardLayout>
-    <PagePreLoader v-if="showPageLoader" />
     <slot></slot>
     <!-- <OnboardingRequest
       v-if="isOnBoarded && !isOnBoarded.business_details && !isOnBoarded.work_details"
     /> -->
+    <!-- <PagePreLoader v-if="isLoading" /> -->
+
     <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
       <span class="font-EBGaramond500 text-[#244034] text-[27.673px]"
         >Hi {{ userDetails?.first_name }} ,</span

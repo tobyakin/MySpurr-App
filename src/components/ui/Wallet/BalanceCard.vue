@@ -2,7 +2,7 @@
 import WithdrawIcon from "@/components/icons/withdrawIcon.vue";
 import SettingsIcon from "@/components/icons/settingsIcon.vue";
 import AddFundsIcon from "@/components/icons/AddFundsIcon.vue";
-const emit = defineEmits("goToWithdraw");
+const emit = defineEmits(["goToWithdraw"]);
 
 const goToWithdraw = () => {
   emit("goToWithdraw");

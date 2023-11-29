@@ -1,86 +1,86 @@
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue'
-import { useOnboardingStore } from '@/stores/onBoarding'
-import { useStore } from '@/stores/user'
-import { storeToRefs } from 'pinia'
-import GlobalInput from '@/components/ui/Form/Input/GlobalInput.vue'
-import AttachFileIcon from '@/components/icons/attachFile.vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, watch, computed } from "vue";
+import { useOnboardingStore } from "@/stores/onBoarding";
+import { useStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+import AttachFileIcon from "@/components/icons/attachFile.vue";
+import { useRouter } from "vue-router";
 
-let store = useStore()
+let store = useStore();
 
-const router = useRouter()
+const router = useRouter();
 
-const OnboardingStore = useOnboardingStore()
-const { step } = storeToRefs(OnboardingStore)
-const emit = defineEmits('next')
+const OnboardingStore = useOnboardingStore();
+const { step } = storeToRefs(OnboardingStore);
+const emit = defineEmits(["next"]);
 const formState = ref({
   company_logo: null,
-  company_type: '',
-  social_media: '',
-  social_media_two: ''
-})
+  company_type: "",
+  social_media: "",
+  social_media_two: "",
+});
 const isFormValid = computed(() => {
   return (
     formState.value.company_logo !== null &&
-    formState.value.company_type.trim() !== '' &&
-    formState.value.social_media.trim() !== '' &&
-    formState.value.social_media_two.trim() !== ''
-  )
-})
+    formState.value.company_type.trim() !== "" &&
+    formState.value.social_media.trim() !== "" &&
+    formState.value.social_media_two.trim() !== ""
+  );
+});
 
 const prev = () => {
-  emit('prev', step.value - 1)
-}
-const previewImage = ref(null)
+  emit("prev", step.value - 1);
+};
+const previewImage = ref(null);
 const uploadFile = () => {
-  formState.value.company_logo = previewImage.value.files[0]
-  showImage()
-}
+  formState.value.company_logo = previewImage.value.files[0];
+  showImage();
+};
 
 const showImage = async () => {
   if (formState.value.company_logo) {
-    previewImage.value = URL.createObjectURL(formState.value.company_logo)
+    previewImage.value = URL.createObjectURL(formState.value.company_logo);
   } else {
-    previewImage.value = null
+    previewImage.value = null;
   }
-}
+};
 
 const onFinish = async () => {
   let payload = {
     company_type: formState.value.company_type,
     social_media: formState.value.social_media,
-    social_media_two: formState.value.social_media_two
-  }
-  console.log(formState.value.company_logo)
-  const formData = new FormData()
+    social_media_two: formState.value.social_media_two,
+  };
+  console.log(formState.value.company_logo);
+  const formData = new FormData();
 
   if (formState.value.company_logo) {
     // Convert the selected image to base64 and append it to the FormData
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.onload = (event) => {
-      formData.append('company_logo', event.target.result)
-      submitForm(formData, payload)
-    }
-    reader.readAsDataURL(formState.value.company_logo)
+      formData.append("company_logo", event.target.result);
+      submitForm(formData, payload);
+    };
+    reader.readAsDataURL(formState.value.company_logo);
   } else {
-    submitForm(formData, payload)
+    submitForm(formData, payload);
   }
-}
+};
 
 const submitForm = async (formData, payload) => {
   Object.entries(payload).forEach(([key, value]) => {
-    formData.append(key, value)
-  })
-  console.log('form data' + ' ' + formData)
+    formData.append(key, value);
+  });
+  console.log("form data" + " " + formData);
   try {
-    const res = await OnboardingStore.submitBusinessPortfolio(formData)
-    router.push({ name: 'dashboard' })
-    return res
+    const res = await OnboardingStore.submitBusinessPortfolio(formData);
+    router.push({ name: "dashboard" });
+    return res;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 </script>
 
 <template>
@@ -89,7 +89,9 @@ const submitForm = async (formData, payload) => {
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Your portfolio
       </h1>
-      <p class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8">
+      <p
+        class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
+      >
         Please provide at least one portfolio work to get started on
         <br class="lg:block hidden" />
         MySpurr.
@@ -116,7 +118,9 @@ const submitForm = async (formData, payload) => {
             <AttachFileIcon
           /></label>
         </div>
-        <div class="border-[0.737px] border-[rgba(37,64,53,0.67)] rounded-[5.897px] p-4 py-1.5">
+        <div
+          class="border-[0.737px] border-[rgba(37,64,53,0.67)] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
             >Company type - startup, agency, corporation</label
           >
@@ -130,7 +134,10 @@ const submitForm = async (formData, payload) => {
           <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
             >Please select social media 1</label
           >
-          <GlobalInput v-model="formState.social_media" inputClasses="bg-transparent border-none" />
+          <GlobalInput
+            v-model="formState.social_media"
+            inputClasses="bg-transparent border-none"
+          />
         </div>
 
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">

@@ -19,7 +19,7 @@ defineProps({
   view: null,
   formTitle: String,
 });
-const emit = defineEmits("closeModal");
+const emit = defineEmits(["closeModal"]);
 
 const closeModal = () => {
   emit("closeModal");

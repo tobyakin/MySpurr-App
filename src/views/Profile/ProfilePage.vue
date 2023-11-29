@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUpdated, onBeforeUpdate } from "vue";
+import { ref, computed, onMounted } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
 import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
@@ -26,12 +26,17 @@ import Map from "@/components/ui/Map/Map.vue";
 import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
+import { useTabStore } from "@/stores/tab";
+import { storeToRefs } from "pinia";
+
+const tabStore = useTabStore();
+const { isLoading } = storeToRefs(tabStore);
 
 const toast = useToast();
 
 import { useRouter } from "vue-router";
 const router = useRouter();
-const showPageLoader = ref(true);
+// const showPageLoader = ref(true);
 
 let profile = useUserProfile();
 const userDetails = computed(() => {
@@ -96,9 +101,6 @@ const redirectToSinglePortfolio = (id) => {
   router.push({ name: "edit-portfolio", params: { id: id } });
 };
 
-// onMounted(() => {
-//   return profile.userProfile();
-// });
 const copyUrl = () => {
   if (isSupported) {
     if (copied) {
@@ -115,44 +117,24 @@ const copyUrl = () => {
   }
 };
 
-onUpdated(async () => {
-  try {
-    //await profile.userProfile();
-    return profile.user.data.image;
-  } catch (error) {
-    /* empty */
-  } finally {
-    /* empty */
-  }
-});
-
-onBeforeUpdate(async () => {
-  try {
-    //await profile.userProfile();
-    return profile.user.data.image;
-  } catch (error) {
-    /* empty */
-  } finally {
-    /* empty */
-  }
-});
 onMounted(async () => {
   try {
     await profile.userProfile();
-    return profile.user.data.image;
   } catch (error) {
     /* empty */
   } finally {
-    showPageLoader.value = !showPageLoader.value;
+    isLoading.value = !isLoading.value;
   }
 });
 </script>
 
 <template>
   <DashboardLayout>
-    <PagePreLoader v-if="showPageLoader" />
-
-    <div class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10">
+    <PagePreLoader v-if="isLoading" />
+    <div
+      v-else
+      class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10"
+    >
       <div id="talent-cv" class="py-20 container talent-cv">
         <div
           class="bg-[#E9FAFB] border-[#F6F6F6] flex lg:flex-row flex-col gap-5 justify-between items-center border-[1px] rounded-[15px] p-6 px-14"
@@ -161,7 +143,7 @@ onMounted(async () => {
             class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
           >
             <EditProfileAvater
-              :imageUrl="profile?.user?.data?.image"
+              :imageUrl="userDetails?.image"
               @toggleModal="HandleToggleEditImageModal"
               inputClasses="!h-[89.536px] !w-[89.536px]"
               class=""

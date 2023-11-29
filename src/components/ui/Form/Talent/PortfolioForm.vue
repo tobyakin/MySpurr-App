@@ -1,71 +1,71 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { useOnboardingStore } from '@/stores/onBoarding'
-import { useStore } from '@/stores/user'
-import { storeToRefs } from 'pinia'
-import GlobalInput from '@/components/ui/Form/Input/GlobalInput.vue'
-import AttachFileIcon from '@/components/icons/attachFile.vue'
-import { useRouter } from 'vue-router'
-let store = useStore()
+import { ref, computed } from "vue";
+import { useOnboardingStore } from "@/stores/onBoarding";
+import { useStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+import AttachFileIcon from "@/components/icons/attachFile.vue";
+import { useRouter } from "vue-router";
+let store = useStore();
 
-let loading = ref(false)
-const router = useRouter()
-const OnboardingStore = useOnboardingStore()
-const { step } = storeToRefs(OnboardingStore)
-const emit = defineEmits('next', 'prev')
+let loading = ref(false);
+const router = useRouter();
+const OnboardingStore = useOnboardingStore();
+const { step } = storeToRefs(OnboardingStore);
+const emit = defineEmits(["next", "prev"]);
 const formState = ref({
-  compensation: '',
-  portfolio_title: '',
-  portfolio_description: '',
+  compensation: "",
+  portfolio_title: "",
+  portfolio_description: "",
   images: [],
-  social_media_link: ''
-})
-const file = ref(null)
-const uploadedFile = ref(null)
+  social_media_link: "",
+});
+const file = ref(null);
+const uploadedFile = ref(null);
 
 const isFormValid = computed(() => {
   return (
-    formState.value.compensation.trim() !== '' &&
+    formState.value.compensation.trim() !== "" &&
     file.value !== null &&
-    formState.value.portfolio_title.trim() !== '' &&
-    formState.value.portfolio_description.trim() !== '' &&
-    formState.value.social_media_link.trim() !== ''
-  )
-})
+    formState.value.portfolio_title.trim() !== "" &&
+    formState.value.portfolio_description.trim() !== "" &&
+    formState.value.social_media_link.trim() !== ""
+  );
+});
 const onFinish = async () => {
-  loading.value = true
+  loading.value = true;
 
   let payload = {
     compensation: formState.value.compensation,
     portfolio_title: formState.value.portfolio_title,
     portfolio_description: formState.value.portfolio_description,
-    social_media_link: formState.value.social_media_link
-  }
-  console.log(formState.value.images)
+    social_media_link: formState.value.social_media_link,
+  };
+  console.log(formState.value.images);
 
-  const formData = new FormData()
+  const formData = new FormData();
 
   formState.value.images.forEach((image) => {
-    formData.append('images[]', image)
-  })
+    formData.append("images[]", image);
+  });
 
   Object.entries(payload).forEach(([key, value]) => {
-    formData.append(key, value)
-  })
+    formData.append(key, value);
+  });
 
   try {
-    const res = await OnboardingStore.submitTalentPortfolio(formData)
-    router.push({ name: 'dashboard' })
-    return res
+    const res = await OnboardingStore.submitTalentPortfolio(formData);
+    router.push({ name: "dashboard" });
+    return res;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 const numUploadedImages = computed(() => {
-  return formState.value.images.length
-})
+  return formState.value.images.length;
+});
 
 // const onFinish = async () => {
 //   loading.value = true;
@@ -122,16 +122,18 @@ const numUploadedImages = computed(() => {
 //   }
 // };
 const uploadFile = () => {
-  const selectedFiles = uploadedFile.value.files
+  const selectedFiles = uploadedFile.value.files;
 
   if (selectedFiles.length > 0) {
-    const selectedFileTypes = Array.from(selectedFiles).map((file) => file.type)
+    const selectedFileTypes = Array.from(selectedFiles).map((file) => file.type);
 
-    if (selectedFileTypes.every((type) => type.startsWith('image/'))) {
-      file.value = selectedFiles.length
+    if (selectedFileTypes.every((type) => type.startsWith("image/"))) {
+      file.value = selectedFiles.length;
 
       // Filter out only image files
-      const imageFiles = Array.from(selectedFiles).filter((file) => file.type.startsWith('image/'))
+      const imageFiles = Array.from(selectedFiles).filter((file) =>
+        file.type.startsWith("image/")
+      );
 
       // Ensure you don't exceed the maximum number of images (3 in this case)
       // if (imageFiles.length > 3) {
@@ -140,23 +142,23 @@ const uploadFile = () => {
       // }
 
       // Update the images array
-      formState.value.images = imageFiles
+      formState.value.images = imageFiles;
     } else {
-      formState.value.images = [] // Clear the array
-      alert('Please select only image files.')
+      formState.value.images = []; // Clear the array
+      alert("Please select only image files.");
     }
   } else {
-    formState.value.images = [] // Clear the array
+    formState.value.images = []; // Clear the array
   }
-}
+};
 
 const next = () => {
-  emit('next', step.value + 1)
-}
+  emit("next", step.value + 1);
+};
 
 const prev = () => {
-  emit('prev', step.value - 1)
-}
+  emit("prev", step.value - 1);
+};
 </script>
 
 <template>
@@ -165,7 +167,9 @@ const prev = () => {
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Your portfolio
       </h1>
-      <p class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8">
+      <p
+        class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
+      >
         Please provide at least one portfolio work to get started on
         <br class="lg:block hidden" />
         MySpurr.
@@ -186,7 +190,9 @@ const prev = () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Portfolio Title</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            >Portfolio Title</label
+          >
           <GlobalInput
             v-model="formState.portfolio_title"
             class="bg-transparent border-none"

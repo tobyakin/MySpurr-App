@@ -46,7 +46,7 @@ import { storeToRefs } from "pinia";
 const OnboardingStore = useOnboardingStore();
 
 const { step } = storeToRefs(OnboardingStore);
-const emit = defineEmits("next");
+const emit = defineEmits(["next"]);
 
 const next = () => {
   emit("next", step.value + 1);

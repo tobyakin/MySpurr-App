@@ -1,6 +1,6 @@
 <script setup>
 import UserAvater from "../../Avater/UserAvater.vue";
-import { ref, onMounted, computed, watch, onUpdated, onBeforeMount, nextTick } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
@@ -49,7 +49,7 @@ const onFinish = async () => {
     closeModal();
     return res;
   } catch (error) {
-    console.log(error);
+    //
   } finally {
     loading.value = false;
   }
@@ -57,18 +57,8 @@ const onFinish = async () => {
 const userDetails = computed(() => {
   return profileStore.user.data.image;
 });
-onMounted(() => {
-  return profileStore.userProfile();
-});
-onUpdated(async () => {
-  // await profileStore.userProfile();
-  return profileStore.user.data.image;
-});
-
 onMounted(async () => {
   await profileStore.userProfile();
-  await nextTick();
-  return profileStore.user.data.image;
 });
 watch(profileImage, () => {});
 const emit = defineEmits(["closeModal"]);
@@ -76,18 +66,10 @@ const emit = defineEmits(["closeModal"]);
 const closeModal = () => {
   emit("closeModal");
 };
-onBeforeMount(async () => {
-  await profileStore.userProfile();
-  await nextTick();
-  return profileStore.user.data.image;
-});
 </script>
 <template>
   <div class="flex flex-col justify-center items-center gap-[40px]">
-    <UserAvater
-      v-if="!imageFile"
-      :imageUrl="profileImage ? profileImage : profileStore?.user.data.image"
-    />
+    <UserAvater v-if="!imageFile" :imageUrl="profileImage ? profileImage : userDetails" />
     <div v-if="imageFile" class="content">
       <section
         class="cropper-area w-[60%] !h-[20%] flex-col flex gap-2 items-center mx-auto justify-center"

@@ -20,7 +20,7 @@ defineProps({
   inputClasses: String,
   imageUrl: String,
 });
-const emit = defineEmits("toggleModal");
+const emit = defineEmits(["toggleModal"]); // Destructure `emit` from the result of defineEmits
 
 const toggleModal = () => {
   emit("toggleModal");

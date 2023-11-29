@@ -4,7 +4,9 @@
     v-if="!isloaded"
   >
     <div class="modal__body relative mx-auto bg-white m-0 md:px-5 py-4 px-4">
-      <div class="lds-roller">
+      <img class="w-[80px] h-[80px]" src="./myspurrLoader.gif" alt="" />
+
+      <!-- <div class="lds-roller">
         <div></div>
         <div></div>
         <div></div>
@@ -13,7 +15,7 @@
         <div></div>
         <div></div>
         <div></div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -44,7 +46,7 @@ export default {
   overflow: auto;
   // background-color: transparent;
   /* From https://css.glass */
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.017);
   // backdrop-filter: blur(7px);
 
   &__body {

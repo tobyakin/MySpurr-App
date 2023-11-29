@@ -58,7 +58,7 @@ defineProps({
   list: Array,
   items: Array,
 });
-const emit = defineEmits("openEdit");
+const emit = defineEmits(["openEdit"]);
 
 const openEdit = (index) => {
   emit("openEdit", index);

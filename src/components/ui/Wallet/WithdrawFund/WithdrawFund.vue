@@ -23,7 +23,7 @@ const maskedEmail = computed(() => {
 const walletStore = useWalletStore();
 const { banks } = storeToRefs(walletStore);
 let loading = ref(false);
-const emit = defineEmits("goToWallet");
+const emit = defineEmits(["goToWallet"]);
 let amount = ref(null);
 const step = ref([true, false, false, false, false, false, false, false]);
 
