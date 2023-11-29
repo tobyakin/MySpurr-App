@@ -4,6 +4,7 @@ import Tab from "@/components/ui/Settings/Tab.vue";
 import Accounts from "@/components/ui/Settings/Pages/AccountsPage.vue";
 import PrivacySecurity from "@/components/ui/Settings/Pages/PrivacySecurity.vue";
 import Payments from "@/components/ui/Settings/Pages/PaymentsPage.vue";
+import NotificationPage from "@/components/ui/Settings/Pages/NotificationPage.vue";
 </script>
 
 <template>
@@ -18,7 +19,7 @@ import Payments from "@/components/ui/Settings/Pages/PaymentsPage.vue";
         <template #view1><Accounts /></template>
         <template #view2><PrivacySecurity /></template>
         <template #view3><Payments /></template>
-        <template #view4>Notification</template>
+        <template #view4><NotificationPage /></template>
       </Tab>
     </div>
   </DashboardLayout>
