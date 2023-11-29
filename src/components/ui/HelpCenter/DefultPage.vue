@@ -16,8 +16,10 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
         />
       </div>
     </div>
-    <div class="flex flex-col justify-evenly gap-[60.313px]">
-      <div class="flex md:flex-row flex-col justify-evenly gap-[60.313px]">
+    <div class="flex flex-col justify-evenly lg:gap-[60.313px] gap-[30.313px]">
+      <div
+        class="flex md:flex-row flex-col justify-evenly lg:gap-[60.313px] gap-[30.313px]"
+      >
         <button
           class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
         >
@@ -49,7 +51,9 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
           </p>
         </button>
       </div>
-      <div class="flex md:flex-row flex-col justify-evenly gap-[60.313px]">
+      <div
+        class="flex md:flex-row flex-col justify-evenly lg:gap-[60.313px] gap-[30.313px]"
+      >
         <button
           class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
         >
