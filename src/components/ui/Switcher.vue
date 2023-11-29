@@ -1,23 +1,21 @@
 <script setup>
-import { ref } from "vue";
 import XIcon from "@/components/icons/XIcon.vue";
-// Define the reactive variable
-let isToggled = ref(false);
+const props = defineProps({
+  isToggled: Boolean,
+});
+const emits = defineEmits(["update:isToggled"]);
 
 // Define the toggle function
-const toggle = () => {
-  isToggled.value = !isToggled.value;
+const handleToggle = () => {
+  emits("update:isToggled", props.isToggled);
 };
-
-// // Expose the reactive variable and the toggle function
-// defineProps(["isToggled", "toggle"]);
 </script>
 <template>
   <div class="">
     <button
-      @click="toggle"
-      class="togglebutton h-[41.813px] bg-[#2F929C] rounded-[38.855px] px-[5px] w-[73.559px]"
-      :class="{ toggled: isToggled }"
+      @click="handleToggle"
+      class="togglebutton h-[41.813px] rounded-[38.855px] px-[5px] w-[73.559px]"
+      :class="props.isToggled ? 'bg-[#2F929C] toggled' : 'bg-[#B2ECF2]'"
     >
       <div
         class="slider absolute top-1 flex items-center justify-center w-[34.928px] bg-white rounded-full h-[34.928px]"
