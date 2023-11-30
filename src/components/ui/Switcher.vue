@@ -1,5 +1,6 @@
 <script setup>
 import XIcon from "@/components/icons/XIcon.vue";
+import TickIcon from "@/components/icons/TickIcon.vue";
 const props = defineProps({
   isToggled: Boolean,
 });
@@ -14,34 +15,20 @@ const handleToggle = () => {
   <div class="">
     <button
       @click="handleToggle"
-      class="togglebutton h-[41.813px] rounded-[38.855px] px-[5px] w-[73.559px]"
+      class="relative cursor-pointer h-[38px] rounded-[38.855px] px-[5px] w-[70px]"
       :class="props.isToggled ? 'bg-[#2F929C] toggled' : 'bg-[#B2ECF2]'"
     >
       <div
-        class="slider absolute top-1 flex items-center justify-center w-[34.928px] bg-white rounded-full h-[34.928px]"
+        class="slider absolute top-1 flex items-center justify-center w-[30px] bg-white rounded-full h-[30px]"
       >
-        <XIcon />
+        <TickIcon v-if="props.isToggled" />
+        <XIcon v-else />
       </div>
     </button>
   </div>
 </template>
 <style scoped>
-.togglebutton {
-  position: relative;
-  /* width: 60px; */
-  /* height: 30px; */
-  /* background-color: #ccc;
-  border: none;
-  border-radius: 15px; */
-  cursor: pointer;
-}
-
 .slider {
-  /* position: absolute;
-  width: 30px;
-  height: 30px; */
-  /* background-color: #fff; */
-  /* border-radius: 50%; */
   transition: transform 0.3s ease-in-out;
 }
 
