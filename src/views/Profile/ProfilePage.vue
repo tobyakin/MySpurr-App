@@ -26,17 +26,12 @@ import Map from "@/components/ui/Map/Map.vue";
 import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
-import { useTabStore } from "@/stores/tab";
-import { storeToRefs } from "pinia";
-
-const tabStore = useTabStore();
-const { isLoading } = storeToRefs(tabStore);
 
 const toast = useToast();
 
 import { useRouter } from "vue-router";
 const router = useRouter();
-// const showPageLoader = ref(true);
+const showPageLoader = ref(true);
 
 let profile = useUserProfile();
 const userDetails = computed(() => {
@@ -123,14 +118,14 @@ onMounted(async () => {
   } catch (error) {
     /* empty */
   } finally {
-    isLoading.value = !isLoading.value;
+    showPageLoader.value = !showPageLoader.value;
   }
 });
 </script>
 
 <template>
   <DashboardLayout>
-    <PagePreLoader v-if="isLoading" />
+    <PagePreLoader v-if="showPageLoader" />
     <div
       v-else
       class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10"
