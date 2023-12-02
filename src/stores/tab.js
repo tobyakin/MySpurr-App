@@ -5,10 +5,16 @@ import { ref } from 'vue'
 
     const activeTab = ref('talent')
     let isLoading = ref(true)
+    let activeHelp = ref('1')
 
+    const updateActiveHelp = (tab) => {
+      activeHelp.value = tab
+    }
 
       return {
         activeTab,
-        isLoading
+        isLoading,
+        activeHelp,
+        updateActiveHelp
       }
 });

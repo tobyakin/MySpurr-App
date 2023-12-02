@@ -1,13 +1,39 @@
 <script setup>
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
-const emit = defineEmits(["goToAccount"]);
+import { useTabStore } from "@/stores/tab";
+const store = useTabStore();
+import { storeToRefs } from "pinia";
+
+const { activeHelp } = storeToRefs(store);
+
+const emit = defineEmits([
+  "goToAccount",
+  "goToGettingStarted",
+  "goToJobManagement",
+  "goToPayments",
+  "gotToPolicies",
+  "goToCommunication",
+]);
 
 const goToAccount = () => {
   emit("goToAccount");
 };
-// const goToGettingStarted = () => {
-//   emit("goToWithdraw");
-// };
+const goToGettingStarted = () => {
+  emit("goToGettingStarted");
+  activeHelp.value = "3";
+};
+const goToJobManagement = () => {
+  emit("goToJobManagement");
+};
+const goToPayments = () => {
+  emit("goToPayments");
+};
+const gotToPolicies = () => {
+  emit("gotToPolicies");
+};
+const goToCommunication = () => {
+  emit("goToCommunication");
+};
 </script>
 <template>
   <div class="w-full flex flex-col lg:gap-[81.97px] gap-[41.97px]">
@@ -40,6 +66,7 @@ const goToAccount = () => {
           </p>
         </button>
         <button
+          @click="goToGettingStarted"
           class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
         >
           <h3 class="text-[#007582] text-[16.917px] font-Satoshi500 leading-[17.763px]">
@@ -50,6 +77,7 @@ const goToAccount = () => {
           </p>
         </button>
         <button
+          @click="goToJobManagement"
           class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
         >
           <h3 class="text-[#007582] text-[16.917px] font-Satoshi500 leading-[17.763px]">
@@ -64,6 +92,7 @@ const goToAccount = () => {
         class="flex md:flex-row flex-col justify-evenly lg:gap-[60.313px] gap-[30.313px]"
       >
         <button
+          @click="goToPayments"
           class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
         >
           <h3 class="text-[#007582] text-[16.917px] font-Satoshi500 leading-[17.763px]">
@@ -74,6 +103,7 @@ const goToAccount = () => {
           </p>
         </button>
         <button
+          @click="gotToPolicies"
           class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
         >
           <h3 class="text-[#007582] text-[16.917px] font-Satoshi500 leading-[17.763px]">
@@ -84,6 +114,7 @@ const goToAccount = () => {
           </p>
         </button>
         <button
+          @click="goToCommunication"
           class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
         >
           <h3 class="text-[#007582] text-[16.917px] font-Satoshi500 leading-[17.763px]">
