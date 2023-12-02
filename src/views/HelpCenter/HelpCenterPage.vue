@@ -1,6 +1,14 @@
 <script setup>
+import { ref } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import DefultPage from "@/components/ui/HelpCenter/DefultPage.vue";
+import AnswersPage from "../../components/ui/HelpCenter/AnswersPage.vue";
+const step = ref([true, false]);
+
+const changeScreen = (from, to, type = null) => {
+  step.value[from] = false;
+  step.value[to] = true;
+};
 </script>
 
 <template>
@@ -11,7 +19,10 @@ import DefultPage from "@/components/ui/HelpCenter/DefultPage.vue";
       <h4 class="text-[#244034] font-EBGaramond500 capitalize text-[27px]">
         Help center
       </h4>
-      <div><DefultPage /></div>
+      <div>
+        <DefultPage @goToAccount="changeScreen(0, 1)" v-if="step[0]" />
+        <AnswersPage v-if="step[1]" />
+      </div>
     </div>
   </DashboardLayout>
 </template>

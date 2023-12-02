@@ -1,5 +1,13 @@
 <script setup>
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+const emit = defineEmits(["goToAccount"]);
+
+const goToAccount = () => {
+  emit("goToAccount");
+};
+// const goToGettingStarted = () => {
+//   emit("goToWithdraw");
+// };
 </script>
 <template>
   <div class="w-full flex flex-col lg:gap-[81.97px] gap-[41.97px]">
@@ -21,6 +29,7 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
         class="flex md:flex-row flex-col justify-evenly lg:gap-[60.313px] gap-[30.313px]"
       >
         <button
+          @click="goToAccount"
           class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
         >
           <h3 class="text-[#007582] text-[16.917px] font-Satoshi500 leading-[17.763px]">
