@@ -1,6 +1,9 @@
 <script setup>
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useTabStore } from "@/stores/tab";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 const store = useTabStore();
 import { storeToRefs } from "pinia";
 
@@ -33,6 +36,12 @@ const gotToPolicies = () => {
 };
 const goToCommunication = () => {
   emit("goToCommunication");
+};
+const goToTicket = () => {
+  router.push({
+    name: "open-ticket",
+  });
+  // emit("goToTicket");
 };
 </script>
 <template>
@@ -138,6 +147,7 @@ const goToCommunication = () => {
         Couldn’t find whay you are looking for?
       </p>
       <button
+        @click="goToTicket"
         class="btn-brand !border-none !py-3 !px-5 !text-[#FFFFFF] bg-[#2f919c9e] text-center !bg-[#2F929C]"
       >
         Open Ticket

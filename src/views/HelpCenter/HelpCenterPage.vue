@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import DefultPage from "@/components/ui/HelpCenter/DefultPage.vue";
-import AnswersPage from "../../components/ui/HelpCenter/AnswersPage.vue";
+import AnswersPage from "@/components/ui/HelpCenter/AnswersPage.vue";
 const step = ref([true, false]);
 
 const changeScreen = (from, to, type = null) => {
