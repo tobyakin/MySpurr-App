@@ -51,3 +51,4 @@ app.use(router)
 app.use(Antd);
 
 app.mount('#app')
+document.title = 'MySpurr | Creative talent hiring'

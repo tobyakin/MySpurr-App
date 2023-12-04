@@ -8,7 +8,7 @@ import { login, authWithGoogle } from "@/services/Auth";
 import PasswordInput from "@/components/ui/PasswordInput.vue";
 import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
-import Loader from "@/components/ui/Loader/Loader.vue";
+// import Loader from "@/components/ui/Loader/Loader.vue";
 
 const store = useStore();
 let profile = useUserProfile();
@@ -194,7 +194,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Loader />
+  <!-- <Loader /> -->
   <layout :showLandingUrl="true" :showWelcomeMsg="state.status" class="bg-[#00474F]">
     <div
       class="justify-center xl:w-[80%] w-full mx-auto lg:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
