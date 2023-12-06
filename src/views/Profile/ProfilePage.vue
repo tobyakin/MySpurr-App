@@ -195,9 +195,16 @@ onMounted(async () => {
               >
                 <a
                   role="button"
+                  target="_blank"
+                  :href="
+                    `https://www.myspurr.net/` +
+                    userDetails?.first_name +
+                    `/` +
+                    userDetails?.uniqueId
+                  "
                   @click="copyUrl()"
                   class="text-[10.476px] font-Satoshi500 text-[#01272C]"
-                  >myspurr.talent/{{ userDetails?.first_name }}</a
+                  >myspurr.net/{{ userDetails?.first_name }}</a
                 >
                 <div
                   class="bg-[#2C4C50] p-1 absolute right-1 top-[6px] flex items-start rounded-full"
@@ -205,7 +212,6 @@ onMounted(async () => {
                   <LinkIcon class="h-[7.596px] w-[7.596px]" />
                 </div>
               </div>
-
               <button @click="HandleToggleEditHeadlineBioModal">
                 <EditIcon class="text-[#297F88]" />
               </button>
@@ -214,7 +220,7 @@ onMounted(async () => {
         </div>
         <div class="flex flex-col lg:flex-row mt-10 w-full">
           <div class="lg:w-[70%] p-4">
-            <div class="flex flex-row items-center gap-[96px]">
+            <div class="flex flex-row items-center justify-between gap-[96px]">
               <p class="text-[28px] text-[#000] font-Satoshi500">Overview</p>
               <button @click="HandleToggleEditOverviewModal">
                 <EditIcon class="text-[#297F88]" />
@@ -231,7 +237,7 @@ onMounted(async () => {
               <!--               {{ talents?.top_skills.length - 10 }}+
  -->
             </div>
-            <div class="flex flex-row items-center gap-[96px] !mb-4 mt-6">
+            <div class="flex flex-row items-center justify-between gap-[96px] !mb-4 mt-6">
               <p class="text-[28px] text-[#000] font-Satoshi500">Skills</p>
               <button @click="HandleToggleSkillsPageModal">
                 <EditIcon class="text-[#297F88]" />
@@ -251,7 +257,9 @@ onMounted(async () => {
                 class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
               ></div>
             </div>
-            <div class="flex flex-row items-center gap-[96px] !mb-12 mt-8">
+            <div
+              class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
+            >
               <p class="text-[28px] text-[#000] font-Satoshi500">Education</p>
               <button @click="HandleToggleEducationPageModal">
                 <EditIcon class="text-[#297F88]" />
@@ -259,7 +267,9 @@ onMounted(async () => {
             </div>
 
             <EducationDetails :items="userDetails?.education" />
-            <div class="flex flex-row items-center gap-[16px] !mb-12 mt-8">
+            <div
+              class="flex flex-row items-center justify-between gap-[16px] !mb-12 mt-8"
+            >
               <p class="text-[28px] text-[#000] font-Satoshi500">Work Experience</p>
               <button @click="HandleToggleWorkExperiencePageModal">
                 <EditIcon class="text-[#297F88]" />
@@ -267,7 +277,9 @@ onMounted(async () => {
             </div>
 
             <WorkExperience :items="userDetails?.employment" />
-            <div class="flex flex-row items-center gap-[96px] !mb-12 mt-8">
+            <div
+              class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
+            >
               <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
 
               <button @click="HandleTogglePortfolioModal">
@@ -317,7 +329,7 @@ onMounted(async () => {
             </div>
           </div>
           <div class="lg:w-[30%] p-4">
-            <div class="flex flex-row items-center gap-[26px]">
+            <div class="flex flex-row items-center justify-between gap-[26px]">
               <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p>
               <button @click="HandleToggleCertificateModal">
                 <EditIcon class="text-[#297F88]" />
