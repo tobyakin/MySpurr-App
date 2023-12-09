@@ -12,7 +12,8 @@ import {
   updateEmployment,
   addCertificate,
   updateCertificate,
-  updatePortfolio
+  updatePortfolio,
+  getSinglePortfolio
 } from '@/services/Profile'
 
 export const useUserProfile = defineStore('profile', () => {
@@ -59,7 +60,7 @@ export const useUserProfile = defineStore('profile', () => {
     currently_working_here: 'no',
     certificate_date: ''
   })
-
+const singlePortfolio = ref({})
   const userProfile = async () => {
     try {
       user.value = await getUserProfile()
@@ -93,9 +94,9 @@ export const useUserProfile = defineStore('profile', () => {
       facebook: bioInfo.value.facebook
     }
     try {
-        let res = await updateBio(payload)
-        return res
-    }catch (error) {
+      let res = await updateBio(payload)
+      return res
+    } catch (error) {
       /**/
     }
   }
@@ -103,13 +104,12 @@ export const useUserProfile = defineStore('profile', () => {
     let payload = {
       overview: overview.value
     }
-        try {
-          let res = await updateOverview(payload)
-          return res
-        } catch (error) {
-          /**/
-        }
-
+    try {
+      let res = await updateOverview(payload)
+      return res
+    } catch (error) {
+      /**/
+    }
   }
   const handleAddWorkDetails = async () => {
     let payload = {
@@ -123,10 +123,10 @@ export const useUserProfile = defineStore('profile', () => {
         currently_working_here: employment_details.value.currently_working_here
       }
     }
-    try{
+    try {
       let res = await addWorkDetails(payload)
       return res
-    }catch (error) {
+    } catch (error) {
       /**/
     }
   }
@@ -134,12 +134,12 @@ export const useUserProfile = defineStore('profile', () => {
     let payload = {
       top_skills: top_skills.value
     }
-      try {
-        let res = await addSkills(payload)
-        return res
-      } catch (error) {
-        /**/
-      }
+    try {
+      let res = await addSkills(payload)
+      return res
+    } catch (error) {
+      /**/
+    }
   }
   const handleAddEducation = async () => {
     let payload = {
@@ -152,12 +152,12 @@ export const useUserProfile = defineStore('profile', () => {
         currently_schooling_here: education.value.currently_schooling_here
       }
     }
-      try {
-        let res = await addEducation(payload)
-        return res
-      } catch (error) {
-        /**/
-      }
+    try {
+      let res = await addEducation(payload)
+      return res
+    } catch (error) {
+      /**/
+    }
   }
   const handleUpdateEducation = async (id, payload) => {
     try {
@@ -168,10 +168,10 @@ export const useUserProfile = defineStore('profile', () => {
     }
   }
   const handleUpdateEmploymentDetails = async (id, payload) => {
-    try{
+    try {
       let res = await updateEmployment(id, payload)
       return res
-    }catch (error) {
+    } catch (error) {
       /**/
     }
   }
@@ -184,26 +184,34 @@ export const useUserProfile = defineStore('profile', () => {
       certificate_link: certificateDetails.value.certificate_link,
       currently_working_here: certificateDetails.value.currently_working_here
     }
-    try{
+    try {
       let res = await addCertificate(payload)
       return res
-    }catch (error) {
+    } catch (error) {
       /**/
     }
   }
   const handleUpdateCertificate = async (id, payload) => {
-    try{
+    try {
       let res = await updateCertificate(id, payload)
       return res
-    }catch (error) {
+    } catch (error) {
       /**/
     }
   }
   const handleUpdatePortfolio = async (id, payload) => {
-    try{
+    try {
       let res = await updatePortfolio(id, payload)
       return res
-    }catch (error) {
+    } catch (error) {
+      /**/
+    }
+  }
+  const handleGetSinglePortfolio = async (id) => {
+    try {
+      singlePortfolio.value = await getSinglePortfolio(id)
+      return singlePortfolio.value
+    } catch (error) {
       /**/
     }
   }
@@ -228,6 +236,8 @@ export const useUserProfile = defineStore('profile', () => {
     certificateDetails,
     handleAddCertificate,
     handleUpdateCertificate,
-    handleUpdatePortfolio
+    handleUpdatePortfolio,
+    handleGetSinglePortfolio,
+    singlePortfolio
   }
 })

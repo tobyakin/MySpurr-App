@@ -187,3 +187,18 @@ export const updatePortfolio = async (id, payload) => {
     throw error
   }
 }
+export const getSinglePortfolio = async (id) => {
+  const token = await getToken()
+  try {
+    let res = await axios.get(`portfolio/single/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
