@@ -281,5 +281,5 @@ input[type="checkbox"] {
   list-style-type: disc !important;
 }
 .editor p{
-  @apply  flex flex-wrap break-words text-justify
+  @apply   break-words text-justify font-Satoshi400 my-4 
 }
