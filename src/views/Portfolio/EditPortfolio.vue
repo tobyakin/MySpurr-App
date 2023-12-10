@@ -130,6 +130,13 @@ const removeImage = () => {
 };
 const onFinish = async () => {
   loading.value = true;
+  let coverImage = "";
+  // Check if the cover image is the same as the pre-filled one
+  if (portfolio.value.cover_image === SingleCertificateObject.value.cover_image) {
+    portfolio.value.cover_image = ""; // Return empty string if cover image is the same
+  } else {
+    coverImage = portfolio.value.cover_image;
+  }
   let payload = {
     title: portfolio.value.title,
     client_name: portfolio.value.client_name,
@@ -137,7 +144,7 @@ const onFinish = async () => {
     location: portfolio.value.location,
     rate: portfolio.value.rate,
     tags: portfolio.value.tags,
-    cover_image: portfolio.value.cover_image,
+    cover_image: coverImage,
     body: portfolio.value.body,
   };
   try {

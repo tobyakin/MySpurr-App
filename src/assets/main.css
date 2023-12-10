@@ -283,3 +283,10 @@ input[type="checkbox"] {
 .editor p{
   @apply   break-words text-justify font-Satoshi400 my-4 
 }
+.ql-video{
+  width: 100%; /* Set the desired width */
+  height: 600px; /* Set the desired height */
+  border: 1px solid #ccc; /* Add a border */
+  border-radius: 5px; /* Add rounded corners */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add a box shadow */
+}
