@@ -1,10 +1,29 @@
 <script setup>
-import { defineAsyncComponent } from "vue";
+import { ref } from "vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
-const SelectGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/SelectGroup.vue")
-);
-const currency = ["US Dollar", "NGN Naira"];
+import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
+import { useUserSettingsStore } from "@/stores/settings";
+import { storeToRefs } from "pinia";
+
+const userSettingsStore = useUserSettingsStore();
+const { settingsData } = storeToRefs(userSettingsStore);
+const currency = ["USD", "NGN"];
+let language = [
+  {
+    language: "",
+    proficiency: "",
+  },
+];
+const onFinish = async () => {
+  try {
+    const res = await userSettingsStore.userSettings();
+    return res;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    /**    */
+  }
+};
 </script>
 <template>
   <div class="flex flex-col gap-[60px]">
@@ -30,6 +49,7 @@ const currency = ["US Dollar", "NGN Naira"];
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
+              v-model="settingsData.first_name"
             />
           </div>
 
@@ -42,6 +62,7 @@ const currency = ["US Dollar", "NGN Naira"];
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
+              v-model="settingsData.last_name"
             />
           </div>
 
@@ -54,6 +75,7 @@ const currency = ["US Dollar", "NGN Naira"];
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
+              v-model="settingsData.email"
             />
           </div>
         </div>
@@ -76,6 +98,7 @@ const currency = ["US Dollar", "NGN Naira"];
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
               placeholder="Abuja, Federal Capital City, Nigeria"
+              v-model="settingsData.location"
             />
           </div>
         </div>
@@ -103,6 +126,7 @@ const currency = ["US Dollar", "NGN Naira"];
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
+              v-model="settingsData.billing_address.country"
             />
           </div>
 
@@ -113,6 +137,7 @@ const currency = ["US Dollar", "NGN Naira"];
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
+              v-model="settingsData.billing_address.state"
             />
           </div>
 
@@ -125,6 +150,7 @@ const currency = ["US Dollar", "NGN Naira"];
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
+              v-model="settingsData.billing_address.address_1"
             />
           </div>
           <div
@@ -136,6 +162,7 @@ const currency = ["US Dollar", "NGN Naira"];
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
+              v-model="settingsData.billing_address.address_2"
             />
           </div>
 
@@ -146,6 +173,7 @@ const currency = ["US Dollar", "NGN Naira"];
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
+              v-model="settingsData.billing_address.city"
             />
           </div>
 
@@ -158,6 +186,7 @@ const currency = ["US Dollar", "NGN Naira"];
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
+              v-model="settingsData.billing_address.zip_code"
             />
           </div>
         </div>
@@ -216,6 +245,7 @@ const currency = ["US Dollar", "NGN Naira"];
               name=""
               labelClasses="!hidden"
               class="bg-transparent border-none"
+              v-model="settingsData.currency"
             />
           </div>
         </div>
@@ -242,6 +272,7 @@ const currency = ["US Dollar", "NGN Naira"];
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="url"
               placeholder="Link URL"
+              v-model="settingsData.application_lin"
             />
           </div>
         </div>
@@ -260,7 +291,10 @@ const currency = ["US Dollar", "NGN Naira"];
           <div
             class="w-full flex font-light font-Satoshi400 p-4 gap-3 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <select class="bg-transparent w-[8%] !border-r-[1px] !border-r-[#254035AB]">
+            <select
+              v-model="settingsData.country_code"
+              class="bg-transparent w-[8%] !border-r-[1px] !border-r-[#254035AB]"
+            >
               <option value="">+234</option>
             </select>
             <!-- <SelectGroup
@@ -275,6 +309,7 @@ const currency = ["US Dollar", "NGN Naira"];
               inputClasses="bg-transparent !w-full border-none !px-0 !py-[4px]"
               type="tel"
               placeholder="123456789"
+              v-model="settingsData.phone_number"
             />
           </div>
         </div>
@@ -287,6 +322,7 @@ const currency = ["US Dollar", "NGN Naira"];
         Cancel
       </button>
       <button
+        @click="onFinish"
         class="btn-brand !border-none !py-[13.05px] !px-10 !text-[#FFFFFF] bg-[#2f919c9e] text-center !bg-[#2F929C]"
       >
         Save

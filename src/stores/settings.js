@@ -1,29 +1,34 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { updateUserSettings } from '@/services/Setting'
+import { updateUserSettings } from '@/services/Settings'
 
 export const useUserSettingsStore = defineStore('settings', () => {
 
   const settingsData = ref({
-    talent_id: null,
-    first_name: "",
-    last_name: "",
-    email: "",
-    location: "",
-    currency: "",
-    application_lin: "",
-    country_code: "",
-    phone_number: "",
+    talent_id: '4',
+    first_name: 'Kufre-abasi',
+    last_name: 'Bassey',
+    email: 'nrwgsuwgc@hldrive.com',
+    location: 'Uyo,Nigeria',
+    currency: 'USD',
+    application_lin: 'sd ghv ghjb vbgbhv e',
+    country_code: '123',
+    phone_number: '123456789',
     billing_address: {
-        country: "",
-        state: "",
-        address_1: "",
-        address_2: "",
-        city: "",
-        zip_code: ""
+      country: 'Nigeria',
+      state: 'Akwa Ibom',
+      address_1: 'jdhchd',
+      address_2: 'hdhhc',
+      city: 'Uyo',
+      zip_code: '12345'
     },
-    language: []
-})
+    language: [
+      {
+        language: '',
+        proficiency: ''
+      }
+    ]
+  })
   const userSettings = async () => {
         let payload = {
           first_name: settingsData.value.first_name,
@@ -42,7 +47,7 @@ export const useUserSettingsStore = defineStore('settings', () => {
             city: settingsData.value.billing_address.city,
             zip_code: settingsData.value.billing_address.zip_code
           },
-          language: settingsData.value.billing_address.language
+          language: settingsData.value.language
         }
     try {
       let res = await updateUserSettings(settingsData.value.talent_id, payload)
