@@ -201,18 +201,18 @@ watch(SingleObject, (newSingleObject) => {
 watch(currentlyWorkingingHere, (newcurrentlyWorkingingHere) => {
   employment_details.value.currently_working_here = newcurrentlyWorkingingHere;
 });
-const Title = computed(() => {
-  return formState.value.title;
-});
+// const Title = computed(() => {
+//   return formState.value.title;
+// });
 
-watch(Title, (newEmploymentDetails) => {
-  employment_details.title = newEmploymentDetails;
-});
+// watch(Title, (newEmploymentDetails) => {
+//   employment_details.title = newEmploymentDetails;
+// });
 
 // Define a watcher to react to changes in SingleObject
-watch(SingleObject, (newSingleObject) => {
-  prefillDetails(newSingleObject);
-});
+// watch(SingleObject, (newSingleObject) => {
+//   prefillDetails(newSingleObject);
+// });
 // onUpdated(async () => {
 //   await userProfile.userProfile();
 // });
