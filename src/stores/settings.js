@@ -5,27 +5,27 @@ import { updateUserSettings } from '@/services/Settings'
 export const useUserSettingsStore = defineStore('settings', () => {
 
   const settingsData = ref({
-    talent_id: '4',
-    first_name: 'Kufre-abasi',
-    last_name: 'Bassey',
-    email: 'nrwgsuwgc@hldrive.com',
-    location: 'Uyo,Nigeria',
-    currency: 'USD',
-    application_lin: 'sd ghv ghjb vbgbhv e',
-    country_code: '123',
-    phone_number: '123456789',
+    talent_id: '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    location: '',
+    currency: '',
+    application_lin: '',
+    country_code: '',
+    phone_number: '',
     billing_address: {
-      country: 'Nigeria',
-      state: 'Akwa Ibom',
-      address_1: 'jdhchd',
-      address_2: 'hdhhc',
-      city: 'Uyo',
-      zip_code: '12345'
+      country: '',
+      state: '',
+      address_1: '',
+      address_2: '',
+      city: '',
+      zip_code: ''
     },
     language: [
       {
-        language: '',
-        proficiency: ''
+        language: 'k',
+        proficiency: 'k'
       }
     ]
   })

@@ -1,10 +1,17 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import { useUserSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
+import { useUserProfile } from "@/stores/profile";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
+let loading = ref(false);
+let profile = useUserProfile();
+const userDetails = computed(() => {
+  return profile.user.data;
+});
 const userSettingsStore = useUserSettingsStore();
 const { settingsData } = storeToRefs(userSettingsStore);
 const currency = ["USD", "NGN"];
@@ -14,6 +21,29 @@ let language = [
     proficiency: "",
   },
 ];
+
+const prefillDetails = (SingleObject) => {
+  settingsData.value.talent_id = SingleObject.id || "";
+  settingsData.value.first_name = SingleObject.first_name || "";
+  settingsData.value.last_name = SingleObject.last_name || "";
+  settingsData.value.email = SingleObject.email || "";
+  settingsData.value.location = SingleObject.location || "";
+  settingsData.value.currency = SingleObject.currency || "";
+  settingsData.value.application_lin = SingleObject.application_lin || "";
+  settingsData.value.country_code = SingleObject.country_code || "";
+  settingsData.value.phone_number = SingleObject.phone_number || "";
+  settingsData.value.billing_address.country = SingleObject.country || "";
+  settingsData.value.billing_address.state = SingleObject.state || "";
+  settingsData.value.billing_address.address_1 = SingleObject.address_1 || "";
+  settingsData.value.billing_address.address_2 = SingleObject.address_2 || "";
+  settingsData.value.billing_address.city = SingleObject.city || "";
+  settingsData.value.billing_address.zip_code = SingleObject.zip_code || "";
+  // settingsData.value.language = SingleObject.language || "";
+};
+watch(userDetails, (newSingleObject) => {
+  prefillDetails(newSingleObject);
+});
+
 const onFinish = async () => {
   try {
     const res = await userSettingsStore.userSettings();
@@ -24,6 +54,10 @@ const onFinish = async () => {
     /**    */
   }
 };
+onMounted(async () => {
+  prefillDetails(userDetails.value);
+  await profile.userProfile();
+});
 </script>
 <template>
   <div class="flex flex-col gap-[60px]">
@@ -157,7 +191,7 @@ const onFinish = async () => {
             class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
             <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
-              >Address 1
+              >Address 2
             </label>
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
@@ -295,7 +329,7 @@ const onFinish = async () => {
               v-model="settingsData.country_code"
               class="bg-transparent w-[8%] !border-r-[1px] !border-r-[#254035AB]"
             >
-              <option value="">+234</option>
+              <option value="234">+234</option>
             </select>
             <!-- <SelectGroup
               DropdownItem=""
@@ -325,7 +359,8 @@ const onFinish = async () => {
         @click="onFinish"
         class="btn-brand !border-none !py-[13.05px] !px-10 !text-[#FFFFFF] bg-[#2f919c9e] text-center !bg-[#2F929C]"
       >
-        Save
+        <span v-if="!loading">Save</span>
+        <WhiteLoader v-else />
       </button>
     </div>
   </div>
