@@ -15,8 +15,9 @@ import BusinessValuesCard from "@/components/ui/Cards/BusinessValuesCard.vue";
 import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
 // import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import { useTabStore } from "@/stores/tab";
-
+import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
+const router = useRouter();
 
 const tabStore = useTabStore();
 const { isLoading } = storeToRefs(tabStore);
@@ -24,6 +25,8 @@ const { isLoading } = storeToRefs(tabStore);
 let store = useStore();
 let profile = useUserProfile();
 // const showPageLoader = ref(true);
+
+const isOnBoarded = computed(() => profile.user);
 
 const userDetails = computed(() => {
   return profile.user.data;
@@ -37,14 +40,20 @@ onMounted(() => {
 onMounted(() => {
   return accountType;
 });
-// const isOnBoarded = computed(() => profile.user);
-// onMounted(async () => {
-//   await profile.userProfile();
-//   console.log(isOnBoarded.value.work_details);
-// });
 onMounted(async () => {
   try {
     await profile.userProfile();
+    if (
+      isOnBoarded.value &&
+      !isOnBoarded.value.business_details &&
+      !isOnBoarded.value.work_details
+    ) {
+      if (accountType.value === "talent") {
+        router.push({ name: "talent-onboarding" });
+      } else if (accountType.value === "business") {
+        router.push({ name: "business-onboarding" });
+      }
+    }
   } catch (error) {
     /* empty */
   } finally {
