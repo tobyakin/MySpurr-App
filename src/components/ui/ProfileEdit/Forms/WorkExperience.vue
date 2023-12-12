@@ -6,8 +6,11 @@ import EditWorkExperience from "@/components/ui/genericComponents/EditWorkExperi
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
-
+import { useSkillsStore } from "@/stores/skills";
 import dayjs from "dayjs";
+import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
+const skillsStore = useSkillsStore();
+const { skills, jobTitle } = storeToRefs(skillsStore);
 
 const userProfile = useUserProfile();
 const formState = ref({
@@ -22,6 +25,13 @@ const formState = ref({
 const present = ref(false); // Add a variable to track if the checkbox is checked
 const { employment_details } = storeToRefs(userProfile);
 let loading = ref(false);
+const employmentType = [
+  "Freelance",
+  "Full-time ",
+  "Part-time ",
+  "Internship ",
+  "Contract ",
+];
 
 const step = ref([true, false, false]);
 const changeScreen = (from, to, type = null) => {
@@ -33,6 +43,82 @@ const handleOpenEdit = (index) => {
   SingleObject.value = userProfile?.user?.data?.employment[index];
   changeScreen(0, 1);
 };
+//
+// this section contain functions to handle type and search dropdown for title input section on edit view
+//
+let skillTitles = ref([]);
+let options = ref([]);
+
+const showJobTitleDropdown = ref(false);
+const highlightedJobTitleIndex = ref(-1);
+
+const filteredOptionsJobTitle = computed(() => {
+  const searchJobTitle = formState.value.title.toLowerCase();
+  return skillTitles.value.filter((option) =>
+    option.name.toLowerCase().includes(searchJobTitle)
+  );
+});
+const selectJobTitleOptions = (option) => {
+  formState.value.title = option.name;
+  showJobTitleDropdown.value = false;
+};
+
+const filterJobTitleOptions = () => {
+  showJobTitleDropdown.value = true;
+  highlightedJobTitleIndex.value = -1;
+};
+const highlightNextJobTitle = () => {
+  if (highlightedJobTitleIndex.value < filteredOptionsJobTitle.value.length - 1) {
+    highlightedJobTitleIndex.value++;
+  }
+};
+const highlightPreviousJobTitle = () => {
+  if (highlightedJobTitleIndex.value > 0) {
+    highlightedJobTitleIndex.value--;
+  }
+};
+const selectHighlightedJobTitleOption = () => {
+  if (highlightedJobTitleIndex.value >= 0) {
+    selectJobTitleOptions(filteredOptionsJobTitle.value[highlightedJobTitleIndex.value]);
+  }
+};
+//
+// this section contain functions to handle type and search dropdown for title input section on  add view
+//
+
+const filteredOptionsJobTitleADD = computed(() => {
+  const searchJobTitle = employment_details.value.title.toLowerCase();
+  return skillTitles.value.filter((option) =>
+    option.name.toLowerCase().includes(searchJobTitle)
+  );
+});
+const selectJobTitleOptionsADD = (option) => {
+  employment_details.value.title = option.name;
+  showJobTitleDropdown.value = false;
+};
+
+const filterJobTitleOptionsADD = () => {
+  showJobTitleDropdown.value = true;
+  highlightedJobTitleIndex.value = -1;
+};
+const highlightNextJobTitleADD = () => {
+  if (highlightedJobTitleIndex.value < filteredOptionsJobTitle.value.length - 1) {
+    highlightedJobTitleIndex.value++;
+  }
+};
+const highlightPreviousJobTitleADD = () => {
+  if (highlightedJobTitleIndex.value > 0) {
+    highlightedJobTitleIndex.value--;
+  }
+};
+const selectHighlightedJobTitleOptionADD = () => {
+  if (highlightedJobTitleIndex.value >= 0) {
+    selectJobTitleOptionsADD(
+      filteredOptionsJobTitle.value[highlightedJobTitleIndex.value]
+    );
+  }
+};
+
 const handleAddNew = () => {
   changeScreen(0, 2);
 };
@@ -115,6 +201,13 @@ watch(SingleObject, (newSingleObject) => {
 watch(currentlyWorkingingHere, (newcurrentlyWorkingingHere) => {
   employment_details.value.currently_working_here = newcurrentlyWorkingingHere;
 });
+const Title = computed(() => {
+  return formState.value.title;
+});
+
+watch(Title, (newEmploymentDetails) => {
+  employment_details.title = newEmploymentDetails;
+});
 
 // Define a watcher to react to changes in SingleObject
 watch(SingleObject, (newSingleObject) => {
@@ -127,6 +220,10 @@ watch(SingleObject, (newSingleObject) => {
 onMounted(async () => {
   prefillDetails(SingleObject.value);
   await userProfile.userProfile();
+  await skillsStore.getskills();
+  await skillsStore.getJobTitles();
+  options.value = skills.value.data;
+  skillTitles.value = jobTitle.value.data;
 });
 </script>
 <template>
@@ -146,7 +243,7 @@ onMounted(async () => {
         />
       </div>
     </div>
-
+    <!-- edit work experience view  -->
     <div v-if="step[1]">
       <div class="flex flex-row justify-between w-full gap-[21px]">
         <div
@@ -161,24 +258,43 @@ onMounted(async () => {
               type="text"
             />
           </div>
-          <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
+          <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
             <label class="text-[#01272C] text-[12px] font-Satoshi400">Title</label>
             <GlobalInput
               v-model="formState.title"
               inputClasses="bg-transparent border-none !p-0"
-              placeholder="Ex. Bachelor of Science - BS"
               type="text"
+              @input="filterJobTitleOptions"
+              @keydown.down="highlightNextJobTitle"
+              @keydown.up="highlightPreviousJobTitle"
+              @keydown.enter="selectHighlightedJobTitleOption"
             />
+            <ul
+              v-if="showJobTitleDropdown"
+              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+            >
+              <li
+                v-for="(option, index) in filteredOptionsJobTitle"
+                :key="option.id"
+                @click="selectJobTitleOptions(option)"
+                :class="{ highlighted: index === highlightedJobTitleIndex }"
+                class="hover:bg-brand hover:text-white"
+              >
+                {{ option.name }}
+              </li>
+            </ul>
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <label class="text-[#01272C] text-[12px] font-Satoshi400"
               >Employment type</label
             >
-            <GlobalInput
+            <SelectGroup
               v-model="formState.employment_type"
-              inputClasses="bg-transparent border-none !p-0"
-              placeholder="Computer Engineering"
-              type="text"
+              DropdownItem=""
+              :items="employmentType"
+              placeholder=""
+              name=""
+              class="bg-transparent bg-none border-none"
             />
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
@@ -252,6 +368,8 @@ onMounted(async () => {
         </button>
       </div>
     </div>
+    <!-- add work experience view  -->
+
     <div v-if="step[2]">
       <div class="flex flex-row justify-between w-full gap-[21px]">
         <div
@@ -267,20 +385,46 @@ onMounted(async () => {
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <label class="text-[#01272C] text-[12px] font-Satoshi400">Title</label>
+            <!-- <GlobalInput
+              v-model="employment_details.title"
+              inputClasses="bg-transparent border-none !p-0"
+              type="text"
+            /> -->
             <GlobalInput
               v-model="employment_details.title"
               inputClasses="bg-transparent border-none !p-0"
               type="text"
+              @input="filterJobTitleOptionsADD"
+              @keydown.down="highlightNextJobTitleADD"
+              @keydown.up="highlightPreviousJobTitleADD"
+              @keydown.enter="selectHighlightedJobTitleOptionADD"
             />
+            <ul
+              v-if="showJobTitleDropdown"
+              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+            >
+              <li
+                v-for="(option, index) in filteredOptionsJobTitleADD"
+                :key="option.id"
+                @click="selectJobTitleOptionsADD(option)"
+                :class="{ highlighted: index === highlightedJobTitleIndex }"
+                class="hover:bg-brand hover:text-white"
+              >
+                {{ option.name }}
+              </li>
+            </ul>
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <label class="text-[#01272C] text-[12px] font-Satoshi400"
               >Employment type</label
             >
-            <GlobalInput
+            <SelectGroup
               v-model="employment_details.employment_type"
-              inputClasses="bg-transparent border-none !p-0"
-              type="text"
+              DropdownItem=""
+              :items="employmentType"
+              placeholder=""
+              name=""
+              class="bg-transparent bg-none border-none"
             />
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
