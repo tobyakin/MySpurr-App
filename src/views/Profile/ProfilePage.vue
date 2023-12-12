@@ -154,7 +154,7 @@ onMounted(async () => {
               >
                 {{ userDetails?.skill_title }}
               </p>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center justify-center gap-2">
                 <p class="lg:text-[13.625px] text-[14px] text-[#244034] font-Satoshi500">
                   ${{ userDetails?.rate }}/hr
                 </p>
