@@ -5,6 +5,7 @@ import InvitesView from "@/components/ui/MyApplications/InvitesView.vue";
 import Applications from "@/components/ui/MyApplications/Applications/Applications.vue";
 import JobOffers from "@/components/ui/MyApplications/JobOffers.vue";
 import MyJobs from "@/components/ui/MyApplications/MyJobs/MyJobs.vue";
+import Invoices from "@/components/ui/MyApplications/InvoicePage.vue";
 </script>
 <template>
   <DashboardLayout
@@ -20,7 +21,7 @@ import MyJobs from "@/components/ui/MyApplications/MyJobs/MyJobs.vue";
         <template #view2><Applications /></template>
         <template #view3><JobOffers /></template>
         <template #view4><MyJobs /></template>
-        <template #view5></template>
+        <template #view5><Invoices /></template>
         <template #view6></template>
       </Tab>
     </div>

@@ -1,0 +1,144 @@
+<script setup>
+import { ref, onMounted } from "vue";
+import Table from "./Table.vue";
+const message = ref("Loading");
+
+const columns = ref([
+  "Invoice Number",
+  "Client’s Name",
+  "Invoice Date",
+  "Amount",
+  "Status",
+]);
+const rows = ref([
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "paid",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "sent",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "sent",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "sent",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "sent",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "sent",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "paid",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "sent",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "sent",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "draft",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "sent",
+  },
+  {
+    invoice_number: "BB-AB-OO72",
+    client_name: "Abraham Jackson",
+    invoice_date: "25/12/2023",
+    amount: "₦71,000",
+    status: "sent",
+  },
+]);
+const prev = async () => {
+  message.value = "Loading";
+  //   await store.getAllCustomers(page, "verification");
+  message.value = "No data found";
+};
+
+const next = async () => {
+  message.value = "Loading";
+  //   await store.getAllCustomers(page, "verification");
+  message.value = "No data found";
+};
+</script>
+<template>
+  <div>
+    <div>
+      <div class="flex justify-between items-center flex-row">
+        <h3 class="text-[28.087px] !font-EBGaramond500 text-[#244034] leading-[35.39px]">
+          Invoices
+        </h3>
+        <button
+          class="btn-brand !border-none !py-3 !px-5 !text-[#FFFFFF] bg-[#2f919c9e] text-center !bg-[#2F929C]"
+        >
+          Add New Invoice
+        </button>
+      </div>
+      <div class="my-[39.19px]">
+        <Table :columns="columns" :rows="rows" @previous="prev" @next="next" />
+      </div>
+    </div>
+    <div
+      class="border-[#254035AB] bg-white rounded-[11.367px] text-center py-[80px] p-4 flex flex-col gap-4 border-[1.137px]"
+    >
+      <h3 class="text-[#2F929C] text-[13.552px] font-Satoshi500">No Invoice yet</h3>
+      <p class="text-[#000000] text-[16.311px] font-Satoshi500">
+        Invoices you’ve created will be shown here!
+      </p>
+      <div class="flex justify-center mt-[30px]">
+        <button
+          class="btn-brand !bg-brand !border-none text-center flex items-start !py-3 !text-white"
+        >
+          <span class="">Create New Invoice</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
