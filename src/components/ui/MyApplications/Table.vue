@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="w-full">
     <div
       class="border-[#254035AB] border-[1.137px] flex flex-col gap-[20px] rounded-[11.367px] p-[21px]"
     >
@@ -15,7 +15,7 @@
       <table class="table-auto w-full">
         <thead class="text-[#97A6A8] text-[15px] font-Satoshi400">
           <tr>
-            <th class="py-4 pl-4 lg:flex hidden">
+            <th class="py-4 pl-0 lg:flex hidden">
               <input
                 class="mr-2 outline-none cursor-pointer"
                 type="checkbox"
@@ -39,7 +39,7 @@
             :class="index === rows.length - 1 ? '' : 'border-b'"
             class="text-[14px]"
           >
-            <td class="py-4 lg:block hidden pl-4">
+            <td class="py-4 lg:block hidden pl-0">
               <input
                 class="mr-2 outline-none cursor-pointer"
                 type="checkbox"
@@ -47,7 +47,7 @@
                 id=""
               />
             </td>
-            <td>
+            <td class="py-4">
               <router-link
                 to="/"
                 class="text-[15px] font-Satoshi700 overflow-hidden flex text-[#01181B]"
@@ -55,7 +55,7 @@
               >
             </td>
             <td
-              class="text-left capitalize overflow-hidden text-[#01181B] text-[15px] font-Satoshi500"
+              class="text-left py-4 capitalize overflow-hidden text-[#01181B] text-[15px] font-Satoshi500"
             >
               {{ item.client_name }}
             </td>
@@ -65,11 +65,11 @@
               {{ item.invoice_date }}
             </td>
             <td
-              class="text-left capitalize overflow-hidden text-[#01181B] text-[15px] font-Satoshi400"
+              class="text-left py-4 capitalize overflow-hidden text-[#01181B] text-[15px] font-Satoshi400"
             >
               {{ item.amount }}
             </td>
-            <td class="">
+            <td class="py-4">
               <span
                 :class="{
                   'bg-[#E5EA9A]': item.status == 'draft',

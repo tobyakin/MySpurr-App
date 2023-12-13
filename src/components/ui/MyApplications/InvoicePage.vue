@@ -121,8 +121,44 @@ const next = async () => {
           Add New Invoice
         </button>
       </div>
-      <div class="my-[39.19px]">
+      <div class="my-[39.19px] flex lg:flex-row flex-col gap-[24px]">
         <Table :columns="columns" :rows="rows" @previous="prev" @next="next" />
+        <div class="flex flex-col gap-[24px] w-full lg:w-[36%]">
+          <div
+            class="border-[#254035AB] border-[1.137px] flex flex-col gap-[20px] rounded-[11.367px] p-[21px]"
+          >
+            <div class="flex justify-between items-center border-b pb-2">
+              <h4
+                class="flex items-center text-[#97A6A8] text-[13px] font-Satoshi400 gap-[11px]"
+              >
+                Draft
+                <span
+                  class="p-2 py-1 bg-[#96C6CC] text-[#01181B] rounded-full text-[12px]"
+                  >3</span
+                >
+              </h4>
+              <button class="text-[#297F88] text-[13px]">View</button>
+            </div>
+            <h4 class="text-[#01181B] text-[15px] font-Satoshi400">₦ 102,290.50</h4>
+          </div>
+          <div
+            class="border-[#254035AB] border-[1.137px] flex flex-col gap-[20px] rounded-[11.367px] p-[21px]"
+          >
+            <div class="flex justify-between items-center border-b pb-2">
+              <h4
+                class="flex items-center text-[#97A6A8] text-[13px] font-Satoshi400 gap-[11px]"
+              >
+                Awaiting Payment
+                <span
+                  class="p-2 py-1 bg-[#96C6CC] text-[#01181B] rounded-full text-[12px]"
+                  >3</span
+                >
+              </h4>
+              <button class="text-[#297F88] text-[13px]">View</button>
+            </div>
+            <h4 class="text-[#01181B] text-[15px] font-Satoshi400">₦ 102,290.50</h4>
+          </div>
+        </div>
       </div>
     </div>
     <div
