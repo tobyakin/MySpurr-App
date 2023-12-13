@@ -12,6 +12,7 @@ const columns = ref([
 ]);
 const rows = ref([
   {
+    id: 1,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -19,6 +20,7 @@ const rows = ref([
     status: "paid",
   },
   {
+    id: 2,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -26,6 +28,7 @@ const rows = ref([
     status: "sent",
   },
   {
+    id: 3,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -33,6 +36,7 @@ const rows = ref([
     status: "sent",
   },
   {
+    id: 4,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -40,6 +44,7 @@ const rows = ref([
     status: "sent",
   },
   {
+    id: 5,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -47,6 +52,7 @@ const rows = ref([
     status: "sent",
   },
   {
+    id: 6,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -54,6 +60,7 @@ const rows = ref([
     status: "sent",
   },
   {
+    id: 7,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -61,6 +68,7 @@ const rows = ref([
     status: "paid",
   },
   {
+    id: 8,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -68,6 +76,7 @@ const rows = ref([
     status: "sent",
   },
   {
+    id: 9,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -75,6 +84,7 @@ const rows = ref([
     status: "sent",
   },
   {
+    id: 10,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -82,6 +92,7 @@ const rows = ref([
     status: "draft",
   },
   {
+    id: 11,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
@@ -89,6 +100,7 @@ const rows = ref([
     status: "sent",
   },
   {
+    id: 12,
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
