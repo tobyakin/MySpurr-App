@@ -3,7 +3,7 @@
     <div
       class="border-[#254035AB] border-[1.137px] flex flex-col gap-[20px] rounded-[11.367px] pt-[21px]"
     >
-      <div class="relative px-[21px]">
+      <div class="relative z-10 px-[21px]">
         <div
           class="w-full font-light flex items-center justify-between font-Satoshi400 p-4 py-1.5 border-[#F0F0F0] border-[1px] opacity-[0.8029] !bg-[#31795A00] rounded-[7px] text-[12.68px]"
         >
@@ -36,12 +36,12 @@
                   </clipPath>
                 </defs></svg></span
             ><span class="text-[#000000] text-[16px] font-Satoshi400">Filters</span
-            ><DropDownArrow />
+            ><DropDownArrow :class="showFilter ? 'rotate-100' : 'rotate-180'" />
           </button>
         </div>
         <div
           v-if="showFilter"
-          class="drop_down_section top-[55px] z-[2003] gap-[40px] flex flex-col justify-between w-[100%] rounded-[7px] p-[20px] border-[1px] absolute border-[#F0F0F0] py-4"
+          class="drop_down_section animate__zoomIn animate__rubberBand animate__fadeOut origin-top top-[55px] z-10 left-0 gap-[40px] flex flex-col justify-between lg:w-[98%] w-full lg:ml-[5px] rounded-[7px] p-[20px] border-[1px] absolute border-[#F0F0F0] py-4"
         >
           <div class="gap-[10px] flex lg:flex-row flex-col justify-between w-[100%]">
             <div class="flex flex-col justify-between gap-[24px]">
@@ -87,17 +87,21 @@
                 </div>
               </div>
             </div>
-            <div class="flex lg:flex-row flex-col gap-[8px]">
+            <div class="flex lg:flex-row flex-col z-50 gap-[8px]">
               <div class="flex flex-col gap-[24px]">
                 <h4 class="text-[#01272C] font-Satoshi500 text-[14px]">Date From</h4>
-                <div class="flex flex-row items-center gap-[16px]">
-                  <a-date-picker :format="dateFormat" />
+                <div
+                  class="flex flex-row items-center gap-[16px] py-1.5 px-1 opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px] border-[#254035AB] border-[0.737px]"
+                >
+                  <input type="date" name="" id="" class="outline-none font-Satoshi400" />
                 </div>
               </div>
               <div class="flex flex-col gap-[24px]">
                 <h4 class="text-[#01272C] font-Satoshi500 text-[14px]">Date From</h4>
-                <div class="flex flex-row items-center gap-[16px]">
-                  <a-date-picker :format="dateFormat" />
+                <div
+                  class="flex w-auto items-center py-1.5 px-1 rounded-[5.897px] text-[12.68px] border-[#254035AB] border-[0.737px]"
+                >
+                  <input type="date" name="" id="" class="outline-none font-Satoshi400" />
                 </div>
               </div>
             </div>
@@ -336,10 +340,8 @@ const isSelected = (itemId) => {
 </script>
 <style>
 .drop_down_section {
-  position: absolute;
-  /* top: 70px; */
-  /* left: 1041px; */
-  transform-origin: center top;
+  /* position: absolute; */
+  /* transform-origin: center top; */
   /* z-index: 2003; */
   box-shadow: unset !important;
   /* width: 100% !important; */

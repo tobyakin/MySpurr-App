@@ -122,7 +122,7 @@ const next = async () => {
 </script>
 <template>
   <div>
-    <div>
+    <div v-if="rows.length">
       <div class="flex justify-between items-center flex-row">
         <h3 class="text-[28.087px] !font-EBGaramond500 text-[#244034] leading-[35.39px]">
           Invoices
@@ -133,7 +133,7 @@ const next = async () => {
           Add New Invoice
         </button>
       </div>
-      <div class="my-[39.19px] flex lg:flex-row flex-col gap-[24px]">
+      <div class="my-[39.19px] flex lg:flex-row flex-col-reverse gap-[24px]">
         <Table :columns="columns" :rows="rows" @previous="prev" @next="next" />
         <div class="flex flex-col gap-[24px] w-full lg:w-[36%]">
           <div
@@ -174,6 +174,7 @@ const next = async () => {
       </div>
     </div>
     <div
+      v-else
       class="border-[#254035AB] bg-white rounded-[11.367px] text-center py-[80px] p-4 flex flex-col gap-4 border-[1.137px]"
     >
       <h3 class="text-[#2F929C] text-[13.552px] font-Satoshi500">No Invoice yet</h3>
