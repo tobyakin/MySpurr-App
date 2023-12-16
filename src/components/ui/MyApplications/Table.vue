@@ -271,16 +271,16 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 import InvoicePaginationArrowLeft from "@/components/icons/InvoicePaginationArrowLeft.vue";
 import InvoicePaginationArrowRight from "@/components/icons/InvoicePaginationArrowRight.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import DropDownArrow from "@/components/icons/DropDownArrow.vue";
 import FliterIcon from "@/components/icons/FliterIcon.vue";
 import TrashIcon from "@/components/icons/TrashIcon.vue";
-const router = useRouter();
-const showUser = ref({});
-const showUserToggle = ref(false);
+// const router = useRouter();
+// const showUser = ref({});
+// const showUserToggle = ref(false);
 const showFilter = ref(false);
 // const items = ref([
 //   {
@@ -332,10 +332,11 @@ const selectAllItems = () => {
   }
   console.log(selectedItems.value);
 };
+const isSelectedID = (itemId) => selectedItems.value.includes(itemId);
 const isSelected = (itemId) => {
-  console.log(selectedItems.value);
   return props.rows.find((item) => item.id === itemId) || null;
 };
+
 const totalSelectedPrice = computed(() => {
   return selectedItems.value.reduce((total, itemId) => {
     const selectedItem = isSelected(itemId);
@@ -345,7 +346,7 @@ const totalSelectedPrice = computed(() => {
 const getRowClass = (itemId, index) => {
   return {
     "border-b": index !== props.rows.length - 1,
-    // "bg-[#0075821A]": isSelected(itemId) !== null,
+    "bg-[#0075821A]": isSelectedID(itemId),
   };
 };
 </script>
