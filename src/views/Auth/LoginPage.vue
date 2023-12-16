@@ -226,7 +226,6 @@ onMounted(() => {
               v-model="formState.email"
               type="email"
               placeholder="Email Address*"
-              @keyup.enter="onFinish"
             />
           </div>
 
