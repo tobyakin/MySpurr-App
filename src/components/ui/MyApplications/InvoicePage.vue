@@ -16,7 +16,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "paid",
   },
   {
@@ -24,7 +24,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "sent",
   },
   {
@@ -32,7 +32,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "sent",
   },
   {
@@ -40,7 +40,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "sent",
   },
   {
@@ -48,7 +48,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "sent",
   },
   {
@@ -56,7 +56,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "sent",
   },
   {
@@ -64,7 +64,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "paid",
   },
   {
@@ -72,7 +72,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "sent",
   },
   {
@@ -80,7 +80,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "sent",
   },
   {
@@ -88,7 +88,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "draft",
   },
   {
@@ -96,7 +96,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "sent",
   },
   {
@@ -104,7 +104,7 @@ const rows = ref([
     invoice_number: "BB-AB-OO72",
     client_name: "Abraham Jackson",
     invoice_date: "25/12/2023",
-    amount: "₦71,000",
+    amount: 71000,
     status: "sent",
   },
 ]);

@@ -16,32 +16,18 @@
             @click="showMobileFilter"
             class="border-l flex items-center gap-[6px] pl-[11px]"
           >
-            <span
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-              >
-                <g clip-path="url(#clip0_4157_27263)">
-                  <path
-                    d="M8.16686 14C8.04064 14 7.91783 13.9591 7.81686 13.8833L5.48353 12.1333C5.41108 12.079 5.35228 12.0085 5.31178 11.9275C5.27128 11.8465 5.25019 11.7572 5.25019 11.6667V8.38833L1.15753 3.78408C0.866862 3.45618 0.67708 3.05131 0.610989 2.61814C0.544897 2.18496 0.60531 1.74192 0.784964 1.34226C0.964618 0.942594 1.25587 0.603318 1.62371 0.365205C1.99156 0.127092 2.42034 0.000276744 2.85853 0L11.1419 0C11.58 0.000513946 12.0087 0.12754 12.3764 0.365812C12.7441 0.604085 13.0351 0.943467 13.2146 1.34317C13.3941 1.74288 13.4543 2.18591 13.388 2.61902C13.3218 3.05213 13.1319 3.45689 12.8411 3.78467L8.75019 8.38833V13.4167C8.75019 13.5714 8.68874 13.7197 8.57934 13.8291C8.46994 13.9385 8.32157 14 8.16686 14ZM6.41686 11.375L7.58353 12.25V8.16667C7.58364 8.02384 7.63616 7.88602 7.73111 7.77933L11.9708 3.00942C12.1121 2.84963 12.2044 2.65244 12.2364 2.44151C12.2685 2.23059 12.239 2.01489 12.1515 1.82032C12.064 1.62576 11.9221 1.46058 11.743 1.34463C11.564 1.22869 11.3552 1.16689 11.1419 1.16667H2.85853C2.64529 1.16699 2.43667 1.22882 2.25769 1.34474C2.07872 1.46066 1.93698 1.62575 1.84948 1.8202C1.76198 2.01466 1.73243 2.23023 1.76438 2.44106C1.79633 2.65189 1.88842 2.84903 2.02961 3.00883L6.26986 7.77933C6.3646 7.88611 6.4169 8.02392 6.41686 8.16667V11.375Z"
-                    fill="black"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_4157_27263">
-                    <rect width="14" height="14" fill="white" />
-                  </clipPath>
-                </defs></svg></span
-            ><span class="text-[#000000] text-[16px] font-Satoshi400">Filters</span
+            <span>
+              <FliterIcon />
+            </span>
+
+            <span class="text-[#000000] text-[16px] font-Satoshi400">Filters</span
             ><DropDownArrow :class="showFilter ? 'rotate-100' : 'rotate-180'" />
           </button>
         </div>
+
         <div
           v-if="showFilter"
-          class="drop_down_section animate__zoomIn animate__rubberBand animate__fadeOut origin-top top-[55px] z-10 left-0 gap-[40px] flex flex-col justify-between lg:w-[98%] w-full lg:ml-[5px] rounded-[7px] p-[20px] border-[1px] absolute border-[#F0F0F0] py-4"
+          class="drop_down_section animate__zoomIn animate__rubberBand animate__fadeOut top-[50px] origin-top z-10 left-0 gap-[40px] flex flex-col justify-between lg:w-[98%] w-full lg:ml-[5px] rounded-[7px] p-[20px] border-[1px] absolute border-[#F0F0F0] py-4"
         >
           <div class="gap-[10px] flex lg:flex-row flex-col justify-between w-[100%]">
             <div class="flex flex-col justify-between gap-[24px]">
@@ -121,6 +107,20 @@
             </div>
           </div>
         </div>
+        <div
+          v-if="selectedItems.length"
+          class="flex justify-between mt-[20px] items-center flex-row"
+        >
+          <h3 class="text-[15px] font-Satoshi500 text-[#007582] leading-[24px]">
+            {{ selectedItems.length }} Invoices selected, Total ₦{{ totalSelectedPrice }}
+          </h3>
+          <button
+            class="btn-brand !py-1.5 !px-2 gap-2 !text-[#007582] flex items-center !border-[1px] !border-[#007582] text-center !bg-[#2F929C1A]"
+          >
+            <TrashIcon />
+            Delete Invoices
+          </button>
+        </div>
       </div>
       <!-- <div>
         <table>
@@ -178,11 +178,8 @@
         <tbody v-if="rows.length">
           <tr
             v-for="(item, index) in rows"
-            :key="item"
-            :class="{
-              'border-b': index !== rows.length - 1,
-              'bg-[#0075821A]': isSelected(item.id),
-            }"
+            :key="item.id"
+            :class="getRowClass(item.id, index)"
             class="text-[14px]"
           >
             <td class="py-4 lg:block hidden !pl-[21px]">
@@ -216,7 +213,7 @@
             <td
               class="text-left py-4 capitalize overflow-hidden text-[#01181B] text-[15px] font-Satoshi400"
             >
-              {{ item.amount }}
+              ₦{{ item.amount }}
             </td>
             <td class="py-4">
               <span
@@ -280,7 +277,7 @@ import InvoicePaginationArrowRight from "@/components/icons/InvoicePaginationArr
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import DropDownArrow from "@/components/icons/DropDownArrow.vue";
 import FliterIcon from "@/components/icons/FliterIcon.vue";
-FliterIcon;
+import TrashIcon from "@/components/icons/TrashIcon.vue";
 const router = useRouter();
 const showUser = ref({});
 const showUserToggle = ref(false);
@@ -333,9 +330,23 @@ const selectAllItems = () => {
   } else {
     selectedItems.value = [];
   }
+  console.log(selectedItems.value);
 };
 const isSelected = (itemId) => {
-  return selectedItems.value.includes(itemId);
+  console.log(selectedItems.value);
+  return props.rows.find((item) => item.id === itemId) || null;
+};
+const totalSelectedPrice = computed(() => {
+  return selectedItems.value.reduce((total, itemId) => {
+    const selectedItem = isSelected(itemId);
+    return total + (selectedItem ? selectedItem.amount : 0);
+  }, 0);
+});
+const getRowClass = (itemId, index) => {
+  return {
+    "border-b": index !== props.rows.length - 1,
+    // "bg-[#0075821A]": isSelected(itemId) !== null,
+  };
 };
 </script>
 <style>
