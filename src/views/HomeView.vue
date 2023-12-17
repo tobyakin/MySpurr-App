@@ -160,12 +160,22 @@ onMounted(async () => {
               verify your identity.
             </p>
           </div>
-          <router-link
-            to="/verify-identity"
-            class="text-[12.299px] font-Satoshi500 text-white text-center bg-[#43D0DF] p-3 px-[20px] w-[60%] rounded-full"
-          >
-            Verify Identity
-          </router-link>
+          <div class="flex gap-4 mt-6">
+            <router-link
+              v-if="accountType === 'talent'"
+              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              to="/verify-identity"
+            >
+              Verify Identity
+            </router-link>
+
+            <router-link
+              to="/verify-identity"
+              class="text-[12.299px] font-Satoshi500 hidden text-white text-center justify-center mx-auto bg-[#43D0DF] p-3 px-[20px] w-[60%] rounded-full"
+            >
+              Verify Identity
+            </router-link>
+          </div>
         </div>
       </div>
       <!-- Update -->
