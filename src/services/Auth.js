@@ -20,6 +20,34 @@ export const login = async (email, password) => {
     }
   
 }
+export const verifyLogin = async (code) => {
+  let data = {
+    code
+  }
+  try {
+    let res = await axios.post('login-verify', data)
+    catchAxiosSuccess(res)
+    return res
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const RsendVerifyCode = async (email) => {
+  let data = {
+    email
+  }
+  try {
+    let res = await axios.post('resend-code', data)
+    catchAxiosSuccess(res)
+    return res
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
+
 // login with Google
 // export const loginWithGoogle = async () => {
 //     try {

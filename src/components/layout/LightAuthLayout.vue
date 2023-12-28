@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen md:h-auto">
-    <AuthHeader />
+    <AuthHeader :showLandingUrl="true" />
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-40 auth_container">
       <div class="sticky lg:flex flex-shrink-0 items-center hidden top-0">
         <img class="" src="@/assets/image/Auth/AuthImage.png" alt="Auth" />

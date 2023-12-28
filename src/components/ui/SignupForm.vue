@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3">
-    <button
+    <!-- <button
       @click="handleSignupWithGoogle"
       class="w-full flex justify-center hidden gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
     >
@@ -11,7 +11,7 @@
       <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
       <p>OR</p>
       <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
-    </div>
+    </div> -->
     <div class="flex flex-col mt-10 gap-4">
       <AuthInput
         :error="errors.firstName"
@@ -243,10 +243,9 @@ const formData = reactive({
   email: "",
   password: "",
   // confirmPassword: "",
-  // business_name: "",
+  business_name: "",
 });
 const confirmPassword = ref("");
-const business_name = ref("");
 const errorsMsg = {
   firstName: "First name is required",
   lastName: "Last name is required",
@@ -426,7 +425,6 @@ onMounted(() => {
 });
 
 const handleBusinessSignup = async () => {
-  console.log("Business signup");
   loading.value = true;
   if (!validateBusinessForm()) {
     loading.value = false;
@@ -441,7 +439,14 @@ const handleBusinessSignup = async () => {
   };
   try {
     const res = await registerBusiness(payload);
-    router.push({ name: "verify", params: { email: formData.email } });
+    if (res.data.status === "true") {
+      router.push({ name: "verify", params: { email: formData.email } });
+    } else {
+      // Handle unsuccessful login
+      loading.value = false;
+    }
+    resetForm();
+
     return res;
   } catch (error) {
     console.log(error);
@@ -451,8 +456,6 @@ const handleBusinessSignup = async () => {
 };
 
 const handleTalentSignup = async () => {
-  console.log("Talent signup");
-  console.log(formData);
   loading.value = true;
   if (!validateForm()) {
     loading.value = false;
@@ -467,12 +470,26 @@ const handleTalentSignup = async () => {
   };
   try {
     const res = await registerTalent(payload);
-    router.push({ name: "verify", params: { email: formData.email } });
+    if (res.data.status === "true") {
+      router.push({ name: "verify", params: { email: formData.email } });
+    } else {
+      // Handle unsuccessful login
+      loading.value = false;
+    }
+    resetForm();
     return res;
   } catch (error) {
     console.log(error);
   } finally {
     loading.value = false;
   }
+};
+const resetForm = () => {
+  formData.firstName = "";
+  formData.lastName = "";
+  formData.email = "";
+  formData.password = "";
+  formData.business_name = "";
+  confirmPassword.value = "";
 };
 </script>

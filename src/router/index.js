@@ -3,6 +3,7 @@ import middleware from './Middleware';
 import LoginPage from '../views/Auth/LoginPage.vue'
 import Register from '../views/Auth/RegisterPage.vue'
 import Verify from '../views/Auth/VerifyPage.vue'
+import OTPPage from '@/views/Auth/OTPPage.vue'
 import ForgottenPassword from '../views/Auth/ForgottenPassword.vue'
 import ResetPassword from '../views/Auth/ResetPassword.vue'
 import HomeView from '../views/HomeView.vue'
@@ -49,6 +50,12 @@ const router = createRouter({
       path: '/verify/:email',
       name: 'verify',
       component: Verify
+      // beforeEnter: [middleware.redirectDashboard],
+    },
+    {
+      path: '/login/verify/:email',
+      name: 'verify-login',
+      component: OTPPage
       // beforeEnter: [middleware.redirectDashboard],
     },
     {

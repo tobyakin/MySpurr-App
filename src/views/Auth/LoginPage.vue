@@ -1,6 +1,6 @@
 <script setup>
-import { useStore } from "@/stores/user";
-import { useUserProfile } from "@/stores/profile";
+// import { useStore } from "@/stores/user";
+// import { useUserProfile } from "@/stores/profile";
 import { ref, reactive, watch, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
@@ -10,8 +10,8 @@ import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 // import Loader from "@/components/ui/Loader/Loader.vue";
 
-const store = useStore();
-let profile = useUserProfile();
+// const store = useStore();
+// let profile = useUserProfile();
 
 const router = useRouter();
 let loading = ref(false);
@@ -21,19 +21,19 @@ const getVerificationStatusFromURL = () => {
   return verificationParam === "true"; // Convert the value to a boolean
 };
 // Define refs for your URL parameters and structure them
-const user = reactive({
-  data: {
-    portfolio: false,
-    token: "",
-    user: {
-      status: "",
-      type: "",
-    },
-    work_details: false,
-  },
-  message: null,
-  status: "",
-});
+// const user = reactive({
+//   data: {
+//     portfolio: false,
+//     token: "",
+//     user: {
+//       status: "",
+//       type: "",
+//     },
+//     work_details: false,
+//   },
+//   message: null,
+//   status: "",
+// });
 
 const state = reactive({
   status: getVerificationStatusFromURL(),
@@ -96,11 +96,11 @@ const clearInputErrors = () => {
 watch(formState, () => {
   clearInputErrors();
 });
-const accountType = computed(() => {
-  return store.getUser.data.user.type;
-});
+// const accountType = computed(() => {
+//   return store.getUser.data.user.type;
+// });
 
-const isOnBoarded = computed(() => profile.user);
+// const isOnBoarded = computed(() => profile.user);
 // onMounted(async () => {
 //   // await profile.userProfile();
 //   console.log(isOnBoarded.value.work_details);
@@ -114,21 +114,28 @@ const onFinish = async () => {
   }
 
   try {
-    const res = await login(formState.email, formState.password);
-    store.saveUser(res.data);
-    await profile.userProfile();
-    if (
-      isOnBoarded.value &&
-      !isOnBoarded.value.business_details &&
-      !isOnBoarded.value.work_details
-    ) {
-      if (accountType.value === "talent") {
-        router.push({ name: "talent-onboarding" });
-      } else if (accountType.value === "business") {
-        router.push({ name: "business-onboarding" });
-      }
+    let res = await login(formState.email, formState.password);
+    if (res.data.status === "true") {
+      // store.saveUser(res.data);
+      // await profile.userProfile();
+      // if (
+      //   isOnBoarded.value &&
+      //   !isOnBoarded.value.business_details &&
+      //   !isOnBoarded.value.work_details
+      // ) {
+      // if (accountType.value === "talent") {
+      //   router.push({ name: "talent-onboarding" });
+      // } else if (accountType.value === "business") {
+      //   router.push({ name: "business-onboarding" });
+      // }
+      // } else {
+      //   router.push({ name: "dashboard" });
+      // }
+      router.push({ name: "verify-login", params: { email: formState.email } });
     } else {
-      router.push({ name: "dashboard" });
+      // Handle unsuccessful login
+      console.log("Login failed:", res.data.message);
+      loading.value = false;
     }
     loading.value = false;
     return res;
@@ -136,60 +143,61 @@ const onFinish = async () => {
     return error;
   } finally {
     loading.value = false;
+    formState.email = "";
+    formState.password = "";
   }
 };
 
-const loginWithGoogle = async () => {
-  loading.value = true;
-
-  try {
-    const res = authWithGoogle();
-    return res;
-  } catch (error) {
-    return error;
-  } finally {
-    loading.value = false;
-  }
-};
+// const loginWithGoogle = async () => {
+//   loading.value = true;
+//   try {
+//     const res = authWithGoogle();
+//     return res;
+//   } catch (error) {
+//     return error;
+//   } finally {
+//     loading.value = false;
+//   }
+// };
 
 // const toggleShowPassword = () => {
 //   showPassword.value = !showPassword.value;
 // };
 onMounted(() => {
-  const urlString = window.location.href;
-  const urlParams = new URLSearchParams(urlString);
-  user.data.portfolio = urlParams.get("portfolio") === "true";
-  user.data.token = urlParams.get("token") || "";
-  user.data.user.status = urlParams.get("user[status]") || "";
-  user.data.user.type = urlParams.get("user[type]") || "";
-  user.data.work_details = urlParams.get("work_details") === "true";
-  user.status = urlParams.get("status") || "true";
-  // Check if the user data has values and then save it to the store
-  if (
-    user.data.portfolio ||
-    user.data.token ||
-    user.data.user.status ||
-    user.data.user.type ||
-    user.data.work_details ||
-    user.status
-  ) {
-    store.saveUser(user);
-    // Redirect to the "dashboard" route
-    if (
-      isOnBoarded.value &&
-      !isOnBoarded.value.business_details &&
-      !isOnBoarded.value.work_details
-    ) {
-      if (accountType.value === "talent") {
-        router.push({ name: "talent-onboarding" });
-      } else if (accountType.value === "business") {
-        router.push({ name: "business-onboarding" });
-      }
-    } else {
-      router.push({ name: "dashboard" });
-    }
-  }
-  return user;
+  // const urlString = window.location.href;
+  // const urlParams = new URLSearchParams(urlString);
+  // user.data.portfolio = urlParams.get("portfolio") === "true";
+  // user.data.token = urlParams.get("token") || "";
+  // user.data.user.status = urlParams.get("user[status]") || "";
+  // user.data.user.type = urlParams.get("user[type]") || "";
+  // user.data.work_details = urlParams.get("work_details") === "true";
+  // user.status = urlParams.get("status") || "true";
+  // // Check if the user data has values and then save it to the store
+  // if (
+  //   user.data.portfolio ||
+  //   user.data.token ||
+  //   user.data.user.status ||
+  //   user.data.user.type ||
+  //   user.data.work_details ||
+  //   user.status
+  // ) {
+  //   store.saveUser(user);
+  //   // Redirect to the "dashboard" route
+  //   if (
+  //     isOnBoarded.value &&
+  //     !isOnBoarded.value.business_details &&
+  //     !isOnBoarded.value.work_details
+  //   ) {
+  //     if (accountType.value === "talent") {
+  //       router.push({ name: "talent-onboarding" });
+  //     } else if (accountType.value === "business") {
+  //       router.push({ name: "business-onboarding" });
+  //     }
+  //   } else {
+  //     router.push({ name: "dashboard" });
+  //   }
+  // }
+  // return user;
 });
 </script>
 
@@ -206,7 +214,7 @@ onMounted(() => {
         >
           Log in
         </h1>
-        <button
+        <!-- <button
           @click="loginWithGoogle"
           class="w-full flex justify-center hidden gap-2 font-light font-Satoshi400 items-center !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
         >
@@ -217,7 +225,7 @@ onMounted(() => {
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
           <p class="text-white lg:text-black">OR</p>
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
-        </div>
+        </div> -->
         <div class="flex flex-col mt-10 gap-4">
           <div>
             <AuthInput
