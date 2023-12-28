@@ -113,8 +113,9 @@ const submitCode = async () => {
   }
   try {
     let res = await verifyLogin(code.value);
-    if (res.data.success) {
+    if (res.data.status === "true") {
       store.saveUser(res.data);
+      await profile.userProfile();
       if (
         isOnBoarded.value &&
         !isOnBoarded.value.business_details &&
