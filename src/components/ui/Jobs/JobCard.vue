@@ -63,7 +63,7 @@ defineProps({
           APPLY
         </button>
 
-        <div>
+        <div class="flex gap-2 flex-row">
           <button class="">
             <CircleBookMarkIcon />
           </button>
