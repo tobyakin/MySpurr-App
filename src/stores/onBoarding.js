@@ -1,6 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { handleTalentWorkDetails,handleTalentPortfolio,handleBusinessDetails,handleBusinessPortfolio } from "@/services/Onboarding"
+import {
+  handleTalentWorkDetails,
+  handleTalentPortfolio,
+  handleBusinessDetails,
+  handleBusinessPortfolio,
+  verifyIdentity
+} from '@/services/Onboarding'
 
 
 export const useOnboardingStore = defineStore('onBoardingStore', () => {
@@ -51,7 +57,14 @@ const portfolio = ref({
   body: '',
   max:'',
   min:''
-})
+});
+let verifyIdentityData = ref({
+  country: '',
+  document_type: '',
+  front: '',
+  back: '',
+  confirm: ''
+});
 const portfolioRate = ref(`${portfolio.value.min} ${portfolio.value.max}`)
     const submitTalentPortfolio = async() => {
             let payload = {
@@ -126,11 +139,26 @@ try {
             }
 
     }
-    const submitBusinessDetails = async(payload) => {
-      try{
+    const submitBusinessDetails = async (payload) => {
+      try {
         let res = await handleBusinessDetails(payload)
         return res
-      }catch (error) {
+      } catch (error) {
+        /**/
+      }
+    }
+    const handleVerifyIdentity = async () => {
+      let payload = {
+        country: verifyIdentityData.value.country,
+        document_type: verifyIdentityData.value.document_type,
+        front: verifyIdentityData.value.front,
+        back: verifyIdentityData.value.back,
+        confirm: verifyIdentityData.value.confirm
+      }
+      try {
+        let res = await verifyIdentity(payload)
+        return res
+      } catch (error) {
         /**/
       }
     }
@@ -153,6 +181,8 @@ try {
       certificate,
       availability,
       portfolio,
-      portfolioRate
+      portfolioRate,
+      handleVerifyIdentity,
+      verifyIdentityData
     }
 })

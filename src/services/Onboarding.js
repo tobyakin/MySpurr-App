@@ -78,3 +78,20 @@ export const handleBusinessPortfolio = async (payload) => {
     }
 
 }
+export const verifyIdentity = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.post(`upload-identity`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
+
