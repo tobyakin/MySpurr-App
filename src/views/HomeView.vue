@@ -308,10 +308,16 @@ onMounted(async () => {
             My Applications
           </p>
           <!-- min-w-[95%] lg:min-w-[70%] -->
-          <MyApplicationCard class="w-full" />
+
+          <div class="flex flex-row gap-3">
+            <MyApplicationCard class="w-full" />
+            <div
+              class="border-[#254035AB] w-[65%] bg-[#F0F3C4] border-[0.735px] rounded-[7.347px] p-4 py-[1.1rem]"
+            ></div>
+          </div>
         </div>
         <div class="my-8 hidden">
-          <div class="flex justify-between mb-8">
+          <div class="flex invisible justify-between mb-8">
             <p class="text-[17.633px] font-Satoshi400 text-[#244034]">My Courses</p>
 
             <router-link
@@ -320,8 +326,11 @@ onMounted(async () => {
               >View all courses</router-link
             >
           </div>
+          <div
+            class="border-[#254035AB] w-full bg-[#F0F3C4] border-[0.735px] rounded-[7.347px] p-4 py-[1.1rem]"
+          ></div>
 
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid hidden grid-cols-2 gap-3">
             <CourseCard v-for="item in 4" :key="item" />
           </div>
         </div>

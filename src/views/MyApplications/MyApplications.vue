@@ -14,7 +14,7 @@ import Invoices from "@/components/ui/MyApplications/InvoicePage.vue";
         <template #tab1> Invites </template>
         <template #tab2> Applications </template>
         <template #tab3> Job Offers </template>
-        <template #tab4> My Job </template>
+        <template #tab4> My Jobs </template>
         <template #tab5> Invoices </template>
         <template #tab6> Help </template>
         <template #view1><InvitesView /></template>

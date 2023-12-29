@@ -38,8 +38,8 @@ const items = [
   { id: 0, name: "profile", context: "MySpurr profile" },
   {
     id: 1,
-    name: "my-work",
-    context: "My work",
+    name: "my-applications",
+    context: "My Jobs",
   },
   {
     id: 2,
