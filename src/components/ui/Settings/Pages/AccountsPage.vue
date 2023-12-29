@@ -6,6 +6,10 @@ import { useUserSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
 import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import { useSkillsStore } from "@/stores/skills";
+
+const skillsStore = useSkillsStore();
+const { contriesCode } = storeToRefs(skillsStore);
 
 let loading = ref(false);
 let profile = useUserProfile();
@@ -15,13 +19,21 @@ const userDetails = computed(() => {
 const userSettingsStore = useUserSettingsStore();
 const { settingsData } = storeToRefs(userSettingsStore);
 const currency = ["USD", "NGN"];
-let language = [
-  {
-    language: "",
-    proficiency: "",
-  },
-];
 
+// const addLanguage = () => {
+//   settingsData.value.language.push({ language: "", proficiency: "" });
+// };
+
+// const getJsonOutput = () => {
+//   return JSON.stringify(
+//     settingsData.value.language.map(({ language, proficiency }) => ({
+//       language,
+//       proficiency,
+//     })),
+//     null,
+//     2
+//   );
+// };
 const prefillDetails = (SingleObject) => {
   settingsData.value.talent_id = SingleObject.id || "";
   settingsData.value.first_name = SingleObject.first_name || "";
@@ -55,8 +67,12 @@ const onFinish = async () => {
   }
 };
 onMounted(async () => {
-  prefillDetails(userDetails.value);
   await profile.userProfile();
+  await skillsStore.getCountriesCode();
+  prefillDetails(userDetails.value);
+});
+onMounted(async () => {
+  await skillsStore.getCountriesCode();
 });
 </script>
 <template>
@@ -225,7 +241,7 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div class="flex flex-col gap-[26px]">
+      <!-- <div class="flex hidden flex-col gap-[26px]">
         <div class="flex justify-between items-center flex-row">
           <h3
             class="text-[28.087px] !font-EBGaramond500 text-[#244034] leading-[35.39px]"
@@ -234,11 +250,16 @@ onMounted(async () => {
           </h3>
           <button
             class="btn-brand !border-none !py-3 !px-5 !text-[#FFFFFF] bg-[#2f919c9e] text-center !bg-[#2F929C]"
+            @click="addLanguage"
           >
             Add Language
           </button>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-8">
+        <div
+          v-for="(lang, index) in settingsData.language"
+          :key="index"
+          class="grid grid-cols-1 lg:grid-cols-2 w-full gap-8"
+        >
           <div
             class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
@@ -246,6 +267,7 @@ onMounted(async () => {
               >Primary Language
             </label>
             <GlobalInput
+              v-model="lang.language"
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
             />
@@ -258,12 +280,14 @@ onMounted(async () => {
               >Proficiency Level
             </label>
             <GlobalInput
+              v-model="lang.proficiency"
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
             />
           </div>
         </div>
-      </div>
+        <pre>{{ getJsonOutput() }}</pre>
+      </div> -->
       <div class="flex flex-col gap-[26px]">
         <h3 class="text-[28.087px] !font-EBGaramond500 text-[#244034] leading-[35.39px]">
           Currency
@@ -327,9 +351,11 @@ onMounted(async () => {
           >
             <select
               v-model="settingsData.country_code"
-              class="bg-transparent w-[8%] !border-r-[1px] !border-r-[#254035AB]"
+              class="bg-transparent w-[8%] !border-r-[1px] text-left !border-r-[#254035AB]"
             >
-              <option value="234">+234</option>
+              <option v-for="code in contriesCode.data" :key="code" :value="code.code">
+                {{ code.code }}
+              </option>
             </select>
             <!-- <SelectGroup
               DropdownItem=""

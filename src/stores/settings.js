@@ -24,8 +24,8 @@ export const useUserSettingsStore = defineStore('settings', () => {
     },
     language: [
       {
-        language: 'k',
-        proficiency: 'k'
+        language: '',
+        proficiency: ''
       }
     ]
   })
@@ -47,7 +47,6 @@ export const useUserSettingsStore = defineStore('settings', () => {
             city: settingsData.value.billing_address.city,
             zip_code: settingsData.value.billing_address.zip_code
           },
-          language: settingsData.value.language
         }
     try {
       let res = await updateUserSettings(settingsData.value.talent_id, payload)
