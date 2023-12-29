@@ -67,7 +67,6 @@ onMounted(async () => {
         </div>
         <div class="w-full flex justify-center gap-[10px] mt-8">
           <button
-            disabled
             @click="deleteAccount"
             class="btn-brand !border-none !w-[30%] !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#dc3545]"
           >
