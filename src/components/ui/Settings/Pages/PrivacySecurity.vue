@@ -1,17 +1,23 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import Switcher from "@/components/ui/Switcher.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import { useUserSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
+import { useUserProfile } from "@/stores/profile";
 const userSettingsStore = useUserSettingsStore();
 const { resetPasswordData } = storeToRefs(userSettingsStore);
 let loading = ref(false);
 
 let isToggled = ref(false);
 let showModal = ref(false);
+let profile = useUserProfile();
+const userDetails = computed(() => {
+  return profile.user.data;
+});
+
 const updateIsToggled = () => {
   isToggled.value = !isToggled.value;
 };
@@ -34,7 +40,7 @@ const reset = async () => {
 const deleteAccount = async () => {
   loading.value = true;
   try {
-    const res = await userSettingsStore.handleDeleteAccount();
+    const res = await userSettingsStore.handleDeleteAccount(userDetails.value?.id);
     loading.value = false;
     return res;
   } catch (error) {
@@ -43,6 +49,9 @@ const deleteAccount = async () => {
     loading.value = false;
   }
 };
+onMounted(async () => {
+  await profile.userProfile();
+});
 </script>
 <template>
   <div class="flex flex-col gap-[60px]">
