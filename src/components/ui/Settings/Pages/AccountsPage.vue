@@ -57,13 +57,15 @@ watch(userDetails, (newSingleObject) => {
 });
 
 const onFinish = async () => {
+  loading.value = true;
   try {
     const res = await userSettingsStore.userSettings();
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);
   } finally {
-    /**    */
+    loading.value = false;
   }
 };
 onMounted(async () => {
