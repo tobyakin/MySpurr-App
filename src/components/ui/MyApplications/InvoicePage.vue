@@ -51,62 +51,62 @@ const rows = ref([
     amount: 71000,
     status: "sent",
   },
-  {
-    id: 6,
-    invoice_number: "BB-AB-OO72",
-    client_name: "Abraham Jackson",
-    invoice_date: "25/12/2023",
-    amount: 71000,
-    status: "sent",
-  },
-  {
-    id: 7,
-    invoice_number: "BB-AB-OO72",
-    client_name: "Abraham Jackson",
-    invoice_date: "25/12/2023",
-    amount: 71000,
-    status: "paid",
-  },
-  {
-    id: 8,
-    invoice_number: "BB-AB-OO72",
-    client_name: "Abraham Jackson",
-    invoice_date: "25/12/2023",
-    amount: 71000,
-    status: "sent",
-  },
-  {
-    id: 9,
-    invoice_number: "BB-AB-OO72",
-    client_name: "Abraham Jackson",
-    invoice_date: "25/12/2023",
-    amount: 71000,
-    status: "sent",
-  },
-  {
-    id: 10,
-    invoice_number: "BB-AB-OO72",
-    client_name: "Abraham Jackson",
-    invoice_date: "25/12/2023",
-    amount: 71000,
-    status: "draft",
-  },
-  {
-    id: 11,
-    invoice_number: "BB-AB-OO72",
-    client_name: "Abraham Jackson",
-    invoice_date: "25/12/2023",
-    amount: 71000,
-    status: "sent",
-  },
-  {
-    id: 12,
-    invoice_number: "BB-AB-OO72",
-    client_name: "Abraham Jackson",
-    invoice_date: "25/12/2023",
-    amount: 71000,
-    status: "sent",
-  },
+  // {
+  //   id: 6,
+  //   invoice_number: "BB-AB-OO72",
+  //   client_name: "Abraham Jackson",
+  //   invoice_date: "25/12/2023",
+  //   amount: 71000,
+  //   status: "sent",
+  // },
+  // {
+  //   id: 7,
+  //   invoice_number: "BB-AB-OO72",
+  //   client_name: "Abraham Jackson",
+  //   invoice_date: "25/12/2023",
+  //   amount: 71000,
+  //   status: "paid",
+  // },
+  // {
+  //   id: 8,
+  //   invoice_number: "BB-AB-OO72",
+  //   client_name: "Abraham Jackson",
+  //   invoice_date: "25/12/2023",
+  //   amount: 71000,
+  //   status: "sent",
+  // },
+  // {
+  //   id: 9,
+  //   invoice_number: "BB-AB-OO72",
+  //   client_name: "Abraham Jackson",
+  //   invoice_date: "25/12/2023",
+  //   amount: 71000,
+  //   status: "sent",
+  // },
+  // {
+  //   id: 10,
+  //   invoice_number: "BB-AB-OO72",
+  //   client_name: "Abraham Jackson",
+  //   invoice_date: "25/12/2023",
+  //   amount: 71000,
+  //   status: "draft",
+  // },
+  // {
+  //   id: 11,
+  //   invoice_number: "BB-AB-OO72",
+  //   client_name: "Abraham Jackson",
+  //   invoice_date: "25/12/2023",
+  //   amount: 71000,
+  //   status: "sent",
+  // },
+  // {
+  //   id: 12,
+  //   invoice_number: "BB-AB-OO72",
+  //   client_name: "Abraham Jackson",
+  //   invoice_date: "25/12/2023",
+  //   amount: 71000,
+  //   status: "sent",
+  // },
 ]);
 const prev = async () => {
   message.value = "Loading";
@@ -137,7 +137,7 @@ const next = async () => {
         <Table :columns="columns" :rows="rows" @previous="prev" @next="next" />
         <div class="flex flex-col gap-[24px] w-full lg:w-[36%]">
           <div
-            class="border-[#254035AB] border-[1.137px] flex flex-col gap-[20px] rounded-[11.367px] p-[21px]"
+            class="border-[#254035AB] bg-white border-[1.137px] flex flex-col gap-[20px] rounded-[11.367px] p-[21px]"
           >
             <div class="flex justify-between items-center border-b pb-2">
               <h4
@@ -154,7 +154,7 @@ const next = async () => {
             <h4 class="text-[#01181B] text-[15px] font-Satoshi400">₦ 102,290.50</h4>
           </div>
           <div
-            class="border-[#254035AB] border-[1.137px] flex flex-col gap-[20px] rounded-[11.367px] p-[21px]"
+            class="border-[#254035AB] bg-white border-[1.137px] flex flex-col gap-[20px] rounded-[11.367px] p-[21px]"
           >
             <div class="flex justify-between items-center border-b pb-2">
               <h4

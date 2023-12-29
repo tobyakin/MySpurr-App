@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <div
-      class="border-[#254035AB] border-[1.137px] flex flex-col gap-[20px] rounded-[11.367px] pt-[21px]"
+      class="border-[#254035AB] border-[1.137px] flex flex-col gap-[20px] bg-white rounded-[11.367px] pt-[21px]"
     >
       <div class="relative z-10 px-[21px]">
         <div
@@ -237,8 +237,8 @@
         </tbody>
       </table>
     </div>
-    <div v-if="rows" class="flex lg:flex-row flex-col items-center justify-between mt-4">
-      <div
+    <div v-if="rows" class="flex lg:flex-row flex-col items-center justify-center mt-4">
+      <!-- <div
         class="flex justify-between gap-2 items-center text-[#00000080] text-[14px] font-Satoshi400"
       >
         <p>Showing</p>
@@ -247,7 +247,7 @@
           <option value="">10</option>
         </select>
         <p>Entries</p>
-      </div>
+      </div> -->
       <div class="flex items-center">
         <button @click="prev" class="border-none py-1 px-2">
           <InvoicePaginationArrowLeft />

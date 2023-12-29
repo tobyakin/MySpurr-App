@@ -262,7 +262,7 @@ onMounted(async () => {
       <!-- jobs updates -->
       <div v-if="accountType !== 'talent'" class="mt-12">
         <div class="flex justify-between mb-4">
-          <p class="text-[17.633px] font-Satoshi400 text-[#244034]">Job Updates</p>
+          <p class="text-[18px] font-Satoshi400 text-[#244034]">Job Updates</p>
 
           <router-link
             class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
@@ -283,9 +283,7 @@ onMounted(async () => {
       <!-- jobs -->
       <div v-if="accountType === 'talent'" class="mt-12">
         <div class="flex justify-between mb-4">
-          <p class="text-[17.633px] font-Satoshi400 text-[#244034]">
-            Top job picks for you
-          </p>
+          <p class="text-[18px] font-Satoshi400 text-[#244034]">Top job picks for you</p>
 
           <router-link
             class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
@@ -304,9 +302,7 @@ onMounted(async () => {
       </div>
       <div v-if="accountType === 'talent'" class="mt-10 flex gap-3 overflow-x-auto">
         <div class="my-8 w-full">
-          <p class="text-[17.633px] font-Satoshi400 !mb-8 text-[#244034]">
-            My Applications
-          </p>
+          <p class="text-[18px] font-Satoshi400 !mb-8 text-[#244034]">My Applications</p>
           <!-- min-w-[95%] lg:min-w-[70%] -->
 
           <div class="flex flex-row gap-3">
@@ -318,7 +314,7 @@ onMounted(async () => {
         </div>
         <div class="my-8 hidden">
           <div class="flex invisible justify-between mb-8">
-            <p class="text-[17.633px] font-Satoshi400 text-[#244034]">My Courses</p>
+            <p class="text-[18px] font-Satoshi400 text-[#244034]">My Courses</p>
 
             <router-link
               class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
@@ -338,7 +334,7 @@ onMounted(async () => {
       <!-- community -->
       <div v-if="accountType === 'talent'" class="my-8 hidden">
         <div class="flex justify-between mb-4">
-          <p class="text-[17.633px] font-Satoshi400 text-[#244034]">Communities</p>
+          <p class="text-[18px] font-Satoshi400 text-[#244034]">Communities</p>
 
           <router-link
             class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
@@ -352,7 +348,7 @@ onMounted(async () => {
       </div>
       <!-- articles -->
       <div class="mt-10 overflow-x-auto">
-        <p class="text-[17.633px] font-Satoshi400 !mb-[60px] text-[#244034]">
+        <p class="text-[18px] font-Satoshi400 !mb-[60px] text-[#244034]">
           MySpurr Articles
         </p>
         <div class="grid md:grid-cols-2 grid-cols-1 gap-3">
