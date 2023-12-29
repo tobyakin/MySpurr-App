@@ -296,7 +296,7 @@ onMounted(async () => {
 
         <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
           <JobCard
-            class="min-w-[95%] lg:min-w-[45%] xl:min-w-[45%] md:min-w-[60%]"
+            class="min-w-[380px] lg:min-w-[50%] xl:min-w-[376.66px] md:min-w-[60%]"
             v-for="item in 4"
             :key="item"
           />
