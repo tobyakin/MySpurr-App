@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive, watch } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import SelectGroupN from "@/components/ui/Form/Input/SelectGroupN.vue";
@@ -18,6 +18,52 @@ const { contriesCode } = storeToRefs(skillsStore);
 const frontDocsName = ref("");
 const backDocsName = ref("");
 let loading = ref(false);
+const errors = reactive({
+  country: false,
+  document_type: false,
+  front: false,
+  back: false,
+  confirm: false,
+});
+const errorsMsg = {
+  country: "",
+  document_type: "",
+  front: "",
+  back: "",
+  confirm: "",
+};
+
+const validate = () => {
+  // Reset errorsMsg
+  Object.keys(errors).forEach((key) => {
+    errors[key] = false;
+  });
+
+  // Perform validation before submission
+  let isValid = true;
+  Object.entries(verifyIdentityData.value).forEach(([field, value]) => {
+    if (!value) {
+      errors[field] = true;
+      errorsMsg[field] = `Please input your ${field.replace("_", " ")}`;
+      isValid = false;
+    }
+  });
+  return isValid; // Only return false if there are validation errors
+};
+const clearInputErrors = () => {
+  Object.keys(errors).forEach((key) => {
+    errors[key] = false;
+  });
+
+  Object.keys(errorsMsg).forEach((key) => {
+    errorsMsg[key] = "";
+  });
+};
+
+watch(verifyIdentityData.value, () => {
+  clearInputErrors();
+});
+
 const uploadFrontDocs = (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -56,6 +102,10 @@ const removeUploadFrontDocs = () => {
 };
 const onFinish = async () => {
   loading.value = true;
+  if (!validate()) {
+    loading.value = false;
+    return;
+  }
   try {
     const res = await userOnboardingStore.handleVerifyIdentity();
     loading.value = false;
@@ -97,12 +147,16 @@ onMounted(async () => {
           label="Your Country"
           name="Name"
           :items="contriesCode.data"
+          :error="errors.country"
+          :errorsMsg="errorsMsg.country"
           placeholder="your country"
           type="text"
           inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
         ></SelectGroupN>
         <SelectGroup
           v-model="verifyIdentityData.document_type"
+          :error="errors.document_type"
+          :errorsMsg="errorsMsg.document_type"
           labelClasses="font-Satoshi500 text-[15.606px]"
           label="Document Type"
           name="Name"
@@ -114,6 +168,7 @@ onMounted(async () => {
       </div>
       <div class="flex lg:flex-row flex-col w-full gap-10">
         <div
+          :class="errors.front ? 'border-[#ef4b4b]' : 'border-[#254035AB] '"
           class="bg-[#EDF0B8] w-full border-dashed border-[#254035AB] items-center justify-center min-h-[268.976px] border-[1.789px] p-2 py-6 flex flex-col gap-10 text-center relative rounded-[5.982px] mt-3"
         >
           <button
@@ -152,6 +207,7 @@ onMounted(async () => {
           />
         </div>
         <div
+          :class="errors.back ? 'border-[#ef4b4b]' : 'border-[#254035AB] '"
           class="bg-[#EDF0B8] w-full border-dashed border-[#254035AB] items-center justify-center min-h-[268.976px] border-[1.789px] p-2 py-6 flex flex-col gap-10 text-center relative rounded-[5.982px] mt-3"
         >
           <button
@@ -161,7 +217,6 @@ onMounted(async () => {
           >
             <CloseEditModalIcon />
           </button>
-
           <img
             v-if="verifyIdentityData.back"
             :src="verifyIdentityData?.back"
@@ -193,7 +248,9 @@ onMounted(async () => {
           class="bg-transparent !border-[0.737px] !border-[#254035AB] rounded-[5px] p-4 h-[31.935px] w-[35.408px] py-1.5"
           type="checkbox"
         />
-        <label class="text-[#244034] px-2 lg:text-[20.382px] text-[13px] font-Satoshi400"
+        <label
+          :class="{ '!text-red-500': errors.confirm }"
+          class="text-[#244034] px-2 lg:text-[20.382px] text-[13px] font-Satoshi400"
           >I Confirm that I uploaded valid government-issued photo ID. This ID include my
           picture, signature, name, date of birth, and address
         </label>

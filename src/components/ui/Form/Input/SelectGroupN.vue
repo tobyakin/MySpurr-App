@@ -11,9 +11,9 @@
     /> -->
     <select
       class="form__input block w-full p-2 px-1 text-sm font-Satoshi400 text-gray-800 transition duration-500 focus:outline-none rounded"
+      :class="inputClasses"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
-      :class="inputClasses"
     >
       <option disabled value="">Select {{ placeholder }}</option>
 
@@ -21,15 +21,17 @@
         {{ item.name }}
       </option>
     </select>
-    <Label class="text-2xl text-left" :name="name" />
+    <p v-if="error" class="text-red-600 pl-2 font-Satoshi400 text-left text-[10.24px]">
+      {{ errorsMsg }}
+    </p>
   </div>
 </template>
 
 <script setup>
-import { defineAsyncComponent } from "vue";
-
-const Select = defineAsyncComponent(() => import("./Select.vue"));
-const Label = defineAsyncComponent(() => import("./Label.vue"));
+// import { defineAsyncComponent } from "vue";
+import Label from "./Label.vue";
+// const Select = defineAsyncComponent(() => import("./Select.vue"));
+// const Label = defineAsyncComponent(() => import("./Label.vue"));
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -42,6 +44,8 @@ defineProps({
   inputClasses: String, // Optional
   modelValue: String | Number,
   items: Array,
+  errorsMsg: String,
+  error: Boolean,
 });
 
 const passInputValue = (value) => {
