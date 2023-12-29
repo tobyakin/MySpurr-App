@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <div class="border-[#254035AB] border-[0.735px] rounded-[7.347px] p-4">
+  <div class="border-[#254035AB] border-[0.735px] bg-white rounded-[7.347px] p-4">
     <div class="" v-for="item in 3" :key="item">
       <div class="flex flex-row justify-between gap-3 my-5">
         <div class="flex gap-3">

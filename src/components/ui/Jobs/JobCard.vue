@@ -16,7 +16,7 @@ defineProps({
 });
 </script>
 <template>
-  <div class="border-[#254035AB] border-[0.735px] rounded-[7.347px] p-4">
+  <div class="border-[#254035AB] bg-white border-[0.735px] rounded-[7.347px] p-4">
     <div class="flex gap-3 mb-5">
       <img src="@/assets/image/jobIcon.svg" alt="" />
       <div>
