@@ -24,15 +24,21 @@ defineProps({
         <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
           Developer in java c++
         </p>
-        <div class="flex flex-wrap mt-2 gap-2">
-          <div class="flex gap-1 text-[10.334px] text-[#DA5252] font-Satoshi500">
-            <CalenderIcon /><span class="py-[0.25px]">30 hrs/week</span>
+        <div class="flex flex-wrap items-center mt-2 gap-2">
+          <div
+            class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-Satoshi500"
+          >
+            <CalenderIcon /><span class="">30 hrs/week</span>
           </div>
-          <div class="flex gap-[2px] text-[10.334px] text-[#DA5252] font-Satoshi500">
-            <LocationIcon /><span class="py-[0.25px]">Work from anywhere</span>
+          <div
+            class="flex gap-[2px] items-center text-[10.334px] text-[#DA5252] font-Satoshi500"
+          >
+            <LocationIcon /><span class="">Work from anywhere</span>
           </div>
-          <div class="flex gap-1 text-[10.334px] text-[#DA5252] font-Satoshi500">
-            <TimerIcon /><span class="py-[0.25px]">Anytime</span>
+          <div
+            class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-Satoshi500"
+          >
+            <TimerIcon /><span class="">Anytime</span>
           </div>
         </div>
       </div>
