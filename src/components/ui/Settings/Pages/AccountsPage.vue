@@ -124,11 +124,16 @@ onMounted(async () => {
             <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
               >Email Address
             </label>
-            <GlobalInput
-              inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-              type="text"
-              v-model="settingsData.email"
+            <input
+              class="bg-transparent border-none text-left !px-0 !py-[4px] w-full font-light font-Satoshi400 text-[14px] !p-2 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+              type="button"
+              :value="settingsData.email"
             />
+            <!-- <GlobalInput
+              inputClasses="bg-transparent border-none !px-0 !py-[4px] "
+              type="button"
+              :value="settingsData.email"
+            /> -->
           </div>
         </div>
       </div>
