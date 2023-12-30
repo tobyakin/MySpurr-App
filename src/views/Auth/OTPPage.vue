@@ -46,7 +46,14 @@
         <div>
           <p class="text-[#000000] mb-8 text-[14.496px] font-Satoshi400">
             Didn’t receive OTP via email?
-            <button @click="resendCode" class="underline">Resend OTP</button>
+            <button
+              @click="resendCodeTimer"
+              :disabled="disableResendButton"
+              class="underline"
+              :class="disableResendButton ? 'cursor-not-allowed' : ''"
+            >
+              Resend OTP
+            </button>
           </p>
         </div>
       </div>
@@ -74,7 +81,7 @@ const accountType = computed(() => {
   return store.getUser.data.user.type;
 });
 const email = ref(route.params.email);
-
+let disableResendButton = ref(false);
 const isOnBoarded = computed(() => profile.user);
 const code = ref("");
 const errors = reactive({
@@ -141,6 +148,17 @@ const submitCode = async () => {
     return error;
   } finally {
     loading.value = false;
+  }
+};
+const resendCodeTimer = () => {
+  try {
+    disableResendButton.value = true;
+    resendCode();
+    setTimeout(() => {
+      disableResendButton.value = true;
+    }, 10 * 60 * 100);
+  } catch (error) {
+    /**/
   }
 };
 const resendCode = async () => {
