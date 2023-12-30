@@ -144,12 +144,11 @@ const onFinish = async () => {
       (portfolio.value.client_name = ""),
       (portfolio.value.job_type = ""),
       (portfolio.value.location = ""),
-      (portfolio.value.rate = ""),
       (portfolio.value.tags = []),
       (portfolio.value.cover_imag = null),
       (portfolio.value.body = ""),
-      (portfolio.value.max = ""),
-      (portfolio.value.min = "");
+      (portfolio.value.min_rate = ""),
+      (portfolio.value.max_rate = "");
     router.push({ name: "profile" });
   }
 };
@@ -206,7 +205,7 @@ const onFinish = async () => {
           </div>
           <div class="lg:w-[50%] flex flex-row gap-9">
             <FormGroup
-              v-model="portfolio.min"
+              v-model="portfolio.min_rate"
               labelClasses=" "
               label="Rate (Optional)"
               name="Min"
@@ -215,7 +214,7 @@ const onFinish = async () => {
               inputClasses="w-full mt-2 font-light font-Satoshi400 !p-[10px] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
             ></FormGroup>
             <FormGroup
-              v-model="portfolio.max"
+              v-model="portfolio.max_rate"
               labelClasses=" invisible"
               label="Max "
               name="Max"

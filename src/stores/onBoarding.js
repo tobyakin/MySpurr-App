@@ -55,8 +55,8 @@ const portfolio = ref({
   tags: [],
   cover_image: null,
   body: '',
-  max:'',
-  min:''
+  min_rate:'',
+  max_rate:''
 });
 let verifyIdentityData = ref({
   country: '',
@@ -65,7 +65,6 @@ let verifyIdentityData = ref({
   back: '',
   confirm: ''
 });
-const portfolioRate = ref(`${portfolio.value.min} ${portfolio.value.max}`)
     const submitTalentPortfolio = async() => {
             let payload = {
               portfolio: {
@@ -73,7 +72,8 @@ const portfolioRate = ref(`${portfolio.value.min} ${portfolio.value.max}`)
                 client_name: portfolio.value.client_name,
                 job_type: portfolio.value.job_type,
                 location: portfolio.value.location,
-                rate: String(`${portfolio.value.min}-${portfolio.value.max}`),
+                min_rate: portfolio.value.min_rate,
+                max_rate: portfolio.value.max_rate,
                 tags: portfolio.value.tags,
                 cover_image: portfolio.value.cover_image,
                 body: portfolio.value.body
@@ -181,7 +181,6 @@ try {
       certificate,
       availability,
       portfolio,
-      portfolioRate,
       handleVerifyIdentity,
       verifyIdentityData
     }
