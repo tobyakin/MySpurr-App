@@ -10,6 +10,8 @@ import { useOnboardingStore } from "@/stores/onBoarding";
 import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useRouter } from "vue-router";
+import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
+import Label from "@/components/ui/Form/Input/Label.vue";
 const router = useRouter();
 
 const OnboardingStore = useOnboardingStore();
@@ -17,10 +19,10 @@ const { portfolio } = storeToRefs(OnboardingStore);
 
 const userProfile = useUserProfile();
 
-const FormGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/FormGroup.vue")
-);
-const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
+// const FormGroup = defineAsyncComponent(() =>
+//   import("@/components/ui/Form/Input/FormGroup.vue")
+// );
+// const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
 let store = useStore();
 
 // add tag
