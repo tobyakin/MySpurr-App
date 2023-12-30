@@ -136,6 +136,8 @@ const onFinish = async () => {
       // Handle unsuccessful login
       console.log("Login failed:", res.data.message);
       loading.value = false;
+      formState.email = "";
+      formState.password = "";
     }
     loading.value = false;
     return res;
