@@ -30,6 +30,9 @@ const reset = async () => {
   try {
     const res = await userSettingsStore.handleResetpassowrd();
     loading.value = false;
+    resetPasswordData.value.old_password = "";
+    resetPasswordData.value.new_password = "";
+    resetPasswordData.value.confirm_password = "";
     return res;
   } catch (error) {
     console.log(error);
