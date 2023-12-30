@@ -5,6 +5,8 @@ import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 let profile = useUserProfile();
 const userDetails = computed(() => {
   return profile.user.data;
@@ -104,6 +106,12 @@ const submitTicket = async () => {
   } finally {
     loading.value = false;
   }
+};
+const Cancel = () => {
+  router.push({
+    name: "help-center",
+  });
+  // emit("goToTicket");
 };
 
 onMounted(async () => {
@@ -298,6 +306,7 @@ watch(userDetails, (newUserDetails) => {
       </div>
       <div class="flex gap-4 w-full mt-12">
         <button
+          @click="Cancel"
           class="bg-[#ECFAFC] text-brand font-Satoshi500 text-[14.153px] capitalize leading-[11.593px] rounded-full px-5 p-[13px] flex justify-center w-full lg:w-[20%]"
         >
           Cancel
