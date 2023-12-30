@@ -1,12 +1,24 @@
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
-
+import { ref, computed, onMounted, watch, reactive } from "vue";
+import { openTicket } from "@/services/SelfCare";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useUserProfile } from "@/stores/profile";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 let profile = useUserProfile();
 const userDetails = computed(() => {
   return profile.user.data;
+});
+let loading = ref(false);
+let errors = reactive({
+  name: false,
+  email: false,
+  subject: false,
+  department: false,
+  priority: false,
+  postalCode: false,
+  message: false,
+  attachment: false,
 });
 
 const formState = ref({
@@ -17,6 +29,7 @@ const formState = ref({
   priority: "",
   postalCode: "",
   message: "",
+  attachment: null,
 });
 const attachment = ref(null);
 const prefillDetails = (SingleObject) => {
@@ -25,24 +38,71 @@ const prefillDetails = (SingleObject) => {
   formState.value.email = SingleObject.email || "";
 };
 const uploadedImageName = ref("");
-
 const uploadImage = (event) => {
   const file = event.target.files[0];
-  // if (file) {
-  //   const imageUrl = URL.createObjectURL(file);
-  //   portfolio.value.cover_image = file;
-  //   uploadedImageName.value = file.name;
-  // }
   if (file) {
     const reader = new FileReader();
     uploadedImageName.value = file.name;
 
     reader.onload = () => {
-      attachment.value = reader.result;
+      formState.value.attachment = reader.result;
     };
     reader.readAsDataURL(file);
   } else {
-    attachment.value = "";
+    formState.value.attachment = "";
+  }
+};
+const validate = () => {
+  // Reset errorsMsg
+  Object.keys(errors).forEach((key) => {
+    errors[key] = false;
+  });
+
+  // Perform validation before submission
+  let isValid = true;
+  Object.entries(formState.value).forEach(([field, value]) => {
+    if (!value) {
+      errors[field] = true;
+      isValid = false;
+    }
+  });
+  return isValid; // Only return false if there are validation errors
+};
+const clearInputErrors = () => {
+  Object.keys(errors).forEach((key) => {
+    errors[key] = false;
+  });
+};
+
+watch(formState.value, () => {
+  clearInputErrors();
+});
+
+const submitTicket = async () => {
+  loading.value = true;
+  if (!validate()) {
+    loading.value = false;
+    return;
+  }
+  let payload = {
+    name: formState.value.name,
+    email: formState.value.email,
+    subject: formState.value.subject,
+    department: formState.value.department,
+    priority: formState.value.priority,
+    zip: formState.value.zip,
+    message: formState.value.message,
+    attachment: formState.value.attachment,
+  };
+  try {
+    const res = await openTicket(payload);
+    loading.value = false;
+    return res;
+  } catch (error) {
+    loading.value = false;
+    console.log(error);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -120,6 +180,7 @@ watch(userDetails, (newUserDetails) => {
         <div class="flex lg:flex-row flex-col gap-[34px] w-full">
           <div class="flex gap-[34px] flex-col w-full">
             <div
+              :class="errors.name ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400">Name</label>
@@ -130,6 +191,7 @@ watch(userDetails, (newUserDetails) => {
               />
             </div>
             <div
+              :class="errors.subject ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
@@ -142,6 +204,7 @@ watch(userDetails, (newUserDetails) => {
               />
             </div>
             <div
+              :class="errors.priority ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
@@ -156,6 +219,7 @@ watch(userDetails, (newUserDetails) => {
           </div>
           <div class="flex gap-[34px] flex-col w-full">
             <div
+              :class="errors.email ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400">Email</label>
@@ -166,6 +230,7 @@ watch(userDetails, (newUserDetails) => {
               />
             </div>
             <div
+              :class="errors.department ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
@@ -178,6 +243,7 @@ watch(userDetails, (newUserDetails) => {
               />
             </div>
             <div
+              :class="errors.postalCode ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
@@ -192,6 +258,7 @@ watch(userDetails, (newUserDetails) => {
           </div>
         </div>
         <div
+          :class="errors.message ? '!border-[#DA5252]' : ''"
           class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] gap-1.5 h-auto p-4 py-1"
         >
           <label class="text-[#01272C] flex text-[10px] font-Satoshi400">Message</label>
@@ -207,11 +274,12 @@ watch(userDetails, (newUserDetails) => {
           Attachment
         </h3>
         <div
+          :class="errors.attachment ? '!border-[#DA5252]' : ''"
           class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] gap-1.5 h-auto p-4 py-1"
         >
           <div class="flex flex-col gap-4" f>
             <div
-              v-if="attachment"
+              v-if="formState.attachment"
               class="w-full flex flex-row items-center justify-between rounded-[5.897px] py-[10px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
             >
               <p>{{ uploadedImageName }}</p>
@@ -236,9 +304,12 @@ watch(userDetails, (newUserDetails) => {
         </button>
 
         <button
+          :disabled="loading"
+          @click="submitTicket"
           class="bg-brand text-white font-Satoshi500 text-[14.153px] capitalize leading-[11.593px] rounded-full px-5 p-[13px] flex justify-center w-full lg:w-[20%]"
         >
-          Save
+          <span v-if="!loading">Save</span>
+          <WhiteLoader v-else />
         </button>
       </div>
     </div>

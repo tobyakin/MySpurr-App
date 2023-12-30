@@ -1,7 +1,7 @@
 <template>
   <div class="relative w-full">
     <input
-      :class="[error ? 'border-[#DA5252]' : 'border-[#254035]', inputClasses]"
+      :class="(error ? '!border-[#DA5252]' : 'border-[#254035]', inputClasses)"
       class="w-full font-light font-Satoshi400 text-[14px] !p-2 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
       :placeholder="placeholder"
       :type="type"
