@@ -7,10 +7,12 @@ import { useOnboardingStore } from "@/stores/onBoarding";
 import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import CloseEditModalIcon from "@/components/icons/CloseEditModalIcon.vue";
+import { useRouter } from "vue-router";
 
 const userOnboardingStore = useOnboardingStore();
 const { verifyIdentityData } = storeToRefs(userOnboardingStore);
 import { useSkillsStore } from "@/stores/skills";
+const router = useRouter();
 
 const skillsStore = useSkillsStore();
 const { contriesCode } = storeToRefs(skillsStore);
@@ -109,6 +111,7 @@ const onFinish = async () => {
   try {
     const res = await userOnboardingStore.handleVerifyIdentity();
     loading.value = false;
+    router.push({ name: "dashboard" });
     return res;
   } catch (error) {
     console.log(error);
