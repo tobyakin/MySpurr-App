@@ -6,6 +6,8 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import dayjs from "dayjs";
 import { useUserProfile } from "@/stores/profile";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+
 const OnboardingStore = useOnboardingStore();
 let profile = useUserProfile();
 
@@ -150,7 +152,8 @@ watch(CertificateYear, (newCertificateYear) => {
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
         class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
-        Submit
+        <span v-if="!loading">Submit</span>
+        <WhiteLoader v-else />
       </button>
     </div>
   </div>
