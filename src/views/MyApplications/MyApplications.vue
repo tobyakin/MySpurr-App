@@ -5,7 +5,7 @@ import InvitesView from "@/components/ui/MyApplications/InvitesView.vue";
 import Applications from "@/components/ui/MyApplications/Applications/Applications.vue";
 import JobOffers from "@/components/ui/MyApplications/JobOffers.vue";
 import MyJobs from "@/components/ui/MyApplications/MyJobs/MyJobs.vue";
-import Invoices from "@/components/ui/MyApplications/InvoicePage.vue";
+import Invoices from "@/components/ui/MyApplications/Invoice/InvoicePage.vue";
 </script>
 <template>
   <DashboardLayout
