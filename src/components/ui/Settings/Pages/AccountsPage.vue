@@ -44,12 +44,15 @@ const prefillDetails = (SingleObject) => {
   settingsData.value.application_lin = SingleObject.application_lin || "";
   settingsData.value.country_code = SingleObject.country_code || "";
   settingsData.value.phone_number = SingleObject.phone_number || "";
-  settingsData.value.billing_address.country = SingleObject.country || "";
-  settingsData.value.billing_address.state = SingleObject.state || "";
-  settingsData.value.billing_address.address_1 = SingleObject.address_1 || "";
-  settingsData.value.billing_address.address_2 = SingleObject.address_2 || "";
-  settingsData.value.billing_address.city = SingleObject.city || "";
-  settingsData.value.billing_address.zip_code = SingleObject.zip_code || "";
+  settingsData.value.billing_address.country = SingleObject.billing_address.country || "";
+  settingsData.value.billing_address.state = SingleObject.billing_address.state || "";
+  settingsData.value.billing_address.address_1 =
+    SingleObject.billing_address.address_1 || "";
+  settingsData.value.billing_address.address_2 =
+    SingleObject.billing_address.address_2 || "";
+  settingsData.value.billing_address.city = SingleObject.billing_address.city || "";
+  settingsData.value.billing_address.zip_code =
+    SingleObject.billing_address.zip_code || "";
   // settingsData.value.language = SingleObject.language || "";
 };
 watch(userDetails, (newSingleObject) => {
