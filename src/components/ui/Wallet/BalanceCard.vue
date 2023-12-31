@@ -9,6 +9,7 @@ const goToWithdraw = () => {
 };
 defineProps({
   hide: Boolean,
+  balance: String,
 });
 </script>
 <template>
@@ -22,7 +23,7 @@ defineProps({
         <h4
           class="lg:text-[56px] text-[40px] text-[#000000] font-EBGaramond500 leading-[63.84px]"
         >
-          102,201.50
+          {{ balance }}
         </h4>
         <button class="flex">
           <svg

@@ -65,3 +65,18 @@ export const setWithdrawalPin = async () => {
     throw error
   }
 }
+export const walletBalance = async () => {
+  const token = await getToken()
+
+  try {
+    let res = await axios.get(`wallet`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}

@@ -45,15 +45,17 @@
         </button>
       </div>
     </div>
-
-    <apexchart
-      class="pl-[10px] pr-[18px]"
-      v-if="renderChart"
-      type="area"
-      :options="chartOptions"
-      :series="chartSeries"
-      ref="chart"
-    />
+    <div class="h-full bg-cover">
+      <apexchart
+        class="pl-[10px] h-auto pr-[18px]"
+        v-if="renderChart"
+        type="area"
+        :options="chartOptions"
+        :series="chartSeries"
+        :height="chatContainerHeight"
+        ref="chart"
+      />
+    </div>
   </div>
 </template>
 
@@ -68,6 +70,7 @@ export default {
   },
   data() {
     return {
+      chatContainerHeight: null,
       renderChart: false,
       chartOptions: {
         grid: {
@@ -106,7 +109,7 @@ export default {
             show: false, // Hide the toolbar
           },
           width: "100%",
-          height: 380,
+          // height: "60%",
         },
         xaxis: {
           categories: [],
@@ -169,7 +172,22 @@ export default {
       };
     },
   },
+  methods: {
+    setChatContainerHeight() {
+      if (window.innerWidth < 768) {
+        this.chatContainerHeight = 250; // Set mobile height
+      } else {
+        this.chatContainerHeight = "80%"; // Set desktop height
+      }
+    },
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.setChatContainerHeight);
+  },
   mounted() {
+    this.setChatContainerHeight();
+    window.addEventListener("resize", this.setChatContainerHeight);
+
     const Incomedata = [45, 22, 78, 25, 19, 23, 50];
     const Widthdrawaldata = [20, 62, 19, 53, 2, 28, 25];
     const getFormattedDate = (day) => {
@@ -194,3 +212,14 @@ export default {
   },
 };
 </script>
+<style>
+/* #apexchartsarea-chart {
+  height: 326px !important;
+}
+.vue-apexcharts {
+  height: 326px !important;
+}
+#apex-chat-container {
+  height: 326px; 
+} */
+</style>
