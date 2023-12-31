@@ -99,6 +99,7 @@ const submitTicket = async () => {
   try {
     const res = await openTicket(payload);
     loading.value = false;
+    Cancel();
     return res;
   } catch (error) {
     loading.value = false;
