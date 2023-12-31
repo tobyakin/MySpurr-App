@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import Table from "../Table.vue";
 import AddInvoice from "@/components/ui/MyApplications/Invoice/AddInvoice.vue";
+import PreviewInvoice from "@/components/ui/MyApplications/Invoice/PreviewInvoice.vue";
 const message = ref("Loading");
 
 const columns = ref([
@@ -64,12 +65,19 @@ const next = async () => {
   //   await store.getAllCustomers(page, "verification");
   message.value = "No data found";
 };
+const step = ref([true, false, false]);
+
+const changeScreen = (from, to, type = null) => {
+  step.value[from] = false;
+  step.value[to] = true;
+};
 </script>
 <template>
   <div>
-    <AddInvoice />
+    <PreviewInvoice v-if="step[2]" />
 
-    <div>
+    <AddInvoice @Preview="changeScreen(1, 2)" v-if="step[1]" />
+    <div v-if="step[0]">
       <div v-if="rows.length">
         <div class="flex justify-between items-center flex-row">
           <h3
@@ -78,6 +86,7 @@ const next = async () => {
             Invoices
           </h3>
           <button
+            @click="changeScreen(0, 1)"
             class="btn-brand !border-none !py-3 !px-5 !text-[#FFFFFF] bg-[#2f919c9e] text-center !bg-[#2F929C]"
           >
             Add New Invoice
@@ -133,6 +142,7 @@ const next = async () => {
         </p>
         <div class="flex justify-center mt-[30px]">
           <button
+            @click="changeScreen(0, 1)"
             class="btn-brand !bg-brand !border-none text-center flex items-start !py-3 !text-white"
           >
             <span class="">Create New Invoice</span>
