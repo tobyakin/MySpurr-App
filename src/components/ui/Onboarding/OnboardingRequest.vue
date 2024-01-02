@@ -35,28 +35,34 @@
 <script setup>
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import { useStore } from "@/stores/user";
-// import { useUserProfile } from "@/stores/profile";
+import { useUserProfile } from "@/stores/profile";
 import { computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
-// const profileDetails = useUserProfile();
 const userStore = useStore();
 const router = useRouter();
-// const route = useRoute();
-// const userProfileDetails = computed(() => profileDetails.user);
-// onMounted(async () => {
-//   await profileDetails.userProfile();
-//   console.log(userProfileDetails.value.work_details);
-// });
+let profile = useUserProfile();
+onMounted(() => {
+  return profile.userProfile();
+});
+onMounted(() => {
+  return accountType;
+});
+const isOnBoarded = computed(() => profile.user);
+onMounted(async () => {
+  await profile.userProfile();
+});
+
+const route = useRoute();
 
 const accountType = computed(() => {
   return userStore.getUser.data.user.type;
 });
 
-// const checkRoute = computed(() => {
-//   const param = `dashboard`;
-//   return route.fullPath.includes(param);
-// });
+const checkRoute = computed(() => {
+  const param = `dashboard`;
+  return route.fullPath.includes(param);
+});
 
 const goToVerificationPage = () => {
   if (accountType.value.toLowerCase() === "talent") {

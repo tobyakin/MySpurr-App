@@ -1,7 +1,7 @@
 <template>
   <div
     :id="id"
-    class="absolute bg-white top-10 w-64 z-10 -left-[13rem] rounded pt-4 px-3 shadow-lg"
+    class="absolute bg-white top-12 w-64 z-10 lg:-left-[13rem] -left-[12rem] rounded pt-4 px-3 shadow-lg"
   >
     <div class="flex items-center gap-4 px-8 mb-4">
       <!-- <img
@@ -13,7 +13,15 @@
         role="button"
         class="h-10 w-10 flex justify-center items-center rounded-full bg-brand"
       >
+        <img
+          v-if="userDetails?.image"
+          class="w-10 h-10 rounded-full"
+          :src="userDetails?.image"
+          alt=""
+        />
+
         <svg
+          v-else
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -60,13 +68,18 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, defineProps, defineEmits } from "vue";
+import { ref, computed, onMounted, defineProps, defineEmits, onUpdated } from "vue";
 import { useUserProfile } from "@/stores/profile";
 
 let profile = useUserProfile();
-onMounted(() => {
-  return profile.userProfile();
+onMounted(async () => {
+  await profile.userProfile();
 });
+onUpdated(() => {
+  // await profile.userProfile();
+  return userDetails.value?.image;
+});
+
 const userDetails = computed(() => {
   return profile.user.data;
 });

@@ -5,12 +5,21 @@ import BookMarkIcon from "@/components/icons/bookmarkIcon.vue";
 import WalletIcon from "@/components/icons/walletIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
 import Dropdown from "@/components/ui/DropDown.vue";
-import { ref } from "vue";
+import NotificationDropDown from "@/components/ui/NotificationDropDown.vue";
+import { ref, computed, onMounted, onUpdated } from "vue";
 import "animate.css";
+import { useRouter } from "vue-router";
+import { useUserProfile } from "@/stores/profile";
 
+const profileStore = useUserProfile();
+const router = useRouter();
 const closeNav = ref(false);
 const closeBackdrop = ref(false);
 const showDropdown = ref(false);
+const showNotificationDropdown = ref(false);
+const userDetails = computed(() => {
+  return profileStore?.user?.data;
+});
 
 const toggle = () => {
   closeNav.value = !closeNav.value;
@@ -26,25 +35,25 @@ const toggle = () => {
   }
 };
 const items = [
-  { id: 0, name: "dashboard", context: "My profile" },
+  { id: 0, name: "profile", context: "MySpurr profile" },
   {
     id: 1,
-    name: "dashboard",
-    context: "My work",
+    name: "my-applications",
+    context: "My Jobs",
   },
   {
     id: 2,
-    name: "dashboard",
+    name: "wallet",
     context: "Wallet",
   },
   {
     id: 3,
-    name: "dashboard",
+    name: "settings",
     context: "Settings",
   },
   {
     id: 4,
-    name: "dashboard",
+    name: "help-center",
     context: "Help Center",
   },
   {
@@ -53,10 +62,44 @@ const items = [
     context: "Log out",
   },
 ];
-
+const notificationItems = [
+  {
+    id: 0,
+    name: "",
+    context: "`Lorem ipsum dolor sit amet, iat nulla pariatur. E`",
+  },
+  {
+    id: 1,
+    name: "",
+    context: "`Lorem ipsum dolor sit amet, iat nulla pariatur. E`",
+  },
+];
 const toogleDropdown = () => {
   showDropdown.value = !showDropdown.value;
+  if (showNotificationDropdown.value === true) {
+    showNotificationDropdown.value = false;
+  }
 };
+const toogleNotificationDropdown = () => {
+  showNotificationDropdown.value = !showNotificationDropdown.value;
+  if (showDropdown.value === true) {
+    showDropdown.value = false;
+  }
+};
+const redirectToWallet = () => {
+  router.push({ name: "wallet" });
+};
+const redirectToBookmark = () => {
+  router.push({ name: "bookmark" });
+};
+onMounted(async () => {
+  await profileStore.userProfile();
+  return userDetails.value?.image;
+});
+onUpdated(async () => {
+  // await profileStore.userProfile();
+  return userDetails.value?.image;
+});
 </script>
 
 <template>
@@ -77,7 +120,7 @@ const toogleDropdown = () => {
       <div class="hidden lg:block flex-shrink-0 md:w-[256px]">
         <BaseSidebar />
       </div>
-      <div class="flex-grow">
+      <div class="flex-grow pb-20">
         <!-- top-menu flex items-center justify-between py-3 px-4 lg:px-0 -->
         <!-- flex items-center gap-[3rem] justify-between px-4 min-[370px]:px-6 sticky top-0 pt-4 min-[370px]:pt-5 bg-white z-50  -->
         <nav
@@ -86,7 +129,10 @@ const toogleDropdown = () => {
           <div class="lg:hidden">
             <div class="logo">
               <router-link :to="{ name: 'dashboard' }"
-                ><img src="@/assets/Logo.png" class="w-[80%]" alt="Myspurr logo"
+                ><img
+                  src="@/assets/Logobeta.png"
+                  class="lg:w-[80%] h-[40px]"
+                  alt="Myspurr logo"
               /></router-link>
             </div>
           </div>
@@ -103,9 +149,24 @@ const toogleDropdown = () => {
           </div>
           <div class="links flex">
             <div class="flex justify-between gap-1 items-center ml-auto">
-              <span class="notification hidden lg:block px-2"><WalletIcon /> </span>
-              <span class="notification hidden lg:block px-2"><BookMarkIcon /> </span>
-              <span class="notification hidden lg:block px-2"><BellIcon /> </span>
+              <span
+                role="button"
+                @click="redirectToWallet"
+                class="notification cusor-pointer hidden lg:block px-2"
+                ><WalletIcon />
+              </span>
+              <span
+                @click="redirectToBookmark"
+                role="button"
+                class="notification cusor-pointer hidden lg:block px-2"
+                ><BookMarkIcon />
+              </span>
+              <span
+                @click="toogleNotificationDropdown"
+                role="button"
+                class="notification cusor-pointer hidden lg:block px-2"
+                ><BellIcon />
+              </span>
 
               <div class="profile__dropdown">
                 <div
@@ -133,7 +194,13 @@ const toogleDropdown = () => {
                     role="button"
                     class="h-10 w-10 flex justify-center items-center rounded-full bg-brand"
                   >
+                    <img
+                      v-if="userDetails?.image"
+                      :src="userDetails?.image"
+                      class="h-10 w-10 bg-[#0A090991] rounded-full"
+                    />
                     <svg
+                      v-else
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -154,6 +221,12 @@ const toogleDropdown = () => {
                     :link="true"
                     :items="items"
                     @closeDropdown="toogleDropdown"
+                  /><NotificationDropDown
+                    v-if="showNotificationDropdown"
+                    :showDropdown="showNotificationDropdown"
+                    :link="true"
+                    :items="notificationItems"
+                    @closeDropdown="toogleNotificationDropdown"
                   />
                 </div>
               </div>

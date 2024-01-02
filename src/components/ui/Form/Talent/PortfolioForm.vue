@@ -7,12 +7,12 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
 import { useRouter } from "vue-router";
 let store = useStore();
-console.log(store.getUser);
+
 let loading = ref(false);
 const router = useRouter();
 const OnboardingStore = useOnboardingStore();
 const { step } = storeToRefs(OnboardingStore);
-const emit = defineEmits("next", "prev");
+const emit = defineEmits(["next", "prev"]);
 const formState = ref({
   compensation: "",
   portfolio_title: "",

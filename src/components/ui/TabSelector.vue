@@ -2,13 +2,13 @@
   <div>
     <h1
       v-if="activetab === 'talent'"
-      class="md:text-[22.225px] font-EBGaramond400 text-brand my-4 text-center text-2xl"
+      class="md:text-[22.225px] font-EBGaramond400 text-brand !my-4 text-center text-2xl"
     >
       <slot name="tab1title"></slot>
     </h1>
     <h1
       v-if="activetab === 'business'"
-      class="md:text-[22.225px] font-EBGaramond400 text-brand my-4 text-center text-2xl"
+      class="md:text-[22.225px] font-EBGaramond400 text-brand !my-4 text-center text-2xl"
     >
       <slot name="tab2title"></slot>
     </h1>

@@ -12,12 +12,24 @@ const router = useRouter();
 const redirectToJobDetails = (id) => {
   router.push({ name: "view-jobs", params: { id } });
 };
+defineProps({
+  job: Object,
+});
 </script>
 <template>
-  <div class="border-[#254035AB] border-[0.735px] rounded-[7.347px] p-5 px-6">
-    <div class="flex gap-3 w-full">
+  <div
+    class="border-[#254035AB] border-[0.735px] bg-white rounded-[7.347px] lg:p-5 p-4 lg:px-6"
+  >
+    <div class="flex lg:flex-row flex-col gap-3 w-full">
       <div>
         <img
+          v-if="job.company_image !== null"
+          class="h-[61.011px] w-[61.011px] rounded-full"
+          :src="job.company_image"
+          alt=""
+        />
+        <img
+          v-else
           class="h-[61.011px] w-[61.011px] rounded-full"
           src="@/assets/image/jobIcon.svg"
           alt=""
@@ -25,75 +37,83 @@ const redirectToJobDetails = (id) => {
       </div>
       <div class="w-full">
         <div class="flex items-center gap-1">
-          <p class="text-[13.021px] font-Satoshi500 flex text-[#2F929C]">MySpurr</p>
-          <div class="flex mt-1 gap-1">
+          <p class="text-[13.021px] font-Satoshi500 flex text-[#2F929C]">
+            {{ job.company_name }}
+          </p>
+          <div v-if="job.verify" class="flex mt-1 gap-1">
             <VerifyIcon class="w-4" />
             <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
               Verified Client.
             </p>
           </div>
         </div>
-        <div class="flex items-center justify-between w-full gap-3">
-          <div class="flex items-center gap-14">
+        <div class="flex flex-col lg:flex-row items-center justify-between w-full gap-3">
+          <div
+            class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14"
+          >
             <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
-              Developer in java c++kk
+              {{ job.job_title }}
             </p>
             <button
-              class="bg-[#EDF0B8] font-Satoshi500 text-[9.708px] p-2 px-6 text-[#000000] rounded-full"
+              class="bg-[#EDF0B8] font-Satoshi500 lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
             >
-              FREELANCE
+              {{ job.employee_type }}
             </button>
           </div>
           <a
+            v-if="job.match"
             class="font-Satoshi500 text-[11.74px] flex items-center gap-1 text-[#000000]"
           >
             <MatchIcon />You’re a Match
           </a>
         </div>
         <div class="flex flex-col justify-between mt-5">
-          <div class="flex gap-4 items-center">
+          <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
-              <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">$30-$50/hour</p>
+              <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
+                {{ job.rate }}
+              </p>
             </div>
             <div class="flex gap-2 items-center">
               <div
-                class="flex gap-1 text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
-                <CalenderIcon /><span class="py-[0.25px]">30 hrs/week</span>
+                <CalenderIcon /><span class="py-[0.25px]">{{ job.weekly_hours }}</span>
               </div>
               <div
-                class="flex gap-[2px] text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
-                <LocationIcon /><span class="py-[0.25px]">Work from anywhere</span>
+                <LocationIcon /><span class="py-[0.25px]">{{ job.location }}</span>
               </div>
               <div
-                class="flex gap-1 text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
                 <TimerIcon /><span class="py-[0.25px]">Anytime</span>
               </div>
             </div>
           </div>
-          <div class="flex justify-between mt-2">
-            <div class="flex gap-3 items-center">
+          <div class="flex lg:flex-row flex-col gap-4 justify-between mt-2">
+            <div class="flex flex-wrap gap-3 items-center">
               <div
-                class="bg-[#F2F3EF] font-Satoshi500 text-[12.135px] uppercase p-[4px] px-6 text-[#64665D] rounded-full"
+                v-for="skill in job.skills"
+                :key="skill"
+                class="bg-[#F2F3EF] font-Satoshi500 text-[10px] lg:text-[12.135px] uppercase p-[4px] lg:px-6 px-4 text-[#64665D] rounded-full"
               >
-                Brand identity
-              </div>
-              <div
-                class="bg-[#F2F3EF] font-Satoshi500 text-[12.135px] uppercase p-[4px] px-6 text-[#64665D] rounded-full"
-              >
-                UI/UI design
+                {{ skill.name }}
               </div>
             </div>
 
-            <div class="flex items-center gap-4">
-              <button class="">
-                <CircleBookMarkIcon />
-              </button>
-              <button class="">
-                <SearchIcon />
-              </button>
+            <div
+              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4"
+            >
+              <div class="flex items-center gap-4">
+                <button class="">
+                  <CircleBookMarkIcon />
+                </button>
+                <button class="">
+                  <SearchIcon />
+                </button>
+              </div>
               <button
                 @click="redirectToJobDetails(1)"
                 class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"

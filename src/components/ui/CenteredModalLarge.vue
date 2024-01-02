@@ -1,9 +1,9 @@
 <template>
   <div
-    class="modal backdrop-blur z-[100] fixed animate__zoomIn animate__rubberBand animate__fadeOut h-screen"
+    class="modal backdrop-blur z-[100] fixed animate__zoomIn animate__rubberBand animate__fadeOut min-h-screen h-full"
   >
     <div
-      class="modal__body relative w-full md:max-w-[600px] bg-white m-0 md:px-5 py-4 px-4 md:max-w-2/12 md:w-2/5"
+      class="modal__body relative w-full md:max-w-[600px] bg-white m-0 md:px-5 py-4 px-4 md:max-w-2/12"
     >
       <slot></slot>
     </div>

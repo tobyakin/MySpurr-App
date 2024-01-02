@@ -10,7 +10,6 @@ export const login = async (email, password) => {
         email,
         password,
     }
-
     try {
         let res = await axios.post('login',data)
         catchAxiosSuccess(res)   
@@ -21,6 +20,34 @@ export const login = async (email, password) => {
     }
   
 }
+export const verifyLogin = async (code) => {
+  let data = {
+    code
+  }
+  try {
+    let res = await axios.post('login-verify', data)
+    catchAxiosSuccess(res)
+    return res
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const RsendVerifyCode = async (email) => {
+  let data = {
+    email
+  }
+  try {
+    let res = await axios.post('resend-code', data)
+    catchAxiosSuccess(res)
+    return res
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
+
 // login with Google
 // export const loginWithGoogle = async () => {
 //     try {
@@ -46,7 +73,6 @@ export const registerBusiness = async (payload) => {
         let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
         localStorage.setItem('_register_data', ciphertext);       
          catchAxiosSuccess(res)   
-
         return res;
     } catch (error) {
         catchAxiosError(error)   
@@ -57,7 +83,8 @@ export const registerBusiness = async (payload) => {
 export const authWithGoogle = async () => {
 
   try {
-    let res = await axios.get('auth/talent/google')
+    const res = 'https://myspurr.azurewebsites.net/api/v1/auth/talent/google'
+    window.location.href = res
     catchAxiosSuccess(res)
     return res
   } catch (error) {
@@ -70,8 +97,7 @@ export const registerTalent = async (payload) => {
         let res = await axios.post('talent-register',payload)
         let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
         localStorage.setItem('_register_data', ciphertext);        
-        catchAxiosSuccess(res.message)   
-
+        catchAxiosSuccess(res)   
         return res;
     } catch (error) {
         catchAxiosError(error)   
@@ -134,7 +160,6 @@ export const getToken = () => {
         let user  = decrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
         return user.data.token;
     }
-
     return null;
 }
 export const getUser = () => {
@@ -144,7 +169,6 @@ export const getUser = () => {
         let user  = decrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
         return user;
     }
-
     return null;
 }
 

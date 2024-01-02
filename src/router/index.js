@@ -3,6 +3,7 @@ import middleware from './Middleware';
 import LoginPage from '../views/Auth/LoginPage.vue'
 import Register from '../views/Auth/RegisterPage.vue'
 import Verify from '../views/Auth/VerifyPage.vue'
+import OTPPage from '@/views/Auth/OTPPage.vue'
 import ForgottenPassword from '../views/Auth/ForgottenPassword.vue'
 import ResetPassword from '../views/Auth/ResetPassword.vue'
 import HomeView from '../views/HomeView.vue'
@@ -14,6 +15,18 @@ import BusinessOnboarding from '../views/OnBoarding/BusinessPage.vue'
 import UploadProofOfIdentity from '@/views/UploadIdentity/UploadProofOfIdentity.vue'
 import OnboardingRequest from '@/components/ui/Onboarding/OnboardingRequest.vue'
 import Community from '@/views/Community/ComingSoon.vue'
+import PostJob from '@/views/Jobs/Business/PostJob.vue'
+import MyApplications from '@/views/MyApplications/MyApplications.vue'
+import MessagesPage from '@/views/Messages/MessagesPage.vue'
+import WalletOverviewPage from '@/views/Wallet/OverviewPage.vue'
+import ProfilePage from '@/views/Profile/ProfilePage.vue'
+import SettingsPage from '@/views/Settings/SettingsPage.vue'
+import MyWork from '@/views/MyWork/MyWork.vue'
+import HelpCenterPage from '@/views/HelpCenter/HelpCenterPage.vue'
+import BookMarkPage from '@/views/BookMark/BookMarkPage.vue'
+import AddPortfolio from '@/views/Portfolio/AddPortfolio.vue'
+import EditPortfolio from '@/views/Portfolio/EditPortfolio.vue'
+import OpenTicket from '@/views/HelpCenter/OpenTicket.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -37,6 +50,12 @@ const router = createRouter({
       path: '/verify/:email',
       name: 'verify',
       component: Verify
+      // beforeEnter: [middleware.redirectDashboard],
+    },
+    {
+      path: '/login/verify/:email',
+      name: 'verify-login',
+      component: OTPPage
       // beforeEnter: [middleware.redirectDashboard],
     },
     {
@@ -69,9 +88,81 @@ const router = createRouter({
       beforeEnter: [middleware.redirectLogin]
     },
     {
+      path: '/messages',
+      name: 'messages',
+      component: MessagesPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/open-ticket',
+      name: 'open-ticket',
+      component: OpenTicket,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfilePage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: SettingsPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/my-work',
+      name: 'my-work',
+      component: MyWork,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/help-center',
+      name: 'help-center',
+      component: HelpCenterPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/bookmark',
+      name: 'bookmark',
+      component: BookMarkPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/wallet',
+      name: 'wallet',
+      component: WalletOverviewPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/my-applications',
+      name: 'my-applications',
+      component: MyApplications,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/post-job',
+      name: 'post-jobs',
+      component: PostJob,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
       path: '/view/job/:id',
       name: 'view-jobs',
       component: ViewJob,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/add-portfolio',
+      name: 'add-portfolio',
+      component: AddPortfolio,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/edit-portfolio/:id',
+      name: 'edit-portfolio',
+      component: EditPortfolio,
       beforeEnter: [middleware.redirectLogin]
     },
     {
@@ -110,7 +201,10 @@ const router = createRouter({
       component: UploadProofOfIdentity,
       beforeEnter: [middleware.redirectLogin]
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 }
+  }
 })
 
 export default router

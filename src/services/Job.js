@@ -32,10 +32,10 @@ export const getJobsDetails = async (id) => {
     throw error
   }
 }
-export const applyForJobs = async (id) => {
+export const applyForJobs = async (id, payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`job-apply/${id}`, {
+    let res = await axios.post(`job-apply/${id}`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }

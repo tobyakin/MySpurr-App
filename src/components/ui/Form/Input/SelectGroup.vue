@@ -1,23 +1,25 @@
 <template>
-  <div class="form__group">
+  <div class="w-full">
     <Label :class="labelClasses">{{ label }}</Label>
     <Select
       @update:modelValue="passInputValue"
       :value="modelValue"
-      :class="inputClasses"
+      :inputClasses="inputClasses"
       :placeholder="placeholder"
       :name="name"
       :items="items"
     />
-    <Label class="text-2xl text-left" :name="name" />
+    <p v-if="error" class="text-red-600 pl-2 font-Satoshi400 text-left text-[10.24px]">
+      {{ errorsMsg }}
+    </p>
   </div>
 </template>
 
 <script setup>
-import { defineAsyncComponent } from "vue";
+// import { defineAsyncComponent } from "vue";
 
-const Select = defineAsyncComponent(() => import("./Select.vue"));
-const Label = defineAsyncComponent(() => import("./Label.vue"));
+import Select from "./Select.vue";
+import Label from "./Label.vue";
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -30,6 +32,8 @@ defineProps({
   inputClasses: String, // Optional
   modelValue: String | Number,
   items: Array,
+  errorsMsg: String,
+  error: Boolean,
 });
 
 const passInputValue = (value) => {

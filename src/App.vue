@@ -1,10 +1,10 @@
 <script setup>
-import Loader from "@/components/ui/Loader.vue";
+// import Loader from "@/components/ui/Loader/Loader.vue";
 </script>
 
 <template>
   <RouterView />
-  <Loader />
+  <!-- <Loader /> -->
 </template>
 
 <style scoped></style>

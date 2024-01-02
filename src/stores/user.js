@@ -27,7 +27,6 @@ export const useStore = defineStore('user', () => {
     const account = user.value.data.user.type
     if (account) {
       const accountLowerCase = account.toLowerCase()
-      console.log('account type',accountLowerCase)
       if (accountLowerCase === 'business') {
         return ['JOB_LISTING', 'MY_SCHEDULE', 'ALL_APPLICATIONS']
       }
