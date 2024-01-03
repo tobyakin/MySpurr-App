@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup>
-import Avater from "@/assets/svg/avater.svg";
+import Avater from "@/assets/defultAvater.png";
 defineProps({
   inputClasses: String,
   imageUrl: String,

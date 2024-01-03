@@ -14,7 +14,7 @@
 </template>
 <script setup>
 import EditIcon from "@/components/icons/editIcon.vue";
-import Avater from "@/assets/svg/avater.svg";
+import Avater from "@/assets/defultAvater.png";
 
 defineProps({
   inputClasses: String,

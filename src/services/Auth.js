@@ -138,10 +138,10 @@ export const resetPassword = async (token,email,password, password_confirmation)
     throw error
   }
 }
-// reset password
+// resend email
 export const resendEmail = async (email ) => {
   let data = {
-    email,
+    email
   }
 
   try {
