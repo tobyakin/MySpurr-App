@@ -5,7 +5,7 @@ import { ref, reactive, watch, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
 import { login, authWithGoogle } from "@/services/Auth";
-import PasswordInput from "@/components/ui/PasswordInput.vue";
+import PasswordInput from "@/components/ui/Form/Input/PasswordInput.vue";
 import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 // import Loader from "@/components/ui/Loader/Loader.vue";
@@ -48,8 +48,7 @@ const errors = reactive({
   password: false,
 });
 const errorsMsg = {
-  email: "email is required",
-  password: "Password is required",
+  password: "",
 };
 const isValidEmail = computed(() => {
   return formState.email.trim() !== "";
@@ -70,13 +69,12 @@ const validateForm = () => {
 
   if (!isValidEmail.value) {
     errors.email = true;
-    // errorsMsg.email;
     isValid = false;
   }
 
   if (!isValidPassword.value) {
     errors.password = true;
-    // errorsMsg.password;
+    errorsMsg.password = "Password is required";
     isValid = false;
   }
 
@@ -232,7 +230,6 @@ onMounted(() => {
           <div>
             <AuthInput
               :error="errors.email"
-              :errorsMsg="errorsMsg.email || !isValidEmail"
               v-model="formState.email"
               type="email"
               placeholder="Email Address*"
@@ -242,7 +239,7 @@ onMounted(() => {
           <div>
             <PasswordInput
               :error="errors.password"
-              :errorsMsg="errorsMsg.password || !isValidPassword"
+              :errorsMsg="errorsMsg.password"
               v-model="formState.password"
               placeholder="Password*"
               @keyup.enter="onFinish"

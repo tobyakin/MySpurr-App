@@ -4,7 +4,7 @@ import { ref, reactive, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
 import { resetPassword } from "@/services/Auth";
-import PasswordInput from "@/components/ui/PasswordInput.vue";
+import PasswordInput from "@/components/ui/Form/Input/PasswordInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 // const store = useStore();
 const router = useRouter();

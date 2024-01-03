@@ -167,7 +167,7 @@
 
 <script setup>
 import { ref, reactive, watch, computed, onMounted } from "vue";
-import PasswordInput from "@/components/ui/PasswordInput.vue";
+import PasswordInput from "@/components/ui/Form/Input/PasswordInput.vue";
 import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import { registerBusiness, registerTalent, authWithGoogle } from "@/services/Auth";
 import { useRouter } from "vue-router";

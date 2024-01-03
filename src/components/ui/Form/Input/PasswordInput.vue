@@ -4,6 +4,7 @@
       :type="showPassword ? 'text' : 'password'"
       @input="$emit('update:modelValue', $event.target.value)"
       :placeholder="placeholder"
+      :value="modelValue"
       :class="error ? 'border-[#ef4b4b]' : 'border-[#254035]'"
       class="w-full font-light font-Satoshi400 text-[14px] !p-2 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
     />
