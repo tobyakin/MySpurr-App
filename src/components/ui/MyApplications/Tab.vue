@@ -38,13 +38,13 @@
       >
         <slot name="tab5"></slot>
       </a>
-      <a
+      <!-- <a
         class=""
         @click="activateTab('help')"
         :class="[activetab === 'help' ? 'active' : '']"
       >
         <slot name="tab6"></slot>
-      </a>
+      </a> -->
     </div>
     <!-- tabs for mobile screen size start here -->
     <div
@@ -66,9 +66,9 @@
         <option value="invoices">
           <slot name="tab5"></slot>
         </option>
-        <option value="help">
+        <!-- <option value="help">
           <slot name="tab6"></slot>
-        </option>
+        </option> -->
       </select>
     </div>
 
@@ -89,9 +89,9 @@
       <div v-if="activetab === 'invoices'" class="">
         <slot name="view5"></slot>
       </div>
-      <div v-if="activetab === 'help'" class="">
+      <!-- <div v-if="activetab === 'help'" class="">
         <slot name="view6"></slot>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
