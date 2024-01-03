@@ -106,6 +106,17 @@ const selectHighlightedOption = () => {
 // end tag ends here
 // upload image
 const uploadedImageName = ref("");
+const restForm = () => {
+  (portfolio.value.title = ""),
+    (portfolio.value.client_name = ""),
+    (portfolio.value.job_type = ""),
+    (portfolio.value.location = ""),
+    (portfolio.value.tags = []),
+    (portfolio.value.cover_imag = null),
+    (portfolio.value.body = ""),
+    (portfolio.value.min_rate = ""),
+    (portfolio.value.max_rate = "");
+};
 
 const uploadImage = (event) => {
   const file = event.target.files[0];
@@ -137,20 +148,13 @@ const onFinish = async () => {
     const res = await OnboardingStore.submitTalentPortfolio();
     userProfile.userProfile();
     // router.push({ name: "profile" });
+    restForm();
     return res;
   } catch (error) {
     console.log(error);
   } finally {
     loading.value = false;
-    (portfolio.value.title = ""),
-      (portfolio.value.client_name = ""),
-      (portfolio.value.job_type = ""),
-      (portfolio.value.location = ""),
-      (portfolio.value.tags = []),
-      (portfolio.value.cover_imag = null),
-      (portfolio.value.body = ""),
-      (portfolio.value.min_rate = ""),
-      (portfolio.value.max_rate = "");
+    restForm();
     router.push({ name: "profile" });
   }
 };
