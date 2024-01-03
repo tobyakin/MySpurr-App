@@ -4,7 +4,7 @@
       <div class="my-8 flex flex-col gap-10">
         <header class="">
           <h1 class="text-[#000000] text-center text-[20px] font-Satoshi700">
-            Your details have been Updated Successfully
+            Your details have been updated successfully
           </h1>
         </header>
         <div class="flex justify-center">
