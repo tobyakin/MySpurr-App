@@ -43,14 +43,13 @@ import { computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { storeToRefs } from "pinia";
+
 const OnboardingStore = useOnboardingStore();
 
 const { step } = storeToRefs(OnboardingStore);
 const emit = defineEmits(["next"]);
 
-const next = () => {
-  emit("next", step.value + 1);
-};
+// const route = useRoute();
 
 const userStore = useStore();
 const router = useRouter();
@@ -62,31 +61,53 @@ onMounted(() => {
   return accountType;
 });
 const isOnBoarded = computed(() => profile.user);
-onMounted(async () => {
-  await profile.userProfile();
-  console.log(isOnBoarded.value.work_details);
-});
-
-const route = useRoute();
 
 const accountType = computed(() => {
   return userStore.getUser.data.user.type;
 });
 
-const checkRoute = computed(() => {
-  const param = `dashboard`;
-  return route.fullPath.includes(param);
-});
+// const checkRoute = computed(() => {
+//   const param = `dashboard`;
+//   return route.fullPath.includes(param);
+// });
 
-const goToVerificationPage = () => {
-  if (accountType.value.toLowerCase() === "talent") {
-    return router.push({
-      name: "talent-onboarding",
-    });
-  } else if (accountType.value.toLowerCase() === "business") {
-    return router.push({
-      name: "business-onboarding",
-    });
+// const goToVerificationPage = () => {
+//   if (accountType.value.toLowerCase() === "talent") {
+//     return router.push({
+//       name: "talent-onboarding",
+//     });
+//   } else if (accountType.value.toLowerCase() === "business") {
+//     return router.push({
+//       name: "business-onboarding",
+//     });
+//   }
+// };
+const next = () => {
+  if (
+    isOnBoarded.value ||
+    isOnBoarded.value.business_details ||
+    isOnBoarded.value.work_details
+  ) {
+    return router.push({ name: "dashboard" });
+  } else {
+    emit("next", step.value + 1);
   }
 };
+
+onMounted(async () => {
+  try {
+    await profile.userProfile();
+    if (
+      isOnBoarded.value ||
+      isOnBoarded.value.business_details ||
+      isOnBoarded.value.work_details
+    ) {
+      return router.push({ name: "dashboard" });
+    }
+  } catch (error) {
+    /* empty */
+  } finally {
+    /* empty */
+  }
+});
 </script>
