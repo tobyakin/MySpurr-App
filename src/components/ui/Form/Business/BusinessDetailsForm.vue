@@ -5,16 +5,20 @@ import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
+import { useRouter, useRoute } from "vue-router";
+
 const userProfile = useUserProfile();
 const OnboardingStore = useOnboardingStore();
 const { user } = storeToRefs(userProfile);
 const { step, businessDetails } = storeToRefs(OnboardingStore);
+const router = useRouter();
 
 let store = useStore();
 const emit = defineEmits(["next"]);
 const userDetails = computed(() => {
   return userProfile.user.data;
 });
+const isOnBoarded = computed(() => userProfile.user);
 
 const formState = ref({
   business_name: "",
@@ -73,6 +77,18 @@ watch(userDetails, (newSingleObject) => {
 onMounted(async () => {
   await userProfile.userProfile();
   prefillDetails(userDetails.value);
+});
+onMounted(async () => {
+  try {
+    await userProfile.userProfile();
+    if (isOnBoarded.value || isOnBoarded.value.business_details) {
+      return router.push({ name: "dashboard" });
+    }
+  } catch (error) {
+    /* empty */
+  } finally {
+    /* empty */
+  }
 });
 </script>
 
