@@ -12,6 +12,10 @@ const { step, businessDetails } = storeToRefs(OnboardingStore);
 
 let store = useStore();
 const emit = defineEmits(["next"]);
+const userDetails = computed(() => {
+  return userProfile.user.data;
+});
+
 const formState = ref({
   business_name: "",
   // top_skills: "",
@@ -58,14 +62,17 @@ const onFinish = async () => {
     console.log(error);
   }
 };
-const prefillDetails = () => {
-  formState.value.business_name = userProfile.user?.data?.business_name || "";
-  formState.value.business_email = userProfile.user?.data?.email || "";
+const prefillDetails = (SingleObject) => {
+  formState.value.business_name = SingleObject.business_name || "";
+  formState.value.business_email = SingleObject.email || "";
 };
+watch(userDetails, (newSingleObject) => {
+  prefillDetails(newSingleObject);
+});
 
 onMounted(async () => {
-  prefillDetails();
   await userProfile.userProfile();
+  prefillDetails(userDetails.value);
 });
 </script>
 
@@ -86,13 +93,13 @@ onMounted(async () => {
         class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto py-12 hide-scrollbar overflow-hidden"
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] text-[12px] px-2 font-Satoshi400"
             >Business name</label
           >
           <input
-            class="w-full font-light font-Satoshi400 text-[14px] !p-2 bg-transparent border-none opacity-[0.8029] rounded-[4.074px] text-sm"
-            v-model="formState.business_name"
-            type="text"
+            class="w-full font-light font-Satoshi400 text-left text-[14px] !p-2 bg-transparent border-none opacity-[0.8029] rounded-[4.074px] text-sm"
+            type="button"
+            :value="formState.business_name"
           />
           <!-- <GlobalInput
             v-model="formState.business_name"
@@ -104,7 +111,7 @@ onMounted(async () => {
         <div
           class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">
             Top skills</label
           >
           <GlobalInput
@@ -114,7 +121,7 @@ onMounted(async () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Location</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Location</label>
           <GlobalInput
             v-model="formState.location"
             inputClasses="bg-transparent border-none"
@@ -123,7 +130,7 @@ onMounted(async () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Industry</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Industry</label>
           <GlobalInput
             v-model="formState.industry"
             inputClasses="bg-transparent border-none"
@@ -132,7 +139,7 @@ onMounted(async () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >About your business</label
           >
           <textarea
@@ -144,7 +151,7 @@ onMounted(async () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">Website</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Website</label>
           <GlobalInput
             v-model="formState.website"
             inputClasses="bg-transparent border-none"
@@ -153,7 +160,7 @@ onMounted(async () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Business services</label
           >
           <GlobalInput
@@ -165,12 +172,17 @@ onMounted(async () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400">E-mail</label>
-          <GlobalInput
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">E-mail</label>
+          <!-- <GlobalInput
             v-model="formState.business_email"
             inputClasses="bg-transparent border-none"
             placeholder=""
             type="email"
+          /> -->
+          <input
+            class="w-full font-light font-Satoshi400 text-left text-[14px] !p-2 bg-transparent border-none opacity-[0.8029] rounded-[4.074px] text-sm"
+            type="button"
+            :value="formState.business_email"
           />
         </div>
       </div>

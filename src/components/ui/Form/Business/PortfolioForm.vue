@@ -6,6 +6,7 @@ import { storeToRefs } from "pinia";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
 import { useRouter } from "vue-router";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
 let store = useStore();
 
@@ -111,7 +112,7 @@ const submitForm = async (formData, payload) => {
           />
           <label
             for="uploadFile"
-            class="cursor-pointer w-full justify-between flex text-[#01272C] px-4 text-[12px] font-Satoshi400"
+            class="cursor-pointer w-full justify-between flex text-[#01272C] px-2 text-[12px] font-Satoshi400"
           >
             <span v-if="!formState.company_logo">Upload company logo (max 3mb)</span
             ><span v-if="formState.company_logo">{{ formState.company_logo.name }} </span>
@@ -121,7 +122,7 @@ const submitForm = async (formData, payload) => {
         <div
           class="border-[0.737px] border-[rgba(37,64,53,0.67)] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Company type - startup, agency, corporation</label
           >
           <GlobalInput
@@ -131,7 +132,7 @@ const submitForm = async (formData, payload) => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Please select social media 1</label
           >
           <GlobalInput
@@ -141,7 +142,7 @@ const submitForm = async (formData, payload) => {
         </div>
 
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-4 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Please select social media 2</label
           >
           <GlobalInput
@@ -167,7 +168,8 @@ const submitForm = async (formData, payload) => {
         @click="onFinish"
         class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
-        Complete Profile
+        <span v-if="!loading">Complete Profile</span>
+        <WhiteLoader v-else />
       </button>
     </div>
   </section>
