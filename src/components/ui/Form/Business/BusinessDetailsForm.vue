@@ -81,7 +81,7 @@ onMounted(async () => {
 onMounted(async () => {
   try {
     await userProfile.userProfile();
-    if (isOnBoarded.value || isOnBoarded.value.business_details) {
+    if (isOnBoarded.value.business_details) {
       return router.push({ name: "dashboard" });
     }
   } catch (error) {

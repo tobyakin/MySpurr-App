@@ -83,25 +83,19 @@ const accountType = computed(() => {
 //   }
 // };
 const next = () => {
-  if (
-    isOnBoarded.value ||
-    isOnBoarded.value.business_details ||
-    isOnBoarded.value.work_details
-  ) {
+  if (isOnBoarded.value.work_details) {
     return router.push({ name: "dashboard" });
   } else {
     emit("next", step.value + 1);
   }
 };
-
+onMounted(async () => {
+  await profile.userProfile();
+});
 onMounted(async () => {
   try {
     await profile.userProfile();
-    if (
-      isOnBoarded.value ||
-      isOnBoarded.value.business_details ||
-      isOnBoarded.value.work_details
-    ) {
+    if (!isOnBoarded.value.work_details) {
       return router.push({ name: "dashboard" });
     }
   } catch (error) {
