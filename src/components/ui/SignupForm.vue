@@ -298,6 +298,10 @@ const validateBusinessForm = () => {
     errors.business_name = true;
     isValid = false;
   }
+  if (formData.password !== confirmPassword.value) {
+    errors.confirmPassword = true;
+    isValid = false;
+  }
 
   return isValid;
 };
