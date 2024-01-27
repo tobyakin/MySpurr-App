@@ -65,6 +65,17 @@ let verifyIdentityData = ref({
   back: '',
   confirm: ''
 });
+const businessDetails = ref({
+  business_name: '',
+  location: '',
+  industry: '',
+  about_business: '',
+  website: '',
+  business_service: '',
+  business_email: '',
+  company_logo: null,
+  company_type: ''
+})
     const submitTalentPortfolio = async() => {
             let payload = {
               portfolio: {
@@ -139,7 +150,18 @@ try {
             }
 
     }
-    const submitBusinessDetails = async (payload) => {
+    const submitBusinessDetails = async () => {
+            let payload = {
+              business_name: businessDetails.value.business_name,
+              location: businessDetails.value.location,
+              industry: businessDetails.value.industry,
+              about_business: businessDetails.value.about_business,
+              website: businessDetails.value.website,
+              business_service: businessDetails.value.business_service,
+              business_email: businessDetails.value.business_email,
+              company_logo: businessDetails.value.company_logo,
+              company_type: businessDetails.value.company_type
+            }
       try {
         let res = await handleBusinessDetails(payload)
         return res
@@ -182,6 +204,7 @@ try {
       availability,
       portfolio,
       handleVerifyIdentity,
-      verifyIdentityData
+      verifyIdentityData,
+      businessDetails
     }
 })

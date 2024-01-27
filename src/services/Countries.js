@@ -10,3 +10,12 @@ export const getCountries = async () => {
     throw error
   }
 }
+export const getStates = async (ciso) => {
+  try {
+    let res = await axios.get(`country/${ciso}/states`)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}

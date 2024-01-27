@@ -5,14 +5,16 @@ import { useOnboardingStore } from "@/stores/onBoarding";
 import { useSkillsStore } from "@/stores/skills";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
-import Multiselect from "vue-multiselect";
+// import Multiselect from "vue-multiselect";
 const skillsStore = useSkillsStore();
-const { skills, jobTitle } = storeToRefs(skillsStore);
+const { skills, jobTitle, contriesCode, states } = storeToRefs(skillsStore);
 
 const OnboardingStore = useOnboardingStore();
 const SelectGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/SelectGroup.vue")
 );
+let selectedCountry = ref("");
+const selectedStates = ref("");
 
 const {
   step,
@@ -74,12 +76,18 @@ const isFormValid = computed(() => {
   );
 });
 
+watch(selectedCountry, async (newInput) => {
+  selectedStates.value = "";
+  await skillsStore.handleGetStates(newInput);
+});
+
 const next = () => {
   emit("next", step.value + 1);
 };
 onMounted(async () => {
   await skillsStore.getskills();
   await skillsStore.getJobTitles();
+  await skillsStore.getCountriesCode();
   options.value = skills.value.data;
   skillTitles.value = jobTitle.value.data;
 });
@@ -252,14 +260,60 @@ const selectHighlightedOption = () => {
             placeholder="Give a brief description about yourself"
           />
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Location</label>
-          <GlobalInput
-            v-model="location"
-            inputClasses="bg-transparent border-none"
-            placeholder=""
-            type="text"
+        <div
+          class="border-[0.737px] flex lg:flex-row flex-col items-center border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+        >
+          <div class="w-full">
+            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
+            <div class="flex w-full items-center">
+              <a-select
+                placeholder="country or region"
+                :bordered="false"
+                :show-arrow="false"
+                class="w-full !px-0"
+                show-search
+                v-model:value="selectedCountry"
+              >
+                <a-select-option disabled>country or region</a-select-option>
+                <a-select-option
+                  v-for="country in contriesCode?.data"
+                  :key="country.id"
+                  :value="country.iso2"
+                >
+                  {{ country.name }}
+                </a-select-option>
+              </a-select>
+            </div>
+          </div>
+          <a-divider class="lg:hidden" style="height: 2px; background-color: #254035ab" />
+          <a-divider
+            class="lg:flex hidden"
+            style="height: 5vh; background-color: #254035ab"
+            type="vertical"
           />
+
+          <div class="w-full">
+            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">State</label>
+            <div class="flex w-full items-center">
+              <a-select
+                placeholder="state or city"
+                :show-arrow="false"
+                :bordered="false"
+                class="w-full !px-0"
+                show-search
+                v-model:value="selectedStates"
+              >
+                <a-select-option disabled>state or city</a-select-option>
+                <a-select-option
+                  v-for="state in states?.data"
+                  :key="state.id"
+                  :value="state.iso2"
+                >
+                  {{ state.name }}
+                </a-select-option>
+              </a-select>
+            </div>
+          </div>
         </div>
 
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">

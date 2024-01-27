@@ -3,23 +3,13 @@
     <CenteredModalLarge>
       <div class="my-8">
         <header class="">
-          <h1
-            v-if="accountType === 'talent'"
-            class="text-[#000000] text-center text-[20px] font-Satoshi700"
-          >
-            Complete your talent profile
-          </h1>
-          <h1 v-else class="text-[#000000] text-center text-[20px] font-Satoshi700">
+          <h1 class="text-[#000000] text-center text-[20px] font-Satoshi700">
             Complete your business profile
           </h1>
         </header>
-        <div v-if="accountType == 'talent'" class="my-4 font-Satoshi400 text-center">
-          Please give us some information to set up your talent dashboard. <br />
-          It'll take less than 3 mins
-        </div>
-        <div v-else class="my-4 font-Satoshi400 text-center">
-          Please give us some information to set up your business dashboard (It'll take
-          less than 3 mins)
+        <div class="my-4 font-Satoshi400 text-center">
+          Please give us some information to set up <br />
+          your business dashboard (It'll take less than 3 mins)
         </div>
         <div class="flex justify-center">
           <button

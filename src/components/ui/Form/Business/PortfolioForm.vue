@@ -7,86 +7,104 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
 import { useRouter } from "vue-router";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 
 let store = useStore();
 
 const router = useRouter();
+let loading = ref(false);
 
 const OnboardingStore = useOnboardingStore();
-const { step } = storeToRefs(OnboardingStore);
+const { step, businessDetails } = storeToRefs(OnboardingStore);
 const emit = defineEmits(["next"]);
-const formState = ref({
-  company_logo: null,
-  company_type: "",
-  social_media: "",
-  social_media_two: "",
-});
+// const formState = ref({
+//   company_logo: null,
+//   company_type: "",
+//   social_media: "",
+//   social_media_two: "",
+// });
 const isFormValid = computed(() => {
   return (
-    formState.value.company_logo !== null &&
-    formState.value.company_type.trim() !== "" &&
-    formState.value.social_media.trim() !== "" &&
-    formState.value.social_media_two.trim() !== ""
+    businessDetails.value.company_logo !== null &&
+    businessDetails.value.company_type.trim() !== ""
   );
 });
+const companyType = ["startup", "agency ", "corporation"];
 
 const prev = () => {
   emit("prev", step.value - 1);
 };
 const previewImage = ref(null);
-const uploadFile = () => {
-  formState.value.company_logo = previewImage.value.files[0];
+const uploadedImageName = ref("");
+
+const uploadFile = (event) => {
+  // businessDetails.value.company_logo = previewImage.value.files[0];
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+    uploadedImageName.value = file.name;
+
+    reader.onload = () => {
+      businessDetails.value.company_logo = reader.result;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    businessDetails.value.company_logo = "";
+  }
+
   showImage();
 };
 
 const showImage = async () => {
-  if (formState.value.company_logo) {
-    previewImage.value = URL.createObjectURL(formState.value.company_logo);
+  if (businessDetails.value.company_logo) {
+    previewImage.value = URL.createObjectURL(businessDetails.value.company_logo);
   } else {
     previewImage.value = null;
   }
 };
 
-const onFinish = async () => {
-  let payload = {
-    company_type: formState.value.company_type,
-    social_media: formState.value.social_media,
-    social_media_two: formState.value.social_media_two,
-  };
-  console.log(formState.value.company_logo);
-  const formData = new FormData();
+// const onFinish = async () => {
+// let payload = {
+//   company_type: formState.value.company_type,
+//   social_media: formState.value.social_media,
+//   social_media_two: formState.value.social_media_two,
+// };
+// const formData = new FormData();
+// if (businessDetails.value.company_logo) {
+//   // Convert the selected image to base64 and append it to the FormData
+//   const reader = new FileReader();
+//   reader.onload = (event) => {
+//     formData.append("company_logo", event.target.result);
+//     submitForm(formData, payload);
+//   };
+//   reader.readAsDataURL(businessDetails.value.company_logo);
+// } else {
+//   submitForm(formData, payload);
+// }
+// };
 
-  if (formState.value.company_logo) {
-    // Convert the selected image to base64 and append it to the FormData
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      formData.append("company_logo", event.target.result);
-      submitForm(formData, payload);
-    };
-    reader.readAsDataURL(formState.value.company_logo);
-  } else {
-    submitForm(formData, payload);
-  }
-};
+const submitForm = async () => {
+  // Object.entries(payload).forEach(([key, value]) => {
+  //   formData.append(key, value);
+  // });
+  loading.value = true;
 
-const submitForm = async (formData, payload) => {
-  Object.entries(payload).forEach(([key, value]) => {
-    formData.append(key, value);
-  });
-  console.log("form data" + " " + formData);
   try {
-    const res = await OnboardingStore.submitBusinessPortfolio(formData);
+    const res = await OnboardingStore.submitBusinessDetails();
     router.push({ name: "dashboard" });
     return res;
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 };
 </script>
 
 <template>
   <section class="lg:w-[40%] animate__animated animate__fadeIn">
-    <div class="w-auto">
+    <div class="w-auto h-[70vh]">
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Your Business information
       </h1>
@@ -101,6 +119,12 @@ const submitForm = async (formData, payload) => {
         class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto py-12 hide-scrollbar overflow-hidden"
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-3.5">
+          <img
+            v-if="businessDetails.company_logo"
+            :src="businessDetails.company_logo"
+            class="w-full h-[100px] object-cover mb-4 rounded-md"
+          />
+
           <input
             type="file"
             name=""
@@ -114,8 +138,8 @@ const submitForm = async (formData, payload) => {
             for="uploadFile"
             class="cursor-pointer w-full justify-between flex text-[#01272C] px-2 text-[12px] font-Satoshi400"
           >
-            <span v-if="!formState.company_logo">Upload company logo (max 3mb)</span
-            ><span v-if="formState.company_logo">{{ formState.company_logo.name }} </span>
+            <span v-if="!businessDetails.company_logo">Upload company logo (max 3mb)</span
+            ><span v-if="businessDetails.company_logo">{{ uploadedImageName }} </span>
             <AttachFileIcon
           /></label>
         </div>
@@ -125,13 +149,22 @@ const submitForm = async (formData, payload) => {
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Company type - startup, agency, corporation</label
           >
-          <GlobalInput
-            v-model="formState.company_type"
+          <SelectGroup
+            v-model="businessDetails.company_type"
+            DropdownItem=""
+            :items="companyType"
+            placeholder="company type"
+            name=""
+            class="bg-transparent !capitalize border-none"
+          />
+
+          <!-- <GlobalInput
+            v-model="businessDetails.company_type"
             inputClasses="bg-transparent border-none"
             placeholder=""
-          />
+          /> -->
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <!-- <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Please select social media 1</label
           >
@@ -150,7 +183,7 @@ const submitForm = async (formData, payload) => {
             inputClasses="bg-transparent border-none"
             placeholder=""
           />
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="flex flex-row gap-5 mt-5">
@@ -165,7 +198,7 @@ const submitForm = async (formData, payload) => {
       <button
         :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-        @click="onFinish"
+        @click="submitForm"
         class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         <span v-if="!loading">Complete Profile</span>
