@@ -106,7 +106,6 @@
         </div>
       </div>
       <PasswordInput
-        v-if="storedTab === 'talent'"
         :error="errors.confirmPassword || !passwordsMatch"
         :errorsMsg="errorsMsg.confirmPassword"
         placeholder="Confirm Password*"

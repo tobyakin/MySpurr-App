@@ -88,12 +88,12 @@ const submitForm = async (formData, payload) => {
   <section class="lg:w-[40%] animate__animated animate__fadeIn">
     <div class="w-auto">
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
-        Your portfolio
+        Your Business information
       </h1>
       <p
         class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
       >
-        Please provide at least one portfolio work to get started on
+        Please provide us with your business information to get started on
         <br class="lg:block hidden" />
         MySpurr.
       </p>
