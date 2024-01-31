@@ -18,7 +18,8 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
     const highest_education = ref('')
     const rate = ref('')
     const availability = ref('')
-
+    const ciso = ref("")
+    const siso =  ref("")
     const top_skills= ref([]);
     const education = ref({
       school_name: '',
@@ -109,7 +110,8 @@ try {
       let payload = {
         skill_title: skill_title.value,
         overview: overview.value,
-        location: location.value,
+        siso: siso.value,
+        ciso: ciso.value,
         employment_type: employment_type.value,
         highest_education: highest_education.value,
         rate: rate.value,
@@ -205,6 +207,8 @@ try {
       portfolio,
       handleVerifyIdentity,
       verifyIdentityData,
-      businessDetails
+      businessDetails,
+      ciso,
+      siso
     }
 })

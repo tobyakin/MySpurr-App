@@ -13,8 +13,8 @@ const OnboardingStore = useOnboardingStore();
 const SelectGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/SelectGroup.vue")
 );
-let selectedCountry = ref("");
-const selectedStates = ref("");
+// let selectedCountry = ref("");
+// const selectedStates = ref("");
 
 const {
   step,
@@ -26,6 +26,8 @@ const {
   availability,
   top_skills,
   employment_type,
+  ciso,
+  siso,
 } = storeToRefs(OnboardingStore);
 // let store = useStore();
 //
@@ -69,15 +71,16 @@ const isFormValid = computed(() => {
     top_skills.value.length >= 0 && // Check if top_skills is not empty
     highest_education.value.trim() !== "" &&
     overview.value.trim() !== "" &&
-    location.value.trim() !== "" &&
+    ciso.value.trim() !== "" &&
+    siso.value.trim() !== "" &&
     rate.value.trim() !== "" &&
     employment_type.value.trim() !== "" &&
     availability.value.trim() !== ""
   );
 });
 
-watch(selectedCountry, async (newInput) => {
-  selectedStates.value = "";
+watch(ciso, async (newInput) => {
+  siso.value = "";
   await skillsStore.handleGetStates(newInput);
 });
 
@@ -272,7 +275,7 @@ const selectHighlightedOption = () => {
                 :show-arrow="false"
                 class="w-full !px-0"
                 show-search
-                v-model:value="selectedCountry"
+                v-model:value="ciso"
               >
                 <a-select-option disabled>country or region</a-select-option>
                 <a-select-option
@@ -301,7 +304,7 @@ const selectHighlightedOption = () => {
                 :bordered="false"
                 class="w-full !px-0"
                 show-search
-                v-model:value="selectedStates"
+                v-model:value="siso"
               >
                 <a-select-option disabled>state or city</a-select-option>
                 <a-select-option
