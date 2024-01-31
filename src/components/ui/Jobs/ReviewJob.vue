@@ -22,6 +22,12 @@ const emit = defineEmits(["back"]);
 const back = () => {
   emit("back");
 };
+const isFormValid = computed(() => {
+  return (
+    postJobsValue.value.job_title !== null && postJobsValue.value.salary_min.trim() !== ""
+  );
+});
+
 const postJob = async () => {
   loading.value = true;
   try {
@@ -84,10 +90,12 @@ const postJob = async () => {
             {{ postJobsValue.job_title }}
           </p>
           <button
-            @click="apply"
-            class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+            @click="postJob"
+            :disabled="!isFormValid"
+            :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
+            class="font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
           >
-            APPLY
+            POST
           </button>
         </div>
         <div class="flex justify-between lg:mt-2 mt-6">
@@ -179,12 +187,12 @@ const postJob = async () => {
           class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
         ></div>
         <div>
-          <button
+          <!-- <button
             @click="apply"
             class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
           >
             APPLY
-          </button>
+          </button> -->
         </div>
       </div>
       <div class="lg:w-[40%]">
@@ -273,7 +281,9 @@ const postJob = async () => {
         Back</button
       ><button
         @click="postJob"
-        class="bg-[#fff] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
+        :disabled="!isFormValid"
+        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
+        class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
       >
         Post
       </button>
