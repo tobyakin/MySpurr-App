@@ -12,7 +12,7 @@ import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 const userProfile = useUserProfile();
 const OnboardingStore = useOnboardingStore();
 const { user } = storeToRefs(userProfile);
-const { step, businessDetails } = storeToRefs(OnboardingStore);
+const { step, businessDetails, ciso, siso } = storeToRefs(OnboardingStore);
 const router = useRouter();
 const skillsStore = useSkillsStore();
 const { contriesCode, states } = storeToRefs(skillsStore);
@@ -41,7 +41,8 @@ const selectedStates = ref("");
 const isFormValid = computed(() => {
   return (
     businessDetails.value.business_name.trim() !== "" &&
-    businessDetails.value.location.trim() !== "" &&
+    siso.value.trim() !== "" &&
+    ciso.value.trim() !== "" &&
     businessDetails.value.industry.trim() !== "" &&
     businessDetails.value.website.trim() !== "" &&
     businessDetails.value.business_service.trim() !== "" &&
@@ -73,7 +74,7 @@ const next = () => {
 //     console.log(error);
 //   }
 // };
-watch(selectedCountry, async (newInput) => {
+watch(ciso, async (newInput) => {
   businessDetails.value.location = "";
   await skillsStore.handleGetStates(newInput);
 });
@@ -211,7 +212,7 @@ onMounted(async () => {
                 :show-arrow="false"
                 class="w-full !px-0"
                 show-search
-                v-model:value="selectedCountry"
+                v-model:value="ciso"
               >
                 <a-select-option disabled>country or region</a-select-option>
                 <a-select-option
@@ -240,7 +241,7 @@ onMounted(async () => {
                 :bordered="false"
                 class="w-full !px-0"
                 show-search
-                v-model:value="businessDetails.location"
+                v-model:value="siso"
               >
                 <a-select-option disabled>state or city</a-select-option>
                 <a-select-option

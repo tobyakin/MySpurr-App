@@ -1,6 +1,6 @@
 import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
-import { getJobs, getJobsDetails, applyForJobs } from '@/services/Job'
+import { getJobs, getJobsDetails, applyForJobs, postJobs } from '@/services/Job'
 
 export const useJobsStore = defineStore('jobs', () => {
   const Job = ref([])
@@ -14,6 +14,32 @@ export const useJobsStore = defineStore('jobs', () => {
   //   other_file: '',
   //   question_answers: []
   // })
+      const ciso = ref('')
+      const siso = ref('')
+
+  const postJobsValue = ref({
+      job_title: '',
+      country_id: '',
+      state_id: '',
+      job_type: '',
+      description: '',
+      responsibilities: '',
+      required_skills: '',
+      benefits: '',
+      salaray_type: '',
+      salary_min: '',
+      salary_max: '',
+      skills: [
+      ],
+      experience: '',
+      qualification: '',
+      questions: [
+        {
+          question: ''
+        },
+      ]
+    }
+  )
   const allJobs = async () => {
     try {
       Job.value = await getJobs()
@@ -46,11 +72,41 @@ export const useJobsStore = defineStore('jobs', () => {
         /**/
       }
     }
+        const handlePostJob = async () => {
+          let payload = {
+            job_title: postJobsValue.value.job_title,
+            country_id: ciso.value,
+            state_id: siso.value,
+            job_type: postJobsValue.value.job_type,
+            description: postJobsValue.value.description,
+            responsibilities: postJobsValue.value.responsibilities,
+            required_skills: postJobsValue.value.required_skills,
+            benefits: postJobsValue.value.benefits,
+            salaray_type: postJobsValue.value.salaray_type,
+            salary_min: postJobsValue.value.salary_min,
+            salary_max: postJobsValue.value.salary_max,
+            skills: postJobsValue.value.skills,
+            experience: postJobsValue.value.experience,
+            qualification: postJobsValue.value.qualification,
+            questions: postJobsValue.value.questions
+          }
+          try {
+            let res = await postJobs(payload)
+            return res
+          } catch (error) {
+            /**/
+          }
+        }
+
   return {
     Job,
     allJobs,
     singleJob,
     getSingleJob,
-    applyForJob
+    applyForJob,
+    handlePostJob,
+    postJobsValue,
+    ciso,
+    siso
   }
 })

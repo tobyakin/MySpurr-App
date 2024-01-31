@@ -155,7 +155,10 @@ try {
     const submitBusinessDetails = async () => {
             let payload = {
               business_name: businessDetails.value.business_name,
-              location: businessDetails.value.location,
+              location: siso.value,
+              siso: siso.value,
+              ciso: ciso.value,
+
               industry: businessDetails.value.industry,
               about_business: businessDetails.value.about_business,
               website: businessDetails.value.website,

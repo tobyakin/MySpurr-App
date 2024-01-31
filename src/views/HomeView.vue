@@ -123,7 +123,7 @@ onMounted(async () => {
             <router-link
               v-if="accountType !== 'talent'"
               class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
-              to="/jobs"
+              to="/post-job"
               >Post a job</router-link
             >
             <router-link
