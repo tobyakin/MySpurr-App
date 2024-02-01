@@ -5,6 +5,7 @@ import { useJobsStore } from "@/stores/jobs";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 
 import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
 import SearchIcon from "@/components/icons/circleSearchIcon.vue";
@@ -12,6 +13,7 @@ import CircleTick from "@/components/icons/circleTick.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 let store = useStore();
 let loading = ref(false);
+let showModal = ref(false);
 const userProfile = useUserProfile();
 const userDetails = computed(() => {
   return userProfile.user.data;
@@ -64,19 +66,52 @@ const postJob = async () => {
   loading.value = true;
   try {
     const res = await jobsStore.handlePostJob();
+    if (res.status === "true") {
+      loading.value = false;
+      showModal.value = true;
+      restForm();
+    } else {
+      // Handle unsuccessful submission
+      console.log("Login failed:", res.data.message);
+      loading.value = false;
+      back();
+    }
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);
   } finally {
     loading.value = false;
-    restForm();
-    back();
   }
 };
 </script>
 
 <template>
   <div>
+    <CenteredModalLarge v-if="showModal"
+      ><div class="text-center px-10 py-10">
+        <h4 class="text-[#01181B] font-Satoshi700 text-[28.537px] mt-[20px]">
+          Congratulations! Your job has been successfully posted on MySpurr!
+        </h4>
+        <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+          Now, talented creatives can discover and apply for your exciting opportunity.
+          Stay tuned for applications and manage your job seamlessly from your dashboard.
+        </p>
+        <div class="flex justify-center gap-4 mt-12">
+          <button
+            @click="back()"
+            class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%]"
+          >
+            VIEW CANDIDATES</button
+          ><button
+            @click="back()"
+            class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%]"
+          >
+            <span v-if="!loading">JOB LISTING </span>
+            <WhiteLoader v-else />
+          </button>
+        </div></div
+    ></CenteredModalLarge>
     <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
       <div class="flex lg:flex-row flex-col gap-3 w-full">
         <div>
@@ -127,9 +162,10 @@ const postJob = async () => {
             @click="postJob"
             :disabled="!isFormValid"
             :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-            class="font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+            class="font-Satoshi500 text-[9.708px] uppercase p-3 px-12 text-[#000000] rounded-full"
           >
-            POST
+            <span v-if="!loading">Post</span>
+            <WhiteLoader v-else />
           </button>
         </div>
         <div class="flex justify-between lg:mt-2 mt-6">
@@ -210,7 +246,7 @@ const postJob = async () => {
 
         <div
           v-html="postJobsValue.description"
-          class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px]"
+          class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] mt-4 leading-[24.689px]"
         ></div>
 
         <p
@@ -224,12 +260,13 @@ const postJob = async () => {
         <p
           v-if="postJobsValue.required_skills"
           class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6"
+          editor
         >
           Required Skills:
         </p>
         <div
           v-html="postJobsValue.required_skills"
-          class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
+          class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] leading-[24.689px]"
         ></div>
 
         <p
@@ -240,7 +277,7 @@ const postJob = async () => {
         </p>
         <div
           v-html="postJobsValue.benefits"
-          class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
+          class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] leading-[24.689px]"
         ></div>
         <div>
           <!-- <button
@@ -332,14 +369,14 @@ const postJob = async () => {
     <div class="flex justify-between gap-4 mt-12">
       <button
         @click="back"
-        class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
+        class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-8 p-3 w-auto"
       >
         Back</button
       ><button
         @click="postJob"
         :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-        class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
+        class="font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full px-8 p-3 w-auto"
       >
         <span v-if="!loading">Post</span>
         <WhiteLoader v-else />
