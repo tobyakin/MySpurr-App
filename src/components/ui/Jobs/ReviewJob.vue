@@ -4,6 +4,7 @@ import { storeToRefs } from "pinia";
 import { useJobsStore } from "@/stores/jobs";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
 import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
 import SearchIcon from "@/components/icons/circleSearchIcon.vue";
@@ -340,7 +341,8 @@ const postJob = async () => {
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
         class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
       >
-        Post
+        <span v-if="!loading">Post</span>
+        <WhiteLoader v-else />
       </button>
     </div>
   </div>
