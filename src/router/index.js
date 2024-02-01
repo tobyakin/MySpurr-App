@@ -27,6 +27,7 @@ import BookMarkPage from '@/views/BookMark/BookMarkPage.vue'
 import AddPortfolio from '@/views/Portfolio/AddPortfolio.vue'
 import EditPortfolio from '@/views/Portfolio/EditPortfolio.vue'
 import OpenTicket from '@/views/HelpCenter/OpenTicket.vue'
+import JobListingPage from '@/views/JobListing/JobListingPage.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -85,6 +86,12 @@ const router = createRouter({
       path: '/jobs',
       name: 'jobs',
       component: JobsView,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/job-lists',
+      name: 'job-lists',
+      component: JobListingPage,
       beforeEnter: [middleware.redirectLogin]
     },
     {

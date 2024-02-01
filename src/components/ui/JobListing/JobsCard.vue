@@ -1,0 +1,122 @@
+<script setup>
+import CalenderIcon from "@/components/icons/outlineCalenderIcon.vue";
+import LocationIcon from "@/components/icons/locationIcon.vue";
+import TimerIcon from "@/components/icons/timerIcon.vue";
+import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
+import SearchIcon from "@/components/icons/circleSearchIcon.vue";
+import MatchIcon from "@/components/icons/matchIcon.vue";
+import VerifyIcon from "@/components/icons/verifyIcon.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const redirectToJobDetails = (id) => {
+  router.push({ name: "view-jobs", params: { id } });
+};
+defineProps({
+  job: Object,
+});
+</script>
+<template>
+  <div
+    class="border-[#254035AB] border-[0.4px] bg-white rounded-[7.347px] lg:p-5 p-4 lg:px-6"
+  >
+    <div class="flex lg:flex-row flex-col gap-3 w-full">
+      <div>
+        <img
+          v-if="job.company.logo !== null"
+          class="h-[40.508px] w-[40.508px] rounded-full"
+          :src="job.company.logo"
+          alt=""
+        />
+        <img
+          v-else
+          class="h-[40.508px] w-[40.508px] rounded-full"
+          src="@/assets/image/jobIcon.svg"
+          alt=""
+        />
+      </div>
+      <div class="w-full flex flex-col gap-4">
+        <div class="flex flex-col lg:flex-row items-center justify-between w-full gap-3">
+          <div
+            class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14"
+          >
+            <p class="text-[16.467px] capitalize font-Satoshi700 text-[#244034]">
+              {{ job.job_title }}
+            </p>
+          </div>
+        </div>
+        <div class="grid grid-cols-5 justify-between mt-5">
+          <div class="flex lg:flex-row flex-col gap-4 items-center">
+            <div>
+              <p class="text-[17.633px] font-Satoshi500 text-[#244034E5]">
+                {{ job.salary_min }}-{{ job.salary_max }}
+              </p>
+            </div>
+          </div>
+          <div class="flex lg:flex-row flex-col gap-4 justify-center mt-2">
+            <div
+              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4"
+            >
+              <p>.</p>
+            </div>
+          </div>
+          <div class="flex lg:flex-row flex-col gap-4 justify-center mt-2">
+            <div
+              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4"
+            >
+              <p>.</p>
+            </div>
+          </div>
+          <div class="flex lg:flex-row flex-col gap-4 justify-center mt-2">
+            <div
+              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-1"
+            >
+              <div
+                class="h-[8px] w-[8px] rounded-full"
+                :class="{
+                  'bg-[#63D8E4]': job.status == 'pending',
+                  'bg-[#84B358]': job.status == 'active',
+                  'bg-[#E06F6F]': job.status == 'expired',
+                }"
+              ></div>
+              <p class="capitalize font-Satoshi500 text-[17.239px] text-[#244034E5]">
+                {{ job.status }}
+              </p>
+            </div>
+          </div>
+          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="5"
+              height="19"
+              viewBox="0 0 5 19"
+              fill="none"
+            >
+              <circle
+                cx="2.25781"
+                cy="16.1094"
+                r="2"
+                transform="rotate(-90 2.25781 16.1094)"
+                fill="#3F634D"
+              />
+              <circle
+                cx="2.25781"
+                cy="9.10938"
+                r="2"
+                transform="rotate(-90 2.25781 9.10938)"
+                fill="#3F634D"
+              />
+              <circle
+                cx="2.25781"
+                cy="2.10938"
+                r="2"
+                transform="rotate(-90 2.25781 2.10938)"
+                fill="#3F634D"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
