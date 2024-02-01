@@ -23,9 +23,9 @@ defineProps({
     <div class="flex lg:flex-row flex-col gap-3 w-full">
       <div>
         <img
-          v-if="job.company_image !== null"
+          v-if="job.company.business_name !== null"
           class="h-[61.011px] w-[61.011px] rounded-full"
-          :src="job.company_image"
+          :src="job.company.logo"
           alt=""
         />
         <img
@@ -38,7 +38,7 @@ defineProps({
       <div class="w-full">
         <div class="flex items-center gap-1">
           <p class="text-[13.021px] font-Satoshi500 flex text-[#2F929C]">
-            {{ job.company_name }}
+            {{ job.company.business_name }}
           </p>
           <div v-if="job.verify" class="flex mt-1 gap-1">
             <VerifyIcon class="w-4" />
@@ -57,7 +57,7 @@ defineProps({
             <button
               class="bg-[#EDF0B8] font-Satoshi500 lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
             >
-              {{ job.employee_type }}
+              {{ job.job_type }}
             </button>
           </div>
           <a

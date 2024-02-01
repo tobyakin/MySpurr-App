@@ -24,9 +24,40 @@ const back = () => {
 };
 const isFormValid = computed(() => {
   return (
-    postJobsValue.value.job_title !== null && postJobsValue.value.salary_min.trim() !== ""
+    postJobsValue.value.job_title !== null &&
+    postJobsValue.value.job_type.trim() !== "" &&
+    postJobsValue.value.description !== null &&
+    postJobsValue.value.responsibilities.trim() !== "" &&
+    postJobsValue.value.required_skills !== null &&
+    postJobsValue.value.benefits !== null &&
+    postJobsValue.value.salaray_type !== null &&
+    postJobsValue.value.salary_min !== null &&
+    postJobsValue.value.salary_max !== null &&
+    postJobsValue.value.skills !== null &&
+    postJobsValue.value.experience !== null &&
+    postJobsValue.value.qualification !== null &&
+    postJobsValue.value.questions !== null &&
+    ciso.value !== null &&
+    siso.value.trim() !== ""
   );
 });
+const restForm = () => {
+  (postJobsValue.value.job_title = ""),
+    (postJobsValue.value.job_type = ""),
+    (postJobsValue.value.description = ""),
+    (postJobsValue.value.responsibilities = ""),
+    (postJobsValue.value.required_skills = ""),
+    (postJobsValue.value.benefits = ""),
+    (postJobsValue.value.salaray_type = ""),
+    (postJobsValue.value.salary_min = ""),
+    (postJobsValue.value.salary_max = ""),
+    (postJobsValue.value.skills = ""),
+    (postJobsValue.value.experience = ""),
+    (postJobsValue.value.qualification = ""),
+    (postJobsValue.value.questions = ""),
+    (ciso.value = ""),
+    (siso.value = "");
+};
 
 const postJob = async () => {
   loading.value = true;
@@ -37,6 +68,8 @@ const postJob = async () => {
     console.log(error);
   } finally {
     loading.value = false;
+    restForm();
+    back();
   }
 };
 </script>
