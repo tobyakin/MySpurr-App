@@ -126,7 +126,10 @@ const postJob = async () => {
     >
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p
+          v-if="postJobsValue.salary_min || postJobsValue.salary_max"
+          class="text-[#244034] text-[17.104px] font-Satoshi500"
+        >
           {{ postJobsValue.salary_min }}-{{ postJobsValue.salary_max }}
         </p>
       </div>
@@ -138,8 +141,11 @@ const postJob = async () => {
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
-          {{ postJobsValue.state_id }}, {{ postJobsValue.country_id }}
+        <p
+          v-if="postJobsValue.state_id || postJobsValue.country_id"
+          class="text-[#244034] text-[17.104px] font-Satoshi500"
+        >
+          {{ postJobsValue.state_id }},{{ postJobsValue.country_id }}
         </p>
       </div>
       <div class="flex flex-col gap-2">
@@ -148,10 +154,10 @@ const postJob = async () => {
           {{ postJobsValue.job_type }}
         </p>
       </div>
-      <div class="flex flex-col gap-2">
+      <!-- <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Date</p>
         <p class="text-[#244034] text-[17.104px] font-Satoshi500">12 jun, 2022</p>
-      </div>
+      </div> -->
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Experience</p>
         <p class="text-[#244034] text-[17.104px] font-Satoshi500">
@@ -161,19 +167,30 @@ const postJob = async () => {
     </div>
     <div class="flex flex-col lg:flex-row mt-10 w-full">
       <div class="lg:w-[60%] p-4">
-        <p class="text-[16.236px] text-[#000] font-Satoshi500">Job Description</p>
+        <p
+          v-if="postJobsValue.description"
+          class="text-[16.236px] text-[#000] font-Satoshi500"
+        >
+          Job Description
+        </p>
 
         <div
           v-html="postJobsValue.description"
           class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px]"
         ></div>
 
-        <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
+        <p
+          v-if="postJobsValue.responsibilities"
+          class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6"
+        >
           Responsibilities
         </p>
-        <div v-html="postJobsValue.description" class="flex flex-col gap-3"></div>
+        <div v-html="postJobsValue.responsibilities" class="flex flex-col gap-3"></div>
 
-        <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
+        <p
+          v-if="postJobsValue.required_skills"
+          class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6"
+        >
           Required Skills:
         </p>
         <div
@@ -181,7 +198,12 @@ const postJob = async () => {
           class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
         ></div>
 
-        <p class="text-[16.236px] text-[#000] font-Satoshi500">Benefits:</p>
+        <p
+          v-if="postJobsValue.benefits"
+          class="text-[16.236px] text-[#000] font-Satoshi500"
+        >
+          Benefits:
+        </p>
         <div
           v-html="postJobsValue.benefits"
           class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
