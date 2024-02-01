@@ -140,30 +140,30 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
           </div>
         </div>
 
-        <div class="flex flex-row h-full rounded-[5.897px] py-1.5">
-          <div class="w-full flex flex-col h-full gap-2 justify-between">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-              >Description</label
-            >
-            <div class="w-full h-auto">
-              <QuillEditor
-                v-model:content="education.description"
-                class=""
-                theme="snow"
-                toolbar="full"
-                placeholder="Give a brief description about your education"
-                contentType="html"
-              />
-            </div>
+        <!-- <div class="flex flex-row h-full rounded-[5.897px] py-1.5"> -->
+        <div class="w-full flex flex-col gap-2">
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            >Description</label
+          >
+          <div class="flex flex-col h-[28vh]">
+            <QuillEditor
+              v-model:content="education.description"
+              class=""
+              theme="snow"
+              toolbar="full"
+              placeholder="Give a brief description about your education"
+              contentType="html"
+            />
+          </div>
 
-            <!-- <textarea
+          <!-- <textarea
               v-model="education.description"
               rows="4"
               class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
               placeholder="Give a brief description about your education"
             /> -->
-          </div>
         </div>
+        <!-- </div> -->
 
         <div class="flex gap-3 justify-start items-center">
           <input
