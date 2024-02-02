@@ -27,18 +27,18 @@ const sortInput = reactive({
   experienceLevel: "",
   Category: "",
 });
-let start = ref(10);
-let end = ref(10000000);
-let range = ref([start.value, end.value]);
+let rateMin = ref(0);
+let rateMax = ref(0);
+let range = ref([rateMin.value, rateMax.value]);
 
 const updateRange = (value) => {
-  start.value = value[0];
-  end.value = value[1];
+  rateMin.value = value[0];
+  rateMax.value = value[1];
 };
 
-// Create a computed property to synchronize the range with start and end
+// Create a computed property to synchronize the range with rateMin and rateMax
 const computedRange = computed(() => {
-  return [start.value, end.value];
+  return [rateMin.value, rateMax.value];
 });
 
 // Watch for changes in the computedRange and update the range
@@ -99,9 +99,9 @@ const paginatedTalent = computed(() => {
   const perPage = 2;
   const startIndex = (currentPage.value - 1) * perPage;
   const endIndex = startIndex + perPage;
-  return Job?.value.slice(startIndex, endIndex);
+  return Job.value?.data.slice(startIndex, endIndex);
 });
-const totalPages = computed(() => Math.ceil(Job?.value.length / 2));
+const totalPages = computed(() => Math.ceil(Job.value?.length / 2));
 
 // Function to change the current page
 const setPage = (page) => {
@@ -121,7 +121,63 @@ const displayedPageNumbers = computed(() => {
 
   return pageNumbers;
 });
+const filteredJobs = computed(() => {
+  let filtered = Job.value?.data; // Create a shallow copy of the jobs array
 
+  // Filtering based on the search criteria
+  if (sortInput.name) {
+    filtered = filtered.filter((item) =>
+      item.job_title.toLowerCase().includes(sortInput.name.toLowerCase())
+    );
+  }
+  if (sortInput.jobType) {
+    filtered = filtered.filter((item) =>
+      item.job_type.toLowerCase().includes(sortInput.jobType.toLowerCase())
+    );
+  }
+
+  if (sortInput.Location) {
+    filtered = filtered.filter((item) =>
+      item.location.toLowerCase().includes(sortInput.Location.toLowerCase())
+    );
+  }
+
+  if (sortInput.experienceLevel) {
+    filtered = filtered.filter((item) =>
+      item.experience.toLowerCase().includes(sortInput.experienceLevel.toLowerCase())
+    );
+  }
+
+  if (sortInput.Category) {
+    filtered = filtered.filter((item) =>
+      item.skills.some((skill) =>
+        skill.name.toLowerCase().includes(sortInput.Category.toLowerCase())
+      )
+    );
+  }
+
+  // Filtering by Rate within the specified range
+  if (rateMin.value || rateMax.value) {
+    filtered = filtered.filter((item) => {
+      const rate = parseFloat(item.rate);
+      const min = rateMin.value ? parseFloat(rateMin.value) : Number.MIN_SAFE_INTEGER;
+      const max = rateMax.value ? parseFloat(rateMax.value) : Number.MAX_SAFE_INTEGER;
+
+      return rate >= min && rate <= max;
+    });
+  }
+
+  return filtered;
+});
+const resetFilters = () => {
+  sortInput.name = "";
+  sortInput.jobType = "";
+  sortInput.Location = "";
+  sortInput.experienceLevel = "";
+  sortInput.Category = "";
+  rateMin.value = "";
+  rateMax.value = "";
+};
 // You can also watch the currentPage to react to page changes
 watch(currentPage, (newPage) => {
   console.log("Current Page:", newPage);
@@ -196,14 +252,14 @@ onMounted(async () => {
                     <input
                       class="w-full font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                       type="number"
-                      v-model="start"
+                      v-model="rateMin"
                       id="start"
                     />
                     <div class="h-[2px] w-4 bg-black"></div>
                     <input
                       class="w-full font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                       type="number"
-                      v-model="end"
+                      v-model="rateMax"
                       id="end"
                     />
                     <div class="w-full">
@@ -230,16 +286,25 @@ onMounted(async () => {
 
             <div class="flex gap-12">
               <button
+                @click="resetFilters"
                 class="border-[#007582] bg-[#31795A] text-white lg:w-[40%] text-center mx-auto border-2 p-4 py-2 justify-center rounded-full font-Satoshi500 text-[10.672px] items-center flex"
               >
-                Apply Filter
+                Reset
               </button>
             </div>
           </div>
-          <div class="mt-14 flex flex-col gap-8">
+          <!-- <div class="mt-14 flex flex-col gap-8">
             <JobRowCard
               class="min-w-[95%] lg:min-w-[45%]"
               v-for="item in Job.data"
+              :key="item"
+              :job="item"
+            />
+          </div> -->
+          <div class="mt-14 flex flex-col gap-8">
+            <JobRowCard
+              class="min-w-[95%] lg:min-w-[45%]"
+              v-for="item in filteredJobs"
               :key="item"
               :job="item"
             />
