@@ -32,6 +32,22 @@ export const getMyJobs = async () => {
     throw error
   }
 }
+export const deleteJob = async (id) => {
+  const token = await getToken()
+  try {
+    let res = await axios.get(`job/delete`,id, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+
+}
 export const getJobsDetails = async (id) => {
   const token = await getToken()
   try {
