@@ -10,7 +10,6 @@ export const getJobs = async () => {
         Authorization: 'Bearer ' + token
       }
     })
-    catchAxiosSuccess(res)
     return res.data
   } catch (error) {
     catchAxiosError(error)
@@ -85,6 +84,20 @@ export const postJobs = async (payload) => {
       }
     })
     catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const myApplications = async () => {
+  const token = await getToken()
+  try {
+    let res = await axios.get(`applications`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
     return res.data
   } catch (error) {
     catchAxiosError(error)

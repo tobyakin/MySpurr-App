@@ -27,7 +27,7 @@
 
 <script setup>
 import Tab from "./Tab.vue";
-import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
+import JobRowCard from "@/components/ui/Jobs/JobRowCardCopy.vue";
 const jobsdata = [
   {
     company_image: null,

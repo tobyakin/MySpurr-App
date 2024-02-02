@@ -1,10 +1,18 @@
 import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
-import { getJobs, getJobsDetails, applyForJobs, postJobs, getMyJobs } from '@/services/Job'
+import {
+  getJobs,
+  getJobsDetails,
+  applyForJobs,
+  postJobs,
+  getMyJobs,
+  myApplications
+} from '@/services/Job'
 
 export const useJobsStore = defineStore('jobs', () => {
   const Job = ref([])
   const MyJob = ref([])
+  const myJobsApplications = ref([])
   const singleJob = ref({})
 
   // const jobApplicationForm = reactive({
@@ -45,6 +53,14 @@ export const useJobsStore = defineStore('jobs', () => {
     try {
       Job.value = await getJobs()
       return Job.value
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const handleMyJobApplications = async () => {
+    try {
+      myJobsApplications.value = await getJobs()
+      return myJobsApplications.value
     } catch (error) {
       console.error(error)
     }
@@ -119,6 +135,8 @@ export const useJobsStore = defineStore('jobs', () => {
     ciso,
     siso,
     MyJob,
-    handleMyJobs
+    handleMyJobs,
+    myJobsApplications,
+    handleMyJobApplications
   }
 })
