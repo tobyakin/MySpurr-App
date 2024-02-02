@@ -1,6 +1,15 @@
 <script setup>
+import { computed, onMounted, reactive, ref } from "vue";
+import Dropdown from "@/components/ui/Dropdown/Dropdown.vue";
+import DropdownEye from "@/components/icons/DropdownEye.vue";
+import DropdownDeleteIcon from "@/components/icons/DropdownDeleteIcon.vue";
+import DropdownEditIcon from "@/components/icons/DropdownEditIcon.vue";
+import DropdownShareIcon from "@/components/icons/DropdownShareIcon.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
+const showDocument = ref({});
+const showDocumentToggle = ref(false);
+const reason = ref("");
 
 const redirectToJobDetails = (id) => {
   router.push({ name: "view-jobs", params: { id } });
@@ -8,12 +17,20 @@ const redirectToJobDetails = (id) => {
 defineProps({
   job: Object,
 });
+const toggleDocument = (document) => {
+  if (showDocument.value.id == document.id) {
+    return (showDocumentToggle.value = !showDocumentToggle.value);
+  }
+  showDocument.value = document;
+  reason.value = document.reason;
+  showDocumentToggle.value = true;
+};
 </script>
 <template>
   <div
-    class="border-[#254035AB] border-[0.4px] bg-white rounded-[7.347px] lg:p-5 p-4 lg:px-6"
+    class="border-[#254035AB] border-[0.4px] bg-white relative rounded-[7.347px] lg:p-5 p-4 lg:px-6"
   >
-    <div class="flex lg:flex-row flex-col gap-3 w-full">
+    <div class="flex lg:flex-row flex-col gap-3 w-full relative">
       <div>
         <img
           v-if="job.company.logo !== null"
@@ -28,7 +45,7 @@ defineProps({
           alt=""
         />
       </div>
-      <div class="w-full flex flex-col gap-4">
+      <div class="w-full flex flex-col gap-4 relative">
         <div class="flex flex-col lg:flex-row items-center justify-between w-full gap-3">
           <div
             class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14"
@@ -77,8 +94,10 @@ defineProps({
               </p>
             </div>
           </div>
-          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
+          <div class="text-right flex justify-end cursor-pointer relative pr-4">
             <svg
+              class="cursor-pointer flex lg:flex-row flex-col gap-4 justify-end"
+              @click="toggleDocument(job)"
               xmlns="http://www.w3.org/2000/svg"
               width="5"
               height="19"
@@ -107,6 +126,53 @@ defineProps({
                 fill="#3F634D"
               />
             </svg>
+            <Dropdown
+              v-if="showDocument.id == job.id && showDocumentToggle"
+              :showDropdown="showDocument.id == job.id && showDocumentToggle"
+              :link="false"
+              class="-bottom-[8rem] w-36 z-10 lg:-right-40"
+              :items="items"
+              :id="`dropdown` + job.id"
+            >
+              <ul class="!mb-0">
+                <li>
+                  <router-link
+                    to="/"
+                    class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
+                  >
+                    <DropdownEye />
+                    <p>View</p>
+                  </router-link>
+                </li>
+                <li>
+                  <router-link
+                    to="/"
+                    class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
+                  >
+                    <DropdownShareIcon />
+                    <p>Share</p>
+                  </router-link>
+                </li>
+                <li>
+                  <router-link
+                    to="/"
+                    class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
+                  >
+                    <DropdownEditIcon />
+                    <p>Edit</p>
+                  </router-link>
+                </li>
+                <li>
+                  <router-link
+                    to="/"
+                    class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
+                  >
+                    <DropdownDeleteIcon />
+                    <p>Delete</p>
+                  </router-link>
+                </li>
+              </ul>
+            </Dropdown>
           </div>
         </div>
       </div>

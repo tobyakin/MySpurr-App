@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="my_applications_tabs lg:flex hidden py-[25.3px] px-[27.65px] justify-between bg-[#F0F5F3] rounded-[13.076px] border-[0.872px] border-[#F6F6F6] gap-12 mt-6"
+      class="my_applications_tabs lg:flex hidden py-[25.3px] px-[27.65px] items-center justify-between bg-[#F0F5F3] rounded-[13.076px] border-[0.872px] border-[#F6F6F6] gap-12 mt-6"
     >
       <a class="text-[#244034] text-[15.259px] font-normal"> Title </a>
 
