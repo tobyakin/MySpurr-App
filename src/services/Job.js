@@ -25,7 +25,6 @@ export const getMyJobs = async () => {
         Authorization: 'Bearer ' + token
       }
     })
-    catchAxiosSuccess(res)
     return res.data
   } catch (error) {
     catchAxiosError(error)
@@ -56,7 +55,6 @@ export const getJobsDetails = async (id) => {
         Authorization: 'Bearer ' + token
       }
     })
-    catchAxiosSuccess(res)
     return res.data
   } catch (error) {
     catchAxiosError(error)

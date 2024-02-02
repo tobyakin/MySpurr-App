@@ -1,15 +1,15 @@
 <script setup>
-import { ref, onMounted, watch, computed } from "vue";
+import { ref, computed } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
-import { useStore } from "@/stores/user";
+// import { useStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+// import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
 import { useRouter } from "vue-router";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 
-let store = useStore();
+// let store = useStore();
 
 const router = useRouter();
 let loading = ref(false);

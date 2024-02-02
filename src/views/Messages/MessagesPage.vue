@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineAsyncComponent, computed, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import MessageUserActiveIcon from "@/components/icons/messageUserActiveIcon.vue";
 import PushPinIcon from "@/components/icons/pushPinIcon.vue";
@@ -20,13 +20,13 @@ const userDetails = computed(() => {
   return profile.user.data;
 });
 
-const connectSocket = async () => {
-  try {
-    await store.connectSocket(receiverId);
-  } catch (error) {
-    console.error(error);
-  }
-};
+// const connectSocket = async () => {
+//   try {
+//     await store.connectSocket(receiverId);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 const sendMessage = async () => {
   let payload = {
