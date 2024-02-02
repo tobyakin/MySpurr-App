@@ -71,7 +71,7 @@ const uploadFile = (event) => {
 const handleJobApplication = async () => {
   let payload = {
     job_id: jobApplicationForm.job_id,
-    rate: jobApplicationForm.rate,
+    rate: jobApplicationForm.rate.toString(),
     available_start: jobApplicationForm.available_start,
     resume: jobApplicationForm.resume,
     other_file: jobApplicationForm.other_file,
@@ -471,7 +471,7 @@ onMounted(async () => {
             name=""
             @change="uploadFile"
             ref="previewImage"
-            accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            accept=".doc,.docx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             hidden
             id="upload_file"
           />
