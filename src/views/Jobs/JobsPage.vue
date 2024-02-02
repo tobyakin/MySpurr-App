@@ -27,8 +27,8 @@ const sortInput = reactive({
   experienceLevel: "",
   Category: "",
 });
-let rateMin = ref(0);
-let rateMax = ref(0);
+let rateMin = ref();
+let rateMax = ref();
 let range = ref([rateMin.value, rateMax.value]);
 
 const updateRange = (value) => {
