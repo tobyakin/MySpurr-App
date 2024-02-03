@@ -57,17 +57,17 @@ const uploadFile = (event) => {
 
   if (file) {
     const reader = new FileReader();
-    uploadedImageName.value = file.name;
 
     reader.onload = () => {
-      jobApplicationForm.other_file = reader.result;
+      jobApplicationForm.other_file = reader.result; // Extract base64 data
+      uploadedImageName.value = file.name;
     };
+
     reader.readAsDataURL(file);
   } else {
     jobApplicationForm.other_file = "";
   }
 };
-
 const handleJobApplication = async () => {
   let payload = {
     job_id: jobApplicationForm.job_id,
@@ -79,7 +79,9 @@ const handleJobApplication = async () => {
   };
   try {
     const res = await JobsStore.applyForJob(jobApplicationForm.job_id, payload);
-    next();
+    if (res.status === "true") {
+      next();
+    }
     return res;
   } catch (error) {
     console.log(error);
@@ -482,18 +484,21 @@ onMounted(async () => {
         <div
           v-for="(question, index) in singleJob?.data?.questions"
           :key="question"
-          class="border-[1.137px] bg-[#FFFFFD] h-full rounded-[11.367px] border-[#254035]/[0.6] p-4"
+          class="border-[1.137px] bg-[#FFFFFD] h-full w-full rounded-[11.367px] border-[#254035]/[0.6] p-4"
         >
           <p class="text-[#2F929C] font-Satoshi500 my-2 text-[13.552px]">
             Please answer this question from the Client
           </p>
-          <p class="text-[16.311px] font-Satoshi500 text-[#000]">
-            {{ question.question }}
-          </p>
+          <div class="flex flex-wrap w-full">
+            <p
+              v-html="question.question"
+              class="text-[16.311px] font-Satoshi500 text-[#000]"
+            ></p>
+          </div>
           <hr class="border-[#254035AB] border-[0.596px] my-3" />
           <textarea
             v-model="jobApplicationForm.question_answers[index].answer"
-            class="w-full outline-none text-[15.816px] h-[86%] font-Satoshi500 text-[#97A6A8]"
+            class="w-full outline-none text-[15.816px] h-[46%] font-Satoshi500 text-[#97A6A8]"
             name=""
             placeholder="Type answer here"
             id=""

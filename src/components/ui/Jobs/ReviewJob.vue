@@ -6,7 +6,7 @@ import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
-
+import { useRouter } from "vue-router";
 import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
 import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 import CircleTick from "@/components/icons/circleTick.vue";
@@ -18,7 +18,7 @@ const userProfile = useUserProfile();
 const userDetails = computed(() => {
   return userProfile.user.data;
 });
-
+const router = useRouter();
 const jobsStore = useJobsStore();
 const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore);
 const emit = defineEmits(["back"]);
@@ -84,6 +84,9 @@ const postJob = async () => {
     loading.value = false;
   }
 };
+const goToJobList = () => {
+  router.push({ name: "job-lists" });
+};
 </script>
 
 <template>
@@ -104,7 +107,7 @@ const postJob = async () => {
           >
             VIEW CANDIDATES</button
           ><button
-            @click="back()"
+            @click="goToJobList()"
             class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%]"
           >
             <span v-if="!loading">JOB LISTING </span>
