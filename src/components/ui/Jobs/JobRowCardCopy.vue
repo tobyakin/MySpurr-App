@@ -23,9 +23,9 @@ defineProps({
     <div class="flex lg:flex-row flex-col gap-3 w-full">
       <div>
         <img
-          v-if="job.company_image !== null"
+          v-if="job.company.logo !== null"
           class="h-[61.011px] w-[61.011px] rounded-full"
-          :src="job.company_image"
+          :src="job.company.logo"
           alt=""
         />
         <img
@@ -38,7 +38,7 @@ defineProps({
       <div class="w-full">
         <div class="flex items-center gap-1">
           <p class="text-[13.021px] font-Satoshi500 flex text-[#2F929C]">
-            {{ job.company_name }}
+            {{ job.company.business_name }}
           </p>
           <div v-if="job.verify" class="flex mt-1 gap-1">
             <VerifyIcon class="w-4" />
@@ -52,12 +52,12 @@ defineProps({
             class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14"
           >
             <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
-              {{ job.job_title }}
+              {{ job.job_info.job_title }}
             </p>
             <button
               class="bg-[#EDF0B8] font-Satoshi500 lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
             >
-              {{ job.employee_type }}
+              {{ job.job_info.job_type }}
             </button>
           </div>
           <a
@@ -71,7 +71,7 @@ defineProps({
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
               <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
-                {{ job.rate }}
+                {{ job.job_info.rate }}
               </p>
             </div>
             <div class="flex gap-2 items-center">
@@ -95,7 +95,7 @@ defineProps({
           <div class="flex lg:flex-row flex-col gap-4 justify-between mt-2">
             <div class="flex flex-wrap gap-3 items-center">
               <div
-                v-for="skill in job.skills"
+                v-for="skill in job.job_info.skills"
                 :key="skill"
                 class="bg-[#F2F3EF] font-Satoshi500 text-[10px] lg:text-[12.135px] uppercase p-[4px] lg:px-6 px-4 text-[#64665D] rounded-full"
               >

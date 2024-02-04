@@ -59,7 +59,7 @@ export const useJobsStore = defineStore('jobs', () => {
   }
   const handleMyJobApplications = async () => {
     try {
-      myJobsApplications.value = await getJobs()
+      myJobsApplications.value = await myApplications()
       return myJobsApplications.value
     } catch (error) {
       console.error(error)
