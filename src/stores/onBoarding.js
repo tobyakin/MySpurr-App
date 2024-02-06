@@ -18,7 +18,8 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
     const highest_education = ref('')
     const rate = ref('')
     const availability = ref('')
-
+    const ciso = ref("")
+    const siso =  ref("")
     const top_skills= ref([]);
     const education = ref({
       school_name: '',
@@ -65,6 +66,17 @@ let verifyIdentityData = ref({
   back: '',
   confirm: ''
 });
+const businessDetails = ref({
+  business_name: '',
+  location: '',
+  industry: '',
+  about_business: '',
+  website: '',
+  business_service: '',
+  business_email: '',
+  company_logo: null,
+  company_type: ''
+})
     const submitTalentPortfolio = async() => {
             let payload = {
               portfolio: {
@@ -98,7 +110,8 @@ try {
       let payload = {
         skill_title: skill_title.value,
         overview: overview.value,
-        location: location.value,
+        siso: siso.value,
+        ciso: ciso.value,
         employment_type: employment_type.value,
         highest_education: highest_education.value,
         rate: rate.value,
@@ -139,7 +152,21 @@ try {
             }
 
     }
-    const submitBusinessDetails = async (payload) => {
+    const submitBusinessDetails = async () => {
+            let payload = {
+              business_name: businessDetails.value.business_name,
+              location: siso.value,
+              siso: siso.value,
+              ciso: ciso.value,
+
+              industry: businessDetails.value.industry,
+              about_business: businessDetails.value.about_business,
+              website: businessDetails.value.website,
+              business_service: businessDetails.value.business_service,
+              business_email: businessDetails.value.business_email,
+              company_logo: businessDetails.value.company_logo,
+              company_type: businessDetails.value.company_type
+            }
       try {
         let res = await handleBusinessDetails(payload)
         return res
@@ -182,6 +209,9 @@ try {
       availability,
       portfolio,
       handleVerifyIdentity,
-      verifyIdentityData
+      verifyIdentityData,
+      businessDetails,
+      ciso,
+      siso
     }
 })

@@ -312,7 +312,7 @@ onMounted(() => {
         </div>
         <div class="mt-4 text-center">
           <p class="font-Satoshi400 text-[13.269px] text-white lg:text-[#007582]">
-            Need to create an account?
+            Don't have an account?
             <router-link class="" to="/signup"> Sign Up </router-link>
           </p>
         </div>

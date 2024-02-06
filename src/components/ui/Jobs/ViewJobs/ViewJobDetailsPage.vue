@@ -1,15 +1,26 @@
 <script setup>
-import { useStore } from '@/stores/user'
-import CircleBookMarkIcon from '@/components/icons/circleBookMarkIcon.vue'
-import SearchIcon from '@/components/icons/circleSearchIcon.vue'
-import CircleTick from '@/components/icons/circleTick.vue'
-import VerifyIcon from '@/components/icons/verifyIcon.vue'
-let store = useStore()
+import { onMounted} from "vue";
+import { useRoute } from "vue-router";
+// import { useStore } from "@/stores/user";
+import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
+import { storeToRefs } from "pinia";
+import SearchIcon from "@/components/icons/circleSearchIcon.vue";
+// import CircleTick from "@/components/icons/circleTick.vue";
+import VerifyIcon from "@/components/icons/verifyIcon.vue";
+// let store = useStore();
+import { useJobsStore } from "@/stores/jobs";
+const jobsStore = useJobsStore();
+const { singleJob } = storeToRefs(jobsStore);
+const route = useRoute();
+// const router = useRouter();
 
-const emit = defineEmits(['apply'])
+const emit = defineEmits(["apply"]);
 const apply = () => {
-  emit('apply')
-}
+  emit("apply");
+};
+onMounted(async () => {
+  await jobsStore.getSingleJob(route.params.id);
+});
 </script>
 
 <template>
@@ -26,16 +37,22 @@ const apply = () => {
         <div class="w-full">
           <div class="flex lg:flex-row flex-col gap-4 justify-between">
             <div class="">
-              <p class="text-[22.805px] font-Satoshi400 flex text-[#000]">Adobe Inc.</p>
+              <p class="text-[22.805px] font-Satoshi400 flex text-[#000]">
+                {{ singleJob?.data?.company?.business_name }}
+              </p>
               <div class="flex mt-1 gap-1">
                 <VerifyIcon class="w-4" />
-                <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
+                <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
+                  Verified Client.
+                </p>
               </div>
             </div>
             <div>
               <div class="flex gap-2">
                 <button class="">
-                  <CircleBookMarkIcon class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]" />
+                  <CircleBookMarkIcon
+                    class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]"
+                  />
                 </button>
                 <button class="">
                   <SearchIcon class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]" />
@@ -46,9 +63,13 @@ const apply = () => {
         </div>
       </div>
       <div class="flex flex-col justify-between mt-5">
-        <div class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3">
-          <p class="lg:text-[26.625px] text-[19px] font-Satoshi500 text-[#000000]">
-            Senior Product & Brand Design
+        <div
+          class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
+        >
+          <p
+            class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]"
+          >
+            {{ singleJob?.data?.job_title }}
           </p>
           <button
             @click="apply"
@@ -60,19 +81,11 @@ const apply = () => {
         <div class="flex justify-between lg:mt-2 mt-6">
           <div class="flex gap-3 flex-wrap items-center">
             <div
+              v-for="skill in singleJob?.data?.skills"
+              :key="skill"
               class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
             >
-              Art
-            </div>
-            <div
-              class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
-            >
-              Brand identity
-            </div>
-            <div
-              class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
-            >
-              UI/UI design
+              {{ skill.name }}
             </div>
           </div>
         </div>
@@ -83,75 +96,71 @@ const apply = () => {
     >
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">50k-60k/year</p>
+        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+          {{ singleJob?.data?.salary_min }}-{{ singleJob?.data?.salary_max }}
+        </p>
       </div>
-      <div class="flex flex-col gap-2">
+      <!-- <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Expertise</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">Intermediate</p>
-      </div>
+        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+          {{ singleJob?.data?.qualification }}
+        </p>
+      </div> -->
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">Spain, Baecelona</p>
+        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+          {{ singleJob?.data?.state }},
+          {{ singleJob?.data?.country }}
+        </p>
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Job Type</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">Fulltime</p>
+        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+          {{ singleJob?.data?.job_type }}
+        </p>
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Date</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">12 jun, 2022</p>
+        <p class="text-[#244034] text-[17.104px] font-Satoshi500"></p>
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Experience</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">2 Years</p>
+        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+          {{ singleJob?.data?.experience }}
+        </p>
       </div>
     </div>
     <div class="flex flex-col lg:flex-row mt-10 w-full">
-      <div class="lg:w-[60%] p-4">
-        <p class="text-[16.236px] text-[#000] font-Satoshi500">Job Description</p>
+      <div class="lg:w-[60%] flex flex-col justify-between p-4">
+        <div>
+          <p class="text-[16.236px] text-[#000] font-Satoshi500">Job Description</p>
 
-        <div class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px]">
-          <p>
-            As a Product Designer at WillowTree, you’ll give form to ideas by being the voice and
-            owner of product decisions. You’ll drive the design direction, and then make it happen!
+          <div
+            v-html="singleJob?.data?.description"
+            class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px]"
+          ></div>
+
+          <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
+            Responsibilities
           </p>
-          <p class="mt-4">
-            We understand our responsibility to create a diverse, equitable, and inclusive place
-            within the tech industry, while pushing to make our industry more representative.
+          <div
+            v-html="singleJob?.data?.responsibilities"
+            class="flex flex-col editor gap-3"
+          ></div>
+
+          <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
+            Required Skills:
           </p>
-        </div>
+          <div
+            v-html="singleJob?.data?.required_skills"
+            class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] leading-[24.689px]"
+          ></div>
 
-        <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">Responsibilities</p>
-        <div class="flex flex-col gap-3">
-          <div v-for="item in 5" :key="item" class="flex gap-3 w-full">
-            <div>
-              <CircleTick class="mt-2" />
-            </div>
-            <div class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]">
-              <p>
-                Collaborate daily with a multidisciplinary team of Software Engineers, Researchers,
-                Strategists, and Project Managers.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">Required Skills:</p>
-        <div class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]">
-          <ul class="lg:pl-8 pl-4">
-            <li v-for="item in 5" :key="item" class="list-disc pb-3">
-              You’ve been designing digital products for 2+ years.
-            </li>
-          </ul>
-        </div>
-
-        <p class="text-[16.236px] text-[#000] font-Satoshi500">Benefits:</p>
-        <div class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]">
-          <ul class="lg:pl-8 pl-4">
-            <li v-for="item in 5" :key="item" class="list-disc pb-3">
-              You’ve been designing digital products for 2+ years.
-            </li>
-          </ul>
+          <p class="text-[16.236px] text-[#000] font-Satoshi500">Benefits:</p>
+          <div
+            v-html="singleJob?.data?.benefits"
+            class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
+          ></div>
         </div>
         <div>
           <button
@@ -164,7 +173,9 @@ const apply = () => {
       </div>
       <div class="lg:w-[40%]">
         <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-6">
-          <p class="font-Satoshi700 text-[17.104px] text-[#31795A]/[0.70]">About the Company</p>
+          <p class="font-Satoshi700 text-[17.104px] text-[#31795A]/[0.70]">
+            About the Company
+          </p>
           <div class="flex mt-8 gap-4">
             <div>
               <img
@@ -175,10 +186,14 @@ const apply = () => {
             </div>
             <div>
               <div class="flex gap-2 items-center">
-                <p class="text-[20.166px] font-Satoshi400 flex text-[#000]">Adobe Inc.</p>
+                <p class="text-[20.166px] font-Satoshi400 flex text-[#000]">
+                  {{ singleJob?.data?.company.business_name }}
+                </p>
                 <div class="flex mt-1 gap-1">
                   <VerifyIcon class="w-4" />
-                  <p class="text-[10.646px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
+                  <p class="text-[10.646px] font-Satoshi700 text-[#000000B2]">
+                    Verified Client.
+                  </p>
                 </div>
               </div>
               <div class="flex gap-3 items-center">
@@ -195,31 +210,28 @@ const apply = () => {
               </div>
             </div>
           </div>
-          <div class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]">
-            <p>
-              Vibratique hubis a full service creative agency at WillowTree, you’ll give form to
-              ideas by being the voice and owner of product decisions. You’ll drive the design
-              direction, and then make it happen!
-            </p>
-            <p class="mt-4">
-              We understand our responsibility to create a diverse, equitable, and inclusive place
-              within the tech industry, while pushing to make our industry more representative.
-            </p>
-          </div>
+          <div
+            v-html="singleJob?.data?.company.about_business"
+            class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
+          ></div>
           <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
-          <div class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]">
-            <p>2 Jobs opened</p>
+          <div
+            class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
+          >
+            <p>0 Jobs opened</p>
           </div>
 
           <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
           <div class="flex rounded-[17.104px] mb-4 gap-6">
             <div class="flex flex-col gap-2">
-              <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Completed Jobs</p>
-              <p class="text-[#244034] text-[17.104px] font-Satoshi500">5</p>
+              <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">
+                Completed Jobs
+              </p>
+              <p class="text-[#244034] text-[17.104px] font-Satoshi500">0</p>
             </div>
             <div class="flex flex-col gap-2">
               <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Hired Jobs</p>
-              <p class="text-[#244034] text-[17.104px] font-Satoshi500">28</p>
+              <p class="text-[#244034] text-[17.104px] font-Satoshi500">0</p>
             </div>
           </div>
           <button

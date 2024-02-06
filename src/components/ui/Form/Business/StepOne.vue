@@ -4,12 +4,12 @@
       <div class="my-8">
         <header class="">
           <h1 class="text-[#000000] text-center text-[20px] font-Satoshi700">
-            Complete your talent profile
+            Complete your business profile
           </h1>
         </header>
         <div class="my-4 font-Satoshi400 text-center">
-          Please give us some information to set up your talent dashboard. <br />
-          It'll take less than 3 mins
+          Please give us some information to set up <br />
+          your business dashboard (It'll take less than 3 mins)
         </div>
         <div class="flex justify-center">
           <button
@@ -73,19 +73,17 @@ const accountType = computed(() => {
 //   }
 // };
 const next = () => {
-  if (isOnBoarded.value.work_details) {
+  if (isOnBoarded.value.business_details) {
     return router.push({ name: "dashboard" });
   } else {
     emit("next", step.value + 1);
   }
 };
-onMounted(async () => {
-  await profile.userProfile();
-});
+
 onMounted(async () => {
   try {
     await profile.userProfile();
-    if (isOnBoarded.value.work_details) {
+    if (isOnBoarded.value.business_details) {
       return router.push({ name: "dashboard" });
     }
   } catch (error) {

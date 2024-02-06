@@ -6,7 +6,7 @@
       <div class="mt-14 flex flex-col gap-8">
         <JobRowCard
           class="min-w-[95%] lg:min-w-[45%]"
-          v-for="item in jobsdata"
+          v-for="item in myJobsApplications.data"
           :key="item"
           :job="item"
         />
@@ -26,8 +26,14 @@
 </template>
 
 <script setup>
+import { onMounted, reactive, ref, computed, watch } from "vue";
 import Tab from "./Tab.vue";
-import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
+import { useJobsStore } from "@/stores/jobs";
+const JobsStore = useJobsStore();
+import { storeToRefs } from "pinia";
+const { myJobsApplications } = storeToRefs(JobsStore);
+
+import JobRowCard from "@/components/ui/Jobs/JobRowCardCopy.vue";
 const jobsdata = [
   {
     company_image: null,
@@ -69,6 +75,9 @@ const jobsdata = [
     match: true,
   },
 ];
+onMounted(async () => {
+  await JobsStore.handleMyJobApplications();
+});
 </script>
 
 <style></style>

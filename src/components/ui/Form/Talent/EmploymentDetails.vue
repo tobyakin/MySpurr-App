@@ -230,23 +230,23 @@ const selectHighlightedJobTitleOption = () => {
             />
           </div>
         </div>
-        <div class="flex flex-row h-full rounded-[5.897px] py-1.5">
-          <div class="w-full flex flex-col h-full gap-2 justify-between">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-              >Description</label
-            >
-            <div class="w-full h-auto">
-              <QuillEditor
-                v-model:content="employment_details.description"
-                class=""
-                theme="snow"
-                toolbar="full"
-                placeholder="Give a brief description about your work "
-                contentType="html"
-              />
-            </div>
+        <!-- <div class="flex flex-row h-full rounded-[5.897px] py-1.5"> -->
+        <div class="w-full flex flex-col gap-2">
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            >Description</label
+          >
+          <div class="flex flex-col h-[28vh]">
+            <QuillEditor
+              v-model:content="employment_details.description"
+              class=""
+              theme="snow"
+              toolbar="full"
+              placeholder="Give a brief description about your work "
+              contentType="html"
+            />
           </div>
         </div>
+        <!-- </div> -->
 
         <!-- <div
           class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"

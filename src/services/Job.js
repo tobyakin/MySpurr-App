@@ -10,12 +10,41 @@ export const getJobs = async () => {
         Authorization: 'Bearer ' + token
       }
     })
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const getMyJobs = async () => {
+  const token = await getToken()
+  try {
+    let res = await axios.get(`job`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const deleteJob = async (id) => {
+  const token = await getToken()
+  try {
+    let res = await axios.get(`job/delete`,id, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
     catchAxiosSuccess(res)
     return res.data
   } catch (error) {
     catchAxiosError(error)
     throw error
   }
+
 }
 export const getJobsDetails = async (id) => {
   const token = await getToken()
@@ -25,7 +54,6 @@ export const getJobsDetails = async (id) => {
         Authorization: 'Bearer ' + token
       }
     })
-    catchAxiosSuccess(res)
     return res.data
   } catch (error) {
     catchAxiosError(error)
@@ -41,6 +69,35 @@ export const applyForJobs = async (id, payload) => {
       }
     })
     catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const postJobs = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.post(`job`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const myApplications = async () => {
+  const token = await getToken()
+  try {
+    let res = await axios.get(`applications`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
     return res.data
   } catch (error) {
     catchAxiosError(error)

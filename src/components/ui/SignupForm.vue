@@ -106,7 +106,6 @@
         </div>
       </div>
       <PasswordInput
-        v-if="storedTab === 'talent'"
         :error="errors.confirmPassword || !passwordsMatch"
         :errorsMsg="errorsMsg.confirmPassword"
         placeholder="Confirm Password*"
@@ -297,6 +296,10 @@ const validateBusinessForm = () => {
 
   if (!formData.business_name) {
     errors.business_name = true;
+    isValid = false;
+  }
+  if (formData.password !== confirmPassword.value) {
+    errors.confirmPassword = true;
     isValid = false;
   }
 

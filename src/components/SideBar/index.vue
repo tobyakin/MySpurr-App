@@ -91,12 +91,14 @@
       </router-link>
       <router-link
         v-if="feature.includes('JOB_LISTING')"
-        to="/dashboard"
+        to="/job-lists"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
-        :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
+        :class="
+          route.name === 'job-lists' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '
+        "
       >
         <div
-          :class="route.name === '' ? 'text-white ' : 'text-[#297F88] '"
+          :class="route.name === 'job-lists' ? 'text-white ' : 'text-[#297F88] '"
           class="mr-[20px] justify-center flex items-center rounded-[5px] h-[40px] w-[40px]"
         >
           <MyjobsIcon />

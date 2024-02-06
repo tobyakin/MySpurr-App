@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, defineAsyncComponent } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
 import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
@@ -22,10 +22,11 @@ import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
 import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience.vue";
 import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
 import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.vue";
-import Map from "@/components/ui/Map/Map.vue";
+// import Map from "@/components/ui/Map/Map.vue";
 import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
+const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 
 const toast = useToast();
 
@@ -375,7 +376,7 @@ onMounted(async () => {
             <p class="text-[20px] text-[#000] font-Satoshi500 mt-16">Location</p>
             <div class="flex flex-col gap-12 mt-4 relative rounded-[15px]">
               <!-- <img src="@/assets/image/Map.webp" alt="map" /> -->
-              <Map />
+              <Map :lat="userDetails?.latitude" :lng="userDetails?.longitude" />
             </div>
           </div>
         </div>
