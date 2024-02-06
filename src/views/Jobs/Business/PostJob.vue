@@ -134,7 +134,8 @@ onMounted(async () => {
           <h3
             class="lg:text-[45.259px] text-[30px] text-[#000000] lg:leading-[48.087px] font-Satoshi400"
           >
-            Hire with MySpurr. Share your job post with thousands of creative talents
+            Hire with MySpurr. <br />
+            Share your job post with thousands of creative talents
           </h3>
           <div
             class="bg-[#EDF0B8] py-[19px] px-[30px] lg:px-[80px] flex items-center rounded-[10px]"
