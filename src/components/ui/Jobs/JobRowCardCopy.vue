@@ -115,10 +115,9 @@ defineProps({
                 </button>
               </div>
               <button
-                @click="redirectToJobDetails(1)"
-                class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+                class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
               >
-                APPLY
+                {{ job.status }}
               </button>
             </div>
           </div>
