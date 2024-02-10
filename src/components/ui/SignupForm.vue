@@ -429,7 +429,6 @@ onMounted(() => {
 });
 
 const handleBusinessSignup = async () => {
-  console.log("Business signup");
   loading.value = true;
   if (!validateBusinessForm()) {
     loading.value = false;
@@ -454,8 +453,6 @@ const handleBusinessSignup = async () => {
 };
 
 const handleTalentSignup = async () => {
-  console.log("Talent signup");
-  console.log(formData);
   loading.value = true;
   if (!validateForm()) {
     loading.value = false;
