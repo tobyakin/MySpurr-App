@@ -123,9 +123,18 @@ defineProps({
               </div>
               <button
                 @click="redirectToJobDetails(1)"
-                class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+                :disabled="job.application_status === 'applied'"
+                :class="
+                  job.application_status === 'applied'
+                    ? 'bg-gray-300 cursor-not-allowed'
+                    : 'bg-[#43D0DF]'
+                "
+                class="font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
               >
-                APPLY
+                <span v-if="job.application_status === 'applied'">
+                  {{ job.application_status }}
+                </span>
+                <span v-else>APPLY</span>
               </button>
             </div>
           </div>
