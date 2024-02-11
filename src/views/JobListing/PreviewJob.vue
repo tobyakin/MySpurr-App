@@ -34,7 +34,9 @@ const deleteJob = async (slug) => {
     console.log(error);
   }
 };
-
+const gotoApplications = (slug) => {
+  router.push({ name: "applications", params: { slug: slug } });
+};
 onMounted(async () => {
   await jobsStore.handleGetJobDetailsBySlug(route.params.slug);
 });
@@ -269,6 +271,7 @@ onMounted(async () => {
       </div>
       <div class="flex lg:flex-row flex-col gap-6 items-end mt-20 justify-end">
         <button
+          @click="gotoApplications(JobDetails?.data?.slug)"
           class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
         >
           VIEW APPLICANTS
