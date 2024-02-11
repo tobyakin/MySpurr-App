@@ -19,10 +19,10 @@ const { JobDetails } = storeToRefs(jobsStore);
 const route = useRoute();
 const router = useRouter();
 const loading = ref(false);
-const deleteJob = async (slug) => {
+const closeJob = async (slug) => {
   loading.value = true;
   try {
-    const res = await jobsStore.handelDeleteJob(slug);
+    const res = await jobsStore.handelCloseJob(slug);
     if (res.status === "true") {
       loading.value = false;
       router.push({ name: "job-lists" });
@@ -277,7 +277,7 @@ onMounted(async () => {
           VIEW APPLICANTS
         </button>
         <button
-          @click="deleteJob(JobDetails?.data?.slug)"
+          @click="closeJob(JobDetails?.data?.slug)"
           :disabled="loading"
           :class="loading ? 'cursor-not-allowed' : ''"
           class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"

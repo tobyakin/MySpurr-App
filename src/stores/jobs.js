@@ -8,7 +8,8 @@ import {
   getMyJobs,
   myApplications,
   viewJobsDetailsBySlug,
-  deleteJob
+  deleteJob,
+  closeJob
 } from '@/services/Job'
 
 export const useJobsStore = defineStore('jobs', () => {
@@ -87,7 +88,15 @@ export const useJobsStore = defineStore('jobs', () => {
   }
   const handelDeleteJob = async (slug) => {
     try {
-     let res = await deleteJob(slug)
+      let res = await deleteJob(slug)
+      return res
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const handelCloseJob = async (slug) => {
+    try {
+      let res = await closeJob(slug)
       return res
     } catch (error) {
       console.error(error)
@@ -160,6 +169,7 @@ export const useJobsStore = defineStore('jobs', () => {
     handleMyJobApplications,
     JobDetails,
     handleGetJobDetailsBySlug,
-    handelDeleteJob
+    handelDeleteJob,
+    handelCloseJob
   }
 })
