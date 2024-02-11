@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-[45px]">
-    <Header />
+    <Header :JobDetails="JobDetails?.data" />
     <div class="flex flex-row gap-4">
       <div class="w-[40%]">
         <h4 class="text-[#00000066] text-[12.032px] font-Satoshi400">
@@ -16,9 +16,20 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import Header from "@/components/ui/AllApplications/Header.vue";
 import ApplicantsCard from "@/components/ui/AllApplications/ApplicantsCard.vue";
 import ApplicantProfile from "@/components/ui/AllApplications/ApplicantProfile.vue";
+import { useJobsStore } from "@/stores/jobs";
+import { storeToRefs } from "pinia";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const jobsStore = useJobsStore();
+const { JobDetails } = storeToRefs(jobsStore);
+onMounted(async () => {
+  await jobsStore.handleGetJobDetailsBySlug(route.params.slug);
+});
 </script>
 
 <style></style>
