@@ -5,19 +5,24 @@ import DropdownEye from "@/components/icons/DropdownEye.vue";
 import DropdownDeleteIcon from "@/components/icons/DropdownDeleteIcon.vue";
 import DropdownEditIcon from "@/components/icons/DropdownEditIcon.vue";
 import DropdownShareIcon from "@/components/icons/DropdownShareIcon.vue";
-import { useRouter } from "vue-router";
+import GreenLoader from "@/components/ui/GreenLoader.vue";
+
+// import { useRouter } from "vue-router";
 import { useTabStore } from "@/stores/tab";
+import { useJobsStore } from "@/stores/jobs";
+const jobsStore = useJobsStore();
+const loading = ref(true);
 
 const store = useTabStore();
 
-const router = useRouter();
+// const router = useRouter();
 const showDocument = ref({});
 const showDocumentToggle = ref(false);
 const reason = ref("");
 
-const redirectToJobDetails = (id) => {
-  router.push({ name: "view-jobs", params: { id } });
-};
+// const redirectToJobDetails = (id) => {
+//   router.push({ name: "view-jobs", params: { id } });
+// };
 defineProps({
   job: Object,
 });
@@ -28,6 +33,15 @@ const toggleDocument = (document) => {
   showDocument.value = document;
   reason.value = document.reason;
   showDocumentToggle.value = true;
+};
+const deleteJob = async (slug) => {
+  try {
+    const res = await jobsStore.handelDeleteJob(slug);
+    await jobsStore.handleMyJobs();
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 <template>
@@ -145,7 +159,7 @@ const toggleDocument = (document) => {
               <ul class="!mb-0">
                 <li>
                   <router-link
-                    to="/"
+                    :to="{ name: 'preview-job', params: { slug: job.slug } }"
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownEye />
@@ -171,13 +185,12 @@ const toggleDocument = (document) => {
                   </router-link>
                 </li>
                 <li>
-                  <router-link
-                    to="/"
+                  <button
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownDeleteIcon />
                     <p>Delete</p>
-                  </router-link>
+                  </button>
                 </li>
               </ul>
             </Dropdown>

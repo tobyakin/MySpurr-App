@@ -30,10 +30,10 @@ export const getMyJobs = async () => {
     throw error
   }
 }
-export const deleteJob = async (id) => {
+export const deleteJob = async (slug) => {
   const token = await getToken()
   try {
-    let res = await axios.get(`job/delete`,id, {
+    let res = await axios.delete(`job/delete`,slug, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -50,6 +50,20 @@ export const getJobsDetails = async (id) => {
   const token = await getToken()
   try {
     let res = await axios.get(`job/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const viewJobsDetailsBySlug = async (slug) => {
+  const token = await getToken()
+  try {
+    let res = await axios.get(`job/details/${slug}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }

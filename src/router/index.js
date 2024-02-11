@@ -29,6 +29,7 @@ import EditPortfolio from '@/views/Portfolio/EditPortfolio.vue'
 import OpenTicket from '@/views/HelpCenter/OpenTicket.vue'
 import JobListingPage from '@/views/JobListing/JobListingPage.vue'
 import FindTalents from '@/views/FindTalents/FindTalents.vue'
+import PreviewJob from '@/views/JobListing/PreviewJob.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -100,6 +101,13 @@ const router = createRouter({
       path: '/job-lists',
       name: 'job-lists',
       component: JobListingPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+
+    {
+      path: '/preview-job/:slug',
+      name: 'preview-job',
+      component: PreviewJob,
       beforeEnter: [middleware.redirectLogin]
     },
     {
