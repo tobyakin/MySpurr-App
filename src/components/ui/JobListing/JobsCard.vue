@@ -1,30 +1,34 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
-import Dropdown from "@/components/ui/Dropdown/Dropdown.vue";
-import DropdownEye from "@/components/icons/DropdownEye.vue";
-import DropdownDeleteIcon from "@/components/icons/DropdownDeleteIcon.vue";
-import DropdownEditIcon from "@/components/icons/DropdownEditIcon.vue";
-import DropdownShareIcon from "@/components/icons/DropdownShareIcon.vue";
-import { useRouter } from "vue-router";
-const router = useRouter();
-const showDocument = ref({});
-const showDocumentToggle = ref(false);
-const reason = ref("");
+import { computed, onMounted, reactive, ref } from 'vue'
+import Dropdown from '@/components/ui/Dropdown/Dropdown.vue'
+import DropdownEye from '@/components/icons/DropdownEye.vue'
+import DropdownDeleteIcon from '@/components/icons/DropdownDeleteIcon.vue'
+import DropdownEditIcon from '@/components/icons/DropdownEditIcon.vue'
+import DropdownShareIcon from '@/components/icons/DropdownShareIcon.vue'
+import { useRouter } from 'vue-router'
+import { useTabStore } from '@/stores/tab'
+
+const store = useTabStore()
+
+const router = useRouter()
+const showDocument = ref({})
+const showDocumentToggle = ref(false)
+const reason = ref('')
 
 const redirectToJobDetails = (id) => {
-  router.push({ name: "view-jobs", params: { id } });
-};
+  router.push({ name: 'view-jobs', params: { id } })
+}
 defineProps({
-  job: Object,
-});
+  job: Object
+})
 const toggleDocument = (document) => {
   if (showDocument.value.id == document.id) {
-    return (showDocumentToggle.value = !showDocumentToggle.value);
+    return (showDocumentToggle.value = !showDocumentToggle.value)
   }
-  showDocument.value = document;
-  reason.value = document.reason;
-  showDocumentToggle.value = true;
-};
+  showDocument.value = document
+  reason.value = document.reason
+  showDocumentToggle.value = true
+}
 </script>
 <template>
   <div
@@ -47,9 +51,7 @@ const toggleDocument = (document) => {
       </div>
       <div class="w-full flex flex-col gap-4 relative">
         <div class="flex flex-col lg:flex-row items-center justify-between w-full gap-3">
-          <div
-            class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14"
-          >
+          <div class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14">
             <p class="text-[16.467px] capitalize font-Satoshi700 text-[#244034]">
               {{ job.job_title }}
             </p>
@@ -58,26 +60,28 @@ const toggleDocument = (document) => {
         <div class="grid grid-cols-5 justify-between mt-5">
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
-              <p class="text-[17.633px] font-Satoshi500 text-[#244034E5]">
-                {{ job.salary_min }}-{{ job.salary_max }}
+              <p class="text-[14.633px] capitalize font-Satoshi500 text-[#244034E5]">
+                {{ store.abbr(job.salary_min) }}- {{ store.abbr(job.salary_max) }}/
+                {{ job.salaray_type }}
               </p>
             </div>
           </div>
-          <div class="flex lg:flex-row flex-col gap-4 justify-center mt-2">
+          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
             <div
               class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4"
             >
-              <p>.</p>
+              <p>{{ job.date_created }}</p>
             </div>
           </div>
-          <div class="flex lg:flex-row flex-col gap-4 justify-center mt-2">
+          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
             <div
-              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4"
+              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-2"
             >
-              <p>.</p>
+              <p>{{ job.applicants }}</p>
+              <span class="text-[17.633px] !p-2 !py-0 btn-brand">{{ job.recent_applicants }}</span>
             </div>
           </div>
-          <div class="flex lg:flex-row flex-col gap-4 justify-center mt-2">
+          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
             <div
               class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-1"
             >
@@ -86,7 +90,7 @@ const toggleDocument = (document) => {
                 :class="{
                   'bg-[#63D8E4]': job.status == 'pending',
                   'bg-[#84B358]': job.status == 'active',
-                  'bg-[#E06F6F]': job.status == 'expired',
+                  'bg-[#E06F6F]': job.status == 'expired'
                 }"
               ></div>
               <p class="capitalize font-Satoshi500 text-[17.239px] text-[#244034E5]">
