@@ -7,7 +7,7 @@ import DropdownEditIcon from "@/components/icons/DropdownEditIcon.vue";
 import DropdownShareIcon from "@/components/icons/DropdownShareIcon.vue";
 import GreenLoader from "@/components/ui/GreenLoader.vue";
 
-// import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useTabStore } from "@/stores/tab";
 import { useJobsStore } from "@/stores/jobs";
 const jobsStore = useJobsStore();
@@ -15,14 +15,14 @@ const loading = ref(true);
 
 const store = useTabStore();
 
-// const router = useRouter();
+const router = useRouter();
 const showDocument = ref({});
 const showDocumentToggle = ref(false);
 const reason = ref("");
 
-// const redirectToJobDetails = (id) => {
-//   router.push({ name: "view-jobs", params: { id } });
-// };
+const redirectToPreviewJob = (slug) => {
+  router.push({ name: "preview-job", params: { slug: slug } });
+};
 defineProps({
   job: Object,
 });
@@ -151,20 +151,18 @@ const deleteJob = async (slug) => {
             <Dropdown
               v-if="showDocument.id == job.id && showDocumentToggle"
               :showDropdown="showDocument.id == job.id && showDocumentToggle"
-              :link="false"
               class="-bottom-[8rem] w-36 z-10 lg:-right-40"
-              :items="items"
-              :id="`dropdown` + job.id"
+              :id="job.id"
             >
               <ul class="!mb-0">
                 <li>
-                  <router-link
-                    :to="{ name: 'preview-job', params: { slug: job.slug } }"
+                  <button
+                    @click="redirectToPreviewJob(job.slug)"
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownEye />
                     <p>View</p>
-                  </router-link>
+                  </button>
                 </li>
                 <li>
                   <router-link

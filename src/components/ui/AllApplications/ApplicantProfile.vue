@@ -3,17 +3,23 @@
     <div
       class="bg-[#E9FAFB] border-[#F6F6F6] flex lg:flex-row flex-col gap-5 justify-between items-center border-[1px] rounded-[15px] p-[22px] px-6"
     >
-      <div class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6">
+      <div
+        class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
+      >
         <UserAvater
           :imageUrl="talents?.image"
           inputClasses="!h-[44.891px] !w-[44.891px]"
           class=""
         />
         <div class="lg:text-left text-center">
-          <p class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]">
+          <p
+            class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]"
+          >
             {{ talents?.first_name }} {{ talents?.last_name }}Application
           </p>
-          <p class="text-[#00000066] text-[14.598px] capitalize leading-[31.739px] font-Satoshi400">
+          <p
+            class="text-[#00000066] text-[14.598px] capitalize leading-[31.739px] font-Satoshi400"
+          >
             {{ talents?.skill_title }}..
           </p>
           <div class="flex items-center lg:justify-start justify-center gap-2">
@@ -43,9 +49,6 @@
           </a>
         </div>
         <div class="flex items-center gap-5">
-          <button>
-            <SearchIconVeritical />
-          </button>
           <button
             class="btn-brand !bg-[#31795A] !border-none text-center flex items-start lg:px-[25px] !py-[4px] !text-white"
           >
@@ -85,9 +88,13 @@
         <EducationDetails :items="talents?.education" />
         <!-- <SampleFive :items="items" /> -->
 
-        <p class="text-[14.038px] text-[#000] font-Satoshi500 mb-12 mt-8">Work Experience</p>
+        <p class="text-[14.038px] text-[#000] font-Satoshi500 mb-12 mt-8">
+          Work Experience
+        </p>
         <WorkExperience :items="talents?.employment" />
-        <p class="text-[14.038px] text-[#000] font-Satoshi500 mb-12 mt-8">Relevant File attached</p>
+        <p class="text-[14.038px] text-[#000] font-Satoshi500 mb-12 mt-8">
+          Relevant File attached
+        </p>
         <div
           class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
         >
@@ -115,7 +122,9 @@
             >
               question
             </p>
-            <p class="text-[#5e6466] font-Satoshi400 text-[14px] mt-2 tracking-[0.6px]">.....</p>
+            <p class="text-[#5e6466] font-Satoshi400 text-[14px] mt-2 tracking-[0.6px]">
+              .....
+            </p>
           </div>
         </div>
       </div>
@@ -138,7 +147,6 @@
                 {{ i.institute }}
               </p>
               <div class="flex items-center gap-2">
-                <CalenderWithPen />
                 <p class="font-Satoshi500 text-[12.9px] text-[#000000]">
                   {{ i.certificate_year }}
                 </p>
@@ -163,16 +171,16 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
-import UserAvater from '@/components/ui/Avater/UserAvater.vue'
-import WorkExperience from '@/components/ui/genericComponents/WorkExperience.vue'
-import EducationDetails from '@/components/ui/genericComponents/EducationDetails.vue'
-import LinkdeinIcon from '@/components/icons/linkdeinIcon.vue'
-import InstagramIcon from '@/components/icons/instagramIcon.vue'
-import BeIcon from '@/components/icons/beIcon.vue'
-import TwitterIcon from '@/components/icons/twitterIcon.vue'
-import CertificateBadge from '@/components/icons/certificateBadge.vue'
-const Map = defineAsyncComponent(() => import('@/components/ui/Map/Map.vue'))
+import { ref, computed, onMounted, defineAsyncComponent } from "vue";
+import UserAvater from "@/components/ui/Avater/UserAvater.vue";
+import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
+import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
+import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
+import InstagramIcon from "@/components/icons/instagramIcon.vue";
+import BeIcon from "@/components/icons/beIcon.vue";
+import TwitterIcon from "@/components/icons/twitterIcon.vue";
+import CertificateBadge from "@/components/icons/certificateBadge.vue";
+const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 
-defineProps({ talents: Object })
+defineProps({ talents: Object });
 </script>
