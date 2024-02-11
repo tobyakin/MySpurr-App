@@ -7,6 +7,10 @@ import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 import MatchIcon from "@/components/icons/matchIcon.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import { useRouter } from "vue-router";
+import { useTabStore } from "@/stores/tab";
+
+const store = useTabStore();
+
 const router = useRouter();
 
 const redirectToJobDetails = (id) => {
@@ -71,7 +75,8 @@ defineProps({
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
               <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
-                {{ job.rate }}
+                {{ store.abbr(job.salary_min) }}- {{ store.abbr(job.salary_max) }}/
+                {{ job.salaray_type }}
               </p>
             </div>
             <div class="flex gap-2 items-center">
@@ -83,12 +88,14 @@ defineProps({
               <div
                 class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
-                <LocationIcon /><span class="py-[0.25px]">{{ job.location }}</span>
+                <LocationIcon /><span class="py-[0.25px]"
+                  >{{ job.state }}, {{ job.country }}</span
+                >
               </div>
               <div
                 class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
-                <TimerIcon /><span class="py-[0.25px]">Anytime</span>
+                <TimerIcon /><span class="py-[0.25px]"></span>
               </div>
             </div>
           </div>
