@@ -9,6 +9,10 @@ import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 // let store = useStore();
 import { useJobsStore } from "@/stores/jobs";
+import { useTabStore } from "@/stores/tab";
+
+const store = useTabStore();
+
 const jobsStore = useJobsStore();
 const { singleJob } = storeToRefs(jobsStore);
 const route = useRoute();
@@ -96,8 +100,10 @@ onMounted(async () => {
     >
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
-          {{ singleJob?.data?.salary_min }}-{{ singleJob?.data?.salary_max }}
+        <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          {{ store.abbr(singleJob?.data?.salary_min) }}-
+          {{ store.abbr(singleJob?.data?.salary_max) }}/
+          {{ singleJob?.data?.salaray_type }}
         </p>
       </div>
       <!-- <div class="flex flex-col gap-2">
@@ -108,24 +114,26 @@ onMounted(async () => {
       </div> -->
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p class="text-[#244034] text-[14.104px] font-Satoshi500">
           {{ singleJob?.data?.state }},
           {{ singleJob?.data?.country }}
         </p>
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Job Type</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p class="text-[#244034] text-[14.104px] font-Satoshi500">
           {{ singleJob?.data?.job_type }}
         </p>
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Date</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500"></p>
+        <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          {{ singleJob?.data?.date_created }}
+        </p>
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Experience</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p class="text-[#244034] text-[14.104px] font-Satoshi500">
           {{ singleJob?.data?.experience }}
         </p>
       </div>

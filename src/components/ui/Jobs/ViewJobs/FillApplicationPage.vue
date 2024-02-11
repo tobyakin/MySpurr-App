@@ -11,6 +11,9 @@ import { useRoute } from "vue-router";
 const { singleJob } = storeToRefs(JobsStore);
 const route = useRoute();
 import { useUserProfile } from "@/stores/profile";
+import { useTabStore } from "@/stores/tab";
+
+const store = useTabStore();
 
 // const { jobApplicationForm } = storeToRefs(JobsStore);
 const emit = defineEmits(["back", "next"]);
@@ -250,7 +253,9 @@ onMounted(async () => {
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[13.076px] font-Satoshi400">Salary</p>
         <p class="text-[#244034] text-[13.076px] font-Satoshi500">
-          {{ singleJob?.data?.salary_min }}-{{ singleJob?.data?.salary_max }}
+          {{ store.abbr(singleJob?.data?.salary_min) }}-
+          {{ store.abbr(singleJob?.data?.salary_max) }}/
+          {{ singleJob?.data?.salaray_type }}
         </p>
       </div>
       <!-- <div class="flex flex-col gap-2">
@@ -272,7 +277,9 @@ onMounted(async () => {
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[13.076px] font-Satoshi400">Date</p>
-        <p class="text-[#244034] text-[13.076px] font-Satoshi500">12 jun, 2022</p>
+        <p class="text-[#244034] text-[13.076px] font-Satoshi500">
+          {{ singleJob?.data?.date_created }}
+        </p>
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[13.076px] font-Satoshi400">Experience</p>
