@@ -167,22 +167,21 @@ const deleteJob = async (slug) => {
                   </button>
                 </li>
                 <li>
-                  <router-link
-                    to="/"
+                  <button
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownShareIcon />
                     <p>Share</p>
-                  </router-link>
+                  </button>
                 </li>
                 <li>
-                  <router-link
+                  <button
                     to="/"
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownEditIcon />
                     <p>Edit</p>
-                  </router-link>
+                  </button>
                 </li>
                 <li>
                   <button
