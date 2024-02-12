@@ -117,37 +117,39 @@ const deleteJob = async (slug) => {
             </div>
           </div>
           <div class="text-right flex justify-end cursor-pointer relative pr-4">
-            <svg
-              class="cursor-pointer flex lg:flex-row flex-col gap-4 justify-end"
-              @click="toggleDocument(job)"
-              xmlns="http://www.w3.org/2000/svg"
-              width="5"
-              height="19"
-              viewBox="0 0 5 19"
-              fill="none"
-            >
-              <circle
-                cx="2.25781"
-                cy="16.1094"
-                r="2"
-                transform="rotate(-90 2.25781 16.1094)"
-                fill="#3F634D"
-              />
-              <circle
-                cx="2.25781"
-                cy="9.10938"
-                r="2"
-                transform="rotate(-90 2.25781 9.10938)"
-                fill="#3F634D"
-              />
-              <circle
-                cx="2.25781"
-                cy="2.10938"
-                r="2"
-                transform="rotate(-90 2.25781 2.10938)"
-                fill="#3F634D"
-              />
-            </svg>
+            <button @click="toggleDocument(job)">
+              <svg
+                class="cursor-pointer flex lg:flex-row flex-col gap-4 justify-end"
+                xmlns="http://www.w3.org/2000/svg"
+                width="5"
+                height="19"
+                viewBox="0 0 5 19"
+                fill="none"
+              >
+                <circle
+                  cx="2.25781"
+                  cy="16.1094"
+                  r="2"
+                  transform="rotate(-90 2.25781 16.1094)"
+                  fill="#3F634D"
+                />
+                <circle
+                  cx="2.25781"
+                  cy="9.10938"
+                  r="2"
+                  transform="rotate(-90 2.25781 9.10938)"
+                  fill="#3F634D"
+                />
+                <circle
+                  cx="2.25781"
+                  cy="2.10938"
+                  r="2"
+                  transform="rotate(-90 2.25781 2.10938)"
+                  fill="#3F634D"
+                />
+              </svg>
+            </button>
+
             <Dropdown
               v-if="showDocument.id == job.id && showDocumentToggle"
               :showDropdown="showDocument.id == job.id && showDocumentToggle"
