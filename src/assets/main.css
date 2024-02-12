@@ -279,6 +279,7 @@ input[type="checkbox"] {
 }
 .editor ul{
   list-style-type: disc !important;
+  /* list-style:circle !important */
 }
 .editor p{
   @apply   break-words text-justify font-Satoshi400 my-4 

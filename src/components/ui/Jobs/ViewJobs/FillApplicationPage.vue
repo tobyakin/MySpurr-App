@@ -496,7 +496,7 @@ onMounted(async () => {
           <p class="text-[#2F929C] font-Satoshi500 my-2 text-[13.552px]">
             Please answer this question from the Client
           </p>
-          <div class="flex flex-wrap w-full">
+          <div class="w-full editor">
             <p
               v-html="question.question"
               class="text-[16.311px] font-Satoshi500 text-[#000]"
