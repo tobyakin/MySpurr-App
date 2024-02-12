@@ -88,6 +88,20 @@ export const viewJobsDetailsBySlug = async (slug) => {
     throw error
   }
 }
+export const viewJobsDetailsById = async (id) => {
+  const token = await getToken()
+  try {
+    let res = await axios.get(`job/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
 export const applyForJobs = async (id, payload) => {
   const token = await getToken()
   try {
@@ -126,6 +140,16 @@ export const myApplications = async () => {
         Authorization: 'Bearer ' + token
       }
     })
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const getAllTalents = async () => {
+  try {
+    let res = await axios.get(`talents`)
+    catchAxiosSuccess(res.data)
     return res.data
   } catch (error) {
     catchAxiosError(error)

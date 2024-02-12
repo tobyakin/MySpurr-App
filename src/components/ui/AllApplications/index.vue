@@ -26,7 +26,7 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 const jobsStore = useJobsStore();
-const { JobDetails } = storeToRefs(jobsStore);
+const { JobDetails, JobDetailsById } = storeToRefs(jobsStore);
 onMounted(async () => {
   await jobsStore.handleGetJobDetailsBySlug(route.params.slug);
 });
