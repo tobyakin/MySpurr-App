@@ -11,7 +11,9 @@ import {
   deleteJob,
   closeJob,
   viewJobsDetailsById,
-  getAllTalents
+  getAllTalents,
+  getApplicants,
+  getTalentApplication
 } from '@/services/Job'
 
 export const useJobsStore = defineStore('jobs', () => {
@@ -22,7 +24,8 @@ export const useJobsStore = defineStore('jobs', () => {
   const JobDetails = ref({})
   const JobDetailsById = ref({})
   const talent = ref({})
-
+const applicants = ref({})
+const talentApplication = ref({})
   // const jobApplicationForm = reactive({
   //   job_id: '',
   //   rate: '',
@@ -172,6 +175,22 @@ export const useJobsStore = defineStore('jobs', () => {
       console.error(error)
     }
   }
+  const handleGetApplicants = async (id) => {
+    try {
+      applicants.value = await getApplicants(id)
+      return applicants.value
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const handleGetTalentApplication = async (id) => {
+    try {
+      talentApplication.value = await getTalentApplication(id)
+      return talentApplication.value
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return {
     Job,
@@ -194,6 +213,10 @@ export const useJobsStore = defineStore('jobs', () => {
     JobDetailsById,
     handleGetJobDetailsById,
     talent,
-    allTalents
+    allTalents,
+    applicants,
+    handleGetApplicants,
+    talentApplication,
+    handleGetTalentApplication
   }
 })

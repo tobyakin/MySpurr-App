@@ -106,14 +106,14 @@ const router = createRouter({
     },
 
     {
-      path: '/applications/:slug',
+      path: '/applications/:id',
       name: 'applications',
       component: AllApplications,
       beforeEnter: [middleware.redirectLogin]
     },
 
     {
-      path: '/preview-job/:slug',
+      path: '/preview-job/:id',
       name: 'preview-job',
       component: PreviewJob,
       beforeEnter: [middleware.redirectLogin]

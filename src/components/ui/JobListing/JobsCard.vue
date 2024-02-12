@@ -20,8 +20,8 @@ const showDocument = ref({});
 const showDocumentToggle = ref(false);
 const reason = ref("");
 
-const redirectToPreviewJob = (slug) => {
-  router.push({ name: "preview-job", params: { slug: slug } });
+const redirectToPreviewJob = (id) => {
+  router.push({ name: "preview-job", params: { id: id } });
 };
 defineProps({
   job: Object,
@@ -157,7 +157,7 @@ const deleteJob = async (slug) => {
               <ul class="!mb-0">
                 <li>
                   <button
-                    @click="redirectToPreviewJob(job.slug)"
+                    @click="redirectToPreviewJob(job.id)"
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownEye />

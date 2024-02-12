@@ -15,7 +15,7 @@ import { useJobsStore } from "@/stores/jobs";
 import { useTabStore } from "@/stores/tab";
 const store = useTabStore();
 const jobsStore = useJobsStore();
-const { JobDetails } = storeToRefs(jobsStore);
+const { JobDetailsById } = storeToRefs(jobsStore);
 const route = useRoute();
 const router = useRouter();
 const loading = ref(false);
@@ -38,7 +38,7 @@ const gotoApplications = (slug) => {
   router.push({ name: "applications", params: { slug: slug } });
 };
 onMounted(async () => {
-  await jobsStore.handleGetJobDetailsBySlug(route.params.slug);
+  await jobsStore.handleGetJobDetailsById(route.params.id);
 });
 </script>
 
@@ -58,7 +58,7 @@ onMounted(async () => {
             <div class="flex lg:flex-row flex-col gap-4 justify-between">
               <div class="">
                 <p class="text-[22.805px] font-Satoshi400 flex text-[#000]">
-                  {{ JobDetails?.data?.company?.business_name }}
+                  {{ JobDetailsById?.data?.company?.business_name }}
                 </p>
                 <div class="flex mt-1 gap-1">
                   <VerifyIcon class="w-4" />
@@ -91,7 +91,7 @@ onMounted(async () => {
             <p
               class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]"
             >
-              {{ JobDetails?.data?.job_title }}
+              {{ JobDetailsById?.data?.job_title }}
             </p>
             <button
               class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
@@ -102,7 +102,7 @@ onMounted(async () => {
           <div class="flex justify-between lg:mt-2 mt-6">
             <div class="flex gap-3 flex-wrap items-center">
               <div
-                v-for="skill in JobDetails?.data?.skills"
+                v-for="skill in JobDetailsById?.data?.skills"
                 :key="skill"
                 class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
               >
@@ -118,40 +118,40 @@ onMounted(async () => {
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
           <p class="text-[#244034] text-[14.104px] font-Satoshi500">
-            {{ store.abbr(JobDetails?.data?.salary_min) }}-
-            {{ store.abbr(JobDetails?.data?.salary_max) }}/
-            {{ JobDetails?.data?.salaray_type }}
+            {{ store.abbr(JobDetailsById?.data?.salary_min) }}-
+            {{ store.abbr(JobDetailsById?.data?.salary_max) }}/
+            {{ JobDetailsById?.data?.salaray_type }}
           </p>
         </div>
         <!-- <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Expertise</p>
         <p class="text-[#244034] text-[17.104px] font-Satoshi500">
-          {{ JobDetails?.data?.qualification }}
+          {{ JobDetailsById?.data?.qualification }}
         </p>
       </div> -->
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
           <p class="text-[#244034] text-[14.104px] font-Satoshi500">
-            {{ JobDetails?.data?.state }},
-            {{ JobDetails?.data?.country }}
+            {{ JobDetailsById?.data?.state }},
+            {{ JobDetailsById?.data?.country }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Job Type</p>
           <p class="text-[#244034] text-[14.104px] font-Satoshi500">
-            {{ JobDetails?.data?.job_type }}
+            {{ JobDetailsById?.data?.job_type }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Date</p>
           <p class="text-[#244034] text-[14.104px] font-Satoshi500">
-            {{ JobDetails?.data?.date_created }}
+            {{ JobDetailsById?.data?.date_created }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Experience</p>
           <p class="text-[#244034] text-[14.104px] font-Satoshi500">
-            {{ JobDetails?.data?.experience }}
+            {{ JobDetailsById?.data?.experience }}
           </p>
         </div>
       </div>
@@ -159,14 +159,14 @@ onMounted(async () => {
         <div class="lg:w-[60%] flex flex-col gap-6 justify-between p-4">
           <div>
             <p
-              v-if="JobDetails?.data?.description"
+              v-if="JobDetailsById?.data?.description"
               class="text-[16.236px] text-[#000] font-Satoshi500"
             >
               Job Description
             </p>
 
             <div
-              v-html="JobDetails?.data?.description"
+              v-html="JobDetailsById?.data?.description"
               class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px]"
             ></div>
 
@@ -174,7 +174,7 @@ onMounted(async () => {
               Responsibilities
             </p>
             <div
-              v-html="JobDetails?.data?.responsibilities"
+              v-html="JobDetailsById?.data?.responsibilities"
               class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] mt-4 leading-[24.689px]"
             ></div>
 
@@ -182,18 +182,18 @@ onMounted(async () => {
               Required Skills:
             </p>
             <div
-              v-html="JobDetails?.data?.required_skills"
+              v-html="JobDetailsById?.data?.required_skills"
               class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] leading-[24.689px]"
             ></div>
 
             <p
-              v-if="JobDetails?.data?.benefits"
+              v-if="JobDetailsById?.data?.benefits"
               class="text-[16.236px] text-[#000] font-Satoshi500"
             >
               Benefits:
             </p>
             <div
-              v-html="JobDetails?.data?.benefits"
+              v-html="JobDetailsById?.data?.benefits"
               class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
             ></div>
           </div>
@@ -214,7 +214,7 @@ onMounted(async () => {
               <div>
                 <div class="flex gap-2 items-center">
                   <p class="text-[20.166px] font-Satoshi400 flex text-[#000]">
-                    {{ JobDetails?.data?.company.business_name }}
+                    {{ JobDetailsById?.data?.company.business_name }}
                   </p>
                   <div class="flex mt-1 gap-1">
                     <VerifyIcon class="w-4" />
@@ -238,7 +238,7 @@ onMounted(async () => {
               </div>
             </div>
             <div
-              v-html="JobDetails?.data?.company.about_business"
+              v-html="JobDetailsById?.data?.company.about_business"
               class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
             ></div>
             <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
@@ -271,13 +271,13 @@ onMounted(async () => {
       </div>
       <div class="flex lg:flex-row flex-col gap-6 items-end mt-20 justify-end">
         <button
-          @click="gotoApplications(JobDetails?.data?.slug)"
+          @click="gotoApplications(JobDetailsById?.data?.slug)"
           class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
         >
           VIEW APPLICANTS
         </button>
         <button
-          @click="closeJob(JobDetails?.data?.slug)"
+          @click="closeJob(JobDetailsById?.data?.slug)"
           :disabled="loading"
           :class="loading ? 'cursor-not-allowed' : ''"
           class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"

@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col gap-[45px]">
-    <Header :JobDetails="JobDetails?.data" />
+    <Header :JobDetails="JobDetailsById?.data" />
     <div class="flex flex-row gap-4">
       <div class="w-[40%]">
         <h4 class="text-[#00000066] text-[12.032px] font-Satoshi400">
           All <span class="text-[#000000] font-Satoshi500">45</span> Applicants
         </h4>
         <div class="w-full flex flex-col gap-[14px] mt-[44px]">
-          <ApplicantsCard v-for="i in 2" :key="i" />
+          <ApplicantsCard v-for="i in applicants?.data?.applicants" :key="i" />
         </div>
       </div>
       <div class="w-full"><ApplicantProfile /></div>
@@ -26,9 +26,13 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 const jobsStore = useJobsStore();
-const { JobDetails, JobDetailsById } = storeToRefs(jobsStore);
+const { JobDetails, JobDetailsById, applicants, talentApplication } = storeToRefs(
+  jobsStore
+);
 onMounted(async () => {
-  await jobsStore.handleGetJobDetailsBySlug(route.params.slug);
+  await jobsStore.handleGetJobDetailsById(route.params.id);
+  await jobsStore.handleGetApplicants(route.params.id);
+  // await jobsStore.handleGetTalentApplication(route.params.id);
 });
 </script>
 
