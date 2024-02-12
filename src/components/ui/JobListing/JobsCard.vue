@@ -94,9 +94,10 @@ const deleteJob = async (slug) => {
               class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-2"
             >
               <p>{{ job.applicants }}</p>
-              <span class="text-[17.633px] !p-2 !py-0 btn-brand">{{
-                job.recent_applicants
-              }}</span>
+              <span
+                class="text-[17.633px] !p-2 !py-0 btn-brand !border-none !px-3 !text-[#000000E5] !bg-[#92E4EC]"
+                >{{ job.recent_applicants }}</span
+              >
             </div>
           </div>
           <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
