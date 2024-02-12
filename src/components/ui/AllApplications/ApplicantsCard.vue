@@ -56,14 +56,14 @@
     >
       <img
         loading="lazy"
-        v-for="item in talent?.porfolio"
+        v-for="item in talent?.portfolio"
         :key="item.id"
         :src="item?.cover_image"
-        class="h-[107.333px] flex flex-col w-auto rounded-lg"
-        alt=""
+        class="h-[107.333px] flex flex-col w-auto object-cover rounded-lg"
+        :alt="item?.title"
       />
     </div>
-    <button class="flex items-center gap-4 mt-6">
+    <button @click="viewProfile(talent?.id)" class="flex items-center gap-4 mt-6">
       <p class="text-[10.378px] font-Satoshi500 text-[#244034]">View Profile</p>
       <ArrowRight />
     </button>
@@ -72,22 +72,15 @@
 <script setup>
 import RatedBadge from "@/components/icons/ratedBadge.vue";
 import GreenIcon from "@/components/icons/greenIcon.vue";
-import SampleOne from "@/assets/image/sampleOne.webp";
-// import SampleTwo from "@/assets/img/sampleTwo.webp";
-import SampleThree from "@/assets/image/sampleThree.webp";
-// import SampleFour from "@/assets/img/sampleFour.webp";
 import ArrowRight from "@/components/icons/arrowRight.vue";
 import Icon from "@/assets/defultAvater.png";
 
-const Porfolio = [
-  { img: SampleOne },
-  { img: SampleThree },
-  { img: SampleThree },
-  { img: SampleOne },
-  { img: SampleThree },
-  { img: SampleOne },
-];
 defineProps({
   talent: Object,
 });
+const emit = defineEmits(["viewProfile"]);
+
+const viewProfile = (id) => {
+  emit("viewProfile", id);
+};
 </script>

@@ -11,16 +11,17 @@
             v-for="talent in applicants?.data?.applicants"
             :key="talent.id"
             :talent="talent"
+            @viewProfile="handleViewProfile"
           />
         </div>
       </div>
-      <div class="w-full"><ApplicantProfile /></div>
+      <div class="w-full"><ApplicantProfile :talents="talentApplication?.data" /></div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref, watch } from "vue";
 import Header from "@/components/ui/AllApplications/Header.vue";
 import ApplicantsCard from "@/components/ui/AllApplications/ApplicantsCard.vue";
 import ApplicantProfile from "@/components/ui/AllApplications/ApplicantProfile.vue";
@@ -33,10 +34,18 @@ const jobsStore = useJobsStore();
 const { JobDetails, JobDetailsById, applicants, talentApplication } = storeToRefs(
   jobsStore
 );
+const applicantsId = ref(null);
+const handleViewProfile = (id) => {
+  applicantsId.value = id;
+  console.log(id);
+};
+watch(applicantsId, async (newInput) => {
+  await jobsStore.handleGetTalentApplication(newInput);
+});
+
 onMounted(async () => {
   await jobsStore.handleGetJobDetailsById(route.params.id);
   await jobsStore.handleGetApplicants(route.params.id);
-  // await jobsStore.handleGetTalentApplication(route.params.id);
 });
 </script>
 
