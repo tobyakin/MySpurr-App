@@ -1,5 +1,5 @@
 <template>
-  <div id="element-to-convert" class="py-20 container talent-cv">
+  <div class="py-20 container">
     <div
       class="bg-[#E9FAFB] border-[#F6F6F6] flex lg:flex-row flex-col gap-5 justify-between items-center border-[1px] rounded-[15px] p-6 px-14"
     >
@@ -62,7 +62,9 @@
     </div>
     <div class="flex flex-col lg:flex-row mt-10 w-full">
       <div class="lg:w-[70%] p-4">
-        <p class="text-[28px] text-[#000] font-Satoshi500">Overview</p>
+        <p v-if="talent?.overview" class="text-[28px] text-[#000] font-Satoshi500">
+          Overview
+        </p>
         <div class="text-[#000000BF] font-Satoshi400 text-[16px] mt-4 leading-[35px]">
           <p>
             {{ talent?.overview }}
@@ -74,7 +76,12 @@
           <!--               {{ talent?.top_skills.length - 10 }}+
  -->
         </div>
-        <p class="text-[28px] text-[#000] font-Satoshi500 mb-4 mt-6">Skills</p>
+        <p
+          v-if="talent?.top_skills?.length"
+          class="text-[28px] text-[#000] font-Satoshi500 mb-4 mt-6"
+        >
+          Skills
+        </p>
         <div class="flex gap-4 flex-wrap">
           <div
             v-for="item in talent?.top_skills"
@@ -87,13 +94,28 @@
             class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
           ></div>
         </div>
-        <p class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8">Education</p>
+        <p
+          v-if="talent?.education?.length"
+          class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8"
+        >
+          Education
+        </p>
         <EducationDetails :items="talent?.education" />
         <!-- <SampleFive :items="items" /> -->
 
-        <p class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8">Work Experience</p>
+        <p
+          v-if="talent?.employment?.length"
+          class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8"
+        >
+          Work Experience
+        </p>
         <WorkExperience :items="talent?.employment" />
-        <p class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8">Portfolio</p>
+        <p
+          v-if="talent?.portfolio?.length"
+          class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8"
+        >
+          Portfolio
+        </p>
         <div
           class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
         >
@@ -101,7 +123,7 @@
             loading="lazy"
             @click="redirectToSinglePortFolio(img.id)"
             role="button"
-            v-for="(img, index) in talent?.portfolio"
+            v-for="img in talent?.portfolio"
             :key="img"
             :src="img.cover_image"
             class="h-[214.078px] flex flex-col w-auto rounded-lg"
@@ -111,7 +133,7 @@
         <p class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8">Reviews</p>
         <div class="flex flex-col gap-4">
           <div
-            v-for="i in 3"
+            v-for="i in 1"
             :key="i"
             class="border-[#2440341A] border-[1.265px] rounded-[9.732px] p-6"
           >
@@ -160,7 +182,7 @@
           </div>
           <div class="">
             <button
-              class="btn-brand !border-none !w-full !py-2 !text-[#FFFFFF] text-center !bg-[#31795A]"
+              class="btn-brand !border-none !w-full !px-3 !py-2 !text-[#FFFFFF] text-center !bg-[#31795A]"
             >
               <span class="mb-2">Download CV</span>
             </button>
