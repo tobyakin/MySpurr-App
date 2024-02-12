@@ -14,7 +14,7 @@
     <div class="mt-14 flex flex-col gap-8">
       <JobsCard
         class="min-w-[95%] lg:min-w-[45%]"
-        v-for="item in MyJob.data"
+        v-for="item in MyJob?.data"
         :key="item"
         :job="item"
       />
