@@ -23,6 +23,9 @@ const reason = ref("");
 const redirectToPreviewJob = (id) => {
   router.push({ name: "preview-job", params: { id: id } });
 };
+const redirectToEditJob = (id) => {
+  router.push({ name: "edit-job", params: { id: id } });
+};
 defineProps({
   job: Object,
 });
@@ -34,9 +37,9 @@ const toggleDocument = (document) => {
   reason.value = document.reason;
   showDocumentToggle.value = true;
 };
-const deleteJob = async (slug) => {
+const deleteJob = async (id) => {
   try {
-    const res = await jobsStore.handelDeleteJob(slug);
+    const res = await jobsStore.handelDeleteJob(id);
     await jobsStore.handleMyJobs();
     return res;
   } catch (error) {
@@ -177,7 +180,7 @@ const deleteJob = async (slug) => {
                 </li>
                 <li>
                   <button
-                    to="/"
+                    @click="redirectToEditJob(job.id)"
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownEditIcon />
@@ -186,6 +189,7 @@ const deleteJob = async (slug) => {
                 </li>
                 <li>
                   <button
+                    @click="deleteJob(job.id)"
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownDeleteIcon />

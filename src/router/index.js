@@ -32,6 +32,7 @@ import FindTalents from '@/views/FindTalents/FindTalents.vue'
 import PreviewJob from '@/views/JobListing/PreviewJob.vue'
 import AllApplications from '@/views/AllApplications/AllApplications.vue'
 import PublicProfile from '@/views/Profile/PublicProfile.vue'
+import EditJob from '@/views/Jobs/Business/EditJob.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -183,6 +184,12 @@ const router = createRouter({
       path: '/post-job',
       name: 'post-jobs',
       component: PostJob,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/edit-job/:id',
+      name: 'edit-job',
+      component: EditJob,
       beforeEnter: [middleware.redirectLogin]
     },
     {
