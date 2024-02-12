@@ -31,6 +31,7 @@ import JobListingPage from '@/views/JobListing/JobListingPage.vue'
 import FindTalents from '@/views/FindTalents/FindTalents.vue'
 import PreviewJob from '@/views/JobListing/PreviewJob.vue'
 import AllApplications from '@/views/AllApplications/AllApplications.vue'
+import PublicProfile from '@/views/Profile/PublicProfile.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -128,6 +129,12 @@ const router = createRouter({
       path: '/open-ticket',
       name: 'open-ticket',
       component: OpenTicket,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/talent/:name/:uuid',
+      name: 'view-talent',
+      component: PublicProfile,
       beforeEnter: [middleware.redirectLogin]
     },
     {

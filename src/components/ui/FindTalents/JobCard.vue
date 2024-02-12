@@ -62,7 +62,13 @@
         alt=""
       />
     </div>
-    <router-link to="/" class="flex items-center gap-4 mt-6">
+    <router-link
+      :to="{
+        name: 'view-talent',
+        params: { uuid: talent.uniqueId, name: talent.first_name },
+      }"
+      class="flex items-center gap-4 mt-6"
+    >
       <p class="lg:text-[20.699px] text-[14px] font-Satoshi500 text-[#244034]">
         View Profile
       </p>
