@@ -58,7 +58,7 @@
         v-for="item in talent?.portfolio"
         :key="item"
         :src="item?.cover_image"
-        class="h-[140.078px] flex flex-col w-auto rounded-lg"
+        class="h-[140.078px] flex flex-col object-cover w-auto rounded-lg"
         alt=""
       />
     </div>
