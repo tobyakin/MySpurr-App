@@ -31,9 +31,7 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 const jobsStore = useJobsStore();
-const { JobDetails, JobDetailsById, applicants, talentApplication } = storeToRefs(
-  jobsStore
-);
+const { JobDetailsById, applicants, talentApplication } = storeToRefs(jobsStore);
 const applicantsId = ref(null);
 const handleViewProfile = (id) => {
   applicantsId.value = id;
