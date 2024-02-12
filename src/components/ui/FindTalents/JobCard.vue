@@ -75,25 +75,11 @@ import RatedBadge from "@/components/icons/ratedBadge.vue";
 import GreenIcon from "@/components/icons/greenIcon.vue";
 import LoveIcon from "@/components/icons/loveIcon.vue";
 import SearchIcon from "@/components/icons/searchIcon.vue";
-import SampleOne from "@/assets/image/sampleOne.webp";
-import SampleTwo from "@/assets/image/sampleTwo.webp";
-import SampleThree from "@/assets/image/sampleThree.webp";
-import SampleFour from "@/assets/image/sampleFour.webp";
 import ArrowRight from "@/components/icons/arrowRight.vue";
 import Icon from "@/assets/defultAvater.png";
 import { useTabStore } from "@/stores/tab";
 const store = useTabStore();
 
-const Porfolio = [
-  { img: SampleOne },
-  { img: SampleTwo },
-  { img: SampleThree },
-  { img: SampleFour },
-  { img: SampleThree },
-  { img: SampleFour },
-  { img: SampleThree },
-  { img: SampleFour },
-];
 defineProps({
   talent: Object,
 });
