@@ -7,7 +7,11 @@
           All <span class="text-[#000000] font-Satoshi500">45</span> Applicants
         </h4>
         <div class="w-full flex flex-col gap-[14px] mt-[44px]">
-          <ApplicantsCard v-for="i in applicants?.data?.applicants" :key="i" />
+          <ApplicantsCard
+            v-for="talent in applicants?.data?.applicants"
+            :key="talent.id"
+            :talent="talent"
+          />
         </div>
       </div>
       <div class="w-full"><ApplicantProfile /></div>
