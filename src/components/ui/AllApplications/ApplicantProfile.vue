@@ -104,7 +104,7 @@
           </button>
         </div>
 
-        <div
+        <!-- <div
           class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
         >
           <img
@@ -114,7 +114,7 @@
             class="h-[214.078px] flex flex-col w-auto rounded-lg"
             alt=""
           />
-        </div>
+        </div> -->
         <p class="text-[14.038px] text-[#000] font-Satoshi500 mb-12 mt-8">
           Screening Question Responses
         </p>
