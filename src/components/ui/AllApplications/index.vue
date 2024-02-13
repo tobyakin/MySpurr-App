@@ -19,7 +19,15 @@
           />
         </div>
       </div>
-      <div class="w-full"><ApplicantProfile :talents="talentApplication?.data" /></div>
+      <div class="w-full">
+        <ApplicantProfile
+          v-if="talentApplication.data"
+          :talents="talentApplication?.data"
+        />
+        <div v-else class="flex justify-center items-center">
+          <h3 class="my-20">Select Talents to view details</h3>
+        </div>
+      </div>
     </div>
   </div>
 </template>

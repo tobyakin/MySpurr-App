@@ -95,15 +95,22 @@
         <p class="text-[14.038px] text-[#000] font-Satoshi500 mb-12 mt-8">
           Relevant File attached
         </p>
+        <div class="w-full mt-6">
+          <button
+            @click="downloadFile(talents?.other_file, 'fileName')"
+            class="btn-brand !bg-[#31795A] !border-none text-center w-full !px-[1px] !py-[4px] !text-white"
+          >
+            Download File
+          </button>
+        </div>
+
         <div
           class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
         >
           <img
             loading="lazy"
             role="button"
-            v-for="(img, index) in talents?.portfolio"
-            :key="img"
-            :src="img.cover_image"
+            :src="talents?.other_file"
             class="h-[214.078px] flex flex-col w-auto rounded-lg"
             alt=""
           />
@@ -113,14 +120,14 @@
         </p>
         <div class="flex flex-col mt-[8px] gap-4">
           <div
-            v-for="i in 2"
+            v-for="i in talents?.questions"
             :key="i"
             class="border-[#2440341A] bg-white border-[1.265px] rounded-[9.732px] p-4"
           >
             <p
               class="text-[#001E00] font-Satoshi400 text-[15.727px] border-b-[0.392px] !pb-[4px] border-b-[#254035AB] tracking-[0.6px]"
             >
-              question
+              {{ i.question }}
             </p>
             <p class="text-[#5e6466] font-Satoshi400 text-[14px] mt-2 tracking-[0.6px]">
               .....
@@ -183,4 +190,27 @@ import CertificateBadge from "@/components/icons/certificateBadge.vue";
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 
 defineProps({ talents: Object });
+// const getAnswersForQuestion = (questionId) => {
+// return talents.filter((answer) => answer.question_id === questionId);
+// };
+function downloadFile(url, filename) {
+  // Create an anchor element
+  const anchor = document.createElement("a");
+  anchor.style.display = "none"; // Make it hidden
+
+  // Set the href attribute to the URL
+  anchor.href = url;
+
+  // Set the download attribute to specify the filename
+  anchor.download = filename;
+
+  // Append the anchor to the body
+  document.body.appendChild(anchor);
+
+  // Trigger a click event on the anchor
+  anchor.click();
+
+  // Clean up: remove the anchor from the body
+  document.body.removeChild(anchor);
+}
 </script>
