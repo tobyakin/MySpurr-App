@@ -13,6 +13,8 @@ import 'ant-design-vue/dist/reset.css'
 import Multiselect from 'vue-multiselect'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { VueQueryPlugin } from 'vue-query'
+
 import {
   LRectangle,
   LMap,
@@ -44,7 +46,8 @@ app.component('l-popup', LPopup)
 app.component('l-polyline', LPolyline)
 app.component('l-polygon', LPolygon)
 app.component('l-geo-json', LGeoJson),
- app.use(Toast, { position: POSITION.TOP_RIGHT })
+app.use(Toast, { position: POSITION.TOP_RIGHT })
+app.use(VueQueryPlugin)
 
 app.use(createPinia())
 app.use(router)

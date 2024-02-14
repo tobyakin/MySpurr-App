@@ -198,7 +198,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, computed, reactive, defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from "vue";
 import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
 import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
 import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
@@ -207,9 +207,10 @@ import BeIcon from "@/components/icons/beIcon.vue";
 import TwitterIcon from "@/components/icons/twitterIcon.vue";
 import RateStar from "@/components/icons/rateStar.vue";
 import CertificateBadge from "@/components/icons/certificateBadge.vue";
-import LinkIcon from "@/components/icons/linkIcon.vue";
+// import LinkIcon from "@/components/icons/linkIcon.vue";
 import UserAvater from "@/components/ui/Avater/UserAvater.vue";
 import CalenderWithPen from "@/components/icons/calenderWithPen.vue";
+import SearchIconVeritical from "@/components/icons/searchIconVeritical.vue";
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 
 defineProps({

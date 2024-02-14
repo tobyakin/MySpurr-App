@@ -23,14 +23,32 @@
 </template>
 <script setup>
 import { defineAsyncComponent, ref, computed, onMounted, reactive, watch } from "vue";
-
+import { useQuery } from "vue-query";
 import JobsCard from "./JobsCard.vue";
 import { storeToRefs } from "pinia";
 
 import { useJobsStore } from "@/stores/jobs";
 const jobsStore = useJobsStore();
 const { MyJob } = storeToRefs(jobsStore);
-onMounted(async () => {
-  await jobsStore.handleMyJobs();
+const getMyJobs = async () => {
+  let response = await jobsStore.handleMyJobs();
+  return response;
+};
+const fetchData = async () => {
+  await Promise.all([getMyJobs()]);
+};
+
+fetchData();
+
+useQuery(["myJobs"], getMyJobs, {
+  retry: 10,
+  staleTime: 10000,
+  onSuccess: (data) => {
+    MyJob.value = data;
+  },
 });
+
+// onMounted(async () => {
+//   await jobsStore.handleMyJobs();
+// });
 </script>

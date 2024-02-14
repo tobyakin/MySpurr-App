@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 // import { useStore } from "@/stores/user";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
@@ -10,7 +10,7 @@ import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 // let store = useStore();
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
-
+import { useQuery } from "vue-query";
 import { useJobsStore } from "@/stores/jobs";
 import { useTabStore } from "@/stores/tab";
 const store = useTabStore();
@@ -34,12 +34,30 @@ const closeJob = async (slug) => {
     console.log(error);
   }
 };
+
 const gotoApplications = (slug) => {
   router.push({ name: "applications", params: { slug: slug } });
 };
-onMounted(async () => {
-  await jobsStore.handleGetJobDetailsById(route.params.id);
+const getJobDetails = async () => {
+  let response = await jobsStore.handleGetJobDetailsById(route.params.id);
+  return response;
+};
+const fetchData = async () => {
+  await Promise.all([getJobDetails()]);
+};
+
+fetchData();
+useQuery(["JobDetails", route.params.id], getJobDetails, {
+  retry: 10,
+  staleTime: 10000,
+  onSuccess: (data) => {
+    JobDetailsById.value = data;
+  },
 });
+
+// onMounted(async () => {
+//   await jobsStore.handleGetJobDetailsById(route.params.id);
+// });
 </script>
 
 <template>

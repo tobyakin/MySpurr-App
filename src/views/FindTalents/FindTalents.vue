@@ -1,7 +1,8 @@
 <script setup>
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import { defineAsyncComponent, onMounted, computed, reactive, ref, watch } from "vue";
+import { defineAsyncComponent, computed, ref, watch } from "vue";
 // import { useHead } from "@vueuse/head";
+import { useQuery } from "vue-query";
 import { storeToRefs } from "pinia";
 // import GoPro from "@/components/Bander/GoPro.vue";
 import Arrow from "@/components/icons/paginationArrow.vue";
@@ -57,10 +58,27 @@ const displayedPageNumbers = computed(() => {
 watch(currentPage, (newPage) => {
   console.log("Current Page:", newPage);
 });
+const getTallents = async () => {
+  let response = await jobsStore.allTalents();
+  return response;
+};
+const fetchData = async () => {
+  await Promise.all([getTallents()]);
+};
 
-onMounted(async () => {
-  await jobsStore.allTalents();
+fetchData();
+
+useQuery(["tallents"], getTallents, {
+  retry: 10,
+  staleTime: 10000,
+  onSuccess: (data) => {
+    talent.value = data;
+  },
 });
+
+// onMounted(async () => {
+//   await jobsStore.allTalents();
+// });
 </script>
 
 <template>

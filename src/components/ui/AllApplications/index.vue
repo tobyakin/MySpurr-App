@@ -40,6 +40,7 @@ import ApplicantProfile from "@/components/ui/AllApplications/ApplicantProfile.v
 import { useJobsStore } from "@/stores/jobs";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
+import { useQuery } from "vue-query";
 
 const route = useRoute();
 const jobsStore = useJobsStore();
@@ -52,10 +53,54 @@ const handleViewProfile = (id) => {
 watch(applicantsId, async (newInput) => {
   await jobsStore.handleGetTalentApplication(newInput);
 });
-
 onMounted(async () => {
-  await jobsStore.handleGetJobDetailsById(route.params.id);
-  await jobsStore.handleGetApplicants(route.params.id);
+  // await jobsStore.handleGetJobDetailsById(route.params.id);
+  // await jobsStore.handleGetApplicants(route.params.id);
+});
+const getJobDetailsById = async () => {
+  let response = await jobsStore.handleGetJobDetailsById(route.params.id);
+  return response;
+};
+const getApplicants = async () => {
+  let response = await jobsStore.handleGetApplicants(route.params.id);
+  return response;
+};
+const fetchData = async () => {
+  await Promise.all([getJobDetailsById(), getApplicants()]);
+};
+
+fetchData();
+// const { isLoading, isError, data, error } = useQuery(
+//   ["getJobDetailsById"],
+//   getJobDetailsById,
+//   getApplicants,
+//   {
+//     retry: 10, // Will retry failed requests 10 times before displaying an error
+//     staleTime: 10000,
+//   }
+// );
+// const { isLoading, isError, data, error } = useQuery(
+//   ["getJobDetailsById"],
+//   getApplicants,
+//   {
+//     retry: 10, // Will retry failed requests 10 times before displaying an error
+//     staleTime: 10000,
+//   }
+// );
+useQuery(["getJobDetailsById", route.params.id], getJobDetailsById, {
+  retry: 10,
+  staleTime: 10000,
+  onSuccess: (data) => {
+    JobDetailsById.value = data;
+  },
+});
+
+useQuery(["getApplicants", route.params.id], getApplicants, {
+  retry: 10,
+  staleTime: 10000,
+  onSuccess: (data) => {
+    applicants.value = data;
+  },
 });
 </script>
 
