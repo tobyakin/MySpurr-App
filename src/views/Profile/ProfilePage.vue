@@ -23,20 +23,25 @@ import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience
 import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
 import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.vue";
 // import Map from "@/components/ui/Map/Map.vue";
-import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
+import { storeToRefs } from "pinia";
+// import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
+import { useQuery } from "vue-query";
+
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 
 const toast = useToast();
 
 import { useRouter } from "vue-router";
 const router = useRouter();
-const showPageLoader = ref(true);
+// const showPageLoader = ref(true);
 
 let profile = useUserProfile();
+const { user } = storeToRefs(profile);
+
 const userDetails = computed(() => {
-  return profile.user.data;
+  return user?.value?.data;
 });
 let view = null;
 let showModal = ref(false);
@@ -113,24 +118,40 @@ const copyUrl = () => {
   }
 };
 
-onMounted(async () => {
-  try {
-    await profile.userProfile();
-  } catch (error) {
-    /* empty */
-  } finally {
-    showPageLoader.value = !showPageLoader.value;
-  }
+// onMounted(async () => {
+//   try {
+//     await profile.userProfile();
+//   } catch (error) {
+//     /* empty */
+//   } finally {
+//     showPageLoader.value = !showPageLoader.value;
+//   }
+// });
+const getProfileData = async () => {
+  let response = await profile.userProfile();
+  return response;
+};
+const fetchData = async () => {
+  await Promise.all([getProfileData()]);
+};
+
+fetchData();
+
+useQuery(["profile"], getProfileData, {
+  retry: 10,
+  staleTime: 10000,
+  onSuccess: (data) => {
+    user.value = data;
+  },
 });
 </script>
 
 <template>
   <DashboardLayout>
-    <PagePreLoader v-if="showPageLoader" />
-    <div
-      v-else
-      class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10"
-    >
+    <!-- {{ user?.data }} -->
+
+    <!-- <PagePreLoader v-if="showPageLoader" /> -->
+    <div class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10">
       <div id="talent-cv" class="py-20 container talent-cv">
         <div
           class="bg-[#E9FAFB] border-[#F6F6F6] flex lg:flex-row flex-col gap-5 justify-between items-center border-[1px] rounded-[15px] p-6 px-14"
