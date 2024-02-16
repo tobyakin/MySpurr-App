@@ -7,6 +7,10 @@ import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 import MatchIcon from "@/components/icons/matchIcon.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import { useRouter } from "vue-router";
+import { useTabStore } from "@/stores/tab";
+
+const store = useTabStore();
+
 const router = useRouter();
 
 const redirectToJobDetails = (id) => {
@@ -71,7 +75,8 @@ defineProps({
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
               <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
-                {{ job.rate }}
+                {{ store.abbr(job.salary_min) }}- {{ store.abbr(job.salary_max) }}/
+                {{ job.salaray_type }}
               </p>
             </div>
             <div class="flex gap-2 items-center">
@@ -83,12 +88,14 @@ defineProps({
               <div
                 class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
-                <LocationIcon /><span class="py-[0.25px]">{{ job.location }}</span>
+                <LocationIcon /><span class="py-[0.25px]"
+                  >{{ job.state }}, {{ job.country }}</span
+                >
               </div>
               <div
                 class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
-                <TimerIcon /><span class="py-[0.25px]">Anytime</span>
+                <TimerIcon /><span class="py-[0.25px]"></span>
               </div>
             </div>
           </div>
@@ -115,10 +122,19 @@ defineProps({
                 </button>
               </div>
               <button
-                @click="redirectToJobDetails(1)"
-                class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+                @click="redirectToJobDetails(job.id)"
+                :disabled="job.application_status === 'applied'"
+                :class="
+                  job.application_status === 'applied'
+                    ? 'bg-gray-300 cursor-not-allowed'
+                    : 'bg-[#43D0DF]'
+                "
+                class="font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
               >
-                APPLY
+                <span v-if="job.application_status === 'applied'">
+                  {{ job.application_status }}
+                </span>
+                <span v-else>APPLY</span>
               </button>
             </div>
           </div>

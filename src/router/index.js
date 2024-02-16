@@ -28,6 +28,11 @@ import AddPortfolio from '@/views/Portfolio/AddPortfolio.vue'
 import EditPortfolio from '@/views/Portfolio/EditPortfolio.vue'
 import OpenTicket from '@/views/HelpCenter/OpenTicket.vue'
 import JobListingPage from '@/views/JobListing/JobListingPage.vue'
+import FindTalents from '@/views/FindTalents/FindTalents.vue'
+import PreviewJob from '@/views/JobListing/PreviewJob.vue'
+import AllApplications from '@/views/AllApplications/AllApplications.vue'
+import PublicProfile from '@/views/Profile/PublicProfile.vue'
+import EditJob from '@/views/Jobs/Business/EditJob.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -89,9 +94,30 @@ const router = createRouter({
       beforeEnter: [middleware.redirectLogin]
     },
     {
+      path: '/talents',
+      name: 'talents',
+      component: FindTalents,
+      beforeEnter: [middleware.redirectLogin]
+    },
+
+    {
       path: '/job-lists',
       name: 'job-lists',
       component: JobListingPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+
+    {
+      path: '/applications/:id',
+      name: 'applications',
+      component: AllApplications,
+      beforeEnter: [middleware.redirectLogin]
+    },
+
+    {
+      path: '/preview-job/:id',
+      name: 'preview-job',
+      component: PreviewJob,
       beforeEnter: [middleware.redirectLogin]
     },
     {
@@ -104,6 +130,12 @@ const router = createRouter({
       path: '/open-ticket',
       name: 'open-ticket',
       component: OpenTicket,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/talent/:name/:uuid',
+      name: 'view-talent',
+      component: PublicProfile,
       beforeEnter: [middleware.redirectLogin]
     },
     {
@@ -152,6 +184,12 @@ const router = createRouter({
       path: '/post-job',
       name: 'post-jobs',
       component: PostJob,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/edit-job/:id',
+      name: 'edit-job',
+      component: EditJob,
       beforeEnter: [middleware.redirectLogin]
     },
     {

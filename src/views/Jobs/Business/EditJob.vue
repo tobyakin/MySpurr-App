@@ -1,167 +1,167 @@
 <script setup>
-import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from "vue";
-import { storeToRefs } from "pinia";
-import VueSlider from "vue-slider-component";
-import "vue-slider-component/theme/antd.css";
-import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
-import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import { useStore } from "@/stores/user";
-import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
-import Arrow from "@/components/icons/paginationArrow.vue";
-import Tabs from "@/components/ui/Jobs/Tabs.vue";
-import { useJobsStore } from "@/stores/jobs";
-import { useSkillsStore } from "@/stores/skills";
-const skillsStore = useSkillsStore();
-const { contriesCode, states } = storeToRefs(skillsStore);
+import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/antd.css'
+import SelectGroup from '@/components/ui/Form/Input/SelectGroup.vue'
+import DashboardLayout from '@/components/layout/dashboardLayout.vue'
+import { useStore } from '@/stores/user'
+import JobRowCard from '@/components/ui/Jobs/JobRowCard.vue'
+import Arrow from '@/components/icons/paginationArrow.vue'
+import Tabs from '@/components/ui/Jobs/Tabs.vue'
+import { useJobsStore } from '@/stores/jobs'
+import { useSkillsStore } from '@/stores/skills'
+const skillsStore = useSkillsStore()
+const { contriesCode, states } = storeToRefs(skillsStore)
 
-const jobsStore = useJobsStore();
-const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore);
-import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
-import Label from "@/components/ui/Form/Input/Label.vue";
-import CirclePlus from "@/components/icons/circlePlus.vue";
-import ViewJobDetailsPage from "@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue";
-import ReviewJob from "@/components/ui/Jobs/ReviewJob.vue";
-import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
-import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+const jobsStore = useJobsStore()
+const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore)
+import FormGroup from '@/components/ui/Form/Input/FormGroup.vue'
+import Label from '@/components/ui/Form/Input/Label.vue'
+import CirclePlus from '@/components/icons/circlePlus.vue'
+import ViewJobDetailsPage from '@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue'
+import ReviewJob from '@/components/ui/Jobs/ReviewJob.vue'
+import CenteredModalLarge from '@/components/ui/CenteredModalLarge.vue'
+import GlobalInput from '@/components/ui/Form/Input/GlobalInput.vue'
 
-let store = useStore();
+let store = useStore()
 let options = ref([
-  { name: "Design" },
-  { name: "UI" },
-  { name: "Digital" },
-  { name: "Graphics" },
-  { name: "Developer" },
-  { name: "Product" },
-  { name: "Microsoft" },
-  { name: "Brand" },
-  { name: "Photoshop" },
-  { name: "Business" },
-  { name: "IT & Technology" },
-  { name: "Branding" },
-  { name: "Finance" },
-]);
-const step = ref([true, false]);
+  { name: 'Design' },
+  { name: 'UI' },
+  { name: 'Digital' },
+  { name: 'Graphics' },
+  { name: 'Developer' },
+  { name: 'Product' },
+  { name: 'Microsoft' },
+  { name: 'Brand' },
+  { name: 'Photoshop' },
+  { name: 'Business' },
+  { name: 'IT & Technology' },
+  { name: 'Branding' },
+  { name: 'Finance' }
+])
+const step = ref([true, false])
 const changeScreen = (from, to, type = null) => {
-  step.value[from] = false;
-  step.value[to] = true;
-};
+  step.value[from] = false
+  step.value[to] = true
+}
 
-const search = ref("");
-const showDropdown = ref(false);
-const highlightedIndex = ref(-1);
-const displayedQuestions = ref([]);
+const search = ref('')
+const showDropdown = ref(false)
+const highlightedIndex = ref(-1)
+const displayedQuestions = ref([])
 
 const addQuestion = () => {
   const lastQuestion =
-    postJobsValue.value.questions[postJobsValue.value.questions.length - 1].question;
-  if (lastQuestion.trim() !== "") {
-    postJobsValue.value.questions.push({ question: "" });
+    postJobsValue.value.questions[postJobsValue.value.questions.length - 1].question
+  if (lastQuestion.trim() !== '') {
+    postJobsValue.value.questions.push({ question: '' })
   }
-};
+}
 const filteredOptions = computed(() => {
-  const searchTerm = search.value.toLowerCase();
-  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
-});
+  const searchTerm = search.value.toLowerCase()
+  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm))
+})
 
 const filterOptions = () => {
-  showDropdown.value = true;
-  highlightedIndex.value = -1;
-};
+  showDropdown.value = true
+  highlightedIndex.value = -1
+}
 const placeholderText = computed(() => {
-  return postJobsValue.value.skills.length >= 5 ? "" : "Add skills";
-});
+  return postJobsValue.value.skills.length >= 5 ? '' : 'Add skills'
+})
 // const shouldDisplayInput = computed(() => {
 //   return postJobsValue.value.skills.length < 5;
 // });
 
 const selectOption = (option) => {
   if (postJobsValue.value.skills.length < 5) {
-    search.value = "";
-    showDropdown.value = false;
-    highlightedIndex.value = -1;
-    postJobsValue.value.skills.push(option);
+    search.value = ''
+    showDropdown.value = false
+    highlightedIndex.value = -1
+    postJobsValue.value.skills.push(option)
   }
-};
+}
 
 const removeSelectedItem = (index) => {
-  postJobsValue.value.skills.splice(index, 1);
-};
+  postJobsValue.value.skills.splice(index, 1)
+}
 
 const highlightNext = () => {
   if (highlightedIndex.value < filteredOptions.value.length - 1) {
-    highlightedIndex.value++;
+    highlightedIndex.value++
   }
-};
+}
 
 const highlightPrevious = () => {
   if (highlightedIndex.value > 0) {
-    highlightedIndex.value--;
+    highlightedIndex.value--
   }
-};
+}
 const getNextId = () => {
-  const ids = options.value.map((option) => parseInt(option.id));
-  const maxId = Math.max(...ids);
-  return (maxId + 1).toString();
-};
+  const ids = options.value.map((option) => parseInt(option.id))
+  const maxId = Math.max(...ids)
+  return (maxId + 1).toString()
+}
 
 const selectHighlightedOption = () => {
   if (highlightedIndex.value >= 0) {
-    selectOption(filteredOptions.value[highlightedIndex.value]);
+    selectOption(filteredOptions.value[highlightedIndex.value])
   } else if (search.value && !filteredOptions.value.length) {
     // If no options match the search term, add the typed item to the list
-    const nextId = getNextId();
+    const nextId = getNextId()
 
-    selectOption({ id: nextId, name: search.value });
+    selectOption({ id: nextId, name: search.value })
   }
-};
+}
 // end tag ends here
-const selectedCountry = ref("");
-const selectedState = ref("");
+const selectedCountry = ref('')
+const selectedState = ref('')
 // computed property to find the country ISO code
 const selectedIso2 = computed(() => {
   const foundCountry = contriesCode?.value?.data?.find(
     (country) => country.name.toLowerCase() === selectedCountry.value.toLowerCase()
-  );
-  return foundCountry ? foundCountry.iso2 : null;
-});
+  )
+  return foundCountry ? foundCountry.iso2 : null
+})
 // computed property to find the state ISO code
 const selectedsiso = computed(() => {
   const foundState = states?.value?.data?.find(
     (state) => state.name.toLowerCase() === selectedState.value.toLowerCase()
-  );
-  return foundState ? foundState.iso2 : null;
-});
+  )
+  return foundState ? foundState.iso2 : null
+})
 // watchers to update the selectedIso2 and selectedsiso
 watch(selectedIso2, async (newInput) => {
-  siso.value = "";
-  await skillsStore.handleGetStates(newInput);
-});
+  siso.value = ''
+  await skillsStore.handleGetStates(newInput)
+})
 // watchers to update the selectedIso2 and selectedsiso
 watch(selectedIso2, async (newInput) => {
-  ciso.value = newInput;
-});
+  ciso.value = newInput
+})
 //watchers to update the selectedsiso
 watch(selectedsiso, async (newInput) => {
-  siso.value = newInput;
-});
+  siso.value = newInput
+})
 watch(selectedCountry, async (newInput) => {
-  postJobsValue.value.country_id = newInput;
-});
+  postJobsValue.value.country_id = newInput
+})
 watch(selectedState, async (newInput) => {
-  postJobsValue.value.state_id = newInput;
-});
+  postJobsValue.value.state_id = newInput
+})
 onMounted(async () => {
-  await skillsStore.getskills();
-  await skillsStore.getJobTitles();
-  await skillsStore.getCountriesCode();
-});
+  await skillsStore.getskills()
+  await skillsStore.getJobTitles()
+  await skillsStore.getCountriesCode()
+})
 </script>
 
 <template>
   <DashboardLayout>
     <div class="container lg:py-20 py-4 mb-20">
       <div v-if="step[0]" class="">
-        <div class="flex flex-col gap-[21px] mb-[53px]">
+        <!-- <div class="flex flex-col gap-[21px] mb-[53px]">
           <h3
             class="lg:text-[45.259px] text-[30px] text-[#000000] lg:leading-[48.087px] font-Satoshi400"
           >
@@ -177,10 +177,8 @@ onMounted(async () => {
               <li>GoPro for unlimited usage</li>
             </ul>
           </div>
-        </div>
-        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">
-          Job Details
-        </h4>
+        </div> -->
+        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">Edit Job Details</h4>
         <div class="mt-8 flex flex-col gap-8">
           <FormGroup
             v-model="postJobsValue.job_title"
@@ -225,11 +223,7 @@ onMounted(async () => {
                 v-model:value="selectedState"
               >
                 <a-select-option disabled>state or city</a-select-option>
-                <a-select-option
-                  v-for="state in states?.data"
-                  :key="state.id"
-                  :value="state.name"
-                >
+                <a-select-option v-for="state in states?.data" :key="state.id" :value="state.name">
                   {{ state.name }}
                 </a-select-option>
               </a-select>
@@ -323,9 +317,7 @@ onMounted(async () => {
             />
           </div>
           <div class="flex flex-col h-[58vh]">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2"
-              >Benefits (If any)*</Label
-            >
+            <Label class="font-Satoshi500 !text-[17.792px] mb-2">Benefits (If any)*</Label>
 
             <QuillEditor
               v-model:content="postJobsValue.benefits"
@@ -338,9 +330,7 @@ onMounted(async () => {
           </div>
         </div>
 
-        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
-          Salary
-        </h4>
+        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">Salary</h4>
         <div class="flex flex-row w-full gap-8">
           <div class="lg:w-[50%]">
             <SelectGroup
@@ -485,9 +475,7 @@ onMounted(async () => {
           </div>
         </div>
         <div class="flex flex-row justify-between items-center mt-[64.05px]">
-          <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px]">
-            Relevant Client Questions
-          </h4>
+          <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px]">Relevant Client Questions</h4>
 
           <button @click="addQuestion"><CirclePlus /></button>
         </div>

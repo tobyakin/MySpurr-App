@@ -6,7 +6,14 @@ import {
   applyForJobs,
   postJobs,
   getMyJobs,
-  myApplications
+  myApplications,
+  viewJobsDetailsBySlug,
+  deleteJob,
+  closeJob,
+  viewJobsDetailsById,
+  getAllTalents,
+  getApplicants,
+  getTalentApplication
 } from '@/services/Job'
 
 export const useJobsStore = defineStore('jobs', () => {
@@ -14,7 +21,11 @@ export const useJobsStore = defineStore('jobs', () => {
   const MyJob = ref([])
   const myJobsApplications = ref([])
   const singleJob = ref({})
-
+  const JobDetails = ref({})
+  const JobDetailsById = ref({})
+  const talent = ref({})
+const applicants = ref({})
+const talentApplication = ref({})
   // const jobApplicationForm = reactive({
   //   job_id: '',
   //   rate: '',
@@ -82,6 +93,39 @@ export const useJobsStore = defineStore('jobs', () => {
       console.error(error)
     }
   }
+  const handelDeleteJob = async (slug) => {
+    try {
+      let res = await deleteJob(slug)
+      return res
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const handelCloseJob = async (slug) => {
+    try {
+      let res = await closeJob(slug)
+      return res
+    } catch (error) {
+      console.error(error)
+    }
+  }
+    const handleGetJobDetailsBySlug = async (slug) => {
+      try {
+        JobDetails.value = await viewJobsDetailsBySlug(slug)
+        return JobDetails.value
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    const handleGetJobDetailsById = async (id) => {
+      try {
+        JobDetailsById.value = await viewJobsDetailsById(id)
+        return JobDetailsById.value
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
     const applyForJob = async (id, payload) => {
       // let payload = {
       //   job_id: id,
@@ -123,6 +167,30 @@ export const useJobsStore = defineStore('jobs', () => {
             /**/
           }
         }
+  const allTalents = async () => {
+    try {
+      talent.value = await getAllTalents()
+      return talent.value
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const handleGetApplicants = async (id) => {
+    try {
+      applicants.value = await getApplicants(id)
+      return applicants.value
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const handleGetTalentApplication = async (id) => {
+    try {
+      talentApplication.value = await getTalentApplication(id)
+      return talentApplication.value
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return {
     Job,
@@ -137,6 +205,18 @@ export const useJobsStore = defineStore('jobs', () => {
     MyJob,
     handleMyJobs,
     myJobsApplications,
-    handleMyJobApplications
+    handleMyJobApplications,
+    JobDetails,
+    handleGetJobDetailsBySlug,
+    handelDeleteJob,
+    handelCloseJob,
+    JobDetailsById,
+    handleGetJobDetailsById,
+    talent,
+    allTalents,
+    applicants,
+    handleGetApplicants,
+    talentApplication,
+    handleGetTalentApplication
   }
 })

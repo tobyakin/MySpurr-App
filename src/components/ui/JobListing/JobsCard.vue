@@ -5,14 +5,26 @@ import DropdownEye from "@/components/icons/DropdownEye.vue";
 import DropdownDeleteIcon from "@/components/icons/DropdownDeleteIcon.vue";
 import DropdownEditIcon from "@/components/icons/DropdownEditIcon.vue";
 import DropdownShareIcon from "@/components/icons/DropdownShareIcon.vue";
+import GreenLoader from "@/components/ui/GreenLoader.vue";
+
 import { useRouter } from "vue-router";
+import { useTabStore } from "@/stores/tab";
+import { useJobsStore } from "@/stores/jobs";
+const jobsStore = useJobsStore();
+const loading = ref(true);
+
+const store = useTabStore();
+
 const router = useRouter();
 const showDocument = ref({});
 const showDocumentToggle = ref(false);
 const reason = ref("");
 
-const redirectToJobDetails = (id) => {
-  router.push({ name: "view-jobs", params: { id } });
+const redirectToPreviewJob = (id) => {
+  router.push({ name: "preview-job", params: { id: id } });
+};
+const redirectToEditJob = (id) => {
+  router.push({ name: "edit-job", params: { id: id } });
 };
 defineProps({
   job: Object,
@@ -24,6 +36,15 @@ const toggleDocument = (document) => {
   showDocument.value = document;
   reason.value = document.reason;
   showDocumentToggle.value = true;
+};
+const deleteJob = async (id) => {
+  try {
+    const res = await jobsStore.handelDeleteJob(id);
+    await jobsStore.handleMyJobs();
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 <template>
@@ -58,26 +79,31 @@ const toggleDocument = (document) => {
         <div class="grid grid-cols-5 justify-between mt-5">
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
-              <p class="text-[17.633px] font-Satoshi500 text-[#244034E5]">
-                {{ job.salary_min }}-{{ job.salary_max }}
+              <p class="text-[14.633px] capitalize font-Satoshi500 text-[#244034E5]">
+                {{ store.abbr(job.salary_min) }}- {{ store.abbr(job.salary_max) }}/
+                {{ job.salaray_type }}
               </p>
             </div>
           </div>
-          <div class="flex lg:flex-row flex-col gap-4 justify-center mt-2">
+          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
             <div
               class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4"
             >
-              <p>.</p>
+              <p>{{ job.date_created }}</p>
             </div>
           </div>
-          <div class="flex lg:flex-row flex-col gap-4 justify-center mt-2">
+          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
             <div
-              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4"
+              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-2"
             >
-              <p>.</p>
+              <p>{{ job.applicants }}</p>
+              <span
+                class="text-[17.633px] !p-2 !py-0 btn-brand !border-none !px-3 !text-[#000000E5] !bg-[#92E4EC]"
+                >{{ job.recent_applicants }}</span
+              >
             </div>
           </div>
-          <div class="flex lg:flex-row flex-col gap-4 justify-center mt-2">
+          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
             <div
               class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-1"
             >
@@ -95,81 +121,80 @@ const toggleDocument = (document) => {
             </div>
           </div>
           <div class="text-right flex justify-end cursor-pointer relative pr-4">
-            <svg
-              class="cursor-pointer flex lg:flex-row flex-col gap-4 justify-end"
-              @click="toggleDocument(job)"
-              xmlns="http://www.w3.org/2000/svg"
-              width="5"
-              height="19"
-              viewBox="0 0 5 19"
-              fill="none"
-            >
-              <circle
-                cx="2.25781"
-                cy="16.1094"
-                r="2"
-                transform="rotate(-90 2.25781 16.1094)"
-                fill="#3F634D"
-              />
-              <circle
-                cx="2.25781"
-                cy="9.10938"
-                r="2"
-                transform="rotate(-90 2.25781 9.10938)"
-                fill="#3F634D"
-              />
-              <circle
-                cx="2.25781"
-                cy="2.10938"
-                r="2"
-                transform="rotate(-90 2.25781 2.10938)"
-                fill="#3F634D"
-              />
-            </svg>
+            <button @click="toggleDocument(job)">
+              <svg
+                class="cursor-pointer flex lg:flex-row flex-col gap-4 justify-end"
+                xmlns="http://www.w3.org/2000/svg"
+                width="5"
+                height="19"
+                viewBox="0 0 5 19"
+                fill="none"
+              >
+                <circle
+                  cx="2.25781"
+                  cy="16.1094"
+                  r="2"
+                  transform="rotate(-90 2.25781 16.1094)"
+                  fill="#3F634D"
+                />
+                <circle
+                  cx="2.25781"
+                  cy="9.10938"
+                  r="2"
+                  transform="rotate(-90 2.25781 9.10938)"
+                  fill="#3F634D"
+                />
+                <circle
+                  cx="2.25781"
+                  cy="2.10938"
+                  r="2"
+                  transform="rotate(-90 2.25781 2.10938)"
+                  fill="#3F634D"
+                />
+              </svg>
+            </button>
+
             <Dropdown
               v-if="showDocument.id == job.id && showDocumentToggle"
               :showDropdown="showDocument.id == job.id && showDocumentToggle"
-              :link="false"
               class="-bottom-[8rem] w-36 z-10 lg:-right-40"
-              :items="items"
-              :id="`dropdown` + job.id"
+              :id="job.id"
             >
               <ul class="!mb-0">
                 <li>
-                  <router-link
-                    to="/"
+                  <button
+                    @click="redirectToPreviewJob(job.id)"
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownEye />
                     <p>View</p>
-                  </router-link>
+                  </button>
                 </li>
                 <li>
-                  <router-link
-                    to="/"
+                  <button
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownShareIcon />
                     <p>Share</p>
-                  </router-link>
+                  </button>
                 </li>
                 <li>
-                  <router-link
-                    to="/"
+                  <button
+                    @click="redirectToEditJob(job.id)"
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownEditIcon />
                     <p>Edit</p>
-                  </router-link>
+                  </button>
                 </li>
                 <li>
-                  <router-link
-                    to="/"
+                  <button
+                    @click="deleteJob(job.id)"
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownDeleteIcon />
                     <p>Delete</p>
-                  </router-link>
+                  </button>
                 </li>
               </ul>
             </Dropdown>

@@ -16,7 +16,7 @@
       <div class="mt-14 flex flex-col gap-8">
         <JobRowCard
           class="min-w-[95%] lg:min-w-[45%]"
-          v-for="item in jobsdata"
+          v-for="item in myJobsApplications.data"
           :key="item"
           :job="item"
         />

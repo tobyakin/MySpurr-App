@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted} from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 // import { useStore } from "@/stores/user";
 import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
@@ -9,6 +9,10 @@ import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 // let store = useStore();
 import { useJobsStore } from "@/stores/jobs";
+import { useTabStore } from "@/stores/tab";
+
+const store = useTabStore();
+
 const jobsStore = useJobsStore();
 const { singleJob } = storeToRefs(jobsStore);
 const route = useRoute();
@@ -96,8 +100,10 @@ onMounted(async () => {
     >
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
-          {{ singleJob?.data?.salary_min }}-{{ singleJob?.data?.salary_max }}
+        <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          {{ store.abbr(singleJob?.data?.salary_min) }}-
+          {{ store.abbr(singleJob?.data?.salary_max) }}/
+          {{ singleJob?.data?.salaray_type }}
         </p>
       </div>
       <!-- <div class="flex flex-col gap-2">
@@ -108,32 +114,39 @@ onMounted(async () => {
       </div> -->
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p class="text-[#244034] text-[14.104px] font-Satoshi500">
           {{ singleJob?.data?.state }},
           {{ singleJob?.data?.country }}
         </p>
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Job Type</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p class="text-[#244034] text-[14.104px] font-Satoshi500">
           {{ singleJob?.data?.job_type }}
         </p>
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Date</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500"></p>
+        <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          {{ singleJob?.data?.date_created }}
+        </p>
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Experience</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p class="text-[#244034] text-[14.104px] font-Satoshi500">
           {{ singleJob?.data?.experience }}
         </p>
       </div>
     </div>
     <div class="flex flex-col lg:flex-row mt-10 w-full">
-      <div class="lg:w-[60%] flex flex-col justify-between p-4">
+      <div class="lg:w-[60%] flex flex-col gap-6 justify-between p-4">
         <div>
-          <p class="text-[16.236px] text-[#000] font-Satoshi500">Job Description</p>
+          <p
+            v-if="singleJob?.data?.description"
+            class="text-[16.236px] text-[#000] font-Satoshi500"
+          >
+            Job Description
+          </p>
 
           <div
             v-html="singleJob?.data?.description"
@@ -145,7 +158,7 @@ onMounted(async () => {
           </p>
           <div
             v-html="singleJob?.data?.responsibilities"
-            class="flex flex-col editor gap-3"
+            class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] mt-4 leading-[24.689px]"
           ></div>
 
           <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
@@ -156,7 +169,12 @@ onMounted(async () => {
             class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] leading-[24.689px]"
           ></div>
 
-          <p class="text-[16.236px] text-[#000] font-Satoshi500">Benefits:</p>
+          <p
+            v-if="singleJob?.data?.benefits"
+            class="text-[16.236px] text-[#000] font-Satoshi500"
+          >
+            Benefits:
+          </p>
           <div
             v-html="singleJob?.data?.benefits"
             class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"

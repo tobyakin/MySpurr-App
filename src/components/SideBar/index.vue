@@ -41,7 +41,7 @@
       </router-link>
       <router-link
         v-if="feature.includes('ALL_APPLICATIONS')"
-        to="/dashboard"
+        to="/"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
       >

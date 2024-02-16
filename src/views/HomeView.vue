@@ -17,6 +17,10 @@ import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
 import { useTabStore } from "@/stores/tab";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
+import { useJobsStore } from "@/stores/jobs";
+const JobsStore = useJobsStore();
+const { myJobsApplications } = storeToRefs(JobsStore);
+
 const router = useRouter();
 
 const tabStore = useTabStore();
@@ -60,7 +64,12 @@ onMounted(async () => {
     isLoading.value = !isLoading.value;
   }
 });
-//!isOnBoarded.portofolio;
+//!isOnBoarded.portofoolio;
+onMounted(async () => {
+  if (accountType.value === "talent") {
+    await JobsStore.handleMyJobApplications();
+  }
+});
 </script>
 
 <template>
@@ -129,7 +138,7 @@ onMounted(async () => {
             <router-link
               v-if="accountType !== 'talent'"
               class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
-              to="/jobs"
+              to="/talents"
               >Find talent</router-link
             >
             <router-link
@@ -266,7 +275,7 @@ onMounted(async () => {
 
           <router-link
             class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
-            to="/jobs"
+            to="/job-lists"
             >View all jobs</router-link
           >
         </div>
@@ -305,10 +314,12 @@ onMounted(async () => {
           <p class="text-[18px] font-Satoshi400 !mb-8 text-[#244034]">My Applications</p>
           <!-- min-w-[95%] lg:min-w-[70%] -->
 
-          <div class="flex flex-row gap-3">
-            <MyApplicationCard class="w-full" />
+          <div class="flex flex-row h-auto gap-3">
+            <div class="w-full">
+              <MyApplicationCard :applications="myJobsApplications.data" class="w-full" />
+            </div>
             <div
-              class="border-[#254035AB] w-[65%] bg-[#F0F3C4] border-[0.735px] rounded-[7.347px] p-4 py-[1.1rem]"
+              class="border-[#254035AB] w-[65%] bg-[#F0F3C4] border-[0.735px] h-[39vh] rounded-[7.347px] p-4 py-[1.1rem]"
             ></div>
           </div>
         </div>

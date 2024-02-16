@@ -24,8 +24,8 @@ const userDetails = computed(() => {
 });
 const isOnBoarded = computed(() => userProfile.user);
 const industry = ["Freelance", "Full-time ", "Part-time ", "Internship ", "Contract "];
-let selectedCountry = ref("");
-const selectedStates = ref("");
+// let selectedCountry = ref("");
+// const selectedStates = ref("");
 
 // const formState = ref({
 //   business_name: "",
@@ -74,9 +74,34 @@ const next = () => {
 //     console.log(error);
 //   }
 // };
-watch(ciso, async (newInput) => {
-  businessDetails.value.location = "";
+const selectedCountry = ref("");
+const selectedState = ref("");
+const selectedIso2 = computed(() => {
+  const foundCountry = contriesCode?.value?.data?.find(
+    (country) => country.name.toLowerCase() === selectedCountry.value.toLowerCase()
+  );
+  return foundCountry ? foundCountry.iso2 : null;
+});
+// computed property to find the state ISO code
+const selectedsiso = computed(() => {
+  const foundState = states?.value?.data?.find(
+    (state) => state.name.toLowerCase() === selectedState.value.toLowerCase()
+  );
+  return foundState ? foundState.iso2 : null;
+});
+
+// watchers to update the selectedIso2 and selectedsiso
+watch(selectedIso2, async (newInput) => {
+  siso.value = "";
   await skillsStore.handleGetStates(newInput);
+});
+// watchers to update the selectedIso2 and selectedsiso
+watch(selectedIso2, async (newInput) => {
+  ciso.value = newInput;
+});
+//watchers to update the selectedsiso
+watch(selectedsiso, async (newInput) => {
+  siso.value = newInput;
 });
 
 const prefillDetails = (SingleObject) => {
@@ -212,13 +237,13 @@ onMounted(async () => {
                 :show-arrow="false"
                 class="w-full !px-0"
                 show-search
-                v-model:value="ciso"
+                v-model:value="selectedCountry"
               >
                 <a-select-option disabled>country or region</a-select-option>
                 <a-select-option
                   v-for="country in contriesCode?.data"
                   :key="country.id"
-                  :value="country.iso2"
+                  :value="country.name"
                 >
                   {{ country.name }}
                 </a-select-option>
@@ -241,13 +266,13 @@ onMounted(async () => {
                 :bordered="false"
                 class="w-full !px-0"
                 show-search
-                v-model:value="siso"
+                v-model:value="selectedState"
               >
                 <a-select-option disabled>state or city</a-select-option>
                 <a-select-option
                   v-for="state in states?.data"
                   :key="state.id"
-                  :value="state.iso2"
+                  :value="state.name"
                 >
                   {{ state.name }}
                 </a-select-option>

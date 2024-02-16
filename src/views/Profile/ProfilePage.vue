@@ -1,137 +1,158 @@
 <script setup>
-import { ref, computed, onMounted, defineAsyncComponent } from "vue";
-import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
-import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
-import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
-import InstagramIcon from "@/components/icons/instagramIcon.vue";
-import BeIcon from "@/components/icons/beIcon.vue";
-import TwitterIcon from "@/components/icons/twitterIcon.vue";
-import RateStar from "@/components/icons/rateStar.vue";
-import CertificateBadge from "@/components/icons/certificateBadge.vue";
-import LinkIcon from "@/components/icons/linkIcon.vue";
-import EditProfileAvater from "@/components/ui/Avater/EditProfileAvater.vue";
-import { useUserProfile } from "@/stores/profile";
-import EditIcon from "@/components/icons/editIcon.vue";
-import EditModal from "@/components/ui/ProfileEdit/EditModal.vue";
-import ProfilePicture from "@/components/ui/ProfileEdit/Forms/ProfilePicture.vue";
-import HeadlineBio from "@/components/ui/ProfileEdit/Forms/HeadlineBio.vue";
-import OverviewPage from "@/components/ui/ProfileEdit/Forms/OverviewPage.vue";
-import SkillsPage from "@/components/ui/ProfileEdit/Forms/SkillsPage.vue";
-import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
-import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience.vue";
-import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
-import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.vue";
+import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
+import DashboardLayout from '@/components/layout/dashboardLayout.vue'
+import WorkExperience from '@/components/ui/genericComponents/WorkExperience.vue'
+import EducationDetails from '@/components/ui/genericComponents/EducationDetails.vue'
+import LinkdeinIcon from '@/components/icons/linkdeinIcon.vue'
+import InstagramIcon from '@/components/icons/instagramIcon.vue'
+import BeIcon from '@/components/icons/beIcon.vue'
+import TwitterIcon from '@/components/icons/twitterIcon.vue'
+import RateStar from '@/components/icons/rateStar.vue'
+import CertificateBadge from '@/components/icons/certificateBadge.vue'
+import LinkIcon from '@/components/icons/linkIcon.vue'
+import EditProfileAvater from '@/components/ui/Avater/EditProfileAvater.vue'
+import { useUserProfile } from '@/stores/profile'
+import EditIcon from '@/components/icons/editIcon.vue'
+import EditModal from '@/components/ui/ProfileEdit/EditModal.vue'
+import ProfilePicture from '@/components/ui/ProfileEdit/Forms/ProfilePicture.vue'
+import HeadlineBio from '@/components/ui/ProfileEdit/Forms/HeadlineBio.vue'
+import OverviewPage from '@/components/ui/ProfileEdit/Forms/OverviewPage.vue'
+import SkillsPage from '@/components/ui/ProfileEdit/Forms/SkillsPage.vue'
+import EducationPage from '@/components/ui/ProfileEdit/Forms/EducationPage.vue'
+import WorkExperiencePage from '@/components/ui/ProfileEdit/Forms/WorkExperience.vue'
+import PortfolioPage from '@/components/ui/ProfileEdit/Forms/PortfolioPage.vue'
+import CertificatePage from '@/components/ui/ProfileEdit/Forms/CertificatePage.vue'
 // import Map from "@/components/ui/Map/Map.vue";
-import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
-import { useClipboard } from "@vueuse/core";
-import { useToast } from "vue-toastification";
-const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
+import { storeToRefs } from 'pinia'
+// import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
+import { useClipboard } from '@vueuse/core'
+import { useToast } from 'vue-toastification'
+import { useQuery } from 'vue-query'
 
-const toast = useToast();
+const Map = defineAsyncComponent(() => import('@/components/ui/Map/Map.vue'))
 
-import { useRouter } from "vue-router";
-const router = useRouter();
-const showPageLoader = ref(true);
+const toast = useToast()
 
-let profile = useUserProfile();
+import { useRouter } from 'vue-router'
+const router = useRouter()
+// const showPageLoader = ref(true);
+
+let profile = useUserProfile()
+const { user } = storeToRefs(profile)
+
 const userDetails = computed(() => {
-  return profile.user.data;
-});
-let view = null;
-let showModal = ref(false);
-let formTitle = ref("");
+  return user?.value?.data
+})
+let view = null
+let showModal = ref(false)
+let formTitle = ref('')
 
 const source = ref(
   import.meta.env.VITE_LANDING_PAGE +
     `${userDetails.value?.first_name}/` +
     userDetails.value?.uniqueId
-);
-const { copy, copied, isSupported } = useClipboard({ source });
+)
+const { copy, copied, isSupported } = useClipboard({ source })
 
 const HandleToggleEditImageModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Profile Picture";
-  view = ProfilePicture;
-};
+  showModal.value = !showModal.value
+  formTitle.value = 'Profile Picture'
+  view = ProfilePicture
+}
 const HandleToggleEditHeadlineBioModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Headline Bio";
-  view = HeadlineBio;
-};
+  showModal.value = !showModal.value
+  formTitle.value = 'Headline Bio'
+  view = HeadlineBio
+}
 const HandleToggleEditOverviewModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Overview";
-  view = OverviewPage;
-};
+  showModal.value = !showModal.value
+  formTitle.value = 'Overview'
+  view = OverviewPage
+}
 const HandleToggleSkillsPageModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Skills";
-  view = SkillsPage;
-};
+  showModal.value = !showModal.value
+  formTitle.value = 'Skills'
+  view = SkillsPage
+}
 const HandleToggleEducationPageModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Education";
-  view = EducationPage;
-};
+  showModal.value = !showModal.value
+  formTitle.value = 'Education'
+  view = EducationPage
+}
 const HandleToggleWorkExperiencePageModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Work experience";
-  view = WorkExperiencePage;
-};
+  showModal.value = !showModal.value
+  formTitle.value = 'Work experience'
+  view = WorkExperiencePage
+}
 const HandleTogglePortfolioModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Portfolio";
-  view = PortfolioPage;
-};
+  showModal.value = !showModal.value
+  formTitle.value = 'Portfolio'
+  view = PortfolioPage
+}
 const HandleToggleCertificateModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Certificate";
-  view = CertificatePage;
-};
+  showModal.value = !showModal.value
+  formTitle.value = 'Certificate'
+  view = CertificatePage
+}
 const closeModal = () => {
-  showModal.value = !showModal.value;
-  view = null;
-};
+  showModal.value = !showModal.value
+  view = null
+}
 const redirectToSinglePortfolio = (id) => {
-  router.push({ name: "edit-portfolio", params: { id: id } });
-};
+  router.push({ name: 'edit-portfolio', params: { id: id } })
+}
 
 const copyUrl = () => {
   if (isSupported) {
     if (copied) {
-      console.log(source.value);
-      copy(source.value);
-      toast.success("Link Copied", {
-        timeout: 4000,
-      });
+      console.log(source.value)
+      copy(source.value)
+      toast.success('Link Copied', {
+        timeout: 4000
+      })
     }
   } else {
-    toast.error("Your browser does not support Clipboard API", {
-      timeout: 4000,
-    });
+    toast.error('Your browser does not support Clipboard API', {
+      timeout: 4000
+    })
   }
-};
+}
 
-onMounted(async () => {
-  try {
-    await profile.userProfile();
-  } catch (error) {
-    /* empty */
-  } finally {
-    showPageLoader.value = !showPageLoader.value;
+// onMounted(async () => {
+//   try {
+//     await profile.userProfile();
+//   } catch (error) {
+//     /* empty */
+//   } finally {
+//     showPageLoader.value = !showPageLoader.value;
+//   }
+// });
+const getProfileData = async () => {
+  let response = await profile.userProfile()
+  return response
+}
+const fetchData = async () => {
+  await Promise.all([getProfileData()])
+}
+
+fetchData()
+
+useQuery(['profile'], getProfileData, {
+  retry: 10,
+  staleTime: 10000,
+  onSuccess: (data) => {
+    user.value = data
   }
-});
+})
 </script>
 
 <template>
   <DashboardLayout>
-    <PagePreLoader v-if="showPageLoader" />
-    <div
-      v-else
-      class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10"
-    >
-      <div id="talent-cv" class="py-20 container talent-cv">
+    <!-- {{ user?.data }} -->
+
+    <!-- <PagePreLoader v-if="showPageLoader" /> -->
+    <div class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10">
+      <div id="talent-cv" class="container talent-cv">
         <div
           class="bg-[#E9FAFB] border-[#F6F6F6] flex lg:flex-row flex-col gap-5 justify-between items-center border-[1px] rounded-[15px] p-6 px-14"
         >
@@ -168,18 +189,10 @@ onMounted(async () => {
           </div>
           <div class="flex flex-col items-center lg:justify-center lg:items-end gap-6">
             <div class="flex flex-row justify-center gap-3">
-              <a
-                v-if="userDetails?.linkedin"
-                :href="userDetails?.linkedin"
-                target="_blank"
-              >
+              <a v-if="userDetails?.linkedin" :href="userDetails?.linkedin" target="_blank">
                 <LinkdeinIcon />
               </a>
-              <a
-                v-if="userDetails?.instagram"
-                :href="userDetails?.instagram"
-                target="_blank"
-              >
+              <a v-if="userDetails?.instagram" :href="userDetails?.instagram" target="_blank">
                 <InstagramIcon />
               </a>
               <a v-if="userDetails?.behance" :href="userDetails?.behance" target="_blank">
@@ -258,9 +271,7 @@ onMounted(async () => {
                 class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
               ></div>
             </div>
-            <div
-              class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
-            >
+            <div class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8">
               <p class="text-[28px] text-[#000] font-Satoshi500">Education</p>
               <button @click="HandleToggleEducationPageModal">
                 <EditIcon class="text-[#297F88]" />
@@ -268,9 +279,7 @@ onMounted(async () => {
             </div>
 
             <EducationDetails :items="userDetails?.education" />
-            <div
-              class="flex flex-row items-center justify-between gap-[16px] !mb-12 mt-8"
-            >
+            <div class="flex flex-row items-center justify-between gap-[16px] !mb-12 mt-8">
               <p class="text-[28px] text-[#000] font-Satoshi500">Work Experience</p>
               <button @click="HandleToggleWorkExperiencePageModal">
                 <EditIcon class="text-[#297F88]" />
@@ -278,9 +287,7 @@ onMounted(async () => {
             </div>
 
             <WorkExperience :items="userDetails?.employment" />
-            <div
-              class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
-            >
+            <div class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8">
               <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
 
               <button @click="HandleTogglePortfolioModal">
@@ -308,21 +315,15 @@ onMounted(async () => {
                 :key="i"
                 class="border-[#2440341A] border-[1.265px] rounded-[9.732px] p-6"
               >
-                <p
-                  class="text-[#001E00] font-Satoshi400 text-[16px] mb-4 tracking-[0.6px]"
-                >
+                <p class="text-[#001E00] font-Satoshi400 text-[16px] mb-4 tracking-[0.6px]">
                   Find B2B Partners for UK and US Online Tutoring Company
                 </p>
                 <div class="flex items-center gap-1 font-Satoshi400 mb-2">
                   <RateStar v-for="i in 5" :key="i" />
                   <span class="text-[#001E00] text-[14px]">5.00 </span
-                  ><span class="text-[#5E6D55] text-[12px]"
-                    >Dec 15, 2022 - Feb 2, 2023</span
-                  >
+                  ><span class="text-[#5E6D55] text-[12px]">Dec 15, 2022 - Feb 2, 2023</span>
                 </div>
-                <p
-                  class="text-[#001E00] font-Satoshi400 italic text-[13px] mb-4 tracking-[0.6px]"
-                >
+                <p class="text-[#001E00] font-Satoshi400 italic text-[13px] mb-4 tracking-[0.6px]">
                   "Great lead generation for education companies"
                 </p>
                 <p class="text-[#5E6D55] font-Satoshi400 text-[14px]">Private earnings</p>
@@ -340,11 +341,7 @@ onMounted(async () => {
             <div
               class="bg-[#E9FAFB] p-6 border-[#F6F6F6] border-[1px] flex flex-col gap-10 mt-4 rounded-[15px]"
             >
-              <div
-                v-for="i in userDetails?.certificate"
-                :key="i"
-                class="flex items-center gap-4"
-              >
+              <div v-for="i in userDetails?.certificate" :key="i" class="flex items-center gap-4">
                 <CertificateBadge />
                 <div class="flex flex-col gap-0 h-auto">
                   <a
@@ -382,11 +379,6 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <EditModal
-      v-if="showModal"
-      @closeModal="closeModal"
-      :formTitle="formTitle"
-      :view="view"
-    />
+    <EditModal v-if="showModal" @closeModal="closeModal" :formTitle="formTitle" :view="view" />
   </DashboardLayout>
 </template>

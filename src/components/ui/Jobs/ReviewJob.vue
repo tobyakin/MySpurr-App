@@ -258,12 +258,14 @@ const goToJobList = () => {
         >
           Responsibilities
         </p>
-        <div v-html="postJobsValue.responsibilities" class="flex flex-col gap-3"></div>
+        <div
+          v-html="postJobsValue.responsibilities"
+          class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] mt-4 leading-[24.689px]"
+        ></div>
 
         <p
           v-if="postJobsValue.required_skills"
-          class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6"
-          editor
+          class="text-[16.236px] text-[#000] editor font-Satoshi500 !mb-4 mt-6"
         >
           Required Skills:
         </p>
