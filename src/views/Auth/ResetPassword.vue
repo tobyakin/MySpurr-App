@@ -1,34 +1,43 @@
 <script setup>
-import { useStore } from "@/stores/user";
+// import { useStore } from "@/stores/user";
 import { ref, reactive, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
-import { login, loginWithGoogle, registerTalentWithGoogle } from "@/services/Auth";
-import PasswordInput from "@/components/ui/PasswordInput.vue";
-import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
+import { resetPassword } from "@/services/Auth";
+import PasswordInput from "@/components/ui/Form/Input/PasswordInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
-const store = useStore();
+// const store = useStore();
 const router = useRouter();
 let loading = ref(false);
+// Create a function to parse the URL and get the token value
+const getTokenFromURL = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get("token") || "";
+};
+// Create a function to retrieve the email from local storage
+const getEmailFromLocalStorage = () => {
+  return localStorage.getItem("email") || "";
+};
 const formState = reactive({
-  email: "",
+  token: getTokenFromURL(), // Get the token value from the URL
+  email: getEmailFromLocalStorage(), // Get the email value from local storage
   password: "",
+  confirmPassword: "",
 });
-const showPassword = ref(false);
 const errors = reactive({
-  email: false,
+  confirmPassword: false,
   password: false,
 });
 const errorsMsg = {
-  email: "email is required",
+  confirmPassword: "Password does not match",
   password: "",
 };
-const isValidEmail = computed(() => {
-  return formState.email.trim() !== "";
-});
 
 const isValidPassword = computed(() => {
   return formState.password.trim() !== "";
+});
+const passwordsMatch = computed(() => {
+  return formState.password === formState.confirmPassword;
 });
 
 const validateForm = () => {
@@ -40,15 +49,13 @@ const validateForm = () => {
   // Perform validation before submission
   let isValid = true;
 
-  if (!isValidEmail.value) {
-    errors.email = true;
-    errorsMsg.email = "Email is required";
-    isValid = false;
-  }
-
   if (!isValidPassword.value) {
     errors.password = true;
     errorsMsg.password = "Password is required";
+    isValid = false;
+  }
+  if (formState.password !== formState.confirmPassword) {
+    errors.confirmPassword = true;
     isValid = false;
   }
 
@@ -77,37 +84,18 @@ const onFinish = async () => {
   }
 
   try {
-    const res = await login(formState.email, formState.password);
-    store.saveUser(res.data);
-    console.log(res.data);
-    console.log(res.data.portofolio);
-    // if (!res.data.business_details && !res.data.work_details && !res.data.portofolio) {
-    //   router.push({ name: "onboarding" });
-    // } else {
-    router.push({ name: "dashboard" });
-    // }
+    const res = await resetPassword(
+      formState.token,
+      formState.email,
+      formState.password,
+      formState.confirmPassword
+    );
+    router.push({ name: "login" });
   } catch (error) {
     console.log(error);
   } finally {
     loading.value = false;
   }
-};
-
-const loginWithGoogleApi = async () => {
-  loading.value = true;
-  try {
-    const res = await registerTalentWithGoogle();
-    store.saveUser(res.data);
-    router.push({ name: "dashboard" });
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loading.value = false;
-  }
-};
-
-const toggleShowPassword = () => {
-  showPassword.value = !showPassword.value;
 };
 </script>
 
@@ -123,18 +111,6 @@ const toggleShowPassword = () => {
         >
           Reset your password
         </h1>
-        <!-- <button
-          @click="loginWithGoogleApi"
-          class="w-full flex justify-center gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
-        >
-          <img class="w-[7%]" src="@/assets/svg/googleIcon.svg" alt="" />
-          <p class="text-[16px] font-Satoshi400">Sign in with Google</p>
-        </button>
-        <div class="flex gap-2 my-5">
-          <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
-          <p>OR</p>
-          <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
-        </div> -->
 
         <div class="flex flex-col gap-4">
           <div>
@@ -142,6 +118,7 @@ const toggleShowPassword = () => {
               :error="errors.password"
               :errorsMsg="errorsMsg.password || !isValidPassword"
               placeholder="Password*"
+              v-model="formState.password"
             />
           </div>
 
@@ -150,11 +127,12 @@ const toggleShowPassword = () => {
               :error="errors.confirmPassword || !passwordsMatch"
               :errorsMsg="errorsMsg.confirmPassword"
               placeholder="Confirm Password*"
+              v-model="formState.confirmPassword"
             />
           </div>
         </div>
         <div class="mt-4 text-left">
-          <p class="font-Satoshi400 text-[9.69px] text-[#000]">
+          <p class="font-Satoshi400 text-[12.69px] text-[#000]">
             If you have an account with MySpurr, a reset password link has been sent to
             your email. Please click the link to verify your account.
           </p>
@@ -168,12 +146,6 @@ const toggleShowPassword = () => {
             <WhiteLoader v-else />
           </button>
         </div>
-        <!-- <div class="mt-4 text-center">
-          <p class="font-Satoshi400 text-[13.269px] text-[#007582]">
-            Need to create an account?
-            <router-link class="" to="/signup"> Sign Up </router-link>
-          </p>
-        </div> -->
       </div>
     </div>
   </layout>

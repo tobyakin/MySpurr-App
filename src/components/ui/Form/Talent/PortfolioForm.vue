@@ -7,18 +7,17 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import AttachFileIcon from "@/components/icons/attachFile.vue";
 import { useRouter } from "vue-router";
 let store = useStore();
-console.log(store.getUser);
+
 let loading = ref(false);
 const router = useRouter();
-
 const OnboardingStore = useOnboardingStore();
 const { step } = storeToRefs(OnboardingStore);
-const emit = defineEmits("next", "prev");
+const emit = defineEmits(["next", "prev"]);
 const formState = ref({
   compensation: "",
   portfolio_title: "",
   portfolio_description: "",
-  image: "",
+  images: [],
   social_media_link: "",
 });
 const file = ref(null);
@@ -33,7 +32,6 @@ const isFormValid = computed(() => {
     formState.value.social_media_link.trim() !== ""
   );
 });
-
 const onFinish = async () => {
   loading.value = true;
 
@@ -43,27 +41,18 @@ const onFinish = async () => {
     portfolio_description: formState.value.portfolio_description,
     social_media_link: formState.value.social_media_link,
   };
-  console.log(file.value);
+  console.log(formState.value.images);
+
   const formData = new FormData();
 
-  if (file.value) {
-    // Convert the selected image to base64 and append it to the FormData
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      formData.append("image", event.target.result);
-      submitForm(formData, payload);
-    };
-    reader.readAsDataURL(file.value);
-  } else {
-    submitForm(formData, payload);
-  }
-};
+  formState.value.images.forEach((image) => {
+    formData.append("images[]", image);
+  });
 
-const submitForm = async (formData, payload) => {
   Object.entries(payload).forEach(([key, value]) => {
     formData.append(key, value);
   });
-  console.log("form data" + " " + formData);
+
   try {
     const res = await OnboardingStore.submitTalentPortfolio(formData);
     router.push({ name: "dashboard" });
@@ -74,18 +63,97 @@ const submitForm = async (formData, payload) => {
     loading.value = false;
   }
 };
+const numUploadedImages = computed(() => {
+  return formState.value.images.length;
+});
+
+// const onFinish = async () => {
+//   loading.value = true;
+
+//   let payload = {
+//     compensation: formState.value.compensation,
+//     portfolio_title: formState.value.portfolio_title,
+//     portfolio_description: formState.value.portfolio_description,
+//     social_media_link: formState.value.social_media_link,
+//   };
+//   console.log(file.value);
+//   const formData = new FormData();
+
+//   if (file.value) {
+//     // Convert the selected image to base64 and append it to the FormData
+//     const reader = new FileReader();
+//     reader.onload = (event) => {
+//       formData.append("image", event.target.result);
+//       submitForm(formData, payload);
+//     };
+//     reader.readAsDataURL(file.value);
+//     next();
+//   } else {
+//     submitForm(formData, payload);
+//   }
+// };
+
+// const submitForm = async (formData, payload) => {
+//   Object.entries(payload).forEach(([key, value]) => {
+//     formData.append(key, value);
+//   });
+//   console.log("form data" + " " + formData);
+//   try {
+//     const res = await OnboardingStore.submitTalentPortfolio(formData);
+//     router.push({ name: "dashboard" });
+//     return res;
+//   } catch (error) {
+//     console.log(error);
+//   } finally {
+//     loading.value = false;
+//   }
+// };
+// const uploadFile = () => {
+//   if (uploadedFile.value.files.length > 0) {
+//     const selectedFileType = uploadedFile.value.files[0].type;
+//     if (selectedFileType.startsWith("image/")) {
+//       file.value = uploadedFile.value.files[0];
+//     } else {
+//       file.value = null;
+//       alert("Please select an image file.");
+//     }
+//   } else {
+//     file.value = null;
+//   }
+// };
 const uploadFile = () => {
-  if (uploadedFile.value.files.length > 0) {
-    const selectedFileType = uploadedFile.value.files[0].type;
-    if (selectedFileType.startsWith("image/")) {
-      file.value = uploadedFile.value.files[0];
+  const selectedFiles = uploadedFile.value.files;
+
+  if (selectedFiles.length > 0) {
+    const selectedFileTypes = Array.from(selectedFiles).map((file) => file.type);
+
+    if (selectedFileTypes.every((type) => type.startsWith("image/"))) {
+      file.value = selectedFiles.length;
+
+      // Filter out only image files
+      const imageFiles = Array.from(selectedFiles).filter((file) =>
+        file.type.startsWith("image/")
+      );
+
+      // Ensure you don't exceed the maximum number of images (3 in this case)
+      // if (imageFiles.length > 3) {
+      //   alert("Please select up to 3 image files.");
+      //   return;
+      // }
+
+      // Update the images array
+      formState.value.images = imageFiles;
     } else {
-      file.value = null;
-      alert("Please select an image file.");
+      formState.value.images = []; // Clear the array
+      alert("Please select only image files.");
     }
   } else {
-    file.value = null;
+    formState.value.images = []; // Clear the array
   }
+};
+
+const next = () => {
+  emit("next", step.value + 1);
 };
 
 const prev = () => {
@@ -111,14 +179,14 @@ const prev = () => {
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Rate/Compensation - Per hour (USD)</label
+            >Rate/compensation - Per hour (USD)</label
           >
           <GlobalInput
             v-model="formState.compensation"
             class="bg-transparent border-none"
-            placeholder=""
+            placeholder="$30k-$50k/yr "
             required
-            type="number"
+            type="text"
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
@@ -161,7 +229,7 @@ const prev = () => {
             class="cursor-pointer w-full justify-between flex text-[#01272C] px-4 text-[12px] font-Satoshi400"
           >
             <span v-if="!file">Upload photos (max 3mb each)</span
-            ><span v-if="file">{{ file.name }}</span> <AttachFileIcon
+            ><span v-if="file">{{ numUploadedImages }} Uploaded</span> <AttachFileIcon
           /></label>
         </div>
 

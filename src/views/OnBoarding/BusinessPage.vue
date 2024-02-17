@@ -4,15 +4,16 @@ import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import TickCircle from "@/components/icons/tickCircle.vue";
 const router = useRouter();
-import WorkDetailsForm from "@/components/ui/Form/Business/BusinessDetailsForm.vue";
+import BusinessDetailsForm from "@/components/ui/Form/Business/BusinessDetailsForm.vue";
 import PortfolioForm from "@/components/ui/Form/Business/PortfolioForm.vue";
+import IntroPage from "@/components/ui/Form/Business/StepOne.vue";
+
 const OnboardingStore = useOnboardingStore();
 
 const { step } = storeToRefs(OnboardingStore);
 import { useStore } from "@/stores/user";
 
 let store = useStore();
-console.log(store.getUser);
 
 const prev = () => {
   if (step.value == 1) {
@@ -25,7 +26,7 @@ const prev = () => {
 };
 
 const next = (data) => {
-  if (step.value == 2) {
+  if (step.value == 3) {
     return router.push({
       name: "dashboard",
     });
@@ -48,8 +49,8 @@ const next = (data) => {
       <div
         class="flex font-Satoshi400 text-[14.908px] overflow-hidden items-center justify-center w-[66%] gap-1"
       >
-        <TickCircle :class="step >= 2 ? 'text-[#43D0DF]' : 'text-[#B2ECF2]'" />
-        <p>Your work details</p>
+        <TickCircle :class="step >= 3 ? 'text-[#43D0DF]' : 'text-[#B2ECF2]'" />
+        <p>Your business details</p>
       </div>
       <div class="flex items-center justify-around w-auto">
         <hr class="border-b-[#000000] w-[41.862px] border-b-[0.932px]" />
@@ -57,14 +58,15 @@ const next = (data) => {
       <div
         class="flex font-Satoshi400 text-[14.908px] overflow-hidden justify-center items-center w-[60%] gap-1"
       >
-        <TickCircle :class="step > 2 ? 'text-[#43D0DF]' : 'text-[#B2ECF2]'" />
+        <TickCircle :class="step > 3 ? 'text-[#43D0DF]' : 'text-[#B2ECF2]'" />
         <p>Company logo</p>
       </div>
     </div>
 
     <div class="justify-center flex py-6 p-4">
-      <WorkDetailsForm v-if="step == 1" @next="next" />
-      <PortfolioForm v-if="step == 2" @prev="prev" @next="next" />
+      <IntroPage v-if="step == 1" @next="next" />
+      <BusinessDetailsForm v-if="step == 2" @next="next" />
+      <PortfolioForm v-if="step == 3" @prev="prev" @next="next" />
     </div>
   </div>
 </template>

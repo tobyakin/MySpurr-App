@@ -1,8 +1,26 @@
-<!-- eslint-disable no-unused-vars -->
 <script setup>
 import { ref } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
 import layout from "@/components/layout/LightAuthLayout.vue";
 import ErrorOutline from "@/components/icons/errorOutline.vue";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+
+import { resendEmail } from "@/services/Auth";
+let loading = ref(false);
+
+const email = ref(route.params.email);
+const handleResendEmail = async () => {
+  loading.value = true;
+  try {
+    const res = await resendEmail(email.value);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 
 <template>
@@ -16,8 +34,11 @@ import ErrorOutline from "@/components/icons/errorOutline.vue";
         >
           Check your inbox and confirm your email address
         </h1>
-        <p class="text-[11.303px] font-Satoshi400 my-4 md:mb-8 text-[#01181B]">
-          We’ve sent a confirmation email to tobyakin7@gmail.com
+        <p
+          class="text-[11.303px] font-Satoshi400 my-4 md:mb-8 overflow-hidden text-[#01181B]"
+        >
+          We’ve sent a confirmation email to
+          <span class="font-Satoshi700">{{ email }}</span>
         </p>
         <p
           class="text-[11.303px] flex items-center gap-2 font-Satoshi400 my-4 md:mb-8 text-[#DA5252]"
@@ -30,9 +51,11 @@ import ErrorOutline from "@/components/icons/errorOutline.vue";
         </p>
         <div class="mt-8 flex justify-between gap-6">
           <button
+            @click="handleResendEmail"
             class="bg-[#43D0DF] font-Satoshi500 text-[10.14px] uppercase leading-[11.593px] rounded-full p-3 w-full"
           >
-            RESEND EMAIL
+            <span v-if="!loading">RESEND EMAIL</span>
+            <WhiteLoader v-else />
           </button>
           <router-link
             to="/login"

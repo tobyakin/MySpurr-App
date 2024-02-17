@@ -26,12 +26,14 @@ export const handleTalentPortfolio = async (payload) => {
 
     const token = await getToken()
     try {
-        let res = await axios.post(`talent-portfolio`,payload,{ 
-            headers:{
-                Authorization: 'Bearer ' + token
-            }
+        let res = await axios.post(`talent-portfolio`, payload, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Transfer-Encoding': 'chunked',
+            'Content-Type': 'application/json'
+          }
         })
-        catchAxiosSuccess(res.message)   
+        catchAxiosSuccess(res)   
         return res.data;
 
     } catch (error) {
@@ -49,7 +51,7 @@ export const handleBusinessDetails = async (payload) => {
                 Authorization: 'Bearer ' + token
             }
         })
-        catchAxiosSuccess(res.message)   
+        catchAxiosSuccess(res)   
         return res.data;
 
     } catch (error) {
@@ -67,7 +69,7 @@ export const handleBusinessPortfolio = async (payload) => {
                 Authorization: 'Bearer ' + token
             }
         })
-        catchAxiosSuccess(res.message)   
+        catchAxiosSuccess(res)   
         return res.data;
 
     } catch (error) {
@@ -76,3 +78,20 @@ export const handleBusinessPortfolio = async (payload) => {
     }
 
 }
+export const verifyIdentity = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.post(`upload-identity`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
+

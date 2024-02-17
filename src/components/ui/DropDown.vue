@@ -1,7 +1,7 @@
 <template>
   <div
     :id="id"
-    class="absolute bg-white top-10 w-64 z-10 -left-[13rem] rounded pt-4 px-3 shadow-lg"
+    class="absolute bg-white top-12 w-64 z-10 lg:-left-[13rem] -left-[12rem] rounded pt-4 px-3 shadow-lg"
   >
     <div class="flex items-center gap-4 px-8 mb-4">
       <!-- <img
@@ -13,7 +13,15 @@
         role="button"
         class="h-10 w-10 flex justify-center items-center rounded-full bg-brand"
       >
+        <img
+          v-if="userDetails?.image"
+          class="w-10 h-10 rounded-full"
+          :src="userDetails?.image"
+          alt=""
+        />
+
         <svg
+          v-else
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -30,7 +38,7 @@
       </div>
       <div class="">
         <p class="text-[19.722px] font-Satoshi500 capitalize text-[#000]">
-          {{ store.getUser.user.first_name }}
+          {{ userDetails?.first_name }}
         </p>
         <p class="text-[12px] font-Satoshi500 overflow-hidden text-[#E06F6F]">
           Available
@@ -60,11 +68,21 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, defineProps, defineEmits } from "vue";
-import { useStore } from "@/stores/user";
+import { ref, computed, onMounted, defineProps, defineEmits, onUpdated } from "vue";
+import { useUserProfile } from "@/stores/profile";
 
-let store = useStore();
+let profile = useUserProfile();
+onMounted(async () => {
+  await profile.userProfile();
+});
+onUpdated(() => {
+  // await profile.userProfile();
+  return userDetails.value?.image;
+});
 
+const userDetails = computed(() => {
+  return profile.user.data;
+});
 const emit = defineEmits(["closeDropdown", "clickedItem"]);
 
 const onClickOutside = (element, callback) => {

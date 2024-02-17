@@ -1,8 +1,8 @@
 <template>
   <header class="h-screen bg-[#E9FAFB]">
-    <div class="logo">
+    <div class="logo lg:visible invisible">
       <router-link to="/">
-        <img src="@/assets/Logo.png" class="h-8" alt="MySpurr logo" />
+        <img src="@/assets/Logobeta.png" class="h-12" alt="MySpurr logo" />
       </router-link>
     </div>
     <!-- The nav -->
@@ -25,12 +25,12 @@
         >
       </router-link>
       <router-link
-        to="/dashboard"
+        to="/messages"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
-        :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
+        :class="route.name === 'messages' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
-          :class="route.name === '' ? 'text-white ' : 'text-[#297F88] '"
+          :class="route.name === 'messages' ? 'text-white ' : 'text-[#297F88] '"
           class="mr-[20px] justify-center flex items-center rounded-[5px] h-[40px] w-[40px]"
         >
           <MessageIcon />
@@ -41,7 +41,7 @@
       </router-link>
       <router-link
         v-if="feature.includes('ALL_APPLICATIONS')"
-        to="/dashboard"
+        to="/"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
       >
@@ -57,12 +57,14 @@
       </router-link>
       <router-link
         v-if="feature.includes('MY_APPLICATIONS')"
-        to="/dashboard"
+        to="/my-applications"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
-        :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
+        :class="
+          route.name === 'my-applications' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '
+        "
       >
         <div
-          :class="route.name === '' ? 'text-white ' : 'text-[#297F88] '"
+          :class="route.name === 'my-applications' ? 'text-white ' : 'text-[#297F88] '"
           class="mr-[20px] justify-center flex items-center rounded-[5px] h-[40px] w-[40px]"
         >
           <ApplicationIcon />
@@ -89,12 +91,14 @@
       </router-link>
       <router-link
         v-if="feature.includes('JOB_LISTING')"
-        to="/dashboard"
+        to="/job-lists"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
-        :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
+        :class="
+          route.name === 'job-lists' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '
+        "
       >
         <div
-          :class="route.name === '' ? 'text-white ' : 'text-[#297F88] '"
+          :class="route.name === 'job-lists' ? 'text-white ' : 'text-[#297F88] '"
           class="mr-[20px] justify-center flex items-center rounded-[5px] h-[40px] w-[40px]"
         >
           <MyjobsIcon />
@@ -106,7 +110,7 @@
       <router-link
         v-if="feature.includes('COURSES')"
         to="/courses"
-        class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
+        class="p-[10px] flex justify-start hidden hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === 'courses' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
@@ -137,7 +141,7 @@
       </router-link>
       <router-link
         to="/dashboard"
-        class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
+        class="p-[10px] flex justify-start hidden hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
@@ -162,17 +166,16 @@ import MyjobsIcon from "@/components/icons/searchIcon.vue";
 import Courses from "@/components/icons/coursesIcon.vue";
 import MySchedule from "@/components/icons/calenderIcon.vue";
 import GoProIcon from "@/components/icons/starIcon.vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { computed } from "vue";
 
 const route = useRoute();
-const router = useRouter();
 const store = useStore();
 
 const user = store.getUser;
 
 const feature = computed(() => {
-  return store.features;
+  return Array.isArray(store.features) ? store.features : [];
 });
 
 // const logOut = () => {

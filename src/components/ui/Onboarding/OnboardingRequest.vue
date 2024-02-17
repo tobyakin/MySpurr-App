@@ -1,21 +1,24 @@
 <template>
-  <CenteredModalLarge
-    v-if="
-      getUser &&
-      !getUser.business_details &&
-      !getUser.work_details &&
-      !getUser.portfolio &&
-      checkRoute
-    "
-  >
+  <CenteredModalLarge>
     <div class="my-8">
       <header class="">
-        <h1 class="text-[#000000] text-center text-[20px] font-Satoshi700">
-          Complete Profile and working detailes
+        <h1
+          v-if="accountType === 'talent'"
+          class="text-[#000000] text-center text-[20px] font-Satoshi700"
+        >
+          Complete your talent profile
+        </h1>
+        <h1 v-else class="text-[#000000] text-center text-[20px] font-Satoshi700">
+          Complete your business profile
         </h1>
       </header>
-      <div class="my-4 font-Satoshi400 text-center">
-        You are required to complete your porfolio for Compliance
+      <div v-if="accountType == 'talent'" class="my-4 font-Satoshi400 text-center">
+        Please give us some information to set up your talent dashboard. <br />
+        It'll take less than 3 mins
+      </div>
+      <div v-else class="my-4 font-Satoshi400 text-center">
+        Please give us some information to set up your business dashboard (It'll take less
+        than 3 mins)
       </div>
       <div class="flex justify-center">
         <button
@@ -32,18 +35,28 @@
 <script setup>
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import { useStore } from "@/stores/user";
-import { computed } from "vue";
+import { useUserProfile } from "@/stores/profile";
+import { computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
 const userStore = useStore();
 const router = useRouter();
-const route = useRoute();
-const getUser = computed(() => {
-  return userStore.getUser;
+let profile = useUserProfile();
+onMounted(() => {
+  return profile.userProfile();
+});
+onMounted(() => {
+  return accountType;
+});
+const isOnBoarded = computed(() => profile.user);
+onMounted(async () => {
+  await profile.userProfile();
 });
 
+const route = useRoute();
+
 const accountType = computed(() => {
-  return userStore.getUser.user.type;
+  return userStore.getUser.data.user.type;
 });
 
 const checkRoute = computed(() => {

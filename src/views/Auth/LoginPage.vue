@@ -1,26 +1,53 @@
 <script setup>
-import { useStore } from "@/stores/user";
-import { ref, reactive, watch, computed } from "vue";
+// import { useStore } from "@/stores/user";
+// import { useUserProfile } from "@/stores/profile";
+import { ref, reactive, watch, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
-import { login, loginWithGoogle, registerTalentWithGoogle } from "@/services/Auth";
-import PasswordInput from "@/components/ui/PasswordInput.vue";
+import { login, authWithGoogle } from "@/services/Auth";
+import PasswordInput from "@/components/ui/Form/Input/PasswordInput.vue";
 import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
-const store = useStore();
+// import Loader from "@/components/ui/Loader/Loader.vue";
+
+// const store = useStore();
+// let profile = useUserProfile();
+
 const router = useRouter();
 let loading = ref(false);
+const getVerificationStatusFromURL = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const verificationParam = urlParams.get("verification");
+  return verificationParam === "true"; // Convert the value to a boolean
+};
+// Define refs for your URL parameters and structure them
+// const user = reactive({
+//   data: {
+//     portfolio: false,
+//     token: "",
+//     user: {
+//       status: "",
+//       type: "",
+//     },
+//     work_details: false,
+//   },
+//   message: null,
+//   status: "",
+// });
+
+const state = reactive({
+  status: getVerificationStatusFromURL(),
+});
 const formState = reactive({
   email: "",
   password: "",
 });
-const showPassword = ref(false);
+// const showPassword = ref(false);
 const errors = reactive({
   email: false,
   password: false,
 });
 const errorsMsg = {
-  email: "email is required",
   password: "",
 };
 const isValidEmail = computed(() => {
@@ -42,7 +69,6 @@ const validateForm = () => {
 
   if (!isValidEmail.value) {
     errors.email = true;
-    errorsMsg.email = "Email is required";
     isValid = false;
   }
 
@@ -68,6 +94,15 @@ const clearInputErrors = () => {
 watch(formState, () => {
   clearInputErrors();
 });
+// const accountType = computed(() => {
+//   return store.getUser.data.user.type;
+// });
+
+// const isOnBoarded = computed(() => profile.user);
+// onMounted(async () => {
+//   // await profile.userProfile();
+//   console.log(isOnBoarded.value.work_details);
+// });
 
 const onFinish = async () => {
   loading.value = true;
@@ -77,75 +112,124 @@ const onFinish = async () => {
   }
 
   try {
-    const res = await login(formState.email, formState.password);
-    store.saveUser(res.data);
-    console.log(res.data);
-    console.log(res.data.portofolio);
-    // if (!res.data.business_details && !res.data.work_details && !res.data.portofolio) {
-    //   router.push({ name: "onboarding" });
-    // } else {
-    router.push({ name: "dashboard" });
-    // }
+    let res = await login(formState.email, formState.password);
+    if (res.data.status === "true") {
+      // store.saveUser(res.data);
+      // await profile.userProfile();
+      // if (
+      //   isOnBoarded.value &&
+      //   !isOnBoarded.value.business_details &&
+      //   !isOnBoarded.value.work_details
+      // ) {
+      // if (accountType.value === "talent") {
+      //   router.push({ name: "talent-onboarding" });
+      // } else if (accountType.value === "business") {
+      //   router.push({ name: "business-onboarding" });
+      // }
+      // } else {
+      //   router.push({ name: "dashboard" });
+      // }
+      router.push({ name: "verify-login", params: { email: formState.email } });
+    } else {
+      // Handle unsuccessful login
+      console.log("Login failed:", res.data.message);
+      loading.value = false;
+      formState.email = "";
+      formState.password = "";
+    }
+    loading.value = false;
+    return res;
   } catch (error) {
-    console.log(error);
+    return error;
   } finally {
     loading.value = false;
+    formState.email = "";
+    formState.password = "";
   }
 };
-// const click = () => {
-//   const urlToOpen = "https://myspurr.azurewebsites.net/api/auth/talent/google";
 
-//   window.open(urlToOpen, "_blank");
+// const loginWithGoogle = async () => {
+//   loading.value = true;
+//   try {
+//     const res = authWithGoogle();
+//     return res;
+//   } catch (error) {
+//     return error;
+//   } finally {
+//     loading.value = false;
+//   }
 // };
 
-const loginWithGoogleApi = async () => {
-  loading.value = true;
-  try {
-    const res = await registerTalentWithGoogle();
-    store.saveUser(res.data);
-    router.push({ name: "dashboard" });
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loading.value = false;
-  }
-};
-
-const toggleShowPassword = () => {
-  showPassword.value = !showPassword.value;
-};
+// const toggleShowPassword = () => {
+//   showPassword.value = !showPassword.value;
+// };
+onMounted(() => {
+  // const urlString = window.location.href;
+  // const urlParams = new URLSearchParams(urlString);
+  // user.data.portfolio = urlParams.get("portfolio") === "true";
+  // user.data.token = urlParams.get("token") || "";
+  // user.data.user.status = urlParams.get("user[status]") || "";
+  // user.data.user.type = urlParams.get("user[type]") || "";
+  // user.data.work_details = urlParams.get("work_details") === "true";
+  // user.status = urlParams.get("status") || "true";
+  // // Check if the user data has values and then save it to the store
+  // if (
+  //   user.data.portfolio ||
+  //   user.data.token ||
+  //   user.data.user.status ||
+  //   user.data.user.type ||
+  //   user.data.work_details ||
+  //   user.status
+  // ) {
+  //   store.saveUser(user);
+  //   // Redirect to the "dashboard" route
+  //   if (
+  //     isOnBoarded.value &&
+  //     !isOnBoarded.value.business_details &&
+  //     !isOnBoarded.value.work_details
+  //   ) {
+  //     if (accountType.value === "talent") {
+  //       router.push({ name: "talent-onboarding" });
+  //     } else if (accountType.value === "business") {
+  //       router.push({ name: "business-onboarding" });
+  //     }
+  //   } else {
+  //     router.push({ name: "dashboard" });
+  //   }
+  // }
+  // return user;
+});
 </script>
 
 <template>
-  <layout :showLandingUrl="true" class="bg-[#00474F]">
+  <!-- <Loader /> -->
+  <layout :showLandingUrl="true" :showWelcomeMsg="state.status" class="bg-[#00474F]">
     <div
-      class="justify-center w-[80%] mx-auto md:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
+      class="justify-center xl:w-[80%] w-full mx-auto lg:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
     >
       <!-- form input  -->
       <div class="py-3">
         <h1
-          class="md:text-[22.225px] font-EBGaramond400 text-brand my-6 text-center text-2xl"
+          class="md:text-[22.225px] font-EBGaramond400 text-white lg:text-brand my-6 text-center text-2xl"
         >
           Log in
         </h1>
-        <button
-          @click="loginWithGoogleApi"
-          class="w-full flex justify-center gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
+        <!-- <button
+          @click="loginWithGoogle"
+          class="w-full flex justify-center hidden gap-2 font-light font-Satoshi400 items-center !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
         >
           <img class="w-[7%]" src="@/assets/svg/googleIcon.svg" alt="" />
           <p class="text-[16px] font-Satoshi400">Sign in with Google</p>
         </button>
-        <div class="flex gap-2 my-5">
+        <div class="flex hidden gap-2 my-5">
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
-          <p>OR</p>
+          <p class="text-white lg:text-black">OR</p>
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
-        </div>
-
-        <div class="flex flex-col gap-4">
+        </div> -->
+        <div class="flex flex-col mt-10 gap-4">
           <div>
             <AuthInput
               :error="errors.email"
-              :errorsMsg="errorsMsg.email || !isValidEmail"
               v-model="formState.email"
               type="email"
               placeholder="Email Address*"
@@ -155,12 +239,13 @@ const toggleShowPassword = () => {
           <div>
             <PasswordInput
               :error="errors.password"
-              :errorsMsg="errorsMsg.password || !isValidPassword"
+              :errorsMsg="errorsMsg.password"
               v-model="formState.password"
               placeholder="Password*"
+              @keyup.enter="onFinish"
             />
 
-            <div class="relative hidden">
+            <!-- <div class="relative hidden">
               <input
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Password*"
@@ -206,16 +291,18 @@ const toggleShowPassword = () => {
                   </svg>
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="mt-4 text-right">
-          <p class="font-Satoshi400 text-[13.269px] text-[#007582]">
+          <p class="font-Satoshi400 text-[13.269px] text-white lg:text-[#007582]">
             <router-link class="" to="/forgotten-password"> Forgot Password?</router-link>
           </p>
         </div>
         <div class="mt-4">
           <button
+            :disabled="loading"
+            :class="loading ? 'cursor-not-allowed' : ''"
             @click="onFinish"
             class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
           >
@@ -224,8 +311,8 @@ const toggleShowPassword = () => {
           </button>
         </div>
         <div class="mt-4 text-center">
-          <p class="font-Satoshi400 text-[13.269px] text-[#007582]">
-            Need to create an account?
+          <p class="font-Satoshi400 text-[13.269px] text-white lg:text-[#007582]">
+            Don't have an account?
             <router-link class="" to="/signup"> Sign Up </router-link>
           </p>
         </div>

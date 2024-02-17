@@ -25,11 +25,11 @@ const changeScreen = (from, to, type = null) => {
 
 <template>
   <layout class="bg-[#E9FAFB]">
-    <div class="w-[80%] mx-auto" v-if="steps[0]">
+    <div class="xl:w-[80%] w-full mx-auto" v-if="steps[0]">
       <h1 class="md:text-[36px] font-EBGaramond500 text-2xl font-bold">
         How will you use MySpurr?
       </h1>
-      <p class="text-[16px] font-Satoshi400 my-4 md:mb-8">
+      <p class="text-[16px] font-Satoshi400 my-4 md:!mb-8">
         Please select an option below.
       </p>
 
@@ -41,7 +41,7 @@ const changeScreen = (from, to, type = null) => {
           <template #tab2> Business </template>
           <template #view1>
             <div class="bg-[#E6F1F3] rounded-[4.181px] p-4 lg:p-8 mt-10">
-              <p class="text-[12.692px] text-[#011B1F] font-Satoshi500 mb-6 md:mb-4">
+              <p class="text-[12.692px] text-[#011B1F] font-Satoshi500 mb-6 md:!mb-4">
                 Signup as a creative talent to
               </p>
               <div v-for="item in talentsTerms" :key="item">
@@ -61,7 +61,7 @@ const changeScreen = (from, to, type = null) => {
                     />
                   </svg>
                   <p
-                    class="text-[10px] text-[#011B1F] font-Satoshi400 leading-[19.572px] mb-1"
+                    class="text-[10px] text-[#011B1F] font-Satoshi400 leading-[19.572px] !mb-1"
                   >
                     {{ item.content }}
                   </p>
@@ -90,7 +90,7 @@ const changeScreen = (from, to, type = null) => {
           </template>
           <template #view2>
             <div class="bg-[#E6F1F3] rounded-[4.181px] p-4 lg:p-8 mt-10">
-              <p class="text-[12.692px] text-[#011B1F] font-Satoshi500 mb-6 md:mb-4">
+              <p class="text-[12.692px] text-[#011B1F] font-Satoshi500 mb-6 md:!mb-4">
                 Signup as a business to
               </p>
               <div v-for="item in businessTerms" :key="item">
@@ -110,7 +110,7 @@ const changeScreen = (from, to, type = null) => {
                     />
                   </svg>
                   <p
-                    class="text-[10px] text-[#011B1F] font-Satoshi400 leading-[19.572px] mb-1"
+                    class="text-[10px] text-[#011B1F] font-Satoshi400 leading-[19.572px] !mb-1"
                   >
                     {{ item.content }}
                   </p>
@@ -142,7 +142,7 @@ const changeScreen = (from, to, type = null) => {
     </div>
     <div
       v-if="steps[1]"
-      class="justify-center w-[80%] mx-auto md:bg-white rounded-[11.315px] min-h-auto p-2 lg:px-8"
+      class="justify-center lg:w-[80%] w-full mx-auto md:bg-white rounded-[11.315px] min-h-auto p-2 lg:px-8"
     >
       <tab-selector>
         <template #tab1title> Sign up as a Creative Talent </template>

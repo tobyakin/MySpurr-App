@@ -52,10 +52,9 @@ function activateTab(tab) {
 }
 
 .jobs_tabs a {
-  font-size: 36.637px;
   cursor: pointer;
   transition: color 0.2s;
-  @apply p-0 py-2 text-center text-[#244034] font-Satoshi400;
+  @apply p-0 py-2 text-center lg:text-[36.637px] text-[18px] text-[#244034] font-Satoshi400;
 }
 
 .jobs_tabs a:last-child {
