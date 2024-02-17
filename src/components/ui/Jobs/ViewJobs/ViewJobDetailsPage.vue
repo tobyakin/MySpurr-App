@@ -55,18 +55,18 @@ onMounted(async () => {
               <div class="flex gap-2">
                 <button class="">
                   <CircleBookMarkIcon
-                    class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]"
+                    class="lg:w-[44.215px] lg:h-[44.215px] h-[40px] w-[40px]"
                   />
                 </button>
                 <button class="">
-                  <SearchIcon class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]" />
+                  <SearchIcon class="lg:w-[44.215px] lg:h-[44.215px] h-[40px] w-[40px]" />
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="flex flex-col justify-between mt-5">
+      <div class="flex flex-col justify-between mt-5 lg:mt-2">
         <div
           class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
         >
@@ -87,7 +87,7 @@ onMounted(async () => {
             <div
               v-for="skill in singleJob?.data?.skills"
               :key="skill"
-              class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
+              class="bg-[#2F929C] font-Satoshi500 text-[7.58px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
             >
               {{ skill.name }}
             </div>
@@ -214,7 +214,7 @@ onMounted(async () => {
                   </p>
                 </div>
               </div>
-              <div class="flex gap-3 items-center">
+              <div class="flex gap-3 mt-2 items-center">
                 <div
                   class="bg-[#2F929C] font-Satoshi500 text-[8.552px] capitalize p-[4px] px-4 text-[#fff] rounded-full"
                 >

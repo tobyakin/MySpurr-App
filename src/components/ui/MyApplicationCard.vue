@@ -2,10 +2,10 @@
 <template>
   <div
     v-if="applications && applications.length"
-    class="border-[#254035AB] border-[0.735px] max-h-[37vh] bg-white rounded-[7.347px] p-4"
+    class="border-[#254035AB] border-[0.735px] overflow-hidden hide-scrollbar flex flex-col w-full gap-[20px] overflow-y-auto max-h-[39vh] bg-white rounded-[7.347px] p-4"
   >
-    <div class="" v-for="item in applications" :key="item">
-      <div class="flex flex-row justify-between gap-3.5 my-5">
+    <div class="w-full flex" v-for="item in applications" :key="item">
+      <div class="flex flex-row justify-between w-full gap-3.5">
         <div class="flex gap-3">
           <img src="@/assets/image/jobIcon.svg" alt="" />
           <div class="">
@@ -20,12 +20,13 @@
         </div>
         <!--           :to="{ name: 'view-jobs', params: { id: 1 } }"
  -->
-        <router-link
-          to="/"
-          class="bg-[#43D0DF] font-Satoshi500 uppercase lg:text-[7.708px] text-[5px] items-center overflow-hidden flex lg:p-2 lg:px-4 px-2 text-[#000000] rounded-full"
-        >
-          {{ item.status }}
-        </router-link>
+        <div class="flex items-center">
+          <span
+            class="bg-[#43D0DF] font-Satoshi500 uppercase lg:text-[7.708px] text-[5px] items-center overflow-hidden flex p-3 lg:px-4 px-2 text-[#000000] rounded-full"
+          >
+            {{ item.status }}
+          </span>
+        </div>
       </div>
       <hr v-if="item < 3" class="text-[#EAEAEA]" />
     </div>

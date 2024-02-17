@@ -66,6 +66,7 @@ onMounted(async () => {
 });
 //!isOnBoarded.portofoolio;
 onMounted(async () => {
+  // await JobsStore.handleGetTopPickedJobs();
   if (accountType.value === "talent") {
     await JobsStore.handleMyJobApplications();
   }
@@ -301,10 +302,10 @@ onMounted(async () => {
           >
         </div>
 
-        <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
+        <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
           <JobCard
             class="min-w-[380px] lg:min-w-[50%] xl:min-w-[376.66px] md:min-w-[60%]"
-            v-for="item in 4"
+            v-for="item in 2"
             :key="item"
           />
         </div>
@@ -314,12 +315,12 @@ onMounted(async () => {
           <p class="text-[18px] font-Satoshi400 !mb-8 text-[#244034]">My Applications</p>
           <!-- min-w-[95%] lg:min-w-[70%] -->
 
-          <div class="flex flex-row h-auto gap-3">
+          <div class="flex lg:flex-row flex-col h-auto gap-3">
             <div class="w-full">
               <MyApplicationCard :applications="myJobsApplications.data" class="w-full" />
             </div>
             <div
-              class="border-[#254035AB] w-[65%] bg-[#F0F3C4] border-[0.735px] h-[39vh] rounded-[7.347px] p-4 py-[1.1rem]"
+              class="border-[#254035AB] w-full lg:w-[65%] bg-[#F0F3C4] border-[0.735px] h-[39vh] rounded-[7.347px] p-4 py-[1.1rem]"
             ></div>
           </div>
         </div>

@@ -37,7 +37,9 @@ const jobApplicationForm = reactive({
   other_file: null,
   question_answers: Array.from(
     { length: singleJob.value?.data?.questions.length },
-    () => ({ answer: "" })
+    () => ({
+      answer: "",
+    })
   ),
 });
 // const answers = ref(
@@ -317,11 +319,13 @@ onMounted(async () => {
           class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
         >
           <p class="text-[17.887px] font-Satoshi500 text-[#000] leading-[22.621px]">
-            What is your hourly rate for this job?
+            What is your
+            <span class="lowercase">{{ singleJob?.data?.salaray_type }}</span> rate for
+            this job?
           </p>
-          <span class="text-[#DA5252] text-[10.165px] font-Satoshi500 leading-[25.232px]"
-            >Client budget: {{ singleJob?.data?.salary_min }}-{{
-              singleJob?.data?.salary_max
+          <span class="text-[#DA5252] text-[13.165px] font-Satoshi500 leading-[25.232px]"
+            >Client budget: {{ store.abbr(singleJob?.data?.salary_min) }}-{{
+              store.abbr(singleJob?.data?.salary_max)
             }}
           </span>
           <div class="flex-col justify-between gap-2 w-full">
@@ -431,7 +435,7 @@ onMounted(async () => {
             class="mt-2"
           />
         </div>
-        <div
+        <!-- <div
           class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
         >
           <p class="text-[17.887px] font-Satoshi500 text-[#000]">
@@ -444,16 +448,13 @@ onMounted(async () => {
               type="text"
             />
 
-            <!-- <a href="" class="text-[15.495px] font-Satoshi500 text-[#01272C]"
-              >https://www.myspurr.talent/tobiakinyele</a
-            > -->
             <div
               class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full"
             >
               <LinkIcon />
             </div>
           </div>
-        </div>
+        </div> -->
         <div
           class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] py-10 p-4"
         >
@@ -480,7 +481,7 @@ onMounted(async () => {
             name=""
             @change="uploadFile"
             ref="previewImage"
-            accept=".doc,.docx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            accept=".doc,.docx,.jpg,.png,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             hidden
             id="upload_file"
           />
