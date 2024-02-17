@@ -319,7 +319,9 @@ onMounted(async () => {
           class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
         >
           <p class="text-[17.887px] font-Satoshi500 text-[#000] leading-[22.621px]">
-            What is your {{ singleJob?.data?.salaray_type }} rate for this job?
+            What is your
+            <span class="lowercase">{{ singleJob?.data?.salaray_type }}</span> rate for
+            this job?
           </p>
           <span class="text-[#DA5252] text-[13.165px] font-Satoshi500 leading-[25.232px]"
             >Client budget: {{ store.abbr(singleJob?.data?.salary_min) }}-{{
