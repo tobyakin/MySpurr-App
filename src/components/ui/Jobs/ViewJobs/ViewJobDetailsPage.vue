@@ -87,7 +87,7 @@ onMounted(async () => {
             <div
               v-for="skill in singleJob?.data?.skills"
               :key="skill"
-              class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
+              class="bg-[#2F929C] font-Satoshi500 text-[7.58px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
             >
               {{ skill.name }}
             </div>
