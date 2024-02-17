@@ -1,9 +1,11 @@
 <script setup>
-import { defineAsyncComponent } from 'vue'
-const FormGroup = defineAsyncComponent(() => import('@/components/ui/Form/Input/FormGroup.vue'))
+import { defineAsyncComponent } from "vue";
+const FormGroup = defineAsyncComponent(() =>
+  import("@/components/ui/Form/Input/FormGroup.vue")
+);
 
-import { useStore } from '@/stores/user'
-let store = useStore()
+import { useStore } from "@/stores/user";
+let store = useStore();
 </script>
 
 <template>
@@ -13,8 +15,8 @@ let store = useStore()
       been received.
     </p>
     <p class="text-[#244034] text-[17.633px] mt-10 leading-[27.356px] font-Satoshi400">
-      Seat back and relax while the recruiter takes a look at your resume and portfolio. We will
-      keep you updated about position of this job. Cheers The MySpurr Team
+      Seat back and relax while the recruiter takes a look at your resume and portfolio.
+      We will keep you updated about position of this job.
     </p>
     <p class="text-[#244034] text-[17.633px] mt-6 leading-[27.356px] font-Satoshi400">
       Cheers <br />
