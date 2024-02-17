@@ -210,7 +210,7 @@ onMounted(async () => {
               <FormGroup
                 v-model="sortInput.Category"
                 labelClasses="font-Satoshi500 text-[15.606px]"
-                label=" Category"
+                label=" Skill"
                 name="Name"
                 placeholder="Name or keyword"
                 type="text"

@@ -1,22 +1,25 @@
-@import "../../public/fonts/css/satoshi.css";
-@import "../../public/fonts/css/EBGaramond.css";
+@import '../../public/fonts/css/satoshi.css';
+@import '../../public/fonts/css/EBGaramond.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body{
-    @apply font-Satoshi400
-
+body {
+  @apply font-Satoshi400;
 }
-p{
-  @apply font-Satoshi400 !mb-0
+p {
+  @apply font-Satoshi400 !mb-0;
 }
-h1, h2, h3, h4, h5, h6 {
-    @apply font-Satoshi400 !mb-0
-
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-Satoshi400 !mb-0;
 }
 select {
-  @apply  bg-transparent
+  @apply bg-transparent;
 }
 .container {
   max-width: 1200px;
@@ -24,7 +27,7 @@ select {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-    @apply font-Satoshi400 
+  @apply font-Satoshi400;
 }
 
 @media (min-width: 576px) {
@@ -83,55 +86,48 @@ select {
 }
 @layer base {
   body {
-
     font-family: 'satoshi';
   }
 }
 
 .ant-form-item-explain-error {
-
-  @apply text-xs font-light mt-2
+  @apply text-xs font-light mt-2;
 }
 
 .btn-light {
-
-  @apply border-none text-brand border-2 px-10 py-3 rounded-md text-sm
+  @apply border-none text-brand border-2 px-10 py-3 rounded-md text-sm;
 }
 
 .btn-brand {
-
-  @apply border-brand bg-brand text-gray-100 border-2 px-10 py-3 rounded-full text-sm
+  @apply border-brand bg-brand text-gray-100 border-2 px-10 py-3 rounded-full text-sm;
 }
 
 .btn-light-border {
-
-  @apply border-white text-white border-2 px-10 py-3 rounded-md text-sm
+  @apply border-white text-white border-2 px-10 py-3 rounded-md text-sm;
 }
 
 .btn-brand-white {
-
-  @apply border-white bg-white text-brand border-2 px-10 py-3 rounded-md text-sm
+  @apply border-white bg-white text-brand border-2 px-10 py-3 rounded-md text-sm;
 }
 
 .btn-business {
-
-  @apply bg-brand text-gray-100 lg:px-8 py-3 w-[60%] rounded-full text-[14px]
+  @apply bg-brand text-gray-100 lg:px-8 py-3 w-[60%] rounded-full text-[14px];
 }
 
 input {
-  @apply outline-none
+  @apply outline-none;
 }
 
 .dropdown-item {
-  @apply flex flex-col gap-2 p-4 rounded-md bg-brand !text-gray-100 transition-colors ease-in-out duration-200
+  @apply flex flex-col gap-2 p-4 rounded-md bg-brand !text-gray-100 transition-colors ease-in-out duration-200;
 }
 
 .dropdown-menu-title {
-  @apply font-Satoshi700 text-brand
+  @apply font-Satoshi700 text-brand;
 }
 
 .dropdown-item:hover .dropdown-menu-title {
-  @apply text-gray-100
+  @apply text-gray-100;
 }
 
 h2 {
@@ -168,11 +164,12 @@ ol {
 .tabs {
   overflow: auto;
   column-gap: 25px;
-  background: #F0F5F3;  padding-bottom: 0 !important;
+  background: #f0f5f3;
+  padding-bottom: 0 !important;
   scroll-padding-bottom: 0;
   text-transform: capitalize !important;
   color: rgba(33, 37, 41, 0.6);
-  @apply text-[14px] leading-[18.2px] font-Satoshi500 rounded-full
+  @apply text-[14px] leading-[18.2px] font-Satoshi500 rounded-full;
 }
 
 .tabs::-webkit-scrollbar {
@@ -183,8 +180,8 @@ ol {
   font-size: 14px;
   cursor: pointer;
   transition: color 0.2s;
-  color: rgba(0, 0, 0, 0.50);
-  @apply  p-4 px-5 text-center
+  color: rgba(0, 0, 0, 0.5);
+  @apply p-4 px-5 text-center;
 }
 
 .tabs a:last-child {
@@ -200,17 +197,16 @@ ol {
 .tabs a.active {
   cursor: default;
   font-weight: 500;
-  border: 0.521px solid #31795A;
-   @apply text-brand bg-white rounded-full  text-center
+  border: 0.521px solid #31795a;
+  @apply text-brand bg-white rounded-full  text-center;
 }
 
 /* Style the tab content */
 
-
 .tabcontent .map {
   height: 173px;
   width: 220px;
-  background: #D3EAFB;
+  background: #d3eafb;
   margin-left: 60px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -223,24 +219,23 @@ ol {
   display: none;
 }
 .Vue-Toastification__toast {
-  @apply font-Satoshi400
+  @apply font-Satoshi400;
 }
 
 .Vue-Toastification__toast--error svg {
-  @apply !text-[#E06F6F]
+  @apply !text-[#E06F6F];
 }
 
 .Vue-Toastification__toast--error {
-
-  @apply !bg-white !text-black
+  @apply !bg-white !text-black;
 }
 
 .Vue-Toastification__toast--success {
-  @apply !bg-white !text-black
+  @apply !bg-white !text-black;
 }
 
 .Vue-Toastification__toast--success svg {
-  @apply !text-[#D3DA51]
+  @apply !text-[#D3DA51];
 }
 /* ant-picker-cell ant-picker-cell-in-view ant-picker-cell-today  */
 /* .ant-picker-cell-in-view, */
@@ -249,11 +244,11 @@ ol {
 {
   @apply  !bg-brand
 } */
-input[type="checkbox"] {
-    accent-color: #2F929C;
+input[type='checkbox'] {
+  accent-color: #2f929c;
 }
 .vue-apexcharts {
-  max-height: 30%
+  max-height: 30%;
 }
 .bank_list::-webkit-scrollbar {
   width: 5px;
@@ -263,28 +258,28 @@ input[type="checkbox"] {
 .bank_list::-webkit-scrollbar-track {
   /* box-shadow: inset 0 0 5px grey;  */
   border-radius: 10px;
-  background: #E6F1F3;
+  background: #e6f1f3;
 }
- 
+
 /* Handle */
 .bank_list::-webkit-scrollbar-thumb {
-  background: #96C6CC; 
+  background: #96c6cc;
   border-radius: 10px;
   height: 2px;
 }
 
 /* Handle on hover */
 .bank_list::-webkit-scrollbar-thumb:hover {
-  background: #96C6CC; 
+  background: #96c6cc;
 }
-.editor ul{
+.editor ul {
   list-style-type: disc !important;
   /* list-style:circle !important */
 }
-.editor p{
-  @apply   break-words text-justify font-Satoshi400 my-4 
+.editor p {
+  @apply break-words text-justify font-Satoshi400 !text-[14px] leading-5;
 }
-.ql-video{
+.ql-video {
   width: 100%; /* Set the desired width */
   height: 600px; /* Set the desired height */
   border-radius: 5px; /* Add rounded corners */
