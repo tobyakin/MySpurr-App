@@ -37,7 +37,9 @@ const jobApplicationForm = reactive({
   other_file: null,
   question_answers: Array.from(
     { length: singleJob.value?.data?.questions.length },
-    () => ({ answer: "" })
+    () => ({
+      answer: "",
+    })
   ),
 });
 // const answers = ref(
@@ -319,9 +321,9 @@ onMounted(async () => {
           <p class="text-[17.887px] font-Satoshi500 text-[#000] leading-[22.621px]">
             What is your hourly rate for this job?
           </p>
-          <span class="text-[#DA5252] text-[10.165px] font-Satoshi500 leading-[25.232px]"
-            >Client budget: {{ singleJob?.data?.salary_min }}-{{
-              singleJob?.data?.salary_max
+          <span class="text-[#DA5252] text-[13.165px] font-Satoshi500 leading-[25.232px]"
+            >Client budget: {{ store.abbr(singleJob?.data?.salary_min) }}-{{
+              store.abbr(singleJob?.data?.salary_max)
             }}
           </span>
           <div class="flex-col justify-between gap-2 w-full">
