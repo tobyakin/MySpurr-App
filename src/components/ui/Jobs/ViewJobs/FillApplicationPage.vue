@@ -482,7 +482,7 @@ onMounted(async () => {
             name=""
             @change="uploadFile"
             ref="previewImage"
-            accept=".doc,.docx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            accept=".doc,.docx,.jpg,.png,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             hidden
             id="upload_file"
           />
