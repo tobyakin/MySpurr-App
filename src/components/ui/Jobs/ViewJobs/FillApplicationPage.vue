@@ -435,7 +435,7 @@ onMounted(async () => {
             class="mt-2"
           />
         </div>
-        <div
+        <!-- <div
           class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
         >
           <p class="text-[17.887px] font-Satoshi500 text-[#000]">
@@ -448,16 +448,13 @@ onMounted(async () => {
               type="text"
             />
 
-            <!-- <a href="" class="text-[15.495px] font-Satoshi500 text-[#01272C]"
-              >https://www.myspurr.talent/tobiakinyele</a
-            > -->
             <div
               class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full"
             >
               <LinkIcon />
             </div>
           </div>
-        </div>
+        </div> -->
         <div
           class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] py-10 p-4"
         >
