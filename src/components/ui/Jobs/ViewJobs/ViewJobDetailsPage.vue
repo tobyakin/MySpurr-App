@@ -66,7 +66,7 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div class="flex flex-col justify-between mt-5">
+      <div class="flex flex-col justify-between mt-5 lg:mt-2">
         <div
           class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
         >
