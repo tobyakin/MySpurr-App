@@ -138,7 +138,7 @@ onMounted(async () => {
         </p>
       </div>
     </div>
-    <div class="flex flex-col lg:flex-row mt-10 w-full">
+    <div class="flex flex-col lg:flex-row gap-8 mt-10 w-full">
       <div class="lg:w-[60%] flex flex-col gap-6 justify-between p-4">
         <div>
           <p
