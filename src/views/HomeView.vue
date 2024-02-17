@@ -66,6 +66,7 @@ onMounted(async () => {
 });
 //!isOnBoarded.portofoolio;
 onMounted(async () => {
+  // await JobsStore.handleGetTopPickedJobs();
   if (accountType.value === "talent") {
     await JobsStore.handleMyJobApplications();
   }
@@ -301,10 +302,10 @@ onMounted(async () => {
           >
         </div>
 
-        <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
+        <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
           <JobCard
             class="min-w-[380px] lg:min-w-[50%] xl:min-w-[376.66px] md:min-w-[60%]"
-            v-for="item in 4"
+            v-for="item in 2"
             :key="item"
           />
         </div>
