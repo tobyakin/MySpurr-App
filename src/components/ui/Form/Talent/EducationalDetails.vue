@@ -145,7 +145,7 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Description</label
           >
-          <div class="flex flex-col h-[28vh]">
+          <div class="flex flex-col min-h-[28vh]">
             <QuillEditor
               v-model:content="education.description"
               class=""
