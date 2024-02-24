@@ -12,8 +12,10 @@ const { singleJob } = storeToRefs(JobsStore);
 const route = useRoute();
 import { useUserProfile } from "@/stores/profile";
 import { useTabStore } from "@/stores/tab";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
 const store = useTabStore();
+let loading = ref(false);
 
 // const { jobApplicationForm } = storeToRefs(JobsStore);
 const emit = defineEmits(["back", "next"]);
@@ -73,7 +75,19 @@ const uploadFile = (event) => {
     jobApplicationForm.other_file = "";
   }
 };
+const isFormValid = computed(() => {
+  return (
+    jobApplicationForm.job_id !== "" &&
+    jobApplicationForm.rate.trim() !== "" &&
+    jobApplicationForm.available_start !== "" &&
+    jobApplicationForm.resume !== "" &&
+    jobApplicationForm.other_file !== null &&
+    jobApplicationForm.question_answers.length >= 0
+  );
+});
+
 const handleJobApplication = async () => {
+  loading.value = true;
   let payload = {
     job_id: jobApplicationForm.job_id,
     rate: jobApplicationForm.rate.toString(),
@@ -86,10 +100,13 @@ const handleJobApplication = async () => {
     const res = await JobsStore.applyForJob(jobApplicationForm.job_id, payload);
     if (res.status === "true") {
       next();
+      loading.value = false;
     }
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);
+    loading.value = false;
   }
 };
 
@@ -236,12 +253,15 @@ onMounted(async () => {
                   back
                 </button>
                 <button
-                  :disabled="!disable"
+                  :disabled="!isFormValid"
                   @click="handleJobApplication()"
-                  :class="!disable ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
+                  :class="
+                    !isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'
+                  "
                   class="font-Satoshi500 uppercase text-[9.708px] p-3 lg:px-8 lg:w-auto w-full text-[#000000] rounded-full"
                 >
-                  SEND
+                  <span v-if="!loading">SEND</span>
+                  <WhiteLoader v-else />
                 </button>
               </div>
             </div>
@@ -499,7 +519,7 @@ onMounted(async () => {
         <div
           v-for="(question, index) in singleJob?.data?.questions"
           :key="question"
-          class="border-[1.137px] bg-[#FFFFFD] h-full w-full rounded-[11.367px] border-[#254035]/[0.6] p-4"
+          class="border-[1.137px] bg-[#FFFFFD] h-full w-full overflow-hidden rounded-[11.367px] border-[#254035]/[0.6] p-4"
         >
           <p class="text-[#2F929C] font-Satoshi500 my-2 text-[13.552px]">
             Please answer this question from the Client
