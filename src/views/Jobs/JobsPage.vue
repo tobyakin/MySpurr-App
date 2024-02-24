@@ -97,10 +97,25 @@ const filteredJobs = computed(() => {
 
   if (sortInput.Location) {
     filtered = filtered.filter((item) =>
-      item.location.toLowerCase().includes(sortInput.Location.toLowerCase())
+      item.state.toLowerCase().includes(sortInput.Location.toLowerCase())
     );
   }
-
+  // if (sortInput.Location) {
+  //   const [state, country] = sortInput.Location.toLowerCase()
+  //     .split(",")
+  //     .map((item) => item.trim());
+  //   if (state && country) {
+  //     filtered = filtered.filter(
+  //       (item) =>
+  //         item.state.toLowerCase().includes(state) &&
+  //         item.country.toLowerCase().includes(country)
+  //     );
+  //   } else if (state) {
+  //     filtered = filtered.filter((item) => item.state.toLowerCase().includes(state));
+  //   } else if (country) {
+  //     filtered = filtered.filter((item) => item.country.toLowerCase().includes(country));
+  //   }
+  // }
   if (sortInput.experienceLevel) {
     filtered = filtered.filter((item) =>
       item.experience.toLowerCase().includes(sortInput.experienceLevel.toLowerCase())
