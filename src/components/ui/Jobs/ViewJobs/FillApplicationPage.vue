@@ -22,13 +22,13 @@ const userDetails = computed(() => {
   return profile.user.data;
 });
 const showDateInput = ref(false);
-let onButton1 = ref(false);
-let onButton3 = ref(false);
-let onButton4 = ref(false);
-let onButton5 = ref(false);
-let onButton5Val = ref(0);
-let onButton2 = ref(false);
-let toDisable = ref(true);
+// let onButton1 = ref(false);
+// let onButton3 = ref(false);
+// let onButton4 = ref(false);
+// let onButton5 = ref(false);
+// let onButton5Val = ref(0);
+// let onButton2 = ref(false);
+// let toDisable = ref(true);
 const jobApplicationForm = reactive({
   job_id: route.params.id,
   rate: "",
@@ -93,83 +93,83 @@ const handleJobApplication = async () => {
   }
 };
 
-onMounted(() => {
-  jobApplicationForm.rate = finalTotal.value;
+// onMounted(() => {
+//   jobApplicationForm.rate = finalTotal.value;
 
-  watch(finalTotal, (newFinalTotal) => {
-    jobApplicationForm.rate = newFinalTotal;
-    console.log(jobApplicationForm.rate);
-  });
-});
+//   watch(finalTotal, (newFinalTotal) => {
+//     jobApplicationForm.rate = newFinalTotal;
+//     console.log(jobApplicationForm.rate);
+//   });
+// });
 
-const disable = computed(() => {
-  return (
-    onButton1.value ||
-    onButton2.value ||
-    onButton3.value ||
-    onButton4.value ||
-    onButton5.value
-  );
-});
+// const disable = computed(() => {
+//   return (
+//     onButton1.value ||
+//     onButton2.value ||
+//     onButton3.value ||
+//     onButton4.value ||
+//     onButton5.value
+//   );
+// });
 
-watch(
-  () => [
-    onButton1.value,
-    onButton2.value,
-    onButton3.value,
-    onButton4.value,
-    onButton5.value,
-  ],
-  () => {
-    toDisable.value =
-      onButton1.value ||
-      onButton2.value ||
-      onButton3.value ||
-      onButton4.value ||
-      onButton5.value;
-    console.log(toDisable.value);
-  }
-);
+// watch(
+//   () => [
+//     onButton1.value,
+//     onButton2.value,
+//     onButton3.value,
+//     onButton4.value,
+//     onButton5.value,
+//   ],
+//   () => {
+//     toDisable.value =
+//       onButton1.value ||
+//       onButton2.value ||
+//       onButton3.value ||
+//       onButton4.value ||
+//       onButton5.value;
+//     console.log(toDisable.value);
+//   }
+// );
 
-const buttons = reactive({
-  1: { price: 10, active: false },
-  2: { price: 20, active: false },
-  3: { price: 50, active: false },
-  4: { price: 100, active: false },
-});
+// const buttons = reactive({
+//   1: { price: 10, active: false },
+//   2: { price: 20, active: false },
+//   3: { price: 50, active: false },
+//   4: { price: 100, active: false },
+// });
 
-const toggleButton = (buttonId) => {
-  buttons[buttonId].active = !buttons[buttonId].active;
-  onButton5.value = false;
-};
+// const toggleButton = (buttonId) => {
+//   buttons[buttonId].active = !buttons[buttonId].active;
+//   onButton5.value = false;
+// };
 
-const totalPrice = computed(() => {
-  let total = 0;
-  for (const button of Object.values(buttons)) {
-    if (button.active) {
-      total += button.price;
-    }
-  }
-  return total;
-});
+// const totalPrice = computed(() => {
+//   let total = 0;
+//   for (const button of Object.values(buttons)) {
+//     if (button.active) {
+//       total += button.price;
+//     }
+//   }
+//   return total;
+// });
 
-const finalTotal = computed(() => {
-  const value = onButton5.value ? onButton5Val.value : totalPrice.value;
-  return parseInt(value);
-});
+// const finalTotal = computed(() => {
+//   const value = onButton5.value ? onButton5Val.value : totalPrice.value;
+//   return parseInt(value);
+// });
 
-const resetButton = () => {
-  for (const button of Object.values(buttons)) {
-    if (button.active) {
-      button.active = false;
-    }
-  }
-  onButton1.value = false;
-  onButton2.value = false;
-  onButton3.value = false;
-  onButton4.value = false;
-  onButton5.value = true;
-};
+// const resetButton = () => {
+//   for (const button of Object.values(buttons)) {
+//     if (button.active) {
+//       button.active = false;
+//     }
+//   }
+//   onButton1.value = false;
+//   onButton2.value = false;
+//   onButton3.value = false;
+//   onButton4.value = false;
+//   onButton5.value = true;
+// };
 
 const back = () => {
   emit("back");
@@ -308,11 +308,18 @@ onMounted(async () => {
                 userDetails?.first_name.substring(0, 4) + ".."
               }}/{{ userDetails?.uniqueId.substring(0, 4) + ".." }}</span
             >
-            <div
+            <a
+              target="_blank"
+              :href="
+                `https://www.myspurr.net/` +
+                `${userDetails?.first_name}` +
+                `/` +
+                `${userDetails?.uniqueId}`
+              "
               class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full"
             >
               <LinkIcon />
-            </div>
+            </a>
           </div>
         </div>
         <div
@@ -329,7 +336,7 @@ onMounted(async () => {
             }}
           </span>
           <div class="flex-col justify-between gap-2 w-full">
-            <div class="flex flex-wrap lg:gap-3 justify-between mt-4">
+            <!-- <div class="flex flex-wrap lg:gap-3 justify-between mt-4">
               <button
                 @click="(onButton1 = !onButton1), toggleButton(1)"
                 :class="{
@@ -380,11 +387,11 @@ onMounted(async () => {
               >
                 Custom
               </button>
-            </div>
+            </div> -->
             <GlobalInput
+              inputClasses="border-[1.261px] w-full border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
               type="number"
-              v-show="onButton5"
-              v-model="onButton5Val"
+              v-model="jobApplicationForm.rate"
               class="mt-2"
             />
           </div>
@@ -506,7 +513,7 @@ onMounted(async () => {
           <hr class="border-[#254035AB] border-[0.596px] my-3" />
           <textarea
             v-model="jobApplicationForm.question_answers[index].answer"
-            class="w-full outline-none text-[15.816px] h-[46%] font-Satoshi500 text-[#97A6A8]"
+            class="w-full outline-none text-[15.816px] h-[100%] font-Satoshi500 text-[#97A6A8]"
             name=""
             placeholder="Type answer here"
             id=""
