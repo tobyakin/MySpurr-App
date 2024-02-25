@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "vue-router";
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_BASEURL_PRODUCTION;
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_BASEURL
 
 /*
  Axios Interceptor to log user out
