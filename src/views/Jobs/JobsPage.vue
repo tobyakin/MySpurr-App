@@ -1,24 +1,24 @@
 <script setup>
-import { defineAsyncComponent, ref, computed, onMounted, reactive, watch } from "vue";
+import { watchEffect, ref, computed, onMounted, reactive, watch } from "vue";
 import { storeToRefs } from "pinia";
-import VueSlider from "vue-slider-component";
+// import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import { useStore } from "@/stores/user";
+// import { useStore } from "@/stores/user";
 import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
 import Arrow from "@/components/icons/paginationArrow.vue";
 import Tabs from "@/components/ui/Jobs/Tabs.vue";
 import { useJobsStore } from "@/stores/jobs";
+import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
+import Label from "@/components/ui/Form/Input/Label.vue";
+import { useRouter } from "vue-router";
+
 const jobsStore = useJobsStore();
 const { Job } = storeToRefs(jobsStore);
 
-const FormGroup = defineAsyncComponent(() =>
-  import("@/components/ui/Form/Input/FormGroup.vue")
-);
-const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
-
-let store = useStore();
+// let store = useStore();
+const router = useRouter();
 
 const sortInput = reactive({
   name: "",
@@ -51,56 +51,15 @@ watch(range, (newRange) => {
   updateRange(newRange);
 });
 
-const jobsdata = [
-  {
-    company_image: null,
-    company_name: "MySpurr",
-    verify: false,
-    job_title: "Software Engineer",
-    skills: [{ name: "React" }, { name: "NodeJS" }, { name: "MongoDB" }],
-    employee_type: "Part-Time",
-    location: "Remote",
-    rate: " $30 - $50 / hour",
-    weekly_hours: "20 hrs/week",
-    availablity: true,
-    match: true,
-  },
-  {
-    company_image: null,
-    company_name: "Trigo meadia",
-    verify: true,
-    job_title: " Developer in java c++kk",
-    skills: [{ name: "React" }, { name: "NodeJS" }, { name: "MongoDB" }],
-    employee_type: "Full-Time",
-    location: "Remote",
-    rate: " $30 - $50 / hour",
-    weekly_hours: "30 hrs/week",
-    availablity: true,
-    match: false,
-  },
-  {
-    company_image: null,
-    company_name: "Kavlr.io",
-    verify: false,
-    job_title: "Vue Developer",
-    skills: [{ name: "React" }, { name: "NodeJS" }, { name: "MongoDB" }],
-    employee_type: "Full-Time",
-    location: "Remote",
-    rate: " $230 - $500 / hour",
-    weekly_hours: "50 hrs/week",
-    availablity: true,
-    match: true,
-  },
-];
 const currentPage = ref(1);
 
 // Create a computed property to paginate the talent data
-const paginatedTalent = computed(() => {
-  const perPage = 2;
-  const startIndex = (currentPage.value - 1) * perPage;
-  const endIndex = startIndex + perPage;
-  return Job.value?.data.slice(startIndex, endIndex);
-});
+// const paginatedTalent = computed(() => {
+//   const perPage = 2;
+//   const startIndex = (currentPage.value - 1) * perPage;
+//   const endIndex = startIndex + perPage;
+//   return Job.value?.data.slice(startIndex, endIndex);
+// });
 const totalPages = computed(() => Math.ceil(Job.value?.length / 2));
 
 // Function to change the current page
@@ -138,10 +97,25 @@ const filteredJobs = computed(() => {
 
   if (sortInput.Location) {
     filtered = filtered.filter((item) =>
-      item.location.toLowerCase().includes(sortInput.Location.toLowerCase())
+      item.state.toLowerCase().includes(sortInput.Location.toLowerCase())
     );
   }
-
+  // if (sortInput.Location) {
+  //   const [state, country] = sortInput.Location.toLowerCase()
+  //     .split(",")
+  //     .map((item) => item.trim());
+  //   if (state && country) {
+  //     filtered = filtered.filter(
+  //       (item) =>
+  //         item.state.toLowerCase().includes(state) &&
+  //         item.country.toLowerCase().includes(country)
+  //     );
+  //   } else if (state) {
+  //     filtered = filtered.filter((item) => item.state.toLowerCase().includes(state));
+  //   } else if (country) {
+  //     filtered = filtered.filter((item) => item.country.toLowerCase().includes(country));
+  //   }
+  // }
   if (sortInput.experienceLevel) {
     filtered = filtered.filter((item) =>
       item.experience.toLowerCase().includes(sortInput.experienceLevel.toLowerCase())
@@ -184,6 +158,14 @@ watch(currentPage, (newPage) => {
 });
 onMounted(async () => {
   await jobsStore.allJobs();
+});
+// Watch for changes in the route query parameters
+watchEffect(() => {
+  const searchQuery = router.currentRoute.value.query.search;
+  if (searchQuery) {
+    // Set the search query in your component's data
+    sortInput.name = searchQuery;
+  }
 });
 </script>
 
@@ -269,17 +251,17 @@ onMounted(async () => {
                         placeholder="currency"
                         type="text"
                         :items="['USD', 'NGN']"
-                        inputClasses="w-full mt-0 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                        inputClasses="w-full mt-0 font-light font-Satoshi400 bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                       />
                     </div>
                   </div>
                 </div>
                 <div>
-                  <vue-slider
+                  <!-- <vue-slider
                     v-model="range"
                     :tooltip="'none'"
                     :enable-cross="false"
-                  ></vue-slider>
+                  ></vue-slider> -->
                 </div>
               </div>
             </div>

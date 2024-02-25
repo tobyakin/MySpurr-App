@@ -104,6 +104,20 @@ const selectHighlightedOption = () => {
   }
 };
 // end tag ends here
+const isFormValid = computed(() => {
+  return (
+    portfolio.value.title !== "" &&
+    portfolio.value.client_name !== "" &&
+    portfolio.value.job_type !== "" &&
+    portfolio.value.location !== "" &&
+    portfolio.value.tags.length > 0 &&
+    portfolio.value.cover_image !== null &&
+    portfolio.value.body.trim() !== "" &&
+    portfolio.value.min_rate.trim() !== "" &&
+    portfolio.value.max_rate.trim() !== ""
+  );
+});
+
 // upload image
 const uploadedImageName = ref("");
 const restForm = () => {
@@ -112,25 +126,72 @@ const restForm = () => {
     (portfolio.value.job_type = ""),
     (portfolio.value.location = ""),
     (portfolio.value.tags = []),
-    (portfolio.value.cover_imag = null),
+    (portfolio.value.cover_image = null),
     (portfolio.value.body = ""),
     (portfolio.value.min_rate = ""),
     (portfolio.value.max_rate = "");
 };
 
+// const uploadImage = (event) => {
+//   const file = event.target.files[0];
+//   // if (file) {
+//   //   const imageUrl = URL.createObjectURL(file);
+//   //   portfolio.value.cover_image = file;
+//   //   uploadedImageName.value = file.name;
+//   // }
+//   if (file) {
+//     const reader = new FileReader();
+//     uploadedImageName.value = file.name;
+
+//     reader.onload = () => {
+//       portfolio.value.cover_image = reader.result;
+//     };
+//     reader.readAsDataURL(file);
+//   } else {
+//     portfolio.value.cover_image = "";
+//   }
+// };
 const uploadImage = (event) => {
   const file = event.target.files[0];
-  // if (file) {
-  //   const imageUrl = URL.createObjectURL(file);
-  //   portfolio.value.cover_image = file;
-  //   uploadedImageName.value = file.name;
-  // }
+
   if (file) {
     const reader = new FileReader();
     uploadedImageName.value = file.name;
 
     reader.onload = () => {
-      portfolio.value.cover_image = reader.result;
+      const img = new Image();
+      img.src = reader.result;
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const maxSizeMB = 10; // Maximum allowed file size in MB
+        const maxDimension = 1200; // Maximum width or height of the image
+
+        let width = img.width;
+        let height = img.height;
+
+        // Check if image size exceeds the maximum allowed size
+        let scaleFactor = 1;
+        if (file.size / (1024 * 1024) > maxSizeMB) {
+          scaleFactor = Math.min(maxDimension / width, maxDimension / height);
+          width *= scaleFactor;
+          height *= scaleFactor;
+        }
+
+        // Set canvas dimensions
+        canvas.width = width;
+        canvas.height = height;
+
+        // Draw image on canvas
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert canvas to base64 data URL with reduced quality
+        const reducedQualityDataURL = canvas.toDataURL("image/jpeg", 0.4); // Adjust quality as needed
+
+        // Assign reduced quality image to portfolio.cover_image
+        portfolio.value.cover_image = reducedQualityDataURL;
+      };
     };
     reader.readAsDataURL(file);
   } else {
@@ -338,7 +399,9 @@ const onFinish = async () => {
       <div class="flex gap-4 justify-center mt-12">
         <button
           @click="onFinish"
-          class="bg-[#2F929C] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] text-white rounded-full px-8 p-4 w-auto"
+          :disabled="!isFormValid"
+          :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
+          class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 lg:w-[20%] w-full"
         >
           <span v-if="!loading" class="text-[12.067px]">Save</span>
           <WhiteLoader v-if="loading" />

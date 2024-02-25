@@ -54,16 +54,22 @@ const onFinish = async () => {
 const CertificateDate = computed(() => {
   return dayjs(formState.value.certificate_date).format("YYYY-MM-DD");
 });
-const CertificateYear = computed(() => {
-  return dayjs(formState.value.certificate_year).format("YYYY");
-});
-
+// const CertificateYear = computed(() => {
+//   return dayjs(formState.value.certificate_year).format("YYYY");
+// });
+watch(
+  () => formState.value.certificate_date,
+  (newCertificateDate) => {
+    const year = dayjs(newCertificateDate).format("YYYY");
+    certificate.value.certificate_year = year;
+  }
+);
 watch(CertificateDate, (newCertificateDate) => {
   certificate.value.certificate_date = newCertificateDate;
 });
-watch(CertificateYear, (newCertificateYear) => {
-  certificate.value.certificate_year = newCertificateYear;
-});
+// watch(CertificateYear, (newCertificateYear) => {
+//   certificate.value.certificate_year = newCertificateYear;
+// });
 </script>
 
 <template>
@@ -115,7 +121,7 @@ watch(CertificateYear, (newCertificateYear) => {
               class="bg-transparent border-none !outline-none w-full shadow-none"
             />
           </div>
-          <div class="w-full flex flex-col gap-2 justify-between">
+          <!-- <div class="w-full flex flex-col gap-2 justify-between">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Year</label>
             <a-date-picker
               picker="year"
@@ -123,7 +129,7 @@ watch(CertificateYear, (newCertificateYear) => {
               v-model:value="formState.certificate_year"
               class="bg-transparent border-none !outline-none w-full shadow-none"
             />
-          </div>
+          </div> -->
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"

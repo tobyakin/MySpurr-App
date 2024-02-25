@@ -34,6 +34,8 @@ export const useUserProfile = defineStore('profile', () => {
     facebook: '',
     ciso: '',
     siso: '',
+    calendlylink: '',
+    experienceLevel: ''
   })
   const overview = ref('')
   const employment_details = ref({
@@ -88,7 +90,6 @@ const singlePortfolio = ref({})
       last_name: bioInfo.value.last_name,
       skill_title: bioInfo.value.skill_title,
       rate: bioInfo.value.rate,
-      location: bioInfo.value.location,
       ciso: bioInfo.value.ciso,
       siso: bioInfo.value.siso,
       linkedin: bioInfo.value.linkedin,
