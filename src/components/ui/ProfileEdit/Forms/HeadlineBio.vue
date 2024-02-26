@@ -88,6 +88,7 @@ const onFinish = async () => {
     const res = await profileStore.handleUpdateBio();
     await profileStore.userProfile();
     closeModal();
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);

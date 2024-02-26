@@ -139,7 +139,7 @@ const updateEducationDetails = async () => {
     const res = await userProfile.handleUpdateEmploymentDetails(workDetailID, payload);
     await userProfile.userProfile();
     changeScreen(1, 0);
-    console.log(payload, workDetailID);
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);
@@ -151,8 +151,9 @@ const onFinish = async () => {
   loading.value = true;
   try {
     const res = await userProfile.handleAddWorkDetails();
-    await userProfile.userProfile();
     changeScreen(2, 0);
+    await userProfile.userProfile();
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);
