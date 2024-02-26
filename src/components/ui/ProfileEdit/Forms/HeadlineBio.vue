@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUpdated, watch, computed, reactive } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
 import InstagramIcon from "@/components/icons/instagramIcon.vue";
@@ -15,7 +15,7 @@ const skillsStore = useSkillsStore();
 const { contriesCode, states } = storeToRefs(skillsStore);
 
 const profileStore = useUserProfile();
-const { bioInfo, user } = storeToRefs(profileStore);
+const { bioInfo } = storeToRefs(profileStore);
 let loading = ref(false);
 // Split the location string by comma
 const prefillCountry = ref("l");
@@ -36,6 +36,8 @@ const prefillDetails = () => {
   bioInfo.value.facebook = userProfile.user?.data?.facebook || "";
   bioInfo.value.calendlylink = userProfile.user?.data?.calendlylink || "";
   bioInfo.value.experienceLevel = userProfile.user?.data?.experienceLevel || "";
+  bioInfo.value.siso = userProfile.user?.data?.siso || "";
+  bioInfo.value.ciso = userProfile.user?.data?.ciso || "";
 };
 const emit = defineEmits(["closeModal"]);
 const selectedCountry = ref("");
@@ -96,9 +98,9 @@ const onFinish = async () => {
 
 onMounted(async () => {
   prefillDetails();
+  splitLocation(userProfile.user?.data?.location);
   await userProfile.userProfile();
   await skillsStore.getCountriesCode();
-  splitLocation(userProfile.user?.data?.location);
 });
 </script>
 <template>

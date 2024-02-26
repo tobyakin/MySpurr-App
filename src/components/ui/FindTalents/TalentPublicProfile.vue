@@ -130,8 +130,8 @@
             alt=""
           />
         </div>
-        <p class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8">Reviews</p>
-        <div class="flex flex-col gap-4">
+        <p class="text-[28px] text-[#000] font-Satoshi500 hidden mb-12 mt-8">Reviews</p>
+        <div class="flex hidden flex-col gap-4">
           <div
             v-for="i in 1"
             :key="i"
