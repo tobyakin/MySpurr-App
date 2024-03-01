@@ -62,8 +62,8 @@ import { useToast } from "vue-toastification";
 
 const toast = useToast();
 export const catchAxiosError = (error) => {
-  if (error.response?.data) {
-    const responseData = error.response.data
+  if (error?.response?.data) {
+    const responseData = error?.response?.data
 console.log(responseData)
     // Display the main error message
     if (responseData.message) {
@@ -84,11 +84,6 @@ console.log(responseData)
         }
       }
     }
-  } else {
-    // Handle generic error when no specific message is available
-    toast.error('An error occurred.', {
-      timeout: 4000
-    })
   }
 }
 // export const catchAxiosError = (error) => {
