@@ -123,7 +123,7 @@ const deleteJob = async (id) => {
             </div>
           </div>
           <div class="text-right flex justify-end cursor-pointer relative pr-4">
-            <button @click="toggleDocument(job)">
+            <button class="px-4" @click="toggleDocument(job)">
               <svg
                 class="cursor-pointer flex lg:flex-row flex-col gap-4 justify-end"
                 xmlns="http://www.w3.org/2000/svg"
