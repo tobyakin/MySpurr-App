@@ -69,7 +69,7 @@ let verifyIdentityData = ref({
 const businessDetails = ref({
   business_name: '',
   location: '',
-  industry: '',
+  industry: [],
   about_business: '',
   website: '',
   business_service: '',

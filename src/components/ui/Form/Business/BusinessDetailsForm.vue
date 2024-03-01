@@ -8,7 +8,6 @@ import { storeToRefs } from "pinia";
 import { useRouter, useRoute } from "vue-router";
 import { useSkillsStore } from "@/stores/skills";
 
-import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 const userProfile = useUserProfile();
 const OnboardingStore = useOnboardingStore();
 const { user } = storeToRefs(userProfile);
@@ -23,27 +22,13 @@ const userDetails = computed(() => {
   return userProfile.user.data;
 });
 const isOnBoarded = computed(() => userProfile.user);
-const industry = ["Freelance", "Full-time ", "Part-time ", "Internship ", "Contract "];
-// let selectedCountry = ref("");
-// const selectedStates = ref("");
-
-// const formState = ref({
-//   business_name: "",
-//   top_skills: "",
-//   location: "",
-//   industry: "",
-//   website: "",
-//   business_service: "",
-//   business_email: "",
-//   about_business: "",
-// });
 
 const isFormValid = computed(() => {
   return (
     businessDetails.value.business_name.trim() !== "" &&
     siso.value.trim() !== "" &&
     ciso.value.trim() !== "" &&
-    businessDetails.value.industry.trim() !== "" &&
+    businessDetails.value.industry.length >= 0 &&
     businessDetails.value.website.trim() !== "" &&
     businessDetails.value.business_service.trim() !== "" &&
     businessDetails.value.business_email.trim() !== "" &&
@@ -54,26 +39,6 @@ const isFormValid = computed(() => {
 const next = () => {
   emit("next", step.value + 1);
 };
-// const onFinish = async () => {
-//   console.log(formState);
-//   let payload = {
-//     business_name: formState.value.business_name,
-//     // top_skills: formState.top_skills,
-//     location: formState.value.location,
-//     industry: formState.value.industry,
-//     website: formState.value.website,
-//     business_service: formState.value.business_service,
-//     business_email: formState.value.business_email,
-//     about_business: formState.value.about_business,
-//   };
-//   try {
-//     const res = await OnboardingStore.submitBusinessDetails(payload);
-//     next();
-//     return res;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 const selectedCountry = ref("");
 const selectedState = ref("");
 const selectedIso2 = computed(() => {
@@ -128,47 +93,83 @@ onMounted(async () => {
     /* empty */
   }
 });
-let options = ref([]);
-let industryOption = ref([
-  { name: "Certificate" },
-  { name: "Bachelors" },
-  { name: "Masters" },
-  { name: "Doctorate" },
+let options = ref([
+  { name: "Design" },
+  { name: "UI" },
+  { name: "Digital" },
+  { name: "Graphics" },
+  { name: "Developer" },
+  { name: "Product" },
+  { name: "Microsoft" },
+  { name: "Brand" },
+  { name: "Photoshop" },
+  { name: "Business" },
+  { name: "IT & Technology" },
+  { name: "Branding" },
+  { name: "Finance" },
 ]);
+// multi select
+const search = ref("");
+const showDropdown = ref(false);
+const highlightedIndex = ref(-1);
 
-const showIndustryDropdown = ref(false);
-const highlightedIndustryIndex = ref(-1);
-const filteredOptionsIndustry = computed(() => {
-  const searchJobTitle = businessDetails.value.industry.toLowerCase();
-  return industryOption.value.filter((option) =>
-    option.name.toLowerCase().includes(searchJobTitle)
-  );
+const filteredOptions = computed(() => {
+  const searchTerm = search.value.toLowerCase();
+  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
 });
-const selectIndustryOptions = (option) => {
-  businessDetails.value.industry = option.name;
-  showIndustryDropdown.value = false;
+
+const filterOptions = () => {
+  showDropdown.value = true;
+  highlightedIndex.value = -1;
+};
+const placeholderText = computed(() => {
+  return businessDetails.value.industry.length >= 3 ? "" : "select your industry areas";
+});
+const shouldDisplayInput = computed(() => {
+  return businessDetails.value.industry.length < 3;
+});
+
+const selectOption = (option) => {
+  if (businessDetails.value.industry.length < 3) {
+    search.value = "";
+    showDropdown.value = false;
+    highlightedIndex.value = -1;
+    businessDetails.value.industry.push(option);
+  }
 };
 
-const filterIndustryOptions = () => {
-  showIndustryDropdown.value = true;
-  highlightedIndustryIndex.value = -1;
+const removeSelectedItem = (index) => {
+  businessDetails.value.industry.splice(index, 1);
 };
-const highlightNextIndustry = () => {
-  if (highlightedIndustryIndex.value < filteredOptionsIndustry.value.length - 1) {
-    highlightedIndustryIndex.value++;
-  }
-};
-const highlightPreviousIndustry = () => {
-  if (highlightedIndustryIndex.value > 0) {
-    highlightedIndustryIndex.value--;
+
+const highlightNext = () => {
+  if (highlightedIndex.value < filteredOptions.value.length - 1) {
+    highlightedIndex.value++;
   }
 };
 
-const selectHighlightedIndustryOption = () => {
-  if (highlightedIndustryIndex.value >= 0) {
-    selectIndustryOptions(filteredOptionsIndustry.value[highlightedIndustryIndex.value]);
+const highlightPrevious = () => {
+  if (highlightedIndex.value > 0) {
+    highlightedIndex.value--;
   }
 };
+const getNextId = () => {
+  const ids = options.value.map((option) => parseInt(option.id));
+  const maxId = Math.max(...ids);
+  return (maxId + 1).toString();
+};
+
+const selectHighlightedOption = () => {
+  if (highlightedIndex.value >= 0) {
+    selectOption(filteredOptions.value[highlightedIndex.value]);
+  } else if (search.value && !filteredOptions.value.length) {
+    // If no options match the search term, add the typed item to the list
+    // const nextId = getNextId();
+
+    selectOption({ name: search.value });
+  }
+};
+
 onMounted(async () => {
   await skillsStore.getCountriesCode();
 });
@@ -199,35 +200,10 @@ onMounted(async () => {
             type="button"
             :value="businessDetails.business_name"
           />
-          <!-- <GlobalInput
-            v-model="formState.business_name"
-            class="bg-transparent border-none"
-            placeholder=""
-            type="text"
-          /> -->
-        </div>
-        <div
-          class="border-[0.737px] hidden border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">
-            Top skills</label
-          >
-          <GlobalInput
-            v-model="businessDetails.top_skills"
-            inputClasses="bg-transparent border-none"
-            placeholder=""
-          />
         </div>
         <div
           class="border-[0.737px] flex lg:flex-row flex-col items-center border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
-          <!-- <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Location</label>
-          <GlobalInput
-            v-model="businessDetails.location"
-            inputClasses="bg-transparent border-none"
-            placeholder=""
-            type="text"
-          /> -->
           <div class="w-full">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
             <div class="flex w-full items-center">
@@ -281,42 +257,56 @@ onMounted(async () => {
           </div>
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Industry</label>
-          <!-- <GlobalInput
-            v-model="businessDetails.industry"
-            inputClasses="bg-transparent border-none"
-            placeholder=""
-            type="text"
-          /> -->
-          <div class="relative">
-            <GlobalInput
-              v-model="businessDetails.industry"
-              @input="filterIndustryOptions"
-              @keydown.down="highlightNextIndustry"
-              @keydown.up="highlightPreviousIndustry"
-              @keydown.enter="selectHighlightedIndustryOption"
-              ref="searchInput"
-              inputClasses="bg-transparent !border-none"
-              placeholder="Graphics Designer"
-              type=""
-            />
-
-            <ul
-              v-if="showIndustryDropdown"
-              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
-            >
-              <li
-                v-for="(option, index) in filteredOptionsIndustry"
-                :key="option.id"
-                @click="selectIndustryOptions(option)"
-                :class="{ highlighted: index === highlightedIndustryIndex }"
-                class="hover:bg-brand hover:text-white"
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            >Select your industry areas</label
+          >
+          <div>
+            <div class="selected-items p-2 gap-2">
+              <div
+                v-for="(selectedItem, index) in businessDetails.industry"
+                :key="selectedItem.id"
+                class="selected-item bg-brand text-sm font-Satoshi400 p-[5px] text-white rounded-[5px]"
               >
-                {{ option.name }}
-              </li>
-            </ul>
+                {{ selectedItem.name }}
+                <span
+                  @click="removeSelectedItem(index)"
+                  class="remove-btn text-black hover:text-white"
+                  >x</span
+                >
+              </div>
+            </div>
+            <div>
+              <GlobalInput
+                v-if="shouldDisplayInput"
+                v-model="search"
+                @input="filterOptions"
+                @keydown.down="highlightNext"
+                @keydown.up="highlightPrevious"
+                @keydown.enter="selectHighlightedOption"
+                ref="searchInput"
+                inputClasses="bg-transparent !border-none"
+                :placeholder="placeholderText"
+                type="text"
+              />
+
+              <ul
+                v-if="showDropdown"
+                class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+              >
+                <li
+                  v-for="(option, index) in filteredOptions"
+                  :key="option.id"
+                  @click="selectOption(option)"
+                  :class="{ highlighted: index === highlightedIndex }"
+                  class="hover:bg-brand hover:text-white"
+                >
+                  {{ option.name }}
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >About your business</label
@@ -352,12 +342,6 @@ onMounted(async () => {
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">E-mail</label>
-          <!-- <GlobalInput
-            v-model="formState.business_email"
-            inputClasses="bg-transparent border-none"
-            placeholder=""
-            type="email"
-          /> -->
           <input
             class="w-full font-light font-Satoshi400 text-left text-[14px] !p-2 bg-transparent border-none opacity-[0.8029] rounded-[4.074px] text-sm"
             type="button"
