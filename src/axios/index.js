@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useRouter } from "vue-router";
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_BASEURL_PRODUCTION
+
 import { useToast } from 'vue-toastification'
 
 const toast = useToast()
+
 
 /*
  Axios Interceptor to log user out

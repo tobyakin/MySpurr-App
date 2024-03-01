@@ -51,8 +51,9 @@ const addNewCertificate = async () => {
   loading.value = true;
   try {
     const res = await profileStore.handleAddCertificate();
-    await profileStore.userProfile();
     changeScreen(2, 0);
+    await profileStore.userProfile();
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);
@@ -75,6 +76,7 @@ const updateCertificateDetails = async () => {
     const res = await profileStore.handleUpdateCertificate(certificateID, payload);
     await profileStore.userProfile();
     changeScreen(1, 0);
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);

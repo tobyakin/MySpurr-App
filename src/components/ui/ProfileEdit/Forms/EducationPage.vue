@@ -58,6 +58,7 @@ const onFinish = async () => {
     const res = await profileStore.handleAddEducation();
     await profileStore.userProfile();
     changeScreen(2, 0);
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);
@@ -81,8 +82,9 @@ const updateEducationDetails = async () => {
 
   try {
     const res = await profileStore.handleUpdateEducation(educationID, payload);
-    await profileStore.userProfile();
     changeScreen(1, 0);
+    await profileStore.userProfile();
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);
