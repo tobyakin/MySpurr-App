@@ -3,26 +3,21 @@ import { computed, onMounted } from "vue";
 
 const emit = defineEmits(["closeDropdown", "clickedItem"]);
 
-// defineProps(["showDropdown", "id", "items", "class", "link"]);
-// const id = id;
-// const customClass = class;
-const props = defineProps({
-  showDropdown: Boolean,
-  id: Number,
-  items: Number,
-  customClass: String,
-});
-
-const showFeaturesDropdown = computed(() => props.showDropdown);
-
-// const clickedLink = (link) => {
-//   emit("clickedItem", link);
-// };
 const onClickOutside = (element, callback) => {
   document.addEventListener("click", (e) => {
     let dropdown = document.getElementById(props.id);
-    // if (!dropdown.contains(e.target)) callback();
+    if (!dropdown.contains(e.target)) callback();
   });
+};
+
+const props = defineProps(["showDropdown", "id", "items", "class", "link"]);
+const id = props.id;
+const customClass = props.class;
+
+const showFeaturesDropdown = computed(() => props.showDropdown);
+
+const clickedLink = (link) => {
+  emit("clickedItem", link);
 };
 
 onMounted(() => {
