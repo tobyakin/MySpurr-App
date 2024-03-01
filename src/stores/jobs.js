@@ -50,6 +50,7 @@ export const useJobsStore = defineStore('jobs', () => {
       salaray_type: '',
       salary_min: '',
       salary_max: '',
+      currency:'',
       skills: [
       ],
       experience: '',
@@ -167,7 +168,8 @@ export const useJobsStore = defineStore('jobs', () => {
             skills: postJobsValue.value.skills,
             experience: postJobsValue.value.experience,
             qualification: postJobsValue.value.qualification,
-            questions: postJobsValue.value.questions
+            questions: postJobsValue.value.questions,
+            currency: postJobsValue.value.currency
           }
           try {
             let res = await postJobs(payload)
