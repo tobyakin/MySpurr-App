@@ -132,7 +132,6 @@ const onFinish = async () => {
       router.push({ name: "verify-login", params: { email: formState.email } });
     } else {
       // Handle unsuccessful login
-      console.log("Login failed:", res.data.message);
       loading.value = false;
       formState.email = "";
       formState.password = "";
