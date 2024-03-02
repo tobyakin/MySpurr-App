@@ -350,7 +350,7 @@ onMounted(async () => {
           <div
             class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
           >
-            <p>2 Jobs opened</p>
+            <p>{{ userDetails?.total_opened_jobs }} Jobs opened</p>
           </div>
 
           <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
@@ -359,11 +359,15 @@ onMounted(async () => {
               <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">
                 Completed Jobs
               </p>
-              <p class="text-[#244034] text-[17.104px] font-Satoshi500">5</p>
+              <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                {{ userDetails?.completed_jobs }}
+              </p>
             </div>
             <div class="flex flex-col gap-2">
               <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Hired Jobs</p>
-              <p class="text-[#244034] text-[17.104px] font-Satoshi500">28</p>
+              <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                {{ userDetails?.hired_jobs }}
+              </p>
             </div>
           </div>
           <!-- <button
