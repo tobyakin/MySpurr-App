@@ -267,9 +267,11 @@ useQuery(["JobDetails", route.params.id], getJobDetails, {
             <div class="flex rounded-[17.104px] mb-4 gap-6">
               <div class="flex flex-col gap-2">
                 <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                  Completed Jobs
+                </p>
+                <p class="text-[#244034] text-[17.104px] font-Satoshi500">
                   {{ JobDetailsById?.data?.completed_jobs }}
                 </p>
-                <p class="text-[#244034] text-[17.104px] font-Satoshi500">0</p>
               </div>
               <div class="flex flex-col gap-2">
                 <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Hired Jobs</p>
