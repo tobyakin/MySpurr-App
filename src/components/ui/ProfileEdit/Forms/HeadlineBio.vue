@@ -22,6 +22,12 @@ const prefillCountry = ref("l");
 const prefillState = ref("l");
 
 const userProfile = useUserProfile();
+const Experience = [
+  { name: "Beginner ", year: "(1-2 yrs)" },
+  { name: "Intermediate ", year: "(3-5 yrs)" },
+  { name: "Expert ", year: "(6-10 yrs)" },
+  { name: "More than", year: " 10yrs" },
+];
 
 const prefillDetails = () => {
   bioInfo.value.first_name = userProfile.user?.data?.first_name || "";
@@ -164,16 +170,31 @@ onMounted(async () => {
               />
             </div>
             <div
-              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex px-3 text-[10px] font-Satoshi400"
                 >Experience Level</label
               >
-              <GlobalInput
+              <!-- <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="bioInfo.experienceLevel"
                 type="text"
-              />
+              /> -->
+              <div class="flex w-full items-center">
+                <a-select
+                  placeholder="experience level"
+                  :bordered="false"
+                  :show-arrow="false"
+                  class="w-full !px-0"
+                  show-search
+                  v-model:value="bioInfo.experienceLevel"
+                >
+                  <a-select-option disabled>experience level</a-select-option>
+                  <a-select-option v-for="i in Experience" :key="i.name" :value="i.name">
+                    {{ i.name }}
+                  </a-select-option>
+                </a-select>
+              </div>
             </div>
           </div>
         </div>

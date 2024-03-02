@@ -28,7 +28,9 @@ import { storeToRefs } from "pinia";
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
 import { useQuery } from "vue-query";
+import { useTabStore } from "@/stores/tab";
 
+const tabStore = useTabStore();
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 
 const toast = useToast();
@@ -183,7 +185,7 @@ useQuery(["profile"], getProfileData, {
               </p>
               <div class="flex items-center lg:justify-start justify-center gap-2">
                 <p class="lg:text-[13.625px] text-[14px] text-[#244034] font-Satoshi500">
-                  ${{ userDetails?.rate }}/hr
+                  ${{ tabStore.abbr(userDetails?.rate) }}/hr
                 </p>
                 <div class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"></div>
                 <p class="text-[#244034] lg:text-[13.625px] text-[14px] font-Satoshi500">
