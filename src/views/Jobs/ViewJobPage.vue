@@ -1,31 +1,35 @@
 <script setup>
-import { ref } from 'vue'
-import DashboardLayout from '@/components/layout/dashboardLayout.vue'
-import { useStore } from '@/stores/user'
-import CircleBookMarkIcon from '@/components/icons/circleBookMarkIcon.vue'
-import SearchIcon from '@/components/icons/circleSearchIcon.vue'
-import CircleTick from '@/components/icons/circleTick.vue'
-import VerifyIcon from '@/components/icons/verifyIcon.vue'
-import ViewJobDetailsPage from '@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue'
-import FillApplicationPage from '@/components/ui/Jobs/ViewJobs/FillApplicationPage.vue'
-import SucessPage from '@/components/ui/Jobs/ViewJobs/SucessPage.vue'
-let store = useStore()
+import { ref } from "vue";
+import DashboardLayout from "@/components/layout/dashboardLayout.vue";
+import { useStore } from "@/stores/user";
+import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
+import SearchIcon from "@/components/icons/circleSearchIcon.vue";
+import CircleTick from "@/components/icons/circleTick.vue";
+import VerifyIcon from "@/components/icons/verifyIcon.vue";
+import ViewJobDetailsPage from "@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue";
+import FillApplicationPage from "@/components/ui/Jobs/ViewJobs/FillApplicationPage.vue";
+import SucessPage from "@/components/ui/Jobs/ViewJobs/SucessPage.vue";
+let store = useStore();
 
-const steps = ref([true, false])
+const steps = ref([true, false]);
 
 const changeScreen = (from, to, type = null) => {
-  steps.value[from] = false
-  steps.value[to] = true
-}
+  steps.value[from] = false;
+  steps.value[to] = true;
+};
 </script>
 
 <template>
   <DashboardLayout>
     <div class="container p-0 lg:p-6 lg:py-10 py-4 mb-5">
       <ViewJobDetailsPage @apply="changeScreen(0, 1)" v-if="steps[0]" />
-      <FillApplicationPage @back="changeScreen(1, 0)" @next="changeScreen(1, 2)" v-if="steps[1]" />
+      <FillApplicationPage
+        @back="changeScreen(1, 0)"
+        @next="changeScreen(1, 2)"
+        v-if="steps[1]"
+      />
       <SucessPage v-if="steps[2]" />
-      <div class="bg-[#E9FAFB] hidden border-[0.735px] rounded-[17.104px] p-10">
+      <!-- <div class="bg-[#E9FAFB] hidden border-[0.735px] rounded-[17.104px] p-10">
         <div class="flex gap-3 w-full">
           <div>
             <img
@@ -237,7 +241,7 @@ const changeScreen = (from, to, type = null) => {
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </DashboardLayout>
 </template>

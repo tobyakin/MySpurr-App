@@ -18,7 +18,6 @@ const store = useTabStore();
 const router = useRouter();
 const showDocument = ref({});
 const showDocumentToggle = ref(false);
-const reason = ref("");
 
 const redirectToPreviewJob = (id) => {
   router.push({ name: "preview-job", params: { id: id } });
@@ -34,9 +33,12 @@ const toggleDocument = (document) => {
     return (showDocumentToggle.value = !showDocumentToggle.value);
   }
   showDocument.value = document;
-  reason.value = document.reason;
   showDocumentToggle.value = true;
 };
+const closeDropdown = () => {
+  showDocumentToggle.value = false;
+};
+
 const deleteJob = async (id) => {
   try {
     const res = await jobsStore.handelDeleteJob(id);
@@ -121,7 +123,7 @@ const deleteJob = async (id) => {
             </div>
           </div>
           <div class="text-right flex justify-end cursor-pointer relative pr-4">
-            <button @click="toggleDocument(job)">
+            <button class="px-4" @click="toggleDocument(job)">
               <svg
                 class="cursor-pointer flex lg:flex-row flex-col gap-4 justify-end"
                 xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +160,9 @@ const deleteJob = async (id) => {
               v-if="showDocument.id == job.id && showDocumentToggle"
               :showDropdown="showDocument.id == job.id && showDocumentToggle"
               class="-bottom-[8rem] w-36 z-10 lg:-right-40"
-              :id="job.id"
+              :link="false"
+              :id="`dropdown` + job.id"
+              @closeDropdown="closeDropdown"
             >
               <ul class="!mb-0">
                 <li>

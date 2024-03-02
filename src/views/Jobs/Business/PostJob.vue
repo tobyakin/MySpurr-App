@@ -341,8 +341,8 @@ onMounted(async () => {
         <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
           Salary
         </h4>
-        <div class="flex flex-row w-full gap-8">
-          <div class="lg:w-[50%]">
+        <div class="flex flex-row w-full gap-3">
+          <div class="lg:w-[45%]">
             <SelectGroup
               v-model="postJobsValue.salaray_type"
               labelClasses="font-Satoshi500 text-[15.606px]"
@@ -354,7 +354,7 @@ onMounted(async () => {
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></SelectGroup>
           </div>
-          <div class="lg:w-[50%] flex flex-row gap-9">
+          <div class="lg:w-[55%] flex flex-row gap-3">
             <FormGroup
               v-model="postJobsValue.salary_min"
               labelClasses=" invisible"
@@ -362,7 +362,7 @@ onMounted(async () => {
               name="Min"
               placeholder="Min"
               type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2.5 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></FormGroup>
             <FormGroup
               v-model="postJobsValue.salary_max"
@@ -371,8 +371,18 @@ onMounted(async () => {
               name="Max"
               placeholder="Max"
               type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2.5 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></FormGroup>
+            <SelectGroup
+              v-model="postJobsValue.currency"
+              labelClasses="font-Satoshi500 text-[15.606px]"
+              label=""
+              name="Name"
+              :items="['USD', 'NGN']"
+              placeholder="Currency"
+              type="text"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+            ></SelectGroup>
           </div>
         </div>
 
@@ -457,7 +467,7 @@ onMounted(async () => {
               labelClasses="font-Satoshi500 text-[15.606px]"
               label="Qualification*"
               name="Name"
-              :items="['Freelance', 'Full Time', 'Part Time']"
+              :items="['Certificate', 'Bachelors', 'Masters ', 'Doctorate ']"
               placeholder="Qualification"
               type="text"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
@@ -477,7 +487,7 @@ onMounted(async () => {
               labelClasses="font-Satoshi500 text-[15.606px]"
               label="Career Level*"
               name="Name"
-              :items="['Freelance', 'Full Time', 'Part Time']"
+              :items="['Beginner ', 'Intermediate ', 'Expert ', 'More than 10yrs']"
               placeholder="Career Level"
               type="text"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"

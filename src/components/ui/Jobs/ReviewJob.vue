@@ -3,6 +3,7 @@ import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from 
 import { storeToRefs } from "pinia";
 import { useJobsStore } from "@/stores/jobs";
 import { useStore } from "@/stores/user";
+import { useNumberFomateStore } from "@/stores/numberFomate";
 import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
@@ -11,6 +12,7 @@ import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
 import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 import CircleTick from "@/components/icons/circleTick.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
+let numAbbr = useNumberFomateStore();
 let store = useStore();
 let loading = ref(false);
 let showModal = ref(false);
@@ -40,6 +42,7 @@ const isFormValid = computed(() => {
     postJobsValue.value.experience !== null &&
     postJobsValue.value.qualification !== null &&
     postJobsValue.value.questions !== null &&
+    postJobsValue.value.currency !== null &&
     ciso.value !== null &&
     siso.value.trim() !== ""
   );
@@ -58,6 +61,7 @@ const restForm = () => {
     (postJobsValue.value.experience = ""),
     (postJobsValue.value.qualification = ""),
     (postJobsValue.value.questions = ""),
+    (postJobsValue.value.currency = ""),
     (ciso.value = ""),
     (siso.value = "");
 };
@@ -87,6 +91,9 @@ const postJob = async () => {
 const goToJobList = () => {
   router.push({ name: "job-lists" });
 };
+onMounted(async () => {
+  await userProfile.userProfile();
+});
 </script>
 
 <template>
@@ -119,7 +126,7 @@ const goToJobList = () => {
       <div class="flex lg:flex-row flex-col gap-3 w-full">
         <div>
           <img
-            class="h-[61.011px] w-[61.011px] object-contain rounded-full"
+            class="h-[61.011px] w-[61.011px] object-cover rounded-full"
             :src="userDetails?.company_logo"
             :alt="userDetails?.business_name"
           />
@@ -138,7 +145,7 @@ const goToJobList = () => {
               </div>
             </div>
             <div>
-              <div class="flex gap-2">
+              <!-- <div class="flex gap-2">
                 <button class="">
                   <CircleBookMarkIcon
                     class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]"
@@ -147,7 +154,7 @@ const goToJobList = () => {
                 <button class="">
                   <SearchIcon class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]" />
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -203,7 +210,10 @@ const goToJobList = () => {
           v-if="postJobsValue.salary_min || postJobsValue.salary_max"
           class="text-[#244034] text-[17.104px] font-Satoshi500"
         >
-          {{ postJobsValue.salary_min }}-{{ postJobsValue.salary_max }}
+          {{ postJobsValue.currency }}
+          {{ numAbbr.abbr(postJobsValue.salary_min) }}-{{
+            numAbbr.abbr(postJobsValue.salary_max)
+          }}
         </p>
       </div>
       <div class="flex flex-col gap-2">
@@ -301,7 +311,7 @@ const goToJobList = () => {
           <div class="flex mt-8 gap-4">
             <div>
               <img
-                class="h-[61.011px] w-[61.011px] rounded-full"
+                class="h-[61.011px] w-[61.011px] object-cover rounded-full"
                 :src="userDetails?.company_logo"
                 :alt="userDetails?.business_name"
               />
@@ -318,9 +328,9 @@ const goToJobList = () => {
                   </p>
                 </div>
               </div>
-              <div class="flex gap-3 flex-wrap items-center">
+              <div class="flex gap-3 flex-wrap mt-2 items-center">
                 <div
-                  v-for="skill in postJobsValue.skills"
+                  v-for="skill in userDetails?.industry"
                   :key="skill"
                   class="bg-[#2F929C] font-Satoshi500 text-[8.552px] capitalize p-[4px] px-4 text-[#fff] rounded-full"
                 >
@@ -333,21 +343,14 @@ const goToJobList = () => {
             class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
           >
             <p>
-              Vibratique hubis a full service creative agency at WillowTree, you’ll give
-              form to ideas by being the voice and owner of product decisions. You’ll
-              drive the design direction, and then make it happen!
-            </p>
-            <p class="mt-4">
-              We understand our responsibility to create a diverse, equitable, and
-              inclusive place within the tech industry, while pushing to make our industry
-              more representative.
+              {{ userDetails?.about_business }}
             </p>
           </div>
           <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
           <div
             class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
           >
-            <p>2 Jobs opened</p>
+            <p>{{ userDetails?.total_opened_jobs }} Jobs opened</p>
           </div>
 
           <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
@@ -356,11 +359,15 @@ const goToJobList = () => {
               <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">
                 Completed Jobs
               </p>
-              <p class="text-[#244034] text-[17.104px] font-Satoshi500">5</p>
+              <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                {{ userDetails?.completed_jobs }}
+              </p>
             </div>
             <div class="flex flex-col gap-2">
               <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Hired Jobs</p>
-              <p class="text-[#244034] text-[17.104px] font-Satoshi500">28</p>
+              <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                {{ userDetails?.hired_jobs }}
+              </p>
             </div>
           </div>
           <!-- <button

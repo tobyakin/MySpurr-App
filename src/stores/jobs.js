@@ -14,6 +14,7 @@ import {
   getAllTalents,
   getApplicants,
   getTalentApplication,
+  getTopPickedJobs
 } from '@/services/Job'
 
 export const useJobsStore = defineStore('jobs', () => {
@@ -26,7 +27,7 @@ export const useJobsStore = defineStore('jobs', () => {
   const talent = ref({})
   const applicants = ref({})
   const talentApplication = ref({})
-  // const topPickedJobs = ref({})
+  const topPickedJobs = ref({})
   // const jobApplicationForm = reactive({
   //   job_id: '',
   //   rate: '',
@@ -50,6 +51,7 @@ export const useJobsStore = defineStore('jobs', () => {
       salaray_type: '',
       salary_min: '',
       salary_max: '',
+      currency:'',
       skills: [
       ],
       experience: '',
@@ -85,14 +87,14 @@ export const useJobsStore = defineStore('jobs', () => {
         console.error(error)
       }
     }
-    // const handleGetTopPickedJobs = async () => {
-    //   try {
-    //     topPickedJobs.value = await getTopPickedJobs()
-    //     return topPickedJobs.value
-    //   } catch (error) {
-    //     console.error(error)
-    //   }
-    // }
+    const handleGetTopPickedJobs = async () => {
+      try {
+        topPickedJobs.value = await getTopPickedJobs()
+        return topPickedJobs.value
+      } catch (error) {
+        console.error(error)
+      }
+    }
 
   const getSingleJob = async (id) => {
     try {
@@ -167,7 +169,8 @@ export const useJobsStore = defineStore('jobs', () => {
             skills: postJobsValue.value.skills,
             experience: postJobsValue.value.experience,
             qualification: postJobsValue.value.qualification,
-            questions: postJobsValue.value.questions
+            questions: postJobsValue.value.questions,
+            currency: postJobsValue.value.currency
           }
           try {
             let res = await postJobs(payload)
@@ -227,6 +230,7 @@ export const useJobsStore = defineStore('jobs', () => {
     handleGetApplicants,
     talentApplication,
     handleGetTalentApplication,
-    // handleGetTopPickedJobs
+    handleGetTopPickedJobs,
+    topPickedJobs
   }
 })
