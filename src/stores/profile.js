@@ -96,7 +96,9 @@ const singlePortfolio = ref({})
       instagram: bioInfo.value.instagram,
       twitter: bioInfo.value.twitter,
       behance: bioInfo.value.behance,
-      facebook: bioInfo.value.facebook
+      facebook: bioInfo.value.facebook,
+      booking_link: bioInfo.value.calendlylink,
+      experience_level: bioInfo.value.experienceLevel
     }
     try {
       let res = await updateBio(payload)

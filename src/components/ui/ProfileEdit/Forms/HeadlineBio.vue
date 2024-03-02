@@ -34,8 +34,8 @@ const prefillDetails = () => {
   bioInfo.value.twitter = userProfile.user?.data?.twitter || "";
   bioInfo.value.behance = userProfile.user?.data?.behance || "";
   bioInfo.value.facebook = userProfile.user?.data?.facebook || "";
-  bioInfo.value.calendlylink = userProfile.user?.data?.calendlylink || "";
-  bioInfo.value.experienceLevel = userProfile.user?.data?.experienceLevel || "";
+  bioInfo.value.calendlylink = userProfile.user?.data?.booking_link || "";
+  bioInfo.value.experienceLevel = userProfile.user?.data?.experience_level || "";
   bioInfo.value.siso = userProfile.user?.data?.siso || "";
   bioInfo.value.ciso = userProfile.user?.data?.ciso || "";
 };
@@ -58,7 +58,7 @@ const selectedsiso = computed(() => {
 
 // watchers to update the selectedIso2 and selectedsiso
 watch(selectedIso2, async (newInput) => {
-  bioInfo.value.siso = "";
+  // bioInfo.value.siso = "";
   await skillsStore.handleGetStates(newInput);
 });
 // watchers to update the selectedIso2 and selectedsiso
