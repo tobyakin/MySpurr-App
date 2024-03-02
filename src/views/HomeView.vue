@@ -14,12 +14,13 @@ import { useUserProfile } from "@/stores/profile";
 import BusinessValuesCard from "@/components/ui/Cards/BusinessValuesCard.vue";
 import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
 // import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
+import TopPicksJob from "@/components/ui/TopPicksJob/TopPicksJob.vue";
 import { useTabStore } from "@/stores/tab";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useJobsStore } from "@/stores/jobs";
 const JobsStore = useJobsStore();
-const { myJobsApplications } = storeToRefs(JobsStore);
+const { myJobsApplications, topPickedJobs } = storeToRefs(JobsStore);
 
 const router = useRouter();
 
@@ -66,8 +67,8 @@ onMounted(async () => {
 });
 //!isOnBoarded.portofoolio;
 onMounted(async () => {
-  // await JobsStore.handleGetTopPickedJobs();
   if (accountType.value === "talent") {
+    await JobsStore.handleGetTopPickedJobs();
     await JobsStore.handleMyJobApplications();
   }
 });
@@ -81,7 +82,7 @@ onMounted(async () => {
     /> -->
     <!-- <PagePreLoader v-if="isLoading" /> -->
 
-    <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
+    <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5 overflow-hidden">
       <span class="font-EBGaramond500 text-[#244034] text-[27.673px]"
         >Hi {{ userDetails?.first_name }} ,</span
       >
@@ -284,31 +285,36 @@ onMounted(async () => {
         <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
           <BusinessJobCard
             class="min-w-[95%] lg:min-w-[40%]"
-            v-for="item in 4"
+            v-for="item in 3"
             :key="item"
           />
         </div>
       </div>
 
       <!-- jobs -->
-      <div v-if="accountType === 'talent'" class="mt-12">
-        <div class="flex justify-between mb-4">
+      <div
+        v-if="accountType === 'talent'"
+        class="mt-12 w-full flex flex-col overflow-hidden"
+      >
+        <div class="flex w-full justify-between mb-4">
           <p class="text-[18px] font-Satoshi400 text-[#244034]">Top job picks for you</p>
 
           <router-link
+            v-if="topPickedJobs?.data && topPickedJobs?.data.length"
             class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
             to="/jobs"
             >View all jobs</router-link
           >
         </div>
-
-        <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
+        <div><TopPicksJob :job="topPickedJobs" /></div>
+        <!-- <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
           <JobCard
             class="min-w-[380px] lg:min-w-[50%] xl:min-w-[376.66px] md:min-w-[60%]"
-            v-for="item in 2"
-            :key="item"
+            v-for="item in topPickedJobs?.data"
+            :key="item.id"
+            :job="item"
           />
-        </div>
+        </div> -->
       </div>
       <div v-if="accountType === 'talent'" class="mt-10 flex gap-3 overflow-x-auto">
         <div class="my-8 w-full">
@@ -359,7 +365,7 @@ onMounted(async () => {
         </div>
       </div>
       <!-- articles -->
-      <div class="mt-10 overflow-x-auto">
+      <div class="mt-10 hidden overflow-x-auto">
         <p class="text-[18px] font-Satoshi400 !mb-[60px] text-[#244034]">
           MySpurr Articles
         </p>
