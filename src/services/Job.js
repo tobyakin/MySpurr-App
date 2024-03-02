@@ -44,10 +44,10 @@ export const getTopPickedJobs = async () => {
     throw error
   }
 }
-export const deleteJob = async (slug) => {
+export const deleteJob = async (id) => {
   const token = await getToken()
   try {
-    let res = await axios.delete(`job/delete`, slug, {
+    let res = await axios.delete(`jobs/delete/${id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
