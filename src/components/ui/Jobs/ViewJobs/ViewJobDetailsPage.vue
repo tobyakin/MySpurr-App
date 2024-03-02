@@ -214,16 +214,13 @@ onMounted(async () => {
                   </p>
                 </div>
               </div>
-              <div class="flex gap-3 mt-2 items-center">
+              <div class="flex gap-3 flex-wrap mt-2 items-center">
                 <div
+                  v-for="skill in singleJob?.data?.company?.industry"
+                  :key="skill"
                   class="bg-[#2F929C] font-Satoshi500 text-[8.552px] capitalize p-[4px] px-4 text-[#fff] rounded-full"
                 >
-                  Creative Agency
-                </div>
-                <div
-                  class="bg-[#2F929C] font-Satoshi500 text-[8.552px] capitalize p-[4px] px-4 text-[#fff] rounded-full"
-                >
-                  Design
+                  {{ skill.name }}
                 </div>
               </div>
             </div>
@@ -236,7 +233,7 @@ onMounted(async () => {
           <div
             class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
           >
-            <p>0 Jobs opened</p>
+            <p>{{ singleJob?.data?.total_opened_jobs }} Jobs opened</p>
           </div>
 
           <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
@@ -245,11 +242,15 @@ onMounted(async () => {
               <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">
                 Completed Jobs
               </p>
-              <p class="text-[#244034] text-[17.104px] font-Satoshi500">0</p>
+              <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                {{ singleJob?.data?.completed_jobs }}
+              </p>
             </div>
             <div class="flex flex-col gap-2">
               <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Hired Jobs</p>
-              <p class="text-[#244034] text-[17.104px] font-Satoshi500">0</p>
+              <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                {{ singleJob?.data?.hired_jobs }}
+              </p>
             </div>
           </div>
           <button
