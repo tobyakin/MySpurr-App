@@ -31,21 +31,21 @@ const back = () => {
 };
 const isFormValid = computed(() => {
   return (
-    postJobsValue.value.job_title !== null &&
+    postJobsValue.value.job_title !== "" &&
     postJobsValue.value.job_type.trim() !== "" &&
-    postJobsValue.value.description !== null &&
+    postJobsValue.value.description !== "" &&
     postJobsValue.value.responsibilities.trim() !== "" &&
-    postJobsValue.value.required_skills !== null &&
-    postJobsValue.value.benefits !== null &&
-    postJobsValue.value.salaray_type !== null &&
-    postJobsValue.value.salary_min !== null &&
-    postJobsValue.value.salary_max !== null &&
-    postJobsValue.value.skills !== null &&
-    postJobsValue.value.experience !== null &&
-    postJobsValue.value.qualification !== null &&
-    postJobsValue.value.questions !== null &&
-    postJobsValue.value.currency !== null &&
-    ciso.value !== null &&
+    postJobsValue.value.required_skills !== "" &&
+    postJobsValue.value.benefits !== "" &&
+    postJobsValue.value.salaray_type !== "" &&
+    postJobsValue.value.salary_min !== "" &&
+    postJobsValue.value.salary_max !== "" &&
+    postJobsValue.value.skills !== "" &&
+    postJobsValue.value.experience !== "" &&
+    postJobsValue.value.qualification !== "" &&
+    postJobsValue.value.questions !== "" &&
+    postJobsValue.value.currency !== "" &&
+    ciso.value !== "" &&
     siso.value.trim() !== ""
   );
 });
@@ -219,7 +219,7 @@ onMounted(async () => {
         </p>
       </div>
       <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Expertise</p>
+        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Qualification</p>
         <p class="text-[#244034] text-[17.104px] font-Satoshi500">
           {{ postJobsValue.qualification }}
         </p>
