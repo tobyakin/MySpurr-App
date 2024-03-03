@@ -1,160 +1,200 @@
 <script setup>
-import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from 'vue'
-import { storeToRefs } from 'pinia'
-import VueSlider from 'vue-slider-component'
-import 'vue-slider-component/theme/antd.css'
-import SelectGroup from '@/components/ui/Form/Input/SelectGroup.vue'
-import DashboardLayout from '@/components/layout/dashboardLayout.vue'
-import { useStore } from '@/stores/user'
-import JobRowCard from '@/components/ui/Jobs/JobRowCard.vue'
-import Arrow from '@/components/icons/paginationArrow.vue'
-import Tabs from '@/components/ui/Jobs/Tabs.vue'
-import { useJobsStore } from '@/stores/jobs'
-import { useSkillsStore } from '@/stores/skills'
-const skillsStore = useSkillsStore()
-const { contriesCode, states } = storeToRefs(skillsStore)
+import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from "vue";
+import { storeToRefs } from "pinia";
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/antd.css";
+import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
+import DashboardLayout from "@/components/layout/dashboardLayout.vue";
+import { useStore } from "@/stores/user";
+import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
+import Arrow from "@/components/icons/paginationArrow.vue";
+import Tabs from "@/components/ui/Jobs/Tabs.vue";
+import { useJobsStore } from "@/stores/jobs";
+import { useSkillsStore } from "@/stores/skills";
+const skillsStore = useSkillsStore();
+const { contriesCode, states } = storeToRefs(skillsStore);
+import { useRouter, useRoute } from "vue-router";
+const jobsStore = useJobsStore();
+const { Job, postJobsValue, JobDetailsById, ciso, siso } = storeToRefs(jobsStore);
+import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
+import Label from "@/components/ui/Form/Input/Label.vue";
+import CirclePlus from "@/components/icons/circlePlus.vue";
+import ViewJobDetailsPage from "@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue";
+import ReviewJob from "@/components/ui/Jobs/ReviewEditJob.vue";
+import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+const router = useRouter();
+const route = useRoute();
 
-const jobsStore = useJobsStore()
-const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore)
-import FormGroup from '@/components/ui/Form/Input/FormGroup.vue'
-import Label from '@/components/ui/Form/Input/Label.vue'
-import CirclePlus from '@/components/icons/circlePlus.vue'
-import ViewJobDetailsPage from '@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue'
-import ReviewJob from '@/components/ui/Jobs/ReviewJob.vue'
-import CenteredModalLarge from '@/components/ui/CenteredModalLarge.vue'
-import GlobalInput from '@/components/ui/Form/Input/GlobalInput.vue'
-
-let store = useStore()
+let store = useStore();
 let options = ref([
-  { name: 'Design' },
-  { name: 'UI' },
-  { name: 'Digital' },
-  { name: 'Graphics' },
-  { name: 'Developer' },
-  { name: 'Product' },
-  { name: 'Microsoft' },
-  { name: 'Brand' },
-  { name: 'Photoshop' },
-  { name: 'Business' },
-  { name: 'IT & Technology' },
-  { name: 'Branding' },
-  { name: 'Finance' }
-])
-const step = ref([true, false])
+  { name: "Design" },
+  { name: "UI" },
+  { name: "Digital" },
+  { name: "Graphics" },
+  { name: "Developer" },
+  { name: "Product" },
+  { name: "Microsoft" },
+  { name: "Brand" },
+  { name: "Photoshop" },
+  { name: "Business" },
+  { name: "IT & Technology" },
+  { name: "Branding" },
+  { name: "Finance" },
+]);
+const step = ref([true, false]);
 const changeScreen = (from, to, type = null) => {
-  step.value[from] = false
-  step.value[to] = true
-}
+  step.value[from] = false;
+  step.value[to] = true;
+};
+const Experience = [
+  { name: "Beginner ", year: "(1-2 yrs)" },
+  { name: "Intermediate ", year: "(3-5 yrs)" },
+  { name: "Expert ", year: "(6-10 yrs)" },
+  { name: "More than", year: " 10yrs" },
+];
+const CandidateType = [
+  "Freelance",
+  "Full-time ",
+  "Part-time ",
+  "Internship ",
+  "Contract ",
+];
+const qualification = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
 
-const search = ref('')
-const showDropdown = ref(false)
-const highlightedIndex = ref(-1)
-const displayedQuestions = ref([])
+const search = ref("");
+const showDropdown = ref(false);
+const highlightedIndex = ref(-1);
+const displayedQuestions = ref([]);
 
 const addQuestion = () => {
   const lastQuestion =
-    postJobsValue.value.questions[postJobsValue.value.questions.length - 1].question
-  if (lastQuestion.trim() !== '') {
-    postJobsValue.value.questions.push({ question: '' })
+    postJobsValue.value.questions[postJobsValue.value.questions.length - 1].question;
+  if (lastQuestion.trim() !== "") {
+    postJobsValue.value.questions.push({ question: "" });
   }
-}
+};
 const filteredOptions = computed(() => {
-  const searchTerm = search.value.toLowerCase()
-  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm))
-})
+  const searchTerm = search.value.toLowerCase();
+  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
+});
 
 const filterOptions = () => {
-  showDropdown.value = true
-  highlightedIndex.value = -1
-}
+  showDropdown.value = true;
+  highlightedIndex.value = -1;
+};
 const placeholderText = computed(() => {
-  return postJobsValue.value.skills.length >= 5 ? '' : 'Add skills'
-})
+  return postJobsValue.value.skills.length >= 5 ? "" : "Add skills";
+});
 // const shouldDisplayInput = computed(() => {
 //   return postJobsValue.value.skills.length < 5;
 // });
 
 const selectOption = (option) => {
   if (postJobsValue.value.skills.length < 5) {
-    search.value = ''
-    showDropdown.value = false
-    highlightedIndex.value = -1
-    postJobsValue.value.skills.push(option)
+    search.value = "";
+    showDropdown.value = false;
+    highlightedIndex.value = -1;
+    postJobsValue.value.skills.push(option);
   }
-}
+};
 
 const removeSelectedItem = (index) => {
-  postJobsValue.value.skills.splice(index, 1)
-}
+  postJobsValue.value.skills.splice(index, 1);
+};
 
 const highlightNext = () => {
   if (highlightedIndex.value < filteredOptions.value.length - 1) {
-    highlightedIndex.value++
+    highlightedIndex.value++;
   }
-}
+};
 
 const highlightPrevious = () => {
   if (highlightedIndex.value > 0) {
-    highlightedIndex.value--
+    highlightedIndex.value--;
   }
-}
+};
 const getNextId = () => {
-  const ids = options.value.map((option) => parseInt(option.id))
-  const maxId = Math.max(...ids)
-  return (maxId + 1).toString()
-}
+  const ids = options.value.map((option) => parseInt(option.id));
+  const maxId = Math.max(...ids);
+  return (maxId + 1).toString();
+};
 
 const selectHighlightedOption = () => {
   if (highlightedIndex.value >= 0) {
-    selectOption(filteredOptions.value[highlightedIndex.value])
+    selectOption(filteredOptions.value[highlightedIndex.value]);
   } else if (search.value && !filteredOptions.value.length) {
     // If no options match the search term, add the typed item to the list
-    const nextId = getNextId()
+    const nextId = getNextId();
 
-    selectOption({ id: nextId, name: search.value })
+    selectOption({ id: nextId, name: search.value });
   }
-}
+};
 // end tag ends here
-const selectedCountry = ref('')
-const selectedState = ref('')
+const selectedCountry = ref("");
+const selectedState = ref("");
 // computed property to find the country ISO code
 const selectedIso2 = computed(() => {
   const foundCountry = contriesCode?.value?.data?.find(
     (country) => country.name.toLowerCase() === selectedCountry.value.toLowerCase()
-  )
-  return foundCountry ? foundCountry.iso2 : null
-})
+  );
+  return foundCountry ? foundCountry.iso2 : null;
+});
 // computed property to find the state ISO code
 const selectedsiso = computed(() => {
   const foundState = states?.value?.data?.find(
     (state) => state.name.toLowerCase() === selectedState.value.toLowerCase()
-  )
-  return foundState ? foundState.iso2 : null
-})
+  );
+  return foundState ? foundState.iso2 : null;
+});
 // watchers to update the selectedIso2 and selectedsiso
 watch(selectedIso2, async (newInput) => {
-  siso.value = ''
-  await skillsStore.handleGetStates(newInput)
-})
+  siso.value = "";
+  await skillsStore.handleGetStates(newInput);
+});
 // watchers to update the selectedIso2 and selectedsiso
 watch(selectedIso2, async (newInput) => {
-  ciso.value = newInput
-})
+  ciso.value = newInput;
+});
 //watchers to update the selectedsiso
 watch(selectedsiso, async (newInput) => {
-  siso.value = newInput
-})
+  siso.value = newInput;
+});
 watch(selectedCountry, async (newInput) => {
-  postJobsValue.value.country_id = newInput
-})
+  postJobsValue.value.country_id = newInput;
+});
 watch(selectedState, async (newInput) => {
-  postJobsValue.value.state_id = newInput
-})
+  postJobsValue.value.state_id = newInput;
+});
+const prefillDetails = (SingleObject) => {
+  postJobsValue.value.job_title = SingleObject.job_title || "";
+  postJobsValue.value.job_type = SingleObject.job_type || "";
+  postJobsValue.value.description = SingleObject.description || "";
+  postJobsValue.value.responsibilities = SingleObject.responsibilities || "";
+  postJobsValue.value.required_skills = SingleObject.required_skills || "";
+  postJobsValue.value.benefits = SingleObject.benefits || "";
+  postJobsValue.value.salaray_type = SingleObject.salaray_type || null;
+  postJobsValue.value.salary_min = SingleObject.salary_min || "";
+  postJobsValue.value.salary_max = SingleObject.salary_max || "";
+  postJobsValue.value.skills = SingleObject.skills || "";
+  postJobsValue.value.experience = SingleObject.experience || "";
+  postJobsValue.value.qualification = SingleObject.qualification || "";
+  postJobsValue.value.questions = SingleObject.questions || "";
+  postJobsValue.value.currency = SingleObject.currency || "";
+  selectedCountry.value = SingleObject.country || "";
+  selectedState.value = SingleObject.state || "";
+};
+watch(JobDetailsById, (newSingleObject) => {
+  prefillDetails(newSingleObject);
+});
+
 onMounted(async () => {
-  await skillsStore.getskills()
-  await skillsStore.getJobTitles()
-  await skillsStore.getCountriesCode()
-})
+  await skillsStore.getskills();
+  await skillsStore.getJobTitles();
+  await skillsStore.getCountriesCode();
+  await jobsStore.handleGetJobDetailsById(route.params.id);
+  prefillDetails(JobDetailsById?.value?.data);
+});
 </script>
 
 <template>
@@ -178,7 +218,9 @@ onMounted(async () => {
             </ul>
           </div>
         </div> -->
-        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">Edit Job Details</h4>
+        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">
+          Edit Job Details
+        </h4>
         <div class="mt-8 flex flex-col gap-8">
           <FormGroup
             v-model="postJobsValue.job_title"
@@ -223,7 +265,11 @@ onMounted(async () => {
                 v-model:value="selectedState"
               >
                 <a-select-option disabled>state or city</a-select-option>
-                <a-select-option v-for="state in states?.data" :key="state.id" :value="state.name">
+                <a-select-option
+                  v-for="state in states?.data"
+                  :key="state.id"
+                  :value="state.name"
+                >
                   {{ state.name }}
                 </a-select-option>
               </a-select>
@@ -239,11 +285,7 @@ onMounted(async () => {
                 v-model:value="postJobsValue.job_type"
               >
                 <a-select-option disabled>select Job Type</a-select-option>
-                <a-select-option
-                  v-for="item in ['Freelance', 'Full Time', 'Part Time']"
-                  :key="item"
-                  :value="item"
-                >
+                <a-select-option v-for="item in CandidateType" :key="item" :value="item">
                   {{ item }}
                 </a-select-option>
               </a-select>
@@ -317,7 +359,9 @@ onMounted(async () => {
             />
           </div>
           <div class="flex flex-col h-[58vh]">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2">Benefits (If any)*</Label>
+            <Label class="font-Satoshi500 !text-[17.792px] mb-2"
+              >Benefits (If any)*</Label
+            >
 
             <QuillEditor
               v-model:content="postJobsValue.benefits"
@@ -330,9 +374,11 @@ onMounted(async () => {
           </div>
         </div>
 
-        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">Salary</h4>
-        <div class="flex flex-row w-full gap-8">
-          <div class="lg:w-[50%]">
+        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
+          Salary
+        </h4>
+        <div class="flex flex-row w-full gap-3">
+          <div class="lg:w-[45%]">
             <SelectGroup
               v-model="postJobsValue.salaray_type"
               labelClasses="font-Satoshi500 text-[15.606px]"
@@ -344,7 +390,7 @@ onMounted(async () => {
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></SelectGroup>
           </div>
-          <div class="lg:w-[50%] flex flex-row gap-9">
+          <div class="lg:w-[55%] flex flex-row gap-3">
             <FormGroup
               v-model="postJobsValue.salary_min"
               labelClasses=" invisible"
@@ -352,7 +398,7 @@ onMounted(async () => {
               name="Min"
               placeholder="Min"
               type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2.5 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></FormGroup>
             <FormGroup
               v-model="postJobsValue.salary_max"
@@ -361,8 +407,18 @@ onMounted(async () => {
               name="Max"
               placeholder="Max"
               type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2.5 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></FormGroup>
+            <SelectGroup
+              v-model="postJobsValue.currency"
+              labelClasses="font-Satoshi500 text-[15.606px]"
+              label=""
+              name="Name"
+              :items="['USD', 'NGN']"
+              placeholder="Currency"
+              type="text"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+            ></SelectGroup>
           </div>
         </div>
 
@@ -432,7 +488,58 @@ onMounted(async () => {
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
           ></FormGroup> -->
           <div class="flex flex-row w-full gap-8">
-            <SelectGroup
+            <div class="flex flex-col w-full text-left">
+              <Label class="font-Satoshi500 !text-[15.606px] !mb-2"
+                >Experience Level</Label
+              >
+              <div
+                class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+              >
+                <a-select
+                  placeholder="Experience Level"
+                  :bordered="false"
+                  :show-arrow="false"
+                  class="w-full !outline-none !px-0"
+                  show-search
+                  v-model:value="postJobsValue.experience"
+                >
+                  <a-select-option disabled>select Experience</a-select-option>
+                  <a-select-option
+                    v-for="item in Experience"
+                    :key="item"
+                    :value="item.name"
+                  >
+                    {{ item.name }} {{ item.year }}
+                  </a-select-option>
+                </a-select>
+              </div>
+            </div>
+            <div class="flex flex-col w-full text-left">
+              <Label class="font-Satoshi500 !text-[15.606px] !mb-2">Qualification*</Label>
+              <div
+                class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+              >
+                <a-select
+                  placeholder="Qualification"
+                  :bordered="false"
+                  :show-arrow="false"
+                  class="w-full !outline-none !px-0"
+                  show-search
+                  v-model:value="postJobsValue.qualification"
+                >
+                  <a-select-option disabled>select Qualification</a-select-option>
+                  <a-select-option
+                    v-for="item in qualification"
+                    :key="item"
+                    :value="item"
+                  >
+                    {{ item }}
+                  </a-select-option>
+                </a-select>
+              </div>
+            </div>
+
+            <!-- <SelectGroup
               v-model="postJobsValue.experience"
               labelClasses="font-Satoshi500 text-[15.606px]"
               label="Experience*"
@@ -441,8 +548,8 @@ onMounted(async () => {
               placeholder="Experience"
               type="text"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup>
-            <SelectGroup
+            ></SelectGroup> -->
+            <!-- <SelectGroup
               v-model="postJobsValue.qualification"
               labelClasses="font-Satoshi500 text-[15.606px]"
               label="Qualification*"
@@ -451,7 +558,7 @@ onMounted(async () => {
               placeholder="Qualification"
               type="text"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup>
+            ></SelectGroup> -->
           </div>
           <div class="flex flex-row w-full gap-8">
             <SelectGroup
@@ -475,7 +582,9 @@ onMounted(async () => {
           </div>
         </div>
         <div class="flex flex-row justify-between items-center mt-[64.05px]">
-          <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px]">Relevant Client Questions</h4>
+          <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px]">
+            Relevant Client Questions
+          </h4>
 
           <button @click="addQuestion"><CirclePlus /></button>
         </div>

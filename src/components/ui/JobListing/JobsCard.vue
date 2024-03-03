@@ -6,12 +6,15 @@ import DropdownDeleteIcon from "@/components/icons/DropdownDeleteIcon.vue";
 import DropdownEditIcon from "@/components/icons/DropdownEditIcon.vue";
 import DropdownShareIcon from "@/components/icons/DropdownShareIcon.vue";
 import GreenLoader from "@/components/ui/GreenLoader.vue";
-
+import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import { useRouter } from "vue-router";
 import { useTabStore } from "@/stores/tab";
 import { useJobsStore } from "@/stores/jobs";
+import { useNumberFomateStore } from "@/stores/numberFomate";
+let numAbbr = useNumberFomateStore();
+
 const jobsStore = useJobsStore();
-const loading = ref(true);
+const loading = ref(false);
 
 const store = useTabStore();
 
@@ -40,16 +43,22 @@ const closeDropdown = () => {
 };
 
 const deleteJob = async (id) => {
+  loading.value = true;
+
   try {
     const res = await jobsStore.handelDeleteJob(id);
     await jobsStore.handleMyJobs();
+    loading.value = false;
     return res;
   } catch (error) {
     console.log(error);
+    loading.value = false;
   }
 };
 </script>
 <template>
+  <PagePreLoader v-if="loading" />
+
   <div
     class="border-[#254035AB] border-[0.4px] bg-white relative rounded-[7.347px] lg:p-5 p-4 lg:px-6"
   >
@@ -81,7 +90,11 @@ const deleteJob = async (id) => {
         <div class="grid grid-cols-5 justify-between mt-5">
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
-              <p class="text-[14.633px] capitalize font-Satoshi500 text-[#244034E5]">
+              <p
+                class="text-[14.633px] capitalize font-Satoshi500 flex items-center text-[#244034E5]"
+              >
+                <span v-html="numAbbr.formatCurrency(job.currency)"></span>
+
                 {{ store.abbr(job.salary_min) }}- {{ store.abbr(job.salary_max) }}/
                 {{ job.salaray_type }}
               </p>

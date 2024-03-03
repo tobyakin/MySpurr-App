@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import currencySymbol from 'currency-symbol'
 
 export const useNumberFomateStore = defineStore('numberFomate', () => {
   const abbr = (num, digits) => {
@@ -21,7 +22,11 @@ export const useNumberFomateStore = defineStore('numberFomate', () => {
     }
     return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol
   }
+  const formatCurrency = (value) => {
+    return currencySymbol.symbol(value)
+  }
   return {
-    abbr
+    abbr,
+    formatCurrency
   }
 })

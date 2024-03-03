@@ -7,7 +7,7 @@ import { useNumberFomateStore } from "@/stores/numberFomate";
 import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
 import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 import CircleTick from "@/components/icons/circleTick.vue";
@@ -20,7 +20,9 @@ const userProfile = useUserProfile();
 const userDetails = computed(() => {
   return userProfile.user.data;
 });
+
 const router = useRouter();
+const route = useRoute();
 const jobsStore = useJobsStore();
 const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore);
 const emit = defineEmits(["back"]);
@@ -29,21 +31,21 @@ const back = () => {
 };
 const isFormValid = computed(() => {
   return (
-    postJobsValue.value.job_title !== null &&
+    postJobsValue.value.job_title !== "" &&
     postJobsValue.value.job_type.trim() !== "" &&
-    postJobsValue.value.description !== null &&
+    postJobsValue.value.description !== "" &&
     postJobsValue.value.responsibilities.trim() !== "" &&
-    postJobsValue.value.required_skills !== null &&
-    postJobsValue.value.benefits !== null &&
-    postJobsValue.value.salaray_type !== null &&
-    postJobsValue.value.salary_min !== null &&
-    postJobsValue.value.salary_max !== null &&
-    postJobsValue.value.skills !== null &&
-    postJobsValue.value.experience !== null &&
-    postJobsValue.value.qualification !== null &&
-    postJobsValue.value.questions !== null &&
-    postJobsValue.value.currency !== null &&
-    ciso.value !== null &&
+    postJobsValue.value.required_skills !== "" &&
+    postJobsValue.value.benefits !== "" &&
+    postJobsValue.value.salaray_type !== "" &&
+    postJobsValue.value.salary_min !== "" &&
+    postJobsValue.value.salary_max !== "" &&
+    postJobsValue.value.skills !== "" &&
+    postJobsValue.value.experience !== "" &&
+    postJobsValue.value.qualification !== "" &&
+    postJobsValue.value.questions !== "" &&
+    postJobsValue.value.currency !== "" &&
+    ciso.value !== "" &&
     siso.value.trim() !== ""
   );
 });
@@ -69,7 +71,7 @@ const restForm = () => {
 const postJob = async () => {
   loading.value = true;
   try {
-    const res = await jobsStore.handlePostJob();
+    const res = await jobsStore.handleEditJob(route.params.id);
     if (res.status === "true") {
       loading.value = false;
       showModal.value = true;
@@ -101,7 +103,7 @@ onMounted(async () => {
     <CenteredModalLarge v-if="showModal"
       ><div class="text-center px-10 py-10">
         <h4 class="text-[#01181B] font-Satoshi700 text-[28.537px] mt-[20px]">
-          Congratulations! Your job has been successfully posted on MySpurr!
+          Congratulations! Your job has been successfully updated on MySpurr!
         </h4>
         <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
           Now, talented creatives can discover and apply for your exciting opportunity.
@@ -174,7 +176,7 @@ onMounted(async () => {
             :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
             class="font-Satoshi500 text-[9.708px] uppercase p-3 px-12 text-[#000000] rounded-full"
           >
-            <span v-if="!loading">Post</span>
+            <span v-if="!loading">Update</span>
             <WhiteLoader v-else />
           </button>
         </div>
@@ -217,7 +219,7 @@ onMounted(async () => {
         </p>
       </div>
       <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Expertise</p>
+        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Qualification</p>
         <p class="text-[#244034] text-[17.104px] font-Satoshi500">
           {{ postJobsValue.qualification }}
         </p>
@@ -286,7 +288,7 @@ onMounted(async () => {
 
         <p
           v-if="postJobsValue.benefits"
-          class="text-[16.236px] text-[#000] font-Satoshi500"
+          class="text-[16.236px] text-[#000] editor font-Satoshi500 !mb-4 mt-6"
         >
           Benefits:
         </p>
@@ -390,7 +392,7 @@ onMounted(async () => {
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
         class="font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full px-8 p-3 w-auto"
       >
-        <span v-if="!loading">Post</span>
+        <span v-if="!loading">Update</span>
         <WhiteLoader v-else />
       </button>
     </div>

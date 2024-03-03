@@ -44,10 +44,10 @@ export const getTopPickedJobs = async () => {
     throw error
   }
 }
-export const deleteJob = async (slug) => {
+export const deleteJob = async (id) => {
   const token = await getToken()
   try {
-    let res = await axios.delete(`job/delete`, slug, {
+    let res = await axios.delete(`jobs/delete/${id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -197,6 +197,21 @@ export const getTalentApplication = async (id) => {
       }
     })
     catchAxiosSuccess(res.data)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const editJob = async (id, payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.patch(`job/${id}`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
     return res.data
   } catch (error) {
     catchAxiosError(error)
