@@ -9,10 +9,14 @@ import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 // import CircleTick from "@/components/icons/circleTick.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 // let store = useStore();
+import { useNumberFomateStore } from "@/stores/numberFomate";
+
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useQuery } from "vue-query";
 import { useJobsStore } from "@/stores/jobs";
 import { useTabStore } from "@/stores/tab";
+let numAbbr = useNumberFomateStore();
+
 const store = useTabStore();
 const jobsStore = useJobsStore();
 const { JobDetailsById } = storeToRefs(jobsStore);
@@ -135,7 +139,9 @@ useQuery(["JobDetails", route.params.id], getJobDetails, {
       >
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
-          <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034] text-[17.104px] flex items-center font-Satoshi500">
+            <span v-html="numAbbr.formatCurrency(JobDetailsById?.data?.currency)"></span>
+
             {{ store.abbr(JobDetailsById?.data?.salary_min) }}-
             {{ store.abbr(JobDetailsById?.data?.salary_max) }}/
             {{ JobDetailsById?.data?.salaray_type }}
@@ -206,7 +212,7 @@ useQuery(["JobDetails", route.params.id], getJobDetails, {
 
             <p
               v-if="JobDetailsById?.data?.benefits"
-              class="text-[16.236px] text-[#000] font-Satoshi500"
+              class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6"
             >
               Benefits:
             </p>

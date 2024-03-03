@@ -203,3 +203,18 @@ export const getTalentApplication = async (id) => {
     throw error
   }
 }
+export const editJob = async (id, payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.patch(`job/${id}`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
