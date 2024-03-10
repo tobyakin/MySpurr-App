@@ -14,7 +14,7 @@ const { user } = storeToRefs(userProfile);
 const { step, businessDetails, ciso, siso } = storeToRefs(OnboardingStore);
 const router = useRouter();
 const skillsStore = useSkillsStore();
-const { contriesCode, states } = storeToRefs(skillsStore);
+const { contriesCode, states, industries } = storeToRefs(skillsStore);
 
 // let store = useStore();
 const emit = defineEmits(["next"]);
@@ -115,7 +115,9 @@ const highlightedIndex = ref(-1);
 
 const filteredOptions = computed(() => {
   const searchTerm = search.value.toLowerCase();
-  return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
+  return industries.value.filter((option) =>
+    option.name.toLowerCase().includes(searchTerm)
+  );
 });
 
 const filterOptions = () => {

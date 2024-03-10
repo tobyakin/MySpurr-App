@@ -42,6 +42,7 @@ let options = ref([
   { name: "Finance" },
 ]);
 let loading = ref(false);
+let loadingD = ref(false);
 
 const search = ref("");
 const showDropdown = ref(false);
@@ -215,6 +216,22 @@ const onFinish = async () => {
     console.log(error);
   } finally {
     loading.value = false;
+    restForm();
+    router.push({ name: "profile" });
+  }
+};
+const saveAsDraft = async () => {
+  loadingD.value = true;
+  try {
+    const res = await OnboardingStore.submitTalentPortfolioAsDraft();
+    userProfile.userProfile();
+    // router.push({ name: "profile" });
+    restForm();
+    return res;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loadingD.value = false;
     restForm();
     router.push({ name: "profile" });
   }
@@ -396,12 +413,21 @@ const onFinish = async () => {
           </div>
         </div>
       </div>
-      <div class="flex gap-4 justify-center mt-12">
+      <div class="flex gap-4 justify-start mt-12">
+        <button
+          @click="saveAsDraft"
+          :disabled="!isFormValid"
+          :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
+          class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 py-4 lg:w-[20%] w-full"
+        >
+          <span v-if="!loadingD" class="text-[12.067px]">Save Draft</span>
+          <WhiteLoader v-if="loadingD" />
+        </button>
         <button
           @click="onFinish"
           :disabled="!isFormValid"
           :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-          class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 lg:w-[20%] w-full"
+          class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 py-4 lg:w-[20%] w-full"
         >
           <span v-if="!loading" class="text-[12.067px]">Save</span>
           <WhiteLoader v-if="loading" />

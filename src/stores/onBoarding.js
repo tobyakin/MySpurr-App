@@ -77,7 +77,30 @@ const businessDetails = ref({
   company_logo: null,
   company_type: ''
 })
-    const submitTalentPortfolio = async() => {
+    const submitTalentPortfolio = async () => {
+      let payload = {
+        portfolio: {
+          title: portfolio.value.title,
+          client_name: portfolio.value.client_name,
+          job_type: portfolio.value.job_type,
+          location: portfolio.value.location,
+          min_rate: portfolio.value.min_rate,
+          max_rate: portfolio.value.max_rate,
+          tags: portfolio.value.tags,
+          cover_image: portfolio.value.cover_image,
+          body: portfolio.value.body,
+          is_draft: 'false'
+
+        }
+      }
+      try {
+        let res = await handleTalentPortfolio(payload)
+        return res
+      } catch (error) {
+        /**/
+      }
+    }
+    const submitTalentPortfolioAsDraft = async() => {
             let payload = {
               portfolio: {
                 title: portfolio.value.title,
@@ -88,7 +111,9 @@ const businessDetails = ref({
                 max_rate: portfolio.value.max_rate,
                 tags: portfolio.value.tags,
                 cover_image: portfolio.value.cover_image,
-                body: portfolio.value.body
+                body: portfolio.value.body,
+                is_draft: 'true'
+
               }
             }
 try {
@@ -96,8 +121,7 @@ try {
   return res
 } catch (error) {
   /**/
-}
-    }
+}}
     const submitBusinessPortfolio = async(payload) => {
       try{
         let res = await handleBusinessPortfolio(payload)
@@ -212,6 +236,7 @@ try {
       verifyIdentityData,
       businessDetails,
       ciso,
-      siso
+      siso,
+      submitTalentPortfolioAsDraft
     }
 })

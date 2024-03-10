@@ -29,6 +29,15 @@ import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
 import { useQuery } from "vue-query";
 import { useTabStore } from "@/stores/tab";
+import { useStore } from "@/stores/user";
+
+let store = useStore();
+const accountType = computed(() => {
+  return store.getUser.data.user.type;
+});
+onMounted(() => {
+  return accountType;
+});
 
 const tabStore = useTabStore();
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
@@ -156,94 +165,151 @@ useQuery(["profile"], getProfileData, {
     <div class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10">
       <div id="talent-cv" class="container talent-cv">
         <div
-          class="bg-[#E9FAFB] border-[#F6F6F6] flex lg:flex-row flex-col gap-5 justify-between items-center border-[1px] rounded-[15px] p-6 px-14"
+          class="bg-[#E9FAFB] border-[#F6F6F6] flex flex-col gap-8 justify-between border-[1px] rounded-[15px] p-6 px-14"
         >
-          <div
-            class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
-          >
-            <EditProfileAvater
-              :imageUrl="userDetails?.image"
+          <div class="flex lg:flex-row flex-col gap-5 justify-between items-center">
+            <div
+              class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
+            >
+              <EditProfileAvater
+                :imageUrl="
+                  accountType === 'talent'
+                    ? userDetails?.image
+                    : userDetails?.company_logo
+                "
+                @toggleModal="HandleToggleEditImageModal"
+                inputClasses="!h-[89.536px] !w-[89.536px]"
+                class=""
+              />
+              <!-- <EditProfileAvater
+              v-if="accountType === 'business'"
+              :imageUrl="userDetails?.company_logo"
               @toggleModal="HandleToggleEditImageModal"
               inputClasses="!h-[89.536px] !w-[89.536px]"
               class=""
-            />
-            <div class="lg:text-left text-center">
-              <p
-                class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]"
-              >
-                {{ userDetails?.first_name }} {{ userDetails?.last_name }}
-              </p>
-              <p
-                class="text-[#00000066] !my-1.5 text-[14.598px] flex gap-[8px] items-center capitalize leading-[31.739px] font-Satoshi400"
-              >
-                {{ userDetails?.skill_title }}
-                <span
-                  v-if="userDetails?.experience_level"
-                  class="bg-[#00474F] rounded-full py-[0.5px] capitalize text-[10.519px] text-[#E6F1F3] font-medium px-[19px]"
-                  >{{ userDetails?.experience_level }}</span
+            /> -->
+              <div class="lg:text-left text-center">
+                <p
+                  class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]"
                 >
-              </p>
-              <div class="flex items-center lg:justify-start justify-center gap-2">
-                <p class="lg:text-[13.625px] text-[14px] text-[#244034] font-Satoshi500">
-                  ${{ tabStore.abbr(userDetails?.rate) }}/hr
+                  {{ userDetails?.first_name }} {{ userDetails?.last_name }}
                 </p>
-                <div class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"></div>
-                <p class="text-[#244034] lg:text-[13.625px] text-[14px] font-Satoshi500">
-                  {{ userDetails?.location }}
+                <p
+                  class="text-[#00000066] !my-1.5 text-[14.598px] flex gap-[8px] items-center capitalize leading-[31.739px] font-Satoshi400"
+                >
+                  {{ userDetails?.skill_title }}
+                  <span
+                    v-if="userDetails?.experience_level"
+                    class="bg-[#00474F] rounded-full py-[0.05px] capitalize text-[10.519px] text-[#E6F1F3] font-medium px-[19px]"
+                    >{{ userDetails?.experience_level }}</span
+                  >
                 </p>
+                <div class="flex items-center lg:justify-start justify-center gap-2">
+                  <p
+                    v-if="accountType === 'talent'"
+                    class="lg:text-[13.625px] text-[14px] text-[#244034] font-Satoshi500"
+                  >
+                    ${{ tabStore.abbr(userDetails?.rate) }}/hr
+                  </p>
+                  <div
+                    v-if="accountType === 'talent'"
+                    class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"
+                  ></div>
+                  <p
+                    class="text-[#244034] flex gap-3 lg:text-[13.625px] text-[14px] font-Satoshi500"
+                  >
+                    {{ userDetails?.location }}
+                    <a
+                      v-if="accountType === 'business'"
+                      :href="userDetails?.website"
+                      target="_blank"
+                      class="underline text-[13.63px] cursor-pointer font-Satoshi500 text-[#244034]"
+                      >View Website</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col items-center lg:justify-center lg:items-end gap-6">
+              <div class="flex flex-row justify-center gap-3">
+                <a
+                  v-if="userDetails?.linkedin"
+                  :href="userDetails?.linkedin"
+                  target="_blank"
+                >
+                  <LinkdeinIcon />
+                </a>
+                <a
+                  v-if="userDetails?.instagram"
+                  :href="userDetails?.instagram"
+                  target="_blank"
+                >
+                  <InstagramIcon />
+                </a>
+                <a
+                  v-if="userDetails?.behance"
+                  :href="userDetails?.behance"
+                  target="_blank"
+                >
+                  <BeIcon />
+                </a>
+                <a
+                  v-if="userDetails?.twitter"
+                  :href="userDetails?.twitter"
+                  target="_blank"
+                >
+                  <TwitterIcon />
+                </a>
+              </div>
+              <div class="flex items-center gap-5">
+                <div
+                  v-if="isSupported && accountType === 'talent'"
+                  class="bg-[#EDF0B8] p-2 flex relative overflow-hidden pr-6 rounded-[5.982px] mt-0"
+                >
+                  <a
+                    role="button"
+                    target="_blank"
+                    :href="
+                      `https://www.myspurr.net/` +
+                      userDetails?.first_name +
+                      `/` +
+                      userDetails?.uniqueId
+                    "
+                    @click="copyUrl()"
+                    class="text-[10.476px] font-Satoshi500 text-[#01272C]"
+                    >myspurr.net/{{ userDetails?.first_name }}</a
+                  >
+                  <div
+                    class="bg-[#2C4C50] p-1 absolute right-1 top-[6px] flex items-start rounded-full"
+                  >
+                    <LinkIcon class="h-[7.596px] w-[7.px6px]" />
+                  </div>
+                </div>
+                <button @click="HandleToggleEditHeadlineBioModal">
+                  <EditIcon class="text-[#297F88]" />
+                </button>
               </div>
             </div>
           </div>
-          <div class="flex flex-col items-center lg:justify-center lg:items-end gap-6">
-            <div class="flex flex-row justify-center gap-3">
-              <a
-                v-if="userDetails?.linkedin"
-                :href="userDetails?.linkedin"
-                target="_blank"
-              >
-                <LinkdeinIcon />
-              </a>
-              <a
-                v-if="userDetails?.instagram"
-                :href="userDetails?.instagram"
-                target="_blank"
-              >
-                <InstagramIcon />
-              </a>
-              <a v-if="userDetails?.behance" :href="userDetails?.behance" target="_blank">
-                <BeIcon />
-              </a>
-              <a v-if="userDetails?.twitter" :href="userDetails?.twitter" target="_blank">
-                <TwitterIcon />
-              </a>
+          <div
+            v-if="accountType === 'business'"
+            class="flex flex-row items-center lg:justify-start lg:items-center gap-6"
+          >
+            <div class="flex flex-col gap-3">
+              <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Size</p>
+              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">Size</h4>
             </div>
-            <div class="flex items-center gap-5">
-              <div
-                v-if="isSupported"
-                class="bg-[#EDF0B8] p-2 flex relative overflow-hidden pr-6 rounded-[5.982px] mt-0"
-              >
-                <a
-                  role="button"
-                  target="_blank"
-                  :href="
-                    `https://www.myspurr.net/` +
-                    userDetails?.first_name +
-                    `/` +
-                    userDetails?.uniqueId
-                  "
-                  @click="copyUrl()"
-                  class="text-[10.476px] font-Satoshi500 text-[#01272C]"
-                  >myspurr.net/{{ userDetails?.first_name }}</a
-                >
-                <div
-                  class="bg-[#2C4C50] p-1 absolute right-1 top-[6px] flex items-start rounded-full"
-                >
-                  <LinkIcon class="h-[7.596px] w-[7.596px]" />
-                </div>
-              </div>
-              <button @click="HandleToggleEditHeadlineBioModal">
-                <EditIcon class="text-[#297F88]" />
-              </button>
+            <div class="flex flex-col gap-3">
+              <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Email</p>
+              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">Size</h4>
+            </div>
+            <div class="flex flex-col gap-3">
+              <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Phone</p>
+              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">Size</h4>
+            </div>
+            <div class="flex flex-col gap-3">
+              <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Category</p>
+              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">Size</h4>
             </div>
           </div>
         </div>
@@ -258,7 +324,13 @@ useQuery(["profile"], getProfileData, {
             <div
               class="text-[#000000BF] font-Satoshi400 text-justify text-[16px] mt-4 leading-[35px]"
             >
-              <p>{{ userDetails?.overview }}</p>
+              <p>
+                {{
+                  accountType === "talent"
+                    ? userDetails?.overview
+                    : userDetails?.about_business
+                }}
+              </p>
               <!-- <p class="mt-4"></p> -->
               <!-- .slice(0, 10) -->
               <!--               
@@ -266,14 +338,17 @@ useQuery(["profile"], getProfileData, {
               <!--               {{ talents?.top_skills.length - 10 }}+
  -->
             </div>
-            <div class="flex flex-row items-center justify-between gap-[96px] !mb-4 mt-6">
+            <div
+              v-if="accountType === 'talent'"
+              class="flex flex-row items-center justify-between gap-[96px] !mb-4 mt-6"
+            >
               <p class="text-[28px] text-[#000] font-Satoshi500">Skills</p>
               <button @click="HandleToggleSkillsPageModal">
                 <EditIcon class="text-[#297F88]" />
               </button>
             </div>
 
-            <div class="flex gap-4 flex-wrap">
+            <div v-if="accountType === 'talent'" class="flex gap-4 flex-wrap">
               <div
                 v-for="item in userDetails?.top_skills"
                 :key="item.name"
@@ -287,6 +362,7 @@ useQuery(["profile"], getProfileData, {
               ></div>
             </div>
             <div
+              v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
             >
               <p class="text-[28px] text-[#000] font-Satoshi500">Education</p>
@@ -295,8 +371,12 @@ useQuery(["profile"], getProfileData, {
               </button>
             </div>
 
-            <EducationDetails :items="userDetails?.education" />
+            <EducationDetails
+              v-if="accountType === 'talent'"
+              :items="userDetails?.education"
+            />
             <div
+              v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[16px] !mb-12 mt-8"
             >
               <p class="text-[28px] text-[#000] font-Satoshi500">Work Experience</p>
@@ -305,8 +385,12 @@ useQuery(["profile"], getProfileData, {
               </button>
             </div>
 
-            <WorkExperience :items="userDetails?.employment" />
+            <WorkExperience
+              v-if="accountType === 'talent'"
+              :items="userDetails?.employment"
+            />
             <div
+              v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
             >
               <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
@@ -360,7 +444,10 @@ useQuery(["profile"], getProfileData, {
             </div>
           </div>
           <div class="lg:w-[30%] p-4">
-            <div class="flex flex-row items-center justify-between gap-[26px]">
+            <div
+              v-if="accountType === 'talent'"
+              class="flex flex-row items-center justify-between gap-[26px]"
+            >
               <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p>
               <button @click="HandleToggleCertificateModal">
                 <EditIcon class="text-[#297F88]" />
@@ -368,6 +455,7 @@ useQuery(["profile"], getProfileData, {
             </div>
 
             <div
+              v-if="accountType === 'talent'"
               class="bg-[#E9FAFB] p-6 border-[#F6F6F6] border-[1px] flex flex-col gap-10 mt-4 rounded-[15px]"
             >
               <div
@@ -403,7 +491,12 @@ useQuery(["profile"], getProfileData, {
                 </button>
               </div>
             </div>
-            <p class="text-[20px] text-[#000] font-Satoshi500 mt-16">Location</p>
+            <p
+              :class="accountType === 'talent' ? 'mt-16' : ''"
+              class="text-[20px] text-[#000] font-Satoshi500"
+            >
+              Location
+            </p>
             <div class="flex flex-col gap-12 mt-4 relative rounded-[15px]">
               <!-- <img src="@/assets/image/Map.webp" alt="map" /> -->
               <Map :lat="userDetails?.latitude" :lng="userDetails?.longitude" />
