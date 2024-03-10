@@ -13,6 +13,7 @@
       :autofocus="ind === 0"
       maxlength="1"
       @input="handleInput($event, ind)"
+      @paste="handlePaste($event, ind)"
     />
   </div>
 </template>
@@ -59,6 +60,24 @@ const handleInput = function (event, index) {
       // Emit the entered digits on each input
       emit("update:modelValue", digits.join(""));
     }
+  }
+};
+const handlePaste = function (event, index) {
+  event.preventDefault();
+  const pastedText = event.clipboardData.getData("text");
+  const sanitizedText = pastedText
+    .replace(/[^\d]/g, "")
+    .slice(0, props.digitCount - index);
+
+  for (let i = 0; i < sanitizedText.length; i++) {
+    digits[index + i] = sanitizedText.charAt(i);
+  }
+
+  emit("update:modelValue", digits.join(""));
+
+  // Move focus to the next input box if available
+  if (index + sanitizedText.length < props.digitCount) {
+    otpCont.value.children[index + sanitizedText.length].focus();
   }
 };
 </script>
