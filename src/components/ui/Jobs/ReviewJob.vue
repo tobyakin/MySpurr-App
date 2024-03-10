@@ -286,7 +286,7 @@ onMounted(async () => {
 
         <p
           v-if="postJobsValue.benefits"
-          class="text-[16.236px] text-[#000] font-Satoshi500"
+          class="text-[16.236px] text-[#000] editor font-Satoshi500 !mb-4 mt-6"
         >
           Benefits:
         </p>
