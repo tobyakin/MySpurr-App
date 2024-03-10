@@ -12,7 +12,7 @@ import Tabs from "@/components/ui/Jobs/Tabs.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { useSkillsStore } from "@/stores/skills";
 const skillsStore = useSkillsStore();
-const { contriesCode, states } = storeToRefs(skillsStore);
+const { contriesCode, states, industries } = storeToRefs(skillsStore);
 
 const jobsStore = useJobsStore();
 const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore);
@@ -343,7 +343,27 @@ onMounted(async () => {
         </h4>
         <div class="flex flex-row w-full gap-3">
           <div class="lg:w-[45%]">
-            <SelectGroup
+            <div class="flex flex-col w-full text-left">
+              <Label class="font-Satoshi500 invisible !text-[17.792px] mb-2.5"></Label>
+              <a-select
+                placeholder=""
+                :show-arrow="true"
+                :bordered="true"
+                class="w-full !outline-none !px-1"
+                show-search
+                v-model:value="postJobsValue.salaray_type"
+              >
+                <a-select-option
+                  v-for="item in ['Monthly', 'Yearly', 'Hourly']"
+                  :key="item"
+                  :value="item"
+                >
+                  {{ item }}
+                </a-select-option>
+              </a-select>
+            </div>
+
+            <!-- <SelectGroup
               v-model="postJobsValue.salaray_type"
               labelClasses="font-Satoshi500 text-[15.606px]"
               label=""
@@ -352,7 +372,7 @@ onMounted(async () => {
               placeholder="Job Category"
               type="text"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup>
+            ></SelectGroup> -->
           </div>
           <div class="lg:w-[55%] flex flex-row gap-3">
             <FormGroup
@@ -373,6 +393,23 @@ onMounted(async () => {
               type="number"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2.5 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></FormGroup>
+            <!-- <div class="flex flex-col w-full text-left">
+              <Label class="font-Satoshi500 invisible !text-[17.792px] mb-2"></Label>
+              <a-select
+                placeholder="state or city"
+                :show-arrow="false"
+                :bordered="true"
+                class="w-full !outline-none !px-0"
+                show-search
+                v-model:value="postJobsValue.currency"
+              >
+                <a-select-option disabled>Currency</a-select-option>
+                <a-select-option v-for="item in ['USD', 'NGN']" :key="item" :value="item">
+                  {{ item }}
+                </a-select-option>
+              </a-select>
+            </div>
+ -->
             <SelectGroup
               v-model="postJobsValue.currency"
               labelClasses="font-Satoshi500 text-[15.606px]"
@@ -473,17 +510,55 @@ onMounted(async () => {
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></SelectGroup>
           </div>
-          <div class="flex flex-row w-full gap-8">
-            <SelectGroup
+          <div class="flex flex-row hidden w-full gap-8">
+            <div class="flex flex-col w-full text-left">
+              <Label class="font-Satoshi500 !text-[17.792px] mb-2">Industry*</Label>
+              <a-select
+                placeholder="state or city"
+                :show-arrow="false"
+                :bordered="true"
+                class="w-full !outline-none !px-0"
+                show-search
+              >
+                <a-select-option v-for="i in industries" :key="i" :value="i">
+                  {{ i.name }}
+                </a-select-option>
+              </a-select>
+            </div>
+            <div class="flex flex-col w-full text-left">
+              <Label class="font-Satoshi500 !text-[17.792px] mb-2">Career Level*</Label>
+              <a-select
+                placeholder="Career Level"
+                :show-arrow="false"
+                :bordered="true"
+                class="w-full !outline-none !px-0"
+                show-search
+              >
+                <a-select-option
+                  v-for="i in [
+                    'Beginner ',
+                    'Intermediate ',
+                    'Expert ',
+                    'More than 10yrs',
+                  ]"
+                  :key="i"
+                  :value="i"
+                >
+                  {{ i }}
+                </a-select-option>
+              </a-select>
+            </div>
+
+            <!-- <SelectGroup
               labelClasses="font-Satoshi500 text-[15.606px]"
               label="Industry*"
               name="Name"
-              :items="['Freelance', 'Full Time', 'Part Time']"
+              :items="industries"
               placeholder="Industry"
               type="text"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup>
-            <SelectGroup
+            ></SelectGroup> -->
+            <!-- <SelectGroup
               labelClasses="font-Satoshi500 text-[15.606px]"
               label="Career Level*"
               name="Name"
@@ -491,7 +566,7 @@ onMounted(async () => {
               placeholder="Career Level"
               type="text"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup>
+            ></SelectGroup> -->
           </div>
         </div>
         <div class="flex flex-row justify-between items-center mt-[64.05px]">
