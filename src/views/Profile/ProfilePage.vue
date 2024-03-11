@@ -293,23 +293,27 @@ useQuery(["profile"], getProfileData, {
           </div>
           <div
             v-if="accountType === 'business'"
-            class="flex flex-row items-center lg:justify-start lg:items-center gap-6"
+            class="flex flex-row items-center lg:justify-start lg:items-center gap-10"
           >
             <div class="flex flex-col gap-3">
               <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Size</p>
-              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">Size</h4>
+              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">.</h4>
             </div>
             <div class="flex flex-col gap-3">
               <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Email</p>
-              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">Size</h4>
+              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">
+                {{ userDetails?.business_email }}
+              </h4>
             </div>
             <div class="flex flex-col gap-3">
               <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Phone</p>
-              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">Size</h4>
+              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">.</h4>
             </div>
             <div class="flex flex-col gap-3">
               <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Category</p>
-              <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">Size</h4>
+              <h4 class="text-[#244034] capitalize font-Satoshi500 text-[13.25px]">
+                {{ userDetails?.business_service }}
+              </h4>
             </div>
           </div>
         </div>
@@ -338,6 +342,20 @@ useQuery(["profile"], getProfileData, {
               <!--               {{ talents?.top_skills.length - 10 }}+
  -->
             </div>
+            <div
+              v-if="accountType === 'business'"
+              class="flex flex-row items-center justify-between my-10 gap-[96px]"
+            >
+              <p class="text-[28px] text-[#000] font-Satoshi500">Intro</p>
+              <button @click="HandleToggleEditOverviewModal">
+                <EditIcon class="text-[#297F88]" />
+              </button>
+            </div>
+            <div
+              v-if="accountType === 'business'"
+              class="text-[#000000BF] bg-[#E1E1E1] h-[422.49px] rounded-[9.56px] border-[0.96px] border-[#E1E1E1] font-Satoshi400 text-justify text-[16px] mt-4 leading-[35px]"
+            ></div>
+
             <div
               v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[96px] !mb-4 mt-6"
