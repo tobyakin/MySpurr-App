@@ -48,7 +48,7 @@ useQuery(["myJobs"], getMyJobs, {
   },
 });
 
-// onMounted(async () => {
-//   await jobsStore.handleMyJobs();
-// });
+onMounted(async () => {
+  fetchData();
+});
 </script>

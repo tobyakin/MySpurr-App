@@ -417,8 +417,17 @@ useQuery(["profile"], getProfileData, {
                 <EditIcon class="text-[#297F88]" />
               </button>
             </div>
+            <div
+              v-if="!userDetails?.portfolio && accountType === 'talent'"
+              class="flex flex-col w-full justify-center items-center"
+            >
+              <p class="text-[15px] text-[#000] font-Satoshi400 text-center !mb-12 mt-8">
+                Uploaded portfolio can be viewed here
+              </p>
+            </div>
 
             <div
+              v-if="userDetails?.portfolio"
               class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
             >
               <img
@@ -431,6 +440,7 @@ useQuery(["profile"], getProfileData, {
                 alt=""
               />
             </div>
+
             <p class="text-[28px] text-[#000] font-Satoshi500 hidden !mb-12 mt-8">
               Reviews
             </p>
@@ -520,6 +530,31 @@ useQuery(["profile"], getProfileData, {
               <Map :lat="userDetails?.latitude" :lng="userDetails?.longitude" />
             </div>
           </div>
+        </div>
+        <div
+          v-if="accountType !== 'talent'"
+          class="mt-12 w-full flex flex-col overflow-hidden"
+        >
+          <div class="flex w-full justify-between mb-4">
+            <p class="text-[18px] font-Satoshi400 text-[#244034]">Open Positions</p>
+
+            <router-link
+              class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+              to="/post-job"
+              >Post a job</router-link
+            >
+          </div>
+          <div>
+            <!-- <TopPicksJob :job="topPickedJobs" /> -->
+          </div>
+          <!-- <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
+          <JobCard
+            class="min-w-[380px] lg:min-w-[50%] xl:min-w-[376.66px] md:min-w-[60%]"
+            v-for="item in topPickedJobs?.data"
+            :key="item.id"
+            :job="item"
+          />
+        </div> -->
         </div>
       </div>
     </div>
