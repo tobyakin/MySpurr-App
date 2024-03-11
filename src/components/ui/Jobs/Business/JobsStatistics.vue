@@ -81,11 +81,11 @@ const filterTab = (category) => {
                 <h4
                   class="text-[#244034] font-Satoshi500 text-[38.17px] leading-[59.218px]"
                 >
-                  2,300
+                  0
                 </h4>
                 <div class="flex items-center text-[14.4px] gap-3">
                   <p>This Week</p>
-                  <p class="text-[#D3DA51] font-Satoshi700">6.4%</p>
+                  <p class="text-[#D3DA51] font-Satoshi700">0%</p>
                   <CircleArrowUpIcon />
                 </div>
               </div>
@@ -103,11 +103,11 @@ const filterTab = (category) => {
                 <h4
                   class="text-[#244034] font-Satoshi500 text-[38.17px] leading-[59.218px]"
                 >
-                  650
+                  0
                 </h4>
                 <div class="flex items-center text-[14.4px] gap-3">
                   <p>This Week</p>
-                  <p class="text-[#DA5252] font-Satoshi700">6.4%</p>
+                  <p class="text-[#DA5252] font-Satoshi700">0%</p>
                   <CircleArrowDown />
                 </div>
               </div>
