@@ -10,6 +10,7 @@ import CourseCard from "@/components/ui/CourseCard.vue";
 import ArticleCard from "@/components/ui/ArticleCard.vue";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
+import { useQuery } from "vue-query";
 // import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue";
 import BusinessValuesCard from "@/components/ui/Cards/BusinessValuesCard.vue";
 import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
@@ -20,7 +21,7 @@ import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useJobsStore } from "@/stores/jobs";
 const JobsStore = useJobsStore();
-const { myJobsApplications, topPickedJobs } = storeToRefs(JobsStore);
+const { myJobsApplications, topPickedJobs, MyJob } = storeToRefs(JobsStore);
 
 const router = useRouter();
 
@@ -71,6 +72,27 @@ onMounted(async () => {
     await JobsStore.handleGetTopPickedJobs();
     await JobsStore.handleMyJobApplications();
   }
+});
+const getMyJobs = async () => {
+  let response = await JobsStore.handleMyJobs();
+  return response;
+};
+const fetchMyJobData = async () => {
+  await Promise.all([getMyJobs()]);
+};
+
+fetchMyJobData();
+
+useQuery(["myJobs"], getMyJobs, {
+  retry: 10,
+  staleTime: 10000,
+  onSuccess: (data) => {
+    MyJob.value = data;
+  },
+});
+
+onMounted(async () => {
+  fetchMyJobData();
 });
 </script>
 
@@ -285,8 +307,9 @@ onMounted(async () => {
         <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
           <BusinessJobCard
             class="min-w-[95%] lg:min-w-[40%]"
-            v-for="item in 3"
+            v-for="item in MyJob?.data"
             :key="item"
+            :job="item"
           />
         </div>
       </div>
