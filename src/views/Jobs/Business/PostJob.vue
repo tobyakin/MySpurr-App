@@ -40,6 +40,13 @@ let options = ref([
   { name: "Branding" },
   { name: "Finance" },
 ]);
+const Experience = [
+  { name: "Beginner ", year: "(1-2 yrs)" },
+  { name: "Intermediate ", year: "(3-5 yrs)" },
+  { name: "Expert ", year: "(6-10 yrs)" },
+  { name: "More than", year: " 10yrs" },
+];
+
 const step = ref([true, false]);
 const changeScreen = (from, to, type = null) => {
   step.value[from] = false;
@@ -489,7 +496,56 @@ onMounted(async () => {
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
           ></FormGroup> -->
           <div class="flex flex-row w-full gap-8">
-            <SelectGroup
+            <div class="flex flex-col w-full text-left">
+              <Label class="font-Satoshi500 !text-[15.606px] !mb-2">Experience</Label>
+              <div
+                class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+              >
+                <a-select
+                  placeholder="Experience Level"
+                  :bordered="false"
+                  :show-arrow="false"
+                  class="w-full !outline-none !px-0"
+                  show-search
+                  v-model:value="postJobsValue.experience"
+                >
+                  <a-select-option disabled>Experience Level</a-select-option>
+                  <a-select-option
+                    v-for="item in Experience"
+                    :key="item"
+                    :value="item.name"
+                  >
+                    {{ item.name }} {{ item.year }}
+                  </a-select-option>
+                </a-select>
+              </div>
+            </div>
+            <div class="flex flex-col w-full text-left">
+              <Label class="font-Satoshi500 !text-[15.606px] !mb-2">Qualification</Label>
+              <div
+                class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+              >
+                <a-select
+                  placeholder="Qualification Level"
+                  :bordered="false"
+                  :show-arrow="false"
+                  class="w-full !outline-none !px-0"
+                  show-search
+                  v-model:value="postJobsValue.qualification"
+                >
+                  <a-select-option disabled>Qualification Level</a-select-option>
+                  <a-select-option
+                    v-for="item in ['Certificate', 'Bachelors', 'Masters ', 'Doctorate ']"
+                    :key="item"
+                    :value="item"
+                  >
+                    {{ item }}
+                  </a-select-option>
+                </a-select>
+              </div>
+            </div>
+
+            <!-- <SelectGroup
               v-model="postJobsValue.experience"
               labelClasses="font-Satoshi500 text-[15.606px]"
               label="Experience*"
@@ -498,8 +554,8 @@ onMounted(async () => {
               placeholder="Experience"
               type="text"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup>
-            <SelectGroup
+            ></SelectGroup> -->
+            <!-- <SelectGroup
               v-model="postJobsValue.qualification"
               labelClasses="font-Satoshi500 text-[15.606px]"
               label="Qualification*"
@@ -508,7 +564,7 @@ onMounted(async () => {
               placeholder="Qualification"
               type="text"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup>
+            ></SelectGroup> -->
           </div>
           <div class="flex flex-row hidden w-full gap-8">
             <div class="flex flex-col w-full text-left">
