@@ -115,9 +115,9 @@ const redirectToJobPage = () => {
 
 const redirectWithSearchQuery = () => {
   // const inputField = document.querySelector(".search-input");
-  if (searchQuery.value) {
+  // if (searchQuery.value) {
     redirectToJobPage();
-  }
+  // }
 };
 </script>
 
