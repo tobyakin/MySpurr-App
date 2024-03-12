@@ -95,22 +95,22 @@ const displayedPageNumbers = computed(() => {
   return pageNumbers;
 });
 const filteredJobs = computed(() => {
-  let filtered = Job.value?.data; // Create a shallow copy of the jobs array
+  let filtered = Job?.value?.data; // Create a shallow copy of the jobs array
 
   // Filtering based on the search criteria
   if (sortInput.name) {
-    filtered = filtered.filter((item) =>
+    filtered = filtered?.filter((item) =>
       item.job_title.toLowerCase().includes(sortInput.name.toLowerCase())
     );
   }
   if (sortInput.jobType) {
-    filtered = filtered.filter((item) =>
+    filtered = filtered?.filter((item) =>
       item.job_type.toLowerCase().includes(sortInput.jobType.toLowerCase())
     );
   }
 
   if (sortInput.Location) {
-    filtered = filtered.filter((item) =>
+    filtered = filtered?.filter((item) =>
       item.state.toLowerCase().includes(sortInput.Location.toLowerCase())
     );
   }
