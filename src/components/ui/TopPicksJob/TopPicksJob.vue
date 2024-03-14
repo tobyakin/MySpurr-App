@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="job && job.length"
+    v-if="job && job?.data?.length"
     class="overflow-hidden hide-scrollbar flex flex-row w-full gap-3 overflow-x-auto"
   >
     <JobCard
