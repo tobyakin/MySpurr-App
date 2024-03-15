@@ -17,6 +17,8 @@ import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
 // import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import TopPicksJob from "@/components/ui/TopPicksJob/TopPicksJob.vue";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
+import MyApplicationsCard from "@/components/ui/MyApplications/MyApplicationCard.vue";
+import CoursesCard from "@/components/ui/Courses/CourseCard.vue";
 import { useTabStore } from "@/stores/tab";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
@@ -343,30 +345,17 @@ onMounted(async () => {
           >
         </div>
         <div><ShortLoader v-if="jobsLoading" /><TopPicksJob v-else :job="Job" /></div>
-        <!-- <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
-          <JobCard
-            class="min-w-[380px] lg:min-w-[50%] xl:min-w-[376.66px] md:min-w-[60%]"
-            v-for="item in topPickedJobs?.data"
-            :key="item.id"
-            :job="item"
-          />
-        </div> -->
       </div>
       <div v-if="accountType === 'talent'" class="mt-10 flex gap-3 overflow-x-auto">
         <div class="my-8 w-full">
-          <p class="text-[18px] font-Satoshi400 !mb-8 text-[#244034]">My Applications</p>
           <!-- min-w-[95%] lg:min-w-[70%] -->
 
           <div class="flex lg:flex-row flex-col h-auto gap-3">
-            <div class="w-full">
-              <MyApplicationCard :applications="myJobsApplications" class="w-full" />
-            </div>
-            <div
-              class="border-[#254035AB] w-full lg:w-[65%] bg-[#F0F3C4] border-[0.735px] h-[39vh] rounded-[7.347px] p-4 py-[1.1rem]"
-            ></div>
+            <MyApplicationsCard />
+            <CoursesCard />
           </div>
         </div>
-        <div class="my-8 hidden">
+        <!-- <div class="my-8 hidden">
           <div class="flex invisible justify-between mb-8">
             <p class="text-[18px] font-Satoshi400 text-[#244034]">My Courses</p>
 
@@ -380,13 +369,13 @@ onMounted(async () => {
             class="border-[#254035AB] w-full bg-[#F0F3C4] border-[0.735px] rounded-[7.347px] p-4 py-[1.1rem]"
           ></div>
 
-          <div class="grid hidden grid-cols-2 gap-3">
+          <div class="grid grid-cols-2 gap-3">
             <CourseCard v-for="item in 4" :key="item" />
           </div>
-        </div>
+        </div> -->
       </div>
       <!-- community -->
-      <div v-if="accountType === 'talent'" class="my-8 hidden">
+      <!-- <div v-if="accountType === 'talent'" class="my-8 hidden">
         <div class="flex justify-between mb-4">
           <p class="text-[18px] font-Satoshi400 text-[#244034]">Communities</p>
 
@@ -399,16 +388,16 @@ onMounted(async () => {
         <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
           <CommunityCard class="" v-for="item in 6" :key="item" />
         </div>
-      </div>
+      </div> -->
       <!-- articles -->
-      <div class="mt-10 hidden overflow-x-auto">
+      <!-- <div class="mt-10 hidden overflow-x-auto">
         <p class="text-[18px] font-Satoshi400 !mb-[60px] text-[#244034]">
           MySpurr Articles
         </p>
         <div class="grid md:grid-cols-2 grid-cols-1 gap-3">
           <ArticleCard class="" v-for="item in 4" :key="item" />
         </div>
-      </div>
+      </div> -->
     </div>
   </DashboardLayout>
 </template>

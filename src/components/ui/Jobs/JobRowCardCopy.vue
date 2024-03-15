@@ -26,9 +26,9 @@ defineProps({
     <div class="flex lg:flex-row flex-col gap-3 w-full">
       <div>
         <img
-          v-if="job.company.logo !== null"
+          v-if="job?.company?.logo !== null"
           class="h-[61.011px] w-[61.011px] rounded-full"
-          :src="job.company.logo"
+          :src="job?.company?.logo"
           alt=""
         />
         <img
@@ -41,9 +41,9 @@ defineProps({
       <div class="w-full">
         <div class="flex items-center gap-1">
           <p class="text-[13.021px] font-Satoshi500 flex text-[#2F929C]">
-            {{ job.company.business_name }}
+            {{ job?.company?.business_name }}
           </p>
-          <div v-if="job.verify" class="flex mt-1 gap-1">
+          <div v-if="job?.verify" class="flex mt-1 gap-1">
             <VerifyIcon class="w-4" />
             <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
               Verified Client.
@@ -55,16 +55,16 @@ defineProps({
             class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14"
           >
             <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
-              {{ job.job_info.job_title }}
+              {{ job?.job_info?.job_title }}
             </p>
             <button
               class="bg-[#EDF0B8] font-Satoshi500 lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
             >
-              {{ job.job_info.job_type }}
+              {{ job?.job_info?.job_type }}
             </button>
           </div>
           <a
-            v-if="job.match"
+            v-if="job?.match"
             class="font-Satoshi500 text-[11.74px] flex items-center gap-1 text-[#000000]"
           >
             <MatchIcon />You’re a Match
@@ -105,7 +105,7 @@ defineProps({
           <div class="flex lg:flex-row flex-col gap-4 justify-between mt-2">
             <div class="flex flex-wrap gap-3 items-center">
               <div
-                v-for="skill in job.job_info.skills"
+                v-for="skill in job?.job_info?.skills"
                 :key="skill"
                 class="bg-[#F2F3EF] font-Satoshi500 text-[10px] lg:text-[12.135px] uppercase p-[4px] lg:px-6 px-4 text-[#64665D] rounded-full"
               >
@@ -127,7 +127,7 @@ defineProps({
               <button
                 class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
               >
-                {{ job.status }}
+                {{ job?.status }}
               </button>
             </div>
           </div>
