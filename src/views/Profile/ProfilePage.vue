@@ -25,6 +25,8 @@ import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.v
 // import Map from "@/components/ui/Map/Map.vue";
 import { storeToRefs } from "pinia";
 // import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
+import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
+
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
 import { useQuery } from "vue-query";
@@ -129,15 +131,6 @@ const copyUrl = () => {
   }
 };
 
-// onMounted(async () => {
-//   try {
-//     await profile.userProfile();
-//   } catch (error) {
-//     /* empty */
-//   } finally {
-//     showPageLoader.value = !showPageLoader.value;
-//   }
-// });
 const getProfileData = async () => {
   let response = await profile.userProfile();
   return response;
@@ -148,7 +141,7 @@ const fetchData = async () => {
 
 fetchData();
 
-useQuery(["profile"], getProfileData, {
+const { isLoading } = useQuery(["profile"], getProfileData, {
   retry: 10,
   staleTime: 10000,
   onSuccess: (data) => {
@@ -159,10 +152,11 @@ useQuery(["profile"], getProfileData, {
 
 <template>
   <DashboardLayout>
-    <!-- {{ user?.data }} -->
-
-    <!-- <PagePreLoader v-if="showPageLoader" /> -->
-    <div class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10">
+    <ShortLoader v-if="isLoading" />
+    <div
+      v-else
+      class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10"
+    >
       <div id="talent-cv" class="container talent-cv">
         <div
           class="bg-[#E9FAFB] border-[#F6F6F6] flex flex-col gap-8 justify-between border-[1px] rounded-[15px] p-6 px-14"

@@ -16,18 +16,17 @@ import BusinessValuesCard from "@/components/ui/Cards/BusinessValuesCard.vue";
 import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
 // import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import TopPicksJob from "@/components/ui/TopPicksJob/TopPicksJob.vue";
+import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import { useTabStore } from "@/stores/tab";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useJobsStore } from "@/stores/jobs";
 const JobsStore = useJobsStore();
 const { myJobsApplications, topPickedJobs, Job, MyJob } = storeToRefs(JobsStore);
-
 const router = useRouter();
-
 const tabStore = useTabStore();
 const { isLoading } = storeToRefs(tabStore);
-
+let jobsLoading = ref(false);
 let store = useStore();
 let profile = useUserProfile();
 // const showPageLoader = ref(true);
@@ -69,11 +68,25 @@ onMounted(async () => {
 //!isOnBoarded.portofoolio;
 onMounted(async () => {
   if (accountType.value === "talent") {
-    await JobsStore.handleGetTopPickedJobs();
+    // await JobsStore.handleGetTopPickedJobs();
     await JobsStore.handleMyJobApplications();
     await JobsStore.allJobs();
   }
 });
+onMounted(async () => {
+  if (accountType.value === "talent") {
+    return;
+  }
+  jobsLoading.value = true;
+  try {
+    await JobsStore.allJobs();
+    jobsLoading.value = false;
+  } catch (error) {
+    console.error;
+    jobsLoading.value = false;
+  }
+});
+
 const getMyJobs = async () => {
   let response = await JobsStore.handleMyJobs();
   return response;
@@ -329,7 +342,7 @@ onMounted(async () => {
             >View all jobs</router-link
           >
         </div>
-        <div><TopPicksJob :job="Job" /></div>
+        <div><ShortLoader v-if="jobsLoading" /><TopPicksJob v-else :job="Job" /></div>
         <!-- <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
           <JobCard
             class="min-w-[380px] lg:min-w-[50%] xl:min-w-[376.66px] md:min-w-[60%]"
@@ -346,7 +359,7 @@ onMounted(async () => {
 
           <div class="flex lg:flex-row flex-col h-auto gap-3">
             <div class="w-full">
-              <MyApplicationCard :applications="myJobsApplications.data" class="w-full" />
+              <MyApplicationCard :applications="myJobsApplications" class="w-full" />
             </div>
             <div
               class="border-[#254035AB] w-full lg:w-[65%] bg-[#F0F3C4] border-[0.735px] h-[39vh] rounded-[7.347px] p-4 py-[1.1rem]"

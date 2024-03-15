@@ -13,7 +13,8 @@ import { useJobsStore } from "@/stores/jobs";
 import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
 import Label from "@/components/ui/Form/Input/Label.vue";
 import { useRouter } from "vue-router";
-
+import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
+const loading = ref(false);
 const jobsStore = useJobsStore();
 const { Job } = storeToRefs(jobsStore);
 
@@ -171,7 +172,14 @@ watch(currentPage, (newPage) => {
   console.log("Current Page:", newPage);
 });
 onMounted(async () => {
-  await jobsStore.allJobs();
+  loading.value = true;
+  try {
+    await jobsStore.allJobs();
+    loading.value = false;
+  } catch (error) {
+    console.error;
+    loading.value = false;
+  }
 });
 // Watch for changes in the route query parameters
 watchEffect(() => {
@@ -188,9 +196,8 @@ watchEffect(() => {
     <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
       <Tabs>
         <template #tab1> All jobs </template>
-        <template #tab2> Branding Jobs </template>
-        <template #view1
-          ><div
+        <template #view1>
+          <div
             class="bg-[#F3F5CD] rounded-[14.957px] flex flex-col gap-8 p-8 lg:px-12 border-[0.491px] border-[#97A6A8]"
           >
             <div class="flex lg:flex-row flex-col gap-8">
@@ -373,7 +380,8 @@ watchEffect(() => {
               :job="item"
             />
           </div> -->
-          <div class="mt-14 flex flex-col gap-8">
+          <ShortLoader v-if="loading" />
+          <div v-else class="mt-14 flex flex-col gap-8">
             <JobRowCard
               class="min-w-[95%] lg:min-w-[45%]"
               v-for="item in filteredJobs"
@@ -404,7 +412,6 @@ watchEffect(() => {
             </button>
           </div>
         </template>
-        <template #view2>branding jobs</template>
       </Tabs>
     </div>
   </DashboardLayout>
