@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col gap-[45px]">
     <Header :JobDetails="JobDetailsById?.data" />
+    <FliterSection />
     <div class="flex flex-row gap-4">
       <div class="w-[40%]">
         <h4 class="text-[#00000066] text-[12.032px] font-Satoshi400">
@@ -37,10 +38,12 @@ import { onMounted, ref, watch } from "vue";
 import Header from "@/components/ui/AllApplications/Header.vue";
 import ApplicantsCard from "@/components/ui/AllApplications/ApplicantsCard.vue";
 import ApplicantProfile from "@/components/ui/AllApplications/ApplicantProfile.vue";
+import FliterSection from "@/components/ui/AllApplications/FliterSection.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { useQuery } from "vue-query";
+import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 
 const route = useRoute();
 const jobsStore = useJobsStore();
