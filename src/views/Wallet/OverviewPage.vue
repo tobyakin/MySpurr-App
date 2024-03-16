@@ -2,13 +2,13 @@
 import { ref, defineAsyncComponent, onMounted } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import BalanceCard from "@/components/ui/Wallet/BalanceCard.vue";
+import ComingSoon from "@/components/ui/ComingSoon/ComingSoon.vue";
 import TransactionSummary from "@/components/ui/Wallet/TransactionSummary.vue";
 import RecentTransaction from "@/components/ui/Wallet/RecentTransaction.vue";
 import TransactionStatement from "@/components/ui/Wallet/TransactionStatement.vue";
 import WithdrawFund from "../../components/ui/Wallet/WithdrawFund/WithdrawFund.vue";
 import { useWalletStore } from "@/stores/wallet";
 import { storeToRefs } from "pinia";
-
 const walletStore = useWalletStore();
 const { walletData } = storeToRefs(walletStore);
 
@@ -32,7 +32,9 @@ onMounted(async () => {
 <template>
   <DashboardLayout>
     <div class="container p-0 lg:p-0 lg:py-10 py-6 mb-10">
-      <div v-if="step[0]" class="flex flex-col gap-[24px]">
+      <ComingSoon title="Wallet is" />
+
+      <div v-if="step[0]" class="flex hidden flex-col gap-[24px]">
         <div class="flex flex-col lg:gap-[59px] gap-[34px]">
           <div class="flex lg:flex-row flex-col lg:max-h-[326px] h-full gap-[20px]">
             <BalanceCard
@@ -54,7 +56,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <WithdrawFund @goToWallet="handleGoToWallet" v-if="step[1]" />
+      <WithdrawFund class="hidden" @goToWallet="handleGoToWallet" v-if="step[1]" />
     </div>
   </DashboardLayout>
 </template>
