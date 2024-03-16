@@ -10,6 +10,7 @@ import SearchIcon from "@/components/icons/circleSearchIcon.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 // let store = useStore();
 import { useNumberFomateStore } from "@/stores/numberFomate";
+import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useQuery } from "vue-query";
@@ -51,7 +52,7 @@ const fetchData = async () => {
 };
 
 fetchData();
-useQuery(["JobDetails", route.params.id], getJobDetails, {
+const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
   retry: 10,
   staleTime: 10000,
   onSuccess: (data) => {
@@ -66,7 +67,8 @@ useQuery(["JobDetails", route.params.id], getJobDetails, {
 
 <template>
   <DashboardLayout>
-    <div class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
+    <ShortLoader v-if="isLoading" />
+    <div v-else class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
       <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
         <div class="flex lg:flex-row flex-col gap-3 w-full">
           <div>
@@ -92,11 +94,6 @@ useQuery(["JobDetails", route.params.id], getJobDetails, {
               <div>
                 <div class="flex gap-2">
                   <button class="">
-                    <CircleBookMarkIcon
-                      class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]"
-                    />
-                  </button>
-                  <button class="">
                     <SearchIcon
                       class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]"
                     />
@@ -116,9 +113,13 @@ useQuery(["JobDetails", route.params.id], getJobDetails, {
               {{ JobDetailsById?.data?.job_title }}
             </p>
             <button
-              class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+              @click="closeJob(JobDetailsById?.data?.slug)"
+              :disabled="loading"
+              :class="loading ? 'cursor-not-allowed' : ''"
+              class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
             >
-              POST
+              <span v-if="!loading"> Close job </span>
+              <WhiteLoader v-else />
             </button>
           </div>
           <div class="flex justify-between lg:mt-2 mt-6">

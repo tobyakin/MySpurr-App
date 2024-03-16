@@ -11,7 +11,8 @@
       <a class="text-[#244034] text-[15.259px] font-normal">Status </a>
       <a class="text-[#244034] text-[15.259px] font-normal">Action </a>
     </div>
-    <div class="mt-14 flex flex-col gap-8">
+    <ShortLoader v-if="isLoading" />
+    <div v-else class="mt-14 flex flex-col gap-8">
       <JobsCard
         class="min-w-[95%] lg:min-w-[45%]"
         v-for="item in MyJob?.data"
@@ -23,6 +24,8 @@
 </template>
 <script setup>
 import { defineAsyncComponent, ref, computed, onMounted, reactive, watch } from "vue";
+import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
+
 import { useQuery } from "vue-query";
 import JobsCard from "./JobsCard.vue";
 import { storeToRefs } from "pinia";
@@ -40,7 +43,7 @@ const fetchData = async () => {
 
 fetchData();
 
-useQuery(["myJobs"], getMyJobs, {
+const { isLoading } = useQuery(["myJobs"], getMyJobs, {
   retry: 10,
   staleTime: 10000,
   onSuccess: (data) => {
@@ -48,7 +51,7 @@ useQuery(["myJobs"], getMyJobs, {
   },
 });
 
-onMounted(async () => {
-  fetchData();
-});
+// onMounted(async () => {
+//   fetchData();
+// });
 </script>
