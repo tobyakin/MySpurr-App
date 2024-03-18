@@ -33,8 +33,8 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col items-center lg:justify-normal justify-center gap-6">
-        <div class="flex items-center gap-3">
+      <div class="flex flex-col items-center lg:justify-end justify-center gap-6">
+        <div class="flex items-center w-full justify-end gap-3">
           <a
             v-if="!props?.talents?.linkedin"
             :href="props?.talents?.linkedin"
@@ -65,6 +65,22 @@
           </a>
         </div>
         <div class="flex items-center gap-5">
+          <div
+            class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-r-[#939292] border-r-[0.9px] opacity-[0.8029] text-[12.68px]"
+          >
+            <a-select
+              placeholder="Rating"
+              :bordered="false"
+              :show-arrow="true"
+              class="w-full !outline-none !px-0"
+              show-search
+            >
+              <a-select-option v-for="item in 4" :key="item" :value="item.name">
+                {{ item.name }} {{ item.year }}
+              </a-select-option>
+            </a-select>
+          </div>
+
           <button
             class="btn-brand !bg-[#31795A] !border-none text-center flex items-start lg:px-[25px] !py-[4px] !text-white"
           >
@@ -161,9 +177,9 @@
           <div
             v-for="i in props?.talents?.certificate"
             :key="i"
-            class="flex items-center gap-5"
+            class="flex items-center gap-3"
           >
-            <CertificateBadge />
+            <CertificateBadge class="w-[34px]" />
             <div class="flex flex-col gap-0 h-auto">
               <a
                 target="_blank"
