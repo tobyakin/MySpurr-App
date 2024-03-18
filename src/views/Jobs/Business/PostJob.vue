@@ -11,6 +11,13 @@ import Arrow from "@/components/icons/paginationArrow.vue";
 import Tabs from "@/components/ui/Jobs/Tabs.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { useSkillsStore } from "@/stores/skills";
+import { useUserProfile } from "@/stores/profile";
+let profile = useUserProfile();
+// const showPageLoader = ref(true);
+
+const hasSubscriptedToPostJob = computed(() => {
+  return profile?.user?.data?.posted_job;
+});
 const skillsStore = useSkillsStore();
 const { contriesCode, states, industries } = storeToRefs(skillsStore);
 
@@ -161,6 +168,7 @@ onMounted(async () => {
   await skillsStore.getskills();
   await skillsStore.getJobTitles();
   await skillsStore.getCountriesCode();
+  await profile.userProfile();
 });
 </script>
 
@@ -170,12 +178,12 @@ onMounted(async () => {
       <div v-if="step[0]" class="">
         <div class="flex flex-col gap-[21px] mb-[53px]">
           <h3
-            class="lg:text-[45.259px] text-[30px] text-[#000000] lg:leading-[48.087px] font-Satoshi400"
+            class="lg:text-[45.25px] text-[30px] text-[#000000] lg:leading-[48.087px] font-Satoshi400"
           >
-            Hire with MySpurr. <br />
-            Share your job post with thousands of creative talents
+            Hire with MySpurr. Share your job post with thousands of creative talents
           </h3>
           <div
+            v-if="!hasSubscriptedToPostJob"
             class="bg-[#EDF0B8] py-[19px] px-[30px] lg:px-[80px] flex items-center rounded-[10px]"
           >
             <ul class="list-disc flex flex-col gap-[8px] !mb-0">
@@ -183,6 +191,15 @@ onMounted(async () => {
               <li>Post subsequent jobs for just $5/Job</li>
               <li>GoPro for unlimited usage</li>
             </ul>
+          </div>
+          <div v-if="hasSubscriptedToPostJob" class="w-full flex justify-start">
+            <div
+              class="bg-[#993939] py-[19px] px-[10px] lg:px-[20px] flex items-center rounded-[10px]"
+            >
+              <p class="text-[#E6F1F3] text-[19.94px] font-Satoshi500">
+                You will be charged $15 for this job post
+              </p>
+            </div>
           </div>
         </div>
         <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">

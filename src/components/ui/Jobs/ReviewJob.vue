@@ -27,6 +27,10 @@ const emit = defineEmits(["back"]);
 const back = () => {
   emit("back");
 };
+const hasSubscriptedToPostJob = computed(() => {
+  return userProfile?.user?.data?.posted_job;
+});
+
 const isFormValid = computed(() => {
   return (
     postJobsValue.value.job_title !== null &&
@@ -303,7 +307,7 @@ onMounted(async () => {
           </button> -->
         </div>
       </div>
-      <div class="lg:w-[40%]">
+      <div class="lg:w-[40%] flex flex-col gap-5">
         <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-6">
           <p class="font-Satoshi700 text-[17.104px] text-[#31795A]/[0.70]">
             About the Company
@@ -375,6 +379,50 @@ onMounted(async () => {
           >
             Message
           </button> -->
+        </div>
+        <div
+          v-if="hasSubscriptedToPostJob"
+          class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-6"
+        >
+          <p class="font-Satoshi700 text-[17.104px] text-[#DA5252]">
+            Upgrade your job listing
+          </p>
+          <div class="flex mt-8 flex-col gap-4">
+            <div>
+              <div class="flex gap-1 justify-start items-center">
+                <input
+                  class="bg-transparent !border-[0.737px] cursor-pointer !border-[#97A6A8] accent-brand rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
+                  type="checkbox"
+                />
+                <label class="text-[#000000] text-[13px] font-Satoshi700">
+                  Highlight job listing for $5
+                </label>
+              </div>
+              <p
+                class="font-Satoshi400 text-[10.53px] leading-[14.04px] mt-1 text-[#00474F]"
+              >
+                Highlighted listing have a red tag in the list so they stand our against
+                the others
+              </p>
+            </div>
+
+            <div>
+              <div class="flex gap-1 justify-start items-center">
+                <input
+                  class="bg-transparent !border-[0.737px] cursor-pointer !border-[#97A6A8] accent-brand rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
+                  type="checkbox"
+                />
+                <label class="text-[#000000] text-[13px] font-Satoshi700">
+                  Automatically renew my job post for $15
+                </label>
+              </div>
+              <p
+                class="font-Satoshi400 text-[10.53px] leading-[14.04px] mt-1 text-[#00474F]"
+              >
+                Your job will automatically be renewed each 30 days
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

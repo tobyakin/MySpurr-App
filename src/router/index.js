@@ -33,6 +33,7 @@ import PreviewJob from '@/views/JobListing/PreviewJob.vue'
 import AllApplications from '@/views/AllApplications/AllApplications.vue'
 import PublicProfile from '@/views/Profile/PublicProfile.vue'
 import EditJob from '@/views/Jobs/Business/EditJob.vue'
+import MySchedule from '@/views/MySchedule/MySchedule.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -144,6 +145,13 @@ const router = createRouter({
       component: ProfilePage,
       beforeEnter: [middleware.redirectLogin]
     },
+    {
+      path: '/my-schedule',
+      name: 'my-schedule',
+      component: MySchedule,
+      beforeEnter: [middleware.redirectLogin]
+    },
+
     {
       path: '/settings',
       name: 'settings',
