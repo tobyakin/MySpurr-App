@@ -1,32 +1,39 @@
 <template>
-  <div class="flex flex-col gap-[45px]">
-    <Header :JobDetails="JobDetailsById?.data" />
-    <FliterSection />
-    <div class="flex flex-row gap-4">
-      <div class="w-[40%]">
-        <h4 class="text-[#00000066] text-[12.032px] font-Satoshi400">
-          All
-          <span class="text-[#000000] font-Satoshi500">{{
-            applicants?.data?.applicants?.length
-          }}</span>
-          Applicants
-        </h4>
-        <div class="w-full flex flex-col gap-[14px] mt-[44px]">
-          <ApplicantsCard
-            v-for="talent in applicants?.data?.applicants"
-            :key="talent.id"
-            :talent="talent"
-            @viewProfile="handleViewProfile"
-          />
+  <div class="w-full">
+    <!-- <ShortLoader v-if="loadTalentApplications" /> -->
+    <div class="flex flex-col gap-[45px]">
+      <Header :JobDetails="JobDetailsById?.data" />
+      <FliterSection />
+      <div class="flex flex-row gap-4">
+        <div class="w-[40%]">
+          <h4 class="text-[#00000066] text-[12.032px] font-Satoshi400">
+            All
+            <span class="text-[#000000] font-Satoshi500">{{
+              applicants?.data?.applicants?.length
+            }}</span>
+            Applicants
+          </h4>
+          <div class="w-full flex flex-col gap-[14px] mt-[44px]">
+            <ApplicantsCard
+              v-for="talent in applicants?.data?.applicants"
+              :key="talent.id"
+              :talent="talent"
+              @viewProfile="handleViewProfile"
+            />
+          </div>
         </div>
-      </div>
-      <div class="w-full">
-        <ApplicantProfile
-          v-if="talentApplication.data"
-          :talents="talentApplication?.data"
-        />
-        <div v-else class="flex justify-center items-center">
-          <h3 class="my-20">Select Talents to view details</h3>
+        <div class="w-full">
+          <ShortLoader v-if="loadTalentProfile" />
+          <ApplicantProfile
+            v-if="!loadTalentProfile && talentApplication.data"
+            :talents="talentApplication?.data"
+          />
+          <div
+            v-if="!talentApplication.data && !loadTalentProfile"
+            class="flex justify-center items-center"
+          >
+            <h3 class="my-20">Select Talents to view details</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -44,7 +51,8 @@ import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { useQuery } from "vue-query";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
-
+let loadTalentProfile = ref(false);
+let loadTalentApplications = ref(null);
 const route = useRoute();
 const jobsStore = useJobsStore();
 const { JobDetailsById, applicants, talentApplication } = storeToRefs(jobsStore);
@@ -54,7 +62,9 @@ const handleViewProfile = (id) => {
   console.log(id);
 };
 watch(applicantsId, async (newInput) => {
+  loadTalentProfile.value = true;
   await jobsStore.handleGetTalentApplication(newInput);
+  loadTalentProfile.value = false;
 });
 onMounted(async () => {
   // await jobsStore.handleGetJobDetailsById(route.params.id);
@@ -90,14 +100,22 @@ fetchData();
 //     staleTime: 10000,
 //   }
 // );
-useQuery(["getJobDetailsById", route.params.id], getJobDetailsById, {
-  retry: 10,
-  staleTime: 10000,
-  onSuccess: (data) => {
-    JobDetailsById.value = data;
-  },
-});
-
+const { isLoading } = useQuery(
+  ["getJobDetailsById", route.params.id],
+  getJobDetailsById,
+  {
+    retry: 10,
+    staleTime: 10000,
+    onSuccess: (data) => {
+      JobDetailsById.value = data;
+      loadTalentApplications.value = isLoading; // Set loadTalentApplications based on isLoading
+    },
+    // isFetching: (isLoading) => {
+    //   loadTalentApplications.value = isLoading;
+    // },
+  }
+);
+console.log(loadTalentApplications.value);
 useQuery(["getApplicants", route.params.id], getApplicants, {
   retry: 10,
   staleTime: 10000,

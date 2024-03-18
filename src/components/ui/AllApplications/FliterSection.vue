@@ -17,8 +17,8 @@
             class="w-full !outline-none !px-0"
             show-search
             v-model:value="sortInput.jobType"
+            @change="handleSort('skills', sortInput.jobType)"
           >
-            <a-select-option disabled>Job Type</a-select-option>
             <a-select-option v-for="item in 2" :key="item" :value="item">
               {{ item }}
             </a-select-option>
@@ -39,6 +39,7 @@
             class="w-full !outline-none !px-0"
             show-search
             v-model:value="sortInput.skills"
+            @change="handleSort('skills', sortInput.skills)"
           >
             <a-select-option
               v-for="item in skills?.data"
@@ -65,6 +66,7 @@
             class="w-full !outline-none !px-0"
             show-search
             v-model:value="sortInput.Location"
+            @change="handleSort('skills', sortInput.Location)"
           >
             <a-select-option
               v-for="item in contriesCode?.data"
@@ -90,6 +92,7 @@
             class="w-full !outline-none !px-0"
             show-search
             v-model:value="sortInput.experienceLevel"
+            @change="handleSort('skills', sortInput.experienceLevel)"
           >
             <a-select-option v-for="item in Experience" :key="item" :value="item.name">
               {{ item.name }} {{ item.year }}
@@ -145,7 +148,7 @@
   </div>
 </template>
 <script setup>
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, watch, onMounted } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
 import { useSkillsStore } from "@/stores/skills";
@@ -182,6 +185,66 @@ const CandidateType = [
   "Internship ",
   "Contract ",
 ];
+// Define props if needed
+
+const selectedSkills = ref("");
+const selectedJobType = ref("");
+const selectedLocation = ref("");
+const selectedExperienceLevel = ref("");
+const selectedCategory = ref("");
+const selectedCurrency = ref("");
+
+const handleSort = (criteria) => {
+  let selectedValue = "";
+
+  switch (criteria) {
+    case "skills":
+      selectedValue = selectedSkills.value;
+      break;
+    case "jobType":
+      selectedValue = selectedJobType.value;
+      break;
+    case "Location":
+      selectedValue = selectedLocation.value;
+      break;
+    case "experienceLevel":
+      selectedValue = selectedExperienceLevel.value;
+      break;
+    case "Category":
+      selectedValue = selectedCategory.value;
+      break;
+    case "currency":
+      selectedValue = selectedCurrency.value;
+      break;
+    default:
+      break;
+  }
+
+  if (selectedValue) {
+    emit("sort", { criteria, value: selectedValue });
+  }
+};
+
+// Watch for changes in selected values and trigger handleSort
+watch(
+  [
+    selectedSkills,
+    selectedJobType,
+    selectedLocation,
+    selectedExperienceLevel,
+    selectedCategory,
+    selectedCurrency,
+  ],
+  ([skills, jobType, location, experienceLevel, category, currency]) => {
+    handleSort("skills");
+    handleSort("jobType");
+    handleSort("Location");
+    handleSort("experienceLevel");
+    handleSort("Category");
+    handleSort("currency");
+  }
+);
+
 onMounted(async () => {
   await skillsStore.getskills();
   await skillsStore.getCountriesCode();

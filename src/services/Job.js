@@ -191,7 +191,7 @@ export const getTalentApplication = async (id) => {
       const token = await getToken()
 
   try {
-    let res = await axios.get(`applications/${id}`, {
+    let res = await axios.get(`application/${id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }

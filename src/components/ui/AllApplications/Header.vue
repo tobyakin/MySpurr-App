@@ -17,15 +17,21 @@
               </p>
               <div class="flex mt-1 gap-1">
                 <VerifyIcon class="w-4" />
-                <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
+                <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
+                  Verified Client.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="flex flex-col w-full justify-between">
-        <div class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3">
-          <p class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]">
+        <div
+          class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
+        >
+          <p
+            class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]"
+          >
             {{ JobDetails?.job_title }}
           </p>
         </div>
@@ -48,16 +54,17 @@
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
         <p class="text-[#244034] text-[14.104px] font-Satoshi500">
-          {{ store.abbr(JobDetails?.salary_min) }}- {{ store.abbr(JobDetails?.salary_max) }}/
+          {{ store.abbr(JobDetails?.salary_min) }}-
+          {{ store.abbr(JobDetails?.salary_max) }}/
           {{ JobDetails?.salaray_type }}
         </p>
       </div>
-      <div class="flex flex-col gap-2">
+      <!-- <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Skill</p>
         <p class="text-[#244034] text-[17.104px] font-Satoshi500">
           {{ JobDetails?.qualification }}
         </p>
-      </div>
+      </div> -->
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
         <p class="text-[#244034] text-[14.104px] font-Satoshi500">
@@ -88,10 +95,10 @@
   </div>
 </template>
 <script setup>
-import VerifyIcon from '@/components/icons/verifyIcon.vue'
+import VerifyIcon from "@/components/icons/verifyIcon.vue";
 
-import { useTabStore } from '@/stores/tab'
-const store = useTabStore()
+import { useTabStore } from "@/stores/tab";
+const store = useTabStore();
 
-defineProps({ JobDetails: Object })
+defineProps({ JobDetails: Object });
 </script>
