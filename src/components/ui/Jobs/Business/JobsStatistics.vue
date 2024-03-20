@@ -5,6 +5,8 @@ import CircleEyeIcon from "@/components/icons/circleEyeIcon.vue";
 import CircleArrowUpIcon from "@/components/icons/CircleArrowUpIcon.vue";
 import DocumentIcon from "@/components/icons/documentIcon.vue";
 import CircleArrowDown from "@/components/icons/circleArrowDown.vue";
+import JobStatisticsChart from "@/components/ui/Chart/JobStatisticsChart.vue";
+import SingleData from "@/components/ui/Chart/SingleData.vue";
 const tab = ref("Week");
 const activetab = ref("monthly");
 
@@ -37,7 +39,7 @@ const filterTab = (category) => {
           Showing job statistics July 19 - 25
         </p>
       </div>
-      <div
+      <!-- <div
         class="flex w-auto flex-row bg-[#B2ECF2] p-[3.5px] h-[40.172px] rounded-[6.695px]"
       >
         <button
@@ -59,14 +61,14 @@ const filterTab = (category) => {
         >
           Year
         </button>
-      </div>
+      </div> -->
     </div>
     <TabsVue>
       <template #tab1>Overview</template><template #tab2>Jobs View</template
       ><template #tab3>Jobs Applied</template>
       <template #view1>
         <div class="flex lg:flex-row flex-col gap-4 w-full h-full">
-          <div class="min-w-[95%] lg:min-w-[65.9%]"></div>
+          <div class="min-w-[95%] lg:min-w-[65.9%]"><JobStatisticsChart /></div>
           <div class="flex lg:flex-col md:flex-row flex-col w-full h-full gap-4">
             <div
               class="p-[22.17px] px-[17px] rounded-[4.533px] w-full bg-[#FFF] flex flex-row justify-between h-full border-[0.567px] border-[#254035AB]"
@@ -113,8 +115,20 @@ const filterTab = (category) => {
               </div>
             </div>
           </div>
-        </div> </template
-      ><template #view2>Jobs View</template><template #view3>Jobs Applied</template>
+        </div>
+      </template>
+
+      <template #view2>
+        <div class="flex lg:flex-row flex-col gap-4 w-full h-[45vh]">
+          <SingleData class="w-full" />
+        </div>
+      </template>
+
+      <template #view3>
+        <div class="flex lg:flex-row flex-col gap-4 w-full h-[45vh]">
+          <SingleData class="w-full" />
+        </div>
+      </template>
     </TabsVue>
   </div>
 </template>
