@@ -285,3 +285,11 @@ input[type='checkbox'] {
   height: 600px; /* Set the desired height */
   border-radius: 5px; /* Add rounded corners */
 }
+.coming-soon {
+  position: absolute;
+  font-size: 8px;
+  color: #ff0000;
+  background: #edf0b8;
+  padding: 5px;
+  border-radius: 3px;
+}

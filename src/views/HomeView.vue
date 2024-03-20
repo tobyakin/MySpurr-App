@@ -240,6 +240,7 @@ onMounted(async () => {
             class=""
             title="Schedules for today"
             digit="0"
+            :comingSoon="true"
             buttonPlaceholder="Book meeting"
           />
           <BusinessValuesCard
