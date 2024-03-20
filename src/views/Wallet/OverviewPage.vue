@@ -25,7 +25,7 @@ const handleGoToWallet = () => {
   changeScreen(1, 0);
 };
 onMounted(async () => {
-  await walletStore.walletDetails();
+  // await walletStore.walletDetails();
 });
 </script>
 
