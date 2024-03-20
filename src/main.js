@@ -15,6 +15,7 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { VueQueryPlugin } from 'vue-query'
 import ShortLoader from '@/components/ui/Loader/ShortLoader.vue'
+import VueApexCharts from 'vue3-apexcharts'
 
 import {
   LRectangle,
@@ -33,6 +34,7 @@ import 'leaflet/dist/leaflet.css'
 
 
 const app = createApp(App)
+app.component('VueApexCharts', VueApexCharts)
 app.component('QuillEditor', QuillEditor)
 app.component('ShortLoader', ShortLoader)
 app.component('vue-select', VueNextSelect)

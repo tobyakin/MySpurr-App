@@ -11,13 +11,13 @@
           class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
         >
           <a-select
-            placeholder="Job Type"
+            placeholder="Salary"
             :bordered="false"
             :show-arrow="true"
             class="w-full !outline-none !px-0"
             show-search
-            v-model:value="sortInput.jobType"
-            @change="handleSort('skills', sortInput.jobType)"
+            v-model:value="sortInput.Salary"
+            @change="handleSort('skills', sortInput.Salary)"
           >
             <a-select-option v-for="item in 2" :key="item" :value="item">
               {{ item }}
@@ -108,14 +108,13 @@
           class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
         >
           <a-select
-            placeholder="Job Type"
+            placeholder="Availabilty"
             :bordered="false"
             :show-arrow="true"
             class="w-full !outline-none !px-0"
             show-search
-            v-model:value="sortInput.jobType"
+            v-model:value="sortInput.Availabilty"
           >
-            <a-select-option disabled>Job Type</a-select-option>
             <a-select-option v-for="item in 2" :key="item" :value="item">
               {{ item }}
             </a-select-option>
@@ -130,15 +129,14 @@
           class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
         >
           <a-select
-            placeholder="Job Type"
+            placeholder="Rating"
             :bordered="false"
             :show-arrow="true"
             class="w-full !outline-none !px-0"
             show-search
-            v-model:value="sortInput.jobType"
+            v-model:value="sortInput.Rating"
           >
-            <a-select-option disabled>Job Type</a-select-option>
-            <a-select-option v-for="item in 2" :key="item" :value="item">
+            <a-select-option v-for="item in rating" :key="item" :value="item">
               {{ item }}
             </a-select-option>
           </a-select>
@@ -162,15 +160,16 @@ const { top_skills } = storeToRefs(userProfile);
 
 // import { useTabStore } from "@/stores/tab";
 // const store = useTabStore();
+const rating = ref(["Good fit", "Maybe", "Not a fit"]);
 
 defineProps({ JobDetails: Object });
 const sortInput = reactive({
+  Salary: "",
   skills: "",
-  jobType: "",
+  Availabilty: "",
+  Rating: "",
   Location: "",
   experienceLevel: "",
-  Category: "",
-  currency: "",
 });
 const Experience = [
   { name: "Beginner ", year: "(1-2 yrs)" },

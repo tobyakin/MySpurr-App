@@ -89,25 +89,24 @@ const deleteJob = async (id) => {
         </div>
         <div class="grid grid-cols-5 justify-between mt-5">
           <div class="flex lg:flex-row flex-col gap-4 items-center">
-            <div>
-              <p
-                class="text-[14.633px] capitalize font-Satoshi500 flex items-center text-[#244034E5]"
-              >
-                <span v-html="numAbbr.formatCurrency(job.currency)"></span>
-
+            <p
+              class="text-[13px] capitalize font-Satoshi500 flex flex-row items-center text-[#244034E5]"
+            >
+              <span v-html="numAbbr.formatCurrency(job.currency)"></span>
+              <span>
                 {{ store.abbr(job.salary_min) }}- {{ store.abbr(job.salary_max) }}/
                 {{ job.salaray_type }}
-              </p>
-            </div>
+              </span>
+            </p>
           </div>
-          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
+          <div class="flex lg:flex-row flex-col gap-4 justify-end">
             <div
               class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4"
             >
               <p>{{ job.date_created }}</p>
             </div>
           </div>
-          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
+          <div class="flex lg:flex-row flex-col gap-4 justify-end">
             <div
               class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-2"
             >
@@ -118,7 +117,7 @@ const deleteJob = async (id) => {
               >
             </div>
           </div>
-          <div class="flex lg:flex-row flex-col gap-4 justify-end mt-2">
+          <div class="flex lg:flex-row flex-col gap-4 justify-end">
             <div
               class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-1"
             >
@@ -135,7 +134,7 @@ const deleteJob = async (id) => {
               </p>
             </div>
           </div>
-          <div class="text-right flex justify-end cursor-pointer relative pr-4">
+          <div class="text-right flex justify-end cursor-pointer relative">
             <button class="px-4" @click="toggleDocument(job)">
               <svg
                 class="cursor-pointer flex lg:flex-row flex-col gap-4 justify-end"
