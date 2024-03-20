@@ -42,7 +42,7 @@
       <router-link
         v-if="feature.includes('ALL_APPLICATIONS')"
         to="/"
-        class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
+        class="p-[10px] flex justify-start hidden hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
@@ -51,8 +51,12 @@
         >
           <ApplicationIcon />
         </div>
-        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
-          >All Application</span
+        <span
+          class="place-self-center relative text-[16px] font-Satoshi500 leading-[20.23px]"
+        >
+          <!-- <sup class="coming-soon">coming soon</sup> -->
+
+          All Application</span
         >
       </router-link>
       <router-link

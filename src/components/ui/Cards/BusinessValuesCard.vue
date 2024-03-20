@@ -12,8 +12,9 @@
         {{ title }}
       </p>
       <button
-        class="rounded-full text-[#4B7226] uppercase border-[0.8px] text-[9.798px] w-full font-Satoshi500 border-[#4B7226] py-3 px-5"
+        class="rounded-full relative text-[#4B7226] uppercase border-[0.8px] text-[9.798px] w-full font-Satoshi500 border-[#4B7226] py-3 px-5"
       >
+        <sup v-if="comingSoon" class="coming-soon">coming soon</sup>
         {{ buttonPlaceholder }}
       </button>
     </div>
@@ -25,5 +26,6 @@ defineProps({
   digit: Number,
   buttonPlaceholder: String,
   buttonLink: String,
+  comingSoon: { type: Boolean, default: false },
 });
 </script>
