@@ -10,6 +10,15 @@ import { ref, computed, onMounted, onUpdated } from "vue";
 import "animate.css";
 import { useRouter } from "vue-router";
 import { useUserProfile } from "@/stores/profile";
+import { useStore } from "@/stores/user";
+
+let store = useStore();
+const accountType = computed(() => {
+  return store.getUser.data.user.type;
+});
+onMounted(() => {
+  return accountType;
+});
 
 const profileStore = useUserProfile();
 const router = useRouter();
@@ -116,7 +125,7 @@ const redirectToJobPage = () => {
 const redirectWithSearchQuery = () => {
   // const inputField = document.querySelector(".search-input");
   // if (searchQuery.value) {
-    redirectToJobPage();
+  redirectToJobPage();
   // }
 };
 </script>
@@ -216,8 +225,12 @@ const redirectWithSearchQuery = () => {
                     class="h-10 w-10 flex justify-center items-center rounded-full bg-brand"
                   >
                     <img
-                      v-if="userDetails?.image"
-                      :src="userDetails?.image"
+                      v-if="userDetails?.image || userDetails?.company_logo"
+                      :src="
+                        accountType === 'talent'
+                          ? userDetails?.image
+                          : userDetails?.company_logo
+                      "
                       class="h-10 w-10 bg-[#0A090991] rounded-full"
                     />
                     <svg
