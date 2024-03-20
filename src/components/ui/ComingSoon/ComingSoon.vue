@@ -20,7 +20,7 @@ defineProps({ title: String });
       >
     </p>
     <p class="text-[#244034] text-[17.633px] mt-10 leading-[27.356px] font-Satoshi400">
-      Chears
+      Cheers
     </p>
   </div>
 </template>

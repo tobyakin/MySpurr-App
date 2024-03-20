@@ -16,6 +16,7 @@ import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
 const store = useTabStore();
 let loading = ref(false);
+let loadPage = ref(false);
 
 // const { jobApplicationForm } = storeToRefs(JobsStore);
 const emit = defineEmits(["back", "next"]);
@@ -195,13 +196,21 @@ const next = () => {
   emit("next");
 };
 onMounted(async () => {
-  await JobsStore.getSingleJob(route.params.id);
-  await profile.userProfile();
+  loadPage.value = true;
+  try {
+    await JobsStore.getSingleJob(route.params.id);
+    await profile.userProfile();
+    loadPage.value = false;
+  } catch (error) {
+    console.error;
+    loadPage.value = false;
+  }
 });
 </script>
 
 <template>
-  <div>
+  <ShortLoader v-if="loadPage" />
+  <div v-else>
     <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
       <div class="flex lg:flex-row flex-col gap-3 w-full">
         <div>

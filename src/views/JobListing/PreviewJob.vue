@@ -74,7 +74,7 @@ const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
           <div>
             <img
               class="h-[61.011px] w-[61.011px] rounded-full"
-              src="@/assets/image/jobIcon.svg"
+              :src="JobDetailsById?.data?.company?.business_name?.company_logo"
               alt=""
             />
           </div>
@@ -232,7 +232,7 @@ const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
               <div>
                 <img
                   class="h-[61.011px] w-[61.011px] rounded-full"
-                  src="@/assets/image/jobIcon.svg"
+                  :src="JobDetailsById?.data?.company?.business_name?.company_logo"
                   alt=""
                 />
               </div>

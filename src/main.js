@@ -14,6 +14,7 @@ import Multiselect from 'vue-multiselect'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { VueQueryPlugin } from 'vue-query'
+import ShortLoader from '@/components/ui/Loader/ShortLoader.vue'
 
 import {
   LRectangle,
@@ -33,6 +34,7 @@ import 'leaflet/dist/leaflet.css'
 
 const app = createApp(App)
 app.component('QuillEditor', QuillEditor)
+app.component('ShortLoader', ShortLoader)
 app.component('vue-select', VueNextSelect)
 app.component('multi-select', Multiselect)
 app.component('l-rectangle', LRectangle)

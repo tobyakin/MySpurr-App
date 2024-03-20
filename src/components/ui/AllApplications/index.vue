@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
-    <!-- <ShortLoader v-if="loadTalentApplications" /> -->
-    <div class="flex flex-col gap-[45px]">
+    <ShortLoader v-if="loadTalentApplications" />
+    <div v-else class="flex flex-col gap-[45px]">
       <Header :JobDetails="JobDetailsById?.data" />
       <FliterSection />
       <div class="flex flex-row gap-4">
@@ -14,12 +14,25 @@
             Applicants
           </h4>
           <div class="w-full flex flex-col gap-[14px] mt-[44px]">
-            <ApplicantsCard
-              v-for="talent in applicants?.data?.applicants"
-              :key="talent.id"
-              :talent="talent"
-              @viewProfile="handleViewProfile"
-            />
+            <ShortLoader v-if="loadApplicants" />
+            <div
+              v-if="!loadTalentProfile && applicants?.data?.applicants"
+              class="w-full flex flex-col gap-[14px]"
+            >
+              <ApplicantsCard
+                v-for="talent in applicants?.data?.applicants"
+                :key="talent.id"
+                :talent="talent"
+                @viewProfile="handleViewProfile"
+              />
+            </div>
+
+            <div
+              v-if="!applicants?.data?.applicants && !loadApplicants"
+              class="flex justify-center items-center"
+            >
+              <h3 class="my-20">no applicants yet</h3>
+            </div>
           </div>
         </div>
         <div class="w-full">
@@ -52,7 +65,6 @@ import { useRoute } from "vue-router";
 import { useQuery } from "vue-query";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 let loadTalentProfile = ref(false);
-let loadTalentApplications = ref(null);
 const route = useRoute();
 const jobsStore = useJobsStore();
 const { JobDetailsById, applicants, talentApplication } = storeToRefs(jobsStore);
@@ -100,7 +112,7 @@ fetchData();
 //     staleTime: 10000,
 //   }
 // );
-const { isLoading } = useQuery(
+const { isLoading: loadTalentApplications } = useQuery(
   ["getJobDetailsById", route.params.id],
   getJobDetailsById,
   {
@@ -108,21 +120,21 @@ const { isLoading } = useQuery(
     staleTime: 10000,
     onSuccess: (data) => {
       JobDetailsById.value = data;
-      loadTalentApplications.value = isLoading; // Set loadTalentApplications based on isLoading
     },
-    // isFetching: (isLoading) => {
-    //   loadTalentApplications.value = isLoading;
-    // },
   }
 );
 console.log(loadTalentApplications.value);
-useQuery(["getApplicants", route.params.id], getApplicants, {
-  retry: 10,
-  staleTime: 10000,
-  onSuccess: (data) => {
-    applicants.value = data;
-  },
-});
+const { isLoading: loadApplicants } = useQuery(
+  ["getApplicants", route.params.id],
+  getApplicants,
+  {
+    retry: 10,
+    staleTime: 10000,
+    onSuccess: (data) => {
+      applicants.value = data;
+    },
+  }
+);
 </script>
 
 <style></style>

@@ -47,7 +47,7 @@ onUnmounted(() => {
           <div>
             <img
               class="h-[61.011px] w-[61.011px] rounded-full"
-              src="@/assets/image/jobIcon.svg"
+              :src="singleJob?.data?.company?.business_name?.company_logo"
               alt=""
             />
           </div>
@@ -213,7 +213,7 @@ onUnmounted(() => {
               <div>
                 <img
                   class="h-[61.011px] w-[61.011px] rounded-full"
-                  src="@/assets/image/jobIcon.svg"
+                  :src="singleJob?.data?.company?.business_name?.company_logo"
                   alt=""
                 />
               </div>
