@@ -8,6 +8,7 @@ import MyApplicationCard from "@/components/ui/MyApplicationCard.vue";
 import CommunityCard from "@/components/ui/CommunityCard.vue";
 import CourseCard from "@/components/ui/CourseCard.vue";
 import ArticleCard from "@/components/ui/ArticleCard.vue";
+import Barchar from "@/components/ui/Chart/Barchar.vue";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
 import { useQuery } from "vue-query";
@@ -282,15 +283,15 @@ onMounted(async () => {
             </div>
           </div>
           <div
-            class="p-[28.26px] px-[22.48px] rounded-[4.533px] w-full h-full bg-[#FFF] border-[0.567px] border-[#254035AB]"
+            class="p-[28.26px] pr-[22.48px] pl-0 rounded-[4.533px] w-full h-full bg-[#FFF] border-[0.567px] border-[#254035AB]"
           >
             <div class="flex flex-col gap-3 h-full w-full">
               <h4
-                class="text-[#244034] leading-[17.646px] font-Satoshi700 text-[23.467px]"
+                class="text-[#244034] pl-[22.48px] leading-[19.646px] font-Satoshi700 text-[23.467px]"
               >
                 Applicants Summary
               </h4>
-              <div class="flex flex-row gap-2">
+              <div class="flex flex-row gap-2 pl-[22.48px]">
                 <h4 class="text-[#244034] font-Satoshi700 leading-none text-[60.722px]">
                   0
                 </h4>
@@ -303,6 +304,7 @@ onMounted(async () => {
                   </p>
                 </div>
               </div>
+              <div class="flex flex-row w-full pl-[6px]"><Barchar /></div>
             </div>
           </div>
         </div>
