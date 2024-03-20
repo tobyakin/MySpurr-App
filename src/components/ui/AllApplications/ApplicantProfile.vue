@@ -75,17 +75,23 @@
               class="w-full !outline-none !px-0"
               show-search
             >
-              <a-select-option v-for="item in 4" :key="item" :value="item.name">
-                {{ item.name }} {{ item.year }}
+              <a-select-option v-for="item in rating" :key="item" :value="item">
+                {{ item }}
               </a-select-option>
             </a-select>
           </div>
-
-          <button
-            class="btn-brand !bg-[#31795A] !border-none text-center flex items-start lg:px-[25px] !py-[4px] !text-white"
-          >
-            <span style="display: grid; place-content: center" class="">Message</span>
-          </button>
+          <div class="flex flex-col items-center text-center gap-2">
+            <button
+              class="btn-brand !bg-red-600 !border-none text-center flex items-center lg:px-[25px] !py-[4px] !text-white"
+            >
+              <span class="">Reject</span>
+            </button>
+            <button
+              class="btn-brand !bg-[#31795A] !border-none text-center flex items-center lg:px-[25px] !py-[4px] !text-white"
+            >
+              <span style="display: grid; place-content: center" class="">Message</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -228,7 +234,7 @@ import CertificateBadge from "@/components/icons/certificateBadge.vue";
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 import { useTabStore } from "@/stores/tab";
 const store = useTabStore();
-
+const rating = ref(["Good fit", "Maybe", "Not a fit"]);
 // defineProps({ talents: Object });
 const props = defineProps({ talents: Object });
 // const getAnswersForQuestion = (questionId) => {
