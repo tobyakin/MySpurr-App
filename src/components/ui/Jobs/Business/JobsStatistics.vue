@@ -119,13 +119,13 @@ const filterTab = (category) => {
       </template>
 
       <template #view2>
-        <div class="flex lg:flex-row flex-col gap-4 w-full h-[45vh]">
+        <div class="flex lg:flex-row flex-col gap-4 w-full lg:h-[45vh]">
           <SingleData class="w-full" />
         </div>
       </template>
 
       <template #view3>
-        <div class="flex lg:flex-row flex-col gap-4 w-full h-[45vh]">
+        <div class="flex lg:flex-row flex-col gap-4 w-full lg:h-[45vh]">
           <SingleData class="w-full" />
         </div>
       </template>
