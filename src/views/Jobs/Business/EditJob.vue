@@ -25,7 +25,7 @@ import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 const router = useRouter();
 const route = useRoute();
-
+const loading = ref(false);
 let store = useStore();
 let options = ref([
   { name: "Design" },
@@ -189,17 +189,26 @@ watch(JobDetailsById, (newSingleObject) => {
 });
 
 onMounted(async () => {
-  await skillsStore.getskills();
-  await skillsStore.getJobTitles();
-  await skillsStore.getCountriesCode();
-  await jobsStore.handleGetJobDetailsById(route.params.id);
-  prefillDetails(JobDetailsById?.value?.data);
+  loading.value = true;
+  try {
+    await skillsStore.getskills();
+    await skillsStore.getJobTitles();
+    await skillsStore.getCountriesCode();
+    await jobsStore.handleGetJobDetailsById(route.params.id);
+    prefillDetails(JobDetailsById?.value?.data);
+    loading.value = false;
+  } catch (error) {
+    console.error;
+    loading.value = false;
+  }
 });
 </script>
 
 <template>
   <DashboardLayout>
-    <div class="container lg:py-20 py-4 mb-20">
+    <ShortLoader v-if="loading" />
+
+    <div v-else class="container lg:py-20 py-4 mb-20">
       <div v-if="step[0]" class="">
         <!-- <div class="flex flex-col gap-[21px] mb-[53px]">
           <h3
