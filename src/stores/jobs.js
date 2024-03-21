@@ -15,7 +15,8 @@ import {
   getApplicants,
   getTalentApplication,
   getTopPickedJobs,
-  editJob
+  editJob,
+  jobPayment
 } from '@/services/Job'
 
 export const useJobsStore = defineStore('jobs', () => {
@@ -180,6 +181,44 @@ export const useJobsStore = defineStore('jobs', () => {
             /**/
           }
         }
+                const handlejobPayment = async (
+                  business_id,
+                  email,
+                  amount,
+                  payment_redirect_url
+                ) => {
+                  let payload = {
+                    business_id: business_id,
+                    email: email,
+                    amount: amount,
+                    payment_redirect_url: payment_redirect_url,
+                    job: {
+                      job_title: postJobsValue.value.job_title,
+                      country_id: ciso.value,
+                      state_id: siso.value,
+                      job_type: postJobsValue.value.job_type,
+                      description: postJobsValue.value.description,
+                      responsibilities: postJobsValue.value.responsibilities,
+                      required_skills: postJobsValue.value.required_skills,
+                      benefits: postJobsValue.value.benefits,
+                      salaray_type: postJobsValue.value.salaray_type,
+                      salary_min: postJobsValue.value.salary_min,
+                      salary_max: postJobsValue.value.salary_max,
+                      skills: postJobsValue.value.skills,
+                      experience: postJobsValue.value.experience,
+                      qualification: postJobsValue.value.qualification,
+                      questions: postJobsValue.value.questions,
+                      currency: postJobsValue.value.currency
+                    }
+                  }
+                  try {
+                    let res = await jobPayment(payload)
+                    return res
+                  } catch (error) {
+                    /**/
+                  }
+                }
+
   const allTalents = async () => {
     try {
       talent.value = await getAllTalents()
@@ -259,6 +298,7 @@ const handleEditJob = async (id) => {
     handleGetTalentApplication,
     handleGetTopPickedJobs,
     topPickedJobs,
-    handleEditJob
+    handleEditJob,
+    handlejobPayment
   }
 })

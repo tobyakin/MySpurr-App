@@ -146,6 +146,22 @@ export const postJobs = async (payload) => {
     throw error
   }
 }
+export const jobPayment = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.post(`payment/pay`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
 export const myApplications = async () => {
   const token = await getToken()
   try {

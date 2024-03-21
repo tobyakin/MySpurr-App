@@ -64,7 +64,7 @@
       />
     </div>
     <button @click="viewProfile(talent?.talent_id)" class="flex items-center gap-4 mt-6">
-      <p class="text-[10.378px] font-Satoshi500 text-[#244034]">View Profile</p>
+      <p class="text-[10.378px] font-Satoshi500 text-[#244034]">View Applicants</p>
       <ArrowRight />
     </button>
   </div>

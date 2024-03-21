@@ -42,7 +42,7 @@
       <router-link
         v-if="feature.includes('ALL_APPLICATIONS')"
         to="/"
-        class="p-[10px] flex justify-start hidden hover:bg-brand/[0.1] rounded-[5px]"
+        class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
