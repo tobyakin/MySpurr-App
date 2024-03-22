@@ -270,11 +270,21 @@ onMounted(async () => {
               >
                 <a-select-option disabled>select Job Type</a-select-option>
                 <a-select-option
-                  v-for="item in ['Freelance', 'Full Time', 'Part Time']"
-                  :key="item"
-                  :value="item"
+                  v-for="item in [
+                    { label: 'remote', value: 'remote' },
+                    { label: 'internship', value: 'internship' },
+                    { label: 'contract', value: 'contract' },
+                    { label: 'Part Time', value: 'part-time' },
+                    {
+                      label: 'Full Time',
+                      value: 'full-time',
+                    },
+                  ]"
+                  :key="item.value"
+                  :value="item.value"
+                  class="capitalize"
                 >
-                  {{ item }}
+                  {{ item.label }}
                 </a-select-option>
               </a-select>
             </div>
