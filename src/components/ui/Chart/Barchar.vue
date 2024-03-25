@@ -19,6 +19,7 @@ export default {
   components: {
     Apexchart: VueApexCharts,
   },
+  props: { userDetails: Object },
   data() {
     return {
       chatContainerHeight: null,
@@ -96,7 +97,7 @@ export default {
           tickAmount: 3,
           labels: {
             formatter: function (value) {
-              return value.toFixed(0) + "k"; // Replace 'Prefix' with your desired prefix
+              return value.toFixed(0); // Replace 'Prefix' with your desired prefix
             },
             style: {
               cssClass:
@@ -204,31 +205,31 @@ export default {
     this.setChatContainerHeight();
     window.addEventListener("resize", this.setChatContainerHeight);
 
-    const Incomedata = [40];
-    const PartTime = [10];
-    const Internship = [20];
-    const Contract = [10];
-    // const Remote = [15];
-    const Widthdrawaldata = [20];
+    const fullTime = [this.userDetails?.fulltime_jobs];
+    const PartTime = [this.userDetails?.parttime_jobs];
+    const Contract = [this.userDetails?.contract_jobs];
+    const Remote = [this.userDetails?.remote_jobs];
+    const Internship = [this.userDetails?.internship_jobs];
+    // const Widthdrawaldata = [20];
     const getFormattedDate = (day) => {
       const date = new Date(2023, 0, day); // Assuming the year is 2023
       const options = { day: "2-digit", month: "short" };
       return date.toLocaleDateString("en-US", options);
     };
     // Extract x-axis categories and y-axis values from chart data
-    const values = Widthdrawaldata.map((item) => item);
-    const Incomevalues = Incomedata.map((item) => item);
+    // const values = Widthdrawaldata.map((item) => item);
+    // const Incomevalues = Incomedata.map((item) => item);
     const DateValues = Array.from({ length: 7 }, (_, index) =>
       getFormattedDate(index + 1)
     );
 
     // Update chart options and series
     this.chartOptions.xaxis.categories = DateValues;
-    this.chartSeries[0].data = Incomevalues;
-    this.chartSeries[1].data = values;
+    this.chartSeries[0].data = fullTime;
+    this.chartSeries[1].data = Internship;
     this.chartSeries[2].data = PartTime;
-    this.chartSeries[3].data = Internship;
-    this.chartSeries[4].data = Contract;
+    this.chartSeries[3].data = Contract;
+    this.chartSeries[4].data = Remote;
     this.renderChart = true;
     //Refresh the chart to reflect the updated data
     //this.$refs.chart.refresh();

@@ -36,7 +36,6 @@ const isFormValid = computed(() => {
     postJobsValue.value.description !== "" &&
     postJobsValue.value.responsibilities.trim() !== "" &&
     postJobsValue.value.required_skills !== "" &&
-    postJobsValue.value.benefits !== "" &&
     postJobsValue.value.salaray_type !== "" &&
     postJobsValue.value.salary_min !== "" &&
     postJobsValue.value.salary_max !== "" &&

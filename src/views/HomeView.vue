@@ -233,21 +233,21 @@ onMounted(async () => {
           <BusinessValuesCard
             class=""
             title="New candidates to review"
-            digit="0"
+            :digit="userDetails?.new_applicants"
             buttonPlaceholder="REVIEW CANDIDATES"
             route="job-lists"
           />
           <BusinessValuesCard
             class=""
             title="Schedules for today"
-            digit="0"
+            digit="_"
             :comingSoon="true"
             buttonPlaceholder="Book meeting"
           />
           <BusinessValuesCard
             class=""
             title="Messages received"
-            digit="0"
+            digit="_"
             :comingSoon="true"
             buttonPlaceholder="read messages"
           />
@@ -296,7 +296,7 @@ onMounted(async () => {
               </h4>
               <div class="flex flex-row gap-2 pl-[22.48px]">
                 <h4 class="text-[#244034] font-Satoshi700 leading-none text-[60.722px]">
-                  0
+                  {{ userDetails?.total_number_applicants }}
                 </h4>
                 <div class="flex flex-col h-full justify-between">
                   <div class="flex flex-row"></div>
@@ -307,7 +307,9 @@ onMounted(async () => {
                   </p>
                 </div>
               </div>
-              <div class="flex flex-row w-full pl-[6px]"><Barchar /></div>
+              <div class="flex flex-row w-full pl-[6px]">
+                <Barchar :userDetails="userDetails" />
+              </div>
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ import Tabs from "@/components/ui/Jobs/Tabs.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { useSkillsStore } from "@/stores/skills";
 const skillsStore = useSkillsStore();
-const { contriesCode, states } = storeToRefs(skillsStore);
+const { contriesCode, states, industries } = storeToRefs(skillsStore);
 import { useRouter, useRoute } from "vue-router";
 const jobsStore = useJobsStore();
 const { Job, postJobsValue, JobDetailsById, ciso, siso } = storeToRefs(jobsStore);
@@ -23,6 +23,7 @@ import ViewJobDetailsPage from "@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage
 import ReviewJob from "@/components/ui/Jobs/ReviewEditJob.vue";
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+
 const router = useRouter();
 const route = useRoute();
 const loading = ref(false);
@@ -293,9 +294,22 @@ onMounted(async () => {
                 show-search
                 v-model:value="postJobsValue.job_type"
               >
-                <a-select-option disabled>select Job Type</a-select-option>
-                <a-select-option v-for="item in CandidateType" :key="item" :value="item">
-                  {{ item }}
+                <a-select-option
+                  v-for="item in [
+                    { label: 'remote', value: 'remote' },
+                    { label: 'internship', value: 'internship' },
+                    { label: 'contract', value: 'contract' },
+                    { label: 'Part Time', value: 'part-time' },
+                    {
+                      label: 'Full Time',
+                      value: 'full-time',
+                    },
+                  ]"
+                  :key="item.value"
+                  :value="item.value"
+                  class="capitalize"
+                >
+                  {{ item.label }}
                 </a-select-option>
               </a-select>
             </div>
@@ -569,7 +583,7 @@ onMounted(async () => {
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></SelectGroup> -->
           </div>
-          <div class="flex flex-row w-full gap-8">
+          <div class="flex flex-row hidden w-full gap-8">
             <SelectGroup
               labelClasses="font-Satoshi500 text-[15.606px]"
               label="Industry*"
