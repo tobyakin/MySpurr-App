@@ -8,10 +8,10 @@ export const handleLogout = async () => {
 
     const token = await getToken()
     try {
-        let res = await axios.post(`logout`,{ 
-            headers:{
-                Authorization: 'Bearer ' + token
-            }
+        let res = await axios.post(`v1/logout`, {
+          headers: {
+            Authorization: 'Bearer ' + token
+          }
         })
         catchAxiosSuccess(res)   
         return res.data;

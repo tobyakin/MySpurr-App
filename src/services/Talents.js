@@ -3,7 +3,7 @@ import { catchAxiosError, catchAxiosSuccess } from './Response'
 
 export const getAllTalents = async () => {
   try {
-    let res = await axios.get(`talents`)
+    let res = await axios.get(`v1/talents`)
     catchAxiosSuccess(res.data)
     return res.data;
   } catch (error) {
@@ -13,7 +13,7 @@ export const getAllTalents = async () => {
 }
 export const getSingleTalent = async (uuid) => {
   try {
-    let res = await axios.get(`talent/${uuid}`)
+    let res = await axios.get(`v1/talent/${uuid}`)
     catchAxiosSuccess(res.data)
     return res.data
   } catch (error) {
@@ -23,7 +23,7 @@ export const getSingleTalent = async (uuid) => {
 }
 export const getSingleTalentPortfolio = async (id) => {
   try {
-    let res = await axios.get(`talent/portfolio/single/${id}`)
+    let res = await axios.get(`v1/talent/portfolio/single/${id}`)
     catchAxiosSuccess(res)
     return res.data
   } catch (error) {

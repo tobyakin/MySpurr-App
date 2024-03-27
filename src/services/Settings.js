@@ -5,7 +5,7 @@ import { getToken } from './Auth'
 export const updateUserSettings = async (talent_id, payload) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`accounts/${talent_id}`, payload, {
+    let res = await axios.patch(`v1/accounts/${talent_id}`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -20,7 +20,7 @@ export const updateUserSettings = async (talent_id, payload) => {
 export const resetPassword = async ( payload) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`change-password`, payload, {
+    let res = await axios.patch(`v1/change-password`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -35,7 +35,7 @@ export const resetPassword = async ( payload) => {
 export const deleteAccount = async (talent_id) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`delete-accounts/${talent_id}`, {
+    let res = await axios.patch(`v1/delete-accounts/${talent_id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }

@@ -8,10 +8,10 @@ export const handleTalentWorkDetails = async (payload) => {
 
     const token = await getToken()
     try {
-        let res = await axios.post(`talent-work-details`,payload,{ 
-            headers:{
-                Authorization: 'Bearer ' + token
-            }
+        let res = await axios.post(`v1/talent-work-details`, payload, {
+          headers: {
+            Authorization: 'Bearer ' + token
+          }
         })
         catchAxiosSuccess(res)   
         return res.data;
@@ -26,7 +26,7 @@ export const handleTalentPortfolio = async (payload) => {
 
     const token = await getToken()
     try {
-        let res = await axios.post(`talent-portfolio`, payload, {
+        let res = await axios.post(`v1/talent-portfolio`, payload, {
           headers: {
             Authorization: 'Bearer ' + token,
             'Transfer-Encoding': 'chunked',
@@ -46,10 +46,10 @@ export const handleBusinessDetails = async (payload) => {
 
     const token = await getToken()
     try {
-        let res = await axios.post(`business-details`,payload,{ 
-            headers:{
-                Authorization: 'Bearer ' + token
-            }
+        let res = await axios.post(`v1/business-details`, payload, {
+          headers: {
+            Authorization: 'Bearer ' + token
+          }
         })
         catchAxiosSuccess(res)   
         return res.data;
@@ -64,10 +64,10 @@ export const handleBusinessPortfolio = async (payload) => {
 
     const token = await getToken()
     try {
-        let res = await axios.post(`business-portfolio`,payload,{ 
-            headers:{
-                Authorization: 'Bearer ' + token
-            }
+        let res = await axios.post(`v1/business-portfolio`, payload, {
+          headers: {
+            Authorization: 'Bearer ' + token
+          }
         })
         catchAxiosSuccess(res)   
         return res.data;
@@ -81,7 +81,7 @@ export const handleBusinessPortfolio = async (payload) => {
 export const verifyIdentity = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`upload-identity`, payload, {
+    let res = await axios.post(`v1/upload-identity`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }

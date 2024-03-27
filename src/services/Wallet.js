@@ -6,7 +6,7 @@ export const getBankList = async () => {
       const token = await getToken()
 
   try {
-    let res = await axios.get(`bank-list`, {
+    let res = await axios.get(`v1/bank-list`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -21,7 +21,7 @@ export const verifyPin = async () => {
         const token = await getToken()
 
   try {
-    let res = await axios.post(`verify-pin`, {
+    let res = await axios.post(`v1/verify-pin`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -37,7 +37,7 @@ export const addBankAccount = async (payload) => {
   const token = await getToken()
 
   try {
-    let res = await axios.post(`add-bank-account`, payload, {
+    let res = await axios.post(`v1/add-bank-account`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -53,7 +53,7 @@ export const setWithdrawalPin = async () => {
         const token = await getToken()
 
   try {
-    let res = await axios.post(`withdrawal-pin`, {
+    let res = await axios.post(`v1/withdrawal-pin`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -69,7 +69,7 @@ export const walletBalance = async () => {
   const token = await getToken()
 
   try {
-    let res = await axios.get(`wallet`, {
+    let res = await axios.get(`v1/wallet`, {
       headers: {
         Authorization: 'Bearer ' + token
       }

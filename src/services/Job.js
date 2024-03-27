@@ -5,7 +5,7 @@ import { getToken } from './Auth'
 export const getJobs = async () => {
   const token = await getToken()
   try {
-    let res = await axios.get(`get-jobs`, {
+    let res = await axios.get(`v1/get-jobs`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -19,7 +19,7 @@ export const getJobs = async () => {
 export const getMyJobs = async () => {
   const token = await getToken()
   try {
-    let res = await axios.get(`job`, {
+    let res = await axios.get(`v1/job`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -33,7 +33,7 @@ export const getMyJobs = async () => {
 export const getTopPickedJobs = async () => {
   const token = await getToken()
   try {
-    let res = await axios.get(`job/picks`, {
+    let res = await axios.get(`v1/job/picks`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -47,7 +47,7 @@ export const getTopPickedJobs = async () => {
 export const deleteJob = async (id) => {
   const token = await getToken()
   try {
-    let res = await axios.delete(`jobs/delete/${id}`, {
+    let res = await axios.delete(`v1/jobs/delete/${id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -62,7 +62,7 @@ export const deleteJob = async (id) => {
 export const closeJob = async (slug) => {
   const token = await getToken()
   try {
-    let res = await axios.delete(`job/${slug}/close`, {
+    let res = await axios.delete(`v1/job/${slug}/close`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -77,7 +77,7 @@ export const closeJob = async (slug) => {
 export const getJobsDetails = async (id) => {
   const token = await getToken()
   try {
-    let res = await axios.get(`job/${id}`, {
+    let res = await axios.get(`v1/job/${id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -91,7 +91,7 @@ export const getJobsDetails = async (id) => {
 export const viewJobsDetailsBySlug = async (slug) => {
   const token = await getToken()
   try {
-    let res = await axios.get(`job/details/${slug}`, {
+    let res = await axios.get(`v1/job/details/${slug}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -105,7 +105,7 @@ export const viewJobsDetailsBySlug = async (slug) => {
 export const viewJobsDetailsById = async (id) => {
   const token = await getToken()
   try {
-    let res = await axios.get(`job/${id}`, {
+    let res = await axios.get(`v1/job/${id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -119,7 +119,7 @@ export const viewJobsDetailsById = async (id) => {
 export const applyForJobs = async (id, payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`job-apply/${id}`, payload, {
+    let res = await axios.post(`v1/job-apply/${id}`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -134,7 +134,7 @@ export const applyForJobs = async (id, payload) => {
 export const postJobs = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`job`, payload, {
+    let res = await axios.post(`v1/job`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -165,7 +165,7 @@ export const jobPayment = async (payload) => {
 export const myApplications = async () => {
   const token = await getToken()
   try {
-    let res = await axios.get(`applications`, {
+    let res = await axios.get(`v1/applications`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -178,7 +178,7 @@ export const myApplications = async () => {
 }
 export const getAllTalents = async () => {
   try {
-    let res = await axios.get(`talents`)
+    let res = await axios.get(`v1/talents`)
     catchAxiosSuccess(res.data)
     return res.data
   } catch (error) {
@@ -190,7 +190,7 @@ export const getApplicants = async (id) => {
     const token = await getToken()
 
   try {
-    let res = await axios.get(`job/${id}/applicants`, {
+    let res = await axios.get(`v1/job/${id}/applicants`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -207,7 +207,7 @@ export const getTalentApplication = async (id) => {
       const token = await getToken()
 
   try {
-    let res = await axios.get(`application/${id}`, {
+    let res = await axios.get(`v1/application/${id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -222,7 +222,7 @@ export const getTalentApplication = async (id) => {
 export const editJob = async (id, payload) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`job/${id}`, payload, {
+    let res = await axios.patch(`v1/job/${id}`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
