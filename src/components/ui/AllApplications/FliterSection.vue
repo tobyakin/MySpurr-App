@@ -42,8 +42,8 @@
             @change="handleSort('skills', sortInput.skills)"
           >
             <a-select-option
-              v-for="item in skills?.data"
-              :key="item.id"
+              v-for="item in prop?.JobDetails?.skills"
+              :key="item"
               :value="item.name"
             >
               {{ item.name }}
@@ -116,7 +116,7 @@
             v-model:value="sortInput.Availabilty"
           >
             <a-select-option v-for="item in 2" :key="item" :value="item">
-              {{ item }}
+              {{ item.name }}
             </a-select-option>
           </a-select>
         </div>
@@ -146,7 +146,7 @@
   </div>
 </template>
 <script setup>
-import { reactive, ref, watch, onMounted } from "vue";
+import { reactive, computed, ref, watch, onMounted } from "vue";
 import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
 import { useSkillsStore } from "@/stores/skills";
@@ -162,7 +162,11 @@ const { top_skills } = storeToRefs(userProfile);
 // const store = useTabStore();
 const rating = ref(["Good fit", "Maybe", "Not a fit"]);
 
-defineProps({ JobDetails: Object });
+const prop = defineProps({ JobDetails: Object, applicantDeatails: Object });
+const userDetails = computed(() => {
+  return prop?.applicantDeatails;
+});
+console.log(userDetails.value);
 const sortInput = reactive({
   Salary: "",
   skills: "",
