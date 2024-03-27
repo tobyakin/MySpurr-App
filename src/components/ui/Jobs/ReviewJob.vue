@@ -31,7 +31,7 @@ const back = () => {
 const hasSubscriptedToPostJob = computed(() => {
   return userProfile?.user?.data?.posted_job;
 });
-const landingUrl = import.meta.env.VITE_DASHBOARD + `/success`;
+const landingUrl = import.meta.env.VITE_DASHBOARD + `success`;
 
 const isFormValid = computed(() => {
   return (
