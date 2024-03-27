@@ -34,6 +34,7 @@ import AllApplications from '@/views/AllApplications/AllApplications.vue'
 import PublicProfile from '@/views/Profile/PublicProfile.vue'
 import EditJob from '@/views/Jobs/Business/EditJob.vue'
 import MySchedule from '@/views/MySchedule/MySchedule.vue'
+import SuccessPage from '@/views/Jobs/Business/SuccessPage.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -92,6 +93,12 @@ const router = createRouter({
       path: '/jobs',
       name: 'jobs',
       component: JobsView,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/success',
+      name: 'success',
+      component: SuccessPage,
       beforeEnter: [middleware.redirectLogin]
     },
     {
