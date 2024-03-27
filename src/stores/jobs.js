@@ -185,13 +185,15 @@ export const useJobsStore = defineStore('jobs', () => {
                   business_id,
                   email,
                   amount,
-                  payment_redirect_url
+                  payment_redirect_url,
+                  is_highlighted
                 ) => {
                   let payload = {
                     business_id: business_id,
                     email: email,
                     amount: amount,
                     payment_redirect_url: payment_redirect_url,
+                    is_highlighted:is_highlighted,
                     job: {
                       job_title: postJobsValue.value.job_title,
                       country_id: ciso.value,

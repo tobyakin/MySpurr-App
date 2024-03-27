@@ -16,6 +16,8 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { VueQueryPlugin } from 'vue-query'
 import ShortLoader from '@/components/ui/Loader/ShortLoader.vue'
 import VueApexCharts from 'vue3-apexcharts'
+import Label from '@/components/ui/Form/Input/Label.vue'
+import DashboardLayout from '@/components/layout/dashboardLayout.vue'
 
 import {
   LRectangle,
@@ -36,6 +38,8 @@ import 'leaflet/dist/leaflet.css'
 const app = createApp(App)
 app.component('VueApexCharts', VueApexCharts)
 app.component('QuillEditor', QuillEditor)
+app.component('Label', Label)
+app.component('DashboardLayout', DashboardLayout)
 app.component('ShortLoader', ShortLoader)
 app.component('vue-select', VueNextSelect)
 app.component('multi-select', Multiselect)

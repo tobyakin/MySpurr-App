@@ -3,7 +3,10 @@
     <ShortLoader v-if="loadTalentApplications" />
     <div v-else class="flex flex-col gap-[45px]">
       <Header :JobDetails="JobDetailsById?.data" />
-      <FliterSection />
+      <FliterSection
+        :JobDetails="JobDetailsById?.data"
+        :applicantDeatails="applicants?.data?.applicants"
+      />
       <div class="flex flex-row gap-4">
         <div class="w-[40%]">
           <h4 class="text-[#00000066] text-[12.032px] font-Satoshi400">

@@ -5,7 +5,7 @@ import { getToken } from './Auth'
 export const openTicket = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`ticket`, payload, {
+    let res = await axios.post(`v1/ticket`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }

@@ -11,7 +11,7 @@ export const login = async (email, password) => {
         password,
     }
     try {
-        let res = await axios.post('login',data)
+        let res = await axios.post('v1/login', data)
         catchAxiosSuccess(res)   
         return res;
     } catch (error) {
@@ -25,7 +25,7 @@ export const verifyLogin = async (code) => {
     code
   }
   try {
-    let res = await axios.post('login-verify', data)
+    let res = await axios.post('v1/login-verify', data)
     catchAxiosSuccess(res)
     return res
   } catch (error) {
@@ -38,7 +38,7 @@ export const RsendVerifyCode = async (email) => {
     email
   }
   try {
-    let res = await axios.post('resend-code', data)
+    let res = await axios.post('v1/resend-code', data)
     catchAxiosSuccess(res)
     return res
   } catch (error) {
@@ -112,7 +112,7 @@ export const forgottenPassword = async (email) => {
   }
 
   try {
-    let res = await axios.post('forgot-password', data)
+    let res = await axios.post('v1/forgot-password', data)
     catchAxiosSuccess(res)
     return res
   } catch (error) {
@@ -130,7 +130,7 @@ export const resetPassword = async (token,email,password, password_confirmation)
   }
 
   try {
-    let res = await axios.post('reset-password', data)
+    let res = await axios.post('v1/reset-password', data)
     catchAxiosSuccess(res)
     return res
   } catch (error) {
@@ -145,7 +145,7 @@ export const resendEmail = async (email ) => {
   }
 
   try {
-    let res = await axios.post('resend', data)
+    let res = await axios.post('v1/resend', data)
     catchAxiosSuccess(res)
     return res
   } catch (error) {

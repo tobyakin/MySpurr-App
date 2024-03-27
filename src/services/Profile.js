@@ -8,7 +8,7 @@ export const getUserProfile= async () => {
 
     const token = await getToken()
     try {
-        let res = await axios.get(`profile`, {
+        let res = await axios.get(`v1/profile`, {
           headers: {
             Authorization: 'Bearer ' + token
           }
@@ -25,9 +25,9 @@ export const getUserProfile= async () => {
 export const updateProfilePhoto = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`update-photo`, payload, {
+    let res = await axios.patch(`v1/update-photo`, payload, {
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: 'Bearer ' + token
       }
     })
     catchAxiosSuccess(res)
@@ -40,7 +40,7 @@ export const updateProfilePhoto = async (payload) => {
 export const updateBio = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`update-bio`, payload, {
+    let res = await axios.patch(`v1/update-bio`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -55,7 +55,7 @@ export const updateBio = async (payload) => {
 export const updateOverview = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`update-overview`, payload, {
+    let res = await axios.patch(`v1/update-overview`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -70,7 +70,7 @@ export const updateOverview = async (payload) => {
 export const addWorkDetails = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`add-work-details`, payload, {
+    let res = await axios.post(`v1/add-work-details`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -85,7 +85,7 @@ export const addWorkDetails = async (payload) => {
 export const addSkills = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`add-skills`, payload, {
+    let res = await axios.post(`v1/add-skills`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -100,7 +100,7 @@ export const addSkills = async (payload) => {
 export const addEducation = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`add-education`, payload, {
+    let res = await axios.post(`v1/add-education`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -115,7 +115,7 @@ export const addEducation = async (payload) => {
 export const updateEducation = async (id, payload) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`update-education/${id}`, payload, {
+    let res = await axios.patch(`v1/update-education/${id}`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -130,7 +130,7 @@ export const updateEducation = async (id, payload) => {
 export const updateEmployment = async (id, payload) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`update-employment/${id}`, payload, {
+    let res = await axios.patch(`v1/update-employment/${id}`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -145,7 +145,7 @@ export const updateEmployment = async (id, payload) => {
 export const addCertificate = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`add-certificate`, payload, {
+    let res = await axios.post(`v1/add-certificate`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -160,7 +160,7 @@ export const addCertificate = async (payload) => {
 export const updateCertificate = async (id, payload) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`update-certificate/${id}`, payload, {
+    let res = await axios.patch(`v1/update-certificate/${id}`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -175,7 +175,7 @@ export const updateCertificate = async (id, payload) => {
 export const updatePortfolio = async (id, payload) => {
   const token = await getToken()
   try {
-    let res = await axios.patch(`update-portfolio/${id}`, payload, {
+    let res = await axios.patch(`v1/update-portfolio/${id}`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -190,7 +190,7 @@ export const updatePortfolio = async (id, payload) => {
 export const getSinglePortfolio = async (id) => {
   const token = await getToken()
   try {
-    let res = await axios.get(`portfolio/single/${id}`, {
+    let res = await axios.get(`v1/portfolio/single/${id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }

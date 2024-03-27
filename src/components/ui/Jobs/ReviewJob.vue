@@ -1,42 +1,44 @@
 <script setup>
-import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useJobsStore } from '@/stores/jobs'
-import { useStore } from '@/stores/user'
-import { useNumberFomateStore } from '@/stores/numberFomate'
-import { useUserProfile } from '@/stores/profile'
-import WhiteLoader from '@/components/ui/WhiteLoader.vue'
-import CenteredModalLarge from '@/components/ui/CenteredModalLarge.vue'
-import { useRouter } from 'vue-router'
-import CircleBookMarkIcon from '@/components/icons/circleBookMarkIcon.vue'
-import SearchIcon from '@/components/icons/circleSearchIcon.vue'
-import CircleTick from '@/components/icons/circleTick.vue'
-import VerifyIcon from '@/components/icons/verifyIcon.vue'
-let numAbbr = useNumberFomateStore()
-let store = useStore()
-let loading = ref(false)
-let showModal = ref(false)
-const userProfile = useUserProfile()
+import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from "vue";
+import { storeToRefs } from "pinia";
+import { useJobsStore } from "@/stores/jobs";
+import { useStore } from "@/stores/user";
+import { useNumberFomateStore } from "@/stores/numberFomate";
+import { useUserProfile } from "@/stores/profile";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
+import { useRouter } from "vue-router";
+import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
+import SearchIcon from "@/components/icons/circleSearchIcon.vue";
+import CircleTick from "@/components/icons/circleTick.vue";
+import VerifyIcon from "@/components/icons/verifyIcon.vue";
+let numAbbr = useNumberFomateStore();
+let store = useStore();
+let loading = ref(false);
+let showModal = ref(false);
+const userProfile = useUserProfile();
 const userDetails = computed(() => {
-  return userProfile.user.data
-})
-const router = useRouter()
-const jobsStore = useJobsStore()
-const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore)
-const emit = defineEmits(['back'])
+  return userProfile.user.data;
+});
+const isHighlighted = ref(false);
+const router = useRouter();
+const jobsStore = useJobsStore();
+const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore);
+const emit = defineEmits(["back"]);
 const back = () => {
-  emit('back')
-}
+  emit("back");
+};
 const hasSubscriptedToPostJob = computed(() => {
-  return userProfile?.user?.data?.posted_job
-})
+  return userProfile?.user?.data?.posted_job;
+});
+const landingUrl = import.meta.env.VITE_DASHBOARD + `/success`;
 
 const isFormValid = computed(() => {
   return (
     postJobsValue.value.job_title !== null &&
-    postJobsValue.value.job_type.trim() !== '' &&
+    postJobsValue.value.job_type.trim() !== "" &&
     postJobsValue.value.description !== null &&
-    postJobsValue.value.responsibilities.trim() !== '' &&
+    postJobsValue.value.responsibilities.trim() !== "" &&
     postJobsValue.value.required_skills !== null &&
     postJobsValue.value.benefits !== null &&
     postJobsValue.value.salaray_type !== null &&
@@ -48,88 +50,93 @@ const isFormValid = computed(() => {
     postJobsValue.value.questions !== null &&
     postJobsValue.value.currency !== null &&
     ciso.value !== null &&
-    siso.value.trim() !== ''
-  )
-})
+    siso.value.trim() !== ""
+  );
+});
 const restForm = () => {
-  ;(postJobsValue.value.job_title = ''),
-    (postJobsValue.value.job_type = ''),
-    (postJobsValue.value.description = ''),
-    (postJobsValue.value.responsibilities = ''),
-    (postJobsValue.value.required_skills = ''),
-    (postJobsValue.value.benefits = ''),
-    (postJobsValue.value.salaray_type = ''),
-    (postJobsValue.value.salary_min = ''),
-    (postJobsValue.value.salary_max = ''),
-    (postJobsValue.value.skills = ''),
-    (postJobsValue.value.experience = ''),
-    (postJobsValue.value.qualification = ''),
-    (postJobsValue.value.questions = ''),
-    (postJobsValue.value.currency = ''),
-    (ciso.value = ''),
-    (siso.value = '')
-}
+  (postJobsValue.value.job_title = ""),
+    (postJobsValue.value.job_type = ""),
+    (postJobsValue.value.description = ""),
+    (postJobsValue.value.responsibilities = ""),
+    (postJobsValue.value.required_skills = ""),
+    (postJobsValue.value.benefits = ""),
+    (postJobsValue.value.salaray_type = ""),
+    (postJobsValue.value.salary_min = ""),
+    (postJobsValue.value.salary_max = ""),
+    (postJobsValue.value.skills = ""),
+    (postJobsValue.value.experience = ""),
+    (postJobsValue.value.qualification = ""),
+    (postJobsValue.value.questions = ""),
+    (postJobsValue.value.currency = ""),
+    (ciso.value = ""),
+    (siso.value = "");
+};
 // handlejobPayment;
 const postJob = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    const res = await jobsStore.handlePostJob()
-    if (res.status === 'true') {
-      loading.value = false
-      showModal.value = true
-      restForm()
+    const res = await jobsStore.handlePostJob();
+    if (res.status === "true") {
+      loading.value = false;
+      showModal.value = true;
+      restForm();
     } else {
       // Handle unsuccessful submission
-      console.log('Login failed:', res.data.message)
-      loading.value = false
-      back()
+      console.log("Login failed:", res.data.message);
+      loading.value = false;
+      back();
     }
-    loading.value = false
-    return res
+    loading.value = false;
+    return res;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 const handlejobPayment = async () => {
-  loading.value = true
+  loading.value = true;
+  let isHighlightedValue = isHighlighted.value === true ? 1 : 0;
+  console.log("isHighlightedValue", isHighlightedValue);
   try {
     const res = await jobsStore.handlejobPayment(
       userDetails?.value?.id,
-      userDetails?.value?.business_email
-    )
-    if (res.status === 'true') {
-      loading.value = false
-      showModal.value = true
-      restForm()
+      userDetails?.value?.business_email,
+      15000,
+      landingUrl,
+      isHighlightedValue
+    );
+    window.location.href = res.url;
+    if (res.status === "true") {
+      loading.value = false;
+      showModal.value = true;
+      restForm();
     } else {
-      // Handle unsuccessful submission
-      console.log('Login failed:', res.data.message)
-      loading.value = false
-      back()
+      loading.value = false;
+      back();
     }
-    loading.value = false
-    return res
+    loading.value = false;
+    return res;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   } finally {
-    loading.value = false
+    loading.value = false;
+    restForm();
   }
-}
+};
 const handleJobPosting = () => {
   if (hasSubscriptedToPostJob.value) {
-    handlejobPayment()
+    handlejobPayment();
   } else {
-    postJob()
+    postJob();
   }
-}
+};
 const goToJobList = () => {
-  router.push({ name: 'job-lists' })
-}
+  router.push({ name: "job-lists" });
+};
 onMounted(async () => {
-  await userProfile.userProfile()
-})
+  await userProfile.userProfile();
+});
 </script>
 
 <template>
@@ -140,8 +147,8 @@ onMounted(async () => {
           Congratulations! Your job has been successfully posted on MySpurr!
         </h4>
         <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
-          Now, talented creatives can discover and apply for your exciting opportunity. Stay tuned
-          for applications and manage your job seamlessly from your dashboard.
+          Now, talented creatives can discover and apply for your exciting opportunity.
+          Stay tuned for applications and manage your job seamlessly from your dashboard.
         </p>
         <div class="flex justify-center gap-4 mt-12">
           <button
@@ -175,7 +182,9 @@ onMounted(async () => {
               </p>
               <div class="flex mt-1 gap-1">
                 <VerifyIcon class="w-4" />
-                <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
+                <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
+                  Verified Client.
+                </p>
               </div>
             </div>
             <div>
@@ -194,8 +203,12 @@ onMounted(async () => {
         </div>
       </div>
       <div class="flex flex-col justify-between mt-5">
-        <div class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3">
-          <p class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]">
+        <div
+          class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
+        >
+          <p
+            class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]"
+          >
             {{ postJobsValue.job_title }}
           </p>
           <button
@@ -241,7 +254,9 @@ onMounted(async () => {
           class="text-[#244034] text-[17.104px] flex items-center font-Satoshi500"
         >
           <span v-html="numAbbr.formatCurrency(postJobsValue.currency)"></span>
-          {{ numAbbr.abbr(postJobsValue.salary_min) }}-{{ numAbbr.abbr(postJobsValue.salary_max) }}
+          {{ numAbbr.abbr(postJobsValue.salary_min) }}-{{
+            numAbbr.abbr(postJobsValue.salary_max)
+          }}
         </p>
       </div>
       <div class="flex flex-col gap-2">
@@ -278,7 +293,10 @@ onMounted(async () => {
     </div>
     <div class="flex flex-col lg:flex-row mt-10 w-full">
       <div class="lg:w-[60%] p-4">
-        <p v-if="postJobsValue.description" class="text-[16.236px] text-[#000] font-Satoshi500">
+        <p
+          v-if="postJobsValue.description"
+          class="text-[16.236px] text-[#000] font-Satoshi500"
+        >
           Job Description
         </p>
 
@@ -330,7 +348,9 @@ onMounted(async () => {
       </div>
       <div class="lg:w-[40%] flex flex-col gap-5">
         <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-6">
-          <p class="font-Satoshi700 text-[17.104px] text-[#31795A]/[0.70]">About the Company</p>
+          <p class="font-Satoshi700 text-[17.104px] text-[#31795A]/[0.70]">
+            About the Company
+          </p>
           <div class="flex mt-8 gap-4">
             <div>
               <img
@@ -346,7 +366,9 @@ onMounted(async () => {
                 </p>
                 <div class="flex mt-1 gap-1">
                   <VerifyIcon class="w-4" />
-                  <p class="text-[10.646px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
+                  <p class="text-[10.646px] font-Satoshi700 text-[#000000B2]">
+                    Verified Client.
+                  </p>
                 </div>
               </div>
               <div class="flex gap-3 flex-wrap mt-2 items-center">
@@ -360,20 +382,26 @@ onMounted(async () => {
               </div>
             </div>
           </div>
-          <div class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]">
+          <div
+            class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
+          >
             <p>
               {{ userDetails?.about_business }}
             </p>
           </div>
           <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
-          <div class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]">
+          <div
+            class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
+          >
             <p>{{ userDetails?.total_opened_jobs }} Jobs opened</p>
           </div>
 
           <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
           <div class="flex rounded-[17.104px] mb-4 gap-6">
             <div class="flex flex-col gap-2">
-              <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Completed Jobs</p>
+              <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">
+                Completed Jobs
+              </p>
               <p class="text-[#244034] text-[17.104px] font-Satoshi500">
                 {{ userDetails?.completed_jobs }}
               </p>
@@ -395,20 +423,26 @@ onMounted(async () => {
           v-if="hasSubscriptedToPostJob"
           class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-6"
         >
-          <p class="font-Satoshi700 text-[17.104px] text-[#DA5252]">Upgrade your job listing</p>
+          <p class="font-Satoshi700 text-[17.104px] text-[#DA5252]">
+            Upgrade your job listing
+          </p>
           <div class="flex mt-8 flex-col gap-4">
             <div>
               <div class="flex gap-1 justify-start items-center">
                 <input
                   class="bg-transparent !border-[0.737px] cursor-pointer !border-[#97A6A8] accent-brand rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
                   type="checkbox"
+                  v-model="isHighlighted"
                 />
                 <label class="text-[#000000] text-[13px] font-Satoshi700">
                   Highlight job listing for ₦ 5,000.00
                 </label>
               </div>
-              <p class="font-Satoshi400 text-[10.53px] leading-[14.04px] mt-1 text-[#00474F]">
-                Highlighted listing have a red tag in the list so they stand our against the others
+              <p
+                class="font-Satoshi400 text-[10.53px] leading-[14.04px] mt-1 text-[#00474F]"
+              >
+                Highlighted listing have a red tag in the list so they stand our against
+                the others
               </p>
             </div>
 
@@ -422,7 +456,9 @@ onMounted(async () => {
                   Automatically renew my job post for ₦15,000.00
                 </label>
               </div>
-              <p class="font-Satoshi400 text-[10.53px] leading-[14.04px] mt-1 text-[#00474F]">
+              <p
+                class="font-Satoshi400 text-[10.53px] leading-[14.04px] mt-1 text-[#00474F]"
+              >
                 Your job will automatically be renewed each 30 days
               </p>
             </div>
