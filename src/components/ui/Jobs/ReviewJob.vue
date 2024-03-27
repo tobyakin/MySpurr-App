@@ -119,9 +119,11 @@ const handlejobPayment = async () => {
     return res;
   } catch (error) {
     console.log(error);
+    back();
   } finally {
     loading.value = false;
     restForm();
+    back();
   }
 };
 const handleJobPosting = () => {
