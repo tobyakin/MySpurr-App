@@ -53,6 +53,14 @@ const Experience = [
   { name: "Expert ", year: "(6-10 yrs)" },
   { name: "More than", year: " 10yrs" },
 ];
+const getSuccessStatusFromURL = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const successParam = urlParams.get("success");
+  return successParam === "true"; // Convert the value to a boolean
+};
+const state = reactive({
+  status: getSuccessStatusFromURL(),
+});
 
 const step = ref([true, false]);
 const changeScreen = (from, to, type = null) => {
@@ -169,6 +177,16 @@ onMounted(async () => {
   await skillsStore.getJobTitles();
   await skillsStore.getCountriesCode();
   await profile.userProfile();
+});
+function handleChangeScreen() {
+  changeScreen(0, 1);
+}
+onMounted(() => {
+  console.log(state.status);
+  if (state.status === true) {
+    console.log(state.status);
+    handleChangeScreen();
+  }
 });
 </script>
 

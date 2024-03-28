@@ -25,13 +25,22 @@ const router = useRouter();
 const jobsStore = useJobsStore();
 const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore);
 const emit = defineEmits(["back"]);
+const getSuccessStatusFromURL = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const successParam = urlParams.get("success");
+  return successParam === "true"; // Convert the value to a boolean
+};
+const state = reactive({
+  status: getSuccessStatusFromURL(),
+});
+
 const back = () => {
   emit("back");
 };
 const hasSubscriptedToPostJob = computed(() => {
   return userProfile?.user?.data?.posted_job;
 });
-const landingUrl = import.meta.env.VITE_DASHBOARD + `success`;
+const landingUrl = import.meta.env.VITE_DASHBOARD + `post-job?success=true`;
 
 const isFormValid = computed(() => {
   return (
@@ -138,6 +147,13 @@ const goToJobList = () => {
 };
 onMounted(async () => {
   await userProfile.userProfile();
+});
+onMounted(() => {
+  console.log(state.status);
+  if (state.status === true) {
+    console.log(state.status);
+    showModal.value = true;
+  }
 });
 </script>
 
