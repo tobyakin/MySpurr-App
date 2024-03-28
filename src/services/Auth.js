@@ -94,7 +94,7 @@ export const authWithGoogle = async () => {
 }
 export const registerTalent = async (payload) => {
     try {
-        let res = await axios.post('talent-register',payload)
+        let res = await axios.post('v1/talent-register',payload)
         let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
         localStorage.setItem('_register_data', ciphertext);        
         catchAxiosSuccess(res)   
