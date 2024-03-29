@@ -93,7 +93,7 @@ const goToJobList = () => {
   router.push({ name: "job-lists" });
 };
 const goToVIEWCANDIDATES = () => {
-  router.push({ name: "preview-job", params: { id: route.params.id } });
+  router.push({ name: "applications", params: { id: route.params.id } });
 };
 onMounted(async () => {
   await userProfile.userProfile();
