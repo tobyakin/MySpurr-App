@@ -1,64 +1,119 @@
 <script setup>
-import { ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { computed, onMounted, reactive, watch, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 // import { useStore } from "@/stores/user";
-import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
-import { storeToRefs } from "pinia";
-import SearchIcon from "@/components/icons/circleSearchIcon.vue";
+import DashboardLayout from '@/components/layout/dashboardLayout.vue'
+import CircleBookMarkIcon from '@/components/icons/circleBookMarkIcon.vue'
+import { storeToRefs } from 'pinia'
+import SearchIcon from '@/components/icons/circleSearchIcon.vue'
 // import CircleTick from "@/components/icons/circleTick.vue";
-import VerifyIcon from "@/components/icons/verifyIcon.vue";
+import VerifyIcon from '@/components/icons/verifyIcon.vue'
 // let store = useStore();
-import { useNumberFomateStore } from "@/stores/numberFomate";
-import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
+import { useNumberFomateStore } from '@/stores/numberFomate'
+import ShortLoader from '@/components/ui/Loader/ShortLoader.vue'
 
-import WhiteLoader from "@/components/ui/WhiteLoader.vue";
-import { useQuery } from "vue-query";
-import { useJobsStore } from "@/stores/jobs";
-import { useTabStore } from "@/stores/tab";
-let numAbbr = useNumberFomateStore();
+import WhiteLoader from '@/components/ui/WhiteLoader.vue'
+import { useQuery } from 'vue-query'
+import { useJobsStore } from '@/stores/jobs'
+import { useTabStore } from '@/stores/tab'
+let numAbbr = useNumberFomateStore()
 
-const store = useTabStore();
-const jobsStore = useJobsStore();
-const { JobDetailsById } = storeToRefs(jobsStore);
-const route = useRoute();
-const router = useRouter();
-const loading = ref(false);
+const store = useTabStore()
+const jobsStore = useJobsStore()
+const { JobDetailsById } = storeToRefs(jobsStore)
+const route = useRoute()
+const router = useRouter()
+const loading = ref(false)
 const closeJob = async (slug) => {
-  loading.value = true;
+  loading.value = true
   try {
-    const res = await jobsStore.handelCloseJob(slug);
-    if (res.status === "true") {
-      loading.value = false;
-      router.push({ name: "job-lists" });
+    const res = await jobsStore.handelCloseJob(slug)
+    if (res.status === 'true') {
+      loading.value = false
+      router.push({ name: 'job-lists' })
       // redirect to job-lists
     }
-    return res;
+    return res
   } catch (error) {
-    loading.value = false;
-    console.log(error);
+    loading.value = false
+    console.log(error)
   }
-};
+}
 
 const gotoApplications = (slug) => {
-  router.push({ name: "applications", params: { slug: slug } });
-};
+  router.push({ name: 'applications', params: { slug: slug } })
+}
 const getJobDetails = async () => {
-  let response = await jobsStore.handleGetJobDetailsById(route.params.id);
-  return response;
-};
+  let response = await jobsStore.handleGetJobDetailsById(route.params.id)
+  return response
+}
 const fetchData = async () => {
-  await Promise.all([getJobDetails()]);
-};
+  await Promise.all([getJobDetails()])
+}
 
-fetchData();
-const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
+fetchData()
+const { isLoading } = useQuery(['JobDetails', route.params.id], getJobDetails, {
   retry: 10,
   staleTime: 10000,
   onSuccess: (data) => {
-    JobDetailsById.value = data;
-  },
-});
+    JobDetailsById.value = data
+  }
+})
+function checkImageExists(url) {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => resolve(true)
+    img.onerror = () => resolve(false)
+    img.src = url
+  })
+}
+const imageExists = ref(false)
+const initials = ref('')
+
+// const jobData = computed(() => {
+//   return JobDetailsById?.data;
+// });
+
+onMounted(async () => {
+  await updateImageExists()
+})
+
+watch(JobDetailsById, async () => {
+  await updateImageExists()
+})
+
+async function updateImageExists() {
+  const hasImage = JobDetailsById.value?.data?.company?.company_logo
+  if (hasImage) {
+    const imageSrc = getImageSrc()
+    imageExists.value = await checkImageExists(imageSrc)
+    if (!imageExists.value) {
+      setInitials(JobDetailsById.value?.data?.company?.business_name)
+    }
+  } else {
+    imageExists.value = false
+    setInitials(JobDetailsById.value?.data?.company?.business_name)
+  }
+}
+
+function setInitials(name) {
+  initials.value = name
+    .split(' ')
+    .map((word) => word[0])
+    .join('')
+    .toUpperCase()
+}
+
+function getImageSrc() {
+  return JobDetailsById.value?.company?.company_logo
+}
+
+function handleImageError() {
+  console.error('Image loading error')
+  setInitials(JobDetailsById.value?.company?.business_name)
+}
+
+const displayImage = computed(() => imageExists.value)
 
 // onMounted(async () => {
 //   await jobsStore.handleGetJobDetailsById(route.params.id);
@@ -72,11 +127,28 @@ const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
       <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
         <div class="flex lg:flex-row flex-col gap-3 w-full">
           <div>
-            <img
+            <div
+              class="h-[61.011px] w-[61.011px] flex justify-center object-contain items-center rounded-full bg-brand"
+            >
+              <template v-if="displayImage">
+                <img
+                  :src="getImageSrc()"
+                  class="h-[61.011px] w-[61.011px] object-cover rounded-full"
+                  @error="handleImageError"
+                />
+              </template>
+              <template v-else>
+                <div class="initials-container text-2xl text-white object-cover font-bold">
+                  {{ initials }}
+                </div>
+              </template>
+
+              <!-- <img
               class="h-[61.011px] w-[61.011px] rounded-full"
-              :src="JobDetailsById?.data?.company?.business_name?.company_logo"
+              :src="JobDetailsById?.data?.company?.company_logo"
               alt=""
-            />
+            /> -->
+            </div>
           </div>
           <div class="w-full">
             <div class="flex lg:flex-row flex-col gap-4 justify-between">
@@ -86,17 +158,13 @@ const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
                 </p>
                 <div class="flex mt-1 gap-1">
                   <VerifyIcon class="w-4" />
-                  <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
-                    Verified Client.
-                  </p>
+                  <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
                 </div>
               </div>
               <div>
                 <div class="flex gap-2">
                   <button class="">
-                    <SearchIcon
-                      class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]"
-                    />
+                    <SearchIcon class="lg:w-[54.215px] lg:h-[54.215px] h-[40px] w-[40px]" />
                   </button>
                 </div>
               </div>
@@ -104,12 +172,8 @@ const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
           </div>
         </div>
         <div class="flex flex-col justify-between mt-5">
-          <div
-            class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
-          >
-            <p
-              class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]"
-            >
+          <div class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3">
+            <p class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]">
               {{ JobDetailsById?.data?.job_title }}
             </p>
             <button
@@ -195,17 +259,13 @@ const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
               class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px]"
             ></div>
 
-            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
-              Responsibilities
-            </p>
+            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">Responsibilities</p>
             <div
               v-html="JobDetailsById?.data?.responsibilities"
               class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] mt-4 leading-[24.689px]"
             ></div>
 
-            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
-              Required Skills:
-            </p>
+            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">Required Skills:</p>
             <div
               v-html="JobDetailsById?.data?.required_skills"
               class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] leading-[24.689px]"
@@ -225,16 +285,31 @@ const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
         </div>
         <div class="lg:w-[40%]">
           <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-6">
-            <p class="font-Satoshi700 text-[17.104px] text-[#31795A]/[0.70]">
-              About the Company
-            </p>
+            <p class="font-Satoshi700 text-[17.104px] text-[#31795A]/[0.70]">About the Company</p>
             <div class="flex mt-8 gap-4">
               <div>
-                <img
+                <div
+                  class="h-[61.011px] w-[61.011px] flex justify-center items-center rounded-full bg-brand"
+                >
+                  <template v-if="displayImage">
+                    <img
+                      :src="getImageSrc()"
+                      class="h-[61.011px] w-[61.011px] rounded-full"
+                      @error="handleImageError"
+                    />
+                  </template>
+                  <template v-else>
+                    <div class="initials-container text-2xl text-white font-bold">
+                      {{ initials }}
+                    </div>
+                  </template>
+
+                  <!-- <img
                   class="h-[61.011px] w-[61.011px] rounded-full"
-                  :src="JobDetailsById?.data?.company?.business_name?.company_logo"
+                  :src="JobDetailsById?.data?.company?.company_logo"
                   alt=""
-                />
+                /> -->
+                </div>
               </div>
               <div>
                 <div class="flex gap-2 items-center">
@@ -243,9 +318,7 @@ const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
                   </p>
                   <div class="flex mt-1 gap-1">
                     <VerifyIcon class="w-4" />
-                    <p class="text-[10.646px] font-Satoshi700 text-[#000000B2]">
-                      Verified Client.
-                    </p>
+                    <p class="text-[10.646px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
                   </div>
                 </div>
                 <div class="flex gap-3 flex-wrap mt-2 items-center">
@@ -264,18 +337,14 @@ const { isLoading } = useQuery(["JobDetails", route.params.id], getJobDetails, {
               class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
             ></div>
             <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
-            <div
-              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
-            >
+            <div class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]">
               <p>{{ JobDetailsById?.data?.total_opened_jobs }} Jobs opened</p>
             </div>
 
             <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
             <div class="flex rounded-[17.104px] mb-4 gap-6">
               <div class="flex flex-col gap-2">
-                <p class="text-[#244034] text-[17.104px] font-Satoshi500">
-                  Completed Jobs
-                </p>
+                <p class="text-[#244034] text-[17.104px] font-Satoshi500">Completed Jobs</p>
                 <p class="text-[#244034] text-[17.104px] font-Satoshi500">
                   {{ JobDetailsById?.data?.completed_jobs }}
                 </p>
