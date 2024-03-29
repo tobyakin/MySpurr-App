@@ -6,7 +6,7 @@ import WalletIcon from "@/components/icons/walletIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
 import Dropdown from "@/components/ui/DropDown.vue";
 import NotificationDropDown from "@/components/ui/NotificationDropDown.vue";
-import { ref, computed, onMounted, onUpdated } from "vue";
+import { ref, computed, onMounted, onUpdated, watch } from "vue";
 import "animate.css";
 import { useRouter } from "vue-router";
 import { useUserProfile } from "@/stores/profile";
@@ -128,6 +128,51 @@ const redirectWithSearchQuery = () => {
   redirectToJobPage();
   // }
 };
+const imageExists = ref(false);
+const initials = ref("");
+
+function checkImageExists(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
+}
+
+watch([userDetails, accountType], async () => {
+  const hasImage = userDetails.value?.image || userDetails.value?.company_logo;
+  if (hasImage) {
+    const imageSrc = getImageSrc();
+    imageExists.value = await checkImageExists(imageSrc);
+    if (!imageExists.value) {
+      setInitials(userDetails.value?.business_name);
+    }
+  } else {
+    imageExists.value = false;
+    setInitials(userDetails.value?.business_name);
+  }
+});
+
+function setInitials(name) {
+  initials.value = name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
+}
+
+function getImageSrc() {
+  return accountType.value === "talent"
+    ? userDetails.value?.image
+    : userDetails.value?.company_logo;
+}
+
+function handleImageError() {
+  console.error("Image loading error");
+  setInitials(userDetails.value?.business_name);
+}
+const displayImage = computed(() => imageExists.value);
 </script>
 
 <template>
@@ -224,7 +269,37 @@ const redirectWithSearchQuery = () => {
                     role="button"
                     class="h-10 w-10 flex justify-center items-center rounded-full bg-brand"
                   >
-                    <img
+                    <template v-if="userDetails?.image || userDetails?.company_logo">
+                      <template v-if="displayImage">
+                        <img
+                          :src="getImageSrc()"
+                          class="h-10 w-10 bg-[#0A090991] rounded-full"
+                          @error="handleImageError"
+                        />
+                      </template>
+                      <template v-else>
+                        <div class="initials-container text-white font-bold">
+                          {{ initials }}
+                        </div>
+                      </template>
+                    </template>
+                    <template v-else>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-5 text-gray-100 h-5"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                        />
+                      </svg>
+                    </template>
+                    <!-- <img
                       v-if="userDetails?.image || userDetails?.company_logo"
                       :src="
                         accountType === 'talent'
@@ -232,8 +307,10 @@ const redirectWithSearchQuery = () => {
                           : userDetails?.company_logo
                       "
                       class="h-10 w-10 bg-[#0A090991] rounded-full"
-                    />
-                    <svg
+                      @error="showInitial(userDetails?.business_name)" -->
+                    <!-- /> -->
+
+                    <!-- <svg
                       v-else
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -247,7 +324,8 @@ const redirectWithSearchQuery = () => {
                         stroke-linejoin="round"
                         d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
                       />
-                    </svg>
+                    </svg> -->
+                    <!-- <div ref="initialContainer" class="initials-container"></div> -->
                   </div>
                   <Dropdown
                     v-if="showDropdown"

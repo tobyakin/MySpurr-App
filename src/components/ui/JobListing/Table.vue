@@ -45,7 +45,7 @@ fetchData();
 
 const { isLoading } = useQuery(["myJobs"], getMyJobs, {
   retry: 10,
-  staleTime: 10000,
+  staleTime: 1000,
   onSuccess: (data) => {
     MyJob.value = data;
   },

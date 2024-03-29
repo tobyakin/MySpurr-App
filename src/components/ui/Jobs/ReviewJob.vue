@@ -471,7 +471,7 @@ onMounted(() => {
                   type="checkbox"
                 />
                 <label class="text-[#000000] text-[13px] font-Satoshi700">
-                  Automatically renew my job post for ₦15,000.00
+                  Automatically renew my job post for ₦5,000.00
                 </label>
               </div>
               <p

@@ -215,7 +215,7 @@ onMounted(() => {
               class="bg-[#993939] py-[19px] px-[10px] lg:px-[20px] flex items-center rounded-[10px]"
             >
               <p class="text-[#E6F1F3] text-[19.94px] font-Satoshi500">
-                You will be charged ₦ 15,000.00 for this job post
+                You will be charged ₦ 5,000.00 for this job post
               </p>
             </div>
           </div>
