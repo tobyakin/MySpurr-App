@@ -111,7 +111,7 @@ const handlejobPayment = async () => {
     const res = await jobsStore.handlejobPayment(
       userDetails?.value?.id,
       userDetails?.value?.business_email,
-      15000,
+      5000,
       landingUrl,
       isHighlightedValue
     );
