@@ -227,7 +227,7 @@ const displayImage = computed(() => imageExists.value)
         </div>
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Job Type</p>
-          <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034] capitalize text-[14.104px] font-Satoshi500">
             {{ JobDetailsById?.data?.job_type }}
           </p>
         </div>

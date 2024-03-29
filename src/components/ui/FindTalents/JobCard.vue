@@ -1,6 +1,6 @@
 <template>
   <div class="border-[#2440341A] rounded-[13.799px] border-[1.794px] relative p-4 lg:p-8">
-    <RatedBadge class="absolute h-[62.097px] w-[60.718px] top-0 left-0" />
+    <!-- <RatedBadge class="absolute h-[62.097px] w-[60.718px] top-0 left-0" /> -->
     <div>
       <div
         class="w-full flex lg:flex-row flex-col lg:justify-between justify-center gap-8 items-center"
@@ -8,34 +8,58 @@
         <div
           class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
         >
-          <div class="relative h-[100.955px] w-[100.955px] rounded-full">
-            <img
-              loading="lazy"
-              :src="talent?.image ? talent?.image : Icon"
-              class="h-[100.955px] w-[100.955px] rounded-full"
-              alt=""
-            />
-            <GreenIcon class="absolute top-1 right-3" />
+          <div>
+            <div
+              v-if="props?.talent?.image"
+              class="relative h-[100.955px] w-[100.955px] object-contain items-center flex justify-center bg-brand rounded-full"
+            >
+              <template v-if="displayImage">
+                <img
+                  :src="getImageSrc()"
+                  class="h-[100.955px] w-[100.955px] object-cover rounded-full"
+                  @error="handleImageError"
+                />
+              </template>
+              <template v-else>
+                <div class="initials-container text-white text-5xl font-bold">
+                  {{ initials }}
+                </div>
+              </template>
+              <GreenIcon class="absolute top-1 right-3" />
+            </div>
+            <div
+              v-else
+              class="relative h-[100.955px] w-[100.955px] bg-brand rounded-full"
+            >
+              <img
+                loading="lazy"
+                :src="Icon"
+                class="h-[100.955px] w-[100.955px] rounded-full"
+                alt=""
+              />
+              <GreenIcon class="absolute top-1 right-3" />
+            </div>
           </div>
+
           <div class="lg:text-left text-center">
             <p
               class="text-[#000000] text-[20.839px] capitalize font-Satoshi500 leading-[19.739px]"
             >
-              {{ talent.first_name }}
-              {{ talent.last_name }}
+              {{ props?.talent?.first_name }}
+              {{ props?.talent?.last_name }}
             </p>
             <p
               class="text-[#00000066] text-[16.699px] leading-[20.739px] font-Satoshi400"
             >
-              {{ talent.skill_title }}
+              {{ props?.talent?.skill_title }}
             </p>
             <div class="flex items-center gap-2">
               <p class="lg:text-[19.319px] text-[14px] text-[#244034] font-Satoshi500">
-                ${{ store.abbr(talent.rate) }}/hr
+                ${{ store.abbr(props?.talent?.rate) }}/hr
               </p>
               <div class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"></div>
               <p class="text-[#244034] lg:text-[19.319px] text-[14px] font-Satoshi500">
-                {{ talent.location }}
+                {{ props?.talent?.location }}
               </p>
             </div>
           </div>
@@ -55,7 +79,7 @@
     >
       <img
         loading="lazy"
-        v-for="item in talent?.portfolio"
+        v-for="item in props?.talent?.portfolio"
         :key="item"
         :src="item?.cover_image"
         class="h-[140.078px] flex flex-col object-cover w-auto rounded-lg"
@@ -65,7 +89,7 @@
     <router-link
       :to="{
         name: 'view-talent',
-        params: { uuid: talent.uniqueId, name: talent.first_name },
+        params: { uuid: props?.talent?.uniqueId, name: props?.talent?.first_name },
       }"
       class="flex items-center gap-4 mt-6"
     >
@@ -77,7 +101,8 @@
   </div>
 </template>
 <script setup>
-import RatedBadge from "@/components/icons/ratedBadge.vue";
+import { computed, onMounted, reactive, watch, ref } from "vue";
+// import RatedBadge from "@/components/icons/ratedBadge.vue";
 import GreenIcon from "@/components/icons/greenIcon.vue";
 import LoveIcon from "@/components/icons/loveIcon.vue";
 import SearchIcon from "@/components/icons/searchIcon.vue";
@@ -86,7 +111,66 @@ import Icon from "@/assets/defultAvater.png";
 import { useTabStore } from "@/stores/tab";
 const store = useTabStore();
 
-defineProps({
+const props = defineProps({
   talent: Object,
 });
+const talentData = computed(() => {
+  return props?.talent;
+});
+const imageExists = ref(false);
+const initials = ref("");
+
+function checkImageExists(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
+}
+
+onMounted(async () => {
+  await updateImageExists();
+});
+
+watch(talentData, async () => {
+  await updateImageExists();
+});
+
+async function updateImageExists() {
+  const hasImage = props?.talent?.image;
+  if (hasImage) {
+    const imageSrc = getImageSrc();
+    imageExists.value = await checkImageExists(imageSrc);
+    if (!imageExists.value) {
+      setInitials(
+        `${talentData.value?.first_name}` + "" + `${talentData.value?.last_name}`
+      );
+    }
+  } else {
+    imageExists.value = false;
+    setInitials(
+      `${talentData.value?.first_name}` + "" + `${talentData.value?.last_name}`
+    );
+  }
+}
+
+function setInitials(name) {
+  initials.value = name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
+}
+
+function getImageSrc() {
+  return props?.talent?.image;
+}
+
+function handleImageError() {
+  console.error("Image loading error");
+  setInitials(`${talentData.value?.first_name}` + "" + `${talentData.value?.last_name}`);
+}
+
+const displayImage = computed(() => imageExists.value);
 </script>
