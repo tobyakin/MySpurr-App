@@ -92,6 +92,9 @@ const postJob = async () => {
 const goToJobList = () => {
   router.push({ name: "job-lists" });
 };
+const goToVIEWCANDIDATES = () => {
+  router.push({ name: "preview-job", params: { id: route.params.id } });
+};
 onMounted(async () => {
   await userProfile.userProfile();
 });
@@ -110,7 +113,7 @@ onMounted(async () => {
         </p>
         <div class="flex justify-center gap-4 mt-12">
           <button
-            @click="back()"
+            @click="goToVIEWCANDIDATES()"
             class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%]"
           >
             VIEW CANDIDATES</button
