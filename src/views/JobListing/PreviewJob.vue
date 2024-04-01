@@ -177,6 +177,13 @@ const displayImage = computed(() => imageExists.value)
               {{ JobDetailsById?.data?.job_title }}
             </p>
             <button
+              @click="gotoApplications(JobDetailsById?.data?.slug)"
+              class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+            >
+              VIEW APPLICANTS
+            </button>
+
+            <!-- <button
               @click="closeJob(JobDetailsById?.data?.slug)"
               :disabled="loading"
               :class="loading ? 'cursor-not-allowed' : ''"
@@ -184,7 +191,7 @@ const displayImage = computed(() => imageExists.value)
             >
               <span v-if="!loading"> Close job </span>
               <WhiteLoader v-else />
-            </button>
+            </button> -->
           </div>
           <div class="flex justify-between lg:mt-2 mt-6">
             <div class="flex gap-3 flex-wrap items-center">
@@ -364,13 +371,13 @@ const displayImage = computed(() => imageExists.value)
           </div>
         </div>
       </div>
-      <div class="flex lg:flex-row flex-col gap-6 items-end mt-20 justify-end">
-        <button
+      <div class="flex lg:flex-row flex-col gap-6 items-start mt-20 justify-start">
+        <!-- <button
           @click="gotoApplications(JobDetailsById?.data?.slug)"
           class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
         >
           VIEW APPLICANTS
-        </button>
+        </button> -->
         <button
           @click="closeJob(JobDetailsById?.data?.slug)"
           :disabled="loading"
