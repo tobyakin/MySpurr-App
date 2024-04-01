@@ -100,7 +100,7 @@ const fetchMyJobData = async () => {
 
 fetchMyJobData();
 
-useQuery(["myJobs"], getMyJobs, {
+const { isLoading: loadMyjobs } = useQuery(["myJobs"], getMyJobs, {
   retry: 10,
   staleTime: 10000,
   onSuccess: (data) => {
@@ -325,8 +325,9 @@ onMounted(async () => {
             >View all jobs</router-link
           >
         </div>
+        <ShortLoader v-if="loadMyjobs" />
 
-        <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
+        <div v-else class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
           <BusinessJobCard
             class="min-w-[95%] lg:min-w-[40%]"
             v-for="item in MyJob?.data"
