@@ -7,7 +7,7 @@
         class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
       >
         <UserAvater
-          :imageUrl="talent?.image"
+          :imageUrl="props?.talent?.image"
           inputClasses="!h-[89.536px] !w-[89.536px]"
           class=""
         />
@@ -15,36 +15,44 @@
           <p
             class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]"
           >
-            {{ talent?.first_name }} {{ talent?.last_name }}
+            {{ props?.talent?.first_name }} {{ props?.talent?.last_name }}
           </p>
           <p
             class="text-[#00000066] text-[14.598px] capitalize leading-[31.739px] font-Satoshi400"
           >
-            {{ talent?.skill_title }}
+            {{ props?.talent?.skill_title }}
           </p>
           <div class="flex items-center lg:justify-start justify-center gap-2">
             <p class="lg:text-[13.625px] text-[14px] text-[#244034] font-Satoshi500">
-              ${{ talent?.rate }}/hr
+              ${{ props?.talent?.rate }}/hr
             </p>
             <div class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"></div>
             <p class="text-[#244034] lg:text-[13.625px] text-[14px] font-Satoshi500">
-              {{ talent?.location }}
+              {{ props?.talent?.location }}
             </p>
           </div>
         </div>
       </div>
       <div class="flex flex-col items-center lg:justify-normal justify-center gap-6">
         <div class="flex items-center gap-3">
-          <a v-if="talent?.linkedin" :href="talent?.linkedin" target="_blank">
+          <a
+            v-if="props?.talent?.linkedin"
+            :href="props?.talent?.linkedin"
+            target="_blank"
+          >
             <LinkdeinIcon />
           </a>
-          <a v-if="talent?.instagram" :href="talent?.instagram" target="_blank">
+          <a
+            v-if="props?.talent?.instagram"
+            :href="props?.talent?.instagram"
+            target="_blank"
+          >
             <InstagramIcon />
           </a>
-          <a v-if="talent?.behance" :href="talent?.behance" target="_blank">
+          <a v-if="props?.talent?.behance" :href="props?.talent?.behance" target="_blank">
             <BeIcon />
           </a>
-          <a v-if="talent?.twitter" :href="talent?.twitter" target="_blank">
+          <a v-if="props?.talent?.twitter" :href="props?.talent?.twitter" target="_blank">
             <TwitterIcon />
           </a>
         </div>
@@ -62,12 +70,12 @@
     </div>
     <div class="flex flex-col lg:flex-row mt-10 w-full">
       <div class="lg:w-[70%] p-4">
-        <p v-if="talent?.overview" class="text-[28px] text-[#000] font-Satoshi500">
+        <p v-if="props?.talent?.overview" class="text-[28px] text-[#000] font-Satoshi500">
           Overview
         </p>
         <div class="text-[#000000BF] font-Satoshi400 text-[16px] mt-4 leading-[35px]">
           <p>
-            {{ talent?.overview }}
+            {{ props?.talent?.overview }}
           </p>
           <!-- <p class="mt-4"></p> -->
           <!-- .slice(0, 10) -->
@@ -77,14 +85,14 @@
  -->
         </div>
         <p
-          v-if="talent?.top_skills?.length"
+          v-if="props?.talent?.top_skills?.length"
           class="text-[28px] text-[#000] font-Satoshi500 mb-4 mt-6"
         >
           Skills
         </p>
         <div class="flex gap-4 flex-wrap">
           <div
-            v-for="item in talent?.top_skills"
+            v-for="item in props?.talent?.top_skills"
             :key="item.name"
             class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[17px] text-center font-Satoshi400 text-[#276A4D]"
           >
@@ -95,23 +103,23 @@
           ></div>
         </div>
         <p
-          v-if="talent?.education?.length"
+          v-if="props?.talent?.education?.length"
           class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8"
         >
           Education
         </p>
-        <EducationDetails :items="talent?.education" />
+        <EducationDetails :items="props?.talent?.education" />
         <!-- <SampleFive :items="items" /> -->
 
         <p
-          v-if="talent?.employment?.length"
+          v-if="props?.talent?.employment?.length"
           class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8"
         >
           Work Experience
         </p>
-        <WorkExperience :items="talent?.employment" />
+        <WorkExperience :items="props?.talent?.employment" />
         <p
-          v-if="talent?.portfolio?.length"
+          v-if="props?.talent?.portfolio?.length"
           class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8"
         >
           Portfolio
@@ -123,7 +131,7 @@
             loading="lazy"
             @click="redirectToSinglePortFolio(img.id)"
             role="button"
-            v-for="img in talent?.portfolio"
+            v-for="img in props?.talent?.portfolio"
             :key="img"
             :src="img.cover_image"
             class="h-[214.078px] flex flex-col w-auto rounded-lg"
@@ -159,7 +167,11 @@
         <div
           class="bg-[#E9FAFB] p-8 border-[#F6F6F6] border-[1px] flex flex-col gap-12 mt-4 rounded-[15px]"
         >
-          <div v-for="i in talent?.certificate" :key="i" class="flex items-center gap-5">
+          <div
+            v-for="i in props?.talent?.certificate"
+            :key="i"
+            class="flex items-center gap-5"
+          >
             <CertificateBadge />
             <div class="flex flex-col gap-0 h-auto">
               <a
@@ -191,14 +203,14 @@
         <p class="text-[20px] text-[#000] font-Satoshi500 mt-16">Location</p>
         <div class="flex flex-col gap-12 mt-4 rounded-[15px]">
           <!-- <img loading="lazy" src="@/assets/img/Map.webp" alt="" /> -->
-          <Map :lat="talent?.latitude" :lng="talent?.longitude" />
+          <Map :lat="props?.talent?.latitude" :lng="props?.talent?.longitude" />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent, onMounted } from "vue";
 import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
 import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
 import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
@@ -212,8 +224,37 @@ import UserAvater from "@/components/ui/Avater/UserAvater.vue";
 import CalenderWithPen from "@/components/icons/calenderWithPen.vue";
 import SearchIconVeritical from "@/components/icons/searchIconVeritical.vue";
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
+import { useClipboard } from "@vueuse/core";
+import { useToast } from "vue-toastification";
+const toast = useToast();
 
-defineProps({
+let source = "";
+
+onMounted(() => {
+  source =
+    import.meta.env.VITE_LANDING_PAGE +
+    `${props?.talent?.first_name}/` +
+    props?.talent?.uniqueId;
+});
+
+// let source = window.location.href;
+const { copy, copied, isSupported } = useClipboard({ source });
+const copyUrl = () => {
+  if (isSupported) {
+    if (copied) {
+      copy(source);
+      toast.success("Link Copied", {
+        timeout: 4000,
+      });
+    }
+  } else {
+    toast.error("Your browser does not support Clipboard API", {
+      timeout: 4000,
+    });
+  }
+};
+
+const props = defineProps({
   talent: Object,
 });
 const redirectToSinglePortFolio = (id) => {

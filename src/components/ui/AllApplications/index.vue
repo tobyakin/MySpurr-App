@@ -26,6 +26,7 @@
                 v-for="talent in applicants?.data?.applicants"
                 :key="talent.id"
                 :talent="talent"
+                :selected="talent.id === applicantsId"
                 @viewProfile="handleViewProfile"
               />
             </div>

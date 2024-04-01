@@ -1,9 +1,10 @@
 <script setup>
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import { defineAsyncComponent, computed, ref, watch } from "vue";
+import { defineAsyncComponent, reactive, watchEffect, computed, ref, watch } from "vue";
 // import { useHead } from "@vueuse/head";
 import { useQuery } from "vue-query";
 import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 // import GoPro from "@/components/Bander/GoPro.vue";
 import Arrow from "@/components/icons/paginationArrow.vue";
 import JobCard from "@/components/ui/FindTalents/JobCard.vue";
@@ -11,6 +12,47 @@ import JobCard from "@/components/ui/FindTalents/JobCard.vue";
 import { useJobsStore } from "@/stores/jobs";
 import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
 const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
+const filterOptions = reactive({
+  name: "",
+  skills: "",
+  location: "",
+  expertLevel: "",
+  qualification: "",
+  candidateType: "",
+});
+let rateMin = ref(null);
+let rateMax = ref(null);
+let range = ref([rateMin.value, rateMax.value]);
+
+const updateRange = (value) => {
+  rateMin.value = value[0];
+  rateMax.value = value[1];
+};
+
+// Create a computed property to synchronize the range with rateMin and rateMax
+const computedRange = computed(() => {
+  return [rateMin.value, rateMax.value];
+});
+
+// Watch for changes in the computedRange and update the range
+watch(computedRange, (newRange) => {
+  range.value = newRange;
+});
+
+// Watch for changes in the range and update start and end
+watch(range, (newRange) => {
+  updateRange(newRange);
+});
+
+const router = useRouter();
+const CandidateType = ["Freelance", "Full-time", "Part-time", "Inernship", "Contract"];
+const qualification = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
+const Experience = [
+  { name: "Beginner", year: "(1-2 yrs)" },
+  { name: "Intermediate", year: "(3-5 yrs)" },
+  { name: "Expert", year: "(6-10 yrs)" },
+  { name: "More than", year: " 10yrs" },
+];
 
 // import FormSelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 const jobsStore = useJobsStore();
@@ -68,12 +110,86 @@ const fetchData = async () => {
 
 fetchData();
 
-useQuery(["tallents"], getTallents, {
+const { isLoading } = useQuery(["tallents"], getTallents, {
   retry: 10,
   staleTime: 10000,
   onSuccess: (data) => {
     talent.value = data;
   },
+});
+const filteredJobs = computed(() => {
+  let filtered = talent.value?.data; // Create a shallow copy of the jobs array
+
+  // Filtering based on the search criteria
+  if (filterOptions.name) {
+    filtered = filtered?.filter((item) =>
+      item.first_name.toLowerCase().includes(filterOptions.name.toLowerCase())
+    );
+  }
+  if (filterOptions.skills) {
+    filtered = filtered?.filter((item) =>
+      item.skill_title.toLowerCase().includes(filterOptions.skills.toLowerCase())
+    );
+  }
+
+  if (filterOptions.location) {
+    filtered = filtered?.filter((item) =>
+      item.location.toLowerCase().includes(filterOptions.location.toLowerCase())
+    );
+  }
+
+  if (filterOptions.candidateType) {
+    filtered = filtered?.filter((item) =>
+      item.employment_type
+        .toLowerCase()
+        .includes(filterOptions.candidateType.toLowerCase())
+    );
+  }
+  if (filterOptions.expertLevel) {
+    filtered = filtered.filter((item) =>
+      item.experience_level
+        .toLowerCase()
+        .includes(filterOptions.expertLevel.toLowerCase())
+    );
+  }
+
+  if (filterOptions.qualification) {
+    filtered = filtered?.filter((item) =>
+      item.highest_education
+        .toLowerCase()
+        .includes(filterOptions.qualification.toLowerCase())
+    );
+  }
+
+  // Filtering by Rate within the specified range
+  if (rateMin.value || rateMax.value) {
+    filtered = filtered.filter((item) => {
+      const rate = parseFloat(item.rate);
+      const min = rateMin.value ? parseFloat(rateMin.value) : Number.MIN_SAFE_INTEGER;
+      const max = rateMax.value ? parseFloat(rateMax.value) : Number.MAX_SAFE_INTEGER;
+
+      return rate >= min && rate <= max;
+    });
+  }
+
+  return filtered;
+});
+const resetFilters = () => {
+  filterOptions.name = "";
+  filterOptions.skills = "";
+  filterOptions.location = "";
+  filterOptions.expertLevel = "";
+  filterOptions.qualification = "";
+  filterOptions.candidateType = "";
+  rateMin.value = "";
+  rateMax.value = "";
+};
+watchEffect(() => {
+  const searchQuery = router.currentRoute.value.query.search;
+  if (searchQuery) {
+    // Set the search query in your component's data
+    filterOptions.name = searchQuery;
+  }
 });
 
 // onMounted(async () => {
@@ -89,6 +205,7 @@ useQuery(["tallents"], getTallents, {
       >
         <div class="flex lg:flex-row flex-col gap-12">
           <FormGroup
+            v-model="filterOptions.name"
             labelClasses="font-Satoshi500 text-[15.606px]"
             label=" Name or Keyword"
             name="Name"
@@ -97,14 +214,16 @@ useQuery(["tallents"], getTallents, {
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
           ></FormGroup>
           <FormGroup
+            v-model="filterOptions.skills"
             labelClasses="font-Satoshi500 text-[15.606px]"
-            label=" Categories"
+            label=" Skills"
             name="Name"
             placeholder="Graphics Design"
             type="text"
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
           ></FormGroup>
           <FormGroup
+            v-model="filterOptions.location"
             labelClasses="font-Satoshi500 text-[15.606px]"
             label=" Location"
             name="Name"
@@ -115,101 +234,106 @@ useQuery(["tallents"], getTallents, {
         </div>
         <div class="flex lg:flex-row flex-col justify-between w-full gap-12">
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2">Expert Level</Label>
-            <a-select
-              placeholder=""
-              :show-arrow="false"
-              :bordered="false"
-              class="w-full mt-2 font-light font-Satoshi400 !p-0 border-b-[#31795A33] border-b-[0.509px] !bg-transparent opacity-[0.8029] text-[12.68px]"
-              show-search
+            <Label class="font-Satoshi500 !text-[17.792px] !mb-2">Experience</Label>
+            <div
+              class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
             >
-              <a-select-option disabled>select expert level</a-select-option>
-              <a-select-option
-                v-for="item in ['Freelance', 'Full Time', 'Part Time']"
-                :key="item"
-                :value="item"
+              <a-select
+                placeholder="Expert Level"
+                :bordered="false"
+                :show-arrow="false"
+                class="w-full !outline-none !px-0"
+                show-search
+                v-model:value="filterOptions.expertLevel"
               >
-                {{ item }}
-              </a-select-option>
-            </a-select>
+                <a-select-option disabled>Expert Level</a-select-option>
+                <a-select-option
+                  v-for="item in Experience"
+                  :key="item"
+                  :value="item.name"
+                >
+                  {{ item.name }} {{ item.year }}
+                </a-select-option>
+              </a-select>
+            </div>
           </div>
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2">Qualification</Label>
-            <a-select
-              placeholder=""
-              :show-arrow="false"
-              :bordered="false"
-              class="w-full mt-2 font-light font-Satoshi400 !p-0 border-b-[#31795A33] border-b-[0.509px] !bg-transparent opacity-[0.8029] text-[12.68px]"
-              show-search
+            <Label class="font-Satoshi500 !text-[17.792px] !mb-2">Qualification</Label>
+            <div
+              class="w-full mt-0 font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
             >
-              <a-select-option disabled>select qualification</a-select-option>
-              <a-select-option
-                v-for="item in ['Freelance', 'Full Time', 'Part Time']"
-                :key="item"
-                :value="item"
+              <a-select
+                placeholder="Qualification"
+                :bordered="false"
+                :show-arrow="false"
+                class="w-full !outline-none !px-0"
+                show-search
+                v-model:value="filterOptions.qualification"
               >
-                {{ item }}
-              </a-select-option>
-            </a-select>
+                <a-select-option disabled>Qualification</a-select-option>
+                <a-select-option v-for="item in qualification" :key="item" :value="item">
+                  {{ item }}
+                </a-select-option>
+              </a-select>
+            </div>
           </div>
 
           <!-- <FormSelectGroup
+            v-model="filterOptions.expertLevel"
             labelClasses="font-Satoshi500 text-[15.606px]"
             label=" Expert Level"
             name="Name"
             placeholder="Expert Level"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-b-[#31795A33] border-b-[0.509px] !bg-transparent opacity-[0.8029]  text-[12.68px]"
-          ></FormSelectGroup> -->
-          <!-- <FormSelectGroup
+            inputClasses="w-full mt-0 font-light font-Satoshi400 bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+          ></FormSelectGroup>
+          <FormSelectGroup
             labelClasses="font-Satoshi500 text-[15.606px]"
             label=" Qualification"
             name="Name"
             placeholder="Qualification"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-b-[#31795A33] border-b-[0.509px] !bg-transparent opacity-[0.8029]  text-[12.68px]"
+            inputClasses="w-full mt-0 font-light font-Satoshi400 bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
           ></FormSelectGroup> -->
         </div>
         <div class="flex lg:flex-row flex-col justify-between w-full gap-12">
-          <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2">Salary Range</Label>
-            <a-select
-              placeholder=""
-              :show-arrow="false"
-              :bordered="false"
-              class="w-full mt-2 font-light font-Satoshi400 !p-0 border-b-[#31795A33] border-b-[0.509px] !bg-transparent opacity-[0.8029] text-[12.68px]"
-              show-search
-            >
-              <a-select-option disabled>select Salary Range</a-select-option>
-              <a-select-option
-                v-for="item in ['Freelance', 'Full Time', 'Part Time']"
-                :key="item"
-                :value="item"
-              >
-                {{ item }}
-              </a-select-option>
-            </a-select>
+          <div class="w-full">
+            <div class="flex flex-col justify-center">
+              <Label class="font-Satoshi500 text-[15.606px]">Salary Range ($/hr)</Label>
+              <div class="flex items-center justify-center gap-1 mt-2">
+                <input
+                  class="w-full font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                  type="number"
+                  v-model="rateMin"
+                  id="start"
+                />
+                <div class="h-[2px] w-4 bg-black"></div>
+                <input
+                  class="w-full font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                  type="number"
+                  v-model="rateMax"
+                  id="end"
+                />
+                <!-- <div class="w-full">
+                  <SelectGroup
+                    labelClasses="font-Satoshi500 hidden text-[15.606px]"
+                    name="Name"
+                    placeholder="currency"
+                    type="text"
+                    :items="['USD', 'NGN']"
+                    inputClasses="w-full mt-0 font-light font-Satoshi400 bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                  />
+                </div> -->
+              </div>
+            </div>
+            <div>
+              <!-- <vue-slider
+                  v-model="range"
+                  :tooltip="'none'"
+                  :enable-cross="false"
+                ></vue-slider> -->
+            </div>
           </div>
-          <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2">Candidate Type</Label>
-            <a-select
-              placeholder=""
-              :show-arrow="false"
-              :bordered="false"
-              class="w-full mt-2 font-light font-Satoshi400 !p-0 border-b-[#31795A33] border-b-[0.509px] !bg-transparent opacity-[0.8029] text-[12.68px]"
-              show-search
-            >
-              <a-select-option disabled>select Candidate Type</a-select-option>
-              <a-select-option
-                v-for="item in ['Freelance', 'Full Time', 'Part Time']"
-                :key="item"
-                :value="item"
-              >
-                {{ item }}
-              </a-select-option>
-            </a-select>
-          </div>
-
           <!-- <FormSelectGroup
             labelClasses="font-Satoshi500 text-[15.606px]"
             label=" Salary Range"
@@ -217,21 +341,42 @@ useQuery(["tallents"], getTallents, {
             placeholder="Salary Range"
             type="text"
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-b-[#31795A33] border-b-[0.509px] !bg-transparent opacity-[0.8029]  text-[12.68px]"
-          ></FormSelectGroup>
-          <FormSelectGroup
+          ></FormSelectGroup> -->
+          <div class="flex flex-col w-full text-left">
+            <Label class="font-Satoshi500 !text-[17.792px] !mb-2">Employment Type</Label>
+            <div
+              class="w-full mt-0 font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+            >
+              <a-select
+                placeholder="Candidate Type"
+                :bordered="false"
+                :show-arrow="false"
+                class="w-full !outline-none !px-0"
+                show-search
+                v-model:value="filterOptions.candidateType"
+              >
+                <a-select-option disabled>Candidate Type</a-select-option>
+                <a-select-option v-for="item in CandidateType" :key="item" :value="item">
+                  {{ item }}
+                </a-select-option>
+              </a-select>
+            </div>
+          </div>
+          <!-- <FormSelectGroup
             labelClasses="font-Satoshi500 text-[15.606px]"
             label=" Candidate Type"
             name="Name"
             placeholder="Candidate Type"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-b-[#31795A33] border-b-[0.509px] !bg-transparent opacity-[0.8029]  text-[12.68px]"
+            inputClasses="w-full mt-0 font-light font-Satoshi400 bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
           ></FormSelectGroup> -->
         </div>
         <div class="flex gap-12">
           <button
+            @click="resetFilters"
             class="bg-[#31795A] text-white lg:w-[40%] w-full text-center mx-auto p-4 py-4 justify-center rounded-full font-Satoshi500 text-[12.103px] items-center flex"
           >
-            Reset
+            Reset Filter
           </button>
         </div>
       </div>
@@ -247,11 +392,13 @@ useQuery(["tallents"], getTallents, {
       <div class="my-10">
         <p class="text-[#00000066] font-Satoshi400 text-[23.998px]">
           All
-          <span class="text-[#000000] font-Satoshi500">{{ paginatedTalent.length }}</span>
+          <span class="text-[#000000] font-Satoshi500">{{
+            filteredJobs?.length ? filteredJobs?.length : paginatedTalent?.length
+          }}</span>
           candidates found
         </p>
       </div>
-      <div class="mt-14 flex flex-col gap-8">
+      <div v-if="!filteredJobs && isLoading" class="mt-14 flex flex-col gap-8">
         <JobCard
           class="w-full"
           v-for="item in paginatedTalent"
@@ -259,6 +406,11 @@ useQuery(["tallents"], getTallents, {
           :talent="item"
         />
       </div>
+      <div v-else class="mt-14 flex flex-col gap-8">
+        <JobCard class="w-full" v-for="item in filteredJobs" :key="item" :talent="item" />
+      </div>
+      <ShortLoader v-if="isLoading" />
+
       <div class="mt-12 flex w-[60%] flex-row justify-center mx-auto">
         <button
           v-for="pageNumber in displayedPageNumbers"

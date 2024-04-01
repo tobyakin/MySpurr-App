@@ -43,10 +43,15 @@
 
           <div class="lg:text-left text-center">
             <p
-              class="text-[#000000] text-[20.839px] capitalize font-Satoshi500 leading-[19.739px]"
+              class="text-[#000000] text-[20.839px] flex gap-[8px] items-center capitalize font-Satoshi500 leading-[19.739px]"
             >
-              {{ props?.talent?.first_name }}
-              {{ props?.talent?.last_name }}
+              {{ props?.talent.first_name }}
+              {{ props?.talent.last_name }}
+              <span
+                v-if="props?.talent?.experience_level"
+                class="bg-[#00474F] rounded-full py-[0.5px] capitalize text-[10.519px] text-[#E6F1F3] font-medium px-[19px]"
+                >{{ props?.talent?.experience_level }}</span
+              >
             </p>
             <p
               class="text-[#00000066] text-[16.699px] leading-[20.739px] font-Satoshi400"
@@ -67,7 +72,9 @@
         <div>
           <div class="flex md:flex-row flex-col lg:items-start items-center gap-4">
             <div class="flex lg:justify-normal gap-4 items-center justify-center">
-              <button><LoveIcon /></button><button><SearchIcon /></button>
+              <!-- <button><LoveIcon /></button> -->
+
+              <button @click="copyUrl"><CopyLinkIcon /></button>
             </div>
             <button class="btn-brand">Message</button>
           </div>
@@ -109,6 +116,37 @@ import SearchIcon from "@/components/icons/searchIcon.vue";
 import ArrowRight from "@/components/icons/arrowRight.vue";
 import Icon from "@/assets/defultAvater.png";
 import { useTabStore } from "@/stores/tab";
+import CopyLinkIcon from "@/components/icons/copyLinkIcon.vue";
+import { useClipboard } from "@vueuse/core";
+import { useToast } from "vue-toastification";
+const toast = useToast();
+
+let source = "";
+
+onMounted(() => {
+  source =
+    import.meta.env.VITE_LANDING_PAGE +
+    `${props?.talent?.first_name}/` +
+    props?.talent?.uniqueId;
+});
+
+// let source = window.location.href;
+const { copy, copied, isSupported } = useClipboard({ source });
+const copyUrl = () => {
+  if (isSupported) {
+    if (copied) {
+      copy(source);
+      toast.success("Link Copied", {
+        timeout: 4000,
+      });
+    }
+  } else {
+    toast.error("Your browser does not support Clipboard API", {
+      timeout: 4000,
+    });
+  }
+};
+
 const store = useTabStore();
 
 const props = defineProps({

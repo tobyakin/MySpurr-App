@@ -30,6 +30,9 @@ const getSuccessStatusFromURL = () => {
   const successParam = urlParams.get("success");
   return successParam === "true"; // Convert the value to a boolean
 };
+const imageExists = ref(false);
+const initials = ref("");
+
 const state = reactive({
   status: getSuccessStatusFromURL(),
 });
@@ -155,6 +158,55 @@ onMounted(() => {
     showModal.value = true;
   }
 });
+function checkImageExists(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
+}
+
+onMounted(async () => {
+  await updateImageExists();
+});
+
+watch(userDetails, async () => {
+  await updateImageExists();
+});
+
+async function updateImageExists() {
+  const hasImage = userDetails.value?.company_logo;
+  if (hasImage) {
+    const imageSrc = getImageSrc();
+    imageExists.value = await checkImageExists(imageSrc);
+    if (!imageExists.value) {
+      setInitials(userDetails.value?.business_name);
+    }
+  } else {
+    imageExists.value = false;
+    setInitials(userDetails.value?.business_name);
+  }
+}
+
+function setInitials(name) {
+  initials.value = name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
+}
+
+function getImageSrc() {
+  return userDetails.value?.company_logo;
+}
+
+function handleImageError() {
+  console.error("Image loading error");
+  setInitials(userDetails.value?.business_name);
+}
+
+const displayImage = computed(() => imageExists.value);
 </script>
 
 <template>
@@ -186,11 +238,27 @@ onMounted(() => {
     <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
       <div class="flex lg:flex-row flex-col gap-3 w-full">
         <div>
-          <img
+          <div
+            class="h-[61.011px] w-[61.011px] flex justify-center items-center rounded-full bg-brand"
+          >
+            <template v-if="displayImage">
+              <img
+                :src="getImageSrc()"
+                class="h-[61.011px] w-[61.011px] object-cover rounded-full"
+                @error="handleImageError"
+              />
+            </template>
+            <template v-else>
+              <div class="initials-container text-white text-3xl font-bold">
+                {{ initials }}
+              </div>
+            </template>
+          </div>
+          <!-- <img
             class="h-[61.011px] w-[61.011px] object-cover rounded-full"
             :src="userDetails?.company_logo"
             :alt="userDetails?.business_name"
-          />
+          /> -->
         </div>
         <div class="w-full">
           <div class="flex lg:flex-row flex-col gap-4 justify-between">
@@ -371,11 +439,28 @@ onMounted(() => {
           </p>
           <div class="flex mt-8 gap-4">
             <div>
-              <img
+              <div
+                class="h-[61.011px] w-[61.011px] flex justify-center items-center rounded-full bg-brand"
+              >
+                <template v-if="displayImage">
+                  <img
+                    :src="getImageSrc()"
+                    class="h-[61.011px] w-[61.011px] object-cover rounded-full"
+                    @error="handleImageError"
+                  />
+                </template>
+                <template v-else>
+                  <div class="initials-container text-white text-3xl font-bold">
+                    {{ initials }}
+                  </div>
+                </template>
+              </div>
+
+              <!-- <img
                 class="h-[61.011px] w-[61.011px] object-cover rounded-full"
                 :src="userDetails?.company_logo"
                 :alt="userDetails?.business_name"
-              />
+              /> -->
             </div>
             <div>
               <div class="flex gap-2 items-center">

@@ -140,6 +140,12 @@ const redirectToJobPage = () => {
     query: { search: searchQuery.value },
   });
 };
+const redirectToTalentPage = () => {
+  router.push({
+    name: "talents",
+    query: { search: searchQuery.value },
+  });
+};
 // const handleSearchInput = (event) => {
 //   const searchQuery = event.target.value;
 //   redirectToJobPage(searchQuery);
@@ -148,7 +154,7 @@ const redirectToJobPage = () => {
 const redirectWithSearchQuery = () => {
   // const inputField = document.querySelector(".search-input");
   // if (searchQuery.value) {
-  redirectToJobPage();
+  return accountType.value === "talent" ? redirectToJobPage() : redirectToTalentPage();
   // }
 };
 const imageExists = ref(false);
@@ -242,7 +248,7 @@ const displayImage = computed(() => imageExists.value);
               class="absolute right-0 top-3 px-[21px] border-l-[#F0F0F0] border-l-[1px]"
               @click="redirectWithSearchQuery"
             >
-              Find job
+              {{ accountType.value === "talent" ? "Find job" : "Find talent" }}
             </button>
           </div>
           <div class="links flex">
