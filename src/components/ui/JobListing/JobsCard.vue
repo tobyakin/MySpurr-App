@@ -1,115 +1,142 @@
 <script setup>
-import { computed, onMounted, reactive, watch, ref } from "vue";
-import Dropdown from "@/components/ui/Dropdown/Dropdown.vue";
-import DropdownEye from "@/components/icons/DropdownEye.vue";
-import DropdownDeleteIcon from "@/components/icons/DropdownDeleteIcon.vue";
-import DropdownEditIcon from "@/components/icons/DropdownEditIcon.vue";
-import DropdownShareIcon from "@/components/icons/DropdownShareIcon.vue";
+import { computed, onMounted, reactive, watch, ref } from 'vue'
+import Dropdown from '@/components/ui/Dropdown/Dropdown.vue'
+import DropdownEye from '@/components/icons/DropdownEye.vue'
+import DropdownDeleteIcon from '@/components/icons/DropdownDeleteIcon.vue'
+import DropdownEditIcon from '@/components/icons/DropdownEditIcon.vue'
+import DropdownShareIcon from '@/components/icons/DropdownShareIcon.vue'
 // import GreenLoader from "@/components/ui/GreenLoader.vue";
-import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
-import { useRouter } from "vue-router";
-import { useTabStore } from "@/stores/tab";
-import { useJobsStore } from "@/stores/jobs";
-import { useNumberFomateStore } from "@/stores/numberFomate";
-let numAbbr = useNumberFomateStore();
+import PagePreLoader from '@/components/ui/Loader/PagePreLoader.vue'
+import { useRouter } from 'vue-router'
+import { useTabStore } from '@/stores/tab'
+import { useJobsStore } from '@/stores/jobs'
+import { useNumberFomateStore } from '@/stores/numberFomate'
+import { useClipboard } from '@vueuse/core'
+import { useToast } from 'vue-toastification'
+const toast = useToast()
 
-const jobsStore = useJobsStore();
-const loading = ref(false);
+let source = ''
 
-const store = useTabStore();
+onMounted(() => {
+  source = import.meta.env.VITE_LANDING_PAGE + `job-details/` + props?.job?.slug
+})
 
-const router = useRouter();
-const showDocument = ref({});
-const showDocumentToggle = ref(false);
+// let source = window.location.href;
+const { copy, copied, isSupported } = useClipboard({ source })
+const copyUrl = () => {
+  if (isSupported) {
+    if (copied) {
+      copy(source)
+      toast.success('Job Link Copied', {
+        timeout: 4000
+      })
+    }
+  } else {
+    toast.error('Your browser does not support Clipboard API', {
+      timeout: 4000
+    })
+  }
+}
+
+let numAbbr = useNumberFomateStore()
+
+const jobsStore = useJobsStore()
+const loading = ref(false)
+
+const store = useTabStore()
+
+const router = useRouter()
+const showDocument = ref({})
+const showDocumentToggle = ref(false)
 
 const redirectToPreviewJob = (id) => {
-  router.push({ name: "preview-job", params: { id: id } });
-};
+  router.push({ name: 'preview-job', params: { id: id } })
+}
 const redirectToEditJob = (id) => {
-  router.push({ name: "edit-job", params: { id: id } });
-};
+  router.push({ name: 'edit-job', params: { id: id } })
+}
 const props = defineProps({
-  job: Object,
-});
+  job: Object
+})
 const jobData = computed(() => {
-  return props?.job;
-});
-const imageExists = ref(false);
-const initials = ref("");
+  return props?.job
+})
+const imageExists = ref(false)
+const initials = ref('')
 
 const toggleDocument = (document) => {
   if (showDocument.value.id == document.id) {
-    return (showDocumentToggle.value = !showDocumentToggle.value);
+    return (showDocumentToggle.value = !showDocumentToggle.value)
   }
-  showDocument.value = document;
-  showDocumentToggle.value = true;
-};
+  showDocument.value = document
+  showDocumentToggle.value = true
+}
 const closeDropdown = () => {
-  showDocumentToggle.value = false;
-};
+  showDocumentToggle.value = false
+}
 
 const deleteJob = async (id) => {
-  loading.value = true;
+  loading.value = true
 
   try {
-    const res = await jobsStore.handelDeleteJob(id);
-    await jobsStore.handleMyJobs();
-    loading.value = false;
-    return res;
+    const res = await jobsStore.handelDeleteJob(id)
+    await jobsStore.handleMyJobs()
+    loading.value = false
+    return res
   } catch (error) {
-    console.log(error);
-    loading.value = false;
+    console.log(error)
+    loading.value = false
   }
-};
+}
 function checkImageExists(url) {
   return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-    img.src = url;
-  });
+    const img = new Image()
+    img.onload = () => resolve(true)
+    img.onerror = () => resolve(false)
+    img.src = url
+  })
 }
 
 onMounted(async () => {
-  await updateImageExists();
-});
+  await updateImageExists()
+})
 
 watch(jobData, async () => {
-  await updateImageExists();
-});
+  await updateImageExists()
+})
 
 async function updateImageExists() {
-  const hasImage = props?.job?.company?.company_logo;
+  const hasImage = props?.job?.company?.company_logo
   if (hasImage) {
-    const imageSrc = getImageSrc();
-    imageExists.value = await checkImageExists(imageSrc);
+    const imageSrc = getImageSrc()
+    imageExists.value = await checkImageExists(imageSrc)
     if (!imageExists.value) {
-      setInitials(props?.job?.company?.business_name);
+      setInitials(props?.job?.company?.business_name)
     }
   } else {
-    imageExists.value = false;
-    setInitials(jobData.value?.company?.business_name);
+    imageExists.value = false
+    setInitials(jobData.value?.company?.business_name)
   }
 }
 
 function setInitials(name) {
   initials.value = name
-    .split(" ")
+    .split(' ')
     .map((word) => word[0])
-    .join("")
-    .toUpperCase();
+    .join('')
+    .toUpperCase()
 }
 
 function getImageSrc() {
-  return jobData.value?.company?.company_logo;
+  return jobData.value?.company?.company_logo
 }
 
 function handleImageError() {
-  console.error("Image loading error");
-  setInitials(jobData.value?.company?.business_name);
+  console.error('Image loading error')
+  setInitials(jobData.value?.company?.business_name)
 }
 
-const displayImage = computed(() => imageExists.value);
+const displayImage = computed(() => imageExists.value)
 </script>
 <template>
   <PagePreLoader v-if="loading" />
@@ -118,9 +145,7 @@ const displayImage = computed(() => imageExists.value);
     class="border-[#254035AB] border-[0.4px] bg-white relative rounded-[7.347px] lg:p-5 p-4 lg:px-6"
   >
     <div class="flex lg:flex-row flex-col gap-3 w-full relative">
-      <div
-        class="h-[40.508px] w-[40.508px] flex justify-center items-center rounded-full bg-brand"
-      >
+      <div class="h-[40.508px] w-[40.508px] flex justify-center items-center rounded-full bg-brand">
         <template v-if="displayImage">
           <img
             :src="getImageSrc()"
@@ -163,8 +188,7 @@ const displayImage = computed(() => imageExists.value);
             >
               <span v-html="numAbbr.formatCurrency(props?.job?.currency)"></span>
               <span>
-                {{ store.abbr(props?.job?.salary_min) }}-
-                {{ store.abbr(props?.job?.salary_max) }}/
+                {{ store.abbr(props?.job?.salary_min) }}- {{ store.abbr(props?.job?.salary_max) }}/
                 {{ props?.job?.salaray_type }}
               </span>
             </p>
@@ -196,7 +220,7 @@ const displayImage = computed(() => imageExists.value);
                 :class="{
                   'bg-[#63D8E4]': props?.job?.status == 'pending',
                   'bg-[#84B358]': props?.job?.status == 'active',
-                  'bg-[#E06F6F]': props?.job?.status == 'expired',
+                  'bg-[#E06F6F]': props?.job?.status == 'expired'
                 }"
               ></div>
               <p class="capitalize font-Satoshi500 text-[17.239px] text-[#244034E5]">
@@ -258,6 +282,7 @@ const displayImage = computed(() => imageExists.value);
                 </li>
                 <li>
                   <button
+                    @click="copyUrl"
                     class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
                   >
                     <DropdownShareIcon />
