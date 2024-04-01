@@ -1,10 +1,10 @@
 <template>
   <div class="py-0">
     <div
-      class="bg-[#E9FAFB] border-[#F6F6F6] flex lg:flex-row flex-col gap-5 justify-between items-center border-[1px] rounded-[15px] p-[22px] px-6"
+      class="bg-[#E9FAFB] border-[#F6F6F6] flex lg:flex-row flex-col gap-2 justify-between items-center border-[1px] rounded-[15px] p-[22px] px-6"
     >
       <div
-        class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
+        class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-4"
       >
         <UserAvater
           :imageUrl="props?.talents?.image"
@@ -33,38 +33,38 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col items-center lg:justify-end justify-center gap-6">
-        <div class="flex items-center w-full justify-end gap-3">
+      <div class="flex flex-col items-center lg:justify-end justify-center w-[40%] gap-4">
+        <div class="flex items-center w-full justify-end gap-[3px]">
           <a
             v-if="!props?.talents?.linkedin"
             :href="props?.talents?.linkedin"
             target="_blank"
           >
-            <LinkdeinIcon />
+            <LinkdeinIcon class="!h-[14.52px]" />
           </a>
           <a
             v-if="!props?.talents?.instagram"
             :href="props?.talents?.instagram"
             target="_blank"
           >
-            <InstagramIcon />
+            <InstagramIcon class="!h-[14.52px]" />
           </a>
           <a
             v-if="!props?.talents?.behance"
             :href="props?.talents?.behance"
             target="_blank"
           >
-            <BeIcon />
+            <BeIcon class="!h-[14.52px]" />
           </a>
           <a
             v-if="!props?.talents?.twitter"
             :href="props?.talents?.twitter"
             target="_blank"
           >
-            <TwitterIcon />
+            <TwitterIcon class="!h-[14.52px]" />
           </a>
         </div>
-        <div class="flex items-center gap-5">
+        <div class="flex items-center gap-5 w-full">
           <div
             class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-r-[#939292] border-r-[0.9px] opacity-[0.8029] text-[12.68px]"
           >
@@ -74,6 +74,8 @@
               :show-arrow="true"
               class="w-full !outline-none !px-0"
               show-search
+              v-model:value="rateTalent"
+              @change="handleTalentRating"
             >
               <a-select-option v-for="item in rating" :key="item" :value="item">
                 {{ item }}
@@ -82,6 +84,7 @@
           </div>
           <div class="flex flex-col items-center text-center gap-2">
             <button
+              v-if="props?.talents?.rating === 'Not a fit'"
               class="btn-brand !bg-red-600 !border-none text-center flex items-center lg:px-[25px] !py-[4px] !text-white"
             >
               <span class="">Reject</span>
@@ -109,7 +112,16 @@
           <!--               {{ props?.talents?.top_skills.length - 10 }}+
  -->
         </div>
-        <p class="text-[14.038px] text-[#000] font-Satoshi500 !mb-4 mt-6">Skills</p>
+        <div class="w-full my-6">
+          <button
+            @click="downloadFile(props?.talents?.other_file, 'fileName')"
+            class="btn-brand !bg-[#31795A] !border-none text-center w-[60%] !px-[1px] !py-[4px] !text-white"
+          >
+            View Profile
+          </button>
+        </div>
+
+        <!-- <p class="text-[14.038px] text-[#000] font-Satoshi500 !mb-4 mt-6">Skills</p>
         <div class="flex gap-4 flex-wrap">
           <div
             v-for="(item, index) in props?.talents?.top_skills"
@@ -121,25 +133,37 @@
           <div
             class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
           ></div>
-        </div>
-        <p class="text-[14.038px] text-[#000] font-Satoshi500 !mb-8 mt-8">Education</p>
-        <EducationDetails :items="props?.talents?.education" />
+        </div> -->
+        <!-- <p class="text-[14.038px] text-[#000] font-Satoshi500 !mb-8 mt-8">Education</p>
+        <EducationDetails :items="props?.talents?.education" /> -->
         <!-- <SampleFive :items="items" /> -->
 
-        <p class="text-[14.038px] text-[#000] font-Satoshi500 !mb-8 mt-8">
+        <!-- <p class="text-[14.038px] text-[#000] font-Satoshi500 !mb-8 mt-8">
           Work Experience
         </p>
-        <WorkExperience :items="props?.talents?.employment" />
-        <p class="text-[14.038px] text-[#000] font-Satoshi500 !mb-8 mt-8">
+        <WorkExperience :items="props?.talents?.employment" /> -->
+        <p cl ass="text-[14.038px] text-[#000] font-Satoshi500 !my-6">
           Relevant File attached
         </p>
+        <!-- {{ props?.talents?.other_file }} -->
+
         <div class="w-full mt-6">
-          <button
+          <div
+            class="h-[134.37px] w-[139.19px] rounded-[3.51px] object-contain overflow-hidden bg-gray-300"
+          >
+            <embed
+              :src="props?.talents?.other_file"
+              type="application/pdf"
+              width="100%"
+              height="134.37px"
+            />
+          </div>
+          <!-- <button
             @click="downloadFile(props?.talents?.other_file, 'fileName')"
             class="btn-brand !bg-[#31795A] !border-none text-center w-full !px-[1px] !py-[4px] !text-white"
           >
             Download File
-          </button>
+          </button> -->
         </div>
 
         <!-- <div
@@ -233,8 +257,16 @@ import TwitterIcon from "@/components/icons/twitterIcon.vue";
 import CertificateBadge from "@/components/icons/certificateBadge.vue";
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 import { useTabStore } from "@/stores/tab";
+import { useJobsStore } from "@/stores/jobs";
+import { storeToRefs } from "pinia";
+const jobsStore = useJobsStore();
+const { JobDetailsById, applicants, talentApplication } = storeToRefs(jobsStore);
+import { useRoute } from "vue-router";
+const route = useRoute();
+
 const store = useTabStore();
 const rating = ref(["Good fit", "Maybe", "Not a fit"]);
+const rateTalent = ref("");
 // defineProps({ talents: Object });
 const props = defineProps({ talents: Object });
 // const getAnswersForQuestion = (questionId) => {
@@ -263,4 +295,24 @@ function downloadFile(url, filename) {
 const getAnswersForQuestion = (questionId) => {
   return props?.talents?.answers.filter((answer) => answer.question_id === questionId);
 };
+const handleTalentRating = async () => {
+  let payload = {
+    job_id: route.params.id,
+    talent_id: "2",
+    rating: rateTalent.value,
+  };
+  try {
+    console.log(payload, rateTalent.value);
+    // const res = await jobsStore.handleAddRating(payload);
+    // return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// {
+//     "job_id": "1",
+//     "talent_id": "2",
+//     "rating": "4"
+// }
 </script>

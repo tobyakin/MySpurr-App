@@ -1,42 +1,60 @@
 <template>
   <div
+    :class="selected ? 'bg-[#2F929C]' : ''"
     class="border-[#2440341A] rounded-[6.919px] border-[1.794px] border-r-[#2F929C] border-r-[6.518px] relative p-4 lg:p-5"
   >
-    <RatedBadge class="absolute h-[31.134px] w-[30.442px] top-0 left-0" />
+    <!-- <RatedBadge class="absolute h-[31.134px] w-[30.442px] top-0 left-0" /> -->
     <div>
       <div
         class="w-full flex lg:flex-row flex-col lg:justify-between justify-center gap-8 items-center"
       >
         <div
-          class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
+          class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-[19.19px]"
         >
-          <div class="relative h-[63.651px] w-[63.651px] rounded-full">
-            <img
+          <div>
+            <div
+              class="relative h-[63.651px] flex justify-center items-center w-[63.651px] bg-brand rounded-full"
+            >
+              <template v-if="displayImage">
+                <img
+                  :src="getImageSrc()"
+                  class="h-[60.651px] w-[60.651px] object-contain rounded-full"
+                  @error="handleImageError"
+                />
+              </template>
+              <template v-else>
+                <h3 class="initials-container text-white text-2xl font-bold">
+                  {{ initials }}
+                </h3>
+              </template>
+
+              <!-- <img
               loading="lazy"
-              :src="talent?.image ? talent?.image : Icon"
-              class="h-[63.651px] w-[63.651px] object-contain rounded-full"
+              :src="props?.talent?.image ? props?.talent?.image : Icon"
+              class="h-[60.651px] w-[60.651px] object-contain rounded-full"
               alt=""
-            />
-            <GreenIcon class="absolute top-1 right-1" />
+            /> -->
+              <GreenIcon class="absolute top-1 right-1" />
+            </div>
           </div>
           <div class="lg:text-left text-center">
             <p
               class="text-[#000000] text-[12.454px] capitalize font-Satoshi500 leading-[19.739px]"
             >
-              {{ talent?.first_name }} {{ talent?.last_name }}
+              {{ props?.talent?.first_name }} {{ props?.talent?.last_name }}
             </p>
             <p
               class="text-[#00000066] text-[10.378px] leading-[20.739px] font-Satoshi400"
             >
-              {{ talent?.skill_title }}
+              {{ props?.talent?.skill_title }}
             </p>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
               <p class="text-[9.686px] text-[#244034] font-Satoshi500">
-                ${{ talent?.rate }}/hr
+                ${{ props?.talent?.rate }}/hr
               </p>
-              <div class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"></div>
+              <div class="h-[4px] bg-[#010101e2] w-[4px] rounded-full"></div>
               <p class="text-[#244034] text-[9.686px] font-Satoshi500">
-                {{ talent?.location }}
+                {{ props?.talent?.location }}
               </p>
             </div>
           </div>
@@ -56,31 +74,91 @@
     >
       <img
         loading="lazy"
-        v-for="item in talent?.portfolio"
+        v-for="item in props?.talent?.portfolio"
         :key="item.id"
         :src="item?.cover_image"
-        class="h-[107.333px] flex flex-col w-auto object-cover rounded-lg"
+        class="h-[107.33px] w-[143.11px] flex flex-col object-cover rounded-lg"
         :alt="item?.title"
       />
     </div>
-    <button @click="viewProfile(talent?.talent_id)" class="flex items-center gap-4 mt-6">
-      <p class="text-[10.378px] font-Satoshi500 text-[#244034]">View Applicants</p>
+    <button
+      @click="viewProfile(props?.talent?.talent_id)"
+      class="flex items-center gap-4 mt-6"
+    >
+      <p class="text-[10.378px] font-Satoshi500 text-[#244034]">View Applicantion</p>
       <ArrowRight />
     </button>
   </div>
 </template>
 <script setup>
+import { computed, onMounted, reactive, watch, ref } from "vue";
+
 import RatedBadge from "@/components/icons/ratedBadge.vue";
 import GreenIcon from "@/components/icons/greenIcon.vue";
 import ArrowRight from "@/components/icons/arrowRight.vue";
 import Icon from "@/assets/defultAvater.png";
 
-defineProps({
+const props = defineProps({
   talent: Object,
+  selected: Boolean,
 });
 const emit = defineEmits(["viewProfile"]);
 
 const viewProfile = (id) => {
   emit("viewProfile", id);
 };
+const imageExists = ref(false);
+const initials = ref("");
+function checkImageExists(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
+}
+const talentData = computed(() => {
+  return props?.talent;
+});
+
+onMounted(async () => {
+  await updateImageExists();
+});
+
+watch(talentData, async () => {
+  await updateImageExists();
+});
+
+async function updateImageExists() {
+  const hasImage = props?.talent?.image;
+  if (hasImage) {
+    const imageSrc = getImageSrc();
+    imageExists.value = await checkImageExists(imageSrc);
+    if (!imageExists.value) {
+      setInitials(props?.talent?.first_name);
+    }
+  } else {
+    imageExists.value = false;
+    setInitials(talentData.value?.first_name);
+  }
+}
+
+function setInitials(name) {
+  initials.value = name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
+}
+
+function getImageSrc() {
+  return props?.talent?.image;
+}
+
+function handleImageError() {
+  console.error("Image loading error");
+  setInitials(talentData.value?.first_name);
+}
+
+const displayImage = computed(() => imageExists.value);
 </script>

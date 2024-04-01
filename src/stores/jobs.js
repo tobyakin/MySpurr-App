@@ -16,7 +16,9 @@ import {
   getTalentApplication,
   getTopPickedJobs,
   editJob,
-  jobPayment
+  jobPayment,
+  addRating,
+  getRatings
 } from '@/services/Job'
 
 export const useJobsStore = defineStore('jobs', () => {
@@ -30,6 +32,7 @@ export const useJobsStore = defineStore('jobs', () => {
   const applicants = ref({})
   const talentApplication = ref({})
   const topPickedJobs = ref({})
+  const ratings = ref([])
   // const jobApplicationForm = reactive({
   //   job_id: '',
   //   rate: '',
@@ -65,6 +68,22 @@ export const useJobsStore = defineStore('jobs', () => {
       ]
     }
   )
+  const handleGetRatings = async (job_id, talent_id) => {
+    try {
+      ratings.value = await getRatings(job_id, talent_id)
+      return ratings.value
+    } catch (error) {
+      console.error(error)
+    }
+  }
+const handleAddRating = async (payload) => {
+  try {
+    let res = await addRating(payload)
+    return res
+  }catch (error) {
+    /**/
+  }
+}
   const allJobs = async () => {
     try {
       Job.value = await getJobs()
@@ -301,6 +320,9 @@ const handleEditJob = async (id) => {
     handleGetTopPickedJobs,
     topPickedJobs,
     handleEditJob,
-    handlejobPayment
+    handlejobPayment,
+    handleGetRatings,
+    handleAddRating,
+    ratings
   }
 })

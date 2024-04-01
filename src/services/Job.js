@@ -234,3 +234,33 @@ export const editJob = async (id, payload) => {
     throw error
   }
 }
+export const addRating = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.post(`v1/ratings`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+export const getRatings = async (job_id, talent_id) => {
+  const token = await getToken()
+  try {
+    let res = await axios.get(`v1/ratings/${job_id}/${talent_id}`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}

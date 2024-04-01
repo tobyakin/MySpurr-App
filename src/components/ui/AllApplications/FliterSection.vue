@@ -19,7 +19,7 @@
             v-model:value="sortInput.Salary"
             @change="handleSort('skills', sortInput.Salary)"
           >
-            <a-select-option v-for="item in 2" :key="item" :value="item">
+            <a-select-option v-for="item in Salary" :key="item" :value="item">
               {{ item }}
             </a-select-option>
           </a-select>
@@ -115,8 +115,8 @@
             show-search
             v-model:value="sortInput.Availabilty"
           >
-            <a-select-option v-for="item in 2" :key="item" :value="item">
-              {{ item.name }}
+            <a-select-option v-for="item in availaibility" :key="item" :value="item">
+              {{ item }}
             </a-select-option>
           </a-select>
         </div>
@@ -166,6 +166,13 @@ const prop = defineProps({ JobDetails: Object, applicantDeatails: Object });
 const userDetails = computed(() => {
   return prop?.applicantDeatails;
 });
+const availaibility = computed(() => {
+  return userDetails.value?.map((item) => item.availaibility);
+});
+const Salary = computed(() => {
+  return userDetails.value?.map((item) => item.rate);
+});
+console.log(availaibility.value);
 console.log(userDetails.value);
 const sortInput = reactive({
   Salary: "",
