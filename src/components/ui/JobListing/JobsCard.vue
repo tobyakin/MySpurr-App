@@ -115,6 +115,8 @@ const displayImage = computed(() => imageExists.value);
   <PagePreLoader v-if="loading" />
 
   <div
+    role="button"
+    @click="redirectToPreviewJob(props?.job?.id)"
     class="border-[#254035AB] border-[0.4px] bg-white relative rounded-[7.347px] lg:p-5 p-4 lg:px-6"
   >
     <div class="flex lg:flex-row flex-col gap-3 w-full relative">
