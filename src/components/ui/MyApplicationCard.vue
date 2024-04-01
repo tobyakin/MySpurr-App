@@ -2,7 +2,7 @@
 <template>
   <div
     v-if="applications && applications?.data?.length"
-    class="border-[#254035AB] border-[0.735px] overflow-hidden hide-scrollbar flex flex-col w-full gap-[20px] overflow-y-auto max-h-[39vh] bg-white rounded-[7.347px] p-4"
+    class="border-[#254035AB] border-[0.735px] overflow-hidden hide-scrollbar flex flex-col w-full gap-[20px] overflow-y-auto h-[33vh] bg-white rounded-[7.347px] p-4"
   >
     <div class="w-full flex" v-for="item in applications?.data" :key="item">
       <div class="flex flex-row justify-between w-full gap-3.5">
@@ -49,6 +49,6 @@
 </template>
 <script setup>
 defineProps({
-  applications: Object,
-});
+  applications: Object
+})
 </script>

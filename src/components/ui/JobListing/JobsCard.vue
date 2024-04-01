@@ -147,6 +147,8 @@ const displayImage = computed(() => imageExists.value);
       <div class="w-full flex flex-col gap-4 relative">
         <div class="flex flex-col lg:flex-row items-center justify-between w-full gap-3">
           <div
+            role="button"
+            @click="redirectToPreviewJob(props?.job?.id)"
             class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14"
           >
             <p class="text-[16.467px] capitalize font-Satoshi700 text-[#244034]">

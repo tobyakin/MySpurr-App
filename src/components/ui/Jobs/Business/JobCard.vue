@@ -1,77 +1,75 @@
 <script setup>
-import { computed, onMounted, reactive, watch, ref } from "vue";
+import { computed, onMounted, reactive, watch, ref } from 'vue'
 
-import CalenderIcon from "@/components/icons/outlineCalenderIcon.vue";
-import LocationIcon from "@/components/icons/locationIcon.vue";
-import TimerIcon from "@/components/icons/timerIcon.vue";
-import defultLogo from "@/assets/image/jobIcon.svg";
-import { useNumberFomateStore } from "@/stores/numberFomate";
-import { useTabStore } from "@/stores/tab";
-const store = useTabStore();
-let numAbbr = useNumberFomateStore();
+import CalenderIcon from '@/components/icons/outlineCalenderIcon.vue'
+import LocationIcon from '@/components/icons/locationIcon.vue'
+import TimerIcon from '@/components/icons/timerIcon.vue'
+import defultLogo from '@/assets/image/jobIcon.svg'
+import { useNumberFomateStore } from '@/stores/numberFomate'
+import { useTabStore } from '@/stores/tab'
+const store = useTabStore()
+let numAbbr = useNumberFomateStore()
 
 const props = defineProps({
-  job: Object,
-});
+  job: Object
+})
 const jobData = computed(() => {
-  return props?.job;
-});
-const imageExists = ref(false);
-const initials = ref("");
+  return props?.job
+})
+const imageExists = ref(false)
+const initials = ref('')
 function checkImageExists(url) {
   return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-    img.src = url;
-  });
+    const img = new Image()
+    img.onload = () => resolve(true)
+    img.onerror = () => resolve(false)
+    img.src = url
+  })
 }
 
 onMounted(async () => {
-  await updateImageExists();
-});
+  await updateImageExists()
+})
 
 watch(jobData, async () => {
-  await updateImageExists();
-});
+  await updateImageExists()
+})
 
 async function updateImageExists() {
-  const hasImage = props?.job?.company?.company_logo;
+  const hasImage = props?.job?.company?.company_logo
   if (hasImage) {
-    const imageSrc = getImageSrc();
-    imageExists.value = await checkImageExists(imageSrc);
+    const imageSrc = getImageSrc()
+    imageExists.value = await checkImageExists(imageSrc)
     if (!imageExists.value) {
-      setInitials(props?.job?.company?.business_name);
+      setInitials(props?.job?.company?.business_name)
     }
   } else {
-    imageExists.value = false;
-    setInitials(jobData.value?.company?.business_name);
+    imageExists.value = false
+    setInitials(jobData.value?.company?.business_name)
   }
 }
 
 function setInitials(name) {
   initials.value = name
-    .split(" ")
+    .split(' ')
     .map((word) => word[0])
-    .join("")
-    .toUpperCase();
+    .join('')
+    .toUpperCase()
 }
 
 function getImageSrc() {
-  return jobData.value?.company?.company_logo;
+  return jobData.value?.company?.company_logo
 }
 
 function handleImageError() {
-  console.error("Image loading error");
-  setInitials(jobData.value?.company?.business_name);
+  console.error('Image loading error')
+  setInitials(jobData.value?.company?.business_name)
 }
 
-const displayImage = computed(() => imageExists.value);
+const displayImage = computed(() => imageExists.value)
 </script>
 <template>
-  <div
-    class="border-[#254035AB] border-[0.735px] relative rounded-[7.347px] h-[50vh] p-4"
-  >
+  <div class="border-[#254035AB] border-[0.735px] relative rounded-[7.347px] min-h-[30vh] p-4">
     <div class="flex items-center gap-3 mb-5">
       <div>
         <div
@@ -111,7 +109,7 @@ const displayImage = computed(() => imageExists.value);
       </div>
     </div>
     <hr class="text-[#EAEAEA]" />
-    <div class="flex flex-col justify-normal lg:h-[35vh] overflow-hidden mt-5">
+    <div class="flex flex-col justify-normal lg:min-h-[25vh] overflow-hidden mt-5">
       <div class="flex justify-between">
         <div class="flex flex-col w-full gap-2">
           <div class="flex flex-row justify-between gap-2">
@@ -123,22 +121,15 @@ const displayImage = computed(() => imageExists.value);
             >
               <span v-html="numAbbr.formatCurrency(props?.job?.currency)"></span>
 
-              {{ store.abbr(props?.job?.salary_min) }}-
-              {{ store.abbr(props?.job?.salary_max) }}/
+              {{ store.abbr(props?.job?.salary_min) }}- {{ store.abbr(props?.job?.salary_max) }}/
               {{ props?.job?.salaray_type }}
             </p>
           </div>
           <div class="flex gap-2">
-            <div
-              class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-Satoshi500"
-            >
-              <CalenderIcon /><span class="py-[0.25px]">{{
-                props?.job?.date_created
-              }}</span>
+            <div class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-Satoshi500">
+              <CalenderIcon /><span class="py-[0.25px]">{{ props?.job?.date_created }}</span>
             </div>
-            <div
-              class="flex items-center gap-[2px] text-[10.334px] text-[#DA5252] font-Satoshi500"
-            >
+            <div class="flex items-center gap-[2px] text-[10.334px] text-[#DA5252] font-Satoshi500">
               <LocationIcon /><span class="py-[0.25px]"
                 >{{ props?.job?.state }}, {{ props?.job?.country }}</span
               >

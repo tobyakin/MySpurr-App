@@ -29,7 +29,7 @@ const { myJobsApplications, topPickedJobs, Job, MyJob } = storeToRefs(JobsStore)
 const router = useRouter();
 const tabStore = useTabStore();
 const { isLoading } = storeToRefs(tabStore);
-let jobsLoading = ref(false);
+const jobsLoading = ref(false);
 let store = useStore();
 let profile = useUserProfile();
 // const showPageLoader = ref(true);
@@ -73,20 +73,19 @@ onMounted(async () => {
   if (accountType.value === "talent") {
     // await JobsStore.handleGetTopPickedJobs();
     await JobsStore.handleMyJobApplications();
-    await JobsStore.allJobs();
+    // await JobsStore.allJobs();
   }
 });
 onMounted(async () => {
   if (accountType.value === "talent") {
-    return;
-  }
-  jobsLoading.value = true;
-  try {
-    await JobsStore.allJobs();
-    jobsLoading.value = false;
-  } catch (error) {
-    console.error;
-    jobsLoading.value = false;
+    jobsLoading.value = true;
+    try {
+      await JobsStore.allJobs();
+      jobsLoading.value = false;
+    } catch (error) {
+      console.error;
+      jobsLoading.value = false;
+    }
   }
 });
 
@@ -100,7 +99,7 @@ const fetchMyJobData = async () => {
 
 fetchMyJobData();
 
-useQuery(["myJobs"], getMyJobs, {
+const { isLoading: loadMyjobs } = useQuery(["myJobs"], getMyJobs, {
   retry: 10,
   staleTime: 10000,
   onSuccess: (data) => {
@@ -325,8 +324,9 @@ onMounted(async () => {
             >View all jobs</router-link
           >
         </div>
+        <ShortLoader v-if="loadMyjobs" />
 
-        <div class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
+        <div v-else class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
           <BusinessJobCard
             class="min-w-[95%] lg:min-w-[40%]"
             v-for="item in MyJob?.data"
