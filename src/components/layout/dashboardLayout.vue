@@ -71,6 +71,29 @@ const items = [
     context: "Log out",
   },
 ];
+const itemss = [
+  { id: 0, name: "profile", context: "MySpurr profile" },
+  {
+    id: 1,
+    name: "wallet",
+    context: "Wallet",
+  },
+  {
+    id: 2,
+    name: "settings",
+    context: "Settings",
+  },
+  {
+    id: 3,
+    name: "help-center",
+    context: "Help Center",
+  },
+  {
+    id: 4,
+    name: "logout",
+    context: "Log out",
+  },
+];
 const notificationItems = [
   {
     id: 0,
@@ -331,9 +354,11 @@ const displayImage = computed(() => imageExists.value);
                     v-if="showDropdown"
                     :showDropdown="showDropdown"
                     :link="true"
-                    :items="items"
+                    :items="accountType === 'talent' ? items : itemss"
                     @closeDropdown="toogleDropdown"
-                  /><NotificationDropDown
+                  />
+
+                  <NotificationDropDown
                     v-if="showNotificationDropdown"
                     :showDropdown="showNotificationDropdown"
                     :link="true"
