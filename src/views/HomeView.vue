@@ -29,7 +29,7 @@ const { myJobsApplications, topPickedJobs, Job, MyJob } = storeToRefs(JobsStore)
 const router = useRouter();
 const tabStore = useTabStore();
 const { isLoading } = storeToRefs(tabStore);
-let jobsLoading = ref(false);
+const jobsLoading = ref(false);
 let store = useStore();
 let profile = useUserProfile();
 // const showPageLoader = ref(true);
@@ -73,20 +73,19 @@ onMounted(async () => {
   if (accountType.value === "talent") {
     // await JobsStore.handleGetTopPickedJobs();
     await JobsStore.handleMyJobApplications();
-    await JobsStore.allJobs();
+    // await JobsStore.allJobs();
   }
 });
 onMounted(async () => {
   if (accountType.value === "talent") {
-    return;
-  }
-  jobsLoading.value = true;
-  try {
-    await JobsStore.allJobs();
-    jobsLoading.value = false;
-  } catch (error) {
-    console.error;
-    jobsLoading.value = false;
+    jobsLoading.value = true;
+    try {
+      await JobsStore.allJobs();
+      jobsLoading.value = false;
+    } catch (error) {
+      console.error;
+      jobsLoading.value = false;
+    }
   }
 });
 
