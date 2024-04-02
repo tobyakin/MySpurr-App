@@ -19,20 +19,20 @@
           <div class="w-full flex flex-col gap-[14px] mt-[44px]">
             <ShortLoader v-if="loadApplicants" />
             <div
-              v-if="!loadTalentProfile && applicants?.data?.applicants"
+              v-if="!loadTalentProfile && applicants?.data?.applicants !== null"
               class="w-full flex flex-col gap-[14px]"
             >
               <ApplicantsCard
                 v-for="talent in applicants?.data?.applicants"
                 :key="talent.id"
                 :talent="talent"
-                :selected="talent.id === applicantsId"
+                :selected="talent.talent_id === applicantsId"
                 @viewProfile="handleViewProfile"
               />
             </div>
 
             <div
-              v-if="!applicants?.data?.applicants && !loadApplicants"
+              v-if="applicants?.data?.applicants == null && !loadApplicants"
               class="flex justify-center items-center"
             >
               <h3 class="my-20">no applicants yet</h3>
@@ -95,9 +95,13 @@ const getApplicants = async () => {
   return response;
 };
 const fetchData = async () => {
-  await Promise.all([getJobDetailsById(), getApplicants()]);
+  await Promise.all([getApplicants()]);
+};
+const fetchDataJobByID = async () => {
+  await Promise.all([getJobDetailsById()]);
 };
 
+fetchDataJobByID();
 fetchData();
 // const { isLoading, isError, data, error } = useQuery(
 //   ["getJobDetailsById"],

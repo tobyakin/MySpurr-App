@@ -1,8 +1,11 @@
 <template>
   <div
-    :class="selected ? 'bg-[#2F929C]' : ''"
-    class="border-[#2440341A] rounded-[6.919px] border-[1.794px] border-r-[#2F929C] border-r-[6.518px] relative p-4 lg:p-5"
+    :class="selected ? 'bg-[#E9FAFB]' : ''"
+    class="border-[#2440341A] rounded-[6.919px] border-[1.794px] relative p-4 lg:p-5"
   >
+    <!--     :class="selected ? 'bg-[#2F929C]' : ''"
+    class="border-[#2440341A] rounded-[6.919px] border-[1.794px] border-r-[#2F929C] border-r-[6.518px] relative p-4 lg:p-5"
+ -->
     <!-- <RatedBadge class="absolute h-[31.134px] w-[30.442px] top-0 left-0" /> -->
     <div>
       <div

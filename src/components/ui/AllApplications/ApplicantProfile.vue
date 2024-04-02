@@ -77,8 +77,8 @@
               v-model:value="rateTalent"
               @change="handleTalentRating"
             >
-              <a-select-option v-for="item in rating" :key="item" :value="item">
-                {{ item }}
+              <a-select-option v-for="item in rating" :key="item" :value="item.value">
+                {{ item.label }}
               </a-select-option>
             </a-select>
           </div>
@@ -246,7 +246,7 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, onMounted, defineAsyncComponent } from "vue";
+import { ref, computed, onMounted, watch, defineAsyncComponent } from "vue";
 import UserAvater from "@/components/ui/Avater/UserAvater.vue";
 import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
 import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
@@ -265,7 +265,12 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 const store = useTabStore();
-const rating = ref(["Good fit", "Maybe", "Not a fit"]);
+const rating = ref([
+  { label: "Good fit", value: 3 },
+  { label: "Maybe", value: 2 },
+  { label: "Not a fit", value: 1 },
+]);
+
 const rateTalent = ref("");
 // defineProps({ talents: Object });
 const props = defineProps({ talents: Object });
@@ -295,24 +300,35 @@ function downloadFile(url, filename) {
 const getAnswersForQuestion = (questionId) => {
   return props?.talents?.answers.filter((answer) => answer.question_id === questionId);
 };
+const ratingVlaue = computed(() => {
+  return props?.talents;
+});
+const prefillDetails = (SingleObject) => {
+  rateTalent.value = SingleObject.rating || "";
+};
+watch(ratingVlaue, (newSingleObject) => {
+  prefillDetails(newSingleObject);
+  console.log(newSingleObject);
+});
+onMounted(async () => {
+  await jobsStore.handleGetApplicants(route.params.id);
+  prefillDetails(ratingVlaue.value);
+  console.log(ratingVlaue.value);
+});
+
 const handleTalentRating = async () => {
   let payload = {
     job_id: route.params.id,
-    talent_id: "2",
+    talent_id: props?.talents?.talent_id,
     rating: rateTalent.value,
   };
   try {
     console.log(payload, rateTalent.value);
-    // const res = await jobsStore.handleAddRating(payload);
-    // return res;
+    const res = await jobsStore.handleAddRating(payload);
+    await jobsStore.handleGetApplicants(route.params.id);
+    return res;
   } catch (error) {
     console.log(error);
   }
 };
-
-// {
-//     "job_id": "1",
-//     "talent_id": "2",
-//     "rating": "4"
-// }
 </script>
