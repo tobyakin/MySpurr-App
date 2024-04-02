@@ -58,7 +58,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, onUnmounted, watch } from "vue";
 import Header from "@/components/ui/AllApplications/Header.vue";
 import ApplicantsCard from "@/components/ui/AllApplications/ApplicantsCard.vue";
 import ApplicantProfile from "@/components/ui/AllApplications/ApplicantProfile.vue";
@@ -143,6 +143,11 @@ const { isLoading: loadApplicants } = useQuery(
     },
   }
 );
+onUnmounted(() => {
+  if (talentApplication && talentApplication.value) {
+    talentApplication.value.data = null;
+  }
+});
 </script>
 
 <style></style>
