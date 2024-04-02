@@ -24,7 +24,10 @@ import { useTabStore } from "@/stores/tab";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useJobsStore } from "@/stores/jobs";
+import { useStatisticsStore } from "@/stores/dashboardStatistics";
+const statStore = useStatisticsStore();
 const JobsStore = useJobsStore();
+const { stat } = storeToRefs(statStore);
 const { myJobsApplications, topPickedJobs, Job, MyJob } = storeToRefs(JobsStore);
 const router = useRouter();
 const tabStore = useTabStore();
@@ -85,6 +88,15 @@ onMounted(async () => {
     } catch (error) {
       console.error;
       jobsLoading.value = false;
+    }
+  }
+});
+onMounted(async () => {
+  if (accountType.value !== "talent") {
+    try {
+      await statStore.handleGetStatistics();
+    } catch (error) {
+      console.error;
     }
   }
 });
@@ -258,7 +270,7 @@ onMounted(async () => {
         v-if="accountType !== 'talent'"
         class="flex lg:flex-row flex-col gap-[32.12px] my-8"
       >
-        <JobsStatistics class="min-w-[95%] lg:min-w-[65.9%]" />
+        <JobsStatistics :statistics="stat" class="min-w-[95%] lg:min-w-[65.9%]" />
         <div class="flex flex-col gap-4 w-full">
           <div
             class="p-[28.26px] px-[22.48px] rounded-[4.533px] w-full bg-[#FFF] flex flex-row justify-between h-full border-[0.567px] border-[#254035AB]"
