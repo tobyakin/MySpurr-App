@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import TabsVue from "./ChartCardTab.vue";
 import CircleEyeIcon from "@/components/icons/circleEyeIcon.vue";
 import CircleArrowUpIcon from "@/components/icons/CircleArrowUpIcon.vue";
@@ -10,6 +10,8 @@ import SingleData from "@/components/ui/Chart/SingleData.vue";
 const tab = ref("Week");
 const activetab = ref("monthly");
 
+const jobViews = ref(null);
+const jobApplied = ref(null);
 // Set initial tab value based on the prop or local storage
 onMounted(() => {
   const storedTab = localStorage.getItem("activeTab");
@@ -17,7 +19,7 @@ onMounted(() => {
     activetab.value = storedTab;
   }
 });
-
+const props = defineProps({ statistics: Object });
 const filterTab = (category) => {
   tab.value = category;
   //   filteredTab.value = [];
@@ -25,6 +27,17 @@ const filterTab = (category) => {
   //     filteredTab.value = store.blogPost.filter((item) => item.blog_category == category);
   //   }
 };
+// Extract job_views and job_applied from the data
+onMounted(() => {
+  // jobViews.value = props?.statistics?.data[0]?.job_views;
+  // jobApplied.value = props?.statistics?.data[0]?.job_applied;
+});
+// const jobViews = computed(() => {
+//   return props?.statistics?.data[0].job_views;
+// });
+// const jobApplied = computed(() => {
+//   return props?.statistics?.data[0].job_applied;
+// });
 </script>
 <template>
   <div
@@ -83,7 +96,7 @@ const filterTab = (category) => {
                 <h4
                   class="text-[#244034] font-Satoshi500 text-[38.17px] leading-[59.218px]"
                 >
-                  0
+                  {{ jobViews ? jobViews : 0 }}
                 </h4>
                 <div class="flex items-center text-[14.4px] gap-3">
                   <p>This Week</p>
@@ -105,7 +118,7 @@ const filterTab = (category) => {
                 <h4
                   class="text-[#244034] font-Satoshi500 text-[38.17px] leading-[59.218px]"
                 >
-                  0
+                  {{ jobApplied ? jobApplied : 0 }}
                 </h4>
                 <div class="flex items-center text-[14.4px] gap-3">
                   <p>This Week</p>
