@@ -151,12 +151,13 @@
           <div
             class="h-[134.37px] w-[139.19px] rounded-[3.51px] object-contain overflow-hidden bg-gray-300"
           >
-            <embed
+            <img :src="props?.talents?.other_file" class="h-[134.37px] w-[139.19px]" />
+            <!-- <embed
               :src="props?.talents?.other_file"
               type="application/pdf"
               width="100%"
               height="134.37px"
-            />
+            /> -->
           </div>
           <!-- <button
             @click="downloadFile(props?.talents?.other_file, 'fileName')"
