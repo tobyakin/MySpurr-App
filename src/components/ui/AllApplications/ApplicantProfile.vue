@@ -114,7 +114,7 @@
         </div>
         <div class="w-full my-6">
           <button
-            @click="downloadFile(props?.talents?.other_file, 'fileName')"
+            @click="viewProfile()"
             class="btn-brand !bg-[#31795A] !border-none text-center w-[60%] !px-[1px] !py-[4px] !text-white"
           >
             View Profile
@@ -270,6 +270,7 @@ const rating = ref([
   { label: "Maybe", value: 2 },
   { label: "Not a fit", value: 1 },
 ]);
+let source = ref("");
 
 const rateTalent = ref("");
 // defineProps({ talents: Object });
@@ -330,5 +331,14 @@ const handleTalentRating = async () => {
   } catch (error) {
     console.log(error);
   }
+};
+onMounted(() => {
+  source.value =
+    import.meta.env.VITE_LANDING_PAGE +
+    `${props?.talents?.first_name}/` +
+    props?.talents?.uniqueId;
+});
+const viewProfile = () => {
+  window.open(source.value, "_blank");
 };
 </script>

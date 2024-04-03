@@ -196,6 +196,7 @@ const CandidateType = [
   "Contract ",
 ];
 // Define props if needed
+const emit = defineEmits(["sort"]);
 
 const selectedSkills = ref("");
 const selectedJobType = ref("");
