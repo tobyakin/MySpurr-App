@@ -7,6 +7,7 @@
       :type="type"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
+      @change="emit('update:modelValue', $event.target.value)"
     />
     <errorInputIcon v-if="error" class="absolute top-1 right-1" />
     <!-- <greenInputTick v-if="modelValue.length && !error" class="absolute top-1 right-1" /> -->
