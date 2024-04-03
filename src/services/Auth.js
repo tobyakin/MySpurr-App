@@ -69,7 +69,7 @@ export const RsendVerifyCode = async (email) => {
 export const registerBusiness = async (payload) => {
 
     try {
-        let res = await axios.post('business-register',payload)
+        let res = await axios.post('v1/business-register',payload)
         let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
         localStorage.setItem('_register_data', ciphertext);       
          catchAxiosSuccess(res)   
