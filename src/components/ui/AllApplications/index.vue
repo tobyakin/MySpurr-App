@@ -21,7 +21,6 @@
                 class="w-full !outline-none !px-0"
                 show-search
                 v-model:value="sortInput.Salary"
-                @change="handleSort('skills', sortInput.Salary)"
               >
                 <a-select-option v-for="item in Salary" :key="item" :value="item">
                   {{ item }}
@@ -43,7 +42,6 @@
                 class="w-full !outline-none !px-0"
                 show-search
                 v-model:value="sortInput.skills"
-                @change="handleSort('skills', sortInput.skills)"
               >
                 <a-select-option
                   v-for="item in JobDetailsById?.data?.skills"
@@ -70,7 +68,6 @@
                 class="w-full !outline-none !px-0"
                 show-search
                 v-model:value="sortInput.Location"
-                @change="handleSort('skills', sortInput.Location)"
               >
                 <a-select-option
                   v-for="item in contriesCode?.data"
@@ -96,7 +93,6 @@
                 class="w-full !outline-none !px-0"
                 show-search
                 v-model:value="sortInput.experienceLevel"
-                @change="handleSort('skills', sortInput.experienceLevel)"
               >
                 <a-select-option
                   v-for="item in Experience"
@@ -168,6 +164,7 @@
           </h4>
           <div class="w-full flex flex-col gap-[14px] mt-[44px]">
             <!-- <ShortLoader v-if="loadApplicants" /> -->
+            <!-- {{ filteredApplicants }}l -->
             <div class="w-full flex flex-col gap-[14px]">
               <ApplicantsCard
                 v-for="talent in applicants?.data?.applicants"
@@ -233,9 +230,9 @@ const sortInput = reactive({
   experienceLevel: "",
 });
 const rating = ref([
-  { label: "Good fit", value: 3 },
-  { label: "Maybe", value: 2 },
-  { label: "Not a fit", value: 1 },
+  { label: "Good fit", value: "3.0" },
+  { label: "Maybe", value: "2.0" },
+  { label: "Not a fit", value: "1.0" },
 ]);
 
 const Experience = [
@@ -260,10 +257,6 @@ watch(applicantsId, async (newInput) => {
   await jobsStore.handleGetTalentApplication(newInput);
   loadTalentProfile.value = false;
 });
-onMounted(async () => {
-  // await jobsStore.handleGetJobDetailsById(route.params.id);
-  // await jobsStore.handleGetApplicants(route.params.id);
-});
 const getJobDetailsById = async () => {
   let response = await jobsStore.handleGetJobDetailsById(route.params.id);
   return response;
@@ -282,22 +275,43 @@ const fetchDataJobByID = async () => {
 fetchDataJobByID();
 fetchData();
 const filteredApplicants = computed(() => {
-  let filtered = applicants?.data?.applicants;
-
+  let filtered = applicants.value?.data?.applicants;
   // Perform filtering based on sortInput values
   if (sortInput.Salary) {
-    filtered = filtered.filter((applicant) => applicant.rate === sortInput.Salary);
+    filtered = filtered?.filter((applicant) =>
+      applicant.rate.toLowerCase().includes(sortInput.Salary.toLowerCase())
+    );
   }
   if (sortInput.skills) {
-    filtered = filtered.filter((applicant) =>
-      applicant.skills.includes(sortInput.skills)
+    filtered = filtered.filter((item) =>
+      item.top_skills.some((skill) =>
+        skill.name.toLowerCase().includes(sortInput.skills.toLowerCase())
+      )
     );
   }
   if (sortInput.Availabilty) {
-    filtered = filtered.filter(
-      (applicant) => applicant.availability === sortInput.Availabilty
+    filtered = filtered?.filter((applicant) =>
+      applicant.availaibility.toLowerCase().includes(sortInput.Availabilty.toLowerCase())
     );
   }
+  if (sortInput.Location) {
+    filtered = filtered?.filter((applicant) =>
+      applicant.location.toLowerCase().includes(sortInput.Location.toLowerCase())
+    );
+  }
+  if (sortInput.experienceLevel) {
+    filtered = filtered?.filter((applicant) =>
+      applicant.experience_level
+        .toLowerCase()
+        .includes(sortInput.experienceLevel.toLowerCase())
+    );
+  }
+  if (sortInput.Rating) {
+    filtered = filtered?.filter((applicant) =>
+      applicant.rating.toLowerCase().includes(sortInput.Rating.toLowerCase())
+    );
+  }
+  // rating
   // Perform additional filtering for other criteria if needed
 
   return filtered;
@@ -350,6 +364,10 @@ onUnmounted(() => {
 onMounted(async () => {
   await skillsStore.getskills();
   await skillsStore.getCountriesCode();
+});
+onMounted(async () => {
+  await jobsStore.handleGetJobDetailsById(route.params.id);
+  await jobsStore.handleGetApplicants(route.params.id);
 });
 </script>
 
