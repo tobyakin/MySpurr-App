@@ -5,6 +5,8 @@ import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import LinkIcon from "@/components/icons/linkIcon.vue";
 import CloudUploadIcon from "@/components/icons/cloudUploadIcon.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
+
 import { storeToRefs } from "pinia";
 const JobsStore = useJobsStore();
 import { useRoute } from "vue-router";
@@ -17,7 +19,8 @@ import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 const store = useTabStore();
 let loading = ref(false);
 let loadPage = ref(false);
-
+const valideRateError = ref(false);
+const valideRateErrorMsg = ref("");
 // const { jobApplicationForm } = storeToRefs(JobsStore);
 const emit = defineEmits(["back", "next"]);
 let profile = useUserProfile();
@@ -57,7 +60,21 @@ const handleButtonClick = (value) => {
   showDateInput.value = false;
   jobApplicationForm.available_start = value;
 };
+const checkAmountValidity = () => {
+  const amount = parseFloat(jobApplicationForm.rate);
+  const minSalary = parseFloat(singleJob.value?.data?.salary_min);
+  const maxSalary = parseFloat(singleJob.value?.data?.salary_max);
 
+  if (amount >= minSalary && amount <= maxSalary) {
+    valideRateError.value = false;
+    valideRateErrorMsg.value = "Amount is within the salary range.";
+    console.log("Amount is within the range.");
+  } else {
+    valideRateError.value = true;
+    valideRateErrorMsg.value = "Amount is outside the salary range.";
+    console.log("Amount is outside the range.");
+  }
+};
 const uploadedImageName = ref("");
 
 const uploadFile = (event) => {
@@ -83,7 +100,8 @@ const isFormValid = computed(() => {
     jobApplicationForm.available_start !== "" &&
     jobApplicationForm.resume !== "" &&
     jobApplicationForm.other_file !== null &&
-    jobApplicationForm.question_answers.length >= 0
+    jobApplicationForm.question_answers.length >= 0 &&
+    valideRateError.value === false
   );
 });
 
@@ -302,7 +320,7 @@ onMounted(async () => {
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[13.076px] font-Satoshi400">Job Type</p>
-        <p class="text-[#244034] text-[13.076px] font-Satoshi500">
+        <p class="text-[#244034] text-[13.076px] capitalize font-Satoshi500">
           {{ singleJob?.data?.job_type }}
         </p>
       </div>
@@ -417,12 +435,17 @@ onMounted(async () => {
                 Custom
               </button>
             </div> -->
-            <GlobalInput
+            <AuthInput
               inputClasses="border-[1.261px] w-full border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
               type="number"
               v-model="jobApplicationForm.rate"
               class="mt-2"
+              :error="valideRateError"
+              @input="checkAmountValidity"
             />
+            <span v-if="valideRateError" class="text-[#993939] font-Satoshi400 text-sm">{{
+              valideRateErrorMsg
+            }}</span>
           </div>
         </div>
         <div
