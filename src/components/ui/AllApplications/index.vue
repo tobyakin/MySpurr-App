@@ -167,7 +167,7 @@
             <!-- {{ filteredApplicants }}l -->
             <div class="w-full flex flex-col gap-[14px]">
               <ApplicantsCard
-                v-for="talent in applicants?.data?.applicants"
+                v-for="talent in filteredApplicants"
                 :key="talent.id"
                 :talent="talent"
                 :selected="talent.talent_id === applicantsId"
