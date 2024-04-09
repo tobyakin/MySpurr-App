@@ -19,6 +19,21 @@ export default {
   components: {
     Apexchart: VueApexCharts,
   },
+  props: {
+    chartData: {
+      type: Object,
+      default: () => ({}),
+    },
+    jobViews: {
+      type: Array,
+    },
+    jobApplied: {
+      type: Array,
+    },
+    days: {
+      type: Array,
+    },
+  },
   data() {
     return {
       chatContainerHeight: null,
@@ -172,10 +187,10 @@ export default {
     this.setChatContainerHeight();
     window.addEventListener("resize", this.setChatContainerHeight);
 
-    const Incomedata = [44, 55, 41, 67, 22, 43, 20];
-    const Widthdrawaldata = [21, 7, 25, 13, 22, 8, 40];
-    const getFormattedDate = (day) => {
-      const date = new Date(2023, 0, day); // Assuming the year is 2023
+    const Incomedata = this.jobApplied || [];
+    const Widthdrawaldata = this.jobViews || [];
+    const getFormattedDate = () => {
+      const date = new Date(); // Assuming the year is 2023
       const options = { day: "2-digit", month: "short" };
       return date.toLocaleDateString("en-US", options);
     };
@@ -185,7 +200,9 @@ export default {
     const DateValues = Array.from({ length: 7 }, (_, index) =>
       getFormattedDate(index + 1)
     );
-
+    console.log(this.days);
+    console.log(this.jobApplied);
+    console.log(this.jobViews);
     // Update chart options and series
     this.chartOptions.xaxis.categories = DateValues;
     this.chartSeries[0].data = Incomevalues;

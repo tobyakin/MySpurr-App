@@ -1,12 +1,12 @@
 <template>
   <div
     :class="inputClasses"
-    class="relative h-[126.955px] w-[126.955px] bg-[#2F929C] rounded-full"
+    class="relative h-[126.955px] w-[126.955px] bg-[#2F929C] object-contain rounded-full"
   >
     <img
       :class="inputClasses"
       :src="imageUrl ? imageUrl : Avater"
-      class="h-[126.955px] w-[126.955px] bg-[#0A090991] opacity-40 rounded-full"
+      class="h-[126.955px] w-[126.955px] bg-[#0A090991] object-cover opacity-40 rounded-full"
     /><button @click="toggleModal" class="absolute top-8 text-[#FFFFFF] right-8">
       <EditIcon />
     </button>

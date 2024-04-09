@@ -81,6 +81,7 @@ const onFinish = async () => {
     // Disable the button for 60 seconds
     countdown.value = 60;
     disableButton();
+    return res;
   } catch (error) {
     console.log(error);
   } finally {

@@ -1,7 +1,7 @@
 <template>
   <div class="h-full bg-cover">
     <apexchart
-      class="h-auto"
+      class="h-full"
       v-if="renderChart"
       type="bar"
       :options="chartOptions"
@@ -13,12 +13,21 @@
 </template>
 
 <script>
-import VueApexCharts from 'vue3-apexcharts'
-import dayjs from 'dayjs'
+import VueApexCharts from "vue3-apexcharts";
+import dayjs from "dayjs";
 export default {
   components: {
-    Apexchart: VueApexCharts
+    Apexchart: VueApexCharts,
   },
+  props: {
+    chartData: {
+      type: Array,
+    },
+    days: {
+      type: Array,
+    },
+  },
+
   data() {
     return {
       chatContainerHeight: null,
@@ -26,55 +35,55 @@ export default {
       chartOptions: {
         grid: {
           show: true,
-          borderColor: '#E4EAF0',
+          borderColor: "#E4EAF0",
           strokeDashArray: 4,
-          position: 'back',
+          position: "back",
           xaxis: {
             lines: {
-              show: false
-            }
+              show: false,
+            },
           },
           yaxis: {
             lines: {
-              show: false
-            }
+              show: false,
+            },
           },
           row: {
             colors: undefined,
-            opacity: 0.5
+            opacity: 0.5,
           },
           column: {
             colors: undefined,
-            opacity: 0.5
+            opacity: 0.5,
           },
           padding: {
             top: 0,
             right: 0,
             bottom: 0,
-            left: 0
-          }
+            left: 0,
+          },
         },
         chart: {
-          type: 'bar',
+          type: "bar",
           toolbar: {
-            show: false // Hide the toolbar
+            show: false, // Hide the toolbar
           },
-          width: '100%',
+          width: "100%",
           height: 350,
-          stacked: true
+          stacked: true,
         },
         xaxis: {
           categories: [],
           tickAmount: 10,
           labels: {
             style: {
-              cssClass: '!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40' // Add your custom font class name here
-            }
+              cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
+            },
           },
-          type: 'datetime',
+          type: "datetime",
           axisBorder: {
-            show: false
-          }
+            show: false,
+          },
         },
         yaxis: {
           show: false,
@@ -83,39 +92,40 @@ export default {
           tickAmount: 3,
           labels: {
             formatter: function (value) {
-              return value.toFixed(0) + 'k' // Replace 'Prefix' with your desired prefix
+              return value.toFixed(0) + "k"; // Replace 'Prefix' with your desired prefix
             },
             style: {
-              cssClass: '!font-Satoshi700 !text-[#97A6A899] capitalize !text-[12px] opacity-40' // Add your custom font class name here
-            }
-          }
+              cssClass:
+                "!font-Satoshi700 !text-[#97A6A899] capitalize !text-[12px] opacity-40", // Add your custom font class name here
+            },
+          },
         },
         legend: {
-          show: true
+          show: true,
         },
         dataLabels: {
-          enabled: false
+          enabled: false,
         },
         stroke: {
-          curve: 'smooth',
-          width: 1
+          curve: "smooth",
+          width: 1,
         },
         fill: {
-          opacity: 1
+          opacity: 1,
         },
-        monthNumber: dayjs().format('M')
+        monthNumber: dayjs().format("M"),
       },
       responsive: [
         {
           breakpoint: 480,
           options: {
             legend: {
-              position: 'bottom',
+              position: "bottom",
               offsetX: -10,
-              offsetY: 0
-            }
-          }
-        }
+              offsetY: 0,
+            },
+          },
+        },
       ],
       plotOptions: {
         bar: {
@@ -125,73 +135,75 @@ export default {
             total: {
               enabled: true,
               style: {
-                fontSize: '13px',
-                fontWeight: 900
-              }
-            }
-          }
-        }
+                fontSize: "13px",
+                fontWeight: 900,
+              },
+            },
+          },
+        },
       },
       chartSeries: [
         {
-          name: 'Jobs Applied',
+          name: "Jobs Applied",
           data: [],
-          color: '#6BA336'
-        }
+          color: "#6BA336",
+        },
         // {
         //   name: "Withdrawal",
         //   data: [],
 
         //   color: "#F2C94C",
         // },
-      ]
-    }
+      ],
+    };
   },
   computed: {
     getMonth() {
       return {
-        number: dayjs().format('M'),
-        month: dayjs().format('MMM')
-      }
-    }
+        number: dayjs().format("M"),
+        month: dayjs().format("MMM"),
+      };
+    },
   },
   methods: {
     setChatContainerHeight() {
       if (window.innerWidth < 768) {
-        this.chatContainerHeight = 250 // Set mobile height
+        this.chatContainerHeight = 250; // Set mobile height
       } else {
-        this.chatContainerHeight = '100%' // Set desktop height
+        this.chatContainerHeight = "100%"; // Set desktop height
       }
-    }
+    },
   },
   beforeUnmount() {
-    window.removeEventListener('resize', this.setChatContainerHeight)
+    window.removeEventListener("resize", this.setChatContainerHeight);
   },
   mounted() {
-    this.setChatContainerHeight()
-    window.addEventListener('resize', this.setChatContainerHeight)
+    this.setChatContainerHeight();
+    window.addEventListener("resize", this.setChatContainerHeight);
 
-    const Incomedata = [44, 55, 41, 67, 22, 43, 20]
-    const Widthdrawaldata = [21, 7, 25, 13, 22, 8, 40]
+    const Incomedata = this.chartData || [];
+    // const Widthdrawaldata = [21, 7, 25, 13, 22, 8, 40];
     const getFormattedDate = (day) => {
-      const date = new Date(2023, 0, day) // Assuming the year is 2023
-      const options = { day: '2-digit', month: 'short' }
-      return date.toLocaleDateString('en-US', options)
-    }
+      const date = new Date(2023, 0, day); // Assuming the year is 2023
+      const options = { day: "2-digit", month: "short" };
+      return date.toLocaleDateString("en-US", options);
+    };
     // Extract x-axis categories and y-axis values from chart data
-    const values = Widthdrawaldata.map((item) => item)
-    const Incomevalues = Incomedata.map((item) => item)
-    const DateValues = Array.from({ length: 7 }, (_, index) => getFormattedDate(index + 1))
+    // const values = Widthdrawaldata.map((item) => item);
+    const Incomevalues = Incomedata?.map((item) => item);
+    const DateValues = Array.from({ length: 7 }, (_, index) =>
+      getFormattedDate(index + 1)
+    );
 
     // Update chart options and series
-    this.chartOptions.xaxis.categories = DateValues
-    this.chartSeries[0].data = Incomevalues
+    this.chartOptions.xaxis.categories = DateValues;
+    this.chartSeries[0].data = Incomedata;
     // this.chartSeries[1].data = values;
-    this.renderChart = true
+    this.renderChart = true;
     //Refresh the chart to reflect the updated data
     //this.$refs.chart.refresh();
-  }
-}
+  },
+};
 </script>
 <style>
 /* #apexchartsarea-chart {

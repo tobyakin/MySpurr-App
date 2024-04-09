@@ -302,7 +302,7 @@ const displayImage = computed(() => imageExists.value);
                       <template v-if="displayImage">
                         <img
                           :src="getImageSrc()"
-                          class="h-10 w-10 bg-[#0A090991] rounded-full"
+                          class="h-10 w-10 bg-[#0A090991] object-cover rounded-full"
                           @error="handleImageError"
                         />
                       </template>

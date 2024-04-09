@@ -205,11 +205,11 @@ export default {
     this.setChatContainerHeight();
     window.addEventListener("resize", this.setChatContainerHeight);
 
-    const fullTime = [this.userDetails?.fulltime_jobs];
-    const PartTime = [this.userDetails?.parttime_jobs];
-    const Contract = [this.userDetails?.contract_jobs];
-    const Remote = [this.userDetails?.remote_jobs];
-    const Internship = [this.userDetails?.internship_jobs];
+    const fullTime = [this.userDetails?.fulltime_jobs] || [];
+    const PartTime = [this.userDetails?.parttime_jobs] || [];
+    const Contract = [this.userDetails?.contract_jobs] || [];
+    const Remote = [this.userDetails?.remote_jobs] || [];
+    const Internship = [this.userDetails?.internship_jobs] || [];
     // const Widthdrawaldata = [20];
     const getFormattedDate = (day) => {
       const date = new Date(2023, 0, day); // Assuming the year is 2023
