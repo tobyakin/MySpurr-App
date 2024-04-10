@@ -44,7 +44,7 @@ const onFinish = async () => {
   loading.value = true;
   try {
     cropImage();
-    const res = await profileStore.handleUpdateProfilePhoto();
+    const res = await profileStore.handleUpdateBusinessDeatils();
     await profileStore.userProfile();
     closeModal();
     loading.value = false;
@@ -56,7 +56,7 @@ const onFinish = async () => {
   }
 };
 const userDetails = computed(() => {
-  return profileStore.user.data.image || profileStore.user.data.company_logo;
+  return profileStore.user.data.company_logo;
 });
 onMounted(async () => {
   await profileStore.userProfile();

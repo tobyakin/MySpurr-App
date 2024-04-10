@@ -36,7 +36,7 @@ export const useUserProfile = defineStore('profile', () => {
     company_type: '',
     social_media: '',
     social_media_two: '',
-          ciso: '',
+    ciso: '',
       siso: '',
 
   })
