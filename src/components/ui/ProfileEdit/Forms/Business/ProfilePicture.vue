@@ -13,7 +13,25 @@ const { businessDeatils } = storeToRefs(profileStore);
 let loading = ref(false);
 let cropper = ref(null);
 let imageFile = ref(null);
-
+const prefillDetails = () => {
+  businessDeatils.value.first_name = profileStore.user?.data?.first_name || "";
+  businessDeatils.value.last_name = profileStore.user?.data?.last_name || "";
+  businessDeatils.value.business_name = profileStore.user?.data?.business_name || "";
+  businessDeatils.value.location = profileStore.user?.data?.location || "";
+  businessDeatils.value.industry = profileStore.user?.data?.industry || "";
+  businessDeatils.value.about_business = profileStore.user?.data?.about_business || "";
+  businessDeatils.value.website = profileStore.user?.data?.website || "";
+  businessDeatils.value.business_service =
+    profileStore.user?.data?.business_service || "";
+  businessDeatils.value.business_email = profileStore.user?.data?.business_email || "";
+  businessDeatils.value.company_logo = profileStore.user?.data?.company_logo || "";
+  businessDeatils.value.company_type = profileStore.user?.data?.company_type || "";
+  businessDeatils.value.social_media = profileStore.user?.data?.social_media || "";
+  businessDeatils.value.social_media_two =
+    profileStore.user?.data?.social_media_two || "";
+  businessDeatils.value.siso = profileStore.user?.data?.siso || "";
+  businessDeatils.value.ciso = profileStore.user?.data?.ciso || "";
+};
 const cropImage = () => {
   if (cropper.value) {
     const croppedCanvas = cropper.value.getCroppedCanvas();
@@ -60,6 +78,7 @@ const userDetails = computed(() => {
 });
 onMounted(async () => {
   await profileStore.userProfile();
+  prefillDetails();
 });
 watch(businessDeatils, () => {});
 const emit = defineEmits(["closeModal"]);

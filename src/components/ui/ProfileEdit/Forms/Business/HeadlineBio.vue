@@ -92,7 +92,7 @@ const closeModal = () => {
 const onFinish = async () => {
   loading.value = true;
   try {
-    const res = await profileStore.handleUpdateBio();
+    const res = await profileStore.handleUpdateBusinessDeatils();
     await profileStore.userProfile();
     closeModal();
     loading.value = false;
@@ -124,16 +124,78 @@ onMounted(async () => {
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label class="text-[#01272C] text-[10px] flex font-Satoshi400"
-                >First Name</label
+                >Business Name</label
               >
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.first_name"
+                v-model="businessDeatils.business_name"
                 type="text"
               />
             </div>
-
             <div
+              class="border-[0.737px] flex lg:flex-row flex-col items-center border-[#254035AB] rounded-[5.897px] p-0 py-0.5"
+            >
+              <div class="w-full">
+                <label class="text-[#01272C] px-3 text-[12px] font-Satoshi400"
+                  >Country</label
+                >
+                <div class="flex w-full items-center">
+                  <a-select
+                    :placeholder="prefillCountry"
+                    :bordered="false"
+                    :show-arrow="false"
+                    class="w-full !px-0"
+                    show-search
+                    v-model:value="selectedCountry"
+                  >
+                    <a-select-option disabled>country or region</a-select-option>
+                    <a-select-option
+                      v-for="country in contriesCode?.data"
+                      :key="country.id"
+                      :value="country.name"
+                    >
+                      {{ country.name }}
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </div>
+              <a-divider
+                class="lg:hidden"
+                style="height: 2px; background-color: #254035ab; margin: 0 3px"
+              />
+              <a-divider
+                class="lg:flex hidden"
+                style="height: 5vh; background-color: #254035ab; margin: 0 4px"
+                type="vertical"
+              />
+
+              <div class="w-full">
+                <label class="text-[#01272C] px-3 text-[12px] font-Satoshi400"
+                  >State</label
+                >
+                <div class="flex w-full items-center">
+                  <a-select
+                    :placeholder="prefillState"
+                    :show-arrow="false"
+                    :bordered="false"
+                    class="w-full !px-0"
+                    show-search
+                    v-model:value="selectedState"
+                  >
+                    <a-select-option disabled>state or city</a-select-option>
+                    <a-select-option
+                      v-for="state in states?.data"
+                      :key="state.id"
+                      :value="state.name"
+                    >
+                      {{ state.name }}
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
@@ -144,16 +206,16 @@ onMounted(async () => {
                 v-model="businessDeatils.last_name"
                 type="text"
               />
-            </div>
+            </div> -->
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
-                >Skill Title</label
+                >Website</label
               >
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.business_name"
+                v-model="businessDeatils.website"
                 type="text"
               />
             </div>
@@ -161,12 +223,10 @@ onMounted(async () => {
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
-                >Rate /hr</label
-              >
+              <label class="text-[#01272C] flex text-[10px] font-Satoshi400">Email</label>
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.rate"
+                v-model="businessDeatils.business_email"
                 type="text"
               />
             </div>
@@ -174,14 +234,14 @@ onMounted(async () => {
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] py-1"
             >
               <label class="text-[#01272C] flex px-3 text-[10px] font-Satoshi400"
-                >Experience Level</label
+                >Phone Number</label
               >
-              <!-- <GlobalInput
+              <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.experienceLevel"
                 type="text"
-              /> -->
-              <div class="flex w-full items-center">
+              />
+              <!-- <div class="flex w-full items-center">
                 <a-select
                   placeholder="experience level"
                   :bordered="false"
@@ -195,7 +255,34 @@ onMounted(async () => {
                     {{ i.name }}
                   </a-select-option>
                 </a-select>
-              </div>
+              </div> -->
+            </div>
+            <div
+              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] py-1"
+            >
+              <label class="text-[#01272C] flex px-3 text-[10px] font-Satoshi400"
+                >Category</label
+              >
+              <GlobalInput
+                inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+                v-model="businessDeatils.experienceLevel"
+                type="text"
+              />
+              <!-- <div class="flex w-full items-center">
+                <a-select
+                  placeholder="experience level"
+                  :bordered="false"
+                  :show-arrow="false"
+                  class="w-full !px-0"
+                  show-search
+                  v-model:value="businessDeatils.experienceLevel"
+                >
+                  <a-select-option disabled>experience level</a-select-option>
+                  <a-select-option v-for="i in Experience" :key="i.name" :value="i.name">
+                    {{ i.name }}
+                  </a-select-option>
+                </a-select>
+              </div> -->
             </div>
           </div>
         </div>
@@ -206,6 +293,19 @@ onMounted(async () => {
           <div class="flex-col flex gap-[19px]">
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+            >
+              <label
+                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] pl-[13px] font-Satoshi400"
+                >Size</label
+              >
+              <GlobalInput
+                inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+                v-model="businessDeatils.calendlylink"
+                type="text"
+              />
+            </div>
+            <div
+              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-2"
             >
               <label
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
@@ -271,23 +371,10 @@ onMounted(async () => {
                 type="text"
               />
             </div>
-            <div
-              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
-            >
-              <label
-                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
-                ><CalendlyIcon class="h-[13px] w-[13px]" />Calendly booking link</label
-              >
-              <GlobalInput
-                inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.calendlylink"
-                type="text"
-              />
-            </div>
           </div>
         </div>
       </div>
-      <div class="flex flex-col w-full mt-[16px] gap-[15px]">
+      <!-- <div class="flex flex-col w-full mt-[16px] gap-[15px]">
         <p class="text-[24px] text-[#244034] font-Satoshi400 leading-[40.393px]">
           Location
         </p>
@@ -318,11 +405,6 @@ onMounted(async () => {
               </a-select>
             </div>
 
-            <!-- <GlobalInput
-            inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-            v-model="businessDeatils.location"
-            type="text"
-          /> -->
           </div>
 
           <div
@@ -331,11 +413,6 @@ onMounted(async () => {
             <label class="text-[#01272C] px-3 flex text-[10px] font-Satoshi400"
               >State</label
             >
-            <!-- <GlobalInput
-            inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-            v-model="businessDeatils.location"
-            type="text"
-          /> -->
             <div class="flex w-full items-center">
               <a-select
                 :placeholder="prefillState"
@@ -357,7 +434,7 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="w-full flex justify-center mt-8">
