@@ -549,7 +549,7 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="lg:w-[60%] flex flex-col gap-4">
+      <div class="lg:w-[60%] lg:min-h-auto min-h-[20vh] flex flex-col gap-4">
         <div
           v-for="(question, index) in singleJob?.data?.questions"
           :key="question"
@@ -565,7 +565,7 @@ onMounted(async () => {
             ></p>
           </div>
           <hr class="border-[#254035AB] border-[0.596px] my-3" />
-          <textarea
+          <!-- <textarea
             v-model="jobApplicationForm.question_answers[index].answer"
             class="w-full outline-none text-[15.816px] h-[100%] font-Satoshi500 text-[#97A6A8]"
             name=""
@@ -573,7 +573,16 @@ onMounted(async () => {
             id=""
             cols="30"
             rows="6"
-          ></textarea>
+          ></textarea> -->
+          <!-- <div class="flex flex-col min-h-[30vh]"> -->
+          <QuillEditor
+            v-model:content="jobApplicationForm.question_answers[index].answer"
+            class=""
+            theme="snow"
+            placeholder="Give a brief description about your education"
+            contentType="html"
+          />
+          <!-- </div> -->
         </div>
       </div>
     </div>

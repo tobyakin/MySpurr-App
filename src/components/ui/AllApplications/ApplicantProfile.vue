@@ -199,7 +199,7 @@
               <template v-if="answerIndex === questionIndex">
                 <p
                   v-html="answer.answer"
-                  class="text-[#5e6466] font-Satoshi400 text-[14px] mt-2 tracking-[0.6px]"
+                  class="text-[#5e6466] font-Satoshi400 editor text-[14px] mt-2 tracking-[0.6px]"
                 ></p>
               </template>
               <!-- <p
