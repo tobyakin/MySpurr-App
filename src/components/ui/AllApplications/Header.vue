@@ -103,7 +103,7 @@
         </p>
       </div>
       <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Rating</p>
+        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Date</p>
         <p class="text-[#244034] text-[14.104px] font-Satoshi500">
           {{ props?.JobDetails?.date_created }}
         </p>

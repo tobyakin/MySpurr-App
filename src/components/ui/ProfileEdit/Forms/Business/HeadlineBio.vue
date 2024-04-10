@@ -153,7 +153,7 @@ onMounted(async () => {
               >
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.skill_title"
+                v-model="businessDeatils.business_name"
                 type="text"
               />
             </div>
