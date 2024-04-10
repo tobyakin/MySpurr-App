@@ -7,11 +7,8 @@ import DocumentIcon from "@/components/icons/documentIcon.vue";
 import CircleArrowDown from "@/components/icons/circleArrowDown.vue";
 import JobStatisticsChart from "@/components/ui/Chart/JobStatisticsChart.vue";
 import SingleData from "@/components/ui/Chart/SingleData.vue";
-const tab = ref("Week");
+// const tab = ref("Week");
 const activetab = ref("monthly");
-
-const jobViews = ref(null);
-const jobApplied = ref(null);
 // Set initial tab value based on the prop or local storage
 onMounted(() => {
   const storedTab = localStorage.getItem("activeTab");
@@ -20,24 +17,29 @@ onMounted(() => {
   }
 });
 const props = defineProps({ statistics: Object });
-const filterTab = (category) => {
-  tab.value = category;
-  //   filteredTab.value = [];
-  //   if (category != "ALL") {
-  //     filteredTab.value = store.blogPost.filter((item) => item.blog_category == category);
-  //   }
-};
+const statistics = computed(() => props?.statistics);
+// const filterTab = (category) => {
+//   tab.value = category;
+//   //   filteredTab.value = [];
+//   //   if (category != "ALL") {
+//   //     filteredTab.value = store.blogPost.filter((item) => item.blog_category == category);
+//   //   }
+// };
+
 // Extract job_views and job_applied from the data
-onMounted(() => {
-  // jobViews.value = props?.statistics?.data[0]?.job_views;
-  // jobApplied.value = props?.statistics?.data[0]?.job_applied;
-});
-// const jobViews = computed(() => {
-//   return props?.statistics?.data[0].job_views;
-// });
-// const jobApplied = computed(() => {
-//   return props?.statistics?.data[0].job_applied;
-// });
+// Find the objects containing total_job_views and total_job_applied
+const totalJobViewsObj = statistics?.value?.data?.find((obj) => "total_job_views" in obj);
+const totalJobAppliedObj = statistics?.value?.data?.find(
+  (obj) => "total_job_applied" in obj
+);
+
+// Extract values or default to 0 if not found
+const total_job_views = totalJobViewsObj ? totalJobViewsObj.total_job_views : 0;
+const total_job_applied = totalJobAppliedObj ? totalJobAppliedObj.total_job_applied : 0;
+// Use refs to store arrays for job_views, job_applied, and day
+const jobViews = ref(statistics?.value?.data?.map((item) => item.job_views));
+const jobApplied = ref(statistics?.value?.data?.map((item) => item.job_applied));
+const days = ref(statistics.value?.data?.map((item) => item.day));
 </script>
 <template>
   <div
@@ -81,7 +83,14 @@ onMounted(() => {
       ><template #tab3>Jobs Applied</template>
       <template #view1>
         <div class="flex lg:flex-row flex-col gap-4 w-full h-full">
-          <div class="min-w-[95%] lg:min-w-[65.9%]"><JobStatisticsChart /></div>
+          <div class="min-w-[95%] lg:min-w-[65.9%]">
+            <JobStatisticsChart
+              :jobViews="jobViews"
+              :jobApplied="jobApplied"
+              :chartData="props?.statistics"
+              :days="days"
+            />
+          </div>
           <div class="flex lg:flex-col md:flex-row flex-col w-full h-full gap-4">
             <div
               class="p-[22.17px] px-[17px] rounded-[4.533px] w-full bg-[#FFF] flex flex-row justify-between h-full border-[0.567px] border-[#254035AB]"
@@ -96,7 +105,7 @@ onMounted(() => {
                 <h4
                   class="text-[#244034] font-Satoshi500 text-[38.17px] leading-[59.218px]"
                 >
-                  {{ jobViews ? jobViews : 0 }}
+                  {{ total_job_views }}
                 </h4>
                 <div class="flex items-center text-[14.4px] gap-3">
                   <p>This Week</p>
@@ -118,7 +127,7 @@ onMounted(() => {
                 <h4
                   class="text-[#244034] font-Satoshi500 text-[38.17px] leading-[59.218px]"
                 >
-                  {{ jobApplied ? jobApplied : 0 }}
+                  {{ total_job_applied }}
                 </h4>
                 <div class="flex items-center text-[14.4px] gap-3">
                   <p>This Week</p>
@@ -133,13 +142,13 @@ onMounted(() => {
 
       <template #view2>
         <div class="flex lg:flex-row flex-col gap-4 w-full lg:h-[45vh]">
-          <SingleData class="w-full" />
+          <SingleData :chartData="jobViews" class="w-full" />
         </div>
       </template>
 
       <template #view3>
         <div class="flex lg:flex-row flex-col gap-4 w-full lg:h-[45vh]">
-          <SingleData class="w-full" />
+          <SingleData :chartData="jobApplied" class="w-full" />
         </div>
       </template>
     </TabsVue>

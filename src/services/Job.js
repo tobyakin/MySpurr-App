@@ -116,10 +116,10 @@ export const viewJobsDetailsById = async (id) => {
     throw error
   }
 }
-export const applyForJobs = async (id, payload) => {
+export const applyForJobs = async (payload) => {
   const token = await getToken()
   try {
-    let res = await axios.post(`v1/job-apply/${id}`, payload, {
+    let res = await axios.post(`v1/job-apply`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -203,11 +203,11 @@ export const getApplicants = async (id) => {
   }
 }
 
-export const getTalentApplication = async (id) => {
-      const token = await getToken()
+export const getTalentApplication = async (job_id, talent_id) => {
+  const token = await getToken()
 
   try {
-    let res = await axios.get(`v1/application/${id}`, {
+    let res = await axios.get(`v1/application/${talent_id}/${job_id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }

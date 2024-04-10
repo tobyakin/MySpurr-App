@@ -107,8 +107,8 @@ const props = defineProps({
 });
 const emit = defineEmits(["viewProfile"]);
 
-const viewProfile = (id) => {
-  emit("viewProfile", id);
+const viewProfile = (talent_id) => {
+  emit("viewProfile", talent_id);
 };
 const imageExists = ref(false);
 const initials = ref("");

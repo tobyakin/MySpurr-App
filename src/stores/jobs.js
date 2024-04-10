@@ -158,7 +158,7 @@ const handleAddRating = async (payload) => {
       }
     }
 
-    const applyForJob = async (id, payload) => {
+    const applyForJob = async (payload) => {
       // let payload = {
       //   job_id: id,
       //   rate: jobApplicationForm.value.rate,
@@ -168,7 +168,7 @@ const handleAddRating = async (payload) => {
       //   question_answers: jobApplicationForm.value.question_answers
       // }
       try{
-        let res = await applyForJobs(id, payload)
+        let res = await applyForJobs(payload)
         return res
       }catch (error) {
         /**/
@@ -256,9 +256,9 @@ const handleAddRating = async (payload) => {
       console.error(error)
     }
   }
-  const handleGetTalentApplication = async (id) => {
+  const handleGetTalentApplication = async (job_id, talent_id) => {
     try {
-      talentApplication.value = await getTalentApplication(id)
+      talentApplication.value = await getTalentApplication(job_id, talent_id)
       return talentApplication.value
     } catch (error) {
       console.error(error)

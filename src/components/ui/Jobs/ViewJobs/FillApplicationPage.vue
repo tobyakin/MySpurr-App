@@ -45,6 +45,8 @@ const jobApplicationForm = reactive({
     { length: singleJob.value?.data?.questions.length },
     () => ({
       answer: "",
+      talent_id: `${userDetails.value?.id}`,
+      job_id: route.params.id,
     })
   ),
 });
@@ -116,7 +118,7 @@ const handleJobApplication = async () => {
     question_answers: jobApplicationForm.question_answers,
   };
   try {
-    const res = await JobsStore.applyForJob(jobApplicationForm.job_id, payload);
+    const res = await JobsStore.applyForJob(payload);
     if (res.status === "true") {
       next();
       loading.value = false;
@@ -540,7 +542,7 @@ onMounted(async () => {
             name=""
             @change="uploadFile"
             ref="previewImage"
-            accept=".doc,.docx,.jpg,.png,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            accept=".doc,.docx,.jpg,.png,.pdf"
             hidden
             id="upload_file"
           />

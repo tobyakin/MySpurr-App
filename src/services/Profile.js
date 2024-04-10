@@ -4,24 +4,37 @@ import { getToken } from "./Auth";
 
 
 
-export const getUserProfile= async () => {
-
-    const token = await getToken()
-    try {
-        let res = await axios.get(`v1/profile`, {
-          headers: {
-            Authorization: 'Bearer ' + token
-          }
-        })
-        catchAxiosSuccess(res) 
-        return res.data;
-
-    } catch (error) {
-        catchAxiosError(error)   
-        throw error;
-    }
-
+export const getUserProfile = async () => {
+  const token = await getToken()
+  try {
+    let res = await axios.get(`v1/profile`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
 }
+export const updateBusinessDeatils = async (payload) => {
+  const token = await getToken()
+  try {
+    let res = await axios.patch(`v1/business-edit-profile`, payload, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
 export const updateProfilePhoto = async (payload) => {
   const token = await getToken()
   try {

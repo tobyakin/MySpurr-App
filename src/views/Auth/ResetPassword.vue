@@ -91,6 +91,7 @@ const onFinish = async () => {
       formState.confirmPassword
     );
     router.push({ name: "login" });
+    return res;
   } catch (error) {
     console.log(error);
   } finally {
