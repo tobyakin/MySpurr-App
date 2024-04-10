@@ -291,16 +291,16 @@ const props = defineProps({ talents: Object });
 // const getAnswersForQuestion = (questionId) => {
 // return talents.filter((answer) => answer.question_id === questionId);
 // };
-function downloadFile(url, filename) {
-  // Create an anchor element
+const downloadFile = (url, filename) => {
   const anchor = document.createElement("a");
   anchor.style.display = "none"; // Make it hidden
-
-  // Set the href attribute to the URL
   anchor.href = url;
-
-  // Set the download attribute to specify the filename
   anchor.download = filename;
+
+  // Prevent default behavior for anchor elements
+  anchor.addEventListener("click", (event) => {
+    event.preventDefault();
+  });
 
   // Append the anchor to the body
   document.body.appendChild(anchor);
@@ -308,9 +308,31 @@ function downloadFile(url, filename) {
   // Trigger a click event on the anchor
   anchor.click();
 
-  // Clean up: remove the anchor from the body
-  document.body.removeChild(anchor);
-}
+  // Clean up: remove the anchor from the body after a short delay
+  setTimeout(() => {
+    document.body.removeChild(anchor);
+  }, 100);
+};
+// function downloadFile(url, filename) {
+//   // Create an anchor element
+//   const anchor = document.createElement("a");
+//   anchor.style.display = "none"; // Make it hidden
+
+//   // Set the href attribute to the URL
+//   anchor.href = url;
+
+//   // Set the download attribute to specify the filename
+//   anchor.download = filename;
+
+//   // Append the anchor to the body
+//   document.body.appendChild(anchor);
+
+//   // Trigger a click event on the anchor
+//   anchor.click();
+
+//   // Clean up: remove the anchor from the body
+//   document.body.removeChild(anchor);
+// }
 // const getAnswersForQuestion = (index) => {
 //   return props?.talents?.answers.filter((answer, answerIndex) => answerIndex === index);
 // };
