@@ -115,7 +115,7 @@
         <div class="w-full my-6">
           <button
             @click="viewProfile()"
-            class="btn-brand !bg-[#31795A] !border-none text-center w-[60%] !px-[1px] !py-[4px] !text-white"
+            class="btn-brand !bg-[#31795A] !border-none text-center w-[30%] !px-[1px] !py-[4px] !text-white"
           >
             View Profile
           </button>
@@ -148,23 +148,23 @@
         <!-- {{ props?.talents?.other_file }} -->
 
         <div class="w-full mt-6">
-          <div
+          <!-- <div
             class="h-[134.37px] w-[139.19px] rounded-[3.51px] object-contain overflow-hidden bg-gray-300"
           >
             <img :src="props?.talents?.other_file" class="h-[134.37px] w-[139.19px]" />
-            <!-- <embed
+            <embed
               :src="props?.talents?.other_file"
               type="application/pdf"
               width="100%"
               height="134.37px"
-            /> -->
-          </div>
-          <!-- <button
+            />
+          </div> -->
+          <button
             @click="downloadFile(props?.talents?.other_file, 'fileName')"
-            class="btn-brand !bg-[#31795A] !border-none text-center w-full !px-[1px] !py-[4px] !text-white"
+            class="btn-brand !bg-[#31795A] !border-none text-center w-[30%] !px-[1px] !py-[4px] !text-white"
           >
             Download File
-          </button> -->
+          </button>
         </div>
 
         <!-- <div
@@ -198,10 +198,9 @@
             >
               <template v-if="answerIndex === questionIndex">
                 <p
+                  v-html="answer.answer"
                   class="text-[#5e6466] font-Satoshi400 text-[14px] mt-2 tracking-[0.6px]"
-                >
-                  {{ answer.answer }}
-                </p>
+                ></p>
               </template>
               <!-- <p
                 v-if="index === answerIndex"
