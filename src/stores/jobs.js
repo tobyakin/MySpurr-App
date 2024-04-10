@@ -256,9 +256,9 @@ const handleAddRating = async (payload) => {
       console.error(error)
     }
   }
-  const handleGetTalentApplication = async (job_id) => {
+  const handleGetTalentApplication = async (job_id, talent_id) => {
     try {
-      talentApplication.value = await getTalentApplication(job_id)
+      talentApplication.value = await getTalentApplication(job_id, talent_id)
       return talentApplication.value
     } catch (error) {
       console.error(error)

@@ -203,11 +203,11 @@ export const getApplicants = async (id) => {
   }
 }
 
-export const getTalentApplication = async (job_id) => {
+export const getTalentApplication = async (job_id, talent_id) => {
   const token = await getToken()
 
   try {
-    let res = await axios.get(`v1/applications/${job_id}`, {
+    let res = await axios.get(`v1/application/${talent_id}/${job_id}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }

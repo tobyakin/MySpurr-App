@@ -221,6 +221,7 @@ const skillsStore = useSkillsStore();
 const { contriesCode } = storeToRefs(skillsStore);
 
 const applicantsId = ref(null);
+const jobId = ref(route.params.id);
 const sortInput = reactive({
   Salary: "",
   skills: "",
@@ -248,13 +249,13 @@ const Salary = computed(() => {
   return applicants.value?.data?.applicants?.map((item) => item.rate);
 });
 
-const handleViewProfile = (id) => {
-  applicantsId.value = id;
-  console.log(id);
+const handleViewProfile = (talent_id) => {
+  applicantsId.value = talent_id;
+  console.log(talent_id);
 };
-watch(applicantsId, async (newInput) => {
+watch([applicantsId, jobId], async ([newApplicantsId, newJobId]) => {
   loadTalentProfile.value = true;
-  await jobsStore.handleGetTalentApplication(newInput);
+  await jobsStore.handleGetTalentApplication(newJobId, newApplicantsId);
   loadTalentProfile.value = false;
 });
 const getJobDetailsById = async () => {

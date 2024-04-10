@@ -13,7 +13,8 @@ import {
   addCertificate,
   updateCertificate,
   updatePortfolio,
-  getSinglePortfolio
+  getSinglePortfolio,
+  updateBusinessDeatils
 } from '@/services/Profile'
 
 export const useUserProfile = defineStore('profile', () => {
@@ -21,22 +22,41 @@ export const useUserProfile = defineStore('profile', () => {
 
   const profileImage = ref('')
 
-  const bioInfo = ref({
+  const businessDeatils = ref({
     first_name: '',
     last_name: '',
-    skill_title: '',
-    rate: '',
+    business_name: '',
     location: '',
-    linkedin: '',
-    instagram: '',
-    twitter: '',
-    behance: '',
-    facebook: '',
-    ciso: '',
-    siso: '',
-    calendlylink: '',
-    experienceLevel: ''
+    industry: '',
+    about_business: '',
+    website: '',
+    business_service: '',
+    business_email: '',
+    company_logo: '',
+    company_type: '',
+    social_media: '',
+    social_media_two: '',
+          ciso: '',
+      siso: '',
+
   })
+    const bioInfo = ref({
+      first_name: '',
+      last_name: '',
+      skill_title: '',
+      rate: '',
+      location: '',
+      linkedin: '',
+      instagram: '',
+      twitter: '',
+      behance: '',
+      facebook: '',
+      ciso: '',
+      siso: '',
+      calendlylink: '',
+      experienceLevel: ''
+    })
+
   const overview = ref('')
   const employment_details = ref({
     company_name: '',
@@ -65,20 +85,45 @@ export const useUserProfile = defineStore('profile', () => {
     certificate_date: ''
   })
 const singlePortfolio = ref({})
-  const userProfile = async () => {
-    try {
-      user.value = await getUserProfile()
-      return user.value
-    } catch (error) {
-      console.error('Error fetching user profile:', error)
+    const userProfile = async () => {
+      try {
+        user.value = await getUserProfile()
+        return user.value
+      } catch (error) {
+        console.error('Error fetching user profile:', error)
+      }
     }
-  }
-  const handleUpdateProfilePhoto = async () => {
+
+      const handleUpdateProfilePhoto = async () => {
+        let payload = {
+          image: profileImage.value
+        }
+        try {
+          let res = await updateProfilePhoto(payload)
+          return res
+        } catch (error) {
+          /**/
+        }
+      }
+
+  const handleUpdateBusinessDeatils = async () => {
     let payload = {
-      image: profileImage.value
+      first_name: businessDeatils.value.first_name,
+      last_name: businessDeatils.value.last_name,
+      business_name: businessDeatils.value.business_name,
+      location: businessDeatils.value.location,
+      industry: businessDeatils.value.industry,
+      about_business: businessDeatils.value.about_business,
+      website: businessDeatils.value.website,
+      business_service: businessDeatils.value.business_service,
+      business_email: businessDeatils.value.business_email,
+      company_logo: businessDeatils.value.company_logo,
+      company_type: businessDeatils.value.company_type,
+      social_media: businessDeatils.value.social_media,
+      social_media_two: businessDeatils.value.social_media_two
     }
     try {
-      let res = await updateProfilePhoto(payload)
+      let res = await updateBusinessDeatils(payload)
       return res
     } catch (error) {
       /**/
@@ -245,6 +290,8 @@ const singlePortfolio = ref({})
     handleUpdateCertificate,
     handleUpdatePortfolio,
     handleGetSinglePortfolio,
-    singlePortfolio
+    singlePortfolio,
+    businessDeatils,
+    handleUpdateBusinessDeatils
   }
 })

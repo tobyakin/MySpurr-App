@@ -183,7 +183,7 @@
         </p>
         <div class="flex flex-col mt-[8px] gap-4">
           <div
-            v-for="i in props?.talents?.questions"
+            v-for="(i, questionIndex) in props?.talents?.questions"
             :key="i"
             class="border-[#2440341A] bg-white border-[1.265px] rounded-[9.732px] p-4"
           >
@@ -192,10 +192,23 @@
             >
               {{ i.question }}
             </p>
-            <div v-for="answer in getAnswersForQuestion(i.id)" :key="answer.id">
-              <p class="text-[#5e6466] font-Satoshi400 text-[14px] mt-2 tracking-[0.6px]">
+            <div
+              v-for="(answer, answerIndex) in props?.talents?.answers"
+              :key="answer.id"
+            >
+              <template v-if="answerIndex === questionIndex">
+                <p
+                  class="text-[#5e6466] font-Satoshi400 text-[14px] mt-2 tracking-[0.6px]"
+                >
+                  {{ answer.answer }}
+                </p>
+              </template>
+              <!-- <p
+                v-if="index === answerIndex"
+                class="text-[#5e6466] font-Satoshi400 text-[14px] mt-2 tracking-[0.6px]"
+              >
                 {{ answer.answer }}
-              </p>
+              </p> -->
             </div>
           </div>
         </div>
@@ -249,8 +262,8 @@
 <script setup>
 import { ref, computed, onMounted, watch, defineAsyncComponent } from "vue";
 import UserAvater from "@/components/ui/Avater/UserAvater.vue";
-import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
-import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
+// import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
+// import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
 import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
 import InstagramIcon from "@/components/icons/instagramIcon.vue";
 import BeIcon from "@/components/icons/beIcon.vue";
@@ -299,9 +312,9 @@ function downloadFile(url, filename) {
   // Clean up: remove the anchor from the body
   document.body.removeChild(anchor);
 }
-const getAnswersForQuestion = (questionId) => {
-  return props?.talents?.answers.filter((answer) => answer.question_id === questionId);
-};
+// const getAnswersForQuestion = (index) => {
+//   return props?.talents?.answers.filter((answer, answerIndex) => answerIndex === index);
+// };
 const ratingVlaue = computed(() => {
   return props?.talents;
 });

@@ -84,7 +84,10 @@
         :alt="item?.title"
       />
     </div>
-    <button @click="viewProfile(props?.talent?.id)" class="flex items-center gap-4 mt-6">
+    <button
+      @click="viewProfile(props?.talent?.talent_id)"
+      class="flex items-center gap-4 mt-6"
+    >
       <p class="text-[10.378px] font-Satoshi500 text-[#244034]">View Applicantion</p>
       <ArrowRight />
     </button>
@@ -104,8 +107,8 @@ const props = defineProps({
 });
 const emit = defineEmits(["viewProfile"]);
 
-const viewProfile = (id) => {
-  emit("viewProfile", id);
+const viewProfile = (talent_id) => {
+  emit("viewProfile", talent_id);
 };
 const imageExists = ref(false);
 const initials = ref("");
