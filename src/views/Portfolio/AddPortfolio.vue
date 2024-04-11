@@ -192,13 +192,13 @@ const uploadImage = (event, index) => {
 
         // Assign reduced quality image to portfolio.cover_image
         portfolio.value.project_image[index].image = reducedQualityDataURL;
-        portfolio.value.project_image[index].name = file.name;
+        portfolio.value.project_name[index].name = file.name;
       };
     };
     reader.readAsDataURL(file);
   } else {
     portfolio.value.project_image[index].image = null;
-    portfolio.value.project_image[index].name = null;
+    portfolio.value.project_name[index].name = null;
   }
 };
 const uploadFeatureImage = (event) => {
@@ -250,7 +250,7 @@ const uploadFeatureImage = (event) => {
 };
 const removeImage = (index) => {
   portfolio.value.project_image[index].image = null;
-  portfolio.value.project_image[index].name = null;
+  portfolio.value.project_name[index].name = null;
   // uploadedImageName.value = "";
 };
 const removeFeatureImage = () => {
@@ -425,7 +425,11 @@ const saveAsDraft = async () => {
             v-if="image.image"
             class="w-full bg-[#EDF2F7] flex flex-row items-center justify-between rounded-[5.897px] py-[20px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
           >
-            <p>{{ image.name }}</p>
+            <div v-for="(name, nameIndex) in portfolio.project_name" :key="nameIndex">
+              <template v-if="nameIndex === index">
+                <p v-html="name.name"></p>
+              </template>
+            </div>
             <button
               @click="removeImage(index)"
               class="origin-center rotate-45 text-[28.468px] font-Satoshi400 text-[#3F634D]"

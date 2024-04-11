@@ -52,7 +52,8 @@ const portfolio = ref({
   description: '',
   category_id: '',
   tags: [],
-  project_image: Array.from({ length: 4 }, () => ({ name: null, image: null })),
+  project_image: Array.from({ length: 4 }, () => ({ image: null })),
+  project_name: Array.from({ length: 4 }, () => ({ name: null })),
   featured_image: null,
   link: ''
 })
