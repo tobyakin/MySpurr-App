@@ -1,10 +1,10 @@
 <script setup>
-import { defineAsyncComponent, ref, computed } from "vue";
+import { onUnmounted, ref, computed } from "vue";
 import { storeToRefs } from "pinia";
 import "vue-slider-component/theme/antd.css";
-import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
+// import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import { useStore } from "@/stores/user";
+// import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useUserProfile } from "@/stores/profile";
@@ -23,7 +23,7 @@ const userProfile = useUserProfile();
 //   import("@/components/ui/Form/Input/FormGroup.vue")
 // );
 // const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
-let store = useStore();
+// let store = useStore();
 
 // add tag
 let options = ref([
@@ -290,6 +290,9 @@ const saveAsDraft = async () => {
     router.push({ name: "profile" });
   }
 };
+onUnmounted(() => {
+  restForm();
+});
 </script>
 
 <template>
@@ -425,7 +428,11 @@ const saveAsDraft = async () => {
             v-if="image.image"
             class="w-full bg-[#EDF2F7] flex flex-row items-center justify-between rounded-[5.897px] py-[20px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
           >
-            <div v-for="(name, nameIndex) in portfolio.project_name" :key="nameIndex">
+            <div
+              class="w-full flex"
+              v-for="(name, nameIndex) in portfolio.project_name"
+              :key="nameIndex"
+            >
               <template v-if="nameIndex === index">
                 <p v-html="name.name"></p>
               </template>
@@ -437,12 +444,6 @@ const saveAsDraft = async () => {
               +
             </button>
           </div>
-          <img
-            v-if="image.image"
-            :src="image.image"
-            alt="Uploaded Image"
-            class="rounded-[5.897px] object-cover h-[300px] w-full"
-          />
 
           <div v-if="!image.image" class="flex lg:flex-row flex-col gap-2 items-center">
             <input
@@ -460,6 +461,12 @@ const saveAsDraft = async () => {
               Upload file .jpeg, .png, .svg
             </p>
           </div>
+          <img
+            v-if="image.image"
+            :src="image.image"
+            alt="Uploaded Image"
+            class="rounded-[5.897px] object-cover h-[300px] w-full"
+          />
         </div>
       </div>
       <h4 class="text-[#2B7551] font-Satoshi500 text-[28.468px] mt-[64.05px]">

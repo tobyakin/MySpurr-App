@@ -2,7 +2,11 @@
   <div class="w-full font-Satoshi400" :class="{ 'md:w-[45%]': two, 'md:w-[31%]': three }">
     <div class="flex flex-col justify-between h-full">
       <router-link :to="{ name: 'edit-portfolio', params: { id: profolioId } }">
-        <img class="w-full h-auto max-h-[283.472px] rounded-lg" :src="image" />
+        <img
+          class="w-full object-cover h-[172.07px] bg-[#EFF6F3] rounded-lg"
+          :src="image"
+          :alt="alt"
+        />
       </router-link>
       <div>
         <div class="flex items-center justify-between gap-2 py-[13px]">
@@ -43,6 +47,7 @@ const props = defineProps({
   date: String,
   blog_category: String,
   blog: Object,
+  alt: String,
 });
 const redirectToSinglePortfolio = () => {
   router.push({ name: "edit-portfolio", params: { id: props.profolioId } });
