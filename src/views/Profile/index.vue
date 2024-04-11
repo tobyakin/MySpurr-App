@@ -1,6 +1,6 @@
 <template>
   <BusinessProfilePage v-if="accountType === 'business'" />
-  <ProfilePage v-if="accountType === 'talent'" />
+  <ProfilePage v-else />
 </template>
 <script setup>
 import { computed, onMounted } from "vue";

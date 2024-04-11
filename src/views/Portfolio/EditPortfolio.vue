@@ -1,10 +1,10 @@
 <script setup>
-import { defineAsyncComponent, ref, computed, onMounted, watch } from "vue";
+import { ref, onUnmounted, computed, onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 import "vue-slider-component/theme/antd.css";
-import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
+// import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import { useStore } from "@/stores/user";
+// import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useUserProfile } from "@/stores/profile";
@@ -25,7 +25,7 @@ const { singlePortfolio } = storeToRefs(userProfile);
 //   import("@/components/ui/Form/Input/FormGroup.vue")
 // );
 // const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
-let store = useStore();
+// let store = useStore();
 
 // add tag
 let options = ref([
@@ -72,7 +72,7 @@ const selectOption = (option) => {
     search.value = "";
     showDropdown.value = false;
     highlightedIndex.value = -1;
-    portfolio.value.tags.push(option);
+    portfolio.value.tags.push(option.name);
   }
 };
 
@@ -110,45 +110,143 @@ const selectHighlightedOption = () => {
 // end tag ends here
 // upload image
 const uploadedImageName = ref("");
+const uploadedFeatureImageName = ref("");
 
-const uploadImage = (event) => {
+const uploadImage = (event, index) => {
   const file = event.target.files[0];
+
   if (file) {
     const reader = new FileReader();
     uploadedImageName.value = file.name;
 
     reader.onload = () => {
-      portfolio.value.cover_image = reader.result;
+      const img = new Image();
+      img.src = reader.result;
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const maxSizeMB = 10; // Maximum allowed file size in MB
+        const maxDimension = 1200; // Maximum width or height of the image
+
+        let width = img.width;
+        let height = img.height;
+
+        // Check if image size exceeds the maximum allowed size
+        let scaleFactor = 1;
+        if (file.size / (1024 * 1024) > maxSizeMB) {
+          scaleFactor = Math.min(maxDimension / width, maxDimension / height);
+          width *= scaleFactor;
+          height *= scaleFactor;
+        }
+
+        // Set canvas dimensions
+        canvas.width = width;
+        canvas.height = height;
+
+        // Draw image on canvas
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert canvas to base64 data URL with reduced quality
+        const reducedQualityDataURL = canvas.toDataURL("image/jpeg", 0.4); // Adjust quality as needed
+
+        // Assign reduced quality image to portfolio.cover_image
+        portfolio.value.project_image[index].image = reducedQualityDataURL;
+        portfolio.value.project_name[index].name = file.name;
+      };
     };
     reader.readAsDataURL(file);
   } else {
-    portfolio.value.cover_image = "";
+    portfolio.value.project_image[index].image = null;
+    portfolio.value.project_name[index].name = null;
   }
 };
+const uploadFeatureImage = (event) => {
+  const file = event.target.files[0];
 
-const removeImage = () => {
-  portfolio.value.cover_image = null;
-  uploadedImageName.value = "";
+  if (file) {
+    const reader = new FileReader();
+    uploadedFeatureImageName.value = file.name;
+
+    reader.onload = () => {
+      const img = new Image();
+      img.src = reader.result;
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const maxSizeMB = 10; // Maximum allowed file size in MB
+        const maxDimension = 1200; // Maximum width or height of the image
+
+        let width = img.width;
+        let height = img.height;
+
+        // Check if image size exceeds the maximum allowed size
+        let scaleFactor = 1;
+        if (file.size / (1024 * 1024) > maxSizeMB) {
+          scaleFactor = Math.min(maxDimension / width, maxDimension / height);
+          width *= scaleFactor;
+          height *= scaleFactor;
+        }
+
+        // Set canvas dimensions
+        canvas.width = width;
+        canvas.height = height;
+
+        // Draw image on canvas
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert canvas to base64 data URL with reduced quality
+        const reducedQualityDataURL = canvas.toDataURL("image/jpeg", 0.4); // Adjust quality as needed
+
+        // Assign reduced quality image to portfolio.cover_image
+        portfolio.value.featured_image = reducedQualityDataURL;
+      };
+    };
+    reader.readAsDataURL(file);
+  } else {
+    portfolio.value.featured_image = "";
+  }
 };
+const removeImage = (index) => {
+  portfolio.value.project_image[index].image = null;
+  portfolio.value.project_name[index].name = null;
+  // uploadedImageName.value = "";
+};
+const removeFeatureImage = () => {
+  portfolio.value.featured_image = null;
+  uploadedFeatureImageName.value = "";
+};
+const restForm = () => {
+  (portfolio.value.title = ""),
+    (portfolio.value.category_id = ""),
+    (portfolio.value.description = ""),
+    (portfolio.value.tags = []),
+    (portfolio.value.project_image = Array.from({ length: 4 }, () => ({
+      name: null,
+      image: null,
+    }))),
+    (portfolio.value.link = ""),
+    (portfolio.value.featured_image = "");
+};
+
 const onFinish = async () => {
   loading.value = true;
-  let coverImage = "";
+  let featuredImage = "";
   // Check if the cover image is the same as the pre-filled one
-  if (portfolio.value.cover_image === SingleCertificateObject.value.cover_image) {
-    portfolio.value.cover_image = ""; // Return empty string if cover image is the same
+  if (portfolio.value.featured_image === SingleCertificateObject.value.featured_image) {
+    portfolio.value.featured_image = ""; // Return empty string if cover image is the same
   } else {
-    coverImage = portfolio.value.cover_image;
+    featuredImage = portfolio.value.featured_image;
   }
   let payload = {
     title: portfolio.value.title,
-    client_name: portfolio.value.client_name,
-    job_type: portfolio.value.job_type,
-    location: portfolio.value.location,
-    max_rate: portfolio.value.max_rate,
-    min_rate: portfolio.value.min_rate,
+    description: portfolio.value.description,
+    category_id: portfolio.value.category_id,
+    project_image: portfolio.value.project_image,
     tags: portfolio.value.tags,
-    cover_image: coverImage,
-    body: portfolio.value.body,
+    featured_image: featuredImage,
+    link: portfolio.value.link,
   };
   try {
     const res = await userProfile.handleUpdatePortfolio(portfolioID.value, payload);
@@ -159,29 +257,26 @@ const onFinish = async () => {
   } finally {
     loading.value = false;
     (portfolio.value.title = ""),
-      (portfolio.value.client_name = ""),
-      (portfolio.value.job_type = ""),
-      (portfolio.value.location = ""),
+      (portfolio.value.description = ""),
+      (portfolio.value.category_id = ""),
       (portfolio.value.tags = []),
-      (portfolio.value.cover_imag = null),
-      (portfolio.value.body = ""),
-      (portfolio.value.max_rate = ""),
-      (portfolio.value.min_rate = "");
-
-    router.push({ name: "profile" });
+      (portfolio.value.project_image = Array.from({ length: 4 }, () => ({
+        image: null,
+      }))),
+      (portfolio.value.featured_image = null),
+      (portfolio.value.link = ""),
+      router.push({ name: "profile" });
   }
 };
 
 const prefillDetails = (SingleObject) => {
   portfolio.value.title = SingleObject.title || "";
-  portfolio.value.client_name = SingleObject.client_name || "";
-  portfolio.value.job_type = SingleObject.job_type || "";
-  portfolio.value.location = SingleObject.location || "";
-  portfolio.value.max_rate = SingleObject.max_rate || "";
-  portfolio.value.min_rate = SingleObject.min_rate || "";
-  portfolio.value.cover_image = SingleObject.cover_image || null;
-  portfolio.value.tags = SingleObject.tags || "";
-  portfolio.value.body = SingleObject.body || "";
+  portfolio.value.description = SingleObject.description || "";
+  portfolio.value.category_id = SingleObject.category_id || "";
+  portfolio.value.tags = SingleObject.tags || [];
+  portfolio.value.project_image = SingleObject.project_image || "";
+  portfolio.value.featured_image = SingleObject.featured_image || "";
+  portfolio.value.link = SingleObject.link || "";
 };
 watch(SingleCertificateObject, (newSingleObject) => {
   prefillDetails(newSingleObject);
@@ -198,6 +293,9 @@ onMounted(async () => {
     showPageLoader.value = !showPageLoader.value;
   }
 });
+onUnmounted(() => {
+  restForm();
+});
 </script>
 
 <template>
@@ -208,83 +306,146 @@ onMounted(async () => {
         Project details
       </h4>
       <div class="mt-8 flex flex-col gap-[49px]">
-        <FormGroup
-          v-model="portfolio.title"
-          labelClasses="font-Satoshi500 !text-[17.792px]"
-          label="Title"
-          name="Name"
-          placeholder="Vino brand identity"
-          type="text"
-          inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-        ></FormGroup>
         <div class="flex lg:flex-row flex-col w-full gap-8">
-          <SelectGroup
-            v-model="portfolio.client_name"
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Creative work"
+          <FormGroup
+            v-model="portfolio.title"
+            labelClasses="font-Satoshi500 !text-[17.792px]"
+            label="Title"
             name="Name"
-            :items="['Brand Identity Design ', 'Logo Design', 'Graphic Design']"
-            placeholder="Creative work"
+            placeholder="Vino brand identity"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 !bg-[#ffffff] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-          ></SelectGroup>
-          <SelectGroup
-            v-model="portfolio.job_type"
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Employment type"
-            name="Name"
-            :items="['Freelance', 'Full Time', 'Part Time']"
-            placeholder="Employment type"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-          ></SelectGroup>
-        </div>
-        <div class="flex lg:flex-row flex-col w-full gap-8">
-          <div class="lg:w-[50%]">
-            <FormGroup
-              v-model="portfolio.location"
-              labelClasses="font-Satoshi500 text-[15.606px]"
-              label="Location"
-              placeholder="Lagos, Nigeria"
-              type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-            ></FormGroup>
-          </div>
-          <div class="lg:w-[50%] flex flex-row gap-9">
-            <FormGroup
-              v-model="portfolio.min_rate"
-              labelClasses=" "
-              label="Rate (Optional)"
-              name="Min"
-              placeholder="Min"
-              type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-[10px] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-            ></FormGroup>
-            <FormGroup
-              v-model="portfolio.max_rate"
-              labelClasses=" invisible"
-              label="Max "
-              name="Max"
-              placeholder="Max"
-              type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-[10px] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-            ></FormGroup>
+            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 !py-2.5 !border-[#254035AB] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
+          ></FormGroup>
+          <div class="flex flex-col w-full text-left">
+            <Label class="font-Satoshi500 !text-[17.792px] mb-2.5">Category</Label>
+            <a-select
+              placeholder=""
+              :show-arrow="true"
+              :bordered="true"
+              class="w-full !outline-none !px-1"
+              show-search
+              v-model:value="portfolio.category_id"
+            >
+              <a-select-option
+                v-for="item in [
+                  { id: 0, name: 'Brand Identity Design ' },
+                  { id: 1, name: 'Logo Design' },
+                  { id: 2, name: 'Graphic Design' },
+                ]"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.name }}
+              </a-select-option>
+            </a-select>
           </div>
         </div>
       </div>
-      <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
-        Start building your project
+      <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[44.05px]">
+        Describe your project (300 words)
       </h4>
       <div class="mt-8 flex flex-col h-[58vh]">
         <QuillEditor
-          v-model:content="portfolio.body"
+          v-model:content="portfolio.description"
           class=""
           theme="snow"
-          toolbar="full"
           placeholder="Write about the job in details..."
           contentType="html"
         />
       </div>
+      <h4 class="text-[#2B7551] font-Satoshi500 text-[28.468px] mt-[44.05px]">
+        Upload up to 4 project images
+      </h4>
+      <div class="mt-8 flex flex-col gap-8">
+        <Label class="font-Satoshi500 text-[15.606px]">File Attachment*</Label>
+        <div
+          v-for="(image, index) in portfolio.project_image"
+          :key="index"
+          class="flex flex-col gap-4"
+        >
+          <div
+            v-if="image.image"
+            class="w-full bg-[#EDF2F7] flex flex-row items-center justify-between rounded-[5.897px] py-[20px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
+          >
+            <div v-for="(name, nameIndex) in portfolio.project_name" :key="nameIndex">
+              <template v-if="nameIndex === index">
+                <p v-html="name.name"></p>
+              </template>
+            </div>
+            <button
+              @click="removeImage(index)"
+              class="origin-center rotate-45 text-[28.468px] font-Satoshi400 text-[#3F634D]"
+            >
+              +
+            </button>
+          </div>
+          <img
+            v-if="image.image"
+            :src="image.image"
+            alt="Uploaded Image"
+            class="rounded-[5.897px] object-cover h-[300px] w-full"
+          />
+
+          <div v-if="!image.image" class="flex lg:flex-row flex-col gap-2 items-center">
+            <input
+              :id="'cover_image_' + index"
+              hidden
+              type="file"
+              @change="uploadImage($event, index)"
+            />
+            <label
+              :for="'cover_image_' + index"
+              class="bg-[#3F634D33] px-8 p-3 cursor-pointer rounded-[8.303px] text-[17.792px] text-[#3F634D] font-Satoshi500"
+              ><span> + Upload File</span></label
+            >
+            <p class="text-[#00000080] font-Satoshi400 text-[16.606px]">
+              Upload file .jpeg, .png, .svg
+            </p>
+          </div>
+        </div>
+      </div>
+      <h4 class="text-[#2B7551] font-Satoshi500 text-[28.468px] mt-[64.05px]">
+        Upload featured image
+      </h4>
+      <div class="mt-8 flex flex-col gap-8">
+        <Label class="font-Satoshi500 text-[15.606px]">File Attachment*</Label>
+        <div class="flex flex-col gap-4" f>
+          <div
+            v-if="portfolio.featured_image"
+            class="w-full bg-[#EDF2F7] flex flex-row items-center justify-between rounded-[5.897px] py-[20px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
+          >
+            <p>{{ uploadedFeatureImageName }}</p>
+            <button
+              @click="removeFeatureImage"
+              class="origin-center rotate-45 text-[28.468px] font-Satoshi400 text-[#3F634D]"
+            >
+              +
+            </button>
+          </div>
+          <img
+            v-if="portfolio.featured_image"
+            :src="portfolio?.featured_image"
+            alt="Uploaded Image"
+            class="rounded-[5.897px] object-cover h-[300px] w-full"
+          />
+
+          <div
+            v-if="!portfolio.featured_image"
+            class="flex lg:flex-row flex-col gap-2 items-center"
+          >
+            <input id="featured_image" hidden type="file" @change="uploadFeatureImage" />
+            <label
+              for="featured_image"
+              class="bg-[#3F634D33] px-8 p-3 cursor-pointer rounded-[8.303px] text-[17.792px] text-[#3F634D] font-Satoshi500"
+              ><span> + Upload File</span></label
+            >
+            <p class="text-[#00000080] font-Satoshi400 text-[16.606px]">
+              Upload file .jpeg, .png, .svg
+            </p>
+          </div>
+        </div>
+      </div>
+
       <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">Tags</h4>
       <div class="mt-8 flex flex-col gap-8">
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
@@ -295,10 +456,10 @@ onMounted(async () => {
             <div class="selected-items p-2 gap-2">
               <div
                 v-for="(selectedItem, index) in portfolio.tags"
-                :key="selectedItem.id"
+                :key="selectedItem"
                 class="selected-item bg-[#31795A1A] text-sm font-Satoshi400 gap-2 px-4 p-[5px] text-[#0000008A] !rounded-full"
               >
-                {{ selectedItem.name }}
+                {{ selectedItem }}
                 <span
                   @click="removeSelectedItem(index)"
                   class="remove-btn text-black hover:text-red-500"
@@ -338,7 +499,7 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <h4 class="text-[#2B7551] font-Satoshi500 text-[28.468px] mt-[64.05px]">
+      <!-- <h4 class="text-[#2B7551] font-Satoshi500 text-[28.468px] mt-[64.05px]">
         Featured image
       </h4>
       <div class="mt-8 flex flex-col gap-8">
@@ -375,7 +536,22 @@ onMounted(async () => {
             </p>
           </div>
         </div>
+      </div> -->
+      <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
+        Share a Link to full project
+      </h4>
+
+      <div class="w-full mt-8 flex flex-col gap-8">
+        <FormGroup
+          v-model="portfolio.link"
+          labelClasses="font-Satoshi500 text-[15.606px]"
+          label=""
+          placeholder=""
+          type="text"
+          inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 !border-[#254035AB] !border-[0.909px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
+        ></FormGroup>
       </div>
+
       <div class="flex gap-4 justify-center mt-12">
         <button
           @click="onFinish"

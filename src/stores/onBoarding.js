@@ -49,16 +49,14 @@ export const useOnboardingStore = defineStore('onBoardingStore', () => {
     });
 const portfolio = ref({
   title: '',
-  client_name: '',
-  job_type: '',
-  location: '',
-  rate: '',
+  description: '',
+  category_id: '',
   tags: [],
-  cover_image: null,
-  body: '',
-  min_rate:'',
-  max_rate:''
-});
+  project_image: Array.from({ length: 4 }, () => ({ image: null })),
+  project_name: Array.from({ length: 4 }, () => ({ name: null })),
+  featured_image: null,
+  link: ''
+})
 let verifyIdentityData = ref({
   country: '',
   document_type: '',
@@ -81,16 +79,13 @@ const businessDetails = ref({
       let payload = {
         portfolio: {
           title: portfolio.value.title,
-          client_name: portfolio.value.client_name,
-          job_type: portfolio.value.job_type,
-          location: portfolio.value.location,
-          min_rate: portfolio.value.min_rate,
-          max_rate: portfolio.value.max_rate,
+          description: portfolio.value.description,
+          category_id: portfolio.value.category_id,
           tags: portfolio.value.tags,
-          cover_image: portfolio.value.cover_image,
-          body: portfolio.value.body,
+          link: portfolio.value.link,
+          project_image: portfolio.value.project_image,
+          featured_image: portfolio.value.featured_image,
           is_draft: 'false'
-
         }
       }
       try {
@@ -104,16 +99,13 @@ const businessDetails = ref({
             let payload = {
               portfolio: {
                 title: portfolio.value.title,
-                client_name: portfolio.value.client_name,
-                job_type: portfolio.value.job_type,
-                location: portfolio.value.location,
-                min_rate: portfolio.value.min_rate,
-                max_rate: portfolio.value.max_rate,
+                description: portfolio.value.description,
+                category_id: portfolio.value.category_id,
                 tags: portfolio.value.tags,
-                cover_image: portfolio.value.cover_image,
-                body: portfolio.value.body,
+                link: portfolio.value.link,
+                project_image: portfolio.value.project_image,
+                featured_image: portfolio.value.featured_image,
                 is_draft: 'true'
-
               }
             }
 try {

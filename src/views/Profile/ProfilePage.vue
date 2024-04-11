@@ -422,7 +422,7 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
 
             <div
               v-if="userDetails?.portfolio"
-              class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
+              class="overflow-hidden hide-scrollbar flex flex-row w-full lg:grid lg:grid-cols-3 gap-3 overflow-x-auto"
             >
               <img
                 @click="redirectToSinglePortfolio(img.id)"
@@ -430,8 +430,8 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
                 v-for="img in userDetails?.portfolio"
                 :key="img"
                 :src="img.cover_image"
-                class="h-[214.078px] flex flex-col w-auto rounded-lg"
-                alt=""
+                class="h-[221.52px] object-cover flex flex-col bg-[#EFF6F3] w-full rounded-lg"
+                :alt="img.title"
               />
             </div>
 

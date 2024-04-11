@@ -55,6 +55,7 @@ onMounted(async () => {
           :key="img"
           :image="img.cover_image"
           :profolioId="img.id"
+          :alt="img.title"
         />
       </div>
     </div>
