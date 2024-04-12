@@ -200,7 +200,7 @@ const uploadImage = (event, index) => {
         ctx.drawImage(img, 0, 0, width, height);
 
         // Convert canvas to base64 data URL with reduced quality
-        const reducedQualityDataURL = canvas.toDataURL("image/jpeg", 0.4); // Adjust quality as needed
+        const reducedQualityDataURL = canvas.toDataURL("image/jpeg", 0.2); // Adjust quality as needed
 
         // Assign reduced quality image to portfolio.cover_image
         portfolio.value.project_image[index].image = reducedQualityDataURL;
@@ -249,7 +249,7 @@ const uploadFeatureImage = (event) => {
         ctx.drawImage(img, 0, 0, width, height);
 
         // Convert canvas to base64 data URL with reduced quality
-        const reducedQualityDataURL = canvas.toDataURL("image/jpeg", 0.4); // Adjust quality as needed
+        const reducedQualityDataURL = canvas.toDataURL("image/jpeg", 0.2); // Adjust quality as needed
 
         // Assign reduced quality image to portfolio.cover_image
         portfolio.value.featured_image = reducedQualityDataURL;
