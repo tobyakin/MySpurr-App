@@ -48,7 +48,7 @@ onMounted(async () => {
         <button @click="redirectToSinglePortfolio"><CirclePlus /></button>
       </div>
       <div
-        class="flex lg:grid-cols-4 lg:grid flex-row gap-3 hide-scrollbar overflow-x-auto w-full"
+        class="flex lg:grid-cols-4 lg:grid flex-row gap-3 hide-scrollbar overflow-y-auto w-full max-h-[40vh]"
       >
         <PortfolioCard
           v-for="img in userDetails?.portfolio"
