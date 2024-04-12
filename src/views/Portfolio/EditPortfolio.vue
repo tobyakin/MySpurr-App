@@ -250,6 +250,7 @@ const onFinish = async () => {
     tags: portfolio.value.tags,
     featured_image: featuredImage,
     link: portfolio.value.link,
+    is_draft: "false",
   };
   try {
     const res = await userProfile.handleUpdatePortfolio(portfolioID.value, payload);
