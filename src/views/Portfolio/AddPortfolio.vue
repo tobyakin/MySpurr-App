@@ -27,24 +27,16 @@ const userProfile = useUserProfile();
 // );
 // const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
 // let store = useStore();
-let wordCount = ref(0);
-let wordLimit = ref(300); // Set your desired word limit here
+const maxCharacters = 300;
 
-function stripHTMLTags(html) {
-  let doc = new DOMParser().parseFromString(html, "text/html");
-  return doc.body.textContent || "";
-}
-function checkWordLimit() {
-  let text = stripHTMLTags(portfolio.value.description);
-  let words = text.replace(/\s+/g, " ").trim().split(" ");
-  wordCount.value = words.length;
+const characterCount = computed(() => portfolio.value.description.length);
+const isDisabled = computed(() => characterCount.value >= maxCharacters);
 
-  if (wordCount.value > wordLimit.value) {
-    let diff = wordCount.value - wordLimit.value;
-    let lastIndex = words.length - diff;
-    portfolio.value.description = words.slice(0, lastIndex).join(" ");
+const handleChange = () => {
+  if (portfolio.value.description.length > maxCharacters) {
+    portfolio.value.description = portfolio.value.description.substring(0, maxCharacters);
   }
-}
+};
 // add tag
 let options = ref([
   { name: "Design" },
@@ -430,10 +422,13 @@ onMounted(async () => {
           v-model:content="portfolio.description"
           class=""
           theme="snow"
+          @change="handleChange"
+          :enable="!isDisabled"
           placeholder="Write about the job in details..."
           contentType="html"
         />
-        <!-- // <p>Word Count: {{ wordCount }}</p> -->
+
+        <div>{{ characterCount }} / {{ maxCharacters }}</div>
       </div>
       <h4 class="text-[#2B7551] font-Satoshi500 text-[28.468px] mt-[44.05px]">
         Upload up to 4 project images
