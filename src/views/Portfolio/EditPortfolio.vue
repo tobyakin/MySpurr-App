@@ -13,6 +13,9 @@ import { useRouter, useRoute } from "vue-router";
 import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
 import Label from "@/components/ui/Form/Input/Label.vue";
+import { useSkillsStore } from "@/stores/skills";
+const skillsStore = useSkillsStore();
+const { skills } = storeToRefs(skillsStore);
 
 const router = useRouter();
 const route = useRoute();
@@ -247,6 +250,7 @@ const onFinish = async () => {
     tags: portfolio.value.tags,
     featured_image: featuredImage,
     link: portfolio.value.link,
+    is_draft: "false",
   };
   try {
     const res = await userProfile.handleUpdatePortfolio(portfolioID.value, payload);
@@ -296,6 +300,10 @@ onMounted(async () => {
 onUnmounted(() => {
   restForm();
 });
+onMounted(async () => {
+  await userProfile.userProfile();
+  await skillsStore.getskills();
+});
 </script>
 
 <template>
@@ -327,11 +335,7 @@ onUnmounted(() => {
               v-model:value="portfolio.category_id"
             >
               <a-select-option
-                v-for="item in [
-                  { id: 0, name: 'Brand Identity Design ' },
-                  { id: 1, name: 'Logo Design' },
-                  { id: 2, name: 'Graphic Design' },
-                ]"
+                v-for="item in skills?.data"
                 :key="item.id"
                 :value="item.id"
               >

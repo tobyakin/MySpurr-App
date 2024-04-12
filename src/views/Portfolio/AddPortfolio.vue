@@ -1,5 +1,5 @@
 <script setup>
-import { onUnmounted, ref, computed } from "vue";
+import { onUnmounted, onMounted, ref, computed } from "vue";
 import { storeToRefs } from "pinia";
 import "vue-slider-component/theme/antd.css";
 // import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
@@ -13,6 +13,9 @@ import { useRouter } from "vue-router";
 import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
 import Label from "@/components/ui/Form/Input/Label.vue";
 const router = useRouter();
+import { useSkillsStore } from "@/stores/skills";
+const skillsStore = useSkillsStore();
+const { skills } = storeToRefs(skillsStore);
 
 const OnboardingStore = useOnboardingStore();
 const { portfolio } = storeToRefs(OnboardingStore);
@@ -24,7 +27,24 @@ const userProfile = useUserProfile();
 // );
 // const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
 // let store = useStore();
+let wordCount = ref(0);
+let wordLimit = ref(300); // Set your desired word limit here
 
+function stripHTMLTags(html) {
+  let doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+}
+function checkWordLimit() {
+  let text = stripHTMLTags(portfolio.value.description);
+  let words = text.replace(/\s+/g, " ").trim().split(" ");
+  wordCount.value = words.length;
+
+  if (wordCount.value > wordLimit.value) {
+    let diff = wordCount.value - wordLimit.value;
+    let lastIndex = words.length - diff;
+    portfolio.value.description = words.slice(0, lastIndex).join(" ");
+  }
+}
 // add tag
 let options = ref([
   { name: "Design" },
@@ -293,6 +313,10 @@ const saveAsDraft = async () => {
 onUnmounted(() => {
   restForm();
 });
+onMounted(async () => {
+  await userProfile.userProfile();
+  await skillsStore.getskills();
+});
 </script>
 
 <template>
@@ -323,11 +347,7 @@ onUnmounted(() => {
               v-model:value="portfolio.category_id"
             >
               <a-select-option
-                v-for="item in [
-                  { id: 0, name: 'Brand Identity Design ' },
-                  { id: 1, name: 'Logo Design' },
-                  { id: 2, name: 'Graphic Design' },
-                ]"
+                v-for="item in skills?.data"
                 :key="item.id"
                 :value="item.id"
               >
@@ -413,6 +433,7 @@ onUnmounted(() => {
           placeholder="Write about the job in details..."
           contentType="html"
         />
+        <!-- // <p>Word Count: {{ wordCount }}</p> -->
       </div>
       <h4 class="text-[#2B7551] font-Satoshi500 text-[28.468px] mt-[44.05px]">
         Upload up to 4 project images
