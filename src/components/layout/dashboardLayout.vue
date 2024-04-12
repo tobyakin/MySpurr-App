@@ -210,7 +210,7 @@ const displayImage = computed(() => imageExists.value);
       <div
         v-if="closeBackdrop"
         @click.self="toggle"
-        class="lg:hidden z-20 menubg fixed top-0 left-0 w-full"
+        class="lg:hidden z-20 menubg fixed top-0 left-0 w-full exclude-from-print"
       >
         <div
           :class="{ 'animate__animated animate__slideOutLeft': !closeNav }"
@@ -219,14 +219,14 @@ const displayImage = computed(() => imageExists.value);
           <BaseSidebar />
         </div>
       </div>
-      <div class="hidden lg:block flex-shrink-0 md:w-[256px]">
+      <div class="hidden lg:block flex-shrink-0 md:w-[256px] exclude-from-print">
         <BaseSidebar />
       </div>
       <div class="flex-grow pb-20">
         <!-- top-menu flex items-center justify-between py-3 px-4 lg:px-0 -->
         <!-- flex items-center gap-[3rem] justify-between px-4 min-[370px]:px-6 sticky top-0 pt-4 min-[370px]:pt-5 bg-white z-50  -->
         <nav
-          class="flex bg-[#FDFDF6] items-center gap-[3rem] justify-between px-3 min-[370px]:px-6 sticky top-0 py-3 min-[370px]:pt-5 z-50"
+          class="flex bg-[#FDFDF6] exclude-from-print items-center gap-[3rem] justify-between px-3 min-[370px]:px-6 sticky top-0 py-3 min-[370px]:pt-5 z-50"
         >
           <div class="lg:hidden">
             <div class="logo">

@@ -40,6 +40,9 @@ const accountType = computed(() => {
 onMounted(() => {
   return accountType;
 });
+const printPage = () => {
+  window.print();
+};
 
 const tabStore = useTabStore();
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
@@ -279,7 +282,10 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
                     <LinkIcon class="h-[7.596px] w-[7.px6px]" />
                   </div>
                 </div>
-                <button @click="HandleToggleEditHeadlineBioModal">
+                <button
+                  class="exclude-from-print"
+                  @click="HandleToggleEditHeadlineBioModal"
+                >
                   <EditIcon class="text-[#297F88]" />
                 </button>
               </div>
@@ -315,7 +321,7 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
           <div class="lg:w-[70%] p-4">
             <div class="flex flex-row items-center justify-between gap-[96px]">
               <p class="text-[28px] text-[#000] font-Satoshi500">Overview</p>
-              <button @click="HandleToggleEditOverviewModal">
+              <button class="exclude-from-print" @click="HandleToggleEditOverviewModal">
                 <EditIcon class="text-[#297F88]" />
               </button>
             </div>
@@ -342,7 +348,7 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
             >
               <p class="text-[28px] text-[#000] font-Satoshi500">Intro</p>
               <button @click="HandleToggleEditOverviewModal">
-                <EditIcon class="text-[#297F88]" />
+                <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
             </div>
             <div
@@ -356,7 +362,7 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
             >
               <p class="text-[28px] text-[#000] font-Satoshi500">Skills</p>
               <button @click="HandleToggleSkillsPageModal">
-                <EditIcon class="text-[#297F88]" />
+                <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
             </div>
 
@@ -379,7 +385,7 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
             >
               <p class="text-[28px] text-[#000] font-Satoshi500">Education</p>
               <button @click="HandleToggleEducationPageModal">
-                <EditIcon class="text-[#297F88]" />
+                <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
             </div>
 
@@ -393,7 +399,7 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
             >
               <p class="text-[28px] text-[#000] font-Satoshi500">Work Experience</p>
               <button @click="HandleToggleWorkExperiencePageModal">
-                <EditIcon class="text-[#297F88]" />
+                <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
             </div>
 
@@ -408,7 +414,7 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
               <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
 
               <button @click="HandleTogglePortfolioModal">
-                <EditIcon class="text-[#297F88]" />
+                <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
             </div>
             <div
@@ -472,7 +478,7 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
             >
               <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p>
               <button @click="HandleToggleCertificateModal">
-                <EditIcon class="text-[#297F88]" />
+                <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
             </div>
 
@@ -507,7 +513,8 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
               </div>
               <div class="">
                 <button
-                  class="btn-brand !border-none !w-full !py-3 !px-2 !text-[#FFFFFF] text-center !bg-[#31795A]"
+                  @click="printPage"
+                  class="btn-brand !border-none !w-full !py-3 !px-2 !text-[#FFFFFF] exclude-from-print text-center !bg-[#31795A]"
                 >
                   <span class="text-[12.067px]">Download CV</span>
                 </button>
@@ -560,3 +567,17 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
     />
   </DashboardLayout>
 </template>
+<style>
+/* Hide the excluded section when printing */
+@media print {
+  .exclude-from-print {
+    display: none;
+  }
+
+  /* Set default print settings */
+  @page {
+    size: A2; /* Paper size */
+    margin: 0.5cm; /* Minimum margins */
+  }
+}
+</style>
