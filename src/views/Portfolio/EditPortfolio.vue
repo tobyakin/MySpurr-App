@@ -58,6 +58,16 @@ const filteredOptions = computed(() => {
   const searchTerm = search.value.toLowerCase();
   return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
 });
+const maxCharacters = 300;
+
+const characterCount = computed(() => portfolio.value.description.length);
+const isDisabled = computed(() => characterCount.value >= maxCharacters);
+
+const handleChange = () => {
+  if (portfolio.value.description.length > maxCharacters) {
+    portfolio.value.description = portfolio.value.description.substring(0, maxCharacters);
+  }
+};
 
 const filterOptions = () => {
   showDropdown.value = true;
@@ -355,7 +365,10 @@ onMounted(async () => {
           theme="snow"
           placeholder="Write about the job in details..."
           contentType="html"
+          @change="handleChange"
+          :enable="!isDisabled"
         />
+        <div>{{ characterCount }} / {{ maxCharacters }}</div>
       </div>
       <h4 class="text-[#2B7551] font-Satoshi500 text-[28.468px] mt-[44.05px]">
         Upload up to 4 project images
