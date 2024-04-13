@@ -41,14 +41,10 @@
             </div>
           </div>
           <div class="lg:text-left text-center">
-            <p
-              class="text-[#000000] text-[12.454px] capitalize font-Satoshi500 leading-[19.739px]"
-            >
+            <p class="text-[#000000] text-[12.454px] capitalize font-Satoshi500 leading-[19.739px]">
               {{ props?.talent?.first_name }} {{ props?.talent?.last_name }}
             </p>
-            <p
-              class="text-[#00000066] text-[10.378px] leading-[20.739px] font-Satoshi400"
-            >
+            <p class="text-[#00000066] text-[10.378px] leading-[20.739px] font-Satoshi400">
               {{ props?.talent?.skill_title }}
             </p>
             <div class="flex flex-wrap items-center gap-2">
@@ -72,96 +68,91 @@
         </div> -->
       </div>
     </div>
-    <div
-      class="flex flex-row gap-[6px] w-full overflow-hidden mt-6 hide-scrollbar overflow-x-auto"
-    >
+    <div class="flex flex-row gap-[6px] w-full overflow-hidden mt-6 hide-scrollbar overflow-x-auto">
       <img
         loading="lazy"
         v-for="item in props?.talent?.portfolio"
         :key="item.id"
-        :src="item?.cover_image"
+        :src="item?.featured_image"
         class="h-[107.33px] w-[143.11px] flex flex-col object-cover rounded-lg"
         :alt="item?.title"
       />
     </div>
-    <button
-      @click="viewProfile(props?.talent?.talent_id)"
-      class="flex items-center gap-4 mt-6"
-    >
+    <button @click="viewProfile(props?.talent?.talent_id)" class="flex items-center gap-4 mt-6">
       <p class="text-[10.378px] font-Satoshi500 text-[#244034]">View Application</p>
       <ArrowRight />
     </button>
   </div>
 </template>
 <script setup>
-import { computed, onMounted, reactive, watch, ref } from "vue";
+import { computed, onMounted, reactive, watch, ref } from 'vue'
 
-import RatedBadge from "@/components/icons/ratedBadge.vue";
-import GreenIcon from "@/components/icons/greenIcon.vue";
-import ArrowRight from "@/components/icons/arrowRight.vue";
-import Icon from "@/assets/defultAvater.png";
+import RatedBadge from '@/components/icons/ratedBadge.vue'
+import GreenIcon from '@/components/icons/greenIcon.vue'
+import ArrowRight from '@/components/icons/arrowRight.vue'
+import Icon from '@/assets/defultAvater.png'
 
 const props = defineProps({
   talent: Object,
-  selected: Boolean,
-});
-const emit = defineEmits(["viewProfile"]);
+  selected: Boolean
+})
+const emit = defineEmits(['viewProfile'])
 
 const viewProfile = (talent_id) => {
-  emit("viewProfile", talent_id);
-};
-const imageExists = ref(false);
-const initials = ref("");
+  emit('viewProfile', talent_id)
+}
+const imageExists = ref(false)
+const initials = ref('')
 function checkImageExists(url) {
   return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-    img.src = url;
-  });
+    const img = new Image()
+    img.onload = () => resolve(true)
+    img.onerror = () => resolve(false)
+    img.src = url
+  })
 }
 const talentData = computed(() => {
-  return props?.talent;
-});
+  return props?.talent
+})
 
 onMounted(async () => {
-  await updateImageExists();
-});
+  await updateImageExists()
+})
 
 watch(talentData, async () => {
-  await updateImageExists();
-});
+  await updateImageExists()
+})
 
 async function updateImageExists() {
-  const hasImage = props?.talent?.image;
+  const hasImage = props?.talent?.image
   if (hasImage) {
-    const imageSrc = getImageSrc();
-    imageExists.value = await checkImageExists(imageSrc);
+    const imageSrc = getImageSrc()
+    imageExists.value = await checkImageExists(imageSrc)
     if (!imageExists.value) {
-      setInitials(props?.talent?.first_name);
+      setInitials(props?.talent?.first_name)
     }
   } else {
-    imageExists.value = false;
-    setInitials(talentData.value?.first_name);
+    imageExists.value = false
+    setInitials(talentData.value?.first_name)
   }
 }
 
 function setInitials(name) {
   initials.value = name
-    .split(" ")
+    .split(' ')
     .map((word) => word[0])
-    .join("")
-    .toUpperCase();
+    .join('')
+    .toUpperCase()
 }
 
 function getImageSrc() {
-  return props?.talent?.image;
+  return props?.talent?.image
 }
 
 function handleImageError() {
-  console.error("Image loading error");
-  setInitials(talentData.value?.first_name);
+  console.error('Image loading error')
+  setInitials(talentData.value?.first_name)
 }
 
-const displayImage = computed(() => imageExists.value);
+const displayImage = computed(() => imageExists.value)
 </script>

@@ -1,16 +1,16 @@
 <script setup>
-import { ref, onMounted, computed, onBeforeMount } from "vue";
-import { useUserProfile } from "@/stores/profile";
-import CirclePlus from "@/components/icons/circlePlus.vue";
+import { ref, onMounted, computed, onBeforeMount } from 'vue'
+import { useUserProfile } from '@/stores/profile'
+import CirclePlus from '@/components/icons/circlePlus.vue'
 // import SampleThree from "@/assets/image/sampleThree.webp";
-import PortfolioCard from "@/components/ui/ProfileEdit/PorfolioCard.vue";
-import { useRouter } from "vue-router";
+import PortfolioCard from '@/components/ui/ProfileEdit/PorfolioCard.vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
-let profile = useUserProfile();
+const router = useRouter()
+let profile = useUserProfile()
 const userDetails = computed(() => {
-  return profile.user.data;
-});
+  return profile.user.data
+})
 
 // const blogPost = [
 //   {
@@ -23,22 +23,22 @@ const userDetails = computed(() => {
 //   },
 // ];
 
-const userProfile = useUserProfile();
+const userProfile = useUserProfile()
 
 // const SingleObject = ref({});
 // const handleOpenEdit = (index) => {
 //   SingleObject.value = userProfile?.user?.data?.employment[index];
 // };
 const redirectToSinglePortfolio = () => {
-  router.push({ name: "add-portfolio" });
-};
+  router.push({ name: 'add-portfolio' })
+}
 onBeforeMount(async () => {
-  await userProfile.userProfile();
-});
+  await userProfile.userProfile()
+})
 
 onMounted(async () => {
-  await userProfile.userProfile();
-});
+  await userProfile.userProfile()
+})
 </script>
 <template>
   <div class="">
@@ -53,7 +53,7 @@ onMounted(async () => {
         <PortfolioCard
           v-for="img in userDetails?.portfolio"
           :key="img"
-          :image="img.cover_image"
+          :image="img.featured_image"
           :profolioId="img.id"
           :alt="img.title"
         />
