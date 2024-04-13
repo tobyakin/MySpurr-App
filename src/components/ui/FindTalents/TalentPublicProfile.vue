@@ -3,23 +3,17 @@
     <div
       class="bg-[#E9FAFB] border-[#F6F6F6] flex lg:flex-row flex-col gap-5 justify-between items-center border-[1px] rounded-[15px] p-6 px-14"
     >
-      <div
-        class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
-      >
+      <div class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6">
         <UserAvater
           :imageUrl="props?.talent?.image"
           inputClasses="!h-[89.536px] !w-[89.536px]"
           class=""
         />
         <div class="lg:text-left text-center">
-          <p
-            class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]"
-          >
+          <p class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]">
             {{ props?.talent?.first_name }} {{ props?.talent?.last_name }}
           </p>
-          <p
-            class="text-[#00000066] text-[14.598px] capitalize leading-[31.739px] font-Satoshi400"
-          >
+          <p class="text-[#00000066] text-[14.598px] capitalize leading-[31.739px] font-Satoshi400">
             {{ props?.talent?.skill_title }}
           </p>
           <div class="flex items-center lg:justify-start justify-center gap-2">
@@ -35,18 +29,10 @@
       </div>
       <div class="flex flex-col items-center lg:justify-normal justify-center gap-6">
         <div class="flex items-center gap-3">
-          <a
-            v-if="props?.talent?.linkedin"
-            :href="props?.talent?.linkedin"
-            target="_blank"
-          >
+          <a v-if="props?.talent?.linkedin" :href="props?.talent?.linkedin" target="_blank">
             <LinkdeinIcon />
           </a>
-          <a
-            v-if="props?.talent?.instagram"
-            :href="props?.talent?.instagram"
-            target="_blank"
-          >
+          <a v-if="props?.talent?.instagram" :href="props?.talent?.instagram" target="_blank">
             <InstagramIcon />
           </a>
           <a v-if="props?.talent?.behance" :href="props?.talent?.behance" target="_blank">
@@ -133,7 +119,7 @@
             role="button"
             v-for="img in props?.talent?.portfolio"
             :key="img"
-            :src="img.cover_image"
+            :src="img.featured_image"
             class="h-[214.078px] flex flex-col w-auto rounded-lg"
             alt=""
           />
@@ -153,9 +139,7 @@
               <span class="text-[#001E00] text-[14px]">5.00 </span
               ><span class="text-[#5E6D55] text-[12px]">Dec 15, 2022 - Feb 2, 2023</span>
             </div>
-            <p
-              class="text-[#001E00] font-Satoshi400 italic text-[13px] mb-4 tracking-[0.6px]"
-            >
+            <p class="text-[#001E00] font-Satoshi400 italic text-[13px] mb-4 tracking-[0.6px]">
               "Great lead generation for education companies"
             </p>
             <p class="text-[#5E6D55] font-Satoshi400 text-[14px]">Private earnings</p>
@@ -167,11 +151,7 @@
         <div
           class="bg-[#E9FAFB] p-8 border-[#F6F6F6] border-[1px] flex flex-col gap-12 mt-4 rounded-[15px]"
         >
-          <div
-            v-for="i in props?.talent?.certificate"
-            :key="i"
-            class="flex items-center gap-5"
-          >
+          <div v-for="i in props?.talent?.certificate" :key="i" class="flex items-center gap-5">
             <CertificateBadge />
             <div class="flex flex-col gap-0 h-auto">
               <a
@@ -210,54 +190,52 @@
   </div>
 </template>
 <script setup>
-import { defineAsyncComponent, onMounted } from "vue";
-import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
-import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
-import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
-import InstagramIcon from "@/components/icons/instagramIcon.vue";
-import BeIcon from "@/components/icons/beIcon.vue";
-import TwitterIcon from "@/components/icons/twitterIcon.vue";
-import RateStar from "@/components/icons/rateStar.vue";
-import CertificateBadge from "@/components/icons/certificateBadge.vue";
+import { defineAsyncComponent, onMounted } from 'vue'
+import WorkExperience from '@/components/ui/genericComponents/WorkExperience.vue'
+import EducationDetails from '@/components/ui/genericComponents/EducationDetails.vue'
+import LinkdeinIcon from '@/components/icons/linkdeinIcon.vue'
+import InstagramIcon from '@/components/icons/instagramIcon.vue'
+import BeIcon from '@/components/icons/beIcon.vue'
+import TwitterIcon from '@/components/icons/twitterIcon.vue'
+import RateStar from '@/components/icons/rateStar.vue'
+import CertificateBadge from '@/components/icons/certificateBadge.vue'
 // import LinkIcon from "@/components/icons/linkIcon.vue";
-import UserAvater from "@/components/ui/Avater/UserAvater.vue";
-import CalenderWithPen from "@/components/icons/calenderWithPen.vue";
-import SearchIconVeritical from "@/components/icons/searchIconVeritical.vue";
-const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
-import { useClipboard } from "@vueuse/core";
-import { useToast } from "vue-toastification";
-const toast = useToast();
+import UserAvater from '@/components/ui/Avater/UserAvater.vue'
+import CalenderWithPen from '@/components/icons/calenderWithPen.vue'
+import SearchIconVeritical from '@/components/icons/searchIconVeritical.vue'
+const Map = defineAsyncComponent(() => import('@/components/ui/Map/Map.vue'))
+import { useClipboard } from '@vueuse/core'
+import { useToast } from 'vue-toastification'
+const toast = useToast()
 
-let source = "";
+let source = ''
 
 onMounted(() => {
   source =
-    import.meta.env.VITE_LANDING_PAGE +
-    `${props?.talent?.first_name}/` +
-    props?.talent?.uniqueId;
-});
+    import.meta.env.VITE_LANDING_PAGE + `${props?.talent?.first_name}/` + props?.talent?.uniqueId
+})
 
 // let source = window.location.href;
-const { copy, copied, isSupported } = useClipboard({ source });
+const { copy, copied, isSupported } = useClipboard({ source })
 const copyUrl = () => {
   if (isSupported) {
     if (copied) {
-      copy(source);
-      toast.success("Link Copied", {
-        timeout: 4000,
-      });
+      copy(source)
+      toast.success('Link Copied', {
+        timeout: 4000
+      })
     }
   } else {
-    toast.error("Your browser does not support Clipboard API", {
-      timeout: 4000,
-    });
+    toast.error('Your browser does not support Clipboard API', {
+      timeout: 4000
+    })
   }
-};
+}
 
 const props = defineProps({
-  talent: Object,
-});
+  talent: Object
+})
 const redirectToSinglePortFolio = (id) => {
-  window.open(`https://www.myspurr.net/single-portfolio/${id}`, "_blank");
-};
+  window.open(`https://www.myspurr.net/single-portfolio/${id}`, '_blank')
+}
 </script>

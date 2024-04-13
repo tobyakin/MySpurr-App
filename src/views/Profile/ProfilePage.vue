@@ -435,7 +435,7 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
                 role="button"
                 v-for="img in userDetails?.portfolio"
                 :key="img"
-                :src="img.cover_image"
+                :src="img.featured_image"
                 class="h-[221.52px] object-cover flex flex-col bg-[#EFF6F3] w-full rounded-lg"
                 :alt="img.title"
               />
