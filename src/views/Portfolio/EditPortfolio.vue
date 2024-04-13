@@ -246,17 +246,23 @@ const restForm = () => {
 const onFinish = async () => {
   loading.value = true;
   let featuredImage = "";
+  let ProductImage = null;
   // Check if the cover image is the same as the pre-filled one
   if (portfolio.value.featured_image === SingleCertificateObject.value.featured_image) {
     portfolio.value.featured_image = ""; // Return empty string if cover image is the same
   } else {
     featuredImage = portfolio.value.featured_image;
   }
+  if (portfolio.value.project_image === SingleCertificateObject.value.project_image) {
+    portfolio.value.featured_image = Array.from({ length: 4 }, () => ({ image: null })); // Return empty string if cover image is the same
+  } else {
+    ProductImage = portfolio.value.project_image;
+  }
   let payload = {
     title: portfolio.value.title,
     description: portfolio.value.description,
     category_id: portfolio.value.category_id,
-    project_image: portfolio.value.project_image,
+    project_image: ProductImage,
     tags: portfolio.value.tags,
     featured_image: featuredImage,
     link: portfolio.value.link,

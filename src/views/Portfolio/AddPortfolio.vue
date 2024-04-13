@@ -282,7 +282,6 @@ const onFinish = async () => {
     console.log(error);
   } finally {
     loading.value = false;
-    restForm();
     router.push({ name: "profile" });
   }
 };
@@ -291,7 +290,7 @@ const saveAsDraft = async () => {
   try {
     const res = await OnboardingStore.submitTalentPortfolioAsDraft();
     userProfile.userProfile();
-    // router.push({ name: "profile" });
+    router.push({ name: "profile" });
     restForm();
     return res;
   } catch (error) {
@@ -299,7 +298,7 @@ const saveAsDraft = async () => {
   } finally {
     loadingD.value = false;
     restForm();
-    router.push({ name: "profile" });
+    // router.push({ name: "profile" });
   }
 };
 onUnmounted(() => {
