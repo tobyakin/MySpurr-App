@@ -76,66 +76,66 @@ const businessDetails = ref({
   company_type: ''
 })
     const submitTalentPortfolio = async () => {
-      // let payload = {
-      //   portfolio: {
-      //     title: portfolio.value.title,
-      //     description: portfolio.value.description,
-      //     category_id: portfolio.value.category_id,
-      //     tags: portfolio.value.tags,
-      //     link: portfolio.value.link,
-      //     project_image: portfolio.value.project_image,
-      //     featured_image: portfolio.value.featured_image,
-      //     is_draft: 'false'
-      //   }
-      // }
-let formData = new FormData()
-let portfolioData = {
-  title: portfolio.value.title,
-  description: portfolio.value.description,
-  category_id: portfolio.value.category_id,
-  tags: portfolio.value.tags,
-  link: portfolio.value.link,
-  project_image: portfolio.value.project_image,
-  featured_image: portfolio.value.featured_image,
-  is_draft: 'false'
-}
+      let payload = {
+        portfolio: {
+          title: portfolio.value.title,
+          description: portfolio.value.description,
+          category_id: portfolio.value.category_id,
+          tags: portfolio.value.tags,
+          link: portfolio.value.link,
+          project_image: portfolio.value.project_image,
+          featured_image: portfolio.value.featured_image,
+          is_draft: 'false'
+        }
+      }
+// let formData = new FormData()
+// let portfolioData = {
+//   title: portfolio.value.title,
+//   description: portfolio.value.description,
+//   category_id: portfolio.value.category_id,
+//   tags: portfolio.value.tags,
+//   link: portfolio.value.link,
+//   project_image: portfolio.value.project_image,
+//   featured_image: portfolio.value.featured_image,
+//   is_draft: 'false'
+// }
 
-formData.append('portfolio', JSON.stringify(portfolioData))
+// formData.append('portfolio', JSON.stringify(portfolioData))
       try {
-        let res = await handleTalentPortfolio(formData)
+        let res = await handleTalentPortfolio(payload)
         return res
       } catch (error) {
         /**/
       }
     }
     const submitTalentPortfolioAsDraft = async() => {
-            // let payload = {
-            //   portfolio: {
-            //     title: portfolio.value.title,
-            //     description: portfolio.value.description,
-            //     category_id: portfolio.value.category_id,
-            //     tags: portfolio.value.tags,
-            //     link: portfolio.value.link,
-            //     project_image: portfolio.value.project_image,
-            //     featured_image: portfolio.value.featured_image,
-            //     is_draft: 'true'
-            //   }
-            // }
-let formData = new FormData()
-let portfolioData = {
-  title: portfolio.value.title,
-  description: portfolio.value.description,
-  category_id: portfolio.value.category_id,
-  tags: portfolio.value.tags,
-  link: portfolio.value.link,
-  project_image: portfolio.value.project_image,
-  featured_image: portfolio.value.featured_image,
-  is_draft: 'false'
-}
+            let payload = {
+              portfolio: {
+                title: portfolio.value.title,
+                description: portfolio.value.description,
+                category_id: portfolio.value.category_id,
+                tags: portfolio.value.tags,
+                link: portfolio.value.link,
+                project_image: portfolio.value.project_image,
+                featured_image: portfolio.value.featured_image,
+                is_draft: 'true'
+              }
+            }
+// let formData = new FormData()
+// let portfolioData = {
+//   title: portfolio.value.title,
+//   description: portfolio.value.description,
+//   category_id: portfolio.value.category_id,
+//   tags: portfolio.value.tags,
+//   link: portfolio.value.link,
+//   project_image: portfolio.value.project_image,
+//   featured_image: portfolio.value.featured_image,
+//   is_draft: 'false'
+// }
 
-formData.append('portfolio', JSON.stringify(portfolioData))
+// formData.append('portfolio', JSON.stringify(payload))
 try {
-  let res = await handleTalentPortfolio(formData)
+  let res = await handleTalentPortfolio(payload)
   return res
 } catch (error) {
   /**/
