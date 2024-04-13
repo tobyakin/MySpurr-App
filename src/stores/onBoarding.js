@@ -88,17 +88,19 @@ const businessDetails = ref({
       //     is_draft: 'false'
       //   }
       // }
-        let formData = new FormData()
+let formData = new FormData()
+let portfolioData = {
+  title: portfolio.value.title,
+  description: portfolio.value.description,
+  category_id: portfolio.value.category_id,
+  tags: portfolio.value.tags,
+  link: portfolio.value.link,
+  project_image: portfolio.value.project_image,
+  featured_image: portfolio.value.featured_image,
+  is_draft: 'false'
+}
 
-      formData.append('title', portfolio.value.title)
-      formData.append('description', portfolio.value.description)
-      formData.append('category_id', portfolio.value.category_id)
-      formData.append('tags', portfolio.value.tags)
-      formData.append('link', portfolio.value.link)
-      formData.append('project_image', portfolio.value.project_image)
-      formData.append('featured_image', portfolio.value.featured_image)
-      formData.append('is_draft', 'false')
-
+formData.append('portfolio', JSON.stringify(portfolioData))
       try {
         let res = await handleTalentPortfolio(formData)
         return res
@@ -119,16 +121,19 @@ const businessDetails = ref({
             //     is_draft: 'true'
             //   }
             // }
-              let formData = new FormData()
-              formData.append('title', portfolio.value.title)
-              formData.append('description', portfolio.value.description)
-              formData.append('category_id', portfolio.value.category_id)
-              formData.append('tags', portfolio.value.tags)
-              formData.append('link', portfolio.value.link)
-              formData.append('project_image', portfolio.value.project_image)
-              formData.append('featured_image', portfolio.value.featured_image)
-              formData.append('is_draft', 'true')
+let formData = new FormData()
+let portfolioData = {
+  title: portfolio.value.title,
+  description: portfolio.value.description,
+  category_id: portfolio.value.category_id,
+  tags: portfolio.value.tags,
+  link: portfolio.value.link,
+  project_image: portfolio.value.project_image,
+  featured_image: portfolio.value.featured_image,
+  is_draft: 'false'
+}
 
+formData.append('portfolio', JSON.stringify(portfolioData))
 try {
   let res = await handleTalentPortfolio(formData)
   return res
