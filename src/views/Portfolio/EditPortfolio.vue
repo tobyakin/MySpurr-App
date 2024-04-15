@@ -245,29 +245,74 @@ const restForm = () => {
 
 const onFinish = async () => {
   loading.value = true;
-  let featuredImage = "";
+  // let featuredImage = null;
+  // let ProductImage = null;
+  // // Check if the cover image is the same as the pre-filled one
+  // if (portfolio.value.featured_image === SingleCertificateObject.value.featured_image) {
+  //   portfolio.value.featured_image = null; // Return null if cover image is the same
+  // } else {
+  //   featuredImage = portfolio.value.featured_image;
+  // }
+  // if (portfolio.value.project_image === SingleCertificateObject.value.project_image) {
+  //   portfolio.value.featured_image = Array.from({ length: 4 }, () => ({ image: null })); // Return empty string if cover image is the same
+  // } else {
+  //   ProductImage = portfolio.value.project_image;
+  // }
+
+  // let payload = {
+  //   title: portfolio.value.title,
+  //   description: portfolio.value.description,
+  //   category_id: portfolio.value.category_id,
+  //   project_image: ProductImage,
+  //   tags: portfolio.value.tags,
+  //   featured_image: featuredImage,
+  //   link: portfolio.value.link,
+  //   is_draft: "false",
+  // };
+  loading.value = true;
+  let featuredImage = null;
   let ProductImage = null;
-  // Check if the cover image is the same as the pre-filled one
-  if (portfolio.value.featured_image === SingleCertificateObject.value.featured_image) {
-    portfolio.value.featured_image = ""; // Return empty string if cover image is the same
-  } else {
+
+  // Check if the featured_image is in base64 format
+  if (
+    portfolio.value.featured_image &&
+    portfolio.value.featured_image.startsWith("data:image")
+  ) {
     featuredImage = portfolio.value.featured_image;
   }
-  if (portfolio.value.project_image === SingleCertificateObject.value.project_image) {
-    portfolio.value.featured_image = Array.from({ length: 4 }, () => ({ image: null })); // Return empty string if cover image is the same
-  } else {
-    ProductImage = portfolio.value.project_image;
-  }
+
+  // Check if the project_image contains images in base64 format
+  ProductImage = portfolio.value.project_image.map((image) => {
+    if (
+      image.image &&
+      image.image.startsWith("data:image") &&
+      !image.name.startsWith("http")
+    ) {
+      return { ...image };
+    } else {
+      return { image: null, name: null };
+    }
+  });
+
   let payload = {
     title: portfolio.value.title,
     description: portfolio.value.description,
     category_id: portfolio.value.category_id,
-    project_image: ProductImage,
     tags: portfolio.value.tags,
-    featured_image: featuredImage,
     link: portfolio.value.link,
     is_draft: "false",
   };
+
+  // Include project_image in payload if it contains images in base64 format
+  if (ProductImage.some((image) => image.image !== null) && !featuredImage) {
+    payload.project_image = ProductImage.filter((image) => image.image !== null);
+  }
+
+  // Include featured_image in payload if it's in base64 format
+  if (featuredImage && !ProductImage.some((image) => image.image !== null)) {
+    payload.featured_image = featuredImage;
+  }
+
   try {
     const res = await userProfile.handleUpdatePortfolio(portfolioID.value, payload);
     userProfile.userProfile();
