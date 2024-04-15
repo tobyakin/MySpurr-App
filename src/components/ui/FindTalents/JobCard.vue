@@ -5,7 +5,9 @@
       <div
         class="w-full flex lg:flex-row flex-col lg:justify-between justify-center gap-8 items-center"
       >
-        <div class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6">
+        <div
+          class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
+        >
           <div>
             <div
               v-if="props?.talent?.image"
@@ -25,7 +27,10 @@
               </template>
               <GreenIcon class="absolute top-1 right-3" />
             </div>
-            <div v-else class="relative h-[100.955px] w-[100.955px] bg-brand rounded-full">
+            <div
+              v-else
+              class="relative h-[100.955px] w-[100.955px] bg-brand rounded-full"
+            >
               <img
                 loading="lazy"
                 :src="Icon"
@@ -48,7 +53,9 @@
                 >{{ props?.talent?.experience_level }}</span
               >
             </p>
-            <p class="text-[#00000066] text-[16.699px] leading-[20.739px] font-Satoshi400">
+            <p
+              class="text-[#00000066] text-[16.699px] leading-[20.739px] font-Satoshi400"
+            >
               {{ props?.talent?.skill_title }}
             </p>
             <div class="flex items-center gap-2">
@@ -74,7 +81,9 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-row gap-6 w-full overflow-hidden mt-6 hide-scrollbar overflow-x-auto">
+    <div
+      class="flex flex-row gap-6 w-full overflow-hidden mt-6 hide-scrollbar overflow-x-auto"
+    >
       <img
         loading="lazy"
         v-for="item in props?.talent?.portfolio"
@@ -87,111 +96,120 @@
     <router-link
       :to="{
         name: 'view-talent',
-        params: { uuid: props?.talent?.uniqueId, name: props?.talent?.first_name }
+        params: { uuid: props?.talent?.uniqueId, name: props?.talent?.first_name },
       }"
       class="flex items-center gap-4 mt-6"
     >
-      <p class="lg:text-[20.699px] text-[14px] font-Satoshi500 text-[#244034]">View Profile</p>
+      <p class="lg:text-[20.699px] text-[14px] font-Satoshi500 text-[#244034]">
+        View Profile
+      </p>
       <ArrowRight />
     </router-link>
   </div>
 </template>
 <script setup>
-import { computed, onMounted, reactive, watch, ref } from 'vue'
+import { computed, onMounted, reactive, watch, ref } from "vue";
 // import RatedBadge from "@/components/icons/ratedBadge.vue";
-import GreenIcon from '@/components/icons/greenIcon.vue'
-import LoveIcon from '@/components/icons/loveIcon.vue'
-import SearchIcon from '@/components/icons/searchIcon.vue'
-import ArrowRight from '@/components/icons/arrowRight.vue'
-import Icon from '@/assets/defultAvater.png'
-import { useTabStore } from '@/stores/tab'
-import CopyLinkIcon from '@/components/icons/copyLinkIcon.vue'
-import { useClipboard } from '@vueuse/core'
-import { useToast } from 'vue-toastification'
-const toast = useToast()
+import GreenIcon from "@/components/icons/greenIcon.vue";
+import LoveIcon from "@/components/icons/loveIcon.vue";
+import SearchIcon from "@/components/icons/searchIcon.vue";
+import ArrowRight from "@/components/icons/arrowRight.vue";
+import Icon from "@/assets/defultAvater.png";
+import { useTabStore } from "@/stores/tab";
+import CopyLinkIcon from "@/components/icons/copyLinkIcon.vue";
+import { useClipboard } from "@vueuse/core";
+import { useToast } from "vue-toastification";
+const toast = useToast();
 
-let source = ''
+let source = "";
 
 onMounted(() => {
   source =
-    import.meta.env.VITE_LANDING_PAGE + `${props?.talent?.first_name}/` + props?.talent?.uniqueId
-})
+    import.meta.env.VITE_LANDING_PAGE +
+    `talent/` +
+    `${props?.talent?.first_name}/` +
+    props?.talent?.uniqueId;
+});
 
 // let source = window.location.href;
-const { copy, copied, isSupported } = useClipboard({ source })
+const { copy, copied, isSupported } = useClipboard({ source });
 const copyUrl = () => {
   if (isSupported) {
     if (copied) {
-      copy(source)
-      toast.success('Link Copied', {
-        timeout: 4000
-      })
+      copy(source);
+      toast.success("Link Copied", {
+        timeout: 4000,
+      });
     }
   } else {
-    toast.error('Your browser does not support Clipboard API', {
-      timeout: 4000
-    })
+    toast.error("Your browser does not support Clipboard API", {
+      timeout: 4000,
+    });
   }
-}
+};
 
-const store = useTabStore()
+const store = useTabStore();
 
 const props = defineProps({
-  talent: Object
-})
+  talent: Object,
+});
 const talentData = computed(() => {
-  return props?.talent
-})
-const imageExists = ref(false)
-const initials = ref('')
+  return props?.talent;
+});
+const imageExists = ref(false);
+const initials = ref("");
 
 function checkImageExists(url) {
   return new Promise((resolve) => {
-    const img = new Image()
-    img.onload = () => resolve(true)
-    img.onerror = () => resolve(false)
-    img.src = url
-  })
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
 }
 
 onMounted(async () => {
-  await updateImageExists()
-})
+  await updateImageExists();
+});
 
 watch(talentData, async () => {
-  await updateImageExists()
-})
+  await updateImageExists();
+});
 
 async function updateImageExists() {
-  const hasImage = props?.talent?.image
+  const hasImage = props?.talent?.image;
   if (hasImage) {
-    const imageSrc = getImageSrc()
-    imageExists.value = await checkImageExists(imageSrc)
+    const imageSrc = getImageSrc();
+    imageExists.value = await checkImageExists(imageSrc);
     if (!imageExists.value) {
-      setInitials(`${talentData.value?.first_name}` + '' + `${talentData.value?.last_name}`)
+      setInitials(
+        `${talentData.value?.first_name}` + "" + `${talentData.value?.last_name}`
+      );
     }
   } else {
-    imageExists.value = false
-    setInitials(`${talentData.value?.first_name}` + '' + `${talentData.value?.last_name}`)
+    imageExists.value = false;
+    setInitials(
+      `${talentData.value?.first_name}` + "" + `${talentData.value?.last_name}`
+    );
   }
 }
 
 function setInitials(name) {
   initials.value = name
-    .split(' ')
+    .split(" ")
     .map((word) => word[0])
-    .join('')
-    .toUpperCase()
+    .join("")
+    .toUpperCase();
 }
 
 function getImageSrc() {
-  return props?.talent?.image
+  return props?.talent?.image;
 }
 
 function handleImageError() {
-  console.error('Image loading error')
-  setInitials(`${talentData.value?.first_name}` + '' + `${talentData.value?.last_name}`)
+  console.error("Image loading error");
+  setInitials(`${talentData.value?.first_name}` + "" + `${talentData.value?.last_name}`);
 }
 
-const displayImage = computed(() => imageExists.value)
+const displayImage = computed(() => imageExists.value);
 </script>

@@ -369,7 +369,7 @@ const handleTalentRating = async () => {
 };
 onMounted(() => {
   source.value =
-    import.meta.env.VITE_LANDING_PAGE +
+    import.meta.env.VITE_LANDING_PAGE +`talent/`+
     `${props?.talents?.first_name}/` +
     props?.talents?.uniqueId;
 });
