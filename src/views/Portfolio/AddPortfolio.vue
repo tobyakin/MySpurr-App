@@ -465,6 +465,7 @@ onMounted(async () => {
               :id="'cover_image_' + index"
               hidden
               type="file"
+              accept=".jpg,.png,.svg"
               @change="uploadImage($event, index)"
             />
             <label
@@ -513,7 +514,13 @@ onMounted(async () => {
             v-if="!portfolio.featured_image"
             class="flex lg:flex-row flex-col gap-2 items-center"
           >
-            <input id="featured_image" hidden type="file" @change="uploadFeatureImage" />
+            <input
+              id="featured_image"
+              accept=".jpg,.png,.svg"
+              hidden
+              type="file"
+              @change="uploadFeatureImage"
+            />
             <label
               for="featured_image"
               class="bg-[#3F634D33] px-8 p-3 cursor-pointer rounded-[8.303px] text-[17.792px] text-[#3F634D] font-Satoshi500"
