@@ -65,6 +65,7 @@ let formTitle = ref("");
 
 const source = ref(
   import.meta.env.VITE_LANDING_PAGE +
+    `talent/` +
     `${userDetails.value?.first_name}/` +
     userDetails.value?.uniqueId
 );
@@ -194,11 +195,13 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
                 <p
                   class="text-[#00000066] !my-1.5 text-[14.598px] flex gap-[8px] items-center capitalize leading-[31.739px] font-Satoshi400"
                 >
-                  {{ userDetails?.skill_title }}
-                  <span
-                    v-if="userDetails?.experience_level"
-                    class="bg-[#00474F] rounded-full py-[0.05px] capitalize text-[10.519px] text-[#E6F1F3] font-medium px-[19px]"
-                    >{{ userDetails?.experience_level }}</span
+                  {{ userDetails?.skill_title
+                  }}<span>
+                    <span
+                      v-if="userDetails?.experience_level"
+                      class="bg-[#00474F] rounded-full py-[2.05px] capitalize text-[10.519px] text-[#E6F1F3] font-medium px-[19px]"
+                      >{{ userDetails?.experience_level }}</span
+                    ></span
                   >
                 </p>
                 <div class="flex items-center lg:justify-start justify-center gap-2">
@@ -267,14 +270,14 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
                     role="button"
                     target="_blank"
                     :href="
-                      `https://www.myspurr.net/` +
+                      `https://www.myspurr.net/talent/` +
                       userDetails?.first_name +
                       `/` +
                       userDetails?.uniqueId
                     "
                     @click="copyUrl()"
                     class="text-[10.476px] font-Satoshi500 text-[#01272C]"
-                    >myspurr.net/{{ userDetails?.first_name }}</a
+                    >myspurr.net/talent/{{ userDetails?.first_name }}</a
                   >
                   <div
                     class="bg-[#2C4C50] p-1 absolute right-1 top-[6px] flex items-start rounded-full"
@@ -514,7 +517,7 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
               <div class="">
                 <button
                   @click="printPage"
-                  class="btn-brand !border-none !w-full !py-3 !px-2 !text-[#FFFFFF] exclude-from-print text-center !bg-[#31795A]"
+                  class="btn-brand !border-none !w-full !py-2 !px-2 !text-[#FFFFFF] exclude-from-print text-center !bg-[#31795A]"
                 >
                   <span class="text-[12.067px]">Download CV</span>
                 </button>
