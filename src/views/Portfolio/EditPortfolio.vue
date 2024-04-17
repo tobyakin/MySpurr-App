@@ -315,7 +315,10 @@ const onFinish = async () => {
 
   try {
     const res = await userProfile.handleUpdatePortfolio(portfolioID.value, payload);
-    userProfile.userProfile();
+    if (res.status === "true") {
+      userProfile.userProfile();
+      router.push({ name: "profile" });
+    }
     return res;
   } catch (error) {
     console.log(error);
@@ -330,7 +333,6 @@ const onFinish = async () => {
       }))),
       (portfolio.value.featured_image = null),
       (portfolio.value.link = ""),
-      router.push({ name: "profile" });
   }
 };
 
