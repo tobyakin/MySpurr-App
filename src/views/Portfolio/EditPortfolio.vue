@@ -626,8 +626,13 @@ onMounted(async () => {
           inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 !border-[#254035AB] !border-[0.909px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
         ></FormGroup>
       </div>
-
-      <div class="flex gap-4 justify-center mt-12">
+      <div class="flex gap-4 justify-start mt-12">
+        <button
+          class="bg-[#2F929C] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] text-white rounded-full px-8 p-4 w-auto"
+        >
+          <span class="text-[12.067px]">Delete</span>
+          <!-- <WhiteLoader v-if="loadingD" /> -->
+        </button>
         <button
           @click="onFinish"
           class="bg-[#2F929C] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] text-white rounded-full px-8 p-4 w-auto"
