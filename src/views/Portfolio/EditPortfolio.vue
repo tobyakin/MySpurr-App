@@ -332,7 +332,7 @@ const onFinish = async () => {
         image: null,
       }))),
       (portfolio.value.featured_image = null),
-      (portfolio.value.link = ""),
+      (portfolio.value.link = "");
   }
 };
 
