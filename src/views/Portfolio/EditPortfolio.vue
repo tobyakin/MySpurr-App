@@ -352,6 +352,7 @@ onMounted(async () => {
     prefillDetails(SingleCertificateObject.value);
     await userProfile.userProfile();
     await userProfile.handleGetSinglePortfolio(route.params.id);
+    await skillsStore.getskills();
   } catch (error) {
     /* empty */
   } finally {
@@ -360,10 +361,6 @@ onMounted(async () => {
 });
 onUnmounted(() => {
   restForm();
-});
-onMounted(async () => {
-  await userProfile.userProfile();
-  await skillsStore.getskills();
 });
 </script>
 
