@@ -315,7 +315,10 @@ const onFinish = async () => {
 
   try {
     const res = await userProfile.handleUpdatePortfolio(portfolioID.value, payload);
-    userProfile.userProfile();
+    if (res.status === "true") {
+      userProfile.userProfile();
+      router.push({ name: "profile" });
+    }
     return res;
   } catch (error) {
     console.log(error);
@@ -329,8 +332,7 @@ const onFinish = async () => {
         image: null,
       }))),
       (portfolio.value.featured_image = null),
-      (portfolio.value.link = ""),
-      router.push({ name: "profile" });
+      (portfolio.value.link = "");
   }
 };
 
@@ -352,6 +354,7 @@ onMounted(async () => {
     prefillDetails(SingleCertificateObject.value);
     await userProfile.userProfile();
     await userProfile.handleGetSinglePortfolio(route.params.id);
+    await skillsStore.getskills();
   } catch (error) {
     /* empty */
   } finally {
@@ -360,10 +363,6 @@ onMounted(async () => {
 });
 onUnmounted(() => {
   restForm();
-});
-onMounted(async () => {
-  await userProfile.userProfile();
-  await skillsStore.getskills();
 });
 </script>
 

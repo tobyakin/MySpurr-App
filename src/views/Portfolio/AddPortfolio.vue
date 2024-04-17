@@ -274,24 +274,36 @@ const onFinish = async () => {
   loading.value = true;
   try {
     const res = await OnboardingStore.submitTalentPortfolio();
-    userProfile.userProfile();
+    console.log(res.status)
+    if (res.status === "true") {
+      userProfile.userProfile();
+      router.push({ name: "profile" });
+      restForm();
+    }
+    // userProfile.userProfile();
     // router.push({ name: "profile" });
-    restForm();
+    // restForm();
     return res;
   } catch (error) {
     console.log(error);
   } finally {
     loading.value = false;
-    router.push({ name: "profile" });
+    // router.push({ name: "profile" });
   }
 };
 const saveAsDraft = async () => {
   loadingD.value = true;
   try {
     const res = await OnboardingStore.submitTalentPortfolioAsDraft();
-    userProfile.userProfile();
-    router.push({ name: "profile" });
-    restForm();
+    if (res && res.success) {
+      userProfile.userProfile();
+      router.push({ name: "profile" });
+      restForm();
+    }
+
+    // userProfile.userProfile();
+    // router.push({ name: "profile" });
+    // restForm();
     return res;
   } catch (error) {
     console.log(error);
@@ -443,14 +455,16 @@ onMounted(async () => {
             v-if="image.image"
             class="w-full bg-[#EDF2F7] flex flex-row items-center justify-between rounded-[5.897px] py-[20px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
           >
-            <div
-              class="w-full flex"
-              v-for="(name, nameIndex) in portfolio.project_name"
-              :key="nameIndex"
-            >
-              <template v-if="nameIndex === index">
-                <p v-html="name.name"></p>
-              </template>
+            <div>
+              <div
+                class="w-full flex flex-col"
+                v-for="(name, nameIndex) in portfolio.project_name"
+                :key="nameIndex"
+              >
+                <template v-if="nameIndex === index">
+                  <p>{{ name.name }}</p>
+                </template>
+              </div>
             </div>
             <button
               @click="removeImage(index)"
