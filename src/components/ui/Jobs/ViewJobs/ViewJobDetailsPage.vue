@@ -45,11 +45,13 @@ onUnmounted(() => {
       <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
         <div class="flex lg:flex-row flex-col gap-3 w-full">
           <div>
-            <img
-              class="h-[61.011px] w-[61.011px] rounded-full"
-              :src="singleJob?.data?.company?.company_logo"
-              alt=""
-            />
+            <div class="h-[61.011px] w-[61.011px] object-contain rounded-full">
+              <img
+                class="h-[61.011px] w-[61.011px] object-cover rounded-full"
+                :src="singleJob?.data?.company?.company_logo"
+                alt=""
+              />
+            </div>
           </div>
           <div class="w-full">
             <div class="flex lg:flex-row flex-col gap-4 justify-between">
@@ -211,11 +213,13 @@ onUnmounted(() => {
             </p>
             <div class="flex mt-8 gap-4">
               <div>
-                <img
-                  class="h-[61.011px] w-[61.011px] rounded-full"
-                  :src="singleJob?.data?.company?.business_name?.company_logo"
-                  alt=""
-                />
+                <div class="h-[61.011px] w-[61.011px] object-contain rounded-full">
+                  <img
+                    class="h-[61.011px] w-[61.011px] object-cover rounded-full"
+                    :src="singleJob?.data?.company?.company_logo"
+                    :alt="singleJob?.data?.company.business_name"
+                  />
+                </div>
               </div>
               <div>
                 <div class="flex gap-2 items-center">
