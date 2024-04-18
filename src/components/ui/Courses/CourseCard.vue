@@ -12,19 +12,23 @@
             <h3 class="text-[#244034] text-[17.11px] leading-[16.62px] font-Satoshi500">
               {{ i.heading }}
             </h3>
-            <span class="text-[9.57px] font-Satoshi700 text-[#993939] uppercase leading-[8.54px ]"
+            <span
+              class="text-[9.57px] font-Satoshi700 text-[#993939] uppercase leading-[8.54px ]"
               >{{ i.type }} COURSE</span
             >
           </div>
           <div>
             <button
+              @click="redirectToLink(i.link)"
               class="btn-brand !bg-[#43D0DF] !text-[10.49px] !text-[#000000] !border-0 !px-3 !py-1"
             >
-              {{ i.type === 'free' ? `Start Free Course` : `Register now` }}
+              {{ i.type === "free" ? `Start Free Course` : `Register now` }}
             </button>
           </div>
         </div>
-        <div class="objec-contain h-full w-[130%] relative flex justify-end overflow-hidden">
+        <div
+          class="objec-contain h-full w-[130%] relative flex justify-end overflow-hidden"
+        >
           <img class="object-cover w-full" :src="i.image" alt="" />
         </div>
       </div>
@@ -32,16 +36,26 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
-import cousresOne from '@/assets/image/courses1.png'
-import cousresTwo from '@/assets/image/courses2.png'
+import { ref } from "vue";
+import cousresOne from "@/assets/image/courses1.png";
+import cousresTwo from "@/assets/image/courses2.png";
+const redirectToLink = (url) => {
+  window.open(url, "_blank");
+};
+
 const course = ref([
-  { heading: `Learn Design with Canva`, type: 'free', image: cousresOne },
+  {
+    heading: `Learn Design with Canva`,
+    type: "free",
+    image: cousresOne,
+    link: `https://superpeer.com/brandvillr/collection/design-for-socials-with-canva`,
+  },
   {
     heading: `Learn Data
 Analytics`,
-    type: 'paid',
-    image: cousresTwo
-  }
-])
+    type: "paid",
+    image: cousresTwo,
+    link: ``,
+  },
+]);
 </script>
