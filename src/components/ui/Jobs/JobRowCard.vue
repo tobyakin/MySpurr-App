@@ -52,18 +52,13 @@ const copyUrl = () => {
   >
     <div class="flex lg:flex-row flex-col gap-3 w-full">
       <div>
-        <img
-          v-if="props?.job.company.business_name !== null"
-          class="h-[61.011px] w-[61.011px] rounded-full"
-          :src="props?.job.company.logo"
-          alt=""
-        />
-        <img
-          v-else
-          class="h-[61.011px] w-[61.011px] rounded-full"
-          src="@/assets/image/jobIcon.svg"
-          alt=""
-        />
+        <div class="h-[61.011px] w-[61.011px] object-contain rounded-full">
+          <img
+            class="h-[61.011px] w-[61.011px] object-cover rounded-full"
+            :src="props?.job.company.logo"
+            :alt="props?.job.company.business_name"
+          />
+        </div>
       </div>
       <div class="w-full">
         <div class="flex items-center gap-1">
