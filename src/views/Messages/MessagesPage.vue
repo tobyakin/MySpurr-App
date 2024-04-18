@@ -10,6 +10,8 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import SendIcon from "@/components/icons/sendIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
 import { useSocketStore } from "@/stores/socket";
+import ComingSoon from "@/components/ui/ComingSoon/ComingSoon.vue";
+
 const store = useSocketStore();
 import { useUserProfile } from "@/stores/profile";
 let profile = useUserProfile();
@@ -57,7 +59,9 @@ onMounted(async () => {
     <div
       class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
     >
-      <h4 class="text-[#244034] font-EBGaramond500 capitalize text-[27px]">messages</h4>
+      <ComingSoon title="Messages" />
+
+      <!-- <h4 class="text-[#244034] font-EBGaramond500 capitalize text-[27px]">messages</h4>
       <div class="flex flex-row gap-[34.16px] w-full min-h-[75vh] overflow-hidden">
         <div
           style="box-shadow: 0.86326px 0px 0px 0px #d3d6db"
@@ -204,7 +208,7 @@ onMounted(async () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </DashboardLayout>
 </template>
