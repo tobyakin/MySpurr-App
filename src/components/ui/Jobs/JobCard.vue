@@ -25,7 +25,7 @@ const props = defineProps({
 let source = "";
 
 onMounted(() => {
-  source = import.meta.env.VITE_LANDING_PAGE + `job-details/` + props?.job.id;
+  source = import.meta.env.VITE_LANDING_PAGE + `job-details/` + props?.job.slug;
 });
 
 // let source = window.location.href;
