@@ -47,7 +47,7 @@ onUnmounted(() => {
           <div>
             <img
               class="h-[61.011px] w-[61.011px] rounded-full"
-              :src="singleJob?.data?.company?.business_name?.company_logo"
+              :src="singleJob?.data?.company?.company_logo"
               alt=""
             />
           </div>
