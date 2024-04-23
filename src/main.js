@@ -36,7 +36,7 @@ import 'leaflet/dist/leaflet.css'
 
 
 const app = createApp(App)
-app.component('VueApexCharts', VueApexCharts)
+app.component('ApexChart', VueApexCharts)
 app.component('QuillEditor', QuillEditor)
 app.component('Label', Label)
 app.component('DashboardLayout', DashboardLayout)
