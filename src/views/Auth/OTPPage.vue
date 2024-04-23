@@ -47,8 +47,7 @@
           <p class="text-[#000000] mb-8 text-[14.496px] font-Satoshi400">
             Didn’t receive OTP via email?
             <button
-              @click="resendCodeTimer"
-              :disabled="disableResendButton"
+              @click="resendCode"
               class="underline"
               :class="disableResendButton ? 'cursor-not-allowed' : ''"
             >
