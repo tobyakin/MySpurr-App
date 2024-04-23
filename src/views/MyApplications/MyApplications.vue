@@ -23,7 +23,9 @@ import ComingSoon from "@/components/ui/ComingSoon/ComingSoon.vue";
           <InvitesView class="hidden" />
         </template>
         <template #view2><Applications /></template>
-        <template #view3><JobOffers /></template>
+        <template #view3
+          ><JobOffers class="hidden" /> <ComingSoon title="Job Offers" />
+        </template>
         <template #view4>
           <ComingSoon title="My jobs" />
           <MyJobs class="hidden" />
