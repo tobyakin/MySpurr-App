@@ -3,7 +3,7 @@
     <AuthHeader :showLandingUrl="true" />
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-40 auth_container">
       <div class="sticky lg:flex flex-shrink-0 items-center hidden top-0">
-        <img class="bg-transparent" src="@/assets/LogoComp.gif" alt="Auth" />
+        <img class="bg-transparent" src="@/assets/LogoComp2.gif" alt="Auth" />
         <!-- <iframe src="@/assets/LogoAnimatedWhite.gif" frameborder="0"></iframe> -->
       </div>
       <div class="flex justify-center items-center lg:py-0">

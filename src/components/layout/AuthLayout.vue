@@ -6,7 +6,7 @@
         <img
           v-if="!showWelcomeMsg"
           class=""
-          src="@/assets/image/Auth/circleImages.png"
+          src="@/assets/LogoGreenComp2.gif"
           alt="Auth"
         />
         <div v-if="showWelcomeMsg">

@@ -202,7 +202,7 @@ onMounted(() => {
 
 <template>
   <!-- <Loader /> -->
-  <layout :showLandingUrl="true" :showWelcomeMsg="state.status" class="bg-[#00474F]">
+  <layout :showLandingUrl="true" :showWelcomeMsg="state.status" class="bg-[#064D4F]">
     <div
       class="justify-center xl:w-[80%] w-full mx-auto lg:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
     >
