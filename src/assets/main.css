@@ -295,3 +295,33 @@ input[type='checkbox'] {
   padding: 5px;
   border-radius: 3px;
 }
+.topJobs::-webkit-scrollbar {
+  width: 2px !important;
+  height: 5px !important;
+}
+
+/* Track */
+.topJobs::-webkit-scrollbar-track {
+  /* box-shadow: inset 0 0 5px grey;  */
+  border-radius: 10px;
+  background: #e6f1f3;
+    width: 2px !important;
+      background: #fff;
+
+
+
+}
+
+/* Handle */
+.topJobs::-webkit-scrollbar-thumb {
+  background: #2F929C;
+  border-radius: 10px;
+  height: 5px !important;
+  width: 3px !important;
+
+}
+
+/* Handle on hover */
+.topJobs::-webkit-scrollbar-thumb:hover {
+  background: #96c6cc;
+}
