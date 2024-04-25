@@ -14,7 +14,8 @@ import {
   updateCertificate,
   updatePortfolio,
   getSinglePortfolio,
-  updateBusinessDeatils
+  updateBusinessDeatils,
+  deletePortfolio
 } from '@/services/Profile'
 
 export const useUserProfile = defineStore('profile', () => {
@@ -211,6 +212,14 @@ const singlePortfolio = ref({})
       /**/
     }
   }
+  const handleDeleteEducation = async (id) => {
+    try {
+      let res = await deletePortfolio(id)
+      return res
+    } catch (error) {
+      /**/
+    }
+  }
   const handleUpdateEducation = async (id, payload) => {
     try {
       let res = await updateEducation(id, payload)
@@ -292,6 +301,7 @@ const singlePortfolio = ref({})
     handleGetSinglePortfolio,
     singlePortfolio,
     businessDeatils,
-    handleUpdateBusinessDeatils
+    handleUpdateBusinessDeatils,
+    handleDeleteEducation
   }
 })
