@@ -242,7 +242,23 @@ const restForm = () => {
     (portfolio.value.link = ""),
     (portfolio.value.featured_image = "");
 };
-
+let deleteLoading = ref(false);
+const handleDelete = async () => {
+  deleteLoading.value = true;
+  try {
+    const res = await userProfile.handleDeleteEducation(portfolioID.value);
+    if (res.status === "true") {
+      userProfile.userProfile();
+      router.push({ name: "profile" });
+    }
+    return res;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    deleteLoading.value = false;
+    restForm();
+  }
+};
 const onFinish = async () => {
   loading.value = true;
   // let featuredImage = null;
@@ -627,10 +643,11 @@ onUnmounted(() => {
       </div>
       <div class="flex gap-4 justify-start mt-12">
         <button
+          @click="handleDelete"
           class="bg-[#2F929C] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] text-white rounded-full px-8 p-4 w-auto"
         >
-          <span class="text-[12.067px]">Delete</span>
-          <!-- <WhiteLoader v-if="loadingD" /> -->
+          <span v-if="!deleteLoading" class="text-[12.067px]">Delete</span>
+          <WhiteLoader v-if="deleteLoading" />
         </button>
         <button
           @click="onFinish"
