@@ -33,6 +33,7 @@ const router = useRouter();
 const tabStore = useTabStore();
 const { isLoading } = storeToRefs(tabStore);
 const jobsLoading = ref(false);
+let loadMyjobs = ref(false);
 let store = useStore();
 let profile = useUserProfile();
 // const showPageLoader = ref(true);
@@ -72,14 +73,14 @@ onMounted(async () => {
   }
 });
 //!isOnBoarded.portofoolio;
-onMounted(async () => {
+const getMyJobApplications = async () => {
   if (accountType.value === "talent") {
     // await JobsStore.handleGetTopPickedJobs();
     await JobsStore.handleMyJobApplications();
     // await JobsStore.allJobs();
   }
-});
-onMounted(async () => {
+};
+const getAllJobs = async () => {
   if (accountType.value === "talent") {
     jobsLoading.value = true;
     try {
@@ -90,8 +91,8 @@ onMounted(async () => {
       jobsLoading.value = false;
     }
   }
-});
-onMounted(async () => {
+};
+const getStatistics = async () => {
   if (accountType.value !== "talent") {
     try {
       await statStore.handleGetStatistics();
@@ -99,24 +100,33 @@ onMounted(async () => {
       console.error;
     }
   }
-});
+};
 
 const getMyJobs = async () => {
-  let response = await JobsStore.handleMyJobs();
-  return response;
+  loadMyjobs.value = false;
+  try {
+    let response = await JobsStore.handleMyJobs();
+    return response;
+  } catch (error) {
+    console.error;
+  } finally {
+    loadMyjobs.value = true;
+  }
 };
 const fetchMyJobData = async () => {
-  await Promise.all([getMyJobs()]);
+  await Promise.all([getMyJobs(), getStatistics(), getAllJobs(), getMyJobApplications()]);
 };
 
-fetchMyJobData();
+// const { isLoading: loadMyjobs } = useQuery(["myJobs"], getMyJobs, {
+//   retry: 10,
+//   staleTime: 10000,
+//   onSuccess: (data) => {
+//     MyJob.value = data;
+//   },
+// });
 
-const { isLoading: loadMyjobs } = useQuery(["myJobs"], getMyJobs, {
-  retry: 10,
-  staleTime: 10000,
-  onSuccess: (data) => {
-    MyJob.value = data;
-  },
+onMounted(async () => {
+fetchMyJobData();
 });
 
 onMounted(async () => {
@@ -362,9 +372,15 @@ onMounted(async () => {
             >View all jobs</router-link
           >
         </div>
-        <div><ShortLoader v-if="jobsLoading" /><TopPicksJob v-else :job="Job" /></div>
+        <div class="flex flex-col w-full overflow-hidden">
+          <ShortLoader v-if="jobsLoading" />
+          <div v-else><TopPicksJob :job="Job" /></div>
+        </div>
       </div>
-      <div v-if="accountType === 'talent'" class="mt-10 flex gap-3 overflow-x-auto">
+      <div
+        v-if="accountType === 'talent'"
+        class="mt-10 flex gap-3 w-full overflow-x-auto"
+      >
         <div class="my-8 w-full">
           <!-- min-w-[95%] lg:min-w-[70%] -->
 

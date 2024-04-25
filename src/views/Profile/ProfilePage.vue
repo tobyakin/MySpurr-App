@@ -29,7 +29,7 @@ import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
-import { useQuery } from "vue-query";
+// import { useQuery } from "vue-query";
 import { useTabStore } from "@/stores/tab";
 import { useStore } from "@/stores/user";
 
@@ -142,21 +142,30 @@ const getProfileData = async () => {
 const fetchData = async () => {
   await Promise.all([getProfileData()]);
 };
+let Loading = ref(false);
 
-fetchData();
-
-const { isLoading } = useQuery(["profile"], getProfileData, {
-  retry: 10,
-  staleTime: 10000,
-  onSuccess: (data) => {
-    user.value = data;
-  },
+//   const { isLoading } = useQuery(["profile"], fetchData, {
+//     retry: 10,
+//     staleTime: 10000,
+//     onSuccess: (data) => {
+//       user.value = data;
+//     },
+//   });
+onMounted(async () => {
+  Loading.value = true;
+  try {
+    fetchData();
+  } catch (error) {
+    console.error;
+  } finally {
+    Loading.value = false;
+  }
 });
 </script>
 
 <template>
   <DashboardLayout>
-    <ShortLoader v-if="isLoading" />
+    <ShortLoader v-if="Loading" />
     <div
       v-else
       class="flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-6 lg:py-10 py-6 mb-10"
