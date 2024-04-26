@@ -98,6 +98,7 @@ const selectedsiso = computed(() => {
 // watchers to update the selectedIso2 and selectedsiso
 watch(selectedIso2, async (newInput) => {
   siso.value = "";
+  states.value = null;
   await skillsStore.handleGetStates(newInput);
 });
 // watchers to update the selectedIso2 and selectedsiso
@@ -324,7 +325,7 @@ const selectHighlightedOption = () => {
               </a-select>
             </div>
           </div>
-          <a-divider class="lg:hidden" style="height: 2px; background-color: #254035ab" />
+          <a-divider class="lg:hidden" style="height: 1px; background-color: #254035ab" />
           <a-divider
             class="lg:flex hidden"
             style="height: 5vh; background-color: #254035ab"
@@ -334,7 +335,9 @@ const selectHighlightedOption = () => {
           <div class="w-full">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">State</label>
             <div class="flex w-full items-center">
+              <span v-if="!states" class="p-2 px-2">loading..</span>
               <a-select
+                v-else
                 placeholder="state or city"
                 :show-arrow="false"
                 :bordered="false"
