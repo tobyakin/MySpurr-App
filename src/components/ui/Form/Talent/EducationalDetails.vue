@@ -141,7 +141,7 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
         </div>
 
         <!-- <div class="flex flex-row h-full rounded-[5.897px] py-1.5"> -->
-        <div class="w-full flex flex-col gap-2">
+        <div class="w-full flex flex-col min-h-[28vh] after:gap-2">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Description</label
           >
@@ -150,7 +150,6 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
               v-model:content="education.description"
               class=""
               theme="snow"
-              toolbar="full"
               placeholder="Give a brief description about your education"
               contentType="html"
             />

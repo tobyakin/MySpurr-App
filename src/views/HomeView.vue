@@ -47,9 +47,6 @@ const accountType = computed(() => {
   return store.getUser.data.user.type;
 });
 onMounted(() => {
-  return profile.userProfile();
-});
-onMounted(() => {
   return accountType;
 });
 onMounted(async () => {
@@ -124,10 +121,6 @@ const fetchMyJobData = async () => {
 //     MyJob.value = data;
 //   },
 // });
-
-onMounted(async () => {
-fetchMyJobData();
-});
 
 onMounted(async () => {
   fetchMyJobData();

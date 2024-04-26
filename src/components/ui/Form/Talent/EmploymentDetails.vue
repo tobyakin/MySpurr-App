@@ -240,7 +240,6 @@ const selectHighlightedJobTitleOption = () => {
               v-model:content="employment_details.description"
               class=""
               theme="snow"
-              toolbar="full"
               placeholder="Give a brief description about your work "
               contentType="html"
             />
