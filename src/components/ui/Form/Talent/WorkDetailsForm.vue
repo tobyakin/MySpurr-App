@@ -120,9 +120,76 @@ watch(selectedsiso, async (newInput) => {
 //   siso.value = "";
 //   await skillsStore.handleGetStates(newInput);
 // });
+const errors = reactive({
+  top_skills: false,
+  skill_title: false,
+  highest_education: false,
+  overview: false,
+  ciso: false,
+  siso: false,
+  rate: false,
+  employment_type: false,
+  availability: false,
+});
+const validateForm = () => {
+  // Reset errorsMsg
+  Object.keys(errors).forEach((key) => {
+    errors[key] = false;
+  });
+
+  // Define validation rules for each field
+  const validationRules = [
+    { field: "skill_title", value: !skill_title.value },
+    { field: "top_skills", value: top_skills.value.length === 0 },
+    { field: "highest_education", value: !highest_education.value },
+    { field: "overview", value: !overview.value },
+    { field: "siso", value: !siso.value },
+    { field: "ciso", value: !ciso.value },
+    { field: "rate", value: !rate.value },
+    { field: "employment_type", value: !employment_type.value },
+    { field: "availability", value: !availability.value },
+  ];
+
+  // Perform validation based on rules
+  let isValid = true;
+  validationRules.forEach((rule) => {
+    if (rule.value) {
+      errors[rule.field] = true;
+      isValid = false;
+    }
+  });
+
+  return isValid; // Only return false if there are validation errors
+};
+const clearInputErrors = () => {
+  Object.keys(errors).forEach((key) => {
+    errors[key] = false;
+  });
+};
+
+watch(
+  [
+    top_skills,
+    skill_title,
+    highest_education,
+    overview,
+    siso,
+    ciso,
+    rate,
+    employment_type,
+    availability,
+  ],
+  () => {
+    clearInputErrors();
+  }
+);
 
 const next = () => {
-  emit("next", step.value + 1);
+  if (!validateForm()) {
+    return;
+  } else {
+    emit("next", step.value + 1);
+  }
 };
 onMounted(async () => {
   await skillsStore.getskills();
@@ -247,7 +314,10 @@ const selectHighlightedOption = () => {
       <div
         class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
       >
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div
+          :class="errors.skill_title ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Skill title</label
           >
@@ -291,7 +361,10 @@ const selectHighlightedOption = () => {
           >
           </multiselect> -->
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-3.5">
+        <div
+          :class="errors.overview ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Overview</label>
           <textarea
             v-model="overview"
@@ -301,7 +374,8 @@ const selectHighlightedOption = () => {
           />
         </div>
         <div
-          class="border-[0.737px] flex lg:flex-row flex-col items-center border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+          :class="errors.siso || errors.ciso ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] flex lg:flex-row flex-col items-center rounded-[5.897px] p-4 py-1.5"
         >
           <div class="w-full">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
@@ -358,7 +432,10 @@ const selectHighlightedOption = () => {
           </div>
         </div>
 
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div
+          :class="errors.top_skills ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Select your top 3 skills</label
           >
@@ -433,7 +510,10 @@ const selectHighlightedOption = () => {
             </div>
           </div>
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div
+          :class="errors.highest_education ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >What is your highest level of education?</label
           >
@@ -446,7 +526,10 @@ const selectHighlightedOption = () => {
             class="w-full flex border-none"
           />
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div
+          :class="errors.employment_type ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Employment type
           </label>
@@ -459,7 +542,10 @@ const selectHighlightedOption = () => {
             class="bg-transparent border-none"
           />
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div
+          :class="errors.availability ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Availability
           </label>
@@ -472,7 +558,10 @@ const selectHighlightedOption = () => {
             class="bg-transparent border-none"
           />
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+        <div
+          :class="errors.rate ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Rate /hr ($)</label
           >
@@ -488,7 +577,6 @@ const selectHighlightedOption = () => {
     <div class="flex flex-row gap-5 pb-8 mt-5">
       <button
         @click="next"
-        :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
         class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
