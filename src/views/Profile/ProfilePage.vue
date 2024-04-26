@@ -151,6 +151,22 @@ let Loading = ref(false);
 //       user.value = data;
 //     },
 //   });
+function creatNewPortfolio() {
+  toast.success(
+    "Portfolio creation is temporarily under maintenance for enhancements and improvements.",
+    {
+      timeout: 4000,
+    }
+  );
+}
+function redirectToEditPortfolio() {
+  toast.success(
+    "Portfolio editing is currently undergoing a tune-up for an even better experience!",
+    {
+      timeout: 4000,
+    }
+  );
+}
 onMounted(async () => {
   Loading.value = true;
   try {
@@ -424,8 +440,8 @@ onMounted(async () => {
               class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
             >
               <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
-
-              <button @click="HandleTogglePortfolioModal">
+              <!-- @click="HandleTogglePortfolioModal" -->
+              <button @click="creatNewPortfolio">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
             </div>
@@ -442,9 +458,11 @@ onMounted(async () => {
               v-if="userDetails?.portfolio"
               class="overflow-hidden hide-scrollbar flex flex-row w-full lg:grid lg:grid-cols-3 gap-3 overflow-x-auto"
             >
+              <!--                 @click="redirectToSinglePortfolio(img.id)"
+ -->
               <img
-                @click="redirectToSinglePortfolio(img.id)"
                 role="button"
+                @click="redirectToEditPortfolio"
                 v-for="img in userDetails?.portfolio"
                 :key="img"
                 :src="img.featured_image"
