@@ -1,8 +1,9 @@
 <template>
   <div class="w-full">
     <div
+      ref="horizontalDiv"
       v-if="job && job?.data?.length"
-      class="overflow-hidden flex flex-row w-full gap-3 topJobs overflow-x-auto"
+      class="overflow-hidden flex flex-row w-full gap-3 hide-scrollbar overflow-x-auto"
     >
       <JobCard
         class="min-w-[380px] lg:min-w-[50%] xl:min-w-[376.66px] md:min-w-[60%]"
@@ -26,10 +27,16 @@
         </div>
       </div>
     </div>
+    <div class="flex justify-center mt-3 w-full">
+      <Scroller :element="horizontalDiv" :distance="horizontalDiv?.clientWidth" />
+    </div>
   </div>
 </template>
 <script setup>
+import { ref } from "vue";
 import JobCard from "@/components/ui/Jobs/JobCard.vue";
+import Scroller from "@/components/ui/Scroller.vue";
+const horizontalDiv = ref();
 
 defineProps({
   job: null,

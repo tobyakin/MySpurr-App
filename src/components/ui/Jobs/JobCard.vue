@@ -51,22 +51,22 @@ const copyUrl = () => {
       <img src="@/assets/image/jobIcon.svg" alt="" />
       <div>
         <p class="text-[13.021px] font-Satoshi500 text-[#2F929C]">
-          {{ props?.job.company.business_name }}
+          {{ props?.job?.company?.business_name }}
         </p>
         <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
-          {{ props?.job.job_title }}
+          {{ props?.job?.job_title }}
         </p>
         <div class="flex flex-wrap items-center mt-2 gap-2">
           <div
             class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-Satoshi500"
           >
-            <CalenderIcon /><span class=""> {{ props?.job.date_created }} </span>
+            <CalenderIcon /><span class=""> {{ props?.job?.date_created }} </span>
           </div>
           <div
             class="flex gap-[2px] items-center text-[10.334px] text-[#DA5252] font-Satoshi500"
           >
             <LocationIcon /><span class=""
-              >{{ props?.job.state }}, {{ props?.job.country }}</span
+              >{{ props?.job?.state }}, {{ props?.job?.country }}</span
             >
           </div>
           <!-- <div
@@ -82,9 +82,9 @@ const copyUrl = () => {
       <div class="flex justify-between items-center">
         <div>
           <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
-            {{ store.abbr(props?.job.salary_min) }}-
-            {{ store.abbr(props?.job.salary_max) }}/
-            {{ props?.job.salaray_type }}
+            {{ store.abbr(props?.job?.salary_min) }}-
+            {{ store.abbr(props?.job?.salary_max) }}/
+            {{ props?.job?.salaray_type }}
           </p>
           <div class="flex mt-1 gap-1">
             <VerifyIcon class="" />
@@ -97,23 +97,23 @@ const copyUrl = () => {
           <div
             class="bg-[#EDF0B8] font-Satoshi500 flex items-center text-[9.708px] p-2 px-6 text-[#000000] rounded-full"
           >
-            {{ props?.job.job_type }}
+            {{ props?.job?.job_type }}
           </div>
         </div>
       </div>
       <div class="flex justify-between mt-7">
         <button
-          @click="redirectToJobDetails(job.id)"
+          @click="redirectToJobDetails(job?.id)"
           :disabled="props?.job.application_status === 'applied'"
           :class="
-            props?.job.application_status === 'applied'
+            props?.job?.application_status === 'applied'
               ? 'bg-gray-300 cursor-not-allowed'
               : 'bg-[#43D0DF]'
           "
           class="font-Satoshi500 uppercase text-[9.708px] p-3 px-7 text-[#000000] rounded-full"
         >
-          <span v-if="props?.job.application_status === 'applied'">
-            {{ props?.job.application_status }}
+          <span v-if="props?.job?.application_status === 'applied'">
+            {{ props?.job?.application_status }}
           </span>
           <span v-else>APPLY</span>
         </button>
