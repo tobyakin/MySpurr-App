@@ -24,6 +24,7 @@
     "happy-dom": "^12.10.3",
     "notivue": "^1.4.2",
     "pinia": "^2.1.4",
+    "primevue": "^3.52.0",
     "socket.io-client": "^4.7.2",
     "vue": "^3.4.19",
     "vue-cropperjs": "^5.0.0",

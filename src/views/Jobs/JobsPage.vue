@@ -380,7 +380,7 @@ watchEffect(() => {
               :job="item"
             />
           </div> -->
-          <ShortLoader v-if="loading" />
+          <ShortLoader v-if="loading && filteredJobs === null" />
           <div v-else class="mt-14 flex flex-col gap-8">
             <JobRowCard
               class="min-w-[95%] lg:min-w-[45%]"

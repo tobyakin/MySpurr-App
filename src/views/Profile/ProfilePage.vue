@@ -26,7 +26,9 @@ import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.v
 import { storeToRefs } from "pinia";
 // import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
-
+// import Scroller from "@/components/ui/Scroller.vue";
+// const horizontalDiv = ref();
+import Carousel from "@/components/ui/Carousel/index.vue";
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
 // import { useQuery } from "vue-query";
@@ -151,26 +153,27 @@ let Loading = ref(false);
 //       user.value = data;
 //     },
 //   });
-function creatNewPortfolio() {
-  toast.success(
-    "Portfolio creation is temporarily under maintenance for enhancements and improvements.",
-    {
-      timeout: 4000,
-    }
-  );
-}
-function redirectToEditPortfolio() {
-  toast.success(
-    "Portfolio editing is currently undergoing a tune-up for an even better experience!",
-    {
-      timeout: 4000,
-    }
-  );
-}
+// function creatNewPortfolio() {
+//   toast.success(
+//     "Portfolio creation is temporarily under maintenance for enhancements and improvements.",
+//     {
+//       timeout: 4000,
+//     }
+//   );
+// }
+// function redirectToEditPortfolio() {
+//   toast.success(
+//     "Portfolio editing is currently undergoing a tune-up for an even better experience!",
+//     {
+//       timeout: 4000,
+//     }
+//   );
+// }
 onMounted(async () => {
   Loading.value = true;
   try {
     fetchData();
+    Loading.value = false;
   } catch (error) {
     console.error;
   } finally {
@@ -435,42 +438,61 @@ onMounted(async () => {
               v-if="accountType === 'talent'"
               :items="userDetails?.employment"
             />
-            <div
-              v-if="accountType === 'talent'"
-              class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
-            >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
-              <!-- @click="HandleTogglePortfolioModal" -->
-              <button @click="creatNewPortfolio">
-                <EditIcon class="text-[#297F88] exclude-from-print" />
-              </button>
-            </div>
-            <div
-              v-if="!userDetails?.portfolio && accountType === 'talent'"
-              class="flex flex-col w-full justify-center items-center"
-            >
-              <p class="text-[15px] text-[#000] font-Satoshi400 text-center !mb-12 mt-8">
-                Uploaded portfolio can be viewed here
-              </p>
-            </div>
+            <div>
+              <div
+                v-if="accountType === 'talent'"
+                class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
+              >
+                <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
+                <!-- @click="HandleTogglePortfolioModal" -->
+                <button @click="HandleTogglePortfolioModal">
+                  <EditIcon class="text-[#297F88] exclude-from-print" />
+                </button>
+              </div>
+              <div
+                v-if="!userDetails?.portfolio && accountType === 'talent'"
+                class="flex flex-col w-full justify-center items-center"
+              >
+                <p
+                  class="text-[15px] text-[#000] font-Satoshi400 text-center !mb-12 mt-8"
+                >
+                  Uploaded portfolio can be viewed here
+                </p>
+              </div>
+              <Carousel
+                v-if="userDetails?.portfolio"
+                :dataValue="userDetails?.portfolio"
+                @toPage="redirectToSinglePortfolio"
+              />
 
-            <div
-              v-if="userDetails?.portfolio"
-              class="overflow-hidden hide-scrollbar flex flex-row w-full lg:grid lg:grid-cols-3 gap-3 overflow-x-auto"
-            >
+              <!-- <div
+                ref="horizontalDiv"
+                v-if="userDetails?.portfolio"
+                class="overflow-hidden flex flex-row w-full gap-3 hide-scrollbar overflow-x-auto"
+              > -->
+              <!--   
+                                  class="overflow-hidden hide-scrollbar flex flex-row w-full lg:grid lg:grid-cols-3 gap-3 overflow-x-auto"
+
+ -->
               <!--                 @click="redirectToSinglePortfolio(img.id)"
  -->
-              <img
-                role="button"
-                @click="redirectToEditPortfolio"
-                v-for="img in userDetails?.portfolio"
-                :key="img"
-                :src="img.featured_image"
-                class="h-[221.52px] object-cover flex flex-col bg-[#EFF6F3] w-full rounded-lg"
-                :alt="img.title"
-              />
+              <!-- <img
+                  role="button"
+                  @click="redirectToEditPortfolio"
+                  v-for="img in userDetails?.portfolio"
+                  :key="img"
+                  :src="img.featured_image"
+                  class="h-[221.52px] object-cover flex flex-col bg-[#EFF6F3] w-full rounded-lg"
+                  :alt="img.title"
+                /> -->
+              <!-- </div> -->
+              <!-- <div class="flex justify-center mt-3 w-full">
+                <Scroller
+                  :element="horizontalDiv"
+                  :distance="horizontalDiv?.clientWidth"
+                />
+              </div> -->
             </div>
-
             <p class="text-[28px] text-[#000] font-Satoshi500 hidden !mb-12 mt-8">
               Reviews
             </p>
