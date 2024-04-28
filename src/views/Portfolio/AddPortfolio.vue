@@ -27,7 +27,7 @@ const userProfile = useUserProfile();
 // );
 // const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
 // let store = useStore();
-const maxCharacters = 300;
+const maxCharacters = 1000;
 
 const characterCount = computed(() => portfolio.value.description.length);
 const isDisabled = computed(() => characterCount.value >= maxCharacters);
@@ -274,7 +274,7 @@ const onFinish = async () => {
   loading.value = true;
   try {
     const res = await OnboardingStore.submitTalentPortfolio();
-    console.log(res.status)
+    console.log(res.status);
     if (res.status === "true") {
       userProfile.userProfile();
       router.push({ name: "profile" });
@@ -426,7 +426,7 @@ onMounted(async () => {
         </div> -->
       </div>
       <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[44.05px]">
-        Describe your project (300 words)
+        Describe your project (1000 words)
       </h4>
       <div class="mt-8 flex flex-col h-[58vh]">
         <QuillEditor
