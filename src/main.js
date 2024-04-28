@@ -18,6 +18,12 @@ import ShortLoader from '@/components/ui/Loader/ShortLoader.vue'
 import VueApexCharts from 'vue3-apexcharts'
 import Label from '@/components/ui/Form/Input/Label.vue'
 import DashboardLayout from '@/components/layout/dashboardLayout.vue'
+import PrimeVue from 'primevue/config'
+import 'primevue/resources/themes/aura-light-green/theme.css'
+
+import Galleria from 'primevue/galleria'
+
+import Carousel from 'primevue/carousel'
 
 import {
   LRectangle,
@@ -36,6 +42,8 @@ import 'leaflet/dist/leaflet.css'
 
 
 const app = createApp(App)
+app.component('Galleria', Galleria)
+app.component('Carousel', Carousel)
 app.component('ApexChart', VueApexCharts)
 app.component('QuillEditor', QuillEditor)
 app.component('Label', Label)
@@ -56,6 +64,7 @@ app.component('l-polygon', LPolygon)
 app.component('l-geo-json', LGeoJson),
 app.use(Toast, { position: POSITION.TOP_RIGHT })
 app.use(VueQueryPlugin)
+app.use(PrimeVue)
 
 app.use(createPinia())
 app.use(router)

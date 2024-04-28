@@ -39,7 +39,7 @@ export default {
     LGeoJson,
     LMarker,
   },
-  props: { lat: String, lng: String },
+  props: { lat: null, lng: null },
 
   data() {
     return {
