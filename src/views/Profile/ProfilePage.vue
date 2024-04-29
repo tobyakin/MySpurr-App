@@ -68,7 +68,7 @@ let formTitle = ref("");
 const source = ref(
   import.meta.env.VITE_LANDING_PAGE +
     `talent/` +
-    `${userDetails.value?.first_name}/` +
+    `${userDetails.value?.first_name}-${userDetails.value?.last_name}/` +
     userDetails.value?.uniqueId
 );
 const { copy, copied, isSupported } = useClipboard({ source });
@@ -299,7 +299,7 @@ onMounted(async () => {
                     target="_blank"
                     :href="
                       `https://www.myspurr.net/talent/` +
-                      userDetails?.first_name +
+                      `${userDetails?.first_name}-${userDetails?.last_name}` +
                       `/` +
                       userDetails?.uniqueId
                     "
