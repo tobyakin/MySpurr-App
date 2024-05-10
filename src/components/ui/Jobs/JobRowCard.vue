@@ -149,7 +149,6 @@ const copyUrl = () => {
               </div>
               <button
                 @click="redirectToJobDetails(props?.job.id)"
-                :disabled="props?.job.application_status === 'applied'"
                 :class="
                   props?.job.application_status === 'applied'
                     ? 'bg-gray-300 cursor-not-allowed'

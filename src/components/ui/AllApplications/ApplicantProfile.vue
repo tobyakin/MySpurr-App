@@ -34,30 +34,34 @@
         </div>
       </div>
       <div class="flex flex-col items-center lg:justify-end justify-center w-[40%] gap-4">
-        <div class="flex items-center w-full justify-end gap-[3px]">
+        <div class="flex items-center w-full justify-end gap-[6px]">
+          <a :href="`mailto:${props?.talents?.email}`" target="_blank">
+            <mailoutline class="!h-[14.52px]" />
+          </a>
+
           <a
-            v-if="!props?.talents?.linkedin"
+            v-if="props?.talents?.linkedin"
             :href="props?.talents?.linkedin"
             target="_blank"
           >
             <LinkdeinIcon class="!h-[14.52px]" />
           </a>
           <a
-            v-if="!props?.talents?.instagram"
+            v-if="props?.talents?.instagram"
             :href="props?.talents?.instagram"
             target="_blank"
           >
             <InstagramIcon class="!h-[14.52px]" />
           </a>
           <a
-            v-if="!props?.talents?.behance"
+            v-if="props?.talents?.behance"
             :href="props?.talents?.behance"
             target="_blank"
           >
             <BeIcon class="!h-[14.52px]" />
           </a>
           <a
-            v-if="!props?.talents?.twitter"
+            v-if="props?.talents?.twitter"
             :href="props?.talents?.twitter"
             target="_blank"
           >
@@ -267,6 +271,7 @@ import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
 import InstagramIcon from "@/components/icons/instagramIcon.vue";
 import BeIcon from "@/components/icons/beIcon.vue";
 import TwitterIcon from "@/components/icons/twitterIcon.vue";
+import mailoutline from "@/components/icons/mailoutline.vue";
 import CertificateBadge from "@/components/icons/certificateBadge.vue";
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 import { useTabStore } from "@/stores/tab";
@@ -369,7 +374,8 @@ const handleTalentRating = async () => {
 };
 onMounted(() => {
   source.value =
-    import.meta.env.VITE_LANDING_PAGE +`talent/`+
+    import.meta.env.VITE_LANDING_PAGE +
+    `talent/` +
     `${props?.talents?.first_name}/` +
     props?.talents?.uniqueId;
 });

@@ -16,8 +16,9 @@ onMounted(() => {
     activetab.value = storedTab;
   }
 });
-const props = defineProps({ statistics: Object });
-const statistics = computed(() => props?.statistics);
+const props = defineProps({ statistics: null });
+const statistics = computed(() => props.statistics);
+console.log("statistics", statistics.value);
 // const filterTab = (category) => {
 //   tab.value = category;
 //   //   filteredTab.value = [];
@@ -28,17 +29,15 @@ const statistics = computed(() => props?.statistics);
 
 // Extract job_views and job_applied from the data
 // Find the objects containing total_job_views and total_job_applied
-const totalJobViewsObj = statistics?.value?.data?.find((obj) => "total_job_views" in obj);
-const totalJobAppliedObj = statistics?.value?.data?.find(
-  (obj) => "total_job_applied" in obj
-);
+const totalJobViewsObj = statistics?.value?.find((obj) => "total_job_views" in obj);
+const totalJobAppliedObj = statistics?.value?.find((obj) => "total_job_applied" in obj);
 
 // Extract values or default to 0 if not found
 const total_job_views = totalJobViewsObj ? totalJobViewsObj.total_job_views : 0;
 const total_job_applied = totalJobAppliedObj ? totalJobAppliedObj.total_job_applied : 0;
 // Use refs to store arrays for job_views, job_applied, and day
-const jobViews = ref(statistics?.value?.data?.map((item) => item.job_views));
-const jobApplied = ref(statistics?.value?.data?.map((item) => item.job_applied));
+const jobViews = ref(statistics?.value?.map((item) => item.job_views));
+const jobApplied = ref(statistics?.value?.map((item) => item.job_applied));
 const days = ref(statistics.value?.data?.map((item) => item.day));
 </script>
 <template>
@@ -87,7 +86,7 @@ const days = ref(statistics.value?.data?.map((item) => item.day));
             <JobStatisticsChart
               :jobViews="jobViews"
               :jobApplied="jobApplied"
-              :chartData="props?.statistics"
+              :chartData="props.statistics"
               :days="days"
             />
           </div>

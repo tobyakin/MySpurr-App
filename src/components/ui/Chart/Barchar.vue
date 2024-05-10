@@ -1,13 +1,11 @@
 <template>
   <div class="h-full bg-cover w-full">
     <apexchart
-      class="h-auto"
       v-if="renderChart"
       type="bar"
       :options="chartOptions"
       :series="chartSeries"
       :height="chatContainerHeight"
-      ref="chart"
     />
   </div>
 </template>
@@ -19,7 +17,7 @@ export default {
   components: {
     Apexchart: VueApexCharts,
   },
-  props: { userDetails: Object },
+  props: { userDetails: null },
   data() {
     return {
       chatContainerHeight: null,
@@ -67,7 +65,6 @@ export default {
         },
         xaxis: {
           show: false,
-          categories: [],
           tickAmount: 5,
           labels: {
             style: {
@@ -205,34 +202,26 @@ export default {
     this.setChatContainerHeight();
     window.addEventListener("resize", this.setChatContainerHeight);
 
-    const fullTime = [this.userDetails?.fulltime_jobs] || [];
-    const PartTime = [this.userDetails?.parttime_jobs] || [];
-    const Contract = [this.userDetails?.contract_jobs] || [];
-    const Remote = [this.userDetails?.remote_jobs] || [];
-    const Internship = [this.userDetails?.internship_jobs] || [];
-    // const Widthdrawaldata = [20];
-    const getFormattedDate = (day) => {
-      const date = new Date(2023, 0, day); // Assuming the year is 2023
-      const options = { day: "2-digit", month: "short" };
-      return date.toLocaleDateString("en-US", options);
-    };
-    // Extract x-axis categories and y-axis values from chart data
-    // const values = Widthdrawaldata.map((item) => item);
-    // const Incomevalues = Incomedata.map((item) => item);
-    const DateValues = Array.from({ length: 7 }, (_, index) =>
-      getFormattedDate(index + 1)
-    );
+    // const getFormattedDate = (day) => {
+    //   const date = new Date(2023, 0, day); // Assuming the year is 2023
+    //   const options = { day: "2-digit", month: "short" };
+    //   return date.toLocaleDateString("en-US", options);
+    // };
+    // // Extract x-axis categories and y-axis values from chart data
+    // const DateValues = Array.from({ length: 7 }, (_, index) =>
+    //   getFormattedDate(index + 1)
+    // );
 
     // Update chart options and series
-    this.chartOptions.xaxis.categories = DateValues;
-    this.chartSeries[0].data = fullTime;
-    this.chartSeries[1].data = Internship;
-    this.chartSeries[2].data = PartTime;
-    this.chartSeries[3].data = Contract;
-    this.chartSeries[4].data = Remote;
+    // this.chartOptions.xaxis.categories = DateValues;
+    this.chartSeries[0].data = [this.userDetails?.fulltime_jobs];
+    this.chartSeries[1].data = [this.userDetails?.internship_jobs];
+    this.chartSeries[2].data = [this.userDetails?.parttime_jobs];
+    this.chartSeries[3].data = [this.userDetails?.contract_jobs];
+    this.chartSeries[4].data = [this.userDetails?.remote_jobs];
     this.renderChart = true;
+    console.log(this.renderChart);
     //Refresh the chart to reflect the updated data
-    //this.$refs.chart.refresh();
   },
 };
 </script>

@@ -2,16 +2,16 @@
 import { ref, onMounted, computed } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import LogoIcon from "@/components/icons/logoIcon.vue";
-import JobCard from "@/components/ui/Jobs/JobCard.vue";
+// import JobCard from "@/components/ui/Jobs/JobCard.vue";
 import BusinessJobCard from "@/components/ui/Jobs/Business/JobCard.vue";
-import MyApplicationCard from "@/components/ui/MyApplicationCard.vue";
-import CommunityCard from "@/components/ui/CommunityCard.vue";
-import CourseCard from "@/components/ui/CourseCard.vue";
-import ArticleCard from "@/components/ui/ArticleCard.vue";
+// import MyApplicationCard from "@/components/ui/MyApplicationCard.vue";
+// import CommunityCard from "@/components/ui/CommunityCard.vue";
+// import CourseCard from "@/components/ui/CourseCard.vue";
+// import ArticleCard from "@/components/ui/ArticleCard.vue";
 import Barchar from "@/components/ui/Chart/Barchar.vue";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
-import { useQuery } from "vue-query";
+// import { useQuery } from "vue-query";
 // import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue";
 import BusinessValuesCard from "@/components/ui/Cards/BusinessValuesCard.vue";
 import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
@@ -273,7 +273,7 @@ onMounted(async () => {
         v-if="accountType !== 'talent'"
         class="flex lg:flex-row flex-col gap-[32.12px] my-8"
       >
-        <JobsStatistics :statistics="stat" class="min-w-[95%] lg:min-w-[65.9%]" />
+        <JobsStatistics :statistics="stat?.data" class="min-w-[95%] lg:min-w-[65.9%]" />
         <div class="flex flex-col gap-4 w-full">
           <div
             class="p-[28.26px] px-[22.48px] rounded-[4.533px] w-full bg-[#FFF] flex flex-row justify-between h-full border-[0.567px] border-[#254035AB]"
