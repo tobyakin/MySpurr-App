@@ -100,19 +100,21 @@ const getStatistics = async () => {
 };
 
 const getMyJobs = async () => {
-  loadMyjobs.value = false;
+  loadMyjobs.value = true;
   try {
     let response = await JobsStore.handleMyJobs();
+     loadMyjobs.value = false;
     return response;
   } catch (error) {
     console.error;
   } finally {
-    loadMyjobs.value = true;
+        loadMyjobs.value = false;
+
   }
 };
-const fetchMyJobData = async () => {
-  await Promise.all([getMyJobs(), getStatistics(), getAllJobs(), getMyJobApplications()]);
-};
+// const fetchMyJobData = async () => {
+//   await Promise.all([getMyJobs(), getStatistics(), getAllJobs(), getMyJobApplications()]);
+// };
 
 // const { isLoading: loadMyjobs } = useQuery(["myJobs"], getMyJobs, {
 //   retry: 10,
@@ -123,7 +125,11 @@ const fetchMyJobData = async () => {
 // });
 
 onMounted(async () => {
-  fetchMyJobData();
+  // fetchMyJobData();
+  getMyJobs(), 
+  getStatistics(), 
+  getAllJobs(), 
+  getMyJobApplications()
 });
 </script>
 
