@@ -352,7 +352,6 @@ onMounted(async () => {
               v-model:content="postJobsValue.description"
               class=""
               theme="snow"
-              toolbar="full"
               placeholder="Write about the job in details..."
               contentType="html"
             />
@@ -364,7 +363,6 @@ onMounted(async () => {
               v-model:content="postJobsValue.responsibilities"
               class=""
               theme="snow"
-              toolbar="full"
               placeholder="Write about the job in details..."
               contentType="html"
             />
@@ -376,7 +374,6 @@ onMounted(async () => {
               v-model:content="postJobsValue.required_skills"
               class=""
               theme="snow"
-              toolbar="full"
               placeholder="Write about the job in details..."
               contentType="html"
             />
@@ -390,7 +387,6 @@ onMounted(async () => {
               v-model:content="postJobsValue.benefits"
               class=""
               theme="snow"
-              toolbar="full"
               placeholder="Write about the job in details..."
               contentType="html"
             />
