@@ -18,7 +18,7 @@ onMounted(() => {
 });
 const props = defineProps({ statistics: null });
 const statistics = computed(() => props.statistics);
-console.log("statistics", statistics.value);
+// console.log("statistics", statistics.value);
 // const filterTab = (category) => {
 //   tab.value = category;
 //   //   filteredTab.value = [];

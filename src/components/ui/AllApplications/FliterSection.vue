@@ -172,8 +172,8 @@ const availaibility = computed(() => {
 const Salary = computed(() => {
   return userDetails.value?.map((item) => item.rate);
 });
-console.log(availaibility.value);
-console.log(userDetails.value);
+// console.log(availaibility.value);
+// console.log(userDetails.value);
 const sortInput = reactive({
   Salary: "",
   skills: "",

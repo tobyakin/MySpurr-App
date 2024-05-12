@@ -184,7 +184,7 @@ onUnmounted(() => {
 onMounted(() => {
   jobAppliedData.value = props.chartData?.map((item) => item.job_applied);
   jobViewsData.value = props.chartData?.map((item) => item.job_views);
-  console.log("jobAppliedData.value", jobAppliedData.value, jobViewsData.value);
+  // console.log("jobAppliedData.value", jobAppliedData.value, jobViewsData.value);
 
   setChatContainerHeight();
   window.addEventListener("resize", setChatContainerHeight());
