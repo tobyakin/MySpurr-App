@@ -274,7 +274,7 @@ const onFinish = async () => {
   loading.value = true;
   try {
     const res = await OnboardingStore.submitTalentPortfolio();
-    console.log(res.status);
+    // console.log(res.status);
     if (res.status === "true") {
       userProfile.userProfile();
       router.push({ name: "profile" });
