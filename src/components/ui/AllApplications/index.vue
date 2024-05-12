@@ -153,16 +153,17 @@
         :JobDetails="JobDetailsById?.data"
         :applicantDeatails="applicants?.data?.applicants"
       /> -->
+      <h4 class="text-[#00000066] text-[14.032px] my-2 font-Satoshi400">
+        All
+        <span class="text-[#000000] font-Satoshi500">{{
+          applicants?.data?.applicants?.length
+        }}</span>
+        Applicants
+      </h4>
+
       <div class="flex flex-row gap-4">
         <div class="w-[40%]">
-          <h4 class="text-[#00000066] text-[12.032px] font-Satoshi400">
-            All
-            <span class="text-[#000000] font-Satoshi500">{{
-              applicants?.data?.applicants?.length
-            }}</span>
-            Applicants
-          </h4>
-          <div class="w-full flex flex-col gap-[14px] mt-[44px]">
+          <div class="w-full flex flex-col gap-[14px]">
             <!-- <ShortLoader v-if="loadApplicants" /> -->
             <!-- {{ filteredApplicants }}l -->
             <div class="w-full flex flex-col gap-[14px]">

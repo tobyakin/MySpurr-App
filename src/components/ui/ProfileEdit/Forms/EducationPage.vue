@@ -222,7 +222,6 @@ onMounted(async () => {
                 v-model:content="formState.description"
                 class=""
                 theme="snow"
-                toolbar="full"
                 placeholder="Give a brief description about your work "
                 contentType="html"
               />
@@ -336,7 +335,6 @@ onMounted(async () => {
                 v-model:content="education.description"
                 class=""
                 theme="snow"
-                toolbar="full"
                 placeholder="Give a brief description about your work "
                 contentType="html"
               />

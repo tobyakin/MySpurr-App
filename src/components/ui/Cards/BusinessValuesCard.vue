@@ -27,7 +27,7 @@ const router = useRouter();
 
 const props = defineProps({
   title: String,
-  digit: Number,
+  digit: null,
   buttonPlaceholder: String,
   buttonLink: String,
   comingSoon: { type: Boolean, default: false },
