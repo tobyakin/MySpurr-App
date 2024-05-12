@@ -43,7 +43,9 @@ onUnmounted(() => {
     <ShortLoader v-if="loading" />
     <div v-else>
       <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
-        <div class="flex lg:flex-row flex-col gap-3 w-full">
+        <div
+          class="flex lg:flex-row flex-col lg:justify-normal justify-center lg:items-start items-center gap-3 w-full"
+        >
           <div>
             <div class="h-[61.011px] w-[61.011px] object-contain rounded-full">
               <img
@@ -54,8 +56,10 @@ onUnmounted(() => {
             </div>
           </div>
           <div class="w-full">
-            <div class="flex lg:flex-row flex-col gap-4 justify-between">
-              <div class="">
+            <div
+              class="flex lg:flex-row flex-col gap-4 justify-center lg:items-start items-center lg:justify-between"
+            >
+              <div class="flex flex-col lg:items-start items-center">
                 <p class="text-[22.805px] font-Satoshi400 flex text-[#000]">
                   {{ singleJob?.data?.company?.business_name }}
                 </p>
@@ -99,8 +103,10 @@ onUnmounted(() => {
               APPLY
             </button>
           </div>
-          <div class="flex justify-between lg:mt-2 mt-6">
-            <div class="flex gap-3 flex-wrap items-center">
+          <div class="flex lg:justify-between justify-center lg:mt-2 mt-6">
+            <div
+              class="flex gap-3 flex-wrap lg:justify-normal justify-center items-center"
+            >
               <div
                 v-for="skill in singleJob?.data?.skills"
                 :key="skill"
