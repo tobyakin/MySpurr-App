@@ -70,11 +70,11 @@ const checkAmountValidity = () => {
   if (amount >= minSalary && amount <= maxSalary) {
     valideRateError.value = false;
     valideRateErrorMsg.value = "Amount is within the salary range.";
-    console.log("Amount is within the range.");
+    // console.log("Amount is within the range.");
   } else {
     valideRateError.value = true;
     valideRateErrorMsg.value = "Amount is outside the salary range.";
-    console.log("Amount is outside the range.");
+    // console.log("Amount is outside the range.");
   }
 };
 const uploadedImageName = ref("");

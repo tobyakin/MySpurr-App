@@ -252,7 +252,7 @@ const Salary = computed(() => {
 
 const handleViewProfile = (talent_id) => {
   applicantsId.value = talent_id;
-  console.log(talent_id);
+  // console.log(talent_id);
 };
 watch([applicantsId, jobId], async ([newApplicantsId, newJobId]) => {
   loadTalentProfile.value = true;
@@ -346,7 +346,7 @@ const { isLoading: loadTalentApplications } = useQuery(
     },
   }
 );
-console.log(loadTalentApplications.value);
+// console.log(loadTalentApplications.value);
 const { isLoading: loadApplicants } = useQuery(
   ["getApplicants", route.params.id],
   getApplicants,

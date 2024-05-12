@@ -94,7 +94,7 @@ const postJob = async () => {
       restForm();
     } else {
       // Handle unsuccessful submission
-      console.log("Login failed:", res.data.message);
+      // console.log("Login failed:", res.data.message);
       loading.value = false;
       back();
     }
@@ -109,7 +109,7 @@ const postJob = async () => {
 const handlejobPayment = async () => {
   loading.value = true;
   let isHighlightedValue = isHighlighted.value === true ? 1 : 0;
-  console.log("isHighlightedValue", isHighlightedValue);
+  // console.log("isHighlightedValue", isHighlightedValue);
   try {
     const res = await jobsStore.handlejobPayment(
       userDetails?.value?.id,
@@ -152,9 +152,9 @@ onMounted(async () => {
   await userProfile.userProfile();
 });
 onMounted(() => {
-  console.log(state.status);
+  // console.log(state.status);
   if (state.status === true) {
-    console.log(state.status);
+    // console.log(state.status);
     showModal.value = true;
   }
 });

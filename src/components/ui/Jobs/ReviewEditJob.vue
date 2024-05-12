@@ -77,7 +77,7 @@ const postJob = async () => {
       restForm();
     } else {
       // Handle unsuccessful submission
-      console.log("Login failed:", res.data.message);
+      // console.log("Login failed:", res.data.message);
       loading.value = false;
       back();
     }

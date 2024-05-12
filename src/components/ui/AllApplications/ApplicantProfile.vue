@@ -245,13 +245,13 @@
               </div>
             </div>
           </div>
-          <div class="w-full">
-            <button
+          <!-- <div class="w-full"> -->
+          <!-- <button
               class="btn-brand !bg-[#31795A] !border-none text-center w-full !px-[1px] !py-[4px] !text-white"
             >
               Download CV
-            </button>
-          </div>
+            </button> -->
+          <!-- </div> -->
         </div>
         <p class="text-[14.038px] text-[#000] font-Satoshi500 mt-16">Location</p>
         <div class="flex flex-col gap-12 mt-4 rounded-[15px]">
@@ -349,12 +349,12 @@ const prefillDetails = (SingleObject) => {
 };
 watch(ratingVlaue, (newSingleObject) => {
   prefillDetails(newSingleObject);
-  console.log(newSingleObject);
+  // console.log(newSingleObject);
 });
 onMounted(async () => {
   await jobsStore.handleGetApplicants(route.params.id);
   prefillDetails(ratingVlaue.value);
-  console.log(ratingVlaue.value);
+  // console.log(ratingVlaue.value);
 });
 
 const handleTalentRating = async () => {
@@ -364,19 +364,19 @@ const handleTalentRating = async () => {
     rating: rateTalent.value,
   };
   try {
-    console.log(payload, rateTalent.value);
+    // console.log(payload, rateTalent.value);
     const res = await jobsStore.handleAddRating(payload);
     await jobsStore.handleGetApplicants(route.params.id);
     return res;
   } catch (error) {
-    console.log(error);
+    console.error;
   }
 };
 onMounted(() => {
   source.value =
     import.meta.env.VITE_LANDING_PAGE +
     `talent/` +
-    `${props?.talents?.first_name}/` +
+    `${props?.talents?.first_name}-${props?.talents?.last_name}/` +
     props?.talents?.uniqueId;
 });
 const viewProfile = () => {

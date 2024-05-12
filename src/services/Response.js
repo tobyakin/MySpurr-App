@@ -64,7 +64,7 @@ const toast = useToast();
 export const catchAxiosError = (error) => {
   if (error?.response?.data) {
     const responseData = error?.response?.data
-console.log(responseData)
+// console.log(responseData)
     // Display the main error message
     if (responseData.message) {
       toast.error(responseData.message, {

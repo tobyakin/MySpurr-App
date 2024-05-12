@@ -220,7 +220,7 @@ export default {
     this.chartSeries[3].data = [this.userDetails?.contract_jobs];
     this.chartSeries[4].data = [this.userDetails?.remote_jobs];
     this.renderChart = true;
-    console.log(this.renderChart);
+    // console.log(this.renderChart);
     //Refresh the chart to reflect the updated data
   },
 };

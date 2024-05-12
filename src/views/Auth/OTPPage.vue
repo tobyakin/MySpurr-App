@@ -137,7 +137,7 @@ const submitCode = async () => {
       }
     } else {
       // Handle unsuccessful login
-      console.log("Login failed:", res.data.message);
+      // console.log("Login failed:", res.data.message);
       loading.value = false;
       code.value = "";
     }
