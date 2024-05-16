@@ -35,6 +35,71 @@
         type="text"
         placeholder="Business Name"
       />
+      <!-- <AuthInput
+        v-if="storedTab === 'business'"
+        :error="errors.business_name"
+        :errorsMsg="errorsMsg.business_name"
+        v-model="formData.phone_number"
+        type="text"
+        placeholder="Business Name"
+      /> -->
+      <div
+        :class="
+          errors.country_code || errors.phone_number
+            ? 'border-[#DA5252]'
+            : 'border-[#254035]'
+        "
+        class="w-full font-light flex font-Satoshi400 text-[14px] bg-white !py-1 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+      >
+        <a-input-group compact>
+          <a-select
+            :bordered="false"
+            :show-arrow="true"
+            style="width: 90px"
+            class="!outline-none !px-0"
+            v-model:value="formData.country_code"
+          >
+            <a-select-option
+              v-for="item in contriesCode.data"
+              :key="item.id"
+              :value="item.phonecode"
+              v-model:value="formData.country_code"
+              class="!px-0"
+              ><span class="flex items-center gap-1"
+                ><span class="text-[18px]" v-html="item.emoji"></span>
+                {{ item.phonecode }}</span
+              >
+            </a-select-option>
+          </a-select>
+          <a-input
+            style="width: 50%"
+            v-model:value="formData.phone_number"
+            :bordered="false"
+            type="tel"
+          />
+        </a-input-group>
+        <!-- <a-select
+          placeholder=""
+          :bordered="false"
+          :show-arrow="true"
+          style="width: 90px"
+          class="!outline-none !px-0"
+          v-model:value="formData.country_code"
+        >
+          <a-select-option
+            v-for="item in contriesCode.data"
+            :key="item.id"
+            :value="item.phonecode"
+            class="!px-0"
+            ><span class="flex items-center gap-1"
+              ><span class="text-[18px]" v-html="item.emoji"></span>
+              {{ item.phonecode }}</span
+            >
+          </a-select-option> </a-select
+        ><a-input :bordered="false" type="tel"></a-input> -->
+      </div>
+      <!-- <vue-tel-input v-model="formData.phone_number" mode="international"></vue-tel-input> -->
+
       <AuthInput
         :error="errors.email"
         :errorsMsg="errorsMsg.email || !isValidEmail"
@@ -166,12 +231,16 @@
 
 <script setup>
 import { ref, reactive, watch, computed, onMounted } from "vue";
+import { storeToRefs } from "pinia";
 import PasswordInput from "@/components/ui/Form/Input/PasswordInput.vue";
 import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
 import { registerBusiness, registerTalent, authWithGoogle } from "@/services/Auth";
 import { useRouter } from "vue-router";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useTabStore } from "@/stores/tab";
+import { useSkillsStore } from "@/stores/skills";
+const skillsStore = useSkillsStore();
+const { contriesCode } = storeToRefs(skillsStore);
 
 const store = useTabStore();
 const activeTab = ref(store.activeTab);
@@ -220,6 +289,8 @@ const errors = reactive({
   password: false,
   confirmPassword: false,
   business_name: false,
+  phone_number: false,
+  country_code: false,
 });
 // Define refs for your URL parameters and structure them
 const user = reactive({
@@ -241,6 +312,8 @@ const formData = reactive({
   lastName: "",
   email: "",
   password: "",
+  phone_number: "",
+  country_code: "234",
   // confirmPassword: "",
   // business_name: "",
 });
@@ -253,6 +326,8 @@ const errorsMsg = {
   password: "Password is required",
   confirmPassword: "Password does not match",
   business_name: "Business name is required",
+  country_code: "country code is required",
+  phone_number: "phone number is required",
 };
 // Watch for changes in input fields and clear errors when input is valid
 watch(formData, () => {
@@ -298,6 +373,15 @@ const validateBusinessForm = () => {
     errors.business_name = true;
     isValid = false;
   }
+  if (!formData.country_code) {
+    errors.country_code = true;
+    isValid = false;
+  }
+  if (!formData.phone_number) {
+    errors.phone_number = true;
+    isValid = false;
+  }
+
   if (formData.password !== confirmPassword.value) {
     errors.confirmPassword = true;
     isValid = false;
@@ -336,7 +420,14 @@ const validateForm = () => {
     errorsMsg.password = "Password is required";
     isValid = false;
   }
-
+  if (!formData.country_code === "") {
+    errors.country_code = true;
+    isValid = false;
+  }
+  if (formData.phone_number === "") {
+    errors.phone_number = true;
+    isValid = false;
+  }
   if (formData.password !== confirmPassword.value) {
     errors.confirmPassword = true;
     isValid = false;
@@ -438,6 +529,8 @@ const handleBusinessSignup = async () => {
     first_name: formData.firstName,
     last_name: formData.lastName,
     email: formData.email,
+    phone_number: formData.phone_number,
+    country_code: formData.country_code,
     password: formData.password,
     business_name: formData.business_name,
   };
@@ -462,6 +555,8 @@ const handleTalentSignup = async () => {
     first_name: formData.firstName,
     last_name: formData.lastName,
     email: formData.email,
+    phone_number: formData.phone_number,
+    country_code: formData.country_code,
     password: formData.password,
     // terms: terms,
   };
@@ -475,4 +570,7 @@ const handleTalentSignup = async () => {
     loading.value = false;
   }
 };
+onMounted(async () => {
+  await skillsStore.getCountriesCode();
+});
 </script>

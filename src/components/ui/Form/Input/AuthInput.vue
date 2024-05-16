@@ -25,7 +25,7 @@ defineProps({
   type: String,
   placeholder: String,
   error: Boolean,
-  errorsMsg: String,
+  errorsMsg: null,
 });
 
 const emit = defineEmits(["update:modelValue"]);
