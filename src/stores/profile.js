@@ -55,7 +55,8 @@ export const useUserProfile = defineStore('profile', () => {
       ciso: '',
       siso: '',
       calendlylink: '',
-      experienceLevel: ''
+      experienceLevel: '',
+      phoneNumber:''
     })
 
   const overview = ref('')
@@ -144,7 +145,8 @@ const singlePortfolio = ref({})
       behance: bioInfo.value.behance,
       facebook: bioInfo.value.facebook,
       booking_link: bioInfo.value.calendlylink,
-      experience_level: bioInfo.value.experienceLevel
+      experience_level: bioInfo.value.experienceLevel,
+      phone_number: bioInfo.value.phoneNumber
     }
     try {
       let res = await updateBio(payload)
