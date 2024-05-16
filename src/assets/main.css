@@ -325,3 +325,15 @@ input[type='checkbox'] {
 .topJobs::-webkit-scrollbar-thumb:hover {
   background: #96c6cc;
 }
+.vue-tel-input input{
+  @apply !p-3;
+}
+.vue-tel-input {
+  @apply w-full font-light text-[14px] outline-none border-[0.509px] !shadow-none focus:!border-[#254035] rounded-[4px] text-sm;
+}
+.vti__dropdown-list, .above{
+  @apply !bg-white ;
+}
+.vue-tel-input:focus-within{
+  @apply focus:!border-[#254035]
+}

@@ -20,6 +20,8 @@ import Label from '@/components/ui/Form/Input/Label.vue'
 import DashboardLayout from '@/components/layout/dashboardLayout.vue'
 import PrimeVue from 'primevue/config'
 import 'primevue/resources/themes/aura-light-green/theme.css'
+import VueTelInput from 'vue-tel-input'
+import 'vue-tel-input/vue-tel-input.css'
 
 import Galleria from 'primevue/galleria'
 
@@ -42,6 +44,8 @@ import 'leaflet/dist/leaflet.css'
 
 
 const app = createApp(App)
+app.use(VueTelInput)
+
 app.component('Galleria', Galleria)
 app.component('Carousel', Carousel)
 app.component('ApexChart', VueApexCharts)
