@@ -578,7 +578,7 @@ const selectHighlightedOption = () => {
       <button
         @click="next"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-        class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+        class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
       >
         Next
       </button>

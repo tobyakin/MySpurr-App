@@ -52,14 +52,14 @@ const handleResendEmail = async () => {
         <div class="mt-8 flex justify-between gap-6">
           <button
             @click="handleResendEmail"
-            class="bg-[#43D0DF] font-Satoshi500 text-[10.14px] uppercase leading-[11.593px] rounded-full p-3 w-full"
+            class="bg-[#43D0DF] font-Satoshi500 text-[10.14px] uppercase leading-[11.593px] rounded-full p-3 w-full text-white btn-hover-1"
           >
             <span v-if="!loading">RESEND EMAIL</span>
             <WhiteLoader v-else />
           </button>
           <router-link
             to="/login"
-            class="bg-[#43D0DF] font-Satoshi500 text-[10.14px] uppercase flex items-center justify-center leading-[11.593px] rounded-full p-3 w-full"
+            class="bg-[#43D0DF] font-Satoshi500 text-[10.14px] uppercase flex items-center justify-center leading-[11.593px] rounded-full p-3 w-full text-white btn-hover-1"
           >
             LOG IN
           </router-link>

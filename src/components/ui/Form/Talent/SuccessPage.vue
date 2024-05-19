@@ -10,7 +10,7 @@
         <div class="flex justify-center">
           <button
             @click="next"
-            class="bg-brand text-center font-Satoshi400 cursor-pointer rounded-md px-6 text-gray-100 py-3"
+            class="bg-brand text-center font-Satoshi400 cursor-pointer rounded-md px-6 text-gray-100 py-3 btn-hover-2"
           >
             Proceed to Dashboard
           </button>
