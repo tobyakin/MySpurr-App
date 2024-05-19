@@ -44,6 +44,7 @@ const prefillDetails = () => {
   bioInfo.value.experienceLevel = userProfile.user?.data?.experience_level || "";
   bioInfo.value.siso = userProfile.user?.data?.siso || "";
   bioInfo.value.ciso = userProfile.user?.data?.ciso || "";
+  bioInfo.value.phoneNumber = userProfile.user?.data?.phone_number || "";
 };
 const emit = defineEmits(["closeModal"]);
 const selectedCountry = ref("");
@@ -195,6 +196,18 @@ onMounted(async () => {
                   </a-select-option>
                 </a-select>
               </div>
+            </div>
+            <div
+              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+            >
+              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+                >Phone Number</label
+              >
+              <GlobalInput
+                inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+                v-model="bioInfo.phoneNumber"
+                type="tel"
+              />
             </div>
           </div>
         </div>

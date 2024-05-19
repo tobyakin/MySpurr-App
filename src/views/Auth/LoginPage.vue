@@ -101,7 +101,7 @@ const accountType = computed(() => {
 const isOnBoarded = computed(() => profile.user);
 onMounted(async () => {
   // await profile.userProfile();
-  console.log(isOnBoarded.value.work_details);
+  // console.log(isOnBoarded.value.work_details);
 });
 
 const onFinish = async () => {

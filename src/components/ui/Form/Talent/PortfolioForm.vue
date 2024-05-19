@@ -41,7 +41,7 @@ const onFinish = async () => {
     portfolio_description: formState.value.portfolio_description,
     social_media_link: formState.value.social_media_link,
   };
-  console.log(formState.value.images);
+  // console.log(formState.value.images);
 
   const formData = new FormData();
 

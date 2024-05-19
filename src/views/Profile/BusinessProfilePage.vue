@@ -118,7 +118,7 @@ const redirectToSinglePortfolio = (id) => {
 const copyUrl = () => {
   if (isSupported) {
     if (copied) {
-      console.log(source.value);
+      // console.log(source.value);
       copy(source.value);
       toast.success("Link Copied", {
         timeout: 4000,
