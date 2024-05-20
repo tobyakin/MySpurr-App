@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.transition {
+  transition: all 0.3s linear;
+}
+
 body {
   @apply font-Satoshi400;
 }
@@ -112,6 +116,14 @@ select {
 
 .btn-business {
   @apply bg-brand text-gray-100 lg:px-8 py-3 w-[60%] rounded-full text-[14px];
+}
+
+.btn-hover-1 {
+  @apply hover:!bg-[#2F929C] transition;
+}
+
+.btn-hover-2 {
+  @apply hover:!bg-[#007582] transition;
 }
 
 input {

@@ -98,7 +98,7 @@ onUnmounted(() => {
             </p>
             <button
               @click="apply"
-              class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+              class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-white btn-hover-1 rounded-full"
             >
               APPLY
             </button>
@@ -206,7 +206,7 @@ onUnmounted(() => {
           <div>
             <button
               @click="apply"
-              class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+              class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-white btn-hover-1 rounded-full"
             >
               APPLY
             </button>
@@ -279,7 +279,7 @@ onUnmounted(() => {
               </div>
             </div>
             <button
-              class="bg-[#31795A] rounded-full p-2 px-10 font-Satoshi500 text-[16.646px] text-white"
+              class="bg-[#31795A] rounded-full p-2 px-10 font-Satoshi500 text-[16.646px] text-white btn-hover-2"
             >
               Message
             </button>

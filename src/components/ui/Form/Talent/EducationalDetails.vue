@@ -179,14 +179,14 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
     <div class="flex flex-row gap-5 pb-8 mt-5">
       <button
         @click="prev"
-        class="font-Satoshi500 text-white text-[14px] uppercase bg-[#43D0DF] leading-[11.593px] rounded-full p-5 w-full"
+        class="font-Satoshi500 text-white text-[14px] uppercase bg-[#43D0DF] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
       >
         Prev
       </button>
       <button
         @click="next"
         :disabled="!isFormValid"
-        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
+        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
         class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Next

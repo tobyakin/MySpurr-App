@@ -162,7 +162,7 @@ const copyUrl = () => {
                     ? 'bg-gray-300 cursor-not-allowed'
                     : 'bg-[#43D0DF]'
                 "
-                class="font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+                class="font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-white rounded-full btn-hover-1"
               >
                 <span v-if="props?.job.application_status === 'applied'">
                   {{ props?.job.application_status }}
