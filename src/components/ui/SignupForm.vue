@@ -220,9 +220,9 @@
         :disabled="loading"
         @click="handleSignup()"
         :class="loading ? 'cursor-not-allowed' : ''"
-        class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
+        class="bg-[#43D0DF] font-Satoshi500 text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
       >
-        <span v-if="!loading"> create my account </span>
+        <span v-if="!loading"> Create my account </span>
         <WhiteLoader v-else />
       </button>
     </div>

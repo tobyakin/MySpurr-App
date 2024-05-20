@@ -100,7 +100,7 @@ onUnmounted(() => {
               @click="apply"
               class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-white btn-hover-1 rounded-full"
             >
-              APPLY
+              Apply
             </button>
           </div>
           <div class="flex lg:justify-between justify-center lg:mt-2 mt-6">
@@ -208,7 +208,7 @@ onUnmounted(() => {
               @click="apply"
               class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-white btn-hover-1 rounded-full"
             >
-              APPLY
+              Apply
             </button>
           </div>
         </div>

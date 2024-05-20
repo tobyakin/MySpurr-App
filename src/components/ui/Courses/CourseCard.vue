@@ -20,7 +20,7 @@
           <div>
             <button
               @click="redirectToLink(i.link)"
-              class="btn-brand !bg-[#43D0DF] !text-[10.49px] !border-0 !px-3 !py-1 !text-white btn-hover-1"
+              class="btn-brand !bg-[#43D0DF] !text-[10.49px] !text-[#000000] !border-0 !px-3 !py-1"
             >
               {{ i.type === "free" ? `Start Free Course` : `Register now` }}
             </button>

@@ -71,9 +71,9 @@ const changeScreen = (from, to, type = null) => {
             <div class="mt-8">
               <button
                 @click="changeScreen(0, 1)"
-                class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
+                class="bg-[#43D0DF] font-Satoshi500 text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
               >
-                NEXT
+                Next
               </button>
             </div>
             <div class="mt-4 text-center">
@@ -120,9 +120,9 @@ const changeScreen = (from, to, type = null) => {
             <div class="mt-8">
               <button
                 @click="changeScreen(0, 1)"
-                class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
+                class="bg-[#43D0DF] font-Satoshi500 text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
               >
-                NEXT
+                Next
               </button>
             </div>
             <div class="mt-4 text-center">
