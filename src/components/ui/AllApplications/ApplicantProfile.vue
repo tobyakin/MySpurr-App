@@ -298,14 +298,15 @@ const props = defineProps({ talents: Object });
 // };
 const downloadFile = (url, filename) => {
   const anchor = document.createElement("a");
-  anchor.style.display = "none"; // Make it hidden
   anchor.href = url;
-  anchor.download = filename;
+  anchor.setAttribute("download", "");
+
+  // anchor.download = filename;
 
   // Prevent default behavior for anchor elements
-  anchor.addEventListener("click", (event) => {
-    event.preventDefault();
-  });
+  // anchor.addEventListener("click", (event) => {
+  //   event.preventDefault();
+  // });
 
   // Append the anchor to the body
   document.body.appendChild(anchor);
