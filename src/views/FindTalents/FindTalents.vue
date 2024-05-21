@@ -97,8 +97,9 @@ const displayedPageNumbers = computed(() => {
 });
 
 // You can also watch the currentPage to react to page changes
-watch(currentPage, (newPage) => {
+watch(currentPage, async (newPage) => {
   console.log("Current Page:", newPage);
+  await jobsStore.allTalents(newPage);
 });
 const getTallents = async () => {
   let response = await jobsStore.allTalents();
@@ -395,7 +396,10 @@ watchEffect(() => {
           <span class="text-[#000000] font-Satoshi500">{{
             filteredJobs?.length ? filteredJobs?.length : paginatedTalent?.length
           }}</span>
-          candidates found
+          candidates found from
+          <span class="text-[#000000] font-Satoshi500">{{
+            talent?.pagination?.total
+          }}</span>
         </p>
       </div>
       <div v-if="!filteredJobs && isLoading" class="mt-14 flex flex-col gap-8">
