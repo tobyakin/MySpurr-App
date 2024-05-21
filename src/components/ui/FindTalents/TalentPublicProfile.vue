@@ -36,6 +36,15 @@
       <div class="flex flex-col items-center lg:justify-normal justify-center gap-6">
         <div class="flex items-center gap-3">
           <a
+            v-if="props?.talent?.email"
+            :href="`mailto:${props?.talent?.email}`"
+            class="flex items-center mt-1"
+            target="_blank"
+          >
+            <mailoutline />
+          </a>
+
+          <a
             v-if="props?.talent?.linkedin"
             :href="props?.talent?.linkedin"
             target="_blank"
@@ -194,6 +203,7 @@
           </div>
           <div class="">
             <button
+              @click="printPage"
               class="btn-brand !border-none !w-full !px-3 !py-2 !text-[#FFFFFF] text-center !bg-[#31795A]"
             >
               <span class="mb-2">Download CV</span>
@@ -219,6 +229,8 @@ import BeIcon from "@/components/icons/beIcon.vue";
 import TwitterIcon from "@/components/icons/twitterIcon.vue";
 import RateStar from "@/components/icons/rateStar.vue";
 import CertificateBadge from "@/components/icons/certificateBadge.vue";
+import mailoutline from "@/components/icons/mailoutline.vue";
+
 // import LinkIcon from "@/components/icons/linkIcon.vue";
 import UserAvater from "@/components/ui/Avater/UserAvater.vue";
 import CalenderWithPen from "@/components/icons/calenderWithPen.vue";
@@ -253,6 +265,9 @@ const copyUrl = () => {
       timeout: 4000,
     });
   }
+};
+const printPage = () => {
+  window.print();
 };
 
 const props = defineProps({

@@ -211,7 +211,7 @@ onMounted(() => {
         <h1
           class="md:text-[22.225px] font-EBGaramond400 text-white lg:text-brand my-6 text-center text-2xl"
         >
-          Log in
+          Log In
         </h1>
         <!-- <button
           @click="loginWithGoogle"
@@ -303,9 +303,9 @@ onMounted(() => {
             :disabled="loading"
             :class="loading ? 'cursor-not-allowed' : ''"
             @click="onFinish"
-            class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
+            class="bg-[#43D0DF] font-Satoshi500 text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
           >
-            <span v-if="!loading">LOG in</span>
+            <span v-if="!loading">Log In</span>
             <WhiteLoader v-else />
           </button>
         </div>
