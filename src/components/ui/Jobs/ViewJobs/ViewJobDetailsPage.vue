@@ -74,12 +74,12 @@ onUnmounted(() => {
                 <div class="flex gap-2">
                   <button class="">
                     <CircleBookMarkIcon
-                      class="lg:w-[44.215px] lg:h-[44.215px] h-[40px] w-[40px]"
+                      class="h-[40px] w-[40px] hover:!text-[#2F929C] transition"
                     />
                   </button>
                   <button class="">
                     <SearchIcon
-                      class="lg:w-[44.215px] lg:h-[44.215px] h-[40px] w-[40px]"
+                      class="h-[40px] w-[40px] hover:!text-[#2F929C] transition"
                     />
                   </button>
                 </div>
@@ -98,7 +98,7 @@ onUnmounted(() => {
             </p>
             <button
               @click="apply"
-              class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-white btn-hover-1 rounded-full"
+              class="bg-[#43D0DF] font-Satoshi500 text-[10.2px] p-3 px-12 text-white btn-hover-1 rounded-full"
             >
               Apply
             </button>

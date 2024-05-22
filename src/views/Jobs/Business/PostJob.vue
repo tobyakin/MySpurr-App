@@ -733,13 +733,13 @@ onMounted(() => {
         <div class="flex justify-end gap-4 mt-12">
           <button
             @click="changeScreen(0, 1)"
-            class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
+            class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] capitalize leading-[11.593px] rounded-full px-5 p-3 w-auto text-white btn-hover-1"
           >
             review</button
           ><button
-            class="bg-[#fff] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
+            class="bg-[#fff] font-Satoshi500 text-[14.153px] leading-[11.593px] rounded-full px-5 p-3 w-auto"
           >
-            CANCEL
+            Cancel
           </button>
         </div>
       </div>

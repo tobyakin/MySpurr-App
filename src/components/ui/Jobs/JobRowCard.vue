@@ -149,10 +149,10 @@ const copyUrl = () => {
             >
               <div class="flex items-center gap-4">
                 <button class="">
-                  <CircleBookMarkIcon />
+                  <CircleBookMarkIcon class="hover:!text-[#2F929C] transition" />
                 </button>
                 <button @click="copyUrl" class="">
-                  <SearchIcon />
+                  <SearchIcon class="hover:!text-[#2F929C] transition"/>
                 </button>
               </div>
               <button

@@ -11,7 +11,7 @@
         to="/dashboard"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="
-          route.name === 'dashboard' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '
+          route.name === 'dashboard' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '
         "
       >
         <div
@@ -27,7 +27,7 @@
       <router-link
         to="/messages"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
-        :class="route.name === 'messages' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
+        :class="route.name === 'messages' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
           :class="route.name === 'messages' ? 'text-white ' : 'text-[#297F88] '"
@@ -43,7 +43,7 @@
         v-if="feature.includes('ALL_APPLICATIONS')"
         to="/"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
-        :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
+        :class="route.name === '' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
           :class="route.name === '' ? 'text-white ' : 'text-[#297F88] '"
@@ -64,7 +64,7 @@
         to="/my-applications"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="
-          route.name === 'my-applications' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '
+          route.name === 'my-applications' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '
         "
       >
         <div
@@ -81,7 +81,7 @@
         v-if="feature.includes('JOBS')"
         to="/jobs"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
-        :class="route.name === 'jobs' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
+        :class="route.name === 'jobs' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
           :class="route.name === 'jobs' ? 'text-white ' : 'text-[#297F88] '"
@@ -98,7 +98,7 @@
         to="/job-lists"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="
-          route.name === 'job-lists' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '
+          route.name === 'job-lists' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '
         "
       >
         <div
@@ -115,7 +115,7 @@
         v-if="feature.includes('COURSES')"
         to="/courses"
         class="p-[10px] flex justify-start hidden hover:bg-brand/[0.1] rounded-[5px]"
-        :class="route.name === 'courses' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
+        :class="route.name === 'courses' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
           :class="route.name === 'courses' ? 'text-white ' : 'text-[#297F88] '"
@@ -132,7 +132,7 @@
         to="/my-schedule"
         class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
         :class="
-          route.name === 'my-schedule' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '
+          route.name === 'my-schedule' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '
         "
       >
         <div
@@ -148,7 +148,7 @@
       <router-link
         to="/dashboard"
         class="p-[10px] flex justify-start hidden hover:bg-brand/[0.1] rounded-[5px]"
-        :class="route.name === '' ? 'text-white bg-[#43D0DF]' : 'text-[#01272C] '"
+        :class="route.name === '' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '"
       >
         <div
           :class="route.name === '' ? 'text-white ' : 'text-[#297F88] '"
