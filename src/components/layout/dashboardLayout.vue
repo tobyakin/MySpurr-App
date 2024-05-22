@@ -248,7 +248,7 @@ const displayImage = computed(() => imageExists.value);
               class="absolute right-0 top-3 px-[21px] border-l-[#F0F0F0] border-l-[1px]"
               @click="redirectWithSearchQuery"
             >
-              {{ accountType.value === "talent" ? "Find job" : "Find talent" }}
+              {{ accountType === "talent" ? "Find job" : "Find talent" }}
             </button>
           </div>
           <div class="links flex">

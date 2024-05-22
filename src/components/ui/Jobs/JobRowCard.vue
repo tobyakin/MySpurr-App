@@ -156,6 +156,7 @@ const copyUrl = () => {
                 </button>
               </div>
               <button
+                :disabled="props?.job.application_status === 'applied'"
                 @click="redirectToJobDetails(props?.job.id)"
                 :class="
                   props?.job.application_status === 'applied'
