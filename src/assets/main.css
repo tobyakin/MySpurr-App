@@ -94,6 +94,10 @@ select {
   }
 }
 
+#wrapper div:last-child hr{
+  @apply hidden
+}
+
 .ant-form-item-explain-error {
   @apply text-xs font-light mt-2;
 }

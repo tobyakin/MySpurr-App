@@ -173,7 +173,7 @@ onUnmounted(() => {
 
             <div
               v-html="singleJob?.data?.description"
-              class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px]"
+              class="text-[#000]/[0.75] font-Satoshi400 break-words text-justify text-[16px] mt-4 leading-[1.5]"
             ></div>
 
             <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
@@ -181,10 +181,10 @@ onUnmounted(() => {
             </p>
             <div
               v-html="singleJob?.data?.responsibilities"
-              class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] mt-4 leading-[24.689px]"
+              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px] editor"
             ></div>
 
-            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
+            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4">
               Required Skills:
             </p>
             <div
@@ -200,7 +200,7 @@ onUnmounted(() => {
             </p>
             <div
               v-html="singleJob?.data?.benefits"
-              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
+              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] editor leading-[24.689px]"
             ></div>
           </div>
           <div>

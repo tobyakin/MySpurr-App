@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full lg:w-[65%]">
-    <p class="text-[18px] font-Satoshi400 !mb-8 text-[#244034]">Courses</p>
+  <div class="w-full lg:w-[65%] h-full">
+    <p class="text-[18px] font-Satoshi400 mt-8 lg:mt-0 !mb-8 text-[#244034]">Courses</p>
     <div class="flex flex-col w-full gap-3">
       <div
         v-for="i in course"
@@ -20,7 +20,7 @@
           <div>
             <button
               @click="redirectToLink(i.link)"
-              class="btn-brand !bg-[#43D0DF] !text-[10.49px] !text-[#000000] !border-0 !px-3 !py-1"
+              class="btn-brand !bg-[#43D0DF] !text-[10.49px] !text-white btn-hover-1 !border-0 !px-3 !py-1"
             >
               {{ i.type === "free" ? `Start Free Course` : `Register now` }}
             </button>

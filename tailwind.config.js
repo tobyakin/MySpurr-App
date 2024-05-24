@@ -38,6 +38,12 @@ module.exports = {
           marginRight: "0.25rem",
         },
       },
+      gridTemplateColumns: {
+        'temp': '2fr 1.5fr'
+      },
+      gridtemplateRows: {
+        'temp': 'auto 1fr'
+      }
     },
   },
   plugins: [],

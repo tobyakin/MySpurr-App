@@ -118,14 +118,14 @@ defineProps({
             >
               <div class="flex items-center gap-4">
                 <button class="">
-                  <CircleBookMarkIcon />
+                  <CircleBookMarkIcon class="hover:text-[#2F929C] transition"/>
                 </button>
                 <button class="">
-                  <SearchIcon />
+                  <SearchIcon class="hover:!text-[#2F929C] transition"/>
                 </button>
               </div>
               <button
-                class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+                class="bg-[#43D0DF] font-Satoshi500 capitalize text-[10.2px] p-3 px-12 text-white rounded-full"
               >
                 {{ job?.status }}
               </button>

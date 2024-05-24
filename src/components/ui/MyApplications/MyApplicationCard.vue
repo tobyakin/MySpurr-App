@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full">
-    <p class="text-[18px] font-Satoshi400 !mb-8 text-[#244034]">My Applications</p>
+  <div class="w-full h-full">
+    <p class="text-[18px] font-Satoshi400 !mb-8 text-[#244034] h-[23px]">My Applications</p>
 
     <MyApplicationCard :applications="myJobsApplications" class="w-full" />
   </div>
