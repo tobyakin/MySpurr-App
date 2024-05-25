@@ -383,7 +383,7 @@ onMounted(async () => {
         <div class="my-8 w-full">
           <!-- min-w-[95%] lg:min-w-[70%] -->
 
-          <div class="flex lg:flex-row flex-col h-auto gap-3">
+          <div class="flex lg:flex-row flex-col lg:h-[300px] h-auto gap-3">
             <MyApplicationsCard />
             <CoursesCard />
           </div>

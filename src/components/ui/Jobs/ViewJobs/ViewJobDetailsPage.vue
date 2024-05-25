@@ -74,12 +74,12 @@ onUnmounted(() => {
                 <div class="flex gap-2">
                   <button class="">
                     <CircleBookMarkIcon
-                      class="lg:w-[44.215px] lg:h-[44.215px] h-[40px] w-[40px]"
+                      class="h-[40px] w-[40px] hover:!text-[#2F929C] transition"
                     />
                   </button>
                   <button class="">
                     <SearchIcon
-                      class="lg:w-[44.215px] lg:h-[44.215px] h-[40px] w-[40px]"
+                      class="h-[40px] w-[40px] hover:!text-[#2F929C] transition"
                     />
                   </button>
                 </div>
@@ -98,7 +98,7 @@ onUnmounted(() => {
             </p>
             <button
               @click="apply"
-              class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-white btn-hover-1 rounded-full"
+              class="bg-[#43D0DF] font-Satoshi500 text-[10.2px] p-3 px-12 text-white btn-hover-1 rounded-full"
             >
               Apply
             </button>
@@ -173,7 +173,7 @@ onUnmounted(() => {
 
             <div
               v-html="singleJob?.data?.description"
-              class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px]"
+              class="text-[#000]/[0.75] font-Satoshi400 break-words text-justify text-[16px] mt-4 leading-[1.5]"
             ></div>
 
             <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
@@ -181,10 +181,10 @@ onUnmounted(() => {
             </p>
             <div
               v-html="singleJob?.data?.responsibilities"
-              class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] mt-4 leading-[24.689px]"
+              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px] editor"
             ></div>
 
-            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
+            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4">
               Required Skills:
             </p>
             <div
@@ -200,7 +200,7 @@ onUnmounted(() => {
             </p>
             <div
               v-html="singleJob?.data?.benefits"
-              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
+              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] editor leading-[24.689px]"
             ></div>
           </div>
           <div>

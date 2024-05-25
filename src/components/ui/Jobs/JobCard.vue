@@ -108,9 +108,9 @@ const copyUrl = () => {
           :class="
             props?.job?.application_status === 'applied'
               ? 'bg-gray-300 cursor-not-allowed'
-              : 'bg-[#43D0DF]'
+              : 'bg-[#43D0DF] btn-hover-1'
           "
-          class="font-Satoshi500 capitalize text-[9.708px] p-3 px-7 text-white rounded-full btn-hover-1"
+          class="font-Satoshi500 capitalize text-[9.708px] p-3 px-7 text-white rounded-full"
         >
           <span v-if="props?.job?.application_status === 'applied'">
             {{ props?.job?.application_status }}

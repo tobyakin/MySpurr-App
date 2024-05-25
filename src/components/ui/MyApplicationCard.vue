@@ -2,9 +2,11 @@
 <template>
   <div
     v-if="applications && applications?.data?.length"
-    class="border-[#254035AB] border-[0.735px] overflow-hidden hide-scrollbar flex flex-col w-full gap-[20px] overflow-y-auto h-[33vh] bg-white rounded-[7.347px] p-4"
+    :class="applications?.data?.length > 3 ? 'h-[calc(100%-43px)]' : 'h-auto'"
+    class="border-[#254035AB] border-[0.735px] overflow-hidden hide-scrollbar w-full overflow-y-auto rounded-[7.347px]"
   >
-    <div class="w-full flex" v-for="item in applications?.data" :key="item">
+  <div id="wrapper" class=" bg-white p-4 flex flex-col gap-[20px]">
+    <div class="w-full flex flex-col" v-for="item in applications?.data" :key="item">
       <div class="flex flex-row justify-between w-full gap-3.5">
         <div class="flex gap-3">
           <img src="@/assets/image/jobIcon.svg" alt="" />
@@ -22,14 +24,15 @@
  -->
         <div class="flex items-center">
           <span
-            class="bg-[#43D0DF] font-Satoshi500 uppercase lg:text-[7.708px] text-[5px] items-center overflow-hidden flex p-3 lg:px-4 px-2 text-[#000000] rounded-full"
+            class="bg-[#43D0DF] font-Satoshi500 capitalize lg:text-[7.708px] text-[5px] items-center overflow-hidden flex p-3 lg:px-4 px-2 text-white rounded-full"
           >
             {{ item.status }}
           </span>
         </div>
       </div>
-      <hr v-if="item < 3" class="text-[#EAEAEA]" />
+      <hr class="mt-6 text-[#EAEAEA] w-full" />
     </div>
+  </div>
   </div>
   <div v-else>
     <div class="h-[39vh] flex justify-center items-center">

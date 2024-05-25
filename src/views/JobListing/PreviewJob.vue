@@ -178,9 +178,9 @@ const displayImage = computed(() => imageExists.value)
             </p>
             <button
               @click="gotoApplications(JobDetailsById?.data?.slug)"
-              class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+              class="bg-[#43D0DF] font-Satoshi500 text-[10.2px] capitalize p-3 px-12 text-white btn-hover-1 rounded-full"
             >
-              VIEW APPLICANTS
+              View applicants
             </button>
 
             <!-- <button
@@ -382,7 +382,7 @@ const displayImage = computed(() => imageExists.value)
           @click="closeJob(JobDetailsById?.data?.slug)"
           :disabled="loading"
           :class="loading ? 'cursor-not-allowed' : ''"
-          class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+          class="bg-[#43D0DF] font-Satoshi500 capitalize text-[10.2px] p-3 px-12 text-white btn-hover-1 rounded-full"
         >
           <span v-if="!loading"> Close job </span>
           <WhiteLoader v-else />

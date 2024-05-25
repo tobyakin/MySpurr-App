@@ -149,10 +149,10 @@ const copyUrl = () => {
             >
               <div class="flex items-center gap-4">
                 <button class="">
-                  <CircleBookMarkIcon />
+                  <CircleBookMarkIcon class="hover:!text-[#2F929C] transition" />
                 </button>
                 <button @click="copyUrl" class="">
-                  <SearchIcon />
+                  <SearchIcon class="hover:!text-[#2F929C] transition"/>
                 </button>
               </div>
               <button
@@ -161,9 +161,9 @@ const copyUrl = () => {
                 :class="
                   props?.job.application_status === 'applied'
                     ? 'bg-gray-300 cursor-not-allowed'
-                    : 'bg-[#43D0DF]'
+                    : 'bg-[#43D0DF] btn-hover-1'
                 "
-                class="font-Satoshi500 text-[9.708px] p-3 px-12 text-white rounded-full btn-hover-1"
+                class="font-Satoshi500 text-[9.708px] p-3 px-12 text-white rounded-full capitalize"
               >
                 <span v-if="props?.job.application_status === 'applied'">
                   {{ props?.job.application_status }}

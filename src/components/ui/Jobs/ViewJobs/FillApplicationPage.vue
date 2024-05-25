@@ -277,7 +277,7 @@ onMounted(async () => {
               <div class="flex flex-row gap-3">
                 <button
                   @click="back"
-                  class="bg-[#43D0DF] font-Satoshi500 uppercase lg:w-auto w-full text-[9.708px] p-3 lg:px-8 text-[#000000] rounded-full"
+                  class="bg-[#43D0DF] font-Satoshi500 capitalize lg:w-auto w-full text-[10.2px] p-3 lg:px-8 text-white btn-hover-1 rounded-full"
                 >
                   back
                 </button>
@@ -285,11 +285,11 @@ onMounted(async () => {
                   :disabled="!isFormValid"
                   @click="handleJobApplication()"
                   :class="
-                    !isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'
+                    !isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'
                   "
-                  class="font-Satoshi500 uppercase text-[9.708px] p-3 lg:px-8 lg:w-auto w-full text-[#000000] rounded-full"
+                  class="font-Satoshi500 text-[10.2px] p-3 lg:px-8 lg:w-auto w-full text-white rounded-full"
                 >
-                  <span v-if="!loading">SEND</span>
+                  <span v-if="!loading">Send</span>
                   <WhiteLoader v-else />
                 </button>
               </div>

@@ -300,8 +300,8 @@ const displayImage = computed(() => imageExists.value);
           <button
             @click="handleJobPosting"
             :disabled="!isFormValid"
-            :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-            class="font-Satoshi500 text-[9.708px] uppercase p-3 px-12 text-[#000000] rounded-full"
+            :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
+            class="font-Satoshi500 text-[9.708px] uppercase p-3 px-12 text-white rounded-full"
           >
             <span v-if="!loading">Post</span>
             <WhiteLoader v-else />
@@ -572,14 +572,14 @@ const displayImage = computed(() => imageExists.value);
     <div class="flex justify-between gap-4 mt-12">
       <button
         @click="back"
-        class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-8 p-3 w-auto"
+        class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] leading-[11.593px] rounded-full px-8 p-3 w-auto text-white btn-hover-1"
       >
         Back</button
       ><button
         @click="handleJobPosting"
         :disabled="!isFormValid"
-        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-        class="font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full px-8 p-3 w-auto"
+        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
+        class="font-Satoshi500 text-[14px] leading-[11.593px] rounded-full px-8 p-3 w-auto text-white"
       >
         <span v-if="!loading">Post</span>
         <WhiteLoader v-else />
