@@ -14,7 +14,7 @@
         <div class="flex justify-center">
           <button
             @click="next"
-            class="bg-brand text-center font-Satoshi400 rounded-md px-6 text-gray-100 py-3 btn-hover-1"
+            class="bg-brand text-center font-Satoshi400 rounded-md px-6 text-gray-100 py-3 btn-hover-2"
           >
             Proceed
           </button>

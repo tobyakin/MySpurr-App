@@ -3,11 +3,11 @@
   <div
     v-if="applications && applications?.data?.length"
     :class="applications?.data?.length > 3 ? 'h-[calc(100%-43px)]' : 'h-auto'"
-    class="border-[#254035AB] border-[0.735px] overflow-hidden hide-scrollbar w-full overflow-y-auto rounded-[7.347px]"
+    class="border-[#254035AB] border-[0.735px] overflow-hidden w-full overflow-y-auto rounded-[7.347px]"
   >
   <div id="wrapper" class=" bg-white p-4 flex flex-col gap-[20px]">
     <div class="w-full flex flex-col" v-for="item in applications?.data" :key="item">
-      <div class="flex flex-row justify-between w-full gap-3.5">
+      <div class="flex flex-row justify-between w-full gap-3.5 pr-[0.2rem]">
         <div class="flex gap-3">
           <img src="@/assets/image/jobIcon.svg" alt="" />
           <div class="">
@@ -55,3 +55,6 @@ defineProps({
   applications: Object
 })
 </script>
+
+<style scoped>
+</style>
