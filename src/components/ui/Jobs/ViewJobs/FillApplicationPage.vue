@@ -285,7 +285,9 @@ onMounted(async () => {
                   :disabled="!isFormValid"
                   @click="handleJobApplication()"
                   :class="
-                    !isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'
+                    !isFormValid
+                      ? 'bg-gray-300 cursor-not-allowed'
+                      : 'bg-[#43D0DF] btn-hover-1'
                   "
                   class="font-Satoshi500 text-[10.2px] p-3 lg:px-8 lg:w-auto w-full text-white rounded-full"
                 >
@@ -579,7 +581,7 @@ onMounted(async () => {
             v-model:content="jobApplicationForm.question_answers[index].answer"
             class=""
             theme="snow"
-            placeholder="Give a brief description about your education"
+            placeholder=""
             contentType="html"
           />
           <!-- </div> -->
