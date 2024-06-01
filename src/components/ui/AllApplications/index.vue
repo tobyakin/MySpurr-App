@@ -310,7 +310,7 @@ const filteredApplicants = computed(() => {
   }
   if (sortInput.Rating) {
     filtered = filtered?.filter((applicant) =>
-      applicant.rating.toLowerCase().includes(sortInput.Rating.toLowerCase())
+      applicant.rating?.toLowerCase().includes(sortInput.Rating.toLowerCase())
     );
   }
   // rating
