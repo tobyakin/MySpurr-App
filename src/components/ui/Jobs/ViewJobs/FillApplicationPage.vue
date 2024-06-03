@@ -15,12 +15,14 @@ const route = useRoute();
 import { useUserProfile } from "@/stores/profile";
 import { useTabStore } from "@/stores/tab";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import { useNumberFomateStore } from "@/stores/numberFomate";
+let numAbbr = useNumberFomateStore();
 
 const store = useTabStore();
 let loading = ref(false);
 let loadPage = ref(false);
-const valideRateError = ref(false);
-const valideRateErrorMsg = ref("");
+// const valideRateError = ref(false);
+// const valideRateErrorMsg = ref("");
 // const { jobApplicationForm } = storeToRefs(JobsStore);
 const emit = defineEmits(["back", "next"]);
 let profile = useUserProfile();
@@ -62,21 +64,21 @@ const handleButtonClick = (value) => {
   showDateInput.value = false;
   jobApplicationForm.available_start = value;
 };
-const checkAmountValidity = () => {
-  const amount = parseFloat(jobApplicationForm.rate);
-  const minSalary = parseFloat(singleJob.value?.data?.salary_min);
-  const maxSalary = parseFloat(singleJob.value?.data?.salary_max);
+// const checkAmountValidity = () => {
+//   const amount = parseFloat(jobApplicationForm.rate);
+//   const minSalary = parseFloat(singleJob.value?.data?.salary_min);
+//   const maxSalary = parseFloat(singleJob.value?.data?.salary_max);
 
-  if (amount >= minSalary && amount <= maxSalary) {
-    valideRateError.value = false;
-    valideRateErrorMsg.value = "Amount is within the salary range.";
-    // console.log("Amount is within the range.");
-  } else {
-    valideRateError.value = true;
-    valideRateErrorMsg.value = "Amount is outside the salary range.";
-    // console.log("Amount is outside the range.");
-  }
-};
+//   if (amount >= minSalary && amount <= maxSalary) {
+//     valideRateError.value = false;
+//     valideRateErrorMsg.value = "Amount is within the salary range.";
+//     // console.log("Amount is within the range.");
+//   } else {
+//     valideRateError.value = true;
+//     valideRateErrorMsg.value = "Amount is outside the salary range.";
+//     // console.log("Amount is outside the range.");
+//   }
+// };
 const uploadedImageName = ref("");
 
 const uploadFile = (event) => {
@@ -102,8 +104,8 @@ const isFormValid = computed(() => {
     jobApplicationForm.available_start !== "" &&
     jobApplicationForm.resume !== "" &&
     jobApplicationForm.other_file !== null &&
-    jobApplicationForm.question_answers.length >= 0 &&
-    valideRateError.value === false
+    jobApplicationForm.question_answers.length >= 0
+    // valideRateError.value === false
   );
 });
 
@@ -306,6 +308,7 @@ onMounted(async () => {
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[13.076px] font-Satoshi400">Salary</p>
         <p class="text-[#244034] text-[13.076px] font-Satoshi500">
+          <span v-html="numAbbr.formatCurrency(singleJob?.data?.currency)"></span>
           {{ store.abbr(singleJob?.data?.salary_min) }}-
           {{ store.abbr(singleJob?.data?.salary_max) }}/
           {{ singleJob?.data?.salaray_type }}
@@ -382,7 +385,9 @@ onMounted(async () => {
             this job?
           </p>
           <span class="text-[#DA5252] text-[13.165px] font-Satoshi500 leading-[25.232px]"
-            >Client budget: {{ store.abbr(singleJob?.data?.salary_min) }}-{{
+            >Client budget:
+            <span v-html="numAbbr.formatCurrency(singleJob?.data?.currency)"></span>
+            {{ store.abbr(singleJob?.data?.salary_min) }}-{{
               store.abbr(singleJob?.data?.salary_max)
             }}
           </span>
@@ -444,12 +449,13 @@ onMounted(async () => {
               type="number"
               v-model="jobApplicationForm.rate"
               class="mt-2"
-              :error="valideRateError"
-              @input="checkAmountValidity"
+              :error="false"
             />
-            <span v-if="valideRateError" class="text-[#993939] font-Satoshi400 text-sm">{{
+            <!-- :error="valideRateError" @input="checkAmountValidity" -->
+
+            <!-- <span v-if="valideRateError" class="text-[#993939] font-Satoshi400 text-sm">{{
               valideRateErrorMsg
-            }}</span>
+            }}</span> -->
           </div>
         </div>
         <div
