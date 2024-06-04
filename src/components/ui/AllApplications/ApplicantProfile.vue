@@ -299,6 +299,8 @@ const props = defineProps({ talents: Object });
 const downloadFile = (url, filename) => {
   const anchor = document.createElement("a");
   anchor.href = url;
+  anchor.target = "_blank"; // Open in a new tab
+
   anchor.setAttribute("download", "");
 
   // anchor.download = filename;
