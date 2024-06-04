@@ -1,19 +1,24 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import MessageUserActiveIcon from "@/components/icons/messageUserActiveIcon.vue";
-import PushPinIcon from "@/components/icons/pushPinIcon.vue";
-import MessagestarIcon from "@/components/icons/messagestarIcon.vue";
+import MessageList from "@/components/ui/Message/MessageList.vue";
+import MessageChatPane from "@/components/ui/Message/MessageChatPane.vue";
+import NewMessage from "@/components/ui/Message/NewMessage.vue";
+
+import arrowRight from "@/components/icons/arrowRightAlt.vue"
+import arrowLeft from "@/components/icons/arrowLeftAlt.vue"
+import leftArrowM from "@/components/icons/leftArrowM.vue"
+import rightArrowM from "@/components/icons/rightArrowM.vue"
 import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
-import AttachFile from "@/components/icons/attachFile.vue";
-import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
-import SendIcon from "@/components/icons/sendIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
+import NewMessageIcon from "@/components/icons/NewMessageIcon.vue"
+import MessageInputField from "@/components/ui/Message/MessageInputField.vue";
 import { useSocketStore } from "@/stores/socket";
 import ComingSoon from "@/components/ui/ComingSoon/ComingSoon.vue";
 
 const store = useSocketStore();
 import { useUserProfile } from "@/stores/profile";
+import CircleFileIcon from "../../components/icons/circleFileIcon.vue";
 let profile = useUserProfile();
 
 let receiverId = "211950a8-c8bd-4f12-9b92-db142c85ddd4";
@@ -21,6 +26,97 @@ let message = ref("");
 const userDetails = computed(() => {
   return profile.user.data;
 });
+
+
+
+const messages = [
+  {
+    id: 1,
+    status: 'primary',
+    name: 'jenny rio',
+    title: 'Work inquiry from google',
+    description: 'Hello, This is Jenny from google. We’r the largest online platform offer...',
+    attachment: ['details.pdf'],
+    date: 'aug 22',
+    clicked: false,
+    logo: '',
+    timeStamp: '4:54AM (3 hours ago)',
+    mail: 'google@inquiry.com',
+    company: 'Google'
+  },
+  {
+    id: 2,
+    status: 'unread',
+    name: 'jannatul ferdaus',
+    title: 'Product Designer Opportunities',
+    description: 'Hello, This is Jannat from HuntX. We offer business solution to our client..',
+    attachment: [],
+    date: 'jun 22',
+    clicked: false,
+    logo: '',
+    timeStamp: '4:54AM (3 hours ago)',
+    mail: 'payoneer@inquiry.com',
+    company: 'HuntX'
+  },
+  {
+    id: 3,
+    status: 'primary',
+    name: 'hasan islam',
+    title: 'Account Manager',
+    description:  `Hello, Greeting from Uber. Hope you doing great. I am approaching to you for as our company need a great & talented account manager.
+
+    What we need from you to start:
+    - Your CV
+    - Verified Gov ID
+    Our Telegram @payoneer
+
+    Thank you`,
+    attachment: ['details.pdf', 'forms.pdf'],
+    date: 'jun 22',
+    clicked: true,
+    logo: '@/assets/image/logo.png',
+    timeStamp: '4:54AM (3 hours ago)',
+    mail: 'payoneer@inquiry.com',
+    company: 'Payoneer'
+  },
+  {
+    id: 4,
+    status: 'read',
+    name: 'jakie chan',
+    title: 'Hunting Marketing Specialist',
+    description: 'Hello, We’r the well known Real Estate Inc provide best interior/exterior solut...',
+    attachment: ['details.pdf'],
+    date: 'jun 22',
+    clicked: false,
+    timeStamp: '4:54AM (3 hours ago)',
+    mail: 'payoneer@inquiry.com',
+    company: 'Real Estate Inc'
+  },
+  {
+    id: 5,
+    status: 'primary',
+    name: 'zubayer al hasan',
+    title: 'delivery man',
+    description: 'Hello, Greeting from Uber. Hope you doing great. I am approcing to you for...',
+    attachment: ['details & Agreement.pdf'],
+    date: 'jun 22',
+    clicked: false,
+    timeStamp: '4:54AM (3 hours ago)',
+    mail: 'payoneer@inquiry.com',
+    company: 'Uber'
+  },
+]
+const clickedMessage = ref()
+
+messages.forEach(item=>{
+  if(item.clicked === true){
+    clickedMessage.value = item
+  }
+})
+
+console.log(clickedMessage.value)
+
+
 
 // const connectSocket = async () => {
 //   try {
@@ -56,159 +152,76 @@ onMounted(async () => {
 
 <template>
   <DashboardLayout>
-    <div
-      class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
-    >
+    <div class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10">
       <ComingSoon title="Messages" />
-
-      <!-- <h4 class="text-[#244034] font-EBGaramond500 capitalize text-[27px]">messages</h4>
-      <div class="flex flex-row gap-[34.16px] w-full min-h-[75vh] overflow-hidden">
-        <div
-          style="box-shadow: 0.86326px 0px 0px 0px #d3d6db"
-          class="flex flex-col gap-[14.675px] bg-white border-[0.449px] w-[45%] h-[90vh] border-[#254035AB] px-[33.15px] py-[20.72px]"
-        >
-          <div>
-            <div class="w-full p-0 relative border-[0.863px] border-[#254035AB]">
-              <SearchIcon class="absolute left-3 top-4" />
-              <GlobalInput
-                inputClasses="bg-transparent flex w-full !py-[13.359px] !pl-[40.812px]  border-none"
-                placeholder="Search messages"
-                type="text"
-              />
-            </div>
-          </div>
-          <div class="pt-0 flex flex-col h-full overflow-y-auto hide-scrollbar">
-            <div
-              v-for="i in 40"
-              :key="i"
-              :class="i !== 40 ? 'border-b-[1px] border-b-[#2540354e]' : 'border-none'"
-              class="flex flex-row w-full cursor-pointer gap-4 py-3"
-            >
-              <img
-                class="w-[41.436px] h-[41.436px] rouned-full"
-                src="@/assets/image/messageUser.png"
-                alt=""
-              />
-              <div class="flex flex-col justify-between w-full gap-2">
-                <h4
-                  class="text-[14px] flex w-full items-center justify-between gap-2 font-Satoshi600 text-[#000000]"
-                >
-                  David Adelide
-                  <span class="text-[#6C8285] text-[9.496px]">3:41pm</span>
-                </h4>
-                <p class="text-[12.086px] font-Satoshi400 text-[#515B6F] leading-[19px]">
-                  You’re very welcome. If .....
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="flex flex-col bg-white h-[90vh] border-[0.449px] w-full border-[#254035AB]"
-        >
-          <div
-            class="border-b-[0.449px] flex w-full justify-between border-b-[#254035AB] p-[10px] h-[70.521px] px-[35.15px]"
-          >
-            <div class="flex flex-row items-center gap-[30px]">
-              <img
-                class="w-[50.207px] h-[50.207px] rouned-full"
-                src="@/assets/image/messageUser.png"
-                alt=""
-              />
-              <div class="flex flex-col gap-[5.18px]">
-                <h4
-                  class="text-[#000000] flex gap-1 items-center font-Satoshi500 text-[12.086px]"
-                >
-                  David Adelide
-                  <span class="text-[#DAE06F] flex items-center gap-[2px] text-[7.606px]"
-                    ><MessageUserActiveIcon />Online</span
-                  >
-                </h4>
-                <p class="font-Satoshi500 text-[8.633px] text-[#DA5252]">
-                  Recruiter from SoftBox
-                </p>
-              </div>
-            </div>
-            <div class="flex gap-[9.457px] items-center">
-              <button><PushPinIcon /></button>
-              <button><MessagestarIcon /></button>
-              <button><MoreVertIcon /></button>
-            </div>
-          </div>
-          <div class="p-[28.15px] h-full hide-scrollbar overflow-y-auto">
-            <div class="flex flex-col items-center gap-[10.36px]">
-              <img
-                class="w-[69.828px] h-[69.828px] rouned-full"
-                src="@/assets/image/messageUser.png"
-                alt=""
-              />
-              <div class="flex flex-col gap-[5.18px]">
-                <h4
-                  class="text-[#000000] flex gap-1 items-center font-Satoshi500 text-[13.812px]"
-                >
-                  David Adelide
-                </h4>
-                <p class="font-Satoshi500 text-[8.633px] text-[#DA5252]">
-                  Recruiter from SoftBox
-                </p>
-              </div>
-              <p class="text-[#000000B2] font-Satoshi400 text-[11.363px]">
-                This is the beginning of your direct message with Jan Mayer
-              </p>
-              <div class="flex flex-row items-center w-full gap-4 mt-3">
-                <hr class="border-[#254035AB] w-full border-[0.863px]" />
-                <p class="text-[#000000B2] font-Satoshi400 text-[10.359px]">SATURDAY</p>
-                <hr class="border-[#254035AB] w-full border-[0.863px]" />
-              </div>
-            </div>
-            <div class="pt-4 flex flex-col gap-5">
-              <div v-for="i in 10" :key="i" class="flex flex-row gap-4">
-                <img
-                  class="w-[46.939px] h-[46.939px] rouned-full"
-                  src="@/assets/image/messageUser.png"
-                  alt=""
-                />
-                <div class="flex flex-col gap-2">
-                  <h4
-                    class="text-[12.086px] flex items-center gap-2 font-Satoshi500 text-[#000000]"
-                  >
-                    David Adelide
-                    <span class="text-[#6C8285] text-[9.496px]">3:41pm</span>
-                  </h4>
-                  <p
-                    class="text-[12.086px] font-Satoshi400 text-[#000000] leading-[19px]"
-                  >
-                    You’re very welcome. If you’d like to register your interest complete
-                    the form below. Thanks again. You’re very welcome. If you’d like to
-                    register your interest complete the form below. Thanks again
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="border-[0.737px] m-[28.15px] flex flex-row gap-2 jusitify-between items-center border-[#254035AB] rounded-[5.897px] py-[9.78px] px-[14.91px]"
-          >
-            <button class="">
-              <AttachFile />
-            </button>
-            <div class="w-full">
-              <GlobalInput
-                v-model="message"
-                inputClasses="bg-transparent flex w-full border-none"
-                placeholder=""
-                type="text"
-              />
-            </div>
-            <button
-              @click="sendMessage"
-              class="btn-brand !bg-[#43D0DF] border-none justify-end !py-[5.33px] !px-[26.68px] !rounded-[4.745px]"
-            >
-              <SendIcon />
-            </button>
-          </div>
-        </div>
-      </div> -->
     </div>
+    <!-- <section class="item container bg-[#FDFDF6]">
+      <div class="mt-[0.47rem] flex gap-[34.16px] min-h-[75vh] overflow-hidden">
+        <div id="inboxList" class="w-[45%] msgBreak:w-[50%]">
+          <div class="w-full flex items-center justify-between">
+            <h3 class="text-[#244034] text-[1.80619rem] leading-[3.51206rem] font-Satoshi500">Message</h3>
+            <NewMessageIcon />
+          </div>
+          <div class="w-full h-[52rem] bg-[#FFF] rounded-[1.00344rem] mt-4">
+            <div class="p-[1.25rem] h-[25%]">
+              <div class="flex items-center justify-between">
+                <h3 class="font-Satoshi500 text-[#000] text-[0.90313rem] leading-[1.50519rem]">Inbox</h3>
+                <MoreVertIcon class="rotate-90"/>
+              </div>
+              <div class="my-[0.8rem] rounded-[1.50519rem] bg-searchBg border-[0.803px] border-[#EFEFEF] flex items-center justify-between px-4 py-[0.8rem]">
+                <input type="text" placeholder="Search contacts" class="bg-searchBg font-Satoshi400 leading-[2rem] text-[0.8rem]">
+                <SearchIcon />
+              </div>
+              <ul class="messageGroup flex items-center justify-between gap-[0.7rem] mt-[1.5rem] !mb-0">
+                <li class="font-Satoshi500 leading-[2rem] capitalize text-[0.6rem] active">all</li>
+                <li class="flex items-center gap-[0.3rem]">
+                  <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#949939]"></span>
+                  <p class="">read</p>
+                </li>
+                <li class="flex items-center gap-[0.3rem]">
+                  <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#DA5252]"></span>
+                  <p>unread</p>
+                </li>
+                <li class="flex items-center gap-[0.3rem]">
+                  <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#007582]"></span>
+                  <p>primary</p>
+                </li>
+              </ul>
+            </div>
+            <div id="messagesContainer" class="h-[75%] overflow-y-auto hide-scrollbar pb-4">
+              <MessageList :messageList="messages" />
+            </div>
+          </div>
+        </div>
+        <div class="w-full">
+          <div id="messageArrows" class="flexBasic !h-[3rem]">
+            <arrowLeft class="cursor-pointer"/>
+            <div class="flexBasic gap-4">
+              <leftArrowM />
+              <h3 class="font-Satoshi400 text-[#000] leading-[1.51rem] text-[0.702rem]">1 - 5 of 120</h3>
+              <rightArrowM />
+            </div>
+            <arrowRight class="cursor-pointer"/>
+          </div>
+          <div class="h-[52rem] bg-[#FFF] rounded-[1.00344rem] mt-[1.5rem]">
+            <div class="h-full">
+              <div class="h-[65%]">
+                <MessageChatPane :chat="clickedMessage"/>
+              </div>
+              <div class="h-[35%]">
+                <MessageInputField notShow="false" showSubject="false"/>
+              </div>
+            </div>
+            <div id="newMessage" class="h-full hidden">
+              <NewMessage />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
   </DashboardLayout>
 </template>
+
+<style>
+ 
+</style>

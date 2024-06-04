@@ -18,6 +18,8 @@ module.exports = {
           text: "#333333",
           pink: "#DD4A6B",
         },
+        searchBg: "#EFEFEF",
+        messageFont: "rgba(63, 99, 77, 0.80)",
         brand: "#2F929C",
         secondary: {
           main: "#00AFEF8A",
@@ -39,10 +41,16 @@ module.exports = {
         },
       },
       gridTemplateColumns: {
-        'temp': '2fr 1.5fr'
+        'temp': 'auto 1fr auto',
+        'temp2': '1.5fr 3.333fr'
       },
       gridtemplateRows: {
-        'temp': 'auto 1fr'
+        'temp': 'auto 1fr auto',
+        'temp2': 'auto 1fr',
+      },
+      screens: {
+        'msgBreak': {'max': '1134px'},
+       
       }
     },
   },
