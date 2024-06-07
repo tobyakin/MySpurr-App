@@ -48,7 +48,11 @@ const copyUrl = () => {
 <template>
   <div class="border-[#254035AB] bg-white border-[0.735px] rounded-[7.347px] p-4">
     <div class="flex gap-3 mb-5">
-      <img src="@/assets/image/jobIcon.svg.logo" alt="" />
+      <img
+        :src="props?.job?.company?.logo"
+        :alt="props?.job?.company?.business_name"
+        class="h-[40px] w-[40px] rounded-full object-cover"
+      />
       <div>
         <p class="text-[13.021px] font-Satoshi500 text-[#2F929C]">
           {{ props?.job?.company?.business_name }}
