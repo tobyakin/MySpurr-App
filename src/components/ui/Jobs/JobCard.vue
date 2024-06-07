@@ -10,6 +10,9 @@ import { useRouter } from "vue-router";
 import { useTabStore } from "@/stores/tab";
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
+import { useNumberFomateStore } from "@/stores/numberFomate";
+let numAbbr = useNumberFomateStore();
+
 const toast = useToast();
 
 const store = useTabStore();
@@ -86,6 +89,7 @@ const copyUrl = () => {
       <div class="flex justify-between items-center">
         <div>
           <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
+            <span v-html="numAbbr.formatCurrency(props?.job?.currency)"></span>
             {{ store.abbr(props?.job?.salary_min) }}-
             {{ store.abbr(props?.job?.salary_max) }}/
             {{ props?.job?.salaray_type }}
@@ -99,7 +103,7 @@ const copyUrl = () => {
         </div>
         <div>
           <div
-            class="bg-[#EDF0B8] font-Satoshi500 flex items-center text-[9.708px] p-2 px-6 text-[#000000] rounded-full"
+            class="bg-[#EDF0B8] font-Satoshi500 capitalize flex items-center text-[9.708px] p-2 px-6 text-[#000000] rounded-full"
           >
             {{ props?.job?.job_type }}
           </div>

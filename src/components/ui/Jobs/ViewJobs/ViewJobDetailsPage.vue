@@ -11,6 +11,8 @@ import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { useTabStore } from "@/stores/tab";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
+import { useNumberFomateStore } from "@/stores/numberFomate";
+let numAbbr = useNumberFomateStore();
 
 const store = useTabStore();
 const loading = ref(false);
@@ -124,6 +126,9 @@ onUnmounted(() => {
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
           <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+            <!-- <span v-html="numAbbr.formatCurrency(singleJob?.data?.currency)"></span> -->
+
+            {{ singleJob?.data?.currency }}
             {{ store.abbr(singleJob?.data?.salary_min) }}-
             {{ store.abbr(singleJob?.data?.salary_max) }}/
             {{ singleJob?.data?.salaray_type }}
@@ -144,7 +149,7 @@ onUnmounted(() => {
         </div>
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Job Type</p>
-          <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034] text-[14.104px] capitalize font-Satoshi500">
             {{ singleJob?.data?.job_type }}
           </p>
         </div>

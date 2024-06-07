@@ -86,7 +86,7 @@ const copyUrl = () => {
               {{ props?.job.job_title }}
             </p>
             <button
-              class="bg-[#EDF0B8] font-Satoshi500 lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
+              class="bg-[#EDF0B8] font-Satoshi500 capitalize lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
             >
               {{ props?.job.job_type }}
             </button>
@@ -102,6 +102,7 @@ const copyUrl = () => {
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
               <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
+                {{ props?.job?.currency }}
                 {{ store.abbr(props?.job.salary_min) }}-
                 {{ store.abbr(props?.job.salary_max) }}/
                 {{ props?.job.salaray_type }}
@@ -152,7 +153,7 @@ const copyUrl = () => {
                   <CircleBookMarkIcon class="hover:!text-[#2F929C] transition" />
                 </button>
                 <button @click="copyUrl" class="">
-                  <SearchIcon class="hover:!text-[#2F929C] transition"/>
+                  <SearchIcon class="hover:!text-[#2F929C] transition" />
                 </button>
               </div>
               <button
