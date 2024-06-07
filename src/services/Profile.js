@@ -6,7 +6,6 @@ import { getToken } from "./Auth";
 
 export const getUserProfile = async () => {
   const token = await getToken()
-  console.log(token)
   try {
     let res = await axios.get(`v1/profile`, {
       headers: {
