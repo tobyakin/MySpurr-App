@@ -113,9 +113,9 @@ const onFinish = async () => {
 
   try {
     let res = await login(formState.email, formState.password);
-    if (res.data.status === "true") {
-      store.saveUser(res.data);
+    if (res.data.status === true) {
       await profile.userProfile();
+      console.log('User profile loaded:', profile.userProfile);
       if (
         isOnBoarded.value &&
         !isOnBoarded.value.business_details &&
