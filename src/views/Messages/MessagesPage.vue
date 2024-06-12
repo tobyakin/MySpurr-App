@@ -252,7 +252,7 @@ onMounted(async () => {
         <div id="inboxList" class="w-[50%] msgTab:mx-auto msgTab:w-[75%] msgMob:w-full" ref="inboxList">
           <div class="w-full flex items-center justify-between msgTab:justify-center">
             <h3 class="text-[#244034] text-[1.80619rem] leading-[3.51206rem] font-Satoshi500">Message</h3>
-            <NewMessageIcon class="msgTab:hidden"/>
+            <NewMessageIcon class="msgTab:hidden" @click="handleNewMessage"/>
           </div>
           <div class="w-full h-[52rem] bg-[#FFF] rounded-[1.00344rem] mt-4">
             <div class="p-[1.25rem] h-[25%]">
