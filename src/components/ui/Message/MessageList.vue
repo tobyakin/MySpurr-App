@@ -1,6 +1,10 @@
 <script setup>
     import fileIcon from "@/components/icons/fileIcon.vue";
     const props = defineProps(['messageList'])
+    const emit = defineEmits(['click'])
+    const showChatPane = (message)=>{
+      emit('click', message)
+    }
 
     function wordsLen(str) { 
     const array = str.trim().split(/\s+/); 
@@ -20,7 +24,7 @@ function truncate(str, no_words) {
 
 </script>
 <template>
-    <article id="message" class="p-[1.25rem] border-y border-[#F3F3F3] cursor-pointer" v-for="message in messageList" :key="message.id" :class="{active : message.clicked}">
+    <article id="message" class="p-[1.25rem] border-y border-[#F3F3F3] cursor-pointer" v-for="message in messageList" :key="message.senderID" :class="{active : message.clicked}" @click="showChatPane(message)">
       <div class="status flex items-center gap-[0.8rem] mb-[0.35rem]">
         <div>
           <span v-if="message.status==='primary' " class="w-[0.40rem] h-[0.40rem] rounded-[50%] block bg-[#007582]"></span>

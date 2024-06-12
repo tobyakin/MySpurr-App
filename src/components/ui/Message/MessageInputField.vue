@@ -6,7 +6,15 @@ import emojiIcon from "@/components/icons/emojiIcon.vue";
 import AttachImage from "@/components/icons/AttachImage.vue";
 import cancelIcon from "@/components/icons/cancelIcon.vue"
 import AttachFile from "@/components/icons/attachFile.vue";
+import { ref, onMounted } from "vue";
 const props = defineProps(['notShow', 'showSubject'])
+
+const textArea = ref()
+
+// onMounted(()=>{
+//     textArea.focus()
+// })
+
 
 
 </script>
@@ -42,7 +50,7 @@ const props = defineProps(['notShow', 'showSubject'])
             </div>
             </div>
             <div class="px-4 h-full my-[0.5rem]">
-            <textarea name="" id="" class="w-full h-full p-[0.5rem] font-Satoshi400 text-[0.75rem] leading-[1.505rem] text-[#000000bf] focus:outline-0" placeholder="Write a message"></textarea>
+            <textarea name="" id="" class="w-full h-full p-[0.5rem] font-Satoshi400 text-[0.75rem] leading-[1.505rem] text-[#000000bf] focus:outline-0" placeholder="Write a message" ref="textArea"></textarea>
             </div>
             <div class="p-4 !pt-0 flexBasic h-fit">
             <div class="flexBasic gap-4">

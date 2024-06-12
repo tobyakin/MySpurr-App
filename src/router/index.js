@@ -18,6 +18,7 @@ import Community from '@/views/Community/ComingSoon.vue'
 import PostJob from '@/views/Jobs/Business/PostJob.vue'
 import MyApplications from '@/views/MyApplications/MyApplications.vue'
 import MessagesPage from '@/views/Messages/MessagesPage.vue'
+import MobileChatPage from '@/views/Messages/MobileChatPage.vue'
 import WalletOverviewPage from '@/views/Wallet/OverviewPage.vue'
 import ProfilePage from '@/views/Profile/index.vue'
 import SettingsPage from '@/views/Settings/SettingsPage.vue'
@@ -116,7 +117,7 @@ const router = createRouter({
     },
 
     {
-      path: '/applications/:id',
+      path: '/applications/:senderID',
       name: 'applications',
       component: AllApplications,
       beforeEnter: [middleware.redirectLogin]
@@ -132,6 +133,12 @@ const router = createRouter({
       path: '/messages',
       name: 'messages',
       component: MessagesPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
+      path: '/messages/:id',
+      name: 'chats',
+      component: MobileChatPage,
       beforeEnter: [middleware.redirectLogin]
     },
     {

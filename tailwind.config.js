@@ -50,7 +50,8 @@ module.exports = {
       },
       screens: {
         'msgBreak': {'max': '1134px'},
-       
+        'msgTab': {'max': '800px'},
+        'msgMob': {'max': '576px'},
       }
     },
   },
