@@ -244,10 +244,10 @@ onMounted(async () => {
 
 <template>
   <DashboardLayout>
-    <!-- <div class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10">
+    <div class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10">
       <ComingSoon title="Messages" />
-    </div> -->
-    <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container">
+    </div>
+    <!-- <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container">
       <div class="mt-[0.47rem] flex gap-[34.16px] min-h-[75vh] overflow-hidden ">
         <div id="inboxList" class="w-[50%] msgTab:mx-auto msgTab:w-[75%] msgMob:w-full" ref="inboxList">
           <div class="w-full flex items-center justify-between msgTab:justify-center">
@@ -310,7 +310,7 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
   </DashboardLayout>
 </template>
 
