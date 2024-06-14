@@ -1,9 +1,3 @@
-<script setup>
-import circleFileIcon from "@/components/icons/circleFileIcon.vue";
-import MessageInputField from "@/components/ui/Message/MessageInputField.vue";
-
-</script>
-
 <template>
     <div class="h-full">
 
@@ -44,6 +38,11 @@ import MessageInputField from "@/components/ui/Message/MessageInputField.vue";
         </div>
     </div>
 </template>
+
+<script setup>
+    import circleFileIcon from '@/components/icons/circleFileIcon.vue';
+    import MessageInputField from '@/components/ui/Message/MessageInputField.vue';
+</script>
 
 
 <style scoped>
