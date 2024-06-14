@@ -153,10 +153,18 @@ const selectedsiso = computed(() => {
   );
   return foundState ? foundState.iso2 : null;
 });
+let isLoadingState = ref(false);
 // watchers to update the selectedIso2 and selectedsiso
 watch(selectedIso2, async (newInput) => {
   siso.value = "";
-  await skillsStore.handleGetStates(newInput);
+  isLoadingState.value = true;
+  try {
+    await skillsStore.handleGetStates(newInput);
+    isLoadingState.value = false;
+  } catch (error) {
+    console.log(error);
+    isLoadingState.value = false;
+  }
 });
 // watchers to update the selectedIso2 and selectedsiso
 watch(selectedIso2, async (newInput) => {
@@ -200,7 +208,7 @@ onMounted(() => {
           >
             Hire with MySpurr. Share your job post with thousands of creative talents
           </h3>
-          <div
+          <!-- <div
             v-if="!hasSubscriptedToPostJob"
             class="bg-[#EDF0B8] py-[19px] px-[30px] lg:px-[80px] flex items-center rounded-[10px]"
           >
@@ -218,7 +226,7 @@ onMounted(() => {
                 You will be charged ₦ 5,000.00 for this job post
               </p>
             </div>
-          </div>
+          </div> -->
         </div>
         <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">
           Job Details
@@ -272,8 +280,10 @@ onMounted(() => {
                   :key="state.id"
                   :value="state.name"
                 >
-                  {{ state.name }}
-                </a-select-option>
+                  {{ state.name }} </a-select-option
+                ><a-select-option v-if="isLoadingState" disabled
+                  >Loading...</a-select-option
+                >
               </a-select>
             </div>
             <div class="flex flex-col w-full text-left">

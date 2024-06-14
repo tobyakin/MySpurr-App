@@ -80,6 +80,8 @@ const restForm = () => {
     (postJobsValue.value.qualification = ""),
     (postJobsValue.value.questions = ""),
     (postJobsValue.value.currency = ""),
+    (postJobsValue.state_id = ""),
+    (postJobsValue.country_id = ""),
     (ciso.value = ""),
     (siso.value = "");
 };
@@ -139,11 +141,11 @@ const handlejobPayment = async () => {
   }
 };
 const handleJobPosting = () => {
-  if (hasSubscriptedToPostJob.value) {
-    handlejobPayment();
-  } else {
-    postJob();
-  }
+  // if (hasSubscriptedToPostJob.value) {
+  //   handlejobPayment();
+  // } else {
+  postJob();
+  // }
 };
 const goToJobList = () => {
   router.push({ name: "job-lists" });
@@ -300,7 +302,9 @@ const displayImage = computed(() => imageExists.value);
           <button
             @click="handleJobPosting"
             :disabled="!isFormValid"
-            :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
+            :class="
+              !isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'
+            "
             class="font-Satoshi500 text-[9.708px] uppercase p-3 px-12 text-white rounded-full"
           >
             <span v-if="!loading">Post</span>
@@ -524,7 +528,7 @@ const displayImage = computed(() => imageExists.value);
         </div>
         <div
           v-if="hasSubscriptedToPostJob"
-          class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-6"
+          class="bg-[#E9FAFB] hidden border-[0.735px] rounded-[17.104px] p-6"
         >
           <p class="font-Satoshi700 text-[17.104px] text-[#DA5252]">
             Upgrade your job listing
@@ -578,7 +582,9 @@ const displayImage = computed(() => imageExists.value);
       ><button
         @click="handleJobPosting"
         :disabled="!isFormValid"
-        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
+        :class="
+          !isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'
+        "
         class="font-Satoshi500 text-[14px] leading-[11.593px] rounded-full px-8 p-3 w-auto text-white"
       >
         <span v-if="!loading">Post</span>
