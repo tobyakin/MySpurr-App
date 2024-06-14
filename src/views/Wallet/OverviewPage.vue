@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineAsyncComponent, onMounted } from "vue";
+import { ref, defineAsyncComponent, computed, onMounted } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import BalanceCard from "@/components/ui/Wallet/BalanceCard.vue";
 import ComingSoon from "@/components/ui/ComingSoon/ComingSoon.vue";
@@ -11,6 +11,11 @@ import { useWalletStore } from "@/stores/wallet";
 import { storeToRefs } from "pinia";
 const walletStore = useWalletStore();
 const { walletData } = storeToRefs(walletStore);
+import { useStore } from "@/stores/user";
+import { useUserProfile } from "@/stores/profile";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const step = ref([true, false]);
 
@@ -26,6 +31,45 @@ const handleGoToWallet = () => {
 };
 onMounted(async () => {
   // await walletStore.walletDetails();
+});
+import { useTabStore } from "@/stores/tab";
+let store = useStore();
+const accountType = computed(() => {
+  return store.getUser.data.user.type;
+});
+onMounted(() => {
+  return accountType;
+});
+
+const profileStore = useUserProfile();
+
+const tabStore = useTabStore();
+const { isLoading } = storeToRefs(tabStore);
+
+const isOnBoarded = computed(() => profileStore.user);
+
+onMounted(() => {
+  return accountType;
+});
+onMounted(async () => {
+  try {
+    await profileStore.userProfile();
+    if (
+      isOnBoarded.value &&
+      !isOnBoarded.value.business_details &&
+      !isOnBoarded.value.work_details
+    ) {
+      if (accountType.value === "talent") {
+        router.push({ name: "talent-onboarding" });
+      } else if (accountType.value === "business") {
+        router.push({ name: "business-onboarding" });
+      }
+    }
+  } catch (error) {
+    /* empty */
+  } finally {
+    isLoading.value = !isLoading.value;
+  }
 });
 </script>
 

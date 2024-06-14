@@ -103,13 +103,12 @@ const getMyJobs = async () => {
   loadMyjobs.value = true;
   try {
     let response = await JobsStore.handleMyJobs();
-     loadMyjobs.value = false;
+    loadMyjobs.value = false;
     return response;
   } catch (error) {
     console.error;
   } finally {
-        loadMyjobs.value = false;
-
+    loadMyjobs.value = false;
   }
 };
 // const fetchMyJobData = async () => {
@@ -126,10 +125,7 @@ const getMyJobs = async () => {
 
 onMounted(async () => {
   // fetchMyJobData();
-  getMyJobs(), 
-  getStatistics(), 
-  getAllJobs(), 
-  getMyJobApplications()
+  getMyJobs(), getStatistics(), getAllJobs(), getMyJobApplications();
 });
 </script>
 

@@ -16,12 +16,54 @@ import NewMessageIcon from "@/components/icons/NewMessageIcon.vue";
 import MessageInputField from "@/components/ui/Message/MessageInputField.vue";
 import { useSocketStore } from "@/stores/socket";
 import ComingSoon from "@/components/ui/ComingSoon/ComingSoon.vue";
-
-const store = useSocketStore();
+import { useTabStore } from "@/stores/tab";
+import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
+import { storeToRefs } from "pinia";
+
+const router = useRouter();
+
+let store = useStore();
+const accountType = computed(() => {
+  return store.getUser.data.user.type;
+});
+onMounted(() => {
+  return accountType;
+});
+
+const profileStore = useUserProfile();
+
+const tabStore = useTabStore();
+const { isLoading } = storeToRefs(tabStore);
+
+const isOnBoarded = computed(() => profileStore.user);
+
+onMounted(() => {
+  return accountType;
+});
+onMounted(async () => {
+  try {
+    await profileStore.userProfile();
+    if (
+      isOnBoarded.value &&
+      !isOnBoarded.value.business_details &&
+      !isOnBoarded.value.work_details
+    ) {
+      if (accountType.value === "talent") {
+        router.push({ name: "talent-onboarding" });
+      } else if (accountType.value === "business") {
+        router.push({ name: "business-onboarding" });
+      }
+    }
+  } catch (error) {
+    /* empty */
+  } finally {
+    isLoading.value = !isLoading.value;
+  }
+});
+
 import CircleFileIcon from "../../components/icons/circleFileIcon.vue";
 let profile = useUserProfile();
-const router = useRouter();
 
 let receiverId = "211950a8-c8bd-4f12-9b92-db142c85ddd4";
 let message = ref("");
