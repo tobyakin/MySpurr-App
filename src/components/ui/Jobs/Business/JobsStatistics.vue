@@ -7,8 +7,15 @@ import DocumentIcon from "@/components/icons/documentIcon.vue";
 import CircleArrowDown from "@/components/icons/circleArrowDown.vue";
 import JobStatisticsChart from "@/components/ui/Chart/JobStatisticsChart.vue";
 import SingleData from "@/components/ui/Chart/SingleData.vue";
-// const tab = ref("Week");
+const props = defineProps({
+  statistics: {
+    type: Array,
+    required: true,
+  },
+});
+
 const activetab = ref("monthly");
+
 // Set initial tab value based on the prop or local storage
 onMounted(() => {
   const storedTab = localStorage.getItem("activeTab");
@@ -16,29 +23,29 @@ onMounted(() => {
     activetab.value = storedTab;
   }
 });
-const props = defineProps({ statistics: null });
-const statistics = computed(() => props.statistics);
-// console.log("statistics", statistics.value);
-// const filterTab = (category) => {
-//   tab.value = category;
-//   //   filteredTab.value = [];
-//   //   if (category != "ALL") {
-//   //     filteredTab.value = store.blogPost.filter((item) => item.blog_category == category);
-//   //   }
-// };
 
-// Extract job_views and job_applied from the data
+const statistics = computed(() => props.statistics);
+
 // Find the objects containing total_job_views and total_job_applied
-const totalJobViewsObj = statistics?.value?.find((obj) => "total_job_views" in obj);
-const totalJobAppliedObj = statistics?.value?.find((obj) => "total_job_applied" in obj);
+const totalJobViewsObj = statistics.value?.find((obj) => "total_job_views" in obj);
+const totalJobAppliedObj = statistics.value?.find((obj) => "total_job_applied" in obj);
 
 // Extract values or default to 0 if not found
 const total_job_views = totalJobViewsObj ? totalJobViewsObj.total_job_views : 0;
 const total_job_applied = totalJobAppliedObj ? totalJobAppliedObj.total_job_applied : 0;
+
 // Use refs to store arrays for job_views, job_applied, and day
-const jobViews = ref(statistics?.value?.map((item) => item.job_views));
-const jobApplied = ref(statistics?.value?.map((item) => item.job_applied));
-const days = ref(statistics.value?.data?.map((item) => item.day));
+const jobViews = ref(
+  statistics.value?.map((item) => item.job_views)?.filter((view) => view !== undefined)
+);
+const jobApplied = ref(
+  statistics.value
+    ?.map((item) => item.job_applied)
+    ?.filter((applied) => applied !== undefined)
+);
+// const days = ref(
+//   statistics.value.map((item) => item.day).filter((day) => day !== undefined)
+// );
 </script>
 <template>
   <div
@@ -83,12 +90,7 @@ const days = ref(statistics.value?.data?.map((item) => item.day));
       <template #view1>
         <div class="flex lg:flex-row flex-col gap-4 w-full h-full">
           <div class="min-w-[95%] lg:min-w-[65.9%]">
-            <JobStatisticsChart
-              :jobViews="jobViews"
-              :jobApplied="jobApplied"
-              :chartData="props.statistics"
-              :days="days"
-            />
+            <JobStatisticsChart :chartData="props.statistics" />
           </div>
           <div class="flex lg:flex-col md:flex-row flex-col w-full h-full gap-4">
             <div

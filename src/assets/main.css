@@ -369,3 +369,36 @@ input[type='checkbox'] {
 .vue-tel-input:focus-within{
   @apply focus:!border-[#254035]
 }
+
+/* Added Styles */
+
+  #messagesContainer .active {
+    @apply !bg-[#E6F1F3] transition
+  }
+  
+  #messagesContainer .active .attachment {
+    @apply bg-[white] transition
+  }
+
+  .flexBasic {
+    @apply flex items-center justify-between
+  }
+
+  .messageGroup p {
+    @apply font-Satoshi500 text-[#244034] leading-[2rem] capitalize text-[0.6rem]
+  } 
+
+  .messageGroup .active {
+    @apply bg-[#3F634D] rounded-[1.51rem] text-center w-fit px-[0.7rem] !text-white
+  }
+
+  .messageGroup .active p {
+    @apply !text-white
+  }
+
+  .messageGroup li {
+    @apply cursor-pointer
+  }
+
+
+  
