@@ -117,7 +117,7 @@ const router = createRouter({
     },
 
     {
-      path: '/applications/:slug',
+      path: '/applications/:slug/:id',
       name: 'applications',
       component: AllApplications,
       beforeEnter: [middleware.redirectLogin]
