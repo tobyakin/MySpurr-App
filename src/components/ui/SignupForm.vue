@@ -202,12 +202,19 @@
         </p>
         <p class="font-Satoshi400 text-[12.129px]">
           By hitting the "Register" button, you agree to the
-          <router-link class="text-[#31795A] border-b-[#31795A] border-b-[1px]" to="/"
-            >Terms conditions</router-link
+          <a
+            target="_blank"
+            class="text-[#31795A] border-b-[#31795A] border-b-[1px]"
+            :href="landingUrl + 'terms-and-conditions'"
+            >Terms conditions</a
           >
           &
-          <router-link class="text-[#31795A] border-b-[#31795A] border-b-[1px]" to="/">
-            Privacy Policy</router-link
+          <a
+            target="_blank"
+            class="text-[#31795A] border-b-[#31795A] border-b-[1px]"
+            :href="landingUrl + 'privacy-policy'"
+          >
+            Privacy Policy</a
           >
         </p>
       </div>
@@ -241,6 +248,7 @@ import { useTabStore } from "@/stores/tab";
 import { useSkillsStore } from "@/stores/skills";
 const skillsStore = useSkillsStore();
 const { contriesCode } = storeToRefs(skillsStore);
+const landingUrl = import.meta.env.VITE_LANDING_PAGE;
 
 const store = useTabStore();
 const activeTab = ref(store.activeTab);
