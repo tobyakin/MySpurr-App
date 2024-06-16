@@ -58,7 +58,7 @@ defineProps({
               {{ job?.job_info?.job_title }}
             </p>
             <button
-              class="bg-[#EDF0B8] font-Satoshi500 lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
+              class="bg-[#EDF0B8] font-Satoshi500 capitalize lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
             >
               {{ job?.job_info?.job_type }}
             </button>
@@ -118,10 +118,10 @@ defineProps({
             >
               <div class="flex items-center gap-4">
                 <button class="">
-                  <CircleBookMarkIcon class="hover:text-[#2F929C] transition"/>
+                  <CircleBookMarkIcon class="hover:text-[#2F929C] transition" />
                 </button>
                 <button class="">
-                  <SearchIcon class="hover:!text-[#2F929C] transition"/>
+                  <SearchIcon class="hover:!text-[#2F929C] transition" />
                 </button>
               </div>
               <button

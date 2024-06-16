@@ -1,6 +1,6 @@
 <template>
   <div class="h-full bg-cover w-full">
-    <apexchart
+    <VueApexCharts
       v-if="renderChart"
       type="bar"
       :options="chartOptions"
@@ -9,7 +9,173 @@
     />
   </div>
 </template>
+<script setup>
+import { ref, onMounted, watch, onUnmounted, computed } from "vue";
+import VueApexCharts from "vue3-apexcharts";
+import dayjs from "dayjs";
 
+// Define props
+const props = defineProps({
+  userDetails: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
+const chatContainerHeight = ref(null);
+const renderChart = ref(false);
+
+const chartOptions = ref({
+  grid: {
+    show: true,
+    borderColor: "#E4EAF0",
+    strokeDashArray: 4,
+    position: "back",
+    xaxis: {
+      lines: {
+        show: false,
+      },
+    },
+    yaxis: {
+      lines: {
+        show: false,
+      },
+    },
+    row: {
+      colors: undefined,
+      opacity: 0.5,
+    },
+    column: {
+      colors: undefined,
+      opacity: 0.5,
+    },
+    padding: {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    },
+  },
+  chart: {
+    type: "bar",
+    toolbar: {
+      show: false,
+    },
+    width: "100%",
+    height: 350,
+    stacked: true,
+    stackType: "100%",
+  },
+  xaxis: {
+    show: false,
+    tickAmount: 5,
+    labels: {
+      style: {
+        cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40",
+      },
+      show: false,
+    },
+    type: "datetime",
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+  },
+  yaxis: {
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    show: false,
+    min: 10,
+    tickAmount: 3,
+    labels: {
+      formatter: function (value) {
+        return value.toFixed(0);
+      },
+      style: {
+        cssClass: "!font-Satoshi400 !text-[#97A6A899] capitalize !text-[12px] opacity-40",
+      },
+    },
+  },
+  legend: {
+    show: true,
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  plotOptions: {
+    bar: {
+      horizontal: true,
+      borderRadius: 10,
+      dataLabels: {
+        total: {
+          enabled: true,
+          style: {
+            fontSize: "13px",
+            fontWeight: 900,
+          },
+        },
+      },
+    },
+  },
+  stroke: {
+    colors: ["#fff"],
+    width: 1,
+  },
+  fill: {
+    opacity: 1,
+  },
+  monthNumber: dayjs().format("M"),
+});
+
+const chartSeries = ref([
+  { name: "Full Time", data: [], color: "#BB6BD9" },
+  { name: "Internship", data: [], color: "#F2994A" },
+  { name: "Part-Time", data: [], color: "#6FCF97" },
+  { name: "Contract", data: [], color: "#EB5757" },
+  { name: "Remote", data: [], color: "#2D9CDB" },
+]);
+
+const setChatContainerHeight = () => {
+  chatContainerHeight.value = window.innerWidth < 768 ? "100%" : "100%";
+};
+
+const updateChartData = () => {
+  chartSeries.value[0].data = [props.userDetails?.fulltime_jobs || 0];
+  chartSeries.value[1].data = [props.userDetails?.internship_jobs || 0];
+  chartSeries.value[2].data = [props.userDetails?.parttime_jobs || 0];
+  chartSeries.value[3].data = [props.userDetails?.contract_jobs || 0];
+  chartSeries.value[4].data = [props.userDetails?.remote_jobs || 0];
+  renderChart.value = true;
+};
+
+onMounted(() => {
+  setChatContainerHeight();
+  window.addEventListener("resize", setChatContainerHeight);
+  updateChartData();
+});
+
+watch(
+  () => props.userDetails,
+  (newVal) => {
+    if (newVal) {
+      updateChartData();
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+onUnmounted(() => {
+  window.removeEventListener("resize", setChatContainerHeight);
+});
+</script>
+
+<!--
 <script>
 import VueApexCharts from "vue3-apexcharts";
 import dayjs from "dayjs";
@@ -224,7 +390,7 @@ export default {
     //Refresh the chart to reflect the updated data
   },
 };
-</script>
+</script>-->
 <style>
 .apexcharts-legend-text {
   @apply !font-Satoshi400 !text-[#7C8493] !text-[14.86px];

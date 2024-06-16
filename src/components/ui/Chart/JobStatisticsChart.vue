@@ -13,30 +13,23 @@
 
 <script setup>
 import VueApexCharts from "vue3-apexcharts";
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, watch, onUnmounted } from "vue";
 import dayjs from "dayjs";
-// export default {
-//   components: {
-//     Apexchart: VueApexCharts,
-//   },
+
+// Define props
 const props = defineProps({
   chartData: {
-    type: null,
-  },
-  jobViews: {
-    type: null,
-  },
-  jobApplied: {
-    type: null,
+    type: Array,
   },
   days: {
-    type: null,
+    type: Number,
+    default: 7,
   },
 });
-// data() {
-//   return {
-let chatContainerHeight = ref(null);
-let renderChart = ref(false);
+
+const chatContainerHeight = ref(null);
+const renderChart = ref(false);
+
 const chartOptions = ref({
   grid: {
     show: true,
@@ -71,7 +64,7 @@ const chartOptions = ref({
   chart: {
     type: "bar",
     toolbar: {
-      show: false, // Hide the toolbar
+      show: false,
     },
     width: "100%",
     height: 350,
@@ -82,10 +75,10 @@ const chartOptions = ref({
     tickAmount: 7,
     labels: {
       style: {
-        cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
+        cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40",
       },
     },
-    type: "datetime",
+    type: "category",
     axisBorder: {
       show: false,
     },
@@ -96,10 +89,10 @@ const chartOptions = ref({
     tickAmount: 7,
     labels: {
       formatter: function (value) {
-        return value.toFixed(0) + "k"; // Replace 'Prefix' with your desired prefix
+        return value.toFixed(0) + "k";
       },
       style: {
-        cssClass: "!font-Satoshi700 !text-[#97A6A899] capitalize !text-[12px] opacity-40", // Add your custom font class name here
+        cssClass: "!font-Satoshi700 !text-[#97A6A899] capitalize !text-[12px] opacity-40",
       },
     },
   },
@@ -145,60 +138,58 @@ const chartOptions = ref({
     },
   },
 });
-let jobAppliedData = ref([]);
-let jobViewsData = ref([]);
+
 const chartSeries = ref([
   {
     name: "Jobs Applied",
-    data: jobAppliedData.value,
+    data: [],
     color: "#6BA336",
   },
   {
     name: "Jobs Views",
-    data: jobViewsData.value,
+    data: [],
     color: "#F2C94C",
   },
 ]);
-//   };
-// },
-// computed: {
-//   getMonth() {
-//     return {
-//       number: dayjs().format("M"),
-//       month: dayjs().format("MMM"),
-//     };
-//   },
-// },
-// methods: {
-function setChatContainerHeight() {
-  if (window.innerWidth < 768) {
-    chatContainerHeight.value = 250; // Set mobile height
-  } else {
-    chatContainerHeight.value = "100%"; // Set desktop height
-  }
-}
-//   },
-onUnmounted(() => {
-  window.removeEventListener("resize", setChatContainerHeight());
-});
-onMounted(() => {
-  jobAppliedData.value = props.chartData?.map((item) => item.job_applied);
-  jobViewsData.value = props.chartData?.map((item) => item.job_views);
-  // console.log("jobAppliedData.value", jobAppliedData.value, jobViewsData.value);
 
+const setChatContainerHeight = () => {
+  if (window.innerWidth < 768) {
+    chatContainerHeight.value = 250;
+  } else {
+    chatContainerHeight.value = "100%";
+  }
+};
+
+// Watch for changes to props and update chart data
+watch(
+  () => props.chartData,
+  (newVal) => {
+    if (newVal) {
+      const filteredData = newVal?.filter((item) => item.day !== undefined);
+      chartSeries.value[0].data = filteredData?.map((item) => item.job_applied);
+      chartSeries.value[1].data = filteredData?.map((item) => item.job_views);
+      chartOptions.value.xaxis.categories = filteredData?.map((item) => item.day);
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+onMounted(() => {
   setChatContainerHeight();
-  window.addEventListener("resize", setChatContainerHeight());
-  const getFormattedDate = () => {
-    const date = new Date(); // Assuming the year is 2023
-    // const options = { day: "2-digit", month: "short" };
-    return date.toLocaleDateString("en-US");
-  };
-  // Extract x-axis categories and y-axis values from chart data
-  const DateValues = Array.from({ length: 7 }, (_, index) => getFormattedDate(index + 1));
-  chartOptions.value.xaxis.categories = DateValues;
+  window.addEventListener("resize", setChatContainerHeight);
+
+  const filteredData = props.chartData?.filter((item) => item.day !== undefined);
+  chartSeries.value[0].data = filteredData?.map((item) => item.job_applied);
+  chartSeries.value[1].data = filteredData?.map((item) => item.job_views);
+  chartOptions.value.xaxis.categories = filteredData?.map((item) => item.day);
   renderChart.value = true;
 });
+
+onUnmounted(() => {
+  window.removeEventListener("resize", setChatContainerHeight);
+});
 </script>
+
 <style>
 /* #apexchartsarea-chart {
   height: 326px !important;

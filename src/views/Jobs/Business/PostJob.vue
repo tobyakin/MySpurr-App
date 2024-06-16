@@ -9,9 +9,61 @@ import { useStore } from "@/stores/user";
 import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
 import Arrow from "@/components/icons/paginationArrow.vue";
 import Tabs from "@/components/ui/Jobs/Tabs.vue";
+import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
+import Label from "@/components/ui/Form/Input/Label.vue";
+import CirclePlus from "@/components/icons/circlePlus.vue";
+import ViewJobDetailsPage from "@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue";
+import ReviewJob from "@/components/ui/Jobs/ReviewJob.vue";
+import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
+import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { useSkillsStore } from "@/stores/skills";
 import { useUserProfile } from "@/stores/profile";
+
+import { useTabStore } from "@/stores/tab";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+let store = useStore();
+const accountType = computed(() => {
+  return store.getUser.data.user.type;
+});
+onMounted(() => {
+  return accountType;
+});
+
+const profileStore = useUserProfile();
+
+const tabStore = useTabStore();
+const { isLoading } = storeToRefs(tabStore);
+
+const isOnBoarded = computed(() => profileStore.user);
+
+onMounted(() => {
+  return accountType;
+});
+onMounted(async () => {
+  try {
+    await profileStore.userProfile();
+    if (
+      isOnBoarded.value &&
+      !isOnBoarded.value.business_details &&
+      !isOnBoarded.value.work_details
+    ) {
+      if (accountType.value === "talent") {
+        router.push({ name: "talent-onboarding" });
+      } else if (accountType.value === "business") {
+        router.push({ name: "business-onboarding" });
+      }
+    }
+  } catch (error) {
+    /* empty */
+  } finally {
+    isLoading.value = !isLoading.value;
+  }
+});
+
 let profile = useUserProfile();
 // const showPageLoader = ref(true);
 
@@ -23,15 +75,7 @@ const { contriesCode, states, industries } = storeToRefs(skillsStore);
 
 const jobsStore = useJobsStore();
 const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore);
-import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
-import Label from "@/components/ui/Form/Input/Label.vue";
-import CirclePlus from "@/components/icons/circlePlus.vue";
-import ViewJobDetailsPage from "@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue";
-import ReviewJob from "@/components/ui/Jobs/ReviewJob.vue";
-import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
-import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 
-let store = useStore();
 let options = ref([
   { name: "Design" },
   { name: "UI" },
@@ -153,10 +197,18 @@ const selectedsiso = computed(() => {
   );
   return foundState ? foundState.iso2 : null;
 });
+let isLoadingState = ref(false);
 // watchers to update the selectedIso2 and selectedsiso
 watch(selectedIso2, async (newInput) => {
   siso.value = "";
-  await skillsStore.handleGetStates(newInput);
+  isLoadingState.value = true;
+  try {
+    await skillsStore.handleGetStates(newInput);
+    isLoadingState.value = false;
+  } catch (error) {
+    console.log(error);
+    isLoadingState.value = false;
+  }
 });
 // watchers to update the selectedIso2 and selectedsiso
 watch(selectedIso2, async (newInput) => {
@@ -200,7 +252,7 @@ onMounted(() => {
           >
             Hire with MySpurr. Share your job post with thousands of creative talents
           </h3>
-          <div
+          <!-- <div
             v-if="!hasSubscriptedToPostJob"
             class="bg-[#EDF0B8] py-[19px] px-[30px] lg:px-[80px] flex items-center rounded-[10px]"
           >
@@ -218,7 +270,7 @@ onMounted(() => {
                 You will be charged ₦ 5,000.00 for this job post
               </p>
             </div>
-          </div>
+          </div> -->
         </div>
         <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">
           Job Details
@@ -272,8 +324,10 @@ onMounted(() => {
                   :key="state.id"
                   :value="state.name"
                 >
-                  {{ state.name }}
-                </a-select-option>
+                  {{ state.name }} </a-select-option
+                ><a-select-option v-if="isLoadingState" disabled
+                  >Loading...</a-select-option
+                >
               </a-select>
             </div>
             <div class="flex flex-col w-full text-left">

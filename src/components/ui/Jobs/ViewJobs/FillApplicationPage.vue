@@ -308,7 +308,9 @@ onMounted(async () => {
       <div class="flex flex-col gap-2">
         <p class="text-[#244034c5] text-[13.076px] font-Satoshi400">Salary</p>
         <p class="text-[#244034] text-[13.076px] font-Satoshi500">
-          <span v-html="numAbbr.formatCurrency(singleJob?.data?.currency)"></span>
+          <!-- <span v-html="numAbbr.formatCurrency(singleJob?.data?.currency)"></span> -->
+
+          {{ singleJob?.data?.currency }}
           {{ store.abbr(singleJob?.data?.salary_min) }}-
           {{ store.abbr(singleJob?.data?.salary_max) }}/
           {{ singleJob?.data?.salaray_type }}

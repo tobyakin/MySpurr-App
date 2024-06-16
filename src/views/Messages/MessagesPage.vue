@@ -6,89 +6,132 @@ import MessageList from "@/components/ui/Message/MessageList.vue";
 import MessageChatPane from "@/components/ui/Message/MessageChatPane.vue";
 import NewMessage from "@/components/ui/Message/NewMessage.vue";
 
-import arrowRight from "@/components/icons/arrowRightAlt.vue"
-import arrowLeft from "@/components/icons/arrowLeftAlt.vue"
-import leftArrowM from "@/components/icons/leftArrowM.vue"
-import rightArrowM from "@/components/icons/rightArrowM.vue"
+import arrowRight from "@/components/icons/arrowRightAlt.vue";
+import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
+import leftArrowM from "@/components/icons/leftArrowM.vue";
+import rightArrowM from "@/components/icons/rightArrowM.vue";
 import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
-import NewMessageIcon from "@/components/icons/NewMessageIcon.vue"
+import NewMessageIcon from "@/components/icons/NewMessageIcon.vue";
 import MessageInputField from "@/components/ui/Message/MessageInputField.vue";
 import { useSocketStore } from "@/stores/socket";
 import ComingSoon from "@/components/ui/ComingSoon/ComingSoon.vue";
-
-const store = useSocketStore();
+import { useTabStore } from "@/stores/tab";
+import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
+import { storeToRefs } from "pinia";
+
+const router = useRouter();
+
+let store = useStore();
+const accountType = computed(() => {
+  return store.getUser.data.user.type;
+});
+onMounted(() => {
+  return accountType;
+});
+
+const profileStore = useUserProfile();
+
+const tabStore = useTabStore();
+const { isLoading } = storeToRefs(tabStore);
+
+const isOnBoarded = computed(() => profileStore.user);
+
+onMounted(() => {
+  return accountType;
+});
+onMounted(async () => {
+  try {
+    await profileStore.userProfile();
+    if (
+      isOnBoarded.value &&
+      !isOnBoarded.value.business_details &&
+      !isOnBoarded.value.work_details
+    ) {
+      if (accountType.value === "talent") {
+        router.push({ name: "talent-onboarding" });
+      } else if (accountType.value === "business") {
+        router.push({ name: "business-onboarding" });
+      }
+    }
+  } catch (error) {
+    /* empty */
+  } finally {
+    isLoading.value = !isLoading.value;
+  }
+});
+
 import CircleFileIcon from "../../components/icons/circleFileIcon.vue";
 let profile = useUserProfile();
-const router = useRouter();
 
 let receiverId = "211950a8-c8bd-4f12-9b92-db142c85ddd4";
 let message = ref("");
 const userDetails = computed(() => {
   return profile.user.data;
 });
-const replyMessage = ref(false)
-
+const replyMessage = ref(false);
 
 const chatPane = ref();
 const inboxList = ref();
-const messages =ref([
+const messages = ref([
   {
     senderID: 1,
     id: 1,
-    status: 'primary',
-    name: 'jenny rio',
-    subject: 'Work inquiry from google',
-    description: 'Hello, This is Jenny from google. We’r the largest online platform offer...',
-    attachment: ['details.pdf'],
-    date: 'aug 22',
+    status: "primary",
+    name: "jenny rio",
+    subject: "Work inquiry from google",
+    description:
+      "Hello, This is Jenny from google. We’r the largest online platform offer...",
+    attachment: ["details.pdf"],
+    date: "aug 22",
     clicked: false,
-    logo: '',
-    timeStamp: '4:54AM (3 hours ago)',
-    mail: 'google@inquiry.com',
-    company: 'Google',
-    thread:[
+    logo: "",
+    timeStamp: "4:54AM (3 hours ago)",
+    mail: "google@inquiry.com",
+    company: "Google",
+    thread: [
       {
         id: 1,
         senderID: 1,
         recieverID: 3,
         message: ``,
-        from: ''
-      }
-    ]
+        from: "",
+      },
+    ],
   },
   {
     senderID: 2,
     id: 2,
-    status: 'unread',
-    name: 'jannatul ferdaus',
-    subject: 'Product Designer Opportunities',
-    description: 'Hello, This is Jannat from HuntX. We offer business solution to our client..',
+    status: "unread",
+    name: "jannatul ferdaus",
+    subject: "Product Designer Opportunities",
+    description:
+      "Hello, This is Jannat from HuntX. We offer business solution to our client..",
     attachment: [],
-    date: 'jun 22',
+    date: "jun 22",
     clicked: false,
-    logo: '',
-    timeStamp: '4:54AM (3 hours ago)',
-    mail: 'payoneer@inquiry.com',
-    company: 'HuntX',
-    thread:[
+    logo: "",
+    timeStamp: "4:54AM (3 hours ago)",
+    mail: "payoneer@inquiry.com",
+    company: "HuntX",
+    thread: [
       {
         id: 1,
         senderID: 2,
         recieverID: 3,
-        from: '',
-        message: ``
-      }
-    ]
+        from: "",
+        message: ``,
+      },
+    ],
   },
   {
     senderID: 3,
     id: 3,
-    status: 'primary',
-    name: 'hasan islam',
-    subject: 'Account Manager',
-    description:  `Hello, Greeting from Uber. Hope you doing great. I am approaching to you for as our company need a great & talented account manager.
+    status: "primary",
+    name: "hasan islam",
+    subject: "Account Manager",
+    description: `Hello, Greeting from Uber. Hope you doing great. I am approaching to you for as our company need a great & talented account manager.
 
     What we need from you to start:
     - Your CV
@@ -96,14 +139,14 @@ const messages =ref([
     Our Telegram @payoneer
 
     Thank you`,
-    attachment: ['details.pdf', 'forms.pdf'],
-    date: 'jun 22',
+    attachment: ["details.pdf", "forms.pdf"],
+    date: "jun 22",
     clicked: true,
-    logo: '@/assets/image/logo.png',
-    timeStamp: '4:54AM (3 hours ago)',
-    mail: 'payoneer@inquiry.com',
-    company: 'Payoneer',
-    thread:[
+    logo: "@/assets/image/logo.png",
+    timeStamp: "4:54AM (3 hours ago)",
+    mail: "payoneer@inquiry.com",
+    company: "Payoneer",
+    thread: [
       {
         id: 1,
         senderID: 3,
@@ -124,91 +167,90 @@ const messages =ref([
         
         Our Telegram @payoneer 
         Thank you!`,
-        from: ''
-      }
-    ]
+        from: "",
+      },
+    ],
   },
   {
     senderID: 4,
     id: 4,
-    status: 'read',
-    name: 'jakie chan',
-    subject: 'Hunting Marketing Specialist',
-    description: 'Hello, We’r the well known Real Estate Inc provide best interior/exterior solut...',
-    attachment: ['details.pdf'],
-    date: 'jun 22',
+    status: "read",
+    name: "jakie chan",
+    subject: "Hunting Marketing Specialist",
+    description:
+      "Hello, We’r the well known Real Estate Inc provide best interior/exterior solut...",
+    attachment: ["details.pdf"],
+    date: "jun 22",
     clicked: false,
-    timeStamp: '4:54AM (3 hours ago)',
-    mail: 'payoneer@inquiry.com',
-    company: 'Real Estate Inc',
-    thread:[
+    timeStamp: "4:54AM (3 hours ago)",
+    mail: "payoneer@inquiry.com",
+    company: "Real Estate Inc",
+    thread: [
       {
         id: 1,
         senderID: 4,
         recieverID: 3,
-        from: '',
-        message: ``
-      }
-    ]
+        from: "",
+        message: ``,
+      },
+    ],
   },
   {
     senderID: 5,
     id: 5,
-    status: 'primary',
-    name: 'zubayer al hasan',
-    subject: 'delivery man',
-    description: 'Hello, Greeting from Uber. Hope you doing great. I am approcing to you for...',
-    attachment: ['details & Agreement.pdf'],
-    date: 'jun 22',
+    status: "primary",
+    name: "zubayer al hasan",
+    subject: "delivery man",
+    description:
+      "Hello, Greeting from Uber. Hope you doing great. I am approcing to you for...",
+    attachment: ["details & Agreement.pdf"],
+    date: "jun 22",
     clicked: false,
-    timeStamp: '4:54AM (3 hours ago)',
-    mail: 'payoneer@inquiry.com',
-    company: 'Uber',
-    thread:[
+    timeStamp: "4:54AM (3 hours ago)",
+    mail: "payoneer@inquiry.com",
+    company: "Uber",
+    thread: [
       {
         id: 1,
         senderID: 5,
         recieverID: 3,
-        from: '',
-        message: ``
-      }
-    ]
+        from: "",
+        message: ``,
+      },
+    ],
   },
-])
-const clickedMessage = ref()
+]);
+const clickedMessage = ref();
 
-function assignClickedMessage(){
-  messages.value.forEach(item=>{
-    if(item.clicked === true){
-      clickedMessage.value = item
+function assignClickedMessage() {
+  messages.value.forEach((item) => {
+    if (item.clicked === true) {
+      clickedMessage.value = item;
     }
-  })
+  });
 }
 
-assignClickedMessage()
+assignClickedMessage();
 
+function showChatPane(clickedMessage) {
+  const mediaQuery = window.matchMedia("(max-width: 800px)");
 
-function showChatPane(clickedMessage){
-  const mediaQuery = window.matchMedia('(max-width: 800px)'); 
- 
-  messages.value.forEach(message => {
+  messages.value.forEach((message) => {
     message.clicked = message.id === clickedMessage.id;
-    if(message.clicked === true){
-      clickedMessage =  message
+    if (message.clicked === true) {
+      clickedMessage = message;
     }
   });
 
-  messages.value = [...messages.value]
-  assignClickedMessage()
+  messages.value = [...messages.value];
+  assignClickedMessage();
   // router.push({name: 'chats', params: {senderID: clickedMessage.senderID}})
 }
 
-function handleReply(chat){
-  console.log(chat)
-  replyMessage.value = true
+function handleReply(chat) {
+  console.log(chat);
+  replyMessage.value = true;
 }
-
-
 
 // const connectSocket = async () => {
 //   try {
@@ -244,7 +286,9 @@ onMounted(async () => {
 
 <template>
   <DashboardLayout>
-    <div class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10">
+    <div
+      class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
+    >
       <ComingSoon title="Messages" />
     </div>
     <!-- <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container">
@@ -315,29 +359,23 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.scroller {
+  scrollbar-width: thin;
+  scrollbar-color: #96c6cc #e6f1f3;
+}
 
-  .scroller {
-    scrollbar-width: thin;
-    scrollbar-color: #96C6CC #E6F1F3;
-    
-  }
+.scroller::-webkit-scrollbar-thumb {
+  background: #96c6cc;
+}
+.scroller::-webkit-scrollbar-track {
+  background: #e6f1f3;
+}
+.scroller::-webkit-scrollbar {
+  max-width: 10px;
+  max-height: 10px;
+}
 
-  .scroller::-webkit-scrollbar-thumb {
-        background: #96C6CC;
-    }
-    .scroller::-webkit-scrollbar-track {
-        background: #E6F1F3;
-    }
-    .scroller::-webkit-scrollbar {
-        max-width: 10px;
-        max-height: 10px;
-    }
-
-    .scroller::webkit-scrollbar-button { 
-     display:none;
-    }
-
-   
-
- 
+.scroller::webkit-scrollbar-button {
+  display: none;
+}
 </style>
