@@ -11,6 +11,7 @@ import "animate.css";
 import { useRouter } from "vue-router";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
+import ChatWidget from "@/components/ui/Message/ChatWidget.vue";
 
 let store = useStore();
 const accountType = computed(() => {
@@ -205,7 +206,7 @@ const displayImage = computed(() => imageExists.value);
 </script>
 
 <template>
-  <div class="bg-[#FDFDF6]">
+  <div class="bg-[#FDFDF6] relative">
     <div class="lg:flex">
       <div
         v-if="closeBackdrop"
@@ -379,7 +380,8 @@ const displayImage = computed(() => imageExists.value);
 
         <slot></slot>
       </div>
-    </div>
+      </div>
+    <ChatWidget class="absolute bottom-0 right-[3rem]"/>
   </div>
 </template>
 

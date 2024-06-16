@@ -9,7 +9,7 @@
     <g clip-path="url(#clip0_4157_27260)">
       <path
         d="M6.175 7.15625L10 10.9729L13.825 7.15625L15 8.33125L10 13.3312L5 8.33125L6.175 7.15625Z"
-        fill="#323232"
+        fill="currentColor"
       />
     </g>
     <defs>
@@ -19,3 +19,9 @@
     </defs>
   </svg>
 </template>
+
+<style scoped>
+  svg {
+    color: #323232;
+  }
+</style>
