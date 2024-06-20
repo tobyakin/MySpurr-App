@@ -40,8 +40,8 @@ const closeJob = async (slug) => {
   }
 }
 
-const gotoApplications = (slug) => {
-  router.push({ name: 'applications', params: { slug: slug } })
+const gotoApplications = (slug, id) => {
+  router.push({ name: 'applications', params: { slug: slug, id: id} })
 }
 const getJobDetails = async () => {
   let response = await jobsStore.handleGetJobDetailsById(route.params.id)
@@ -177,7 +177,7 @@ const displayImage = computed(() => imageExists.value)
               {{ JobDetailsById?.data?.job_title }}
             </p>
             <button
-              @click="gotoApplications(JobDetailsById?.data?.slug)"
+              @click="gotoApplications(JobDetailsById?.data?.slug, JobDetailsById?.data?.id)"
               class="bg-[#43D0DF] font-Satoshi500 text-[10.2px] capitalize p-3 px-12 text-white btn-hover-1 rounded-full"
             >
               View applicants

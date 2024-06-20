@@ -355,7 +355,7 @@ watch(ratingVlaue, (newSingleObject) => {
   // console.log(newSingleObject);
 });
 onMounted(async () => {
-  await jobsStore.handleGetApplicants(route.params.id);
+  await jobsStore.handleGetApplicantsSlug(route.params.slug);
   prefillDetails(ratingVlaue.value);
   // console.log(ratingVlaue.value);
 });

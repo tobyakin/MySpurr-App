@@ -186,11 +186,29 @@ export const getAllTalents = async () => {
     throw error
   }
 }
+
 export const getApplicants = async (id) => {
     const token = await getToken()
 
   try {
     let res = await axios.get(`v1/job/${id}/applicants`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res.data)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
+export const getApplicantsSlug = async (slug) => {
+  const token = await getToken()
+
+  try {
+    let res = await axios.get(`v1/get/job/${slug}/applicants`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -219,6 +237,24 @@ export const getTalentApplication = async (job_id, talent_id) => {
     throw error
   }
 }
+
+export const getTalentApplicationSlug = async (slug, talent_id) => {
+  const token = await getToken()
+
+  try {
+    let res = await axios.get(`v1/get/application/${talent_id}/${slug}`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    catchAxiosSuccess(res.data)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
 export const editJob = async (id, payload) => {
   const token = await getToken()
   try {

@@ -76,7 +76,7 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
         chance to add to this when your onboarding as been completed.
       </p>
       <div
-        class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
+        class="flex-col flex gap-6 pb-3"
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">School</label>
@@ -141,11 +141,11 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
         </div>
 
         <!-- <div class="flex flex-row h-full rounded-[5.897px] py-1.5"> -->
-        <div class="w-full flex flex-col min-h-[28vh] after:gap-2">
+        <div class="w-full flex flex-col after:gap-2 mb-4">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
             >Description</label
           >
-          <div class="flex flex-col min-h-[28vh]">
+          <div class="flex flex-col">
             <QuillEditor
               v-model:content="education.description"
               class=""

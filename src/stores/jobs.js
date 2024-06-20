@@ -13,7 +13,9 @@ import {
   viewJobsDetailsById,
   getAllTalents,
   getApplicants,
+  getApplicantsSlug,
   getTalentApplication,
+  getTalentApplicationSlug,
   getTopPickedJobs,
   editJob,
   jobPayment,
@@ -256,9 +258,25 @@ const handleAddRating = async (payload) => {
       console.error(error)
     }
   }
+  const handleGetApplicantsSlug = async (slug) => {
+    try {
+      applicants.value = await getApplicantsSlug(slug)
+      return applicants.value
+    } catch (error) {
+      console.error(error)
+    }
+  }
   const handleGetTalentApplication = async (job_id, talent_id) => {
     try {
       talentApplication.value = await getTalentApplication(job_id, talent_id)
+      return talentApplication.value
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const handleGetTalentApplicationSlug = async (slug, talent_id) => {
+    try {
+      talentApplication.value = await getTalentApplicationSlug(slug, talent_id)
       return talentApplication.value
     } catch (error) {
       console.error(error)
@@ -315,8 +333,10 @@ const handleEditJob = async (id) => {
     allTalents,
     applicants,
     handleGetApplicants,
+    handleGetApplicantsSlug,
     talentApplication,
     handleGetTalentApplication,
+    handleGetTalentApplicationSlug,
     handleGetTopPickedJobs,
     topPickedJobs,
     handleEditJob,

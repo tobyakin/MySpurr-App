@@ -68,7 +68,7 @@ const emit = defineEmits(["next"]);
 const isFormValid = computed(() => {
   return (
     // skill_title.value.trim() !== "" &&
-    top_skills.value.length >= 0 && // Check if top_skills is not empty
+    top_skills.value.length > 0 && // Check if top_skills is not empty
     highest_education.value.trim() !== "" &&
     overview.value.trim() !== "" &&
     ciso.value.trim() !== "" &&
@@ -312,7 +312,7 @@ const selectHighlightedOption = () => {
         add to this when your onboarding as been completed
       </p>
       <div
-        class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
+        class="flex-col flex gap-6 pb-12"
       >
         <div
           :class="errors.skill_title ? 'border-[#DA5252]' : 'border-[#254035AB]'"
@@ -375,7 +375,7 @@ const selectHighlightedOption = () => {
         </div>
         <div
           :class="errors.siso || errors.ciso ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] flex lg:flex-row flex-col items-center rounded-[5.897px] p-4 py-1.5"
+          class="border-[0.737px] flex lg:flex-row flex-col items-center rounded-[5.897px] p-4 py-1.5 gap-3"
         >
           <div class="w-full">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
@@ -384,7 +384,7 @@ const selectHighlightedOption = () => {
                 placeholder="country or region"
                 :bordered="false"
                 :show-arrow="false"
-                class="w-full !px-0"
+                class="w-full !px-0 border-2 rounded-md my-2"
                 show-search
                 v-model:value="selectedCountry"
               >
@@ -399,12 +399,12 @@ const selectHighlightedOption = () => {
               </a-select>
             </div>
           </div>
-          <a-divider class="lg:hidden" style="height: 1px; background-color: #254035ab" />
+          <!-- <a-divider class="lg:hidden md:hidden" style="height: 1px; background-color: #254035ab" />
           <a-divider
             class="lg:flex hidden"
             style="height: 5vh; background-color: #254035ab"
             type="vertical"
-          />
+          /> -->
 
           <div class="w-full">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">State</label>
@@ -415,7 +415,7 @@ const selectHighlightedOption = () => {
                 placeholder="state or city"
                 :show-arrow="false"
                 :bordered="false"
-                class="w-full !px-0"
+                class="w-full !px-0 border-2 rounded-md my-2"
                 show-search
                 v-model:value="selectedState"
               >

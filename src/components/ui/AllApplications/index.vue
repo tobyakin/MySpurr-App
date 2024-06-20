@@ -9,8 +9,7 @@
         >
           <div class="flex flex-col w-full text-left">
             <Label class="font-Satoshi400 text-[#244034c5] !text-[15.606px] !mb-2"
-              >Salary</Label
-            >
+              >Salary</Label>
             <div
               class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
             >
@@ -184,6 +183,7 @@
             </div>
           </div>
         </div>
+        
         <div class="w-full">
           <ShortLoader v-if="loadTalentProfile" />
           <ApplicantProfile
@@ -222,7 +222,7 @@ const skillsStore = useSkillsStore();
 const { contriesCode } = storeToRefs(skillsStore);
 
 const applicantsId = ref(null);
-const jobId = ref(route.params.id);
+const jobId = ref(route.params.slug);
 const sortInput = reactive({
   Salary: "",
   skills: "",
@@ -254,17 +254,18 @@ const handleViewProfile = (talent_id) => {
   applicantsId.value = talent_id;
   // console.log(talent_id);
 };
-watch([applicantsId, jobId], async ([newApplicantsId, newJobId]) => {
+watch([applicantsId, jobId], async ([newApplicantsId, newJobSlug]) => {
   loadTalentProfile.value = true;
-  await jobsStore.handleGetTalentApplication(newJobId, newApplicantsId);
+  await jobsStore.handleGetTalentApplicationSlug(newJobSlug, newApplicantsId);
   loadTalentProfile.value = false;
 });
+
 const getJobDetailsById = async () => {
-  let response = await jobsStore.handleGetJobDetailsById(route.params.id);
+  let response = await jobsStore.handleGetJobDetailsBySlug(route.params.slug);
   return response;
 };
 const getApplicants = async () => {
-  let response = await jobsStore.handleGetApplicants(route.params.id);
+  let response = await jobsStore.handleGetApplicantsSlug(route.params.slug);
   return response;
 };
 const fetchData = async () => {
@@ -348,7 +349,7 @@ const { isLoading: loadTalentApplications } = useQuery(
 );
 // console.log(loadTalentApplications.value);
 const { isLoading: loadApplicants } = useQuery(
-  ["getApplicants", route.params.id],
+  ["getApplicants", route.params.slug],
   getApplicants,
   {
     retry: 10,
@@ -368,8 +369,8 @@ onMounted(async () => {
   await skillsStore.getCountriesCode();
 });
 onMounted(async () => {
-  await jobsStore.handleGetJobDetailsById(route.params.id);
-  await jobsStore.handleGetApplicants(route.params.id);
+  await jobsStore.handleGetJobDetailsBySlug(route.params.slug);
+  await jobsStore.handleGetApplicantsSlug(route.params.slug);
 });
 </script>
 

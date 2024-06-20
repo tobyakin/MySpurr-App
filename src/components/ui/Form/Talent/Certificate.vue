@@ -85,7 +85,7 @@ watch(CertificateDate, (newCertificateDate) => {
         add to this when your onboarding as been completed
       </p>
       <div
-        class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
+        class="flex-col flex gap-6 pb-12"
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Title</label>
