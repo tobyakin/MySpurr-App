@@ -473,7 +473,7 @@ input[type='checkbox'] {
   }
 
   .widgetClosed.section {
-    @apply !h-[3.5rem]
+    @apply !h-[3.15rem]
   }
 
   .widgetClosed .arrow {

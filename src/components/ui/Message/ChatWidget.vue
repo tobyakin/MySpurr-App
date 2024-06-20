@@ -198,7 +198,6 @@
     assignClickedMessage();
     showChatList.value = false
     showChatPage.value = true
-    // router.push({name: 'chats', params: {senderID: clickedMessage.senderID}})
   }
 
   function handleSend(){
@@ -216,9 +215,10 @@
         recieverID: 3,
         message: message.value ,
         from: "",
-        attachment: ["details.pdf"],
+        attachment: [],
       },
     )
+    textArea.value.innerText = ''
   }
   
   function switchTab(){

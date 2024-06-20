@@ -56,7 +56,7 @@ function switchTab(){
             </div>
         <hr class="border-[#EEEEEE] border-1">
         <div class="pt-[1.16rem] px-[1.66rem] h-[80%] overflow-y-auto hide-scrollbar">
-            <div class="" v-for="message in chat?.thread" :key="message.senderID">
+            <div class="mb-4" v-for="message in chat?.thread" :key="message.senderID">
             <div class="chatPage">
                 <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat.subject }}</h3>
                 <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden" :class="message.senderID === userID? 'text-right': 'text-left' ">{{ chat.name }}</h3>
