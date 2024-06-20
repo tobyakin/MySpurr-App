@@ -8,7 +8,7 @@ import Dropdown from "@/components/ui/DropDown.vue";
 import NotificationDropDown from "@/components/ui/NotificationDropDown.vue";
 import { ref, computed, onMounted, onUpdated, watch } from "vue";
 import "animate.css";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
 import ChatWidget from "@/components/ui/Message/ChatWidget.vue";
@@ -23,10 +23,12 @@ onMounted(() => {
 
 const profileStore = useUserProfile();
 const router = useRouter();
+const route = useRoute()
 const closeNav = ref(false);
 const closeBackdrop = ref(false);
 const showDropdown = ref(false);
 const showNotificationDropdown = ref(false);
+const showChatWidget = computed(() => !route.meta.hideChatWidget);
 const userDetails = computed(() => {
   return profileStore?.user?.data;
 });
@@ -223,11 +225,11 @@ const displayImage = computed(() => imageExists.value);
       <div class="hidden lg:block flex-shrink-0 md:w-[256px] exclude-from-print">
         <BaseSidebar />
       </div>
-      <div class="flex-grow pb-20">
+      <div class="flex-grow pb-20 variableDiv">
         <!-- top-menu flex items-center justify-between py-3 px-4 lg:px-0 -->
         <!-- flex items-center gap-[3rem] justify-between px-4 min-[370px]:px-6 sticky top-0 pt-4 min-[370px]:pt-5 bg-white z-50  -->
         <nav
-          class="flex bg-[#FDFDF6] exclude-from-print items-center gap-[3rem] justify-between px-3 min-[370px]:px-6 sticky top-0 py-3 min-[370px]:pt-5 z-50"
+          class="flex bg-[#FDFDF6] exclude-from-print items-center gap-[3rem] justify-between px-3 min-[370px]:px-6 sticky top-0 py-3 min-[370px]:pt-5 z-[50]"
         >
           <div class="lg:hidden">
             <div class="logo">
@@ -381,7 +383,8 @@ const displayImage = computed(() => imageExists.value);
         <slot></slot>
       </div>
       </div>
-    <ChatWidget class="absolute bottom-0 right-[3rem]"/>
+      
+      <ChatWidget v-if="showChatWidget" class="fixed bottom-0 right-[3rem] z-[99]"/>
   </div>
 </template>
 

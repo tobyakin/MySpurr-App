@@ -8,6 +8,10 @@
   transition: all 0.3s linear;
 }
 
+.transitionItem {
+  transition: all 0.3s linear;
+}
+
 body {
   @apply font-Satoshi400;
 }
@@ -123,11 +127,11 @@ select {
 }
 
 .btn-hover-1 {
-  @apply hover:!bg-[#2F929C] transition;
+  @apply hover:!bg-[#2F929C] transitionItem;
 }
 
 .btn-hover-2 {
-  @apply hover:!bg-[#007582] !capitalize transition;
+  @apply hover:!bg-[#007582] !capitalize transitionItem;
 }
 
 input {
@@ -373,11 +377,11 @@ input[type='checkbox'] {
 /* Added Styles */
 
   #messagesContainer .active {
-    @apply !bg-[#E6F1F3] transition
+    @apply !bg-[#E6F1F3] transitionItem
   }
   
   #messagesContainer .active .attachment {
-    @apply bg-[white] transition
+    @apply bg-[white] transitionItem
   }
 
   .flexBasic {
@@ -399,6 +403,144 @@ input[type='checkbox'] {
   .messageGroup li {
     @apply cursor-pointer
   }
+
+  .widget .timeStamp {
+    @apply !hidden
+  }
+
+  .widget .logo {
+    @apply w-[1.36rem] h-[1.36rem]
+  }
+
+  .widget .message {
+    @apply !mb-[0.5rem] leading-[1.3rem]
+  }
+
+  .widget .company {
+    @apply text-[1rem] font-Satoshi900
+  }
+
+  .widget .mail {
+    @apply text-[0.7rem]
+  }
+
+  .widget .messageTitle, .widget .messageTitleMob {
+    @apply text-[0.9rem] !mb-[0.5rem] hidden leading-[0.7rem]
+  }
+
+  .widget .atachmentHead {
+    @apply hidden
+  }
+
+  .widget .files {
+    @apply p-[0.5rem]
+  }
+
+  .widget .filesContainer {
+    @apply mt-[0.5rem]
+  }
+
+  .widget .files h3 {
+    @apply text-[0.5rem] leading-[0.5rem]
+  }
+
+  .widget .files p {
+    @apply text-[0.45rem]
+  }
+
+  .widget .messageTitleMob {
+    @apply !block capitalize 
+  }
+
+  .widget .header {
+    @apply w-full !justify-center text-center flex-col gap-[0rem] hidden
+  }
+
+  .widget .mobHeader {
+    @apply !flex items-center justify-between w-full
+  }
+
+  .widget hr {
+    @apply mt-[0.5rem] hidden
+  }
+
+  .widget .senderDetails {
+    @apply !p-4
+  }
+
+  svg {
+    @apply cursor-pointer
+  }
+
+  .widgetClosed.section {
+    @apply !h-[3.5rem]
+  }
+
+  .widgetClosed .arrow {
+    @apply rotate-180 transitionItem
+  }
+
+  .widgetClosed .messageList {
+    @apply !h-0 flex-auto hidden transitionItem
+  }
+
+  .widgetClosed .chatPane {
+    @apply overflow-hidden
+  }
+
+  .widgetClosed .filter, .widgetClosed .inputField {
+    @apply hidden
+  }
+
+  .widgetContainer .newMessage {
+    @apply overflow-auto relative z-[99] scroller
+  }
+
+  .widgetContainer .header {
+    @apply sticky top-0 bg-white
+  }
+
+  .inputField .textarea {
+    @apply !max-h-[185px]
+  }
+
+  #newMessage .textarea {
+    @apply !max-h-[230px]
+  }
+
+  #newMessage .attachment {
+    @apply mb-4
+  }
+
+  .message .variableDiv {
+    @apply !pb-0
+  }
+
+  .scroller {
+    scrollbar-width: thin !important;
+    scrollbar-color: #96c6cc #e6f1f3;
+  }
+  
+  .scroller::-webkit-scrollbar-thumb {
+    background: #96c6cc;
+  }
+  .scroller::-webkit-scrollbar-track {
+    background: #e6f1f3;
+  }
+  .scroller::-webkit-scrollbar {
+    max-width: 10px;
+    max-height: 10px;
+  }
+  
+  .scroller::webkit-scrollbar-button {
+    display: none;
+  }
+
+  /* .widget .recievedMessage {
+    @apply 
+  } */
+
+  
 
 
   

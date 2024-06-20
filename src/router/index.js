@@ -133,7 +133,8 @@ const router = createRouter({
       path: '/messages',
       name: 'messages',
       component: MessagesPage,
-      beforeEnter: [middleware.redirectLogin]
+      beforeEnter: [middleware.redirectLogin],
+      meta: { hideChatWidget: true}
     },
     {
       path: '/messages/:id',
