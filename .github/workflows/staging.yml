@@ -27,3 +27,4 @@ jobs:
         server: ftp.myspurr.net
         username: ${{ secrets.staging_username }}
         password: ${{ secrets.staging_password }}
+        local-dir: dist/
