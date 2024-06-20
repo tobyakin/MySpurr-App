@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import MessageList from "@/components/ui/Message/MessageList.vue";
 import MessageChatPane from "@/components/ui/Message/MessageChatPane.vue";
+import MessageFilter from "@/components/ui/Message/MessageFilter.vue"
 import NewMessage from "@/components/ui/Message/NewMessage.vue";
 
 import arrowRight from "@/components/icons/arrowRightAlt.vue";
@@ -74,6 +75,8 @@ const replyMessage = ref(false);
 
 const chatPane = ref();
 const inboxList = ref();
+const showNewMessage = ref(false)
+const userID = 0;
 const messages = ref([
   {
     senderID: 1,
@@ -83,7 +86,6 @@ const messages = ref([
     subject: "Work inquiry from google",
     description:
       "Hello, This is Jenny from google. We’r the largest online platform offer...",
-    attachment: ["details.pdf"],
     date: "aug 22",
     clicked: false,
     logo: "",
@@ -97,18 +99,18 @@ const messages = ref([
         recieverID: 3,
         message: ``,
         from: "",
+        attachment: ["details.pdf"],
       },
     ],
   },
   {
-    senderID: 2,
+    senderID: 1,
     id: 2,
     status: "unread",
     name: "jannatul ferdaus",
     subject: "Product Designer Opportunities",
     description:
       "Hello, This is Jannat from HuntX. We offer business solution to our client..",
-    attachment: [],
     date: "jun 22",
     clicked: false,
     logo: "",
@@ -118,15 +120,17 @@ const messages = ref([
     thread: [
       {
         id: 1,
-        senderID: 2,
+        senderID: 1,
         recieverID: 3,
         from: "",
         message: ``,
+        attachment: [],
       },
     ],
   },
   {
-    senderID: 3,
+    senderID: 1,
+    recieverID: 3,
     id: 3,
     status: "primary",
     name: "hasan islam",
@@ -139,7 +143,7 @@ const messages = ref([
     Our Telegram @payoneer
 
     Thank you`,
-    attachment: ["details.pdf", "forms.pdf"],
+    
     date: "jun 22",
     clicked: true,
     logo: "@/assets/image/logo.png",
@@ -149,8 +153,7 @@ const messages = ref([
     thread: [
       {
         id: 1,
-        senderID: 3,
-        recieverID: 3,
+        senderID: 1,
         message: `Hello, Greeting from Uber. Hope you doing great. 
         I am approaching to you for as our company need a great & talented account manager.
         What we need from you to start:
@@ -168,18 +171,18 @@ const messages = ref([
         Our Telegram @payoneer 
         Thank you!`,
         from: "",
+        attachment: ["details.pdf", "forms.pdf"],
       },
     ],
   },
   {
-    senderID: 4,
+    senderID: 1,
     id: 4,
     status: "read",
     name: "jakie chan",
     subject: "Hunting Marketing Specialist",
     description:
       "Hello, We’r the well known Real Estate Inc provide best interior/exterior solut...",
-    attachment: ["details.pdf"],
     date: "jun 22",
     clicked: false,
     timeStamp: "4:54AM (3 hours ago)",
@@ -188,10 +191,11 @@ const messages = ref([
     thread: [
       {
         id: 1,
-        senderID: 4,
+        senderID: 1,
         recieverID: 3,
         from: "",
         message: ``,
+        attachment: ["details.pdf"],
       },
     ],
   },
@@ -203,7 +207,6 @@ const messages = ref([
     subject: "delivery man",
     description:
       "Hello, Greeting from Uber. Hope you doing great. I am approcing to you for...",
-    attachment: ["details & Agreement.pdf"],
     date: "jun 22",
     clicked: false,
     timeStamp: "4:54AM (3 hours ago)",
@@ -216,6 +219,7 @@ const messages = ref([
         recieverID: 3,
         from: "",
         message: ``,
+        attachment: ["details & Agreement.pdf"],
       },
     ],
   },
@@ -252,6 +256,10 @@ function handleReply(chat) {
   replyMessage.value = true;
 }
 
+function handleNewMessage(){
+  showNewMessage.value = true
+}
+
 // const connectSocket = async () => {
 //   try {
 //     await store.connectSocket(receiverId);
@@ -285,77 +293,62 @@ onMounted(async () => {
 </script>
 
 <template>
-  <DashboardLayout>
-    <div
-      class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
-    >
-      <ComingSoon title="Messages" />
-    </div>
-    <!-- <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container">
-      <div class="mt-[0.47rem] flex gap-[34.16px] min-h-[75vh] overflow-hidden ">
-        <div id="inboxList" class="w-[50%] msgTab:mx-auto msgTab:w-[75%] msgMob:w-full" ref="inboxList">
-          <div class="w-full flex items-center justify-between msgTab:justify-center">
-            <h3 class="text-[#244034] text-[1.80619rem] leading-[3.51206rem] font-Satoshi500">Message</h3>
-            <NewMessageIcon class="msgTab:hidden" @click="handleNewMessage"/>
-          </div>
-          <div class="w-full h-[52rem] bg-[#FFF] rounded-[1.00344rem] mt-4">
-            <div class="p-[1.25rem] h-[25%]">
-              <div class="flex items-center justify-between">
-                <h3 class="font-Satoshi500 text-[#000] text-[0.90313rem] leading-[1.50519rem]">Inbox</h3>
-                <MoreVertIcon class="rotate-90"/>
-              </div>
-              <div class="my-[0.8rem] rounded-[1.50519rem] bg-searchBg border-[0.803px] border-[#EFEFEF] flex items-center justify-between px-4 py-[0.8rem]">
-                <input type="text" placeholder="Search contacts" class="bg-searchBg font-Satoshi400 leading-[2rem] text-[0.8rem]">
-                <SearchIcon />
-              </div>
-              <ul class="messageGroup flex items-center justify-between gap-[0.7rem] mt-[1.5rem] !mb-0">
-                <li class="font-Satoshi500 leading-[2rem] capitalize text-[0.6rem] active">all</li>
-                <li class="flex items-center gap-[0.3rem]">
-                  <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#949939]"></span>
-                  <p class="">read</p>
-                </li>
-                <li class="flex items-center gap-[0.3rem]">
-                  <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#DA5252]"></span>
-                  <p>unread</p>
-                </li>
-                <li class="flex items-center gap-[0.3rem]">
-                  <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#007582]"></span>
-                  <p>primary</p>
-                </li>
-              </ul>
-            </div>
-            <div id="messagesContainer" class="h-[75%] overflow-y-auto scroller pb-4">
-              <MessageList :messageList="messages" @click="showChatPane"/>
-            </div>
-          </div>
-        </div>
-        <div class="w-full msgTab:hidden" id="chatPane" ref="chatPane">
-          <div id="messageArrows" class="flexBasic !h-[3rem]">
-            <arrowLeft class="cursor-pointer"/>
-            <div class="flexBasic gap-4 msgTab:hidden">
-              <leftArrowM />
-              <h3 class="font-Satoshi400 text-[#000] leading-[1.51rem] text-[0.702rem]">1 - 5 of 120</h3>
-              <rightArrowM />
-            </div>
-            <arrowRight class="cursor-pointer msgTab:hidden"/>
-          </div>
-          <div class="h-[52rem] bg-[#FFF] rounded-[1.00344rem] mt-[1.5rem]">
-            <div class="h-full">
-              <div class="h-[65%]">
-                <MessageChatPane :chat="clickedMessage" @reply="handleReply"/>
-              </div>
-              <div class="h-[35%]">
-                <MessageInputField notShow="false" showSubject="false" v-if="replyMessage"/>
-              </div>
-            </div>
-            <div id="newMessage" class="h-full hidden">
-              <NewMessage />
-            </div>
-          </div>
-        </div>
+  <section class="message">
+
+    <DashboardLayout>
+      <div
+        class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
+      >
+        <ComingSoon title="Messages" />
       </div>
-    </section> -->
-  </DashboardLayout>
+      <!-- <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container h-[88vh] overflow-hidden">
+        <div class="mt-[0.47rem] flex gap-[34.16px] h-full overflow-hidden">
+          <div id="inboxList" class="w-[50%] msgTab:mx-auto msgTab:w-[75%] msgMob:w-full h-full" ref="inboxList">
+            <div class="w-full flex items-center justify-between msgTab:justify-center h-[10%]">
+              <h3 class="text-[#244034] text-[1.80619rem] leading-[1.51206rem] font-Satoshi500">Message</h3>
+              <NewMessageIcon class="msgTab:hidden" @click="handleNewMessage"/>
+            </div>
+            <div class="w-full bg-[#FFF] rounded-[1.00344rem] mt-4 h-[90%] flex flex-col">
+              <div class="px-[1rem]">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-Satoshi500 text-[#000] text-[0.90313rem] leading-[1.50519rem]">Inbox</h3>
+                  <MoreVertIcon class="rotate-90"/>
+                </div>
+                <MessageFilter />
+              </div>
+              <div id="messagesContainer" class=" overflow-y-auto scroller pb-4 flex-1">
+                <MessageList :messageList="messages" @click="showChatPane"/>
+              </div>
+            </div>
+          </div>
+          <div class="w-full msgTab:hidden h-full" id="chatPane" ref="chatPane">
+            <div id="messageArrows" class="flexBasic !h-[10%]">
+              <arrowLeft class="cursor-pointer"/>
+              <div class="flexBasic gap-4 msgTab:hidden">
+                <leftArrowM />
+                <h3 class="font-Satoshi400 text-[#000] leading-[1.51rem] text-[0.702rem]">1 - 5 of 120</h3>
+                <rightArrowM />
+              </div>
+              <arrowRight class="cursor-pointer msgTab:hidden"/>
+            </div>
+            <div class="h-[90%] bg-[#FFF] rounded-[1.00344rem] mt-[1.5rem] overflow-auto relative">
+              <div class="h-full" v-if="!showNewMessage">
+                <div class="h-[100%]">
+                  <MessageChatPane :chat="clickedMessage" @reply="handleReply"/>
+                </div>
+                <div class="inputField sticky bottom-[2rem] bg-white min-h-[230px] max-h-[350px]" v-if="replyMessage">
+                  <MessageInputField notShow="false" showSubject="false" class="h-full min-h-[inherit] max-h-[inherit]"/>
+                </div>
+              </div>
+              <div id="newMessage" class="h-[100%]" v-else>
+                <NewMessage />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section> -->
+    </DashboardLayout>
+  </section>
 </template>
 
 <style scoped>

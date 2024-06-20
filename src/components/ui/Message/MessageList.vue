@@ -39,16 +39,18 @@ function truncate(str, no_words) {
       <div class="messageDetail pl-[1rem]">
         <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.5rem] text-[0.8rem] !mb-[0.3rem] capitalize">{{ message.title }}</h3>
         <p class="messageText text-messageFont font-Satoshi400 leading-[1.25rem] text-[0.8rem] !mb-[0.7rem]">{{ truncate(message.description, 12) }}</p>
-        <div class="attachments flex items-center gap-[0.5rem] flex-wrap">                    
-          <div class="attachment flex items-center justify-center gap-[0.24rem] bg-[#F0F5F3] w-fit px-[0.3rem] py-[0.5rem] rounded-[0.2rem]" v-for="file in message.attachment">
-            <fileIcon />
-            <p class="text-[rgba(0, 0, 0, 0.60)] text-[0.6rem]">{{ file }}</p>
+        <div >                    
+          <div class="attachments flex items-center gap-[0.5rem] flex-wrap"v-for="thread in message?.thread" :key="thread">
+            <div class="attachment flex items-center justify-center gap-[0.24rem] bg-[#F0F5F3] w-fit px-[0.3rem] py-[0.5rem] rounded-[0.2rem]" v-for="file in thread?.attachment">
+              <fileIcon />
+              <p class="text-[rgba(0, 0, 0, 0.60)] text-[0.6rem]">{{ file }}</p>
+            </div>
           </div>
         </div>
       </div>
     </article>
 </template>
 
-<style lang="scss" scoped>
-
+<style scoped>
+  
 </style>

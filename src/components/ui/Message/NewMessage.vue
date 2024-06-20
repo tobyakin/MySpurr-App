@@ -1,8 +1,7 @@
 <template>
-    <div class="h-full">
-
-        <article class="w-full">
-            <div class="senderDetails pt-[2.16rem] pb-[1.6rem] px-[1.66rem] flexBasic !items-end h-[10%]">
+    <div class="newMessage h-full flex flex-col gap-0">
+        <article class="header w-full z-[49] sticky top-0 bg-white">
+            <div class="senderDetails pt-[.5rem] pb-[1.6rem] px-[1.66rem] flexBasic !items-end">
                 <div class="flexBasic gap-[0.85rem]">
                     <div class="w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden">
                         <img src="@/assets/image/userImg.png" alt="" class="w-full h-full object-cover">
@@ -18,9 +17,9 @@
             </div>
             <hr class="border-[#EEEEEE] border-1">
         </article>
-        <div class=" flex flex-col h-[100%] overflow-y-auto">
+        <div class=" flex flex-col h-auto overflow-y-auto flex-1">
             <MessageInputField class="mt-[1.66rem] flex-1" notShow="true" showSubject="true"/>
-            <div class="px-[1.66rem] basis-[30%]">
+            <div class="attachment px-[1.66rem] mt-[1.66rem] basis-[30%]">
                 <div class="flexBasic">
                 <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">2 Attachment</h3>
                 <button class="text-[#349459] font-Satoshi500 text-[0.702rem]">Download All</button>
