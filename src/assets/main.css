@@ -500,6 +500,10 @@ input[type='checkbox'] {
     @apply sticky top-0 bg-white
   }
 
+  .widgetContainer .textarea {
+    @apply max-h-[160px]
+  }
+
   .inputField .textarea {
     @apply !max-h-[185px]
   }
@@ -518,11 +522,11 @@ input[type='checkbox'] {
 
   .scroller {
     scrollbar-width: thin !important;
-    scrollbar-color: #96c6cc #e6f1f3;
+    scrollbar-color: #2F929C #e6f1f3;
   }
   
   .scroller::-webkit-scrollbar-thumb {
-    background: #96c6cc;
+    background: #2F929C;
   }
   .scroller::-webkit-scrollbar-track {
     background: #e6f1f3;

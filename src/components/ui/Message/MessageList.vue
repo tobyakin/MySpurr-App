@@ -20,10 +20,19 @@ function truncate(str, no_words) {
         return str
     }
 }
+
+function getLastThreadItem(message) {
+      if (message && message.thread && message.thread.length > 0) {
+        return message.thread.length - 1;
+      }
+      return null;
+    }
+  
     
 
 </script>
 <template>
+  <div>
     <article id="message" class="p-[1.25rem] border-y border-[#F3F3F3] cursor-pointer" v-for="message in messageList" :key="message.senderID" :class="{active : message.clicked}" @click="showChatPane(message)">
       <div class="status flex items-center gap-[0.8rem] mb-[0.35rem]">
         <div>
@@ -32,7 +41,7 @@ function truncate(str, no_words) {
           <span v-if="message.status==='unread' " class="w-[0.40rem] h-[0.40rem] rounded-[50%] block bg-[#DA5252]"></span> 
         </div>
         <div class="flex items-center justify-between w-full">
-          <h3 class="userName font-Satoshi500 text-messageFont leading-[2rem] text-[0.75rem] capitalize">{{ message.name }}</h3>
+          <h3 class="userName font-Satoshi500 text-messageFont leading-[2rem] text-[0.75rem] capitalize">{{ message.thread[getLastThreadItem(message)]?.id }}</h3>
           <h3 class="text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 uppercase text-[0.6rem]">{{ message.date }}</h3>
         </div>
       </div>
@@ -49,6 +58,7 @@ function truncate(str, no_words) {
         </div>
       </div>
     </article>
+  </div>
 </template>
 
 <style scoped>

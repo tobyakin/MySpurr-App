@@ -384,7 +384,7 @@ const displayImage = computed(() => imageExists.value);
       </div>
       </div>
       
-      <!-- <ChatWidget v-if="showChatWidget" class="fixed bottom-0 right-[3rem] z-[99]"/> -->
+      <ChatWidget v-if="showChatWidget" class="fixed bottom-0 right-[3rem] z-[99]"/>
   </div>
 </template>
 

@@ -24,6 +24,8 @@ import { storeToRefs } from "pinia";
 
 const router = useRouter();
 
+
+
 let store = useStore();
 const accountType = computed(() => {
   return store.getUser.data.user.type;
@@ -77,6 +79,7 @@ const chatPane = ref();
 const inboxList = ref();
 const showNewMessage = ref(false)
 const userID = 0;
+
 const messages = ref([
   {
     senderID: 1,
@@ -111,6 +114,7 @@ const messages = ref([
     subject: "Product Designer Opportunities",
     description:
       "Hello, This is Jannat from HuntX. We offer business solution to our client..",
+   
     date: "jun 22",
     clicked: false,
     logo: "",
@@ -173,6 +177,28 @@ const messages = ref([
         from: "",
         attachment: ["details.pdf", "forms.pdf"],
       },
+      {
+        id: 4,
+        senderID: 1,
+        message: `Hello, Greeting from Uber. Hope you doing great. 
+        I am approaching to you for as our company need a great & talented account manager.
+        What we need from you to start:
+        - Your CV
+        - Verified Gov ID 
+        
+        Our Telegram @payoneer 
+        Thank you! lorem50
+        Hello, Greeting from Uber. Hope you doing great. 
+        I am approaching to you for as our company need a great & talented account manager.
+        What we need from you to start:
+        - Your CV
+        - Verified Gov ID 
+        
+        Our Telegram @payoneer 
+        Thank you!`,
+        from: "",
+        attachment: ["details.pdf", "forms.pdf"],
+      },
     ],
   },
   {
@@ -207,6 +233,7 @@ const messages = ref([
     subject: "delivery man",
     description:
       "Hello, Greeting from Uber. Hope you doing great. I am approcing to you for...",
+    attachment: ["details & Agreement.pdf"],
     date: "jun 22",
     clicked: false,
     timeStamp: "4:54AM (3 hours ago)",
@@ -219,11 +246,11 @@ const messages = ref([
         recieverID: 3,
         from: "",
         message: ``,
-        attachment: ["details & Agreement.pdf"],
       },
     ],
   },
 ]);
+
 const clickedMessage = ref();
 
 function assignClickedMessage() {
@@ -296,12 +323,12 @@ onMounted(async () => {
   <section class="message">
 
     <DashboardLayout>
-      <div
+      <!-- <div
         class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
       >
         <ComingSoon title="Messages" />
-      </div>
-      <!-- <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container h-[88vh] overflow-hidden">
+      </div> -->
+      <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container h-[88vh] overflow-hidden">
         <div class="mt-[0.47rem] flex gap-[34.16px] h-full overflow-hidden">
           <div id="inboxList" class="w-[50%] msgTab:mx-auto msgTab:w-[75%] msgMob:w-full h-full" ref="inboxList">
             <div class="w-full flex items-center justify-between msgTab:justify-center h-[10%]">
@@ -337,7 +364,7 @@ onMounted(async () => {
                   <MessageChatPane :chat="clickedMessage" @reply="handleReply"/>
                 </div>
                 <div class="inputField sticky bottom-[2rem] bg-white min-h-[230px] max-h-[350px]" v-if="replyMessage">
-                  <MessageInputField notShow="false" showSubject="false" class="h-full min-h-[inherit] max-h-[inherit]"/>
+                  <MessageInputField notShow="false" showSubject="false" class="h-full min-h-[inherit] max-h-[inherit]" :chat="clickedMessage"/>
                 </div>
               </div>
               <div id="newMessage" class="h-[100%]" v-else>
@@ -346,29 +373,11 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-      </section> -->
+      </section>
     </DashboardLayout>
   </section>
 </template>
 
 <style scoped>
-.scroller {
-  scrollbar-width: thin;
-  scrollbar-color: #96c6cc #e6f1f3;
-}
 
-.scroller::-webkit-scrollbar-thumb {
-  background: #96c6cc;
-}
-.scroller::-webkit-scrollbar-track {
-  background: #e6f1f3;
-}
-.scroller::-webkit-scrollbar {
-  max-width: 10px;
-  max-height: 10px;
-}
-
-.scroller::webkit-scrollbar-button {
-  display: none;
-}
 </style>
