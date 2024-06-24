@@ -20,13 +20,23 @@ import ComingSoon from "@/components/ui/ComingSoon/ComingSoon.vue";
 import { useTabStore } from "@/stores/tab";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
+import { useMessageStore } from "@/stores/message";
 import { storeToRefs } from "pinia";
 
-const router = useRouter();
-
-
-
 let store = useStore();
+const router = useRouter();
+const conversationList = ref([])
+let profile = useUserProfile();
+let receiverId = "211950a8-c8bd-4f12-9b92-db142c85ddd4";
+let message = ref("");
+const userDetails = computed(() => {
+  return profile.user.data;
+});
+
+const messageStore = useMessageStore();
+const { chats } = storeToRefs(messageStore)
+const userEmail = "abdultawabsalawudeen@gmail.com"
+console.log(chats)
 const accountType = computed(() => {
   return store.getUser.data.user.type;
 });
@@ -35,15 +45,246 @@ onMounted(() => {
 });
 
 const profileStore = useUserProfile();
-
 const tabStore = useTabStore();
 const { isLoading } = storeToRefs(tabStore);
-
 const isOnBoarded = computed(() => profileStore.user);
+const data = ref({
+  name: '',
+  company: '',
+  image: '',
+})
 
-onMounted(() => {
-  return accountType;
-});
+onMounted(async()=>{
+  await messageStore.getConversationList(userEmail)
+  conversationList.value = await messageStore.getConversationList(userEmail, accountType.value)
+})
+
+function handleConversationList(){
+  console.log(conversationList)
+  return conversationList 
+}
+
+handleConversationList()
+console.log(conversationList)
+
+
+// const sentMessages = ref([
+// {
+//   "sender_id": "abdultawabsalawudeen@gmail.com",
+//   "to": "abdultawabdeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "abdultawabsalawudeen@gmail.com",
+//   "to": "abdultawabdeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "abdultawabsalawudeen@gmail.com",
+//   "to": "opeydeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "abdultawabsalawudeen@gmail.com",
+//   "to": "opeydeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "abdultawabsalawudeen@gmail.com",
+//   "to": "opeydeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "abdultawabsalawudeen@gmail.com",
+//   "to": "opeysaint@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// ])
+
+// const receivedMessages = ref([
+// {
+//   "sender_id": "abdultawabdeen@gmail.com",
+//   "to": "abdultawabsalawudeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "abdultawabdeen@gmail.com",
+//   "to": "abdultawabsalawudeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "opeydeen@gmail.com",
+//   "to": "abdultawabsalawudeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "opeydeen@gmail.com",
+//   "to": "abdultawabsalawudeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "opeydeen@gmail.com",
+//   "to": "abdultawabsalawudeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "opeysaint@gmail.com",
+//   "to": "abdultawabsalawudeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// {
+//   "sender_id": "lagbaja@gmail.com",
+//   "to": "abdultawabsalawudeen@gmail.com",
+//   "subject": "Apply for job",
+//   "body": "I am applying for the role of a frontend developer.",
+//   "cc": "",
+//   "bcc": "",
+//   "attachments": [
+//       {
+//           "file": ""
+//       }
+//   ]
+// },
+// ])        
+
+// console.log(sentMessages, receivedMessages)
+ 
+
+
+
+// const conversations = groupMessagesByConversation(sentMessages, receivedMessages);
+
+// console.log(conversations);
+
+
+
+// const convertedMess = conversations.map((conversation, index)=>{
+//   return {
+//     id: index + 1,
+//     userId: userEmail,
+//     recieverID: conversation?.participants.find(email=>email !== userEmail) || '',
+//     ...conversation
+//   }
+// })
+
+// console.log(convertedMess)
+
+// onMounted( async()=>{
+//  try {
+//   console.log(userDetails.value)
+//   let grouped;
+//   if(accountType.value === "talent"){
+//     grouped = await getConversationList('talent', userEmail)
+//   } else if(accountType.value === "business"){
+//     grouped = await getConversationList('business', userEmail)
+//   }
+
+//   console.log('yes')
+//   conversationList.value = transformMessages(grouped, data.value)
+//   console.log(conversationList.value)
+  
+//  } catch (error) {
+  
+//  }
+ 
+// })
+
 onMounted(async () => {
   try {
     await profileStore.userProfile();
@@ -52,6 +293,7 @@ onMounted(async () => {
       !isOnBoarded.value.business_details &&
       !isOnBoarded.value.work_details
     ) {
+      console.log('yes')
       if (accountType.value === "talent") {
         router.push({ name: "talent-onboarding" });
       } else if (accountType.value === "business") {
@@ -66,19 +308,49 @@ onMounted(async () => {
 });
 
 import CircleFileIcon from "../../components/icons/circleFileIcon.vue";
-let profile = useUserProfile();
 
-let receiverId = "211950a8-c8bd-4f12-9b92-db142c85ddd4";
-let message = ref("");
-const userDetails = computed(() => {
-  return profile.user.data;
-});
+
+
 const replyMessage = ref(false);
 
 const chatPane = ref();
 const inboxList = ref();
 const showNewMessage = ref(false)
 const userID = 0;
+
+
+// const connectSocket = async () => {
+//   try {
+//     await store.connectSocket(receiverId);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+const sendMessage = async () => {
+  let payload = {
+    sender_id: userDetails.value.uniqueId,
+    receiver_id: receiverId,
+    message: message.value,
+  };
+  try {
+    await store.sendSocketMessage(receiverId, payload);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(() => {
+  return profile.userProfile();
+});
+onMounted(async () => {
+  // await store.connectSocket(receiverId);
+});
+onMounted(async () => {
+  await profile.userProfile();
+});
+
+
 
 const messages = ref([
   {
@@ -281,42 +553,12 @@ function showChatPane(clickedMessage) {
 function handleReply(chat) {
   console.log(chat);
   replyMessage.value = true;
+  console.log(userDetails.value.email)
 }
 
 function handleNewMessage(){
   showNewMessage.value = true
 }
-
-// const connectSocket = async () => {
-//   try {
-//     await store.connectSocket(receiverId);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-const sendMessage = async () => {
-  let payload = {
-    sender_id: userDetails.value.uniqueId,
-    receiver_id: receiverId,
-    message: message.value,
-  };
-  try {
-    await store.sendSocketMessage(receiverId, payload);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-onMounted(() => {
-  return profile.userProfile();
-});
-onMounted(async () => {
-  // await store.connectSocket(receiverId);
-});
-onMounted(async () => {
-  await profile.userProfile();
-});
 </script>
 
 <template>
@@ -344,7 +586,7 @@ onMounted(async () => {
                 <MessageFilter />
               </div>
               <div id="messagesContainer" class=" overflow-y-auto scroller pb-4 flex-1">
-                <MessageList :messageList="messages" @click="showChatPane"/>
+                <MessageList :messageList="chats" @click="showChatPane"/>
               </div>
             </div>
           </div>
@@ -362,6 +604,7 @@ onMounted(async () => {
               <div class="h-full" v-if="!showNewMessage">
                 <div class="h-[100%]">
                   <MessageChatPane :chat="clickedMessage" @reply="handleReply"/>
+                  {{ chats }}
                 </div>
                 <div class="inputField sticky bottom-[2rem] bg-white min-h-[230px] max-h-[350px]" v-if="replyMessage">
                   <MessageInputField notShow="false" showSubject="false" class="h-full min-h-[inherit] max-h-[inherit]" :chat="clickedMessage"/>

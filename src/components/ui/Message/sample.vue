@@ -1,73 +1,239 @@
 const messages = ref([
   {
     id: 1,
-    recieverID: 0;
+    to: '';
     name: "jenny rio",
     clicked: false,
     logo: "",
-    mail: "google@inquiry.com",
+    from: "google@inquiry.com",
     company: "Google",
     thread: [
-      {
-        id: 01,
-        subject: "Work inquiry from google",
-        senderID: user_id,
-        message: ``,
-        to: "",
-        cc: "",
-        bcc: "",
-        attachment: [{
-          fileName: "details.pdf",
-          size: '2kb'
-        }],
-        status: "primary",
-        date: "",
-        timeStamp: "",
-      },
+    {
+      "sender_id": "1",
+      "to": "abdultawabsalawudeen@gmail.com",
+      "subject": "Apply for job",
+      "body": "I am applying for the role of a frontend developer.",
+      "cc": "",
+      "bcc": "",
+      "attachments": [
+          {
+              "file": ""
+          }
+      ]
+  }
     ],
   },
   {
     id: 2,
-    recieverID: 010;
+    to: ''
     name: "janat firdaus",
     clicked: false,
     logo: "",
     mail: "holmes@inquiry.com",
     company: "Holmes",
     thread: [
+    {
+      "sender_id": "1",
+      "to": "abdultawabsalawudeen@gmail.com",
+      "subject": "Apply for job",
+      "body": "I am applying for the role of a frontend developer.",
+      "cc": "",
+      "bcc": "",
+      "attachments": [
+          {
+              "file": ""
+          }
+      ]
+  }
       {
-        id: 21,
-        subject: "Work inquiry from google",
-        senderID: 010,
-        message: ``,
-        to: "",
-        cc: "",
-        bcc: "",
-        attachment: [{
-          fileName: "details.pdf",
-          size: '2kb'
-        }],
-        status: "primary",
-        date: "",
-        timeStamp: "",
-      },
-      {
-        id: 22,
-        subject: "Work inquiry from google",
-        senderID: user_id,
-        message: ``,
-        to: "",
-        cc: "",
-        bcc: "",
-        attachment: [{
-          fileName: "details.pdf",
-          size: '2kb'
-        }],
-        status: "read",
-        date: "",
-        timeStamp: "",
-      },
+        "sender_id": "1",
+        "to": "abdultawabsalawudeen@gmail.com",
+        "subject": "Apply for job",
+        "body": "I am applying for the role of a frontend developer.",
+        "cc": "",
+        "bcc": "",
+        "attachments": [
+            {
+                "file": ""
+            }
+        ]
+    }
     ],
   },
   
 ])
+
+sentMessages = [
+{
+  "sender_id": "abdultawabsalawudeen@gmail.com",
+  "to": "abdultawabdeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "abdultawabsalawudeen@gmail.com",
+  "to": "abdultawabdeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "abdultawabsalawudeen@gmail.com",
+  "to": "opeydeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "abdultawabsalawudeen@gmail.com",
+  "to": "opeydeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "abdultawabsalawudeen@gmail.com",
+  "to": "opeydeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "abdultawabsalawudeen@gmail.com",
+  "to": "opeysaint@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+]
+
+receivedMessages = [
+{
+  "sender_id": "abdultawabdeen@gmail.com",
+  "to": "abdultawabsalawudeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "abdultawabdeen@gmail.com",
+  "to": "abdultawabsalawudeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "opeydeen@gmail.com",
+  "to": "abdultawabsalawudeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "opeydeen@gmail.com",
+  "to": "abdultawabsalawudeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "opeydeen@gmail.com",
+  "to": "abdultawabsalawudeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "opeysaint@gmail.com",
+  "to": "abdultawabsalawudeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+{
+  "sender_id": "lagbaja@gmail.com",
+  "to": "abdultawabsalawudeen@gmail.com",
+  "subject": "Apply for job",
+  "body": "I am applying for the role of a frontend developer.",
+  "cc": "",
+  "bcc": "",
+  "attachments": [
+      {
+          "file": ""
+      }
+  ]
+},
+]

@@ -51,52 +51,10 @@ export const getTalentSentMessages = async () => {
     }
 }
 
-export const getSentTalentMessageDetail = async () => {
-    try {
-        let res = await axios.get(`v1/message/detail/talent/1`, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return res.data
-    } catch (error) {
-        catchAxiosError(error)
-        throw error
-    }
-}
-
-export const getTalentRecievedMessages = async () =>{
-    try {
-        let res = await axios.get(`v1/message/received/talent`, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return res.data
-    } catch (error) {
-        catchAxiosError(error)
-        throw error
-    }
-}
-
-export const getTalentRecievedMessageDetail = async () =>{
-    try {
-        let res = await axios.get(`v1/message/detail/received/talent/4`, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        return res.data
-    } catch (error) {
-        catchAxiosError(error)
-        throw error
-    }
-}
-
-export const getSentBusinessMessages = async () => {
+export const getSentTalentMessageDetail = async (message_id) => {
     const token = await getToken()
     try {
-        let res = await axios.get(`v1/message/sent/business`, {
+        let res = await axios.get(`v1/message/detail/talent/${message_id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token
@@ -109,9 +67,93 @@ export const getSentBusinessMessages = async () => {
     }
 }
 
-export const getBusinessRecievedMessageDetail = async () =>{
+export const getTalentReceivedMessages = async () =>{
+    const token = await getToken()
     try {
-        let res = await axios.get(`v1/message/detail/business/1`, {
+        let res = await axios.get(`v1/message/received/talent`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token
+            }
+        })
+        return res.data
+    } catch (error) {
+        catchAxiosError(error)
+        throw error
+    }
+}
+
+export const getTalentReceivedMessageDetail = async (message_id) =>{
+    const token = await getToken()
+    try {
+        let res = await axios.get(`v1/message/detail/received/talent/${message_id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token
+            }
+        })
+        return res.data
+    } catch (error) {
+        catchAxiosError(error)
+        throw error
+    }
+}
+
+export const getBusinessSentMessages = async () => {
+    const token = await getToken()
+    try {
+        let res = await axios.get(`v1/message/sent/business`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token
+            }
+        })
+        catchAxiosSuccess(res)
+        return res.data
+    } catch (error) {
+        catchAxiosError(error)
+        throw error
+    }
+}
+
+export const getBusinessSentMessageDetail = async (message_id) => {
+    const token = await getToken()
+    try {
+        let res = await axios.get(`v1/message/detail/business/${message_id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token
+            }
+        })
+        return res.data
+    } catch (error) {
+        catchAxiosError(error)
+        throw error
+    }
+}
+
+
+export const getBusinessReceivedMessages = async () => {
+    const token = await getToken()
+    try {
+        let res = await axios.get(`v1/message/received/business`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token
+            }
+        })
+        return res.data
+    } catch (error) {
+        catchAxiosError(error)
+        throw error
+    }
+}
+
+
+
+export const getBusinessReceivedMessageDetail = async (message_id) =>{
+    try {
+        let res = await axios.get(`v1/message/detail/business/${message_id}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
