@@ -52,6 +52,9 @@ module.exports = {
         'msgBreak': {'max': '1134px'},
         'msgTab': {'max': '800px'},
         'msgMob': {'max': '576px'},
+        'dashBreak': {'max': '1240px'},
+        'eventBreak': {'max': '1024px'},
+        'eventBreak1': {'max': '1250px'},
       },
       boxShadow: {
         '3xl': '2px 2px 1px 2px rgba(0, 0, 0, 0.25)'
