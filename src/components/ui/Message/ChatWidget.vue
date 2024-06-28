@@ -117,6 +117,28 @@
         from: "",
         attachment: ["details.pdf", "forms.pdf"],
       },
+      {
+        id: 1,
+        senderID: 1,
+        message: `Hello, Greeting from Uber. Hope you doing great. 
+        I am approaching to you for as our company need a great & talented account manager.
+        What we need from you to start:
+        - Your CV
+        - Verified Gov ID 
+        
+        Our Telegram @payoneer 
+        Thank you! lorem50
+        Hello, Greeting from Uber. Hope you doing great. 
+        I am approaching to you for as our company need a great & talented account manager.
+        What we need from you to start:
+        - Your CV
+        - Verified Gov ID 
+        
+        Our Telegram @payoneer 
+        Thank you!`,
+        from: "",
+        attachment: ["details.pdf", "forms.pdf"],
+      },
     ],
   },
   {
@@ -240,7 +262,7 @@
   </script>
   
   <template>
-      <section class="w-[18rem] h-[30rem] rounded-t-[1.003rem] bg-[#fff] pt-4 section transitionItem" :class="{widgetClosed: closeWidget}">
+      <section class="w-[18rem] h-[25rem] rounded-t-[1.003rem] bg-[#fff] shadow-3xl pt-4 section transitionItem" :class="{widgetClosed: closeWidget}">
           <div class="flex flex-col h-full" v-if="showChatList">
               <div class="">
                   <div class=" show px-[1.44rem] flexBasic">
@@ -281,15 +303,19 @@
                   <sendIcon class="!text-brand" @click="handleSend"/>
               </div>
           </div>
-          <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 border border-red-600 grid place-items-center" v-if="newMessage" @click.self="closeWindow">
-            <div class="messageWindow w-[50%] rounded-[0.5rem] bg-white h-[90%] transitionItem">
-                <NewMessage />
+          <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid place-items-center" v-if="newMessage" @click.self="closeWindow">
+            <div class="messageWindow w-[50%] rounded-[0.5rem] bg-white h-[90%] transitionItem overflow-hidden">
+                <NewMessage class="h-full" :chat="clickedMessage"/>
             </div>
           </section>
       </section>
   </template>
   
   <style scoped>
+  
+  .section {
+    box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px, rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
+} 
     .textarea[contenteditable]:empty::before {
     content: "Enter new message";
     color: gray;

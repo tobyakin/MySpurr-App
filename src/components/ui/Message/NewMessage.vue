@@ -18,7 +18,7 @@
             <hr class="border-[#EEEEEE] border-1">
         </article>
         <div class=" flex flex-col h-auto overflow-y-auto flex-1">
-            <MessageInputField class="mt-[1.66rem] flex-1" notShow="true" showSubject="true"/>
+            <MessageInputField class="mt-[1.66rem] flex-1" notShow="true" showSubject="true" :chat="chat"/>
             <div class="attachment px-[1.66rem] mt-[1.66rem] basis-[30%]">
                 <div class="flexBasic">
                 <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">2 Attachment</h3>
@@ -39,8 +39,10 @@
 </template>
 
 <script setup>
+
     import circleFileIcon from '@/components/icons/circleFileIcon.vue';
     import MessageInputField from '@/components/ui/Message/MessageInputField.vue';
+    const props = defineProps(['chat'])
 </script>
 
 

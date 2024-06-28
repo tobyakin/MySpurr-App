@@ -31,7 +31,7 @@ export const useStore = defineStore('user', () => {
         return ['JOB_LISTING', 'MY_SCHEDULE', 'ALL_APPLICATIONS']
       }
        else if (accountLowerCase === 'talent') {
-         return ['JOBS', 'MY_APPLICATIONS', 'GO_PRO', 'COURSES', 'MESSAGES']
+         return ['JOBS', 'MY_APPLICATIONS', 'GO_PRO', 'COURSES', 'MESSAGES', 'EVENTS']
        }
     }
     return null

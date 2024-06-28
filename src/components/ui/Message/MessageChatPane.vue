@@ -30,8 +30,8 @@ function switchTab(){
                 <div class="flexBasic gap-4">
                     <arrowLeft @click="switchTab"/>
                     <div>
-                        <h3 class="company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{ chat.company }}</h3>
-                        <p class="mail text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{ chat.mail }}</p>
+                        <h3 class="company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{ }}</h3>
+                        <p class="mail text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{ }}</p>
                     </div>
                 </div>
                 <DropDownArror @click="handleWidgetClose" class="!text-[#6C8285] arrow"/>
@@ -41,12 +41,13 @@ function switchTab(){
                 <img src="@/assets/image/logo.png" alt="" class="w-full h-full object-cover">
                 </div>
                 <div>
-                <h3 class="company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{ chat.company }}</h3>
-                <p class="mail text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{ chat.mail }}</p>
+                <h3 class="company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{  }}</h3>
+                <p class="mail text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{ }}</p>
                 </div>
+                
             </div>
             <div class="timeStamp msgTab:hidden">
-                <h3 class="font-Satoshi400 text-right leading-[1.204rem] text-[#24403499] text-[0.65rem]">{{ chat.timeStamp }}</h3>
+                <h3 class="font-Satoshi400 text-right leading-[1.204rem] text-[#24403499] text-[0.65rem]">{{  }}</h3>
                 <div class="icons flex items-center justify-end gap-4 mt-[0.6rem]">
                 <DeleteIcon class="cursor-pointer"/>
                 <ReplyIcon class="cursor-pointer opacity-[0.5]" @click="handleReply(chat)"/>
@@ -58,18 +59,18 @@ function switchTab(){
         <div class="pt-[1.16rem] px-[1.66rem] h-[80%] overflow-y-auto hide-scrollbar">
             <div class="mb-4" v-for="message in chat?.thread" :key="message.senderID">
             <div class="chatPage">
-                <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat.subject }}</h3>
-                <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden" :class="message.senderID === userID? 'text-right': 'text-left' ">{{ chat.name }}</h3>
+                <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{  }}</h3>
+                <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden" :class="message.senderID === userID? 'text-right': 'text-left' ">{{  }}</h3>
                 <div>
                     <div class="message text-[#000000bf] font-Satoshi400 leading-[1.405rem] text-[0.75rem] !mb-[1.3rem]">
-                        {{ message.message }}
+                        {{ chat }}
                     </div>
                 </div>
             </div>
-            <div class="mb-4" v-if="message.attachment.length > 0">
+            <div class="mb-4" v-if="y">
                 <hr class="border-[#EEEEEE] border-1 my-[1.1rem]">
                 <div class="flexBasic atachmentHead">
-                    <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ message.attachment.length }} Attachment</h3>
+                    <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{  }} Attachment</h3>
                     <button class="text-[#349459] font-Satoshi500 text-[0.702rem]">Download All</button>
                 </div>
                 <div class="filesContainer mt-4 flex gap-[1.1rem]">
