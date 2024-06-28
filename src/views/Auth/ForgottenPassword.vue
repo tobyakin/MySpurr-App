@@ -91,7 +91,7 @@ const onFinish = async () => {
 </script>
 
 <template>
-  <layout :showLandingUrl="false" class="bg-[#00474F]">
+  <layout :showLandingUrl="false" class="bg-[#064D4F]">
     <div
       class="justify-center w-[80%] mx-auto md:bg-white rounded-[11.315px] p-2 my-8 lg:p-8"
     >
