@@ -300,6 +300,24 @@ const selectHighlightedOption = () => {
 </script>
 
 <template>
+  <div class="w-full md:w-[350px] h-auto bg-[#007582] rounded-xl px-5 py-3 flex justify-between items-center mb-3 sticky top-1 z-10 lg:hidden md:hidden">
+    <div>
+      <h3 class=" text-[24px] font-medium text-white pb-[5px]">
+        Need Help?
+      </h3>
+      <p class="text-white text-sm">Contact support</p>
+    </div>
+    <div class="flex gap-3">
+      <div>
+        <img src="../../../../assets/aa.svg" alt="">
+      </div>
+      <div>
+        <a href="tel:08166813812">
+          <img src="../../../../assets/a.svg" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
   <div class="flex justify-center">
     <div class="lg:w-[60%] animate__animated animate__fadeIn relative">
       <div class="flex gap-[150px] justify-center items-center">
