@@ -7,6 +7,8 @@ import OTPPage from '@/views/Auth/OTPPage.vue'
 import ForgottenPassword from '../views/Auth/ForgottenPassword.vue'
 import ResetPassword from '../views/Auth/ResetPassword.vue'
 import HomeView from '../views/HomeView.vue'
+import EventsPage from '../views/Events/EventsPage.vue';
+import EventDetailPage from '../views/Events/EventDetailPage.vue';
 import JobsView from '../views/Jobs/JobsPage.vue'
 import ViewJob from '../views/Jobs/ViewJobPage.vue'
 import CoursesView from '../views/Courses/ComingSoon.vue'
@@ -113,6 +115,20 @@ const router = createRouter({
       path: '/job-lists',
       name: 'job-lists',
       component: JobListingPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+
+    {
+      path: '/events',
+      name: 'events',
+      component: EventsPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+
+    {
+      path: '/events/id',
+      name: 'event-detail',
+      component: EventDetailPage,
       beforeEnter: [middleware.redirectLogin]
     },
 

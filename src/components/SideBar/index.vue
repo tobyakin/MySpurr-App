@@ -146,6 +146,24 @@
         >
       </router-link>
       <router-link
+        v-if="feature.includes('EVENTS')"
+        to="/events"
+        class="p-[10px] flex justify-start hover:bg-brand/[0.1] rounded-[5px]"
+        :class="
+          route.name === 'events' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '
+        "
+      >
+        <div
+          :class="route.name === 'events' ? '!text-white ' : 'text-[#297F88] '"
+          class="mr-[20px] justify-center flex items-center rounded-[5px] h-[40px] w-[40px]"
+        >
+        <GoProIcon />
+        </div>
+        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
+          >Events</span
+        >
+      </router-link>
+      <router-link
         to="/dashboard"
         class="p-[10px] flex justify-start hidden hover:bg-brand/[0.1] rounded-[5px]"
         :class="route.name === '' ? 'text-white bg-[#43D0DF] hover:!bg-[#43D0DF]' : 'text-[#01272C] '"
