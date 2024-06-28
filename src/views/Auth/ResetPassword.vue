@@ -14,13 +14,17 @@ const getTokenFromURL = () => {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get("token") || "";
 };
-// Create a function to retrieve the email from local storage
-const getEmailFromLocalStorage = () => {
-  return localStorage.getItem("email") || "";
+const getEmailFromURL = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get("email") || "";
 };
+// Create a function to retrieve the email from local storage
+// const getEmailFromLocalStorage = () => {
+//   return localStorage.getItem("email") || "";
+// };
 const formState = reactive({
   token: getTokenFromURL(), // Get the token value from the URL
-  email: getEmailFromLocalStorage(), // Get the email value from local storage
+  email: getEmailFromURL(), // Get the email value from local storage
   password: "",
   confirmPassword: "",
 });
@@ -112,7 +116,7 @@ const onFinish = async () => {
         >
           Reset your password
         </h1>
-
+        
         <div class="flex flex-col gap-4">
           <div>
             <PasswordInput
