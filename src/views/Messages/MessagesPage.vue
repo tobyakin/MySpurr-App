@@ -5,6 +5,7 @@ import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import MessageList from "@/components/ui/Message/MessageList.vue";
 import MessageChatPane from "@/components/ui/Message/MessageChatPane.vue";
 import MessageFilter from "@/components/ui/Message/MessageFilter.vue"
+import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import NewMessage from "@/components/ui/Message/NewMessage.vue";
 
 import arrowRight from "@/components/icons/arrowRightAlt.vue";
@@ -37,7 +38,9 @@ const userDetails = computed(() => {
 const messageStore = useMessageStore();
 const { sentMessages, receivedMessages, sentMessageDetail, receivedMessageDetails } = storeToRefs(messageStore)
 const messageLoading = ref(false)
-const allMessages = ref()
+const filterSection = ref('all')
+const displayedMessages = ref()
+let allMessages
 const userEmail = "abdultawabsalawudeen@gmail.com"
 // console.log(chats)
 const accountType = computed(() => {
@@ -76,22 +79,73 @@ const getSentMessages = async () =>{
   // console.log(sentMessages.value)
 }
 
+function filterAll(){
+  filterSection.value = 'all'
+  getAllMessages()
+  console.log(filterSection.value)
+}
+
+function filterPrimary(){
+  filterSection.value = 'primary'
+  getAllMessages()
+  console.log(filterSection.value)
+}
+
+function filterRead(){
+  filterSection.value = 'read'
+  getAllMessages()
+  console.log(filterSection.value)
+}
+
+function filterUnread(){
+  filterSection.value = 'unread'
+  getAllMessages()
+  console.log(filterSection.value)
+}
+  
+// getAllMessages to be optimised if combined sent and recieved messages no longer needed
 const getAllMessages = async ()=>{
+  const allChats = ref()
   if(accountType.value === "talent"){
+    messageLoading.value = true
     try {
       await messageStore.handleTalentSentMessages()
       await messageStore.handleTalentReceivedMessages()
+      messageLoading.value = false
     } catch (error) {
       console.log(error)
+      messageLoading.value = false
     }
   }else if(accountType.value === "business"){
-    await messageStore.handleBusinessSentMessages()
-    await messageStore.handleBusinessReceivedMessages()
+    messageLoading.value = true
+    try {
+      await messageStore.handleBusinessSentMessages()
+      await messageStore.handleBusinessReceivedMessages()
+      messageLoading.value = false
+    } catch (error) {
+      console.log(error)
+      messageLoading.value = false
+    }
   }
 
-  allMessages.value =computed(()=>{
+  if(filterSection.value === 'all'){
+    displayedMessages.value = receivedMessages.value.data
+  } else if(filterSection.value === 'read'){
+    displayedMessages.value = receivedMessages.value.data.filter(message=> message.attributes.status === 'read')
+  } else if(filterSection.value === 'unread'){
+    displayedMessages.value = receivedMessages.value.data.filter(message=> message.attributes.status === 'unread')
+  } else if (filterSection.value === 'primary'){
+    displayedMessages.value = sentMessages.value.data
+  }
+
+  console.log(filterSection.value, displayedMessages.value)
+
+  allMessages =computed(()=>{
     return [...sentMessages.value.data, ...receivedMessages.value.data]
   }) 
+
+  // console.log(allChats.value)
+  
   return allMessages.value
 }
 
@@ -256,10 +310,11 @@ function handleNewMessage(){
                   <h3 class="font-Satoshi500 text-[#000] text-[0.90313rem] leading-[1.50519rem]">Inbox</h3>
                   <MoreVertIcon class="rotate-90"/>
                 </div>
-                <MessageFilter />
+                <MessageFilter @all="filterAll" @read="filterRead" @unread="filterUnread" @primary="filterPrimary"/>
               </div>
               <div id="messagesContainer" class=" overflow-y-auto scroller pb-4 flex-1">
-                <MessageList :messageList="chats" @click="showChatPane"/>
+                <ShortLoader v-if="messageLoading"/>
+                <MessageList :messageList="displayedMessages" @click="" :filter="filterSection" v-else/>
               </div>
             </div>
           </div>
