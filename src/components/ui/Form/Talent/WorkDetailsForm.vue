@@ -300,288 +300,328 @@ const selectHighlightedOption = () => {
 </script>
 
 <template>
-  <div class="lg:w-[40%] animate__animated animate__fadeIn">
-    <div class="w-auto">
-      <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
-        Your work details
-      </h1>
-      <p
-        class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 !my-4 md:!mb-8"
-      >
-        Please provide details to your most recent work detail. You will have a chance to
-        add to this when your onboarding as been completed
-      </p>
-      <div
-        class="flex-col flex gap-6 pb-12"
-      >
-        <div
-          :class="errors.skill_title ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Skill title</label
-          >
-          <div class="relative">
-            <GlobalInput
-              v-model="skill_title"
-              @input="filterJobTitleOptions"
-              @keydown.down="highlightNextJobTitle"
-              @keydown.up="highlightPreviousJobTitle"
-              @keydown.enter="selectHighlightedJobTitleOption"
-              ref="searchInput"
-              inputClasses="bg-transparent !border-none"
-              placeholder="Graphics Designer"
-              type=""
-            />
-
-            <ul
-              v-if="showJobTitleDropdown"
-              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+  <div class="w-full md:w-[350px] h-auto bg-[#007582] rounded-xl px-5 py-3 flex justify-between items-center mb-3 sticky top-1 z-10 lg:hidden md:hidden">
+    <div>
+      <h3 class=" text-[24px] font-medium text-white pb-[5px]">
+        Need Help?
+      </h3>
+      <p class="text-white text-sm">Contact support</p>
+    </div>
+    <div class="flex gap-3">
+      <div>
+        <img src="../../../../assets/aa.svg" alt="">
+      </div>
+      <div>
+        <a href="tel:08166813812">
+          <img src="../../../../assets/a.svg" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-center">
+    <div class="lg:w-[60%] animate__animated animate__fadeIn relative">
+      <div class="flex gap-[150px] justify-center items-center">
+        <div>
+          <div class="w-auto">
+            <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
+              Your work details
+            </h1>
+            <p
+              class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 !my-4 md:!mb-8"
             >
-              <li
-                v-for="(option, index) in filteredOptionsJobTitle"
-                :key="option.id"
-                @click="selectJobTitleOptions(option)"
-                :class="{ highlighted: index === highlightedJobTitleIndex }"
-                class="hover:bg-brand hover:text-white"
-              >
-                {{ option.name }}
-              </li>
-            </ul>
-          </div>
-
-          <!-- <multiselect
-            v-model="skill_title"
-            :options="skillTitles"
-            placeholder="Ex. Graphics Designer"
-            @tag="addTag"
-            :searchable="true"
-            :close-on-select="false"
-            :show-labels="false"
-          >
-          </multiselect> -->
-        </div>
-        <div
-          :class="errors.overview ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Overview</label>
-          <textarea
-            v-model="overview"
-            rows="4"
-            class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
-            placeholder="Give a brief description about yourself"
-          />
-        </div>
-        <div
-          :class="errors.siso || errors.ciso ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] flex lg:flex-row flex-col items-center rounded-[5.897px] p-4 py-1.5 gap-3"
-        >
-          <div class="w-full">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
-            <div class="flex w-full items-center">
-              <a-select
-                placeholder="country or region"
-                :bordered="false"
-                :show-arrow="false"
-                class="w-full !px-0 border-2 rounded-md my-2"
-                show-search
-                v-model:value="selectedCountry"
-              >
-                <a-select-option disabled>country or region</a-select-option>
-                <a-select-option
-                  v-for="country in contriesCode?.data"
-                  :key="country.id"
-                  :value="country.name"
-                >
-                  {{ country.name }}
-                </a-select-option>
-              </a-select>
-            </div>
-          </div>
-          <!-- <a-divider class="lg:hidden md:hidden" style="height: 1px; background-color: #254035ab" />
-          <a-divider
-            class="lg:flex hidden"
-            style="height: 5vh; background-color: #254035ab"
-            type="vertical"
-          /> -->
-
-          <div class="w-full">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">State</label>
-            <div class="flex w-full items-center">
-              <span v-if="!states" class="p-2 px-2">loading..</span>
-              <a-select
-                v-else
-                placeholder="state or city"
-                :show-arrow="false"
-                :bordered="false"
-                class="w-full !px-0 border-2 rounded-md my-2"
-                show-search
-                v-model:value="selectedState"
-              >
-                <a-select-option disabled>state or city</a-select-option>
-                <a-select-option
-                  v-for="state in states?.data"
-                  :key="state.id"
-                  :value="state.name"
-                >
-                  {{ state.name }}
-                </a-select-option>
-              </a-select>
-            </div>
-          </div>
-        </div>
-
-        <div
-          :class="errors.top_skills ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Select your top 3 skills</label
-          >
-          <!-- <multiselect
-            v-model="top_skills"
-            :options="options"
-            :multiple="true"
-            :taggable="true"
-            :max="5"
-            placeholder=""
-            track-by="name"
-            label="name"
-            @tag="addTag"
-            :close-on-select="false"
-            :clear-on-select="false"
-            :preserve-search="true"
-            :preselect-first="false"
-          >
-          </multiselect> -->
-          <div>
-            <div class="selected-items p-2 gap-2">
+              Please provide details to your most recent work detail. You will have a chance to
+              add to this when your onboarding as been completed
+            </p>
+            <div
+              class="flex-col flex gap-6 pb-12"
+            >
               <div
-                v-for="(selectedItem, index) in top_skills"
-                :key="selectedItem.id"
-                class="selected-item bg-brand text-sm font-Satoshi400 p-[5px] text-white rounded-[5px]"
+                :class="errors.skill_title ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
               >
-                {{ selectedItem.name }}
-                <span
-                  @click="removeSelectedItem(index)"
-                  class="remove-btn text-black hover:text-white"
-                  >x</span
+                <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+                  >Skill title</label
                 >
+                <div class="relative">
+                  <GlobalInput
+                    v-model="skill_title"
+                    @input="filterJobTitleOptions"
+                    @keydown.down="highlightNextJobTitle"
+                    @keydown.up="highlightPreviousJobTitle"
+                    @keydown.enter="selectHighlightedJobTitleOption"
+                    ref="searchInput"
+                    inputClasses="bg-transparent !border-none"
+                    placeholder="Graphics Designer"
+                    type=""
+                  />
+
+                  <ul
+                    v-if="showJobTitleDropdown"
+                    class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+                  >
+                    <li
+                      v-for="(option, index) in filteredOptionsJobTitle"
+                      :key="option.id"
+                      @click="selectJobTitleOptions(option)"
+                      :class="{ highlighted: index === highlightedJobTitleIndex }"
+                      class="hover:bg-brand hover:text-white"
+                    >
+                      {{ option.name }}
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- <multiselect
+                  v-model="skill_title"
+                  :options="skillTitles"
+                  placeholder="Ex. Graphics Designer"
+                  @tag="addTag"
+                  :searchable="true"
+                  :close-on-select="false"
+                  :show-labels="false"
+                >
+                </multiselect> -->
+              </div>
+              <div
+                :class="errors.overview ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+              >
+                <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Overview</label>
+                <textarea
+                  v-model="overview"
+                  rows="4"
+                  class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
+                  placeholder="Give a brief description about yourself"
+                />
+              </div>
+              <div
+                :class="errors.siso || errors.ciso ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+                class="border-[0.737px] flex lg:flex-row flex-col items-center rounded-[5.897px] p-4 py-1.5 gap-3"
+              >
+                <div class="w-full">
+                  <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
+                  <div class="flex w-full items-center">
+                    <a-select
+                      placeholder="country or region"
+                      :bordered="false"
+                      :show-arrow="false"
+                      class="w-full !px-0 border-2 rounded-md my-2"
+                      show-search
+                      v-model:value="selectedCountry"
+                    >
+                      <a-select-option disabled>country or region</a-select-option>
+                      <a-select-option
+                        v-for="country in contriesCode?.data"
+                        :key="country.id"
+                        :value="country.name"
+                      >
+                        {{ country.name }}
+                      </a-select-option>
+                    </a-select>
+                  </div>
+                </div>
+                <!-- <a-divider class="lg:hidden md:hidden" style="height: 1px; background-color: #254035ab" />
+                <a-divider
+                  class="lg:flex hidden"
+                  style="height: 5vh; background-color: #254035ab"
+                  type="vertical"
+                /> -->
+
+                <div class="w-full">
+                  <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">State</label>
+                  <div class="flex w-full items-center">
+                    <span v-if="!states" class="p-2 px-2">loading..</span>
+                    <a-select
+                      v-else
+                      placeholder="state or city"
+                      :show-arrow="false"
+                      :bordered="false"
+                      class="w-full !px-0 border-2 rounded-md my-2"
+                      show-search
+                      v-model:value="selectedState"
+                    >
+                      <a-select-option disabled>state or city</a-select-option>
+                      <a-select-option
+                        v-for="state in states?.data"
+                        :key="state.id"
+                        :value="state.name"
+                      >
+                        {{ state.name }}
+                      </a-select-option>
+                    </a-select>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                :class="errors.top_skills ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+              >
+                <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+                  >Select your top 3 skills</label
+                >
+                <!-- <multiselect
+                  v-model="top_skills"
+                  :options="options"
+                  :multiple="true"
+                  :taggable="true"
+                  :max="5"
+                  placeholder=""
+                  track-by="name"
+                  label="name"
+                  @tag="addTag"
+                  :close-on-select="false"
+                  :clear-on-select="false"
+                  :preserve-search="true"
+                  :preselect-first="false"
+                >
+                </multiselect> -->
+                <div>
+                  <div class="selected-items p-2 gap-2">
+                    <div
+                      v-for="(selectedItem, index) in top_skills"
+                      :key="selectedItem.id"
+                      class="selected-item bg-brand text-sm font-Satoshi400 p-[5px] text-white rounded-[5px]"
+                    >
+                      {{ selectedItem.name }}
+                      <span
+                        @click="removeSelectedItem(index)"
+                        class="remove-btn text-black hover:text-white"
+                        >x</span
+                      >
+                    </div>
+                  </div>
+                  <div>
+                    <GlobalInput
+                      v-if="shouldDisplayInput"
+                      v-model="search"
+                      @input="filterOptions"
+                      @keydown.down="highlightNext"
+                      @keydown.up="highlightPrevious"
+                      @keydown.enter="selectHighlightedOption"
+                      ref="searchInput"
+                      inputClasses="bg-transparent !border-none"
+                      :placeholder="placeholderText"
+                      type="text"
+                    />
+
+                    <!-- <input
+                    v-model="search"
+                    @input="filterOptions"
+                    @keydown.down="highlightNext"
+                    @keydown.up="highlightPrevious"
+                    @keydown.enter="selectHighlightedOption"
+                    ref="searchInput"
+                    placeholder="Type to add or select..."
+                  /> -->
+                    <ul
+                      v-if="showDropdown"
+                      class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+                    >
+                      <li
+                        v-for="(option, index) in filteredOptions"
+                        :key="option.id"
+                        @click="selectOption(option)"
+                        :class="{ highlighted: index === highlightedIndex }"
+                        class="hover:bg-brand hover:text-white"
+                      >
+                        {{ option.name }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div
+                :class="errors.highest_education ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+              >
+                <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+                  >What is your highest level of education?</label
+                >
+                <SelectGroup
+                  v-model="highest_education"
+                  DropdownItem="level of education"
+                  placeholder=""
+                  :items="educationLevel"
+                  name=""
+                  class="w-full flex border-none"
+                />
+              </div>
+              <div
+                :class="errors.employment_type ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+              >
+                <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+                  >Employment type
+                </label>
+                <SelectGroup
+                  v-model="employment_type"
+                  DropdownItem=""
+                  :items="employmentType"
+                  placeholder="Employment type"
+                  name=""
+                  class="bg-transparent border-none"
+                />
+              </div>
+              <div
+                :class="errors.availability ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+              >
+                <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+                  >Availability
+                </label>
+                <SelectGroup
+                  v-model="availability"
+                  DropdownItem=""
+                  :items="availabilityData"
+                  placeholder="Availability"
+                  name=""
+                  class="bg-transparent border-none"
+                />
+              </div>
+              <div
+                :class="errors.rate ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+              >
+                <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+                  >Rate /hr ($)</label
+                >
+                <GlobalInput
+                  v-model="rate"
+                  inputClasses="bg-transparent border-none"
+                  placeholder="$100"
+                  type="number"
+                />
               </div>
             </div>
-            <div>
-              <GlobalInput
-                v-if="shouldDisplayInput"
-                v-model="search"
-                @input="filterOptions"
-                @keydown.down="highlightNext"
-                @keydown.up="highlightPrevious"
-                @keydown.enter="selectHighlightedOption"
-                ref="searchInput"
-                inputClasses="bg-transparent !border-none"
-                :placeholder="placeholderText"
-                type="text"
-              />
-
-              <!-- <input
-              v-model="search"
-              @input="filterOptions"
-              @keydown.down="highlightNext"
-              @keydown.up="highlightPrevious"
-              @keydown.enter="selectHighlightedOption"
-              ref="searchInput"
-              placeholder="Type to add or select..."
-            /> -->
-              <ul
-                v-if="showDropdown"
-                class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
-              >
-                <li
-                  v-for="(option, index) in filteredOptions"
-                  :key="option.id"
-                  @click="selectOption(option)"
-                  :class="{ highlighted: index === highlightedIndex }"
-                  class="hover:bg-brand hover:text-white"
-                >
-                  {{ option.name }}
-                </li>
-              </ul>
-            </div>
           </div>
-        </div>
-        <div
-          :class="errors.highest_education ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >What is your highest level of education?</label
-          >
-          <SelectGroup
-            v-model="highest_education"
-            DropdownItem="level of education"
-            placeholder=""
-            :items="educationLevel"
-            name=""
-            class="w-full flex border-none"
-          />
-        </div>
-        <div
-          :class="errors.employment_type ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Employment type
-          </label>
-          <SelectGroup
-            v-model="employment_type"
-            DropdownItem=""
-            :items="employmentType"
-            placeholder="Employment type"
-            name=""
-            class="bg-transparent border-none"
-          />
-        </div>
-        <div
-          :class="errors.availability ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Availability
-          </label>
-          <SelectGroup
-            v-model="availability"
-            DropdownItem=""
-            :items="availabilityData"
-            placeholder="Availability"
-            name=""
-            class="bg-transparent border-none"
-          />
-        </div>
-        <div
-          :class="errors.rate ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Rate /hr ($)</label
-          >
-          <GlobalInput
-            v-model="rate"
-            inputClasses="bg-transparent border-none"
-            placeholder="$100"
-            type="number"
-          />
+          <div class="flex flex-row gap-5 pb-8 mt-5">
+            <button
+              @click="next"
+              :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
+              class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="flex flex-row gap-5 pb-8 mt-5">
-      <button
-        @click="next"
-        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-        class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
-      >
-        Next
-      </button>
+    <div class="hidden md:block w-[200px] h-[200px] bg-[#007582] rounded-xl px-5 py-3 absolute right-44 bottom-32">
+      <h3 class=" text-[35px] font-medium text-white pb-[5px]">
+        Need <br>Help?
+      </h3>
+      <p class="pb-[19px] text-white text-lg">Contact support</p>
+      <div class="flex justify-end gap-2">
+        <div>
+          <img src="../../../../assets/aa.svg" alt="">
+        </div>
+        <div>
+          <a href="tel:08166813812">
+            <img src="../../../../assets/a.svg" alt="">
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
