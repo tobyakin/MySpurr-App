@@ -28,7 +28,6 @@ export const sendMessage = async (payload) => {
         })
         catchAxiosSuccess(res)
         return res.data
-        
     } catch (error) {
         catchAxiosError(error)
         throw error

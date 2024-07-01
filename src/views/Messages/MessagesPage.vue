@@ -36,24 +36,25 @@ const userDetails = computed(() => {
 });
 
 const messageStore = useMessageStore();
-const { sentMessages, receivedMessages, sentMessageDetail, receivedMessageDetails } = storeToRefs(messageStore)
+const { sentMessages, receivedMessages, sentMessageDetail, receivedMessageDetail } = storeToRefs(messageStore)
 const messageLoading = ref(false)
+const chatLoading = ref(false)
 const filterSection = ref('all')
 const displayedMessages = ref()
-let allMessages
-const userEmail = "abdultawabsalawudeen@gmail.com"
-// console.log(chats)
+const messageDetail = ref()
+const clickedItem = ref()
+const profileStore = useUserProfile();
+const tabStore = useTabStore();
+const { isLoading } = storeToRefs(tabStore);
+const isOnBoarded = computed(() => profileStore.user);
+
+
 const accountType = computed(() => {
   return store.getUser.data.user.type;
 });
 onMounted(() => {
   return accountType;
 });
-
-const profileStore = useUserProfile();
-const tabStore = useTabStore();
-const { isLoading } = storeToRefs(tabStore);
-const isOnBoarded = computed(() => profileStore.user);
 
 const getSentMessages = async () =>{
   if(accountType.value === "talent"){
@@ -75,59 +76,33 @@ const getSentMessages = async () =>{
       messageLoading.value = false
     }
   }
-
-  // console.log(sentMessages.value)
 }
 
 function filterAll(){
   filterSection.value = 'all'
-  getAllMessages()
+  getFilteredMessages()
   console.log(filterSection.value)
 }
 
 function filterPrimary(){
   filterSection.value = 'primary'
-  getAllMessages()
+  getFilteredMessages()
   console.log(filterSection.value)
 }
 
 function filterRead(){
   filterSection.value = 'read'
-  getAllMessages()
+  getFilteredMessages()
   console.log(filterSection.value)
 }
 
 function filterUnread(){
   filterSection.value = 'unread'
-  getAllMessages()
+  getFilteredMessages()
   console.log(filterSection.value)
 }
-  
-// getAllMessages to be optimised if combined sent and recieved messages no longer needed
-const getAllMessages = async ()=>{
-  const allChats = ref()
-  if(accountType.value === "talent"){
-    messageLoading.value = true
-    try {
-      await messageStore.handleTalentSentMessages()
-      await messageStore.handleTalentReceivedMessages()
-      messageLoading.value = false
-    } catch (error) {
-      console.log(error)
-      messageLoading.value = false
-    }
-  }else if(accountType.value === "business"){
-    messageLoading.value = true
-    try {
-      await messageStore.handleBusinessSentMessages()
-      await messageStore.handleBusinessReceivedMessages()
-      messageLoading.value = false
-    } catch (error) {
-      console.log(error)
-      messageLoading.value = false
-    }
-  }
 
+function getFilteredMessages(){
   if(filterSection.value === 'all'){
     displayedMessages.value = receivedMessages.value.data
   } else if(filterSection.value === 'read'){
@@ -139,17 +114,49 @@ const getAllMessages = async ()=>{
   }
 
   console.log(filterSection.value, displayedMessages.value)
-
-  allMessages =computed(()=>{
-    return [...sentMessages.value.data, ...receivedMessages.value.data]
-  }) 
-
-  // console.log(allChats.value)
-  
-  return allMessages.value
 }
+  
+// getAllMessages to be optimised if combined sent and recieved messages no longer needed
+// const getAllMessages = async ()=>{
+//   const allChats = ref()
+//   if(accountType.value === "talent"){
+//     messageLoading.value = true
+//     try {
+//       await messageStore.handleTalentSentMessages()
+//       await messageStore.handleTalentReceivedMessages()
+//       messageLoading.value = false
+//     } catch (error) {
+//       console.log(error)
+//       messageLoading.value = false
+//     }
+//   }else if(accountType.value === "business"){
+//     messageLoading.value = true
+//     try {
+//       await messageStore.handleBusinessSentMessages()
+//       await messageStore.handleBusinessReceivedMessages()
+//       messageLoading.value = false
+//     } catch (error) {
+//       console.log(error)
+//       messageLoading.value = false
+//     }
+//   }
 
-getAllMessages()
+//   displayedMessages.value = receivedMessages.value.data
+
+//   console.log(filterSection.value, displayedMessages.value)
+
+//   allMessages =computed(()=>{
+//     return [...sentMessages.value.data, ...receivedMessages.value.data]
+//   }) 
+
+//   // console.log(allChats.value)
+  
+//   return allMessages.value
+// }
+
+// getAllMessages()
+
+getFilteredMessages()
 
   
 
@@ -173,43 +180,74 @@ const getReceivedMessages = async () =>{
       messageLoading.value = false
     }
   }
+
+  displayedMessages.value = receivedMessages.value.data
 }
 
 const getSentMessageDetail = async (message_id)=>{
   if(accountType.value === "talent"){
+    chatLoading.value = true
     try {
       await messageStore.handleSentTalentDetail(message_id)
+      chatLoading.value = false
     } catch (error) {
       console.log(error)
+      chatLoading.value = false
     }
   } else if(accountType.value === "business"){
+    chatLoading.value = true
     try {
       await messageStore.handleSentBusinessMessageDetail(message_id)
+      chatLoading.value = false
     } catch (error) {
-      
+      console.log(error)
+      chatLoading.value = false
     }
   }
 };
 
-const getReceiveMessageDetail = async (message_id)=>{
+const getReceivedMessageDetail = async (message_id)=>{
   if(accountType.value === "talent"){
+    chatLoading.value = true
     try {
       await messageStore.handleReceivedTalentDetail(message_id)
+      chatLoading.value = false
     } catch (error) {
       console.log(error)
+      chatLoading.value = false
     }
   } else if(accountType.value === "business"){
+    chatLoading.value = true
     try {
-      await messageStore.handleReceivedBusinessMessageDetail(message_id)
+      await messageStore.handleReceivedBusinessDetail(message_id)
+      chatLoading.value = false
     } catch (error) {
       console.log(error)
+      chatLoading.value = false
     }
   }
+
+  messageDetail.value = receivedMessageDetail.value.data
 };
+
+const handleMessageClicked = async (id)=>{
+  clickedItem.value = id
+  if(filterSection.value !== 'primary'){
+    console.log('Message ID clicked:', id);
+    await getReceivedMessageDetail(id)
+    messageDetail.value = receivedMessageDetail.value.data
+  } else {
+    await getSentMessageDetail(id)
+    messageDetail.value = sentMessageDetail.value.data
+  }
+
+  console.log(userDetails.value)
+  return messageDetail.value
+}
 
 
 onMounted(async ()=>{
-  getSentMessages(), getReceivedMessages(), getAllMessages()
+  getSentMessages(), getReceivedMessages(16)
 })
 
 
@@ -239,7 +277,7 @@ import CircleFileIcon from "../../components/icons/circleFileIcon.vue";
 
 
 
-const replyMessage = ref(false);
+const showReplyField = ref(false);
 const chatPane = ref();
 const inboxList = ref();
 const showNewMessage = ref(false)
@@ -279,7 +317,7 @@ onMounted(async () => {
 
 function handleReply(chat) {
   console.log(chat);
-  replyMessage.value = true;
+  showReplyField.value = true;
   console.log(userDetails.value.email)
 }
 
@@ -314,7 +352,9 @@ function handleNewMessage(){
               </div>
               <div id="messagesContainer" class=" overflow-y-auto scroller pb-4 flex-1">
                 <ShortLoader v-if="messageLoading"/>
-                <MessageList :messageList="displayedMessages" @click="" :filter="filterSection" v-else/>
+                <MessageList :messageList="displayedMessages" @messageClicked="handleMessageClicked" :filter="filterSection"
+                :clickedId="clickedItem"
+                 v-else/>
               </div>
             </div>
           </div>
@@ -331,10 +371,10 @@ function handleNewMessage(){
             <div class="h-[90%] bg-[#FFF] rounded-[1.00344rem] mt-[1.5rem] overflow-auto relative">
               <div class="h-full" v-if="!showNewMessage">
                 <div class="h-[100%]">
-                  <MessageChatPane :chat="clickedMessage" @reply="handleReply"/>
-                  {{ chats }}
+                  <ShortLoader v-if="chatLoading"/>
+                  <MessageChatPane :chat="messageDetail" @reply="handleReply" v-if="!chatLoading && messageDetail !== undefined"/>
                 </div>
-                <div class="inputField sticky bottom-[2rem] bg-white min-h-[230px] max-h-[350px]" v-if="replyMessage">
+                <div class="inputField sticky bottom-[2rem] bg-white min-h-[230px] max-h-[350px]" v-if="showReplyField">
                   <MessageInputField notShow="false" showSubject="false" class="h-full min-h-[inherit] max-h-[inherit]" :chat="clickedMessage"/>
                 </div>
               </div>

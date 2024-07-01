@@ -21,6 +21,15 @@ export const useMessageStore = defineStore('messages', () => {
     const receivedMessages = ref([])
     const sentMessageDetail = ref([])
     const receivedMessageDetail = ref([])
+
+    const handleSendMessage = async (payload)=>{
+        try {
+            let res = await sendMessage(payload)
+            return res.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
     
     const handleTalentSentMessages = async ()=>{
         try {
@@ -40,7 +49,7 @@ export const useMessageStore = defineStore('messages', () => {
         }
     }
 
-    const handleBusinessRecievedMessages = async ()=>{
+    const handleBusinessReceivedMessages = async ()=>{
         try {
             receivedMessages.value =await getBusinessReceivedMessages()
             return receivedMessages.value
@@ -60,7 +69,7 @@ export const useMessageStore = defineStore('messages', () => {
 
     const handleSentTalentDetail = async (message_id)=>{
         try {
-            sentMessageDetail.value = getSentTalentMessageDetail(message_id)
+            sentMessageDetail.value = await getSentTalentMessageDetail(message_id)
             return sentMessageDetail.value
         } catch (error) {
             console.log(error)
@@ -69,7 +78,7 @@ export const useMessageStore = defineStore('messages', () => {
 
     const handleReceivedTalentDetail = async (message_id) =>{
         try {
-            receivedMessageDetail.value = getTalentReceivedMessageDetail(message_id)
+            receivedMessageDetail.value = await getTalentReceivedMessageDetail(message_id)
             return receivedMessageDetail.value
         } catch (error) {
             console.log(error)
@@ -78,7 +87,7 @@ export const useMessageStore = defineStore('messages', () => {
 
     const handleReceivedBusinessDetail = async (message_id) =>{
         try {
-            receivedMessageDetail.value = getBusinessReceivedMessageDetail(message_id)
+            receivedMessageDetail.value = await getBusinessReceivedMessageDetail(message_id)
             return receivedMessageDetail.value
         } catch (error) {
             console.log(error)
@@ -87,7 +96,7 @@ export const useMessageStore = defineStore('messages', () => {
 
     const handleSentBusinessDetail = async (message_id)=>{
         try {
-            sentMessageDetail.value = getBusinessSentMessageDetail(message_id)
+            sentMessageDetail.value = await getBusinessSentMessageDetail(message_id)
             return sentMessageDetail.value
         } catch (error) {
             console.log(error)
@@ -104,8 +113,9 @@ export const useMessageStore = defineStore('messages', () => {
        handleSentTalentDetail,
        handleReceivedTalentDetail,
        handleBusinesSentMessages,
-       handleBusinessRecievedMessages,
+       handleBusinessReceivedMessages,
        handleReceivedBusinessDetail,
        handleSentBusinessDetail,
+       handleSendMessage
     }
 })
