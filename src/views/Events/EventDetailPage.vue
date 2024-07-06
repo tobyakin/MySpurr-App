@@ -10,7 +10,13 @@ import cancelIcon from "@/components/icons/cancelIcon.vue"
 import facebookIcon from "@/components/icons/eventFacebookIcon.vue"
 import whatsAppIcon from "@/components/icons/whatsAppIcon.vue"
 import LinkedinIcon from "@/components/icons/eventLinkedinIcon.vue"
-import twitterIcon from "@/components/icons/eventTwitterIcon.vue"
+import twitterIcon from "@/components/icons/eventTwitterIcon.vue";
+import Share from "@/components/ui/Share.vue"
+import googleCalendarIcon from "@/components/icons/googleCalendarIcon.vue"
+import outlookCalendarIcon from "@/components/icons/outlookCalendarIcon.vue"
+const showCalendarOptions = ref(false)
+const calendarOption = ref()
+
 
 const route = useRouter()
 
@@ -21,6 +27,8 @@ const events = [
         location: 'online',
         date: '22nd May 2024',
         time: '06:00pm-7:00pm',
+        startTime: '6:00pm',
+        endTime: '7:00pm'
     },
     {
         id: 1,
@@ -45,8 +53,96 @@ const events = [
     },
 ]
 
+const parseDateToUTC = (dateString, timeString) => {
+  const [day, month, year] = dateString.split(' ');
+  const [hour, minute, period] = timeString.match(/(\d+):(\d+)(\w+)/).slice(1);
+
+  const months = {
+    'January': 0, 'February': 1, 'March': 2, 'April': 3, 'May': 4, 'June': 5,
+    'July': 6, 'August': 7, 'September': 8, 'October': 9, 'November': 10, 'December': 11
+  };
+
+  let hours = parseInt(hour);
+  if (period.toLowerCase() === 'pm' && hours !== 12) {
+    hours += 12;
+  } else if (period.toLowerCase() === 'am' && hours === 12) {
+    hours = 0;
+  }
+
+  const date = new Date(Date.UTC(year, months[month], parseInt(day), hours, parseInt(minute), 0));
+  return date;
+};
+
+const formatDateToUTC = (date) => {
+  const pad = (num) => num.toString().padStart(2, '0');
+  
+  const year = date.getUTCFullYear();
+  const month = pad(date.getUTCMonth() + 1);
+  const day = pad(date.getUTCDate());
+  const hours = pad(date.getUTCHours());
+  const minutes = pad(date.getUTCMinutes());
+  const seconds = pad(date.getUTCSeconds());
+
+  return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
+};
+
+const formatDateToOutlook = (date) => {
+  const pad = (num) => num.toString().padStart(2, '0');
+
+  const year = date.getUTCFullYear();
+  const month = pad(date.getUTCMonth() + 1);
+  const day = pad(date.getUTCDate());
+  const hours = pad(date.getUTCHours());
+
+  return `${year}-${month}-${day}T${hours}`;
+};
+
+const addToCalendar = () => {
+//   showCalendarOptions.value = true
+  const startDate = parseDateToUTC(eventDate.value, eventStartTime.value);
+  const endDate = parseDateToUTC(eventDate.value, eventEndTime.value);
+
+  const googleCalendarUrl = `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(eventTitle.value)}&dates=${formatDateToUTC(startDate)}/${formatDateToUTC(endDate)}&details=${encodeURIComponent(eventDetails.value)}&location=${encodeURIComponent(eventLocation.value)}`;
+  
+  const outlookCalendarUrl = `https://outlook.live.com/owa/?path=/calendar/action/compose&subject=${encodeURIComponent(eventTitle.value)}&startdt=${encodeURIComponent(formatDateToOutlook(startDate))}&enddt=${encodeURIComponent(formatDateToOutlook(endDate))}&body=${encodeURIComponent(eventDetails.value)}&location=${encodeURIComponent(eventLocation.value)}`;
+
+  if(calendarOption.value === 'google'){
+    window.open(googleCalendarUrl, '_blank');
+  } else if(calendarOption.value === 'outlook'){
+    window.open(outlookCalendarUrl, '_blank');
+  }
+};
+
+const eventTitle = ref('Meeting with John');
+const eventDate = ref('22nd May 2025');
+const eventStartTime = ref('2:00pm');
+const eventEndTime = ref('4:00pm');
+const eventDetails = ref('Discussing project updates');
+const eventLocation = ref('123 Main St, Springfield');
+
 const showRegistrationCompletedNotification = ref(false)
 const eventRegistered = ref(false)
+const showOptions = ref(false)
+
+function handleAddtoGoogleCalendar(){
+    calendarOption.value = 'google'
+    addToCalendar()
+    showCalendarOptions.value = false
+    showOptions.value = false
+    handleCloseNotification()
+}
+
+function handleAddtoOutlookCalendar(){
+    calendarOption.value = 'outlook'
+    addToCalendar()
+    showCalendarOptions.value = false
+    showOptions.value = false
+    handleCloseNotification()
+}
+
+function handleShowOptions(){
+    showCalendarOptions.value = true
+}
 
 function handleRegisterNotification(){
     showRegistrationCompletedNotification.value = true
@@ -124,7 +220,7 @@ function handleViewMore(){
                     <div class="bg-[#007582] rounded-[0.7rem] px-[3rem] py-[1.8rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full"
                     :class="{registered: eventRegistered}"
                     >
-                        <div class="w-full place-items-center" v-if="!eventRegistered">
+                        <div class="w-full grid place-items-center" v-if="!eventRegistered">
                             <h3 class="text-[#fff] font-Satoshi500 leading-[1.5rem] text-[1.5rem] eventBreak1:text-[1rem]">Register</h3>
                             <button class="mt-[1.5rem] bg-[#ECFAFC] rounded-[1.6rem] w-[90%] mx-auto text-center py-[1rem] text-[#000] font-Satoshi500 leading-[0.8rem] text-[1rem] eventBreak1:text-[0.7rem]"
                             @click="handleRegisterNotification"
@@ -133,8 +229,11 @@ function handleViewMore(){
                         <div class="w-full text-center" v-if="eventRegistered">
                             <h3 class="text-[#000] font-Satoshi500 leading-[1.5rem] text-[1.5rem] eventBreak1:text-[1rem] !mb-[0.5rem]">Thanks for registering, Josh</h3>
                             <p class="eventBreak1:text-[0.7rem] text-[1rem]">We recommend you:</p>
-                            <div class="mt-[0.6rem] recommendations">
-                                <div class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto">
+                            <div class="relative mt-[0.6rem] recommendations">
+                                <div 
+                                class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto"
+                                @click="showOptions = !showOptions"
+                                >
                                     <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="19.0771" cy="19.6328" r="19" fill="#92E4EC"/>
                                     <path d="M18.9571 15.3128H15.7571V13.0128H21.4171V27.6328H18.9571V15.3128Z" fill="#007582"/>
@@ -147,6 +246,25 @@ function handleViewMore(){
                                         </div>
                                     </div>
                                 </div>
+                                <ul 
+                                class="w-[90%] ml-auto mr-4 calendarIcons mt-4" 
+                                :class="{ hideOptions: !showOptions }"
+                                >
+                                    <li 
+                                    class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 cursor-pointer"
+                                    @click="handleAddtoGoogleCalendar"
+                                    >
+                                        <googleCalendarIcon />
+                                        <h3>Google</h3>
+                                    </li>
+                                    <li 
+                                    class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 mt-[0.5rem] cursor-pointer"
+                                    @click="handleAddtoOutlookCalendar"
+                                    >
+                                        <outlookCalendarIcon />
+                                        <h3>Outlook</h3>
+                                    </li>
+                                </ul>
                                 <div class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto">
                                     <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="19.0771" cy="19.6328" r="19" fill="#92E4EC"/>
@@ -291,14 +409,30 @@ function handleViewMore(){
                         </div>
                         <div class=" shareEvent flex items-center gap-[0.7rem]">
                             <h3 class="font-Satoshi400 leading-4 text-4 msgMob:text-[0.8rem]">Share event: </h3>
-                            <div class="flex items-center gap-[0.7rem] msgMob:gap-[0.5rem]">
-                            <facebookIcon class="hover:text-[#2F929C] transitionItem"/>
-                            <whatsAppIcon class="hover:text-[#2F929C] transitionItem"/>
-                            <twitterIcon class="hover:text-[#2F929C] transitionItem"/>
-                            <LinkedinIcon class="hover:text-[#2F929C] transitionItem"/>
-                            </div>
+                           <Share />
                         </div>
-                        <button class="bg-[#007582] rounded-[0.5rem] w-[50%] mx-auto py-[0.5rem] mt-4 text-[#fff] text-[1rem] msgMob:text-[0.8rem] btn-hover-1">Add to calendar</button>
+                        <div class="w-full">
+                            <button 
+                            class="bg-[#007582] rounded-[0.5rem] w-[50%] mx-auto py-[0.5rem] mt-4 text-[#fff] text-[1rem] msgMob:text-[0.8rem] btn-hover-1"
+                            @click="handleShowOptions"
+                            >Add to calendar</button>
+                            <ul class="w-[50%] mx-auto calendarIcons mt-4" v-if="showCalendarOptions">
+                                <li 
+                                class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 cursor-pointer"
+                                @click="handleAddtoGoogleCalendar"
+                                >
+                                    <googleCalendarIcon />
+                                    <h3>Google</h3>
+                                </li>
+                                <li 
+                                class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 mt-[0.5rem] cursor-pointer"
+                                @click="handleAddtoOutlookCalendar"
+                                >
+                                    <outlookCalendarIcon />
+                                    <h3>Outlook</h3>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -308,6 +442,12 @@ function handleViewMore(){
 </template>
 
 <style scoped>
+    .calendarIcons svg {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+    }
+
     .detail-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

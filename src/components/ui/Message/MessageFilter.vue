@@ -1,5 +1,27 @@
 <script setup>
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
+import { ref } from "vue";
+const emit = defineEmits(['all', 'read', 'unread', 'primary'])
+const filteredSection = ref('all')
+
+function filterAll(){
+    emit('all')
+    filteredSection.value = 'all'
+}
+function filterRead(){
+    emit('read')
+    filteredSection.value = 'read'
+}
+function filterUnread(){
+    emit('unread')
+    filteredSection.value = 'unread'
+}
+function filterPrimary(){
+    emit('primary')
+    filteredSection.value = 'primary'
+}
+
+
 </script>
 
  <template>
@@ -8,16 +30,20 @@ import SearchIcon from "@/components/icons/searchBarIcon.vue";
         <SearchIcon />
     </div>
     <ul class="messageGroup flex items-center justify-between gap-[0.7rem] !mb-[0.5rem]">
-        <li class="font-Satoshi500 leading-[2rem] capitalize text-[0.6rem] active">all</li>
-        <li class="flex items-center gap-[0.3rem]">
+        <li class="font-Satoshi500 leading-[2rem] capitalize text-[0.6rem]"
+        :class="filteredSection === 'all'? 'active': 'reg'" @click="filterAll">all</li>
+        <li class="flex items-center gap-[0.3rem]"
+        :class="filteredSection === 'read'? 'active': 'reg'" @click="filterRead">
             <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#949939]"></span>
             <p class="">read</p>
         </li>
-        <li class="flex items-center gap-[0.3rem]">
+        <li class="flex items-center gap-[0.3rem]"
+        :class="filteredSection === 'unread'? 'active': 'reg'" @click="filterUnread">
             <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#DA5252]"></span>
             <p>unread</p>
         </li>
-        <li class="flex items-center gap-[0.3rem]">
+        <li class="flex items-center gap-[0.3rem]"
+        :class="filteredSection === 'primary'? 'active': 'reg'" @click="filterPrimary">
             <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#007582]"></span>
             <p>primary</p>
         </li>

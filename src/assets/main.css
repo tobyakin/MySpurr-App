@@ -574,6 +574,14 @@ input[type='checkbox'] {
     @apply w-[25px] msgMob:w-[15px]
   }
 
+  .hideOptions {
+    @apply h-0 transitionItem overflow-hidden m-0
+  }
+
+  .hideOptions li {
+    @apply !p-0 gap-0 h-0
+  }
+
   
 
 

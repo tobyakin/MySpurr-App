@@ -232,53 +232,6 @@ const handleSend2 = async () => {
     }
 }
 
-const getTalentSentMessages = async () => {
-    const token = await getToken()
-    try {
-        let res = await axios.get(`v1/message/sent/talent`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token
-            }
-        })
-        return res.data
-    } catch (error) {
-        catchAxiosError(error)
-        throw error
-    }
-}
-
-const getTalentRecievedMessages = async () =>{
-    const token = await getToken()
-    try {
-        let res = await axios.get(`v1/message/received/talent`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token
-            }
-        })
-        return res.data
-    } catch (error) {
-        catchAxiosError(error)
-        throw error
-    }
-}
-
-const getMessage = async (receiverId) => {
-    const token = await getToken()
-    try {
-        let res = await axios.get(`v1/message/${receiverId}`, {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        })
-        return res.data
-    } catch (error) {
-        catchAxiosError(error)
-        throw error
-    }
-}
-
 function handleSend(){
     const activeChat = ref()
     const message = textArea.value.value
@@ -301,17 +254,8 @@ function handleSend(){
     //   },
     // )
     handleSend2()
-    getTalentSentMessages()
-    getTalentRecievedMessages()
-    getMessage(4)
     textArea.value.value = ''
   }
-
-// onMounted(()=>{
-//     textArea.focus()
-// })
-
-
 
 </script>
 
