@@ -11,7 +11,7 @@ import facebookIcon from "@/components/icons/eventFacebookIcon.vue"
 import whatsAppIcon from "@/components/icons/whatsAppIcon.vue"
 import LinkedinIcon from "@/components/icons/eventLinkedinIcon.vue"
 import twitterIcon from "@/components/icons/eventTwitterIcon.vue";
-import Share from "@/components/ui/Share.vue"
+import Share from "@/components/ui/SocialShare.vue"
 import googleCalendarIcon from "@/components/icons/googleCalendarIcon.vue"
 import outlookCalendarIcon from "@/components/icons/outlookCalendarIcon.vue"
 const showCalendarOptions = ref(false)
@@ -123,6 +123,7 @@ const eventLocation = ref('123 Main St, Springfield');
 const showRegistrationCompletedNotification = ref(false)
 const eventRegistered = ref(false)
 const showOptions = ref(false)
+const showSocials = ref(false)
 
 function handleAddtoGoogleCalendar(){
     calendarOption.value = 'google'
@@ -150,6 +151,7 @@ function handleRegisterNotification(){
 
 function handleCloseNotification(){
     showRegistrationCompletedNotification.value = false
+    showCalendarOptions.value = false
     eventRegistered.value = true
 }
 
@@ -246,25 +248,27 @@ function handleViewMore(){
                                         </div>
                                     </div>
                                 </div>
-                                <ul 
-                                class="w-[90%] ml-auto mr-4 calendarIcons mt-4" 
-                                :class="{ hideOptions: !showOptions }"
-                                >
-                                    <li 
-                                    class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 cursor-pointer"
-                                    @click="handleAddtoGoogleCalendar"
+                                <div class="w-full h-auto">
+                                    <ul 
+                                    class="w-[90%] mx-auto h-auto calendarIcons mt-4 transitionItem" 
+                                    :class="{ hideOptions: !showOptions }"
                                     >
-                                        <googleCalendarIcon />
-                                        <h3>Google</h3>
-                                    </li>
-                                    <li 
-                                    class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 mt-[0.5rem] cursor-pointer"
-                                    @click="handleAddtoOutlookCalendar"
-                                    >
-                                        <outlookCalendarIcon />
-                                        <h3>Outlook</h3>
-                                    </li>
-                                </ul>
+                                        <li 
+                                        class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 cursor-pointer"
+                                        @click="handleAddtoGoogleCalendar"
+                                        >
+                                            <googleCalendarIcon />
+                                            <h3>Google</h3>
+                                        </li>
+                                        <li 
+                                        class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 mt-[0.5rem] cursor-pointer"
+                                        @click="handleAddtoOutlookCalendar"
+                                        >
+                                            <outlookCalendarIcon />
+                                            <h3>Outlook</h3>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <div class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto">
                                     <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="19.0771" cy="19.6328" r="19" fill="#92E4EC"/>
@@ -274,7 +278,10 @@ function handleViewMore(){
                                         <h3>Invite a friend</h3>
                                     </div>
                                 </div>
-                                <div class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto">
+                                <div 
+                                class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto"
+                                @click="showSocials = !showSocials"
+                                >
                                     <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="19.0771" cy="19.6328" r="19" fill="#92E4EC"/>
                                     <path d="M18.2571 20.3928H16.4771V18.7328L20.2371 15.2728H14.1571V13.0128H23.4371V15.0528L19.8771 18.3328C22.1171 18.7728 23.8571 20.4128 23.8571 22.9928C23.8571 25.9928 21.5171 27.8928 18.5571 27.8928C15.6971 27.8928 13.4771 26.1328 13.4771 22.9728H15.9971C15.9971 24.6528 17.0371 25.6128 18.5971 25.6128C20.1971 25.6128 21.2571 24.5728 21.2571 22.9528C21.2571 21.4728 20.2971 20.3928 18.2571 20.3928Z" fill="#007582"/>
@@ -282,6 +289,12 @@ function handleViewMore(){
                                     <div class="text-center rounded-[0.4rem] text-[#000] border border-[#2C4C50] w-[100%] eventBreak1:w-full py-[0.5rem] gap-4">
                                         <h3>Share</h3>
                                     </div>
+                                </div>
+                                <div 
+                                class="share w-[90%] ml-auto h-auto mr-4 calendarIcons mt-[0.5rem] transitionItem"
+                                :class="{ hideOptions: !showSocials }"
+                                >
+                                    <Share class="!justify-center !gap-6"/>
                                 </div>
                             </div>
                         <div class="mt-4">
@@ -416,7 +429,7 @@ function handleViewMore(){
                             class="bg-[#007582] rounded-[0.5rem] w-[50%] mx-auto py-[0.5rem] mt-4 text-[#fff] text-[1rem] msgMob:text-[0.8rem] btn-hover-1"
                             @click="handleShowOptions"
                             >Add to calendar</button>
-                            <ul class="w-[50%] mx-auto calendarIcons mt-4" v-if="showCalendarOptions">
+                            <ul class="w-[50%] mx-auto calendarIcons mt-4 transitionItem" v-if="showCalendarOptions">
                                 <li 
                                 class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 cursor-pointer"
                                 @click="handleAddtoGoogleCalendar"
