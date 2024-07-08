@@ -96,5 +96,4 @@ function switchTab(){
 </template>
 
 <style scoped>
-
 </style>

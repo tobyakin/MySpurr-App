@@ -39,7 +39,6 @@
 </template>
 
 <script setup>
-
     import circleFileIcon from '@/components/icons/circleFileIcon.vue';
     import MessageInputField from '@/components/ui/Message/MessageInputField.vue';
     const props = defineProps(['chat'])

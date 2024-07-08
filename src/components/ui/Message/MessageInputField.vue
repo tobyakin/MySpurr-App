@@ -315,6 +315,6 @@ function handleSend(){
         </article>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

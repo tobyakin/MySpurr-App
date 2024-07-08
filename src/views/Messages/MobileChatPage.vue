@@ -10,6 +10,6 @@ const props = defineProps(['senderID'])
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

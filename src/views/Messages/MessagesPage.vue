@@ -305,7 +305,6 @@ const sendMessage = async () => {
 };
 
 onMounted(() => {
-  // assignClickedMessage();
   return profile.userProfile();
 });
 onMounted(async () => {

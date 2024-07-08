@@ -208,7 +208,6 @@
   assignClickedMessage();
   
   function showChatPane(clickedMessage) {
-  
     messages.value.forEach((message) => {
       message.clicked = message.id === clickedMessage.id;
       if (message.clicked === true) {
