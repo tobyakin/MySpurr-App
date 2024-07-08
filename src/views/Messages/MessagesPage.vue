@@ -328,7 +328,6 @@ function handleNewMessage(){
 
 <template>
   <section class="message">
-
     <DashboardLayout>
       <div
         class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
