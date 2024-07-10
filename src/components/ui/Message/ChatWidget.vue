@@ -9,15 +9,225 @@
   import smallNewMessageIcon from "@/components/icons/smallNewMessageIcon.vue";
   import NewMessage from "@/components/ui/Message/NewMessage.vue";
   import MessageChatPane from "@/components/ui/Message/MessageChatPane.vue";
+  import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
+  import { useStore } from "@/stores/user";
+  import { useUserProfile } from "@/stores/profile";
+  import { useMessageStore } from "@/stores/message";
+  import { storeToRefs } from "pinia";
   import sendIcon from "@/components/icons/sendIcon.vue"
   const clickedMessage = ref();
   const showChatList = ref(true)
   const showChatPage = ref(false)
   const closeWidget = ref(true)
   const newMessage = ref(false)
-  const message = ref('')
   const textArea = ref(null)
   const userID = 0;
+
+
+
+let store = useStore();
+
+let profile = useUserProfile();
+let message = ref("");
+const userDetails = computed(() => {
+  return profile.user.data;
+});
+
+const messageStore = useMessageStore();
+const { sentMessages, receivedMessages, sentMessageDetail, receivedMessageDetail } = storeToRefs(messageStore)
+const messageLoading = ref(false)
+const chatLoading = ref(false)
+const filterSection = ref('all')
+const displayedMessages = ref()
+const messageDetail = ref()
+const clickedItem = ref()
+
+
+
+
+const accountType = computed(() => {
+  return store.getUser.data.user.type;
+});
+onMounted(() => {
+  return accountType;
+});
+
+const getSentMessages = async () =>{
+  if(accountType.value === "talent"){
+    messageLoading.value = true
+    try {
+      await messageStore.handleTalentSentMessages()
+      messageLoading.value = false
+    } catch (error) {
+      console.log(error)
+      messageLoading.value = false
+    }
+  } else if(accountType.value === "business"){
+    messageLoading.value = true
+    try {
+      await messageStore.handleBusinessSentMessages()
+      messageLoading.value = false
+    } catch (error) {
+      console.log(error)
+      messageLoading.value = false
+    }
+  }
+}
+
+function filterAll(){
+  filterSection.value = 'all'
+  getFilteredMessages()
+  console.log(filterSection.value)
+}
+
+function filterPrimary(){
+  filterSection.value = 'primary'
+  getFilteredMessages()
+  console.log(filterSection.value)
+}
+
+function filterRead(){
+  filterSection.value = 'read'
+  getFilteredMessages()
+  console.log(filterSection.value)
+}
+
+function filterUnread(){
+  filterSection.value = 'unread'
+  getFilteredMessages()
+  console.log(filterSection.value)
+}
+
+function getFilteredMessages(){
+  if(filterSection.value === 'all'){
+    displayedMessages.value = receivedMessages.value.data
+  } else if(filterSection.value === 'read'){
+    displayedMessages.value = receivedMessages.value.data.filter(message=> message.attributes.status === 'read')
+  } else if(filterSection.value === 'unread'){
+    displayedMessages.value = receivedMessages.value.data.filter(message=> message.attributes.status === 'unread')
+  } else if (filterSection.value === 'primary'){
+    displayedMessages.value = sentMessages.value.data
+  }
+
+  console.log(filterSection.value, displayedMessages.value)
+}
+
+getFilteredMessages()
+
+  
+
+const getReceivedMessages = async () =>{
+  if(accountType.value === "talent"){
+    messageLoading.value = true
+    try {
+      await messageStore.handleTalentReceivedMessages()
+      messageLoading.value = false
+    } catch (error) {
+      console.log(error)
+      messageLoading.value = false
+    }
+  } else if(accountType.value === "business"){
+    messageLoading.value = true
+    try {
+      await messageStore.handleBusinessReceivedMessages()
+      messageLoading.value = false
+    } catch (error) {
+      console.log(error)
+      messageLoading.value = false
+    }
+  }
+
+  displayedMessages.value = receivedMessages.value.data
+}
+
+const getSentMessageDetail = async (message_id)=>{
+  if(accountType.value === "talent"){
+    chatLoading.value = true
+    try {
+      await messageStore.handleSentTalentDetail(message_id)
+      chatLoading.value = false
+    } catch (error) {
+      console.log(error)
+      chatLoading.value = false
+    }
+  } else if(accountType.value === "business"){
+    chatLoading.value = true
+    try {
+      await messageStore.handleSentBusinessMessageDetail(message_id)
+      chatLoading.value = false
+    } catch (error) {
+      console.log(error)
+      chatLoading.value = false
+    }
+  }
+};
+
+const getReceivedMessageDetail = async (message_id)=>{
+  if(accountType.value === "talent"){
+    chatLoading.value = true
+    try {
+      await messageStore.handleReceivedTalentDetail(message_id)
+      chatLoading.value = false
+    } catch (error) {
+      console.log(error)
+      chatLoading.value = false
+    }
+  } else if(accountType.value === "business"){
+    chatLoading.value = true
+    try {
+      await messageStore.handleReceivedBusinessDetail(message_id)
+      chatLoading.value = false
+    } catch (error) {
+      console.log(error)
+      chatLoading.value = false
+    }
+  }
+
+  messageDetail.value = receivedMessageDetail.value.data
+};
+
+const handleMessageClicked = async (id)=>{
+  clickedItem.value = id
+  if(filterSection.value !== 'primary'){
+    console.log('Message ID clicked:', id);
+    await getReceivedMessageDetail(id)
+    messageDetail.value = receivedMessageDetail.value.data
+  } else {
+    await getSentMessageDetail(id)
+    messageDetail.value = sentMessageDetail.value.data
+  }
+
+  console.log(userDetails.value)
+  return messageDetail.value
+}
+
+
+onMounted(async ()=>{
+  getSentMessages(), getReceivedMessages()
+})
+
+function switchTab(){
+      showChatList.value = true
+      showChatPage.value = false
+  }
+  function handleWidgetClose (){
+      closeWidget.value = !closeWidget.value
+  }
+
+  function handleNewMessage(){
+    newMessage.value = true
+  }
+
+  function closeWindow(){ 
+   newMessage.value = false
+  }
+
+  function showChatPane() {
+    showChatList.value = false
+    showChatPage.value = true
+  }
+
+  // Experimental funtions
 
   
   const messages = ref([
@@ -197,29 +407,16 @@
   }
 
   
-  function assignClickedMessage() {
-    messages.value.forEach((item) => {
-      if (item.clicked === true) {
-        clickedMessage.value = item;
-      }
-    });
-  }
+  // function assignClickedMessage() {
+  //   messages.value.forEach((item) => {
+  //     if (item.clicked === true) {
+  //       clickedMessage.value = item;
+  //     }
+  //   });
+  // }
   
-  assignClickedMessage();
+  // assignClickedMessage();
   
-  function showChatPane(clickedMessage) {
-    messages.value.forEach((message) => {
-      message.clicked = message.id === clickedMessage.id;
-      if (message.clicked === true) {
-        clickedMessage = message;
-      }
-    });
-  
-    messages.value = [...messages.value];
-    assignClickedMessage();
-    showChatList.value = false
-    showChatPage.value = true
-  }
 
   function handleSend(){
     const activeChat = ref()
@@ -242,21 +439,7 @@
     textArea.value.innerText = ''
   }
   
-  function switchTab(){
-      showChatList.value = true
-      showChatPage.value = false
-  }
-  function handleWidgetClose (){
-      closeWidget.value = !closeWidget.value
-  }
-
-  function handleNewMessage(){
-    newMessage.value = true
-  }
-
-  function closeWindow(){ 
-   newMessage.value = false
-  }
+ 
   
   </script>
   
@@ -278,16 +461,27 @@
                       </div>
                   </div>
                   <div class="px-[1.44rem] pb-4 filter">
-                      <MessageFilter />
+                    <MessageFilter @all="filterAll" @read="filterRead" @unread="filterUnread" @primary="filterPrimary"/>
                   </div>
               </div>
               <div class=" messageList overflow-y-auto scroller flex-1" id="messagesContainer">
-                  <MessageList :messageList="messages" @click="showChatPane"/>
+                <ShortLoader v-if="messageLoading"/>
+                <MessageList :messageList="displayedMessages" @messageClicked="handleMessageClicked" :filter="filterSection"
+                :clickedId="clickedItem"
+                @click="showChatPane"
+                 v-else/>
               </div>
           </div>
           <div v-if="showChatPage" class="h-full widget flex flex-col">              
               <div class="chatPane flex-1 overflow-y-auto scroller">
-                  <MessageChatPane :chat="clickedMessage" @closeWidget="handleWidgetClose" @switchTab="switchTab" class="chat"/>
+                   <ShortLoader v-if="chatLoading"/>
+                  <MessageChatPane
+                  :chat="messageDetail"
+                   @reply="handleReply"
+                  v-if="!chatLoading && messageDetail !== undefined" 
+                  @switchTab="switchTab" 
+                  @closeWidget="handleWidgetClose"
+                  class="chat"/>
               </div>
               
               <div class="inputField w-[95%] mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] border gap-[0.5rem] min-h-[16px] max-h-[200px] absolute bottom-0 z-[99] left-[50%] translate-x-[-50%] backdrop-blur-[4px]">
@@ -304,7 +498,7 @@
           </div>
           <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid place-items-center" v-if="newMessage" @click.self="closeWindow">
             <div class="messageWindow w-[50%] rounded-[0.5rem] bg-white h-[90%] transitionItem overflow-hidden">
-                <NewMessage class="h-full" :chat="clickedMessage"/>
+                <NewMessage class="h-full" :chat="messageDetail"/>
             </div>
           </section>
       </section>

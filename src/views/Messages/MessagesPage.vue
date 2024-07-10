@@ -247,7 +247,7 @@ const handleMessageClicked = async (id)=>{
 
 
 onMounted(async ()=>{
-  getSentMessages(), getReceivedMessages(16)
+  getSentMessages(), getReceivedMessages()
 })
 
 
@@ -328,12 +328,12 @@ function handleNewMessage(){
 <template>
   <section class="message">
     <DashboardLayout>
-      <div
+      <!-- <div
         class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
       >
         <ComingSoon title="Messages" />
-      </div>
-      <!-- <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container h-[88vh] overflow-hidden">
+      </div> -->
+      <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container h-[88vh] overflow-hidden">
         <div class="mt-[0.47rem] flex gap-[34.16px] h-full overflow-hidden">
           <div id="inboxList" class="w-[50%] msgTab:mx-auto msgTab:w-[75%] msgMob:w-full h-full" ref="inboxList">
             <div class="w-full flex items-center justify-between msgTab:justify-center h-[10%]">
@@ -382,7 +382,7 @@ function handleNewMessage(){
             </div>
           </div>
         </div>
-      </section> -->
+      </section>
     </DashboardLayout>
   </section>
 </template>
