@@ -55,15 +55,15 @@ onMounted(() => {
                     <div class="event_details flex flex-col gap-[0.39rem] my-4">
                         <div class="flex items-center gap-[0.63rem]">
                             <locationIcon />
-                            <p>{{ event.address }}</p>
+                            <span class="text-[13px]">{{ event.address }}</span>
                         </div>
                         <div class="flex items-center gap-[0.63rem]">
                             <calendarIcon />
-                            <p>{{ event.event_date }}</p>
+                            <span class="text-[13px]">{{ event.event_date }}</span>
                         </div>
                         <div class="flex items-center gap-[0.63rem]">
                             <timerIcon />
-                            <p>{{ event.event_time }}</p>
+                            <span class="text-[13px]">{{ event.event_time }}</span>
                         </div>
                     </div>
                     <router-link :to="{name: 'event-detail', params: {slug: event.slug}}" class="event_btn">
