@@ -219,7 +219,7 @@ const handleViewMore = () => {
                             class="mt-4 eventBreak1:mt-[0.5rem] text-[#000] font-Satoshi400 text-4 eventBreak1:text-[0.7rem] leading-4">
                         </div>
                         <div
-                            class="mt-[1.5rem] eventBreak1:mt-4 bg-[#ECFAFC] rounded-[20px] eventBreak1:px-4 px-[2.2rem] py-[1.5rem] eventBreak1:py-[0.7rem] flex gap-24">
+                            class="mt-[1.5rem] eventBreak1:mt-4 bg-[#ECFAFC] rounded-[20px] eventBreak1:px-4 px-[2.2rem] py-[1.5rem] eventBreak1:py-[0.7rem] flex gap-24 w-full md:w-[420px]">
                             <div class="schedule flex flex-col gap-4 eventBreak1:gap-[0.5rem]">
                                 <div>
                                     <label for="">Date</label>
@@ -243,28 +243,20 @@ const handleViewMore = () => {
                         </div>
                     </div>
                     <div class="rounded-[2.1875rem] w-full md:w-3/6">
-                        <div class="mb-10 w-full h-full">
+                        <div class="mb-10">
                             <img :src="singleEvent.featured_graphics" alt="event image"
                                 class="object-cover rounded-[2.1875rem] w-full h-full" />
                         </div>
-                    </div>
-                </article>
-                <article class="detail-container !items-start gap-[5rem] mt-5 md:mt-[150px]">
-                    <div>
-                        <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">About the Event</h3>
-                        <div class="about mt-6 font-Satoshi400 text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]"
-                            v-html="singleEvent.content"></div>
-                    </div>
-                    <div>
-                        <div class="bg-[#007582] rounded-[0.7rem] px-[3rem] py-[1.8rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full"
+                        <div>
+                        <div class="bg-[#007582] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full md:w-[70%] ms-auto"
                             :class="{ registered: eventRegistered }">
                             <div class="w-full grid place-items-center" v-if="!eventRegistered">
                                 <h3
-                                    class="text-[#fff] font-Satoshi500 leading-[1.5rem] text-[1.5rem] eventBreak1:text-[1rem]">
+                                    class="text-[#fff] font-Satoshi500 text-[1.3rem] eventBreak1:text-[1rem]">
                                     Register
                                 </h3>
                                 <button
-                                    class="mt-[1.5rem] bg-[#ECFAFC] rounded-[1.6rem] w-[90%] mx-auto text-center py-[1rem] text-[#000] font-Satoshi500 leading-[0.8rem] text-[1rem] eventBreak1:text-[0.7rem]"
+                                    class="mt-[1.2rem] bg-[#ECFAFC] rounded-[1.6rem] w-[90%] mx-auto text-center py-[0.6rem] text-[#000] font-Satoshi500 leading-[0.8rem] text-[1rem] eventBreak1:text-[0.7rem]"
                                     @click="handleRegisterNotification">
                                     Register for this Event
                                 </button>
@@ -351,6 +343,14 @@ const handleViewMore = () => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    </div>
+                </article>
+                <article class="detail-container !items-start gap-[5rem] mt-5 md:mt-[30px] md:w-3/6">
+                    <div>
+                        <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">About the Event</h3>
+                        <div class="about mt-6 font-Satoshi400 text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]"
+                            v-html="singleEvent.content"></div>
                     </div>
                 </article>
                 <article class="my-[3rem] msgMob:w-full w-[50%] eventBreak1:my-[2rem]">
