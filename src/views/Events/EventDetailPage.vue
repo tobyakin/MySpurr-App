@@ -190,13 +190,13 @@ const handleViewMore = () => {
     <DashboardLayout>
        <Loader v-if="loading" />
        <section class="w-[80%] msgMob:w-[90%] mx-auto mt-[4rem]" v-else>
-            <article class="detail-container gap-[4.65rem]">
+            <article class="flex justify-between flex-col md:flex-row gap-[4.65rem]">
                 <div class="flex flex-col justify-end">
                     <span class="bg-[#00474F] rounded-[0.86rem] text-[#fff] font-Satoshi700 text-[0.59rem] leading-[0.39rem] py-[0.7rem] eventBreak1:text-[0.4rem] eventBreak1:w-[50%] px-[1.47] w-[40%] text-center uppercase tracking-[0.38rem] eventBreak1:tracking-[0.15rem] eventBreak1:mb-4 mb-[1.5rem]">online event</span>
                     <h3 class="text-[#000] font-Satoshi700 text-[2rem] eventBreak1:text-[1rem] eventBreak1:leading-[1.2rem] leading-[2.26463rem]">
                         {{ singleEvent.title }}
                     </h3>
-                    <p class="mt-4 eventBreak1:mt-[0.5rem] text-[#000] font-Satoshi400 text-4 eventBreak1:text-[0.7rem] leading-4">{{ singleEvent.content }}</p>
+                    <div class="mt-4 eventBreak1:mt-[0.5rem] text-[#000] font-Satoshi400 text-4 eventBreak1:text-[0.7rem] leading-4" v-html="singleEvent.content"></div>
                     <div class="mt-[1.5rem] eventBreak1:mt-4 bg-[#ECFAFC] rounded-[0.5rem] eventBreak1:px-4 px-[1.5rem] py-[1rem] eventBreak1:py-[0.7rem] flex justify-between">
                         <div class="schedule flex flex-col gap-4 eventBreak1:gap-[0.5rem]">
                             <div>
@@ -220,18 +220,11 @@ const handleViewMore = () => {
                         </div>
                     </div>
                 </div>
-                <div class="rounded-[2.1875rem] overflow-hidden eventBreak1:rounded-[1rem]">
-                    <img :src="singleEvent.featured_graphics" alt="event image" class="object-contain">
-                </div>
-            </article>
-            <article class="detail-container !items-start gap-[5rem] mt-[5rem] eventBreak1:mt-[3.5rem]">
-                <div>
-                    <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">About the Event</h3>
-                    <div class="about mt-6 font-Satoshi400 text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]">
-                        {{ singleEvent.content }}
+                <div class="rounded-[2.1875rem]">
+                    <div class="mb-10">
+                        <img :src="singleEvent.featured_graphics" alt="event image" class="object-contain rounded-[2.1875rem]">
                     </div>
-                </div>
-                <div>
+
                     <div class="bg-[#007582] rounded-[0.7rem] px-[3rem] py-[1.8rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full"
                     :class="{registered: eventRegistered}"
                     >
@@ -320,6 +313,16 @@ const handleViewMore = () => {
                     </div>
                 </div>
             </article>
+            <article class="detail-container !items-start gap-[5rem] mt-[5rem] eventBreak1:mt-[3.5rem]">
+                <div>
+                    <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">About the Event</h3>
+                    <div class="about mt-6 font-Satoshi400 text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]" v-html="singleEvent.content">
+                    </div>
+                </div>
+                <div>
+                    
+                </div>
+            </article>
             <article class="my-[3rem] msgMob:w-full w-[50%] eventBreak1:my-[2rem]">
                 <div class="mb-[3.5rem]">
                     <h3 class="font-Satoshi700 text-[#000] text-[1.5rem] leading-6 eventBreak1:text-[1rem] eventBreak1:leading-4">Speaker:</h3>
@@ -356,9 +359,9 @@ const handleViewMore = () => {
                     <h3 class="font-Satoshi700 text-[#000] leading-5">Related Events</h3>
                 </div>
                 <div class="eventAds-container my-10">
-                    <article v-for="event in relatedEvents" :key="event.id" class="eventAds grow shrink-0 basis-1/4">
-                        <div class="rounded-t-[1rem] overflow-hidden h-[200px]">
-                            <img :src="event.featured_graphics" alt="" class="w-full h-full object-contain">
+                    <article v-for="event in relatedEvents" :key="event.id" class="eventAds grow shrink-0 basis-1/4 w-[300px]">
+                        <div class="rounded-t-[1rem] h-[200px]">
+                            <img :src="event.featured_graphics" alt="" class="w-full h-full object-fit rounded-t-[1rem]">
                         </div>
                         <div class="px-[0.7rem] py-[0.5rem] bg-[#ECFAFC] rounded-b-[1rem]">
                             <h1 class="text-[#000] text-[0.8rem] font-Satoshi700 leading-[1rem] mb-4">{{ event.title }}</h1>
