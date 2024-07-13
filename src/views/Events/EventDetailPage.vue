@@ -346,7 +346,7 @@ const handleViewMore = () => {
                     </div>
                     </div>
                 </article>
-                <article class="detail-container !items-start gap-[5rem] mt-5 md:mt-[30px] md:w-3/6">
+                <article class="detail-container !items-start gap-[5rem] mt-5 md:mt-0 md:w-3/6">
                     <div>
                         <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">About the Event</h3>
                         <div class="about mt-6 font-Satoshi400 text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]"
