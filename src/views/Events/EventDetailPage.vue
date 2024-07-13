@@ -215,7 +215,7 @@ const handleViewMore = () => {
                             class="text-[#000] font-Satoshi700 text-[2rem] eventBreak1:text-[1rem] eventBreak1:leading-[1.2rem] leading-[2.26463rem]">
                             {{ singleEvent.title }}
                         </h3>
-                        <div class="mb-10 mt-5 h-[220px]">
+                        <div class="mb-10 mt-5 h-[250px]">
                             <img :src="singleEvent.featured_graphics" alt="event image"
                                 class="object-cover rounded-[2.1875rem] w-full h-full" />
                         </div>
