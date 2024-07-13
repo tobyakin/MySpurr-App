@@ -47,8 +47,8 @@ onMounted(() => {
                 </div>
             </div>
             <article v-for="event in events" :key="event.id" class="w-[300px]">
-                <div class="rounded-t-[1.13825rem] overflow-hidden h-[200px]">
-                    <img :src="event.featured_graphics" alt="" class="w-full h-full object-fit rounded-t-[1rem]">
+                <div class="rounded-t-[1.13825rem] h-[200px]">
+                    <img :src="event.featured_graphics" alt="" class="w-full h-full object-cover rounded-t-[1rem]">
                 </div>
                 <div class="px-[1.24rem] pb-[2rem] pt-4 bg-[#ECFAFC] rounded-b-[1.32038rem]">
                     <h1 class="text-[#000] font-Satoshi700 leading-[1.27488rem] mb-4">{{ event.title }}</h1>
