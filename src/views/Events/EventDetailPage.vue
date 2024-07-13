@@ -1,57 +1,76 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import calendarIcon from "@/components/icons/eventCalendarIcon.vue"
 import locationIcon from "@/components/icons/eventLocationIcon.vue"
 import timerIcon from "@/components/icons/eventTimerIcon.vue"
 import rightArrowM from "@/components/icons/rightArrowM.vue";
-import cancelIcon from "@/components/icons/cancelIcon.vue"
-import facebookIcon from "@/components/icons/eventFacebookIcon.vue"
-import whatsAppIcon from "@/components/icons/whatsAppIcon.vue"
-import LinkedinIcon from "@/components/icons/eventLinkedinIcon.vue"
-import twitterIcon from "@/components/icons/eventTwitterIcon.vue";
 import Share from "@/components/ui/SocialShare.vue"
 import googleCalendarIcon from "@/components/icons/googleCalendarIcon.vue"
 import outlookCalendarIcon from "@/components/icons/outlookCalendarIcon.vue"
+import { useEventStore } from "../../stores/event";
+import Loader from "../../components/ui/Loader/Loader.vue"
+
 const showCalendarOptions = ref(false)
 const calendarOption = ref()
+const route = useRoute()
+const router = useRouter()
+const eventStore = useEventStore()
+const singleEvent = ref({})
+const loading = ref(false)
+const relatedEvents = ref([]);
 
+const fetchSingleEvent = async () => {
+    loading.value = true
 
-const route = useRouter()
+    try {
+        const res = await eventStore.handleGetEventDetailsBySlug(route.params.slug)
+        if (res && res.data) {
+            singleEvent.value = res.data
+        } else {
+            console.error('No data returned from API')
+        }
 
-const events = [
-    {
-        id: 1,
-        title: 'Creating your professional workspace with low budget',
-        location: 'online',
-        date: '22nd May 2024',
-        time: '06:00pm-7:00pm',
-        startTime: '6:00pm',
-        endTime: '7:00pm'
-    },
-    {
-        id: 1,
-        title: 'Creating your professional workspace with low budget',
-        location: 'online',
-        date: '22nd May 2024',
-        time: '06:00pm-7:00pm',
-    },
-    {
-        id: 1,
-        title: 'Creating your professional workspace with low budget',
-        location: 'online',
-        date: '22nd May 2024',
-        time: '06:00pm-7:00pm',
-    },
-    {
-        id: 1,
-        title: 'Creating your professional workspace with low budget',
-        location: 'online',
-        date: '22nd May 2024',
-        time: '06:00pm-7:00pm',
-    },
-]
+    } catch (error) {
+        console.error('Error fetching event details:', error)
+    } finally {
+        loading.value = false
+    }
+}
+
+const fetchRelatedEvents = async () => {
+    loading.value = true
+
+    try {
+        const res = await eventStore.related();
+        if (res && res.data) {
+            relatedEvents.value = res.data;
+        } else {
+            console.error('No data returned from API')
+        }
+        
+    } catch (error) {
+        console.error('Error fetching event details:', error)
+    } finally {
+        loading.value = false
+    }
+}
+
+onMounted(() => {
+    fetchSingleEvent()
+    fetchRelatedEvents()
+})
+
+watch(
+  () => route.params.slug,
+  async (newSlug, oldSlug) => {
+    if (newSlug !== oldSlug) {
+      await fetchSingleEvent()
+      await fetchRelatedEvents()
+    }
+  }
+)
 
 const parseDateToUTC = (dateString, timeString) => {
   const [day, month, year] = dateString.split(' ');
@@ -159,8 +178,8 @@ function handleCancelRegistration(){
     eventRegistered.value = false
 }
 
-function handleViewMore(){
-    route.push({ name: 'events'})
+const handleViewMore = () => {
+    router.push({ name: 'events'})
 }
 
 
@@ -169,53 +188,47 @@ function handleViewMore(){
 <template>
   <section class="event-detail">
     <DashboardLayout>
-       <section class="w-[80%] msgMob:w-[90%] mx-auto mt-[4rem]">
+       <Loader v-if="loading" />
+       <section class="w-[80%] msgMob:w-[90%] mx-auto mt-[4rem]" v-else>
             <article class="detail-container gap-[4.65rem]">
                 <div class="flex flex-col justify-end">
                     <span class="bg-[#00474F] rounded-[0.86rem] text-[#fff] font-Satoshi700 text-[0.59rem] leading-[0.39rem] py-[0.7rem] eventBreak1:text-[0.4rem] eventBreak1:w-[50%] px-[1.47] w-[40%] text-center uppercase tracking-[0.38rem] eventBreak1:tracking-[0.15rem] eventBreak1:mb-4 mb-[1.5rem]">online event</span>
                     <h3 class="text-[#000] font-Satoshi700 text-[2rem] eventBreak1:text-[1rem] eventBreak1:leading-[1.2rem] leading-[2.26463rem]">
-                        Creating Your Professional Workspace With 
-                        Low Budget
+                        {{ singleEvent.title }}
                     </h3>
-                    <p class="mt-4 eventBreak1:mt-[0.5rem] text-[#000] font-Satoshi400 text-4 eventBreak1:text-[0.7rem] leading-4">Learn how to design your workspace with minimal budget</p>
+                    <p class="mt-4 eventBreak1:mt-[0.5rem] text-[#000] font-Satoshi400 text-4 eventBreak1:text-[0.7rem] leading-4">{{ singleEvent.content }}</p>
                     <div class="mt-[1.5rem] eventBreak1:mt-4 bg-[#ECFAFC] rounded-[0.5rem] eventBreak1:px-4 px-[1.5rem] py-[1rem] eventBreak1:py-[0.7rem] flex justify-between">
                         <div class="schedule flex flex-col gap-4 eventBreak1:gap-[0.5rem]">
                             <div>
                                 <label for="">Date</label>
-                                <h3>22ND MAY, 2024</h3>
+                                <h3>{{ singleEvent.event_date }}</h3>
                             </div>
                             <div>
                                 <label for="">time</label>
-                                <h3>06:00PM - 07:00PM</h3>
+                                <h3>{{ singleEvent.event_time }}</h3>
                             </div>
                         </div>
                         <div class="schedule flex flex-col gap-4 eventBreak1:gap-[0.5rem]">  
                             <div>
                                 <label for="">location</label>
-                                <h3 class="uppercase">online</h3>
+                                <h3 class="uppercase">{{ singleEvent.address }}</h3>
                             </div>
                             <div>
                                 <label for="">time-zone</label>
-                                <h3>GMT+01:00 - Africa</h3>
+                                <h3>{{ singleEvent.timezone }}</h3>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="rounded-[2.1875rem] overflow-hidden eventBreak1:rounded-[1rem]">
-                    <img src="@/assets/image/event_detail_img.png" alt="event image" class="object-fit">
+                    <img :src="singleEvent.featured_graphics" alt="event image" class="object-contain">
                 </div>
             </article>
             <article class="detail-container !items-start gap-[5rem] mt-[5rem] eventBreak1:mt-[3.5rem]">
                 <div>
                     <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">About the Event</h3>
                     <div class="about mt-6 font-Satoshi400 text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]">
-                        <p>
-                            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat <br>
-        
-                            sunt nostrud amet.Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.Amet minim mollit non deserunt <br>
-        
-                            ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-                        </p>
+                        {{ singleEvent.content }}
                     </div>
                 </div>
                 <div>
@@ -312,55 +325,30 @@ function handleViewMore(){
                     <h3 class="font-Satoshi700 text-[#000] text-[1.5rem] leading-6 eventBreak1:text-[1rem] eventBreak1:leading-4">Speaker:</h3>
                     <div class="mt-6 eventBreak1:mt-4  flex items-center gap-6">
                         <div class="w-[4rem] h-[4rem] rounded-[100%] overflow-hidden">
-                            <img src="../../assets/image/messageUser.png" alt="" class="w-full h-full">
+                            <img :src="singleEvent.featured_speaker" alt="" class="w-full h-full">
                         </div>
                         <div>
-                            <h3 class="font-Satoshi700 text-[#000] text-4 leading-4 eventBreak1:text-[0.9rem]">Adedire Akanji</h3>
-                            <p class="mt-[0.2rem] text-[#000] text-[0.8rem] leading-4">LinkedIn Marketing Specialist</p>
+                            <h3 class="font-Satoshi700 text-[#000] text-4 leading-4 eventBreak1:text-[0.9rem]">{{ singleEvent.speaker }}</h3>
+                            <p class="mt-[0.2rem] text-[#000] text-[0.8rem] leading-4">{{ singleEvent.linkedln }}</p>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">About Vibratique Hub</h3>
+                    <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">About {{ singleEvent.speaker }}</h3>
                     <p class="mt-6 font-Satoshi400 text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]">
-                        Vibratique hub is a full service creative agency at WillowTree, you’ll give form to ideas by being the voice and owner of product decisions. You’ll drive the design direction, and then make it happen! You can Learn More by visiting www.myspurr.net
+                        {{ singleEvent.speaker_bio }}
                     </p>
                 </div>
             </article>
             <article class="w-[50%] msgMob:w-full ">
                 <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">Sponsors</h3>
+                <div v-if="singleEvent.brand_partners && singleEvent.brand_partners.length === 0">
+                    <p class="pt-3">No sponsor available.</p>
+                </div>
                 <div class="flex gap-[1.4rem] flex-wrap mt-[1.7rem] msgMob:justify-center">
-                    <div class="w-[4rem] h-[4rem] overflow-hidden">
-                        <img src="@/assets/image/spons4.png" alt="" class="object-fit">
+                    <div class="w-[4rem] h-[4rem] overflow-hidden" v-for="image in singleEvent.brand_partners" :key="image">
+                        <img :src="image.image" alt="" class="object-fit">
                     </div>
-                    <div class="w-[4rem] h-[4rem] overflow-hidden">
-                        <img src="@/assets/image/spons1.png" alt="" class="object-fit">
-                    </div>
-                    <div class="w-[4rem] h-[4rem] overflow-hidden">
-                        <img src="@/assets/image/spons3.png" alt="" class="object-fit">
-                    </div>
-                    <div class="w-[4rem] h-[4rem] overflow-hidden">
-                        <img src="@/assets/image/spons2.png" alt="" class="object-fit">
-                    </div>
-                    <div class="w-[4rem] h-[4rem] overflow-hidden">
-                        <img src="@/assets/image/spons4.png" alt="" class="object-fit">
-                    </div>
-                    <div class="w-[4rem] h-[4rem] overflow-hidden">
-                        <img src="@/assets/image/spons2.png" alt="" class="object-fit">
-                    </div>
-                    <div class="w-[4rem] h-[4rem] overflow-hidden">
-                        <img src="@/assets/image/spons3.png" alt="" class="object-fit">
-                    </div>
-                    <div class="w-[4rem] h-[4rem] overflow-hidden">
-                        <img src="@/assets/image/spons1.png" alt="" class="object-fit">
-                    </div>
-                    <div class="w-[4rem] h-[4rem] overflow-hidden">
-                        <img src="@/assets/image/spons4.png" alt="" class="object-fit">
-                    </div>
-                    <div class="w-[4rem] h-[4rem] overflow-hidden">
-                        <img src="@/assets/image/spons1.png" alt="" class="object-fit">
-                    </div>
-                    
                 </div>
             </article>
             <article class="w-[95%] msgMob:w-full mx-auto mt-[3rem]">
@@ -368,27 +356,27 @@ function handleViewMore(){
                     <h3 class="font-Satoshi700 text-[#000] leading-5">Related Events</h3>
                 </div>
                 <div class="eventAds-container my-10">
-                    <article v-for="event in events" :key="event.id" class="eventAds grow shrink-0 basis-1/4">
-                        <div class="rounded-t-[1rem] overflow-hidden">
-                            <img src="@/assets/image/event_img.png" alt="" class="w-full h-full">
+                    <article v-for="event in relatedEvents" :key="event.id" class="eventAds grow shrink-0 basis-1/4">
+                        <div class="rounded-t-[1rem] overflow-hidden h-[200px]">
+                            <img :src="event.featured_graphics" alt="" class="w-full h-full object-contain">
                         </div>
                         <div class="px-[0.7rem] py-[0.5rem] bg-[#ECFAFC] rounded-b-[1rem]">
                             <h1 class="text-[#000] text-[0.8rem] font-Satoshi700 leading-[1rem] mb-4">{{ event.title }}</h1>
                             <div class="event_details flex flex-col gap-[0.29rem] my-[0.5rem]">
                                 <div class="flex items-center gap-[0.63rem]">
                                     <locationIcon />
-                                    <p>{{ event.location }}</p>
+                                    <p>{{ event.address }}</p>
                                 </div>
                                 <div class="flex items-center gap-[0.63rem]">
                                     <calendarIcon />
-                                    <p>{{ event.date }}</p>
+                                    <p>{{ event.event_date }}</p>
                                 </div>
                                 <div class="flex items-center gap-[0.63rem]">
                                     <timerIcon />
-                                    <p>{{ event.time }}</p>
+                                    <p>{{ event.event_time }}</p>
                                 </div>
                             </div>
-                            <router-link :to="{name: 'event-detail', param: {id: 1}}" class="event_btn">
+                            <router-link :to="{name: 'event-detail', params: {slug: event.slug}}" class="event_btn">
                                 <div 
                                 class="w-[100%] flex items-center justify-between px-4 py-[0.7rem] bg-[#43D0DF] rounded-[0.46rem] btn-hover-1" 
                                 >
@@ -482,7 +470,7 @@ function handleViewMore(){
     }
 
     .eventAds h1, .eventAds p {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .eventAds h1 {

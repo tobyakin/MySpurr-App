@@ -43,32 +43,32 @@ export const useJobsStore = defineStore('jobs', () => {
   //   other_file: '',
   //   question_answers: []
   // })
-      const ciso = ref('')
-      const siso = ref('')
+  const ciso = ref('')
+  const siso = ref('')
 
   const postJobsValue = ref({
-      job_title: '',
-      country_id: '',
-      state_id: '',
-      job_type: '',
-      description: '',
-      responsibilities: '',
-      required_skills: '',
-      benefits: '',
-      salaray_type: '',
-      salary_min: '',
-      salary_max: '',
-      currency:'',
-      skills: [
-      ],
-      experience: '',
-      qualification: '',
-      questions: [
-        {
-          question: ''
-        },
-      ]
-    }
+    job_title: '',
+    country_id: '',
+    state_id: '',
+    job_type: '',
+    description: '',
+    responsibilities: '',
+    required_skills: '',
+    benefits: '',
+    salaray_type: '',
+    salary_min: '',
+    salary_max: '',
+    currency: '',
+    skills: [
+    ],
+    experience: '',
+    qualification: '',
+    questions: [
+      {
+        question: ''
+      },
+    ]
+  }
   )
   const handleGetRatings = async (job_id, talent_id) => {
     try {
@@ -78,14 +78,14 @@ export const useJobsStore = defineStore('jobs', () => {
       console.error(error)
     }
   }
-const handleAddRating = async (payload) => {
-  try {
-    let res = await addRating(payload)
-    return res
-  }catch (error) {
-    /**/
+  const handleAddRating = async (payload) => {
+    try {
+      let res = await addRating(payload)
+      return res
+    } catch (error) {
+      /**/
+    }
   }
-}
   const allJobs = async () => {
     try {
       Job.value = await getJobs()
@@ -102,22 +102,22 @@ const handleAddRating = async (payload) => {
       console.error(error)
     }
   }
-    const handleMyJobs = async () => {
-      try {
-        MyJob.value = await getMyJobs()
-        return MyJob.value
-      } catch (error) {
-        console.error(error)
-      }
+  const handleMyJobs = async () => {
+    try {
+      MyJob.value = await getMyJobs()
+      return MyJob.value
+    } catch (error) {
+      console.error(error)
     }
-    const handleGetTopPickedJobs = async () => {
-      try {
-        topPickedJobs.value = await getTopPickedJobs()
-        return topPickedJobs.value
-      } catch (error) {
-        console.error(error)
-      }
+  }
+  const handleGetTopPickedJobs = async () => {
+    try {
+      topPickedJobs.value = await getTopPickedJobs()
+      return topPickedJobs.value
+    } catch (error) {
+      console.error(error)
     }
+  }
 
   const getSingleJob = async (id) => {
     try {
@@ -143,104 +143,104 @@ const handleAddRating = async (payload) => {
       console.error(error)
     }
   }
-    const handleGetJobDetailsBySlug = async (slug) => {
-      try {
-        JobDetails.value = await viewJobsDetailsBySlug(slug)
-        return JobDetails.value
-      } catch (error) {
-        console.error(error)
-      }
+  const handleGetJobDetailsBySlug = async (slug) => {
+    try {
+      JobDetails.value = await viewJobsDetailsBySlug(slug)
+      return JobDetails.value
+    } catch (error) {
+      console.error(error)
     }
-    const handleGetJobDetailsById = async (id) => {
-      try {
-        JobDetailsById.value = await viewJobsDetailsById(id)
-        return JobDetailsById.value
-      } catch (error) {
-        console.error(error)
-      }
+  }
+  const handleGetJobDetailsById = async (id) => {
+    try {
+      JobDetailsById.value = await viewJobsDetailsById(id)
+      return JobDetailsById.value
+    } catch (error) {
+      console.error(error)
     }
+  }
 
-    const applyForJob = async (payload) => {
-      // let payload = {
-      //   job_id: id,
-      //   rate: jobApplicationForm.value.rate,
-      //   available_start: jobApplicationForm.value.available_start,
-      //   resume: jobApplicationForm.value.resume,
-      //   other_file: jobApplicationForm.value.other_file,
-      //   question_answers: jobApplicationForm.value.question_answers
-      // }
-      try{
-        let res = await applyForJobs(payload)
-        return res
-      }catch (error) {
-        /**/
+  const applyForJob = async (payload) => {
+    // let payload = {
+    //   job_id: id,
+    //   rate: jobApplicationForm.value.rate,
+    //   available_start: jobApplicationForm.value.available_start,
+    //   resume: jobApplicationForm.value.resume,
+    //   other_file: jobApplicationForm.value.other_file,
+    //   question_answers: jobApplicationForm.value.question_answers
+    // }
+    try {
+      let res = await applyForJobs(payload)
+      return res
+    } catch (error) {
+      /**/
+    }
+  }
+  const handlePostJob = async () => {
+    let payload = {
+      job_title: postJobsValue.value.job_title,
+      country_id: ciso.value,
+      state_id: siso.value,
+      job_type: postJobsValue.value.job_type,
+      description: postJobsValue.value.description,
+      responsibilities: postJobsValue.value.responsibilities,
+      required_skills: postJobsValue.value.required_skills,
+      benefits: postJobsValue.value.benefits,
+      salaray_type: postJobsValue.value.salaray_type,
+      salary_min: postJobsValue.value.salary_min,
+      salary_max: postJobsValue.value.salary_max,
+      skills: postJobsValue.value.skills,
+      experience: postJobsValue.value.experience,
+      qualification: postJobsValue.value.qualification,
+      questions: postJobsValue.value.questions,
+      currency: postJobsValue.value.currency
+    }
+    try {
+      let res = await postJobs(payload)
+      return res
+    } catch (error) {
+      /**/
+    }
+  }
+  const handlejobPayment = async (
+    business_id,
+    email,
+    amount,
+    payment_redirect_url,
+    is_highlighted
+  ) => {
+    let payload = {
+      business_id: business_id,
+      email: email,
+      amount: amount,
+      payment_redirect_url: payment_redirect_url,
+      is_highlighted: is_highlighted,
+      job: {
+        job_title: postJobsValue.value.job_title,
+        country_id: ciso.value,
+        state_id: siso.value,
+        job_type: postJobsValue.value.job_type,
+        description: postJobsValue.value.description,
+        responsibilities: postJobsValue.value.responsibilities,
+        required_skills: postJobsValue.value.required_skills,
+        benefits: postJobsValue.value.benefits,
+        salaray_type: postJobsValue.value.salaray_type,
+        salary_min: postJobsValue.value.salary_min,
+        salary_max: postJobsValue.value.salary_max,
+        skills: postJobsValue.value.skills,
+        experience: postJobsValue.value.experience,
+        qualification: postJobsValue.value.qualification,
+        questions: postJobsValue.value.questions,
+        currency: postJobsValue.value.currency
       }
     }
-        const handlePostJob = async () => {
-          let payload = {
-            job_title: postJobsValue.value.job_title,
-            country_id: ciso.value,
-            state_id: siso.value,
-            job_type: postJobsValue.value.job_type,
-            description: postJobsValue.value.description,
-            responsibilities: postJobsValue.value.responsibilities,
-            required_skills: postJobsValue.value.required_skills,
-            benefits: postJobsValue.value.benefits,
-            salaray_type: postJobsValue.value.salaray_type,
-            salary_min: postJobsValue.value.salary_min,
-            salary_max: postJobsValue.value.salary_max,
-            skills: postJobsValue.value.skills,
-            experience: postJobsValue.value.experience,
-            qualification: postJobsValue.value.qualification,
-            questions: postJobsValue.value.questions,
-            currency: postJobsValue.value.currency
-          }
-          try {
-            let res = await postJobs(payload)
-            return res
-          } catch (error) {
-            /**/
-          }
-        }
-                const handlejobPayment = async (
-                  business_id,
-                  email,
-                  amount,
-                  payment_redirect_url,
-                  is_highlighted
-                ) => {
-                  let payload = {
-                    business_id: business_id,
-                    email: email,
-                    amount: amount,
-                    payment_redirect_url: payment_redirect_url,
-                    is_highlighted:is_highlighted,
-                    job: {
-                      job_title: postJobsValue.value.job_title,
-                      country_id: ciso.value,
-                      state_id: siso.value,
-                      job_type: postJobsValue.value.job_type,
-                      description: postJobsValue.value.description,
-                      responsibilities: postJobsValue.value.responsibilities,
-                      required_skills: postJobsValue.value.required_skills,
-                      benefits: postJobsValue.value.benefits,
-                      salaray_type: postJobsValue.value.salaray_type,
-                      salary_min: postJobsValue.value.salary_min,
-                      salary_max: postJobsValue.value.salary_max,
-                      skills: postJobsValue.value.skills,
-                      experience: postJobsValue.value.experience,
-                      qualification: postJobsValue.value.qualification,
-                      questions: postJobsValue.value.questions,
-                      currency: postJobsValue.value.currency
-                    }
-                  }
-                  try {
-                    let res = await jobPayment(payload)
-                    return res
-                  } catch (error) {
-                    /**/
-                  }
-                }
+    try {
+      let res = await jobPayment(payload)
+      return res
+    } catch (error) {
+      /**/
+    }
+  }
 
   const allTalents = async () => {
     try {
@@ -282,33 +282,33 @@ const handleAddRating = async (payload) => {
       console.error(error)
     }
   }
-const handleEditJob = async (id) => {
-      let payload = {
-        job_title: postJobsValue.value.job_title,
-        country_id: ciso.value,
-        state_id: siso.value,
-        job_type: postJobsValue.value.job_type,
-        description: postJobsValue.value.description,
-        responsibilities: postJobsValue.value.responsibilities,
-        required_skills: postJobsValue.value.required_skills,
-        benefits: postJobsValue.value.benefits,
-        salaray_type: postJobsValue.value.salaray_type,
-        salary_min: postJobsValue.value.salary_min,
-        salary_max: postJobsValue.value.salary_max,
-        skills: postJobsValue.value.skills,
-        experience: postJobsValue.value.experience,
-        qualification: postJobsValue.value.qualification,
-        questions: postJobsValue.value.questions,
-        currency: postJobsValue.value.currency
-      }
+  const handleEditJob = async (id) => {
+    let payload = {
+      job_title: postJobsValue.value.job_title,
+      country_id: ciso.value,
+      state_id: siso.value,
+      job_type: postJobsValue.value.job_type,
+      description: postJobsValue.value.description,
+      responsibilities: postJobsValue.value.responsibilities,
+      required_skills: postJobsValue.value.required_skills,
+      benefits: postJobsValue.value.benefits,
+      salaray_type: postJobsValue.value.salaray_type,
+      salary_min: postJobsValue.value.salary_min,
+      salary_max: postJobsValue.value.salary_max,
+      skills: postJobsValue.value.skills,
+      experience: postJobsValue.value.experience,
+      qualification: postJobsValue.value.qualification,
+      questions: postJobsValue.value.questions,
+      currency: postJobsValue.value.currency
+    }
 
-  try {
-    let res = await editJob(id, payload)
-    return res
-  } catch (error) {
-    /**/
+    try {
+      let res = await editJob(id, payload)
+      return res
+    } catch (error) {
+      /**/
+    }
   }
-}
   return {
     Job,
     allJobs,
