@@ -215,15 +215,19 @@ const handleViewMore = () => {
                             class="text-[#000] font-Satoshi700 text-[2rem] eventBreak1:text-[1rem] eventBreak1:leading-[1.2rem] leading-[2.26463rem]">
                             {{ singleEvent.title }}
                         </h3>
-                        <div
-                            class="mt-4 eventBreak1:mt-[0.5rem] text-[#000] font-Satoshi400 text-4 eventBreak1:text-[0.7rem] leading-4">
+                        <div class="mb-10 mt-5 h-[220px]">
+                            <img :src="singleEvent.featured_graphics" alt="event image"
+                                class="object-cover rounded-[2.1875rem] w-full h-full" />
                         </div>
+                        
+                    </div>
+                    <div class="rounded-[2.1875rem] w-full md:w-3/6">
                         <div
-                            class="mt-[1.5rem] eventBreak1:mt-4 bg-[#ECFAFC] rounded-[20px] eventBreak1:px-4 px-[2.2rem] py-[1.5rem] eventBreak1:py-[0.7rem] flex gap-24 w-full md:w-[420px]">
+                            class="mt-[116px] mb-[30px] eventBreak1:mt-4 bg-[#ECFAFC] rounded-[20px] eventBreak1:px-4 px-[2.2rem] py-[1.5rem] eventBreak1:py-[0.7rem] flex gap-10 w-full md:w-[380px] ms-auto">
                             <div class="schedule flex flex-col gap-4 eventBreak1:gap-[0.5rem]">
                                 <div>
-                                    <label for="">Date</label>
-                                    <h3>{{ singleEvent.event_date }}</h3>
+                                    <div for="">Date</div>
+                                    <span class=" text-sm font-bold">{{ singleEvent.event_date }}</span>
                                 </div>
                                 <div>
                                     <label for="">Time</label>
@@ -241,14 +245,8 @@ const handleViewMore = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="rounded-[2.1875rem] w-full md:w-3/6">
-                        <div class="mb-10">
-                            <img :src="singleEvent.featured_graphics" alt="event image"
-                                class="object-cover rounded-[2.1875rem] w-full h-full" />
-                        </div>
                         <div>
-                        <div class="bg-[#007582] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full md:w-[70%] ms-auto"
+                        <div class="bg-[#007582] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full md:w-[380px] ms-auto"
                             :class="{ registered: eventRegistered }">
                             <div class="w-full grid place-items-center" v-if="!eventRegistered">
                                 <h3
@@ -256,7 +254,7 @@ const handleViewMore = () => {
                                     Register
                                 </h3>
                                 <button
-                                    class="mt-[1.2rem] bg-[#ECFAFC] rounded-[1.6rem] w-[90%] mx-auto text-center py-[0.6rem] text-[#000] font-Satoshi500 leading-[0.8rem] text-[1rem] eventBreak1:text-[0.7rem]"
+                                    class="mt-[1.2rem] bg-[#ECFAFC] rounded-[1.6rem] w-[70%] mx-auto text-center py-[0.6rem] text-[#000] font-Satoshi500 leading-[0.8rem] text-[1rem] eventBreak1:text-[0.7rem]"
                                     @click="handleRegisterNotification">
                                     Register for this Event
                                 </button>
