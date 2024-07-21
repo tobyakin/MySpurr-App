@@ -172,7 +172,8 @@ ol {
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none;
+  display: none !important;
+  scrollbar-color: none !important;
 }
 
 .error-msg {
@@ -235,9 +236,7 @@ ol {
 .tabcontent {
   padding-top: 10px;
 }
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+
 .Vue-Toastification__toast {
   @apply font-Satoshi400;
 }
@@ -460,12 +459,32 @@ input[type='checkbox'] {
     @apply !flex items-center justify-between w-full
   }
 
+  .widget .header_container {
+    @apply w-full
+  }
+
   .widget hr {
     @apply mt-[0.5rem] hidden
   }
 
+  .widget .replies hr {
+    @apply block mt-0
+  }
+
+  .widget .head {
+    @apply mb-4
+  }
+
+  .widget .replies .head h3 {
+    @apply text-[0.7rem] leading-[0.8rem]
+  }
+
+  .widget .replies .head .time_stamp {
+    @apply text-[0.5rem]
+  }
+
   .widget .senderDetails {
-    @apply !p-4
+    @apply !p-4 rounded-t-[1.003rem]
   }
 
   svg {
@@ -544,6 +563,10 @@ input[type='checkbox'] {
     @apply 
   } */
 
+  .widget .chatScroll {
+    @apply !h-[100%]
+  }
+
   /* Events */
 
   .event_details p {
@@ -589,6 +612,12 @@ input[type='checkbox'] {
   .share svg {
     @apply w-[30px] msgTab:w-[20px]
   }
+
+  .item #chatPane, .item #newMessageMob {
+    @apply msgTab:absolute msgTab:top-0 msgTab:left-[50%] msgTab:opacity-[-1] msgTab:z-[-1] msgTab:h-full msgTab:translate-x-[-50%]
+  }
+
+  
 
   
 

@@ -87,6 +87,7 @@ export const useUserProfile = defineStore('profile', () => {
     certificate_date: ''
   })
 const singlePortfolio = ref({})
+
     const userProfile = async () => {
       try {
         user.value = await getUserProfile()
