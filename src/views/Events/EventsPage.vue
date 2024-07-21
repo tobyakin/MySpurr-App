@@ -39,7 +39,7 @@ onMounted(() => {
 <template>
   <section class="events">
     <DashboardLayout>
-        <Loader v-if="loading" />
+        <ShortLoader v-if="loading" />
         <section class="adsContainer mx-auto !mt-[5rem] !p-0 overflow-hidden flex flex-wrap w-[80%] msgMob:!w-[90%] basis-1/4" v-else>
             <div v-if="events && events.length === 0">
                 <div class="flex justify-center items-center">
