@@ -1,26 +1,21 @@
 import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import {
-    getMessage,
+    getMessages,
     sendMessage,
-    getTalentSentMessages,
-    getSentTalentMessageDetail,
-    getTalentReceivedMessages,
-    getTalentReceivedMessageDetail,
-    getBusinessSentMessages,
-    getBusinessSentMessageDetail,
-    getBusinessReceivedMessages,
-    getBusinessReceivedMessageDetail
-
+    replyMessage,
+    getSentMessages,
+    getMessageDetail,
+    getMail,
 } from "@/services/Messaging"
 
 export const useMessageStore = defineStore('messages', () => {
-    const chats = ref([])
-    const allMessages = ref()
+    const allMessages = ref([])
     const sentMessages = ref([])
-    const receivedMessages = ref([])
-    const sentMessageDetail = ref([])
-    const receivedMessageDetail = ref([])
+    const filteredMails = ref([])
+    const messageDetail = ref([])
+    const errorMessage = ref(null)
+    
 
     const handleSendMessage = async (payload)=>{
         try {
@@ -30,92 +25,65 @@ export const useMessageStore = defineStore('messages', () => {
             console.log(error)
         }
     }
+
+    const handleReplyMessage = async (payload)=>{
+        try {
+            let res = await replyMessage(payload)
+            return res.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleGetMessages = async (userId)=>{
+        try {
+            allMessages.value = await getMessages(userId)
+            return allMessages.value
+        } catch (error) {
+            console.log(error)
+        }
+    }
     
-    const handleTalentSentMessages = async ()=>{
+    const handleSentMessages = async ()=>{
         try {
-            sentMessages.value = await getTalentSentMessages()
+            sentMessages.value = await getSentMessages()
             return sentMessages.value
         } catch (error) {
             console.log(error)
         }
     }
 
-    const handleTalentReceivedMessages = async ()=>{
+    const handleMessageDetail = async (message_id)=>{
         try {
-            receivedMessages.value = await getTalentReceivedMessages()
-            return receivedMessages.value
+            messageDetail.value = await getMessageDetail(message_id)
+            return messageDetail.value
         } catch (error) {
             console.log(error)
         }
     }
 
-    const handleBusinessReceivedMessages = async ()=>{
+    const handleFilterMails = async (mail_input)=>{
         try {
-            receivedMessages.value =await getBusinessReceivedMessages()
-            return receivedMessages.value
+            filteredMails.value = await getMail(mail_input)
+            return filteredMails.value
         } catch (error) {
+            errorMessage.value = error
             console.log(error)
         }
     }
 
-    const handleBusinesSentMessages = async ()=>{
-        try {
-            sentMessages.value =await getBusinessSentMessages()
-            return sentMessages.value
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleSentTalentDetail = async (message_id)=>{
-        try {
-            sentMessageDetail.value = await getSentTalentMessageDetail(message_id)
-            return sentMessageDetail.value
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleReceivedTalentDetail = async (message_id) =>{
-        try {
-            receivedMessageDetail.value = await getTalentReceivedMessageDetail(message_id)
-            return receivedMessageDetail.value
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleReceivedBusinessDetail = async (message_id) =>{
-        try {
-            receivedMessageDetail.value = await getBusinessReceivedMessageDetail(message_id)
-            return receivedMessageDetail.value
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleSentBusinessDetail = async (message_id)=>{
-        try {
-            sentMessageDetail.value = await getBusinessSentMessageDetail(message_id)
-            return sentMessageDetail.value
-        } catch (error) {
-            console.log(error)
-        }
-    }
     
     return { 
+       allMessages,
+       handleGetMessages,
        sentMessages,
-       receivedMessages,
-       sentMessageDetail,
-       receivedMessageDetail,
-       handleTalentSentMessages,
-       handleTalentReceivedMessages,
-       handleSentTalentDetail,
-       handleReceivedTalentDetail,
-       handleBusinesSentMessages,
-       handleBusinessReceivedMessages,
-       handleReceivedBusinessDetail,
-       handleSentBusinessDetail,
-       handleSendMessage
+       handleSentMessages,
+       filteredMails,
+       handleFilterMails,
+       messageDetail,
+       handleMessageDetail,
+       handleReplyMessage,
+       handleSendMessage,
+       errorMessage
     }
 })

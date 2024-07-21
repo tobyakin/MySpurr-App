@@ -1,7 +1,7 @@
 <script setup>
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
 import { ref } from "vue";
-const emit = defineEmits(['all', 'read', 'unread', 'primary'])
+const emit = defineEmits(['all', 'read', 'unread', 'sent'])
 const filteredSection = ref('all')
 
 function filterAll(){
@@ -16,9 +16,9 @@ function filterUnread(){
     emit('unread')
     filteredSection.value = 'unread'
 }
-function filterPrimary(){
-    emit('primary')
-    filteredSection.value = 'primary'
+function filterSent(){
+    emit('sent')
+    filteredSection.value = 'sent'
 }
 
 
@@ -43,9 +43,9 @@ function filterPrimary(){
             <p>unread</p>
         </li>
         <li class="flex items-center gap-[0.3rem]"
-        :class="filteredSection === 'primary'? 'active': 'reg'" @click="filterPrimary">
+        :class="filteredSection === 'sent'? 'active': 'reg'" @click="filterSent">
             <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#007582]"></span>
-            <p>primary</p>
+            <p>sent</p>
         </li>
     </ul>
  </template>

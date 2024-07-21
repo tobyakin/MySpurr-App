@@ -2,10 +2,10 @@ import axios from '../axios'
 import { catchAxiosError, catchAxiosSuccess } from './Response'
 import { getToken } from './Auth'
 
-export const getMessage = async (receiverId) => {
+export const getMessages = async (userId) => {
     const token = await getToken()
     try {
-        let res = await axios.get(`v1/message/${receiverId}`, {
+        let res = await axios.get(`v1/message/${userId}`, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -34,74 +34,10 @@ export const sendMessage = async (payload) => {
     }
 }
 
-export const getTalentSentMessages = async () => {
+export const replyMessage = async (payload) => {
     const token = await getToken()
     try {
-        let res = await axios.get(`v1/message/sent/talent`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token
-            }
-        })
-        return res.data
-    } catch (error) {
-        catchAxiosError(error)
-        throw error
-    }
-}
-
-export const getSentTalentMessageDetail = async (message_id) => {
-    const token = await getToken()
-    try {
-        let res = await axios.get(`v1/message/detail/talent/${message_id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token
-            }
-        })
-        return res.data
-    } catch (error) {
-        catchAxiosError(error)
-        throw error
-    }
-}
-
-export const getTalentReceivedMessages = async () =>{
-    const token = await getToken()
-    try {
-        let res = await axios.get(`v1/message/received/talent`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token
-            }
-        })
-        return res.data
-    } catch (error) {
-        catchAxiosError(error)
-        throw error
-    }
-}
-
-export const getTalentReceivedMessageDetail = async (message_id) =>{
-    const token = await getToken()
-    try {
-        let res = await axios.get(`v1/message/detail/received/talent/${message_id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token
-            }
-        })
-        return res.data
-    } catch (error) {
-        catchAxiosError(error)
-        throw error
-    }
-}
-
-export const getBusinessSentMessages = async () => {
-    const token = await getToken()
-    try {
-        let res = await axios.get(`v1/message/sent/business`, {
+        let res = await axios.post(`/v1/message/reply`, payload, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token
@@ -115,10 +51,10 @@ export const getBusinessSentMessages = async () => {
     }
 }
 
-export const getBusinessSentMessageDetail = async (message_id) => {
+export const getSentMessages = async () => {
     const token = await getToken()
     try {
-        let res = await axios.get(`v1/message/detail/business/${message_id}`, {
+        let res = await axios.get(`v1/sent/message`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token
@@ -131,11 +67,10 @@ export const getBusinessSentMessageDetail = async (message_id) => {
     }
 }
 
-
-export const getBusinessReceivedMessages = async () => {
+export const getMessageDetail = async (message_id) => {
     const token = await getToken()
     try {
-        let res = await axios.get(`v1/message/received/business`, {
+        let res = await axios.get(`v1/message/detail/${message_id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token
@@ -148,19 +83,21 @@ export const getBusinessReceivedMessages = async () => {
     }
 }
 
-
-
-export const getBusinessReceivedMessageDetail = async (message_id) =>{
+export const getMail = async (mail_input) => {
+    const token = await getToken()
     try {
-        let res = await axios.get(`v1/message/detail/business/${message_id}`, {
+        let res = await axios.get(`v1/getuser?email=${mail_input}`, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token
             }
         })
         return res.data
     } catch (error) {
-        catchAxiosError(error)
-        throw error
+        console.log(error)
     }
 }
+
+
+
 

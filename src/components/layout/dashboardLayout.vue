@@ -32,6 +32,7 @@ const showChatWidget = computed(() => !route.meta.hideChatWidget);
 const userDetails = computed(() => {
   return profileStore?.user?.data;
 });
+const props = defineProps(['height', 'overflow'])
 
 const toggle = () => {
   closeNav.value = !closeNav.value;
@@ -208,7 +209,10 @@ const displayImage = computed(() => imageExists.value);
 </script>
 
 <template>
-  <div class="bg-[#FDFDF6] relative">
+  <div 
+  class="bg-[#FDFDF6] relative"
+  :style="{ height: height, overflow: overflow }"
+  >
     <div class="lg:flex">
       <div
         v-if="closeBackdrop"
