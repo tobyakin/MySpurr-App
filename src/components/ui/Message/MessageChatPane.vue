@@ -135,7 +135,7 @@ const downloadAllAttachments = (attachments) => {
                             <h3 class="company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{chat?.receiver?.first_name }} {{chat?.receiver?.last_name }} </h3>
                             <p class="mail text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{ chat?.receiver?.email}}</p>
                         </div>
-                        <DropDownArror @click="handleWidgetClose" class="!text-[#6C8285] arrow"/>
+                        <DropDownArror @click="handleWidgetClose" class="!text-[#6C8285] arrow msgMob:hidden"/>
                     </div>
                 </div>
                 <div class="header flexBasic gap-[0.85rem]">

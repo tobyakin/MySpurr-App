@@ -275,7 +275,12 @@ const getUserInfo = ()=>{
   }
 
   function handleWidgetClose (){
+    const screenWidth = window.innerWidth
+    const maxWidth = 1240
+
+    if(screenWidth >= maxWidth){
       closeWidget.value = !closeWidget.value
+    }
   }
 
   function handleNewMessage(){
