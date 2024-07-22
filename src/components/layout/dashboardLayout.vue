@@ -32,6 +32,7 @@ const showChatWidget = computed(() => !route.meta.hideChatWidget);
 const userDetails = computed(() => {
   return profileStore?.user?.data;
 });
+
 const props = defineProps(['height', 'overflow'])
 
 const toggle = () => {
@@ -388,7 +389,7 @@ const displayImage = computed(() => imageExists.value);
       </div>
       </div>
       
-      <ChatWidget v-if="showChatWidget" class="fixed bottom-0 right-[3rem] z-[99] eventBreak:hidden"/>
+      <ChatWidget defaultWidgetState="true" v-if="showChatWidget" class="fixed bottom-0 right-[3rem] z-[99] eventBreak:hidden"/>
   </div>
 </template>
 

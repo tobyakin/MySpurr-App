@@ -1,6 +1,25 @@
 import axios from '../axios'
 import { catchAxiosError, catchAxiosSuccess } from './Response'
+import { io } from 'socket.io-client'
 import { getToken } from './Auth'
+
+export const connect = async (receiverId) => {
+    const token = await getToken()
+    const api = import.meta.env.VITE_BACKEND_BASEURL;
+
+    try {
+        const res = io(api + `message/${receiverId}`, {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+        })
+        catchAxiosSuccess(res)
+        return res.data
+    } catch (error) {
+        catchAxiosError(error)
+        throw error
+    }
+}
 
 export const getMessages = async (userId) => {
     const token = await getToken()

@@ -1,11 +1,12 @@
 <template>
     <div class="newMessage h-full flex flex-col gap-0">
         <article class="header w-full z-[49] sticky top-0 bg-white">
-            <div class="senderDetails pt-[.5rem] pb-[1.6rem] px-[1.66rem] flexBasic !items-end">
+            <div class="senderDetails pt-[.5rem] pb-[1.6rem] px-[1.66rem] flexBasic !items-end msgMob:pb-[.5rem] msgMob:px-[0.9rem]">
                 <div class="flexBasic gap-[0.85rem]">
-                    <div class="w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden">
+                    <div class="w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden msgMob:!hidden">
                         <img :src="userImg" alt="user image" class="w-full h-full object-cover">
                     </div>
+                    <arrowLeft class="hidden msgMob:!block" @click="handleBack"/>
                     <div>
                         <h3 class="font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{ userInfo.first_name }} {{ userInfo.last_name }}</h3>
                         <p class="text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{userSkill}}</p>
@@ -31,6 +32,7 @@
     import { computed, onMounted, ref } from "vue";
     import circleFileIcon from '@/components/icons/circleFileIcon.vue';
     import MessageInputField from '@/components/ui/Message/MessageInputField.vue';
+    import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
     import { useUserProfile } from "@/stores/profile";
     const userInfo = ref([])
     let profile = useUserProfile();
@@ -45,9 +47,12 @@
         return userInfo.value
     }
     const props = defineProps(['isSendng', 'chat'])
-    const emit = defineEmits(['send', 'change', 'delete'])
+    const emit = defineEmits(['send', 'change', 'delete', 'back'])
 
     // console.log(userInfo.value)
+    function handleBack(){
+        emit('back')
+    }
 
     function handleDelete(){
         emit('delete')

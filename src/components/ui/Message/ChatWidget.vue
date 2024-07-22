@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
+  import { ref, computed, onMounted, onUnmounted, nextTick, watch } from "vue";
   import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
   import MessageFilter from "@/components/ui/Message/MessageFilter.vue"
   import AttachFile from "@/components/icons/attachFile.vue";
@@ -19,11 +19,9 @@
   const clickedMessage = ref();
   const showChatList = ref(true)
   const showChatPage = ref(false)
-  const closeWidget = ref(true)
+  const closeWidget = ref()
   const newMessage = ref(false)
   const textArea = ref(null)
-
-
 
 let store = useStore();
 
@@ -55,6 +53,15 @@ const recieverMail = ref([])
 const attached_file = ref(null)
 const userInfo = ref([])
 
+const props = defineProps(['defaultWidgetState'])
+
+watch(
+  () => props.defaultWidgetState,
+  (newVal) => {
+    closeWidget.value = newVal;
+  },
+  { immediate: true }
+);
 
 const accountType = computed(() => {
   return store.getUser.data.user.type;
@@ -165,16 +172,20 @@ const handleReplyMessage = async ()=>{
       "message": textArea.value.textContent
     })
     console.log(payload.value)
-    try {
-      textArea.value.textContent = ''
-      attachedFiles.value = []
-      await messageStore.handleReplyMessage(payload.value)
-      getAllMessages(userID.value)
-      await getMessageDetail(payload.value.message_id)
-      messageDetails.value = messageDetail.value.data
-      getSentMessages()
-    } catch (error) {
-      console.log(error)
+    if(payload.value.receiver_email.length > 0 && payload.value.message.length > 0){
+      try {
+        textArea.value.textContent = ''
+        attachedFiles.value = []
+        await messageStore.handleReplyMessage(payload.value)
+        getAllMessages(userID.value)
+        await getMessageDetail(payload.value.message_id)
+        messageDetails.value = messageDetail.value.data
+        getSentMessages()
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      alert('Some fields are not properly field')
     }
   }
 
@@ -183,11 +194,16 @@ const isSending = ref(false)
 const handleSendMessage = async (payload)=>{
   isSending.value = true
   try {
-    closeWindow()
-    await messageStore.handleSendMessage(payload)
-    getAllMessages(userID.value)
-    getSentMessages()
-    isSending.value = false
+    if(payload.body.length > 0 &&
+    payload.to.length > 0){
+      closeWindow()
+      await messageStore.handleSendMessage(payload)
+      getAllMessages(userID.value)
+      getSentMessages()
+      isSending.value = false
+    } else {
+      alert('Some fields are not filled')
+    }
   } catch (error) {
     console.log(error)
     isSending.value = false
@@ -195,6 +211,7 @@ const handleSendMessage = async (payload)=>{
 }
 
 onMounted(async ()=>{
+  closeWidget.value = props.defaultWidgetState;
   try {
     await profileStore.userProfile();
     if(isOnBoarded.value){
@@ -299,9 +316,9 @@ const getUserInfo = ()=>{
   </script>
   
   <template>
-      <section class="w-[21rem] h-[32rem] rounded-t-[1.003rem] bg-[#fff] shadow-3xl section transitionItem" :class="{widgetClosed: closeWidget}">
+      <section class="w-[21rem] h-[32rem] rounded-t-[1.003rem] bg-[#fff] shadow-3xl section transitionItem msgMob:rounded-none" :class="{widgetClosed: closeWidget}">
           <div class="flex flex-col h-full" v-if="showChatList">
-              <div class="">
+              <div class="msgMob:sticky">
                   <div class="pt-4 show px-[1.44rem] flexBasic cursor-pointer" @click.self="handleWidgetClose">
                       <div class="flexBasic gap-[0.88rem]">
                           <div class="userImg w-[1.875rem] h-[1.875rem] rounded-[1.875rem] overflow-hidden">
@@ -312,7 +329,7 @@ const getUserInfo = ()=>{
                       <div class="flexBasic gap-4">
                           <MoreVertIcon />
                           <smallNewMessageIcon @click="handleNewMessage"/>
-                          <DropDownArror class="!text-[#6C8285] cursor-pointer arrow" @click="handleWidgetClose"/>
+                          <DropDownArror class="!text-[#6C8285] cursor-pointer arrow msgMob:hidden" @click="handleWidgetClose"/>
                       </div>
                   </div>
                   <div class="px-[1.44rem] pb-4 filter">
@@ -382,9 +399,10 @@ const getUserInfo = ()=>{
               </div>
           </div>
           <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid place-items-center" v-if="newMessage" @click.self="closeWindow">
-            <div class="messageWindow w-[50%] rounded-[0.5rem] bg-white h-[90%] transitionItem overflow-hidden">
+            <div class="messageWindow w-[50%] rounded-[0.5rem] bg-white h-[90%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
               <NewMessage class="h-full" @send="handleSendMessage"
               @delete="handleDelete"
+              @back="closeWindow"
               />
             </div>
           </section>

@@ -228,7 +228,7 @@ const downloadAllAttachments = (attachments) => {
                         
                         </div>
                         <div>
-                            <div class="message text-[#000000bf] font-Satoshi400 leading-[1.2rem] text-[0.75rem] !mb-[1.3rem] border border-[red]">
+                            <div class="message text-[#000000bf] font-Satoshi400 leading-[1.2rem] text-[0.75rem] !mb-[1.3rem]">
                                 <h3 class="w-full h-auto">
                                     {{ reply.message }}
                                 </h3>

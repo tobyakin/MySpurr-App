@@ -7,6 +7,7 @@ import {
     getSentMessages,
     getMessageDetail,
     getMail,
+    connect
 } from "@/services/Messaging"
 
 export const useMessageStore = defineStore('messages', () => {
@@ -15,7 +16,16 @@ export const useMessageStore = defineStore('messages', () => {
     const filteredMails = ref([])
     const messageDetail = ref([])
     const errorMessage = ref(null)
-    
+    const socket = ref(null)
+
+    const connectSocket = async (receiverId) => {
+        try {
+          socket.value = await connect(receiverId)
+          return socket.value
+        } catch (error) {
+          console.error('Error fetching job title :', error)
+        }
+    }
 
     const handleSendMessage = async (payload)=>{
         try {
@@ -84,6 +94,8 @@ export const useMessageStore = defineStore('messages', () => {
        handleMessageDetail,
        handleReplyMessage,
        handleSendMessage,
-       errorMessage
+       errorMessage,
+       socket,
+       connectSocket
     }
 })

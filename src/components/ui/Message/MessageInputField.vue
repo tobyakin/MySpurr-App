@@ -177,7 +177,7 @@ const autoResize = () => {
 </script>
 
 <template>
-    <article class="replyBox w-full px-[1.66rem] h-[100%] pb-4">
+    <article class="replyBox w-full px-[1.66rem] h-[100%] pb-4 msgMob:px-[0.9rem]">
         <div class="border border-[#0000001a] rounded-[0.50175rem] h-full flex flex-col max-h-[inherit] min-h-[inherit] gap-0">
             <div class="h-fit">
                 <div class="header flex items-center justify-between px-4 py-[0.5rem] relative">
@@ -188,7 +188,7 @@ const autoResize = () => {
                         <h3 class="font-Satoshi400 text-[#244034] text-[0.702rem]">To:</h3>
                     </div>
                     <div class="flex gap-[0.3rem] w-full overflow-hidden"
-                    :class="recieverMail?.length > 1? 'flex-col': 'flex-row'">
+                    :class="recieverMail?.length > 0? 'flex-col': 'flex-row'">
                       <div class="flex items-center gap-[0.3rem] flex-wrap">
                         <div class="flexBasic bg-[#F0F5F3] rounded-[0.75rem] gap-4 px-[0.55rem] py-[0.3rem]" v-for="(mail, index) in recieverMail" :key="index">
                             <h3 class="text-[#244034b3] font-Satoshi500 leading-[1.104rem] text-[0.702rem]">{{ mail }}</h3>
