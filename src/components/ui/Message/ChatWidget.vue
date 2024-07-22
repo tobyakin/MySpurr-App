@@ -53,6 +53,7 @@ const messageLength = ref(false)
 const attachedFiles = ref([])
 const recieverMail = ref([])
 const attached_file = ref(null)
+const userInfo = ref([])
 
 
 const accountType = computed(() => {
@@ -165,11 +166,13 @@ const handleReplyMessage = async ()=>{
     })
     console.log(payload.value)
     try {
-      await messageStore.handleReplyMessage(payload)
-      getAllMessages(userID.value)
-      getSentMessages()
-      textArea.value.value = ''
+      textArea.value.textContent = ''
       attachedFiles.value = []
+      await messageStore.handleReplyMessage(payload.value)
+      getAllMessages(userID.value)
+      await getMessageDetail(payload.value.message_id)
+      messageDetails.value = messageDetail.value.data
+      getSentMessages()
     } catch (error) {
       console.log(error)
     }
@@ -196,6 +199,9 @@ onMounted(async ()=>{
     await profileStore.userProfile();
     if(isOnBoarded.value){
       getSentMessages(), getAllMessages(userID.value)
+      getUserInfo()
+      console.log(userInfo.value)
+      userImg.value = userInfo.value.company_logo || userInfo.value.image
     }
   } catch (error) {
     console.log(error)
@@ -205,7 +211,12 @@ onMounted(async ()=>{
 })
 
   const uploadedFileDetails = ref([]);
+  const userImg = ref('')
 
+const getUserInfo = ()=>{
+    userInfo.value = profileStore?.user?.data
+    return userInfo.value
+}
   const uploadFile = (event) => {
     const file = event.target.files[0];
     console.log(file)
@@ -216,8 +227,8 @@ onMounted(async ()=>{
       reader.onload = () => {
         attachedFiles.value.push({
           "file": reader.result,
-          "name": file.name,
-          "size": `${(file.size / 1048576).toFixed(2)} MB`
+          "file_name": file.name,
+          "file_size": `${(file.size / 1048576).toFixed(2)} MB`
         }) // Extract base64 data
         uploadedFileDetails.value.push(
           {
@@ -274,11 +285,13 @@ onMounted(async ()=>{
   const scrollToBottom = async () => {
     await nextTick();
     const container = scrollContainer.value;
-    elHeight.value = attached_file.value.offsetHeight
-    if (container) {
-      calcHeight.value = 40 + elHeight.value;
-      console.log(container.scrollHeight, calcHeight.value)
-      container.scrollTop = container.scrollHeight + calcHeight.value;
+    if(attached_file.value){
+      elHeight.value = attached_file.value.offsetHeight
+      if (container) {
+        calcHeight.value = 40 + elHeight.value;
+        console.log(container.scrollHeight, calcHeight.value)
+        container.scrollTop = container.scrollHeight + calcHeight.value;
+      }
     }
   };
 
@@ -292,7 +305,7 @@ onMounted(async ()=>{
                   <div class="pt-4 show px-[1.44rem] flexBasic cursor-pointer" @click.self="handleWidgetClose">
                       <div class="flexBasic gap-[0.88rem]">
                           <div class="userImg w-[1.875rem] h-[1.875rem] rounded-[1.875rem] overflow-hidden">
-                              <img src="@/assets/image/userImg.png" alt="" class="w-full h-full">
+                              <img :src="userImg" alt="" class="w-full h-full">
                           </div>
                           <h3 class="text-[#000] font-Satoshi500 leading-[1.51rem]text-[0.903rem]">Messaging</h3>
                       </div>
@@ -315,7 +328,7 @@ onMounted(async ()=>{
               </div>
           </div>
           <div v-if="showChatPage" class="h-full widget flex flex-col">              
-              <div ref="scrollContainer" class="chatPane flex-1 overflow-y-auto contScroll h-full">
+              <div ref="scrollContainer" class="chatPane flex-1 overflow-y-auto contScroll h-[90%]">
                 <div 
                 class="noScroll mb-[0.5rem]"
                 :class="uploadedFileDetails?.length < 1? 'h-full': 'h-[80%]'"
@@ -329,7 +342,7 @@ onMounted(async ()=>{
                   @closeWidget="handleWidgetClose"
                   class="chat"/>
                 </div>
-                  <div class="attachment px-[0.5rem] !pb-6 !my-[1.66rem] basis-[30%]" v-if="uploadedFileDetails?.length > 0">
+                  <div class="attachment px-[0.5rem] !pb-[0.5rem] !my-[1rem] basis-[30%]" v-if="uploadedFileDetails?.length > 0">
                     <div class="flex !gap-[0.5rem] flex-wrap" ref="attached_file">
                         <article class="flex items-center p-[0.5rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="item in uploadedFileDetails">
                             <circleFileIcon class="w-[20px] h-[20px]"/>
@@ -342,7 +355,7 @@ onMounted(async ()=>{
                 </div>
               </div>
               
-              <div class="inputField w-[95%] mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] border gap-[0.5rem] min-h-[16px] max-h-[200px] absolute bottom-0 z-[99] left-[50%] translate-x-[-50%] backdrop-blur-[4px]">
+              <div class="inputField w-[95%] mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] border gap-[0.5rem] min-h-[16px] max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]">
                   <div>
                     <label for="upload_file">
                       <AttachFile />
@@ -363,6 +376,7 @@ onMounted(async ()=>{
                     contenteditable
                     @input="handleInput"
                     ref="textArea"
+                    @keyup.enter="handleReplyMessage"
                   ></span>
                   <sendIcon class="!text-brand" @click="handleReplyMessage"/>
               </div>

@@ -205,9 +205,11 @@ const handleMessageClicked = async (payload)=>{
 const handleReplyMessage = async (payload)=>{
   await messageStore.handleReplyMessage(payload)
   getAllMessages(userID.value)
-  handleMessageClicked(payload.message_id)
+  getMessageDetail(payload.message_id)
+  messageDetails.value = messageDetail.value.data
   showReplyField.value = false
   getSentMessages()
+  console.log(payload)
 }
 
 const isSending = ref(false)

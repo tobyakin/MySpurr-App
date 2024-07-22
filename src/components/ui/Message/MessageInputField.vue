@@ -51,7 +51,7 @@ const autoResize = () => {
       "sender_id": userID.value,
       "receiver_id": props.chat?.sender_id,
       "receiver_email": recieverMail.value.join(','),
-      "attachments": "",
+      "attachments": [...attachedFiles.value],
       "message": textArea.value.value
     })
     
@@ -279,7 +279,7 @@ const autoResize = () => {
                     <button class="bg-[#3F634D] rounded-[10.38575rem] px-[1.3rem] py-[0.3rem] font-Satoshi500 text-[#fff] text-[0.803rem] leading-[1.7rem] " @click="handleReply"
                     v-if="!sendButton"
                     >Reply</button>
-                    <button class="bg-[#3F634D] rounded-[10.38575rem] px-[2.5rem] py-[1rem] font-Satoshi500 text-[#fff] text-[0.803rem] "
+                    <button class="bg-[#3F634D] rounded-[10.38575rem] px-[1.3rem] py-[0.3rem] font-Satoshi500 text-[#fff] text-[0.803rem] "
                     @click="handleSend"
                     v-if="sendButton"
                     >
