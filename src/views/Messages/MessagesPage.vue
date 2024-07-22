@@ -489,7 +489,7 @@ function handleNewMessage(){
     </DashboardLayout>
   </section>
   <section class="mobileWindow hidden msgMob:block overflow-hidden h-[100vh]">
-    <ChatWidget class="w-full h-[100vh] overflow-hidden" defaultWidgetState=""/>
+    <ChatWidget class="w-full !h-[100vh] max-h-[100vh] overflow-hidden" defaultWidgetState=""/>
   </section>
 </template>
 

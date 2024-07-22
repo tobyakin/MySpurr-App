@@ -123,7 +123,7 @@ const downloadAllAttachments = (attachments) => {
             <div class="header_container">
                 <div class="bg-white mobHeader hidden w-full pt-4">
                     <div 
-                    class="flexBasic gap-4 w-full cursor-pointer" 
+                    class="flexBasic msgMob:!justify-start gap-4 w-full cursor-pointer" 
                     @click.self="handleWidgetClose"
                     >
                         <arrowLeft @click="switchTab"/>
