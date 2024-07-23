@@ -46,6 +46,7 @@ onMounted(() => {
                     <p class="pt-3">No data available.</p>
                 </div>
             </div>
+            
             <article v-for="event in events" :key="event.id" class="w-[300px]">
                 <div class="rounded-t-[1.13825rem] h-[200px]">
                     <img :src="event.featured_graphics" alt="" class="w-full h-full object-cover rounded-t-[1rem]">

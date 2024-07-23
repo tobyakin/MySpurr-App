@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import DashboardLayout from '@/components/layout/dashboardLayout.vue'
 import calendarIcon from '@/components/icons/eventCalendarIcon.vue'
@@ -10,7 +10,10 @@ import Share from '@/components/ui/SocialShare.vue'
 import googleCalendarIcon from '@/components/icons/googleCalendarIcon.vue'
 import outlookCalendarIcon from '@/components/icons/outlookCalendarIcon.vue'
 import { useEventStore } from '../../stores/event'
-import Loader from '../../components/ui/Loader/Loader.vue'
+//import Loader from '../../components/ui/Loader/Loader.vue'
+import { storeToRefs } from 'pinia'
+import { useUserProfile } from "@/stores/profile"
+import SpinnerComponent from '../../components/spinner/SpinnerComponent.vue'
 
 const showCalendarOptions = ref(false)
 const calendarOption = ref()
@@ -20,6 +23,7 @@ const eventStore = useEventStore()
 const singleEvent = ref({})
 const loading = ref(false)
 const relatedEvents = ref([])
+const apiLoading = ref(false)
 
 const fetchSingleEvent = async () => {
     loading.value = true
@@ -70,35 +74,27 @@ watch(
     }
 )
 
-const parseDateToUTC = (dateString, timeString) => {
-    const [day, month, year] = dateString.split(' ')
-    const [hour, minute, period] = timeString.match(/(\d+):(\d+)(\w+)/).slice(1)
+const parseDateToUTC = (dateStr, timeStr) => {
+    const [day, monthName, year] = dateStr.split(' ');
+    const month = new Date(Date.parse(monthName + " 1, 2024")).getMonth();
 
-    const months = {
-        January: 0,
-        February: 1,
-        March: 2,
-        April: 3,
-        May: 4,
-        June: 5,
-        July: 6,
-        August: 7,
-        September: 8,
-        October: 9,
-        November: 10,
-        December: 11
+    let [time, modifier] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':');
+    hours = parseInt(hours);
+    minutes = parseInt(minutes);
+
+    if (modifier === 'PM' && hours !== 12) {
+        hours += 12;
+    } else if (modifier === 'AM' && hours === 12) {
+        hours = 0;
     }
 
-    let hours = parseInt(hour)
-    if (period.toLowerCase() === 'pm' && hours !== 12) {
-        hours += 12
-    } else if (period.toLowerCase() === 'am' && hours === 12) {
-        hours = 0
-    }
+    const localDate = new Date(year, month, day, hours, minutes);
+    const utcDate = new Date(localDate.getTime() - (0 * 60 * 60 * 1000));
 
-    const date = new Date(Date.UTC(year, months[month], parseInt(day), hours, parseInt(minute), 0))
-    return date
+    return utcDate;
 }
+
 
 const formatDateToUTC = (date) => {
     const pad = (num) => num.toString().padStart(2, '0')
@@ -126,21 +122,31 @@ const formatDateToOutlook = (date) => {
 
 const addToCalendar = () => {
     //   showCalendarOptions.value = true
-    const startDate = parseDateToUTC(eventDate.value, eventStartTime.value)
-    const endDate = parseDateToUTC(eventDate.value, eventEndTime.value)
+    const startDate = parseDateToUTC(singleEvent.value.event_date, singleEvent.value.event_time);
+
+    if (isNaN(startDate.getTime())) {
+        return;
+    }
+
+    const endDate = new Date(startDate);
+    endDate.setHours(endDate.getHours() + 2);
+
+    if (isNaN(endDate.getTime())) {
+        return;
+    }
 
     const googleCalendarUrl = `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(
-        eventTitle.value
+        singleEvent.value.title
     )}&dates=${formatDateToUTC(startDate)}/${formatDateToUTC(endDate)}&details=${encodeURIComponent(
-        eventDetails.value
-    )}&location=${encodeURIComponent(eventLocation.value)}`
+        singleEvent.value.content
+    )}&location=${encodeURIComponent(singleEvent.value.address)}`;
 
     const outlookCalendarUrl = `https://outlook.live.com/owa/?path=/calendar/action/compose&subject=${encodeURIComponent(
-        eventTitle.value
+        singleEvent.value.title
     )}&startdt=${encodeURIComponent(formatDateToOutlook(startDate))}&enddt=${encodeURIComponent(
         formatDateToOutlook(endDate)
-    )}&body=${encodeURIComponent(eventDetails.value)}&location=${encodeURIComponent(
-        eventLocation.value
+    )}&body=${encodeURIComponent(singleEvent.value.content)}&location=${encodeURIComponent(
+        singleEvent.value.address
     )}`
 
     if (calendarOption.value === 'google') {
@@ -150,17 +156,19 @@ const addToCalendar = () => {
     }
 }
 
-const eventTitle = ref('Meeting with John')
-const eventDate = ref('22nd May 2025')
-const eventStartTime = ref('2:00pm')
-const eventEndTime = ref('4:00pm')
-const eventDetails = ref('Discussing project updates')
-const eventLocation = ref('123 Main St, Springfield')
-
 const showRegistrationCompletedNotification = ref(false)
 const eventRegistered = ref(false)
 const showOptions = ref(false)
 const showSocials = ref(false)
+
+const userProfile = useUserProfile();
+
+const userDetails = computed(() => {
+  return userProfile.user.data;
+});
+
+const useEvent = useEventStore();
+const { registerEventData } = storeToRefs(useEvent);
 
 function handleAddtoGoogleCalendar() {
     calendarOption.value = 'google'
@@ -182,8 +190,28 @@ function handleShowOptions() {
     showCalendarOptions.value = true
 }
 
-function handleRegisterNotification() {
-    showRegistrationCompletedNotification.value = true
+const handleRegisterNotification = async () => {
+    
+    registerEventData.value.event_id = singleEvent.value.id ?? '';
+    registerEventData.value.first_name = userDetails.value.first_name ?? '';
+    registerEventData.value.last_name = userDetails.value.last_name ?? '';
+    registerEventData.value.creative_profession = userDetails.value.skill_title ?? '';
+    registerEventData.value.email = userDetails.value.email ?? '';
+    registerEventData.value.phone_number = userDetails.value.phone_number ?? '';
+    registerEventData.value.description = '';
+
+    apiLoading.value = true;
+    try {
+        const res = await useEvent.handleRegisterEvent();
+        if (res.status === true) {
+            showRegistrationCompletedNotification.value = true
+        }
+        return res;
+    } catch (error) {
+        console.log(error);
+    } finally {
+        apiLoading.value = false;
+    }
 }
 
 function handleCloseNotification() {
@@ -204,8 +232,8 @@ const handleViewMore = () => {
 <template>
     <section class="event-detail">
         <DashboardLayout>
-            <Loader v-if="loading" />
-            <section class="w-[80%] msgMob:w-[90%] mx-auto mt-[4rem]" v-else>
+            <!-- <Loader v-if="loading" /> -->
+            <section class="w-[80%] msgMob:w-[90%] mx-auto mt-[4rem]">
                 <article class="flex justify-between flex-col md:flex-row gap-[4.65rem]">
                     <div class="flex flex-col w-full md:w-3/6">
                         <span
@@ -256,13 +284,17 @@ const handleViewMore = () => {
                                 <button
                                     class="mt-[1.2rem] bg-[#ECFAFC] rounded-[1.6rem] w-[70%] mx-auto text-center py-[0.6rem] text-[#000] font-Satoshi500 leading-[0.8rem] text-[1rem] eventBreak1:text-[0.7rem]"
                                     @click="handleRegisterNotification">
-                                    Register for this Event
+                                    <div class="flex items-center justify-center">
+                                        <span v-if="apiLoading"><SpinnerComponent /></span>
+                                        <span v-else>Register for this Event</span>
+                                    </div>
+                                    
                                 </button>
                             </div>
                             <div class="w-full text-center" v-if="eventRegistered">
                                 <h3
                                     class="text-[#000] font-Satoshi500 leading-[1.5rem] text-[1.5rem] eventBreak1:text-[1rem] !mb-[0.5rem]">
-                                    Thanks for registering, Josh
+                                    Thanks for registering, {{ userDetails.first_name }} {{ userDetails.last_name }}
                                 </h3>
                                 <p class="eventBreak1:text-[0.7rem] text-[1rem]">We recommend you:</p>
                                 <div class="relative mt-[0.6rem] recommendations">
@@ -467,7 +499,7 @@ const handleViewMore = () => {
                                 </h3>
                                 <p
                                     class="text-[#6BA336] font-Satoshi700 text-[1rem] leading-4 mt-[0.5rem] msgMob:text-[0.8rem]">
-                                    Creating Your Professional Workspace With Low Budget
+                                    {{ singleEvent.title }}
                                 </p>
                             </div>
                             <div class="shareEvent flex items-center gap-[0.7rem]">
