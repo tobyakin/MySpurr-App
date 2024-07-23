@@ -341,7 +341,7 @@ const getUserInfo = ()=>{
                     <MessageFilter @all="filterAll" @read="filterRead" @unread="filterUnread" @sent="filterSent"/>
                   </div>
               </div>
-              <div class=" messageList overflow-y-auto scroller flex-1" id="messagesContainer">
+              <div class="messageList overflow-y-auto scroller flex-1" id="messagesContainer">
                 <ShortLoader v-if="messageLoading"/>
                 <MessageList :messageList="displayedMessages" @messageClicked="handleMessageClicked" :filter="filterSection"
                 :clickedId="clickedItem"

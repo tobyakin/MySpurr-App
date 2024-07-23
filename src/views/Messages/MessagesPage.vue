@@ -40,7 +40,7 @@ const userDetails = computed(() => {
 const emit = defineEmits(['next'])
 
 const messageStore = useMessageStore();
-const { sentMessages, allMessages, messageDetail } = storeToRefs(messageStore)
+const { sentMessages, allMessages, filteredMails, messageDetail } = storeToRefs(messageStore)
 const messageLoading = ref(false)
 const chatLoading = ref(false)
 const filterSection = ref('all')
@@ -50,6 +50,7 @@ const pageLoading = ref(true)
 const detailLoaded = ref(false)
 const messageDetails = ref([])
 const clickedItem = ref()
+const clickedIndex = ref()
 const profileStore = useUserProfile();
 const tabStore = useTabStore();
 const { isLoading } = storeToRefs(tabStore);
@@ -157,7 +158,7 @@ const getAllMessages = async (userId)=>{
     await messageStore.handleGetMessages(userId)
     messageLoading.value = false
   } catch (error) {
-    console.log(error)
+    cconsole.log(error)
     messageLoading.value = false
   }
   displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
@@ -243,6 +244,7 @@ const handleSendMessage = async (payload)=>{
   console.log(payload)
 }
 
+let num = 0
 const handleNavRight = async ()=>{
   messageIndex.value += 1
   emit('next', messageIndex.value)
@@ -286,6 +288,8 @@ onMounted(async ()=>{
     }
   } catch (error) {
     console.log(error)
+  } finally {
+    console.log('yes')
   }
 })
 
@@ -310,6 +314,10 @@ onMounted(async () => {
     isLoading.value = !isLoading.value;
   }
 });
+
+import CircleFileIcon from "../../components/icons/circleFileIcon.vue";
+import { reactiveComputed } from "@vueuse/core";
+
 
 // const connectSocket = async () => {
 //   try {
@@ -481,7 +489,7 @@ function handleNewMessage(){
     </DashboardLayout>
   </section>
   <section class="mobileWindow hidden msgMob:block overflow-hidden h-[100vh]">
-    <ChatWidget class="w-full !h-full max-h-[100vh] overflow-hidden" defaultWidgetState=""/>
+    <ChatWidget class="w-full !h-full max-h-full overflow-hidden" defaultWidgetState=""/>
   </section>
 </template>
 
