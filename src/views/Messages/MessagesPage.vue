@@ -315,9 +315,6 @@ onMounted(async () => {
   }
 });
 
-import CircleFileIcon from "../../components/icons/circleFileIcon.vue";
-import { reactiveComputed } from "@vueuse/core";
-
 
 // const connectSocket = async () => {
 //   try {
@@ -389,6 +386,24 @@ function handleNewMessage(){
   console.log(showNewMessage.value)
 
 }
+
+const widgetContainer = ref(null);
+
+const setWidgetHeight = () => {
+  if (widgetContainer.value) {
+    const viewportHeight = window.innerHeight;
+    widgetContainer.value.style.height = `${viewportHeight}px`;
+  }
+};
+
+onMounted(() => {
+  setWidgetHeight();
+  window.addEventListener('resize', setWidgetHeight);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', setWidgetHeight);
+});
 </script>
 
 <template>
@@ -488,7 +503,7 @@ function handleNewMessage(){
       </section>
     </DashboardLayout>
   </section>
-  <section class="mobileWindow hidden msgMob:block overflow-hidden h-[100vh]">
+  <section class="mobileWindow hidden msgMob:block overflow-hidden h-[100vh]" ref="widgetContainer">
     <ChatWidget class="w-full !h-full max-h-full overflow-hidden" defaultWidgetState=""/>
   </section>
 </template>
