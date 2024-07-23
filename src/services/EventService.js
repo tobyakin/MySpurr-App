@@ -1,5 +1,5 @@
 import axios from '../axios'
-import { catchAxiosError } from './Response'
+import { catchAxiosError, catchAxiosSuccess } from './Response'
 import { getToken } from './Auth'
 
 export const getEvents = async () => {
@@ -62,4 +62,18 @@ export const getRelated = async () => {
     }
 }
 
-
+export const registerEvent = async (payload) => {
+    const token = await getToken()
+    try {
+      let res = await axios.post(`v1/register/event`, payload, {
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
+      })
+      catchAxiosSuccess(res)
+      return res.data
+    } catch (error) {
+      catchAxiosError(error)
+      throw error
+    }
+}

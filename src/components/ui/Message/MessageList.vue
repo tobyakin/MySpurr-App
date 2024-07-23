@@ -1,9 +1,6 @@
 <script setup>
   import fileIcon from "@/components/icons/fileIcon.vue";
-  import { ref, nextTick } from "vue";
-import { useRouter } from "vue-router";
-  const router = useRouter()
-  const props = defineProps(['messageList', 'filter', 'clickedId'])
+
   const emit = defineEmits(['messageClicked'])
   const emitMMessageId = async (id, index)=>{
     emit('messageClicked', {id: id, index: index})
@@ -45,9 +42,6 @@ import { useRouter } from "vue-router";
     return time
   }
 
-  function getLastItem(message) {
-    return message?.replies?.length -1
-  }
 </script>
 <template>
   <div>
@@ -78,7 +72,7 @@ import { useRouter } from "vue-router";
           <div class="messageDetail pl-[1rem]">
             <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.5rem] text-[0.8rem] !mb-[0.3rem] capitalize" v-if="message.subject.length > 0">{{ message.subject }}</h3>
             <p class="messageText text-messageFont font-Satoshi400 leading-[1.25rem] text-[0.8rem] !mb-[0.7rem]">{{ truncate(message.message, 12) }}</p>
-            <div v-if="message.attachment.length > 0" class="flex gap-[0.5rem]">                    
+            <div v-if="message?.attachment && message.attachment.length > 0" class="flex gap-[0.5rem]">                    
               <div class="attachments flex items-center gap-[0.5rem] flex-wrap" v-for="file in message?.attachment" :key="file">
                 <div class="attachment flex items-center justify-center gap-[0.24rem] bg-[#F0F5F3] w-fit px-[0.3rem] py-[0.5rem] rounded-[0.2rem]">
                   <fileIcon />

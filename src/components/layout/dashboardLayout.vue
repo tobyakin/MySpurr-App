@@ -188,11 +188,15 @@ watch([userDetails, accountType], async () => {
 });
 
 function setInitials(name) {
-  initials.value = name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
+  if (typeof name === 'string' && name.trim().length > 0) {
+    initials.value = name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase();
+  } else {
+    initials.value = '';
+  }
 }
 
 function getImageSrc() {
