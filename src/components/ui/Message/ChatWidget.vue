@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
+  import { ref, computed, onMounted, onUnmounted, nextTick, watch } from "vue";
   import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
   import MessageFilter from "@/components/ui/Message/MessageFilter.vue"
   import AttachFile from "@/components/icons/attachFile.vue";
@@ -19,11 +19,9 @@
   const clickedMessage = ref();
   const showChatList = ref(true)
   const showChatPage = ref(false)
-  const closeWidget = ref(true)
+  const closeWidget = ref()
   const newMessage = ref(false)
   const textArea = ref(null)
-
-
 
 let store = useStore();
 
@@ -53,7 +51,17 @@ const messageLength = ref(false)
 const attachedFiles = ref([])
 const recieverMail = ref([])
 const attached_file = ref(null)
+const userInfo = ref([])
 
+const props = defineProps(['defaultWidgetState'])
+
+watch(
+  () => props.defaultWidgetState,
+  (newVal) => {
+    closeWidget.value = newVal;
+  },
+  { immediate: true }
+);
 
 const accountType = computed(() => {
   return store.getUser.data.user.type;
@@ -164,14 +172,20 @@ const handleReplyMessage = async ()=>{
       "message": textArea.value.textContent
     })
     console.log(payload.value)
-    try {
-      await messageStore.handleReplyMessage(payload)
-      getAllMessages(userID.value)
-      getSentMessages()
-      textArea.value.value = ''
-      attachedFiles.value = []
-    } catch (error) {
-      console.log(error)
+    if(payload.value.receiver_email.length > 0 && payload.value.message.length > 0){
+      try {
+        textArea.value.textContent = ''
+        attachedFiles.value = []
+        await messageStore.handleReplyMessage(payload.value)
+        getAllMessages(userID.value)
+        await getMessageDetail(payload.value.message_id)
+        messageDetails.value = messageDetail.value.data
+        getSentMessages()
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      alert('Some fields are not properly field')
     }
   }
 
@@ -180,11 +194,16 @@ const isSending = ref(false)
 const handleSendMessage = async (payload)=>{
   isSending.value = true
   try {
-    closeWindow()
-    await messageStore.handleSendMessage(payload)
-    getAllMessages(userID.value)
-    getSentMessages()
-    isSending.value = false
+    if(payload.body.length > 0 &&
+    payload.to.length > 0){
+      closeWindow()
+      await messageStore.handleSendMessage(payload)
+      getAllMessages(userID.value)
+      getSentMessages()
+      isSending.value = false
+    } else {
+      alert('Some fields are not filled')
+    }
   } catch (error) {
     console.log(error)
     isSending.value = false
@@ -192,10 +211,14 @@ const handleSendMessage = async (payload)=>{
 }
 
 onMounted(async ()=>{
+  closeWidget.value = props.defaultWidgetState;
   try {
     await profileStore.userProfile();
     if(isOnBoarded.value){
       getSentMessages(), getAllMessages(userID.value)
+      getUserInfo()
+      console.log(userInfo.value)
+      userImg.value = userInfo.value.company_logo || userInfo.value.image
     }
   } catch (error) {
     console.log(error)
@@ -205,7 +228,12 @@ onMounted(async ()=>{
 })
 
   const uploadedFileDetails = ref([]);
+  const userImg = ref('')
 
+const getUserInfo = ()=>{
+    userInfo.value = profileStore?.user?.data
+    return userInfo.value
+}
   const uploadFile = (event) => {
     const file = event.target.files[0];
     console.log(file)
@@ -216,8 +244,8 @@ onMounted(async ()=>{
       reader.onload = () => {
         attachedFiles.value.push({
           "file": reader.result,
-          "name": file.name,
-          "size": `${(file.size / 1048576).toFixed(2)} MB`
+          "file_name": file.name,
+          "file_size": `${(file.size / 1048576).toFixed(2)} MB`
         }) // Extract base64 data
         uploadedFileDetails.value.push(
           {
@@ -247,7 +275,12 @@ onMounted(async ()=>{
   }
 
   function handleWidgetClose (){
+    const screenWidth = window.innerWidth
+    const maxWidth = 1240
+
+    if(screenWidth >= maxWidth){
       closeWidget.value = !closeWidget.value
+    }
   }
 
   function handleNewMessage(){
@@ -274,11 +307,13 @@ onMounted(async ()=>{
   const scrollToBottom = async () => {
     await nextTick();
     const container = scrollContainer.value;
-    elHeight.value = attached_file.value.offsetHeight
-    if (container) {
-      calcHeight.value = 40 + elHeight.value;
-      console.log(container.scrollHeight, calcHeight.value)
-      container.scrollTop = container.scrollHeight + calcHeight.value;
+    if(attached_file.value){
+      elHeight.value = attached_file.value.offsetHeight
+      if (container) {
+        calcHeight.value = 40 + elHeight.value;
+        console.log(container.scrollHeight, calcHeight.value)
+        container.scrollTop = container.scrollHeight + calcHeight.value;
+      }
     }
   };
 
@@ -286,20 +321,20 @@ onMounted(async ()=>{
   </script>
   
   <template>
-      <section class="w-[21rem] h-[32rem] rounded-t-[1.003rem] bg-[#fff] shadow-3xl section transitionItem" :class="{widgetClosed: closeWidget}">
+      <section class="w-[21rem] h-[32rem] rounded-t-[1.003rem] bg-[#fff] shadow-3xl section transitionItem msgMob:rounded-none" :class="{widgetClosed: closeWidget}">
           <div class="flex flex-col h-full" v-if="showChatList">
-              <div class="">
+              <div class="msgMob:sticky">
                   <div class="pt-4 show px-[1.44rem] flexBasic cursor-pointer" @click.self="handleWidgetClose">
                       <div class="flexBasic gap-[0.88rem]">
                           <div class="userImg w-[1.875rem] h-[1.875rem] rounded-[1.875rem] overflow-hidden">
-                              <img src="@/assets/image/userImg.png" alt="" class="w-full h-full">
+                              <img :src="userImg" alt="" class="w-full h-full">
                           </div>
                           <h3 class="text-[#000] font-Satoshi500 leading-[1.51rem]text-[0.903rem]">Messaging</h3>
                       </div>
                       <div class="flexBasic gap-4">
                           <MoreVertIcon />
                           <smallNewMessageIcon @click="handleNewMessage"/>
-                          <DropDownArror class="!text-[#6C8285] cursor-pointer arrow" @click="handleWidgetClose"/>
+                          <DropDownArror class="!text-[#6C8285] cursor-pointer arrow msgMob:hidden" @click="handleWidgetClose"/>
                       </div>
                   </div>
                   <div class="px-[1.44rem] pb-4 filter">
@@ -315,7 +350,7 @@ onMounted(async ()=>{
               </div>
           </div>
           <div v-if="showChatPage" class="h-full widget flex flex-col">              
-              <div ref="scrollContainer" class="chatPane flex-1 overflow-y-auto contScroll h-full">
+              <div ref="scrollContainer" class="chatPane flex-1 overflow-y-auto contScroll h-[90%]">
                 <div 
                 class="noScroll mb-[0.5rem]"
                 :class="uploadedFileDetails?.length < 1? 'h-full': 'h-[80%]'"
@@ -329,7 +364,7 @@ onMounted(async ()=>{
                   @closeWidget="handleWidgetClose"
                   class="chat"/>
                 </div>
-                  <div class="attachment px-[0.5rem] !pb-6 !my-[1.66rem] basis-[30%]" v-if="uploadedFileDetails?.length > 0">
+                  <div class="attachment px-[0.5rem] !pb-[0.5rem] !my-[1rem] basis-[30%]" v-if="uploadedFileDetails?.length > 0">
                     <div class="flex !gap-[0.5rem] flex-wrap" ref="attached_file">
                         <article class="flex items-center p-[0.5rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="item in uploadedFileDetails">
                             <circleFileIcon class="w-[20px] h-[20px]"/>
@@ -342,7 +377,7 @@ onMounted(async ()=>{
                 </div>
               </div>
               
-              <div class="inputField w-[95%] mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] border gap-[0.5rem] min-h-[16px] max-h-[200px] absolute bottom-0 z-[99] left-[50%] translate-x-[-50%] backdrop-blur-[4px]">
+              <div class="inputField w-[95%] mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] border gap-[0.5rem] min-h-[16px] max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]">
                   <div>
                     <label for="upload_file">
                       <AttachFile />
@@ -363,14 +398,16 @@ onMounted(async ()=>{
                     contenteditable
                     @input="handleInput"
                     ref="textArea"
+                    @keyup.enter="handleReplyMessage"
                   ></span>
                   <sendIcon class="!text-brand" @click="handleReplyMessage"/>
               </div>
           </div>
           <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid place-items-center" v-if="newMessage" @click.self="closeWindow">
-            <div class="messageWindow w-[50%] rounded-[0.5rem] bg-white h-[90%] transitionItem overflow-hidden">
+            <div class="messageWindow w-[50%] rounded-[0.5rem] bg-white h-[90%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
               <NewMessage class="h-full" @send="handleSendMessage"
               @delete="handleDelete"
+              @back="closeWindow"
               />
             </div>
           </section>

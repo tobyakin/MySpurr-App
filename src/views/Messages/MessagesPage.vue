@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick} from "vue";
+import ChatWidget from "@/components/ui/Message/ChatWidget.vue";
 import { useRouter } from "vue-router";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import MessageList from "@/components/ui/Message/MessageList.vue";
@@ -204,9 +205,11 @@ const handleMessageClicked = async (payload)=>{
 const handleReplyMessage = async (payload)=>{
   await messageStore.handleReplyMessage(payload)
   getAllMessages(userID.value)
-  handleMessageClicked(payload.message_id)
+  await getMessageDetail(payload.message_id)
+  messageDetails.value = messageDetail.value.data
   showReplyField.value = false
   getSentMessages()
+  console.log(payload)
 }
 
 const isSending = ref(false)
@@ -214,17 +217,24 @@ const isSending = ref(false)
 const handleSendMessage = async (payload)=>{
   isSending.value = true
   try {
-    showReplyField.value = false
-    showNewMessage.value = false
-    await nextTick();
-    const messageElement = document.querySelector(`#message-${clickedItem.value}`);
-    if (messageElement) {
-      messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if(
+      payload.body.length > 0 &&
+      payload.to.length > 0
+    ){
+      showReplyField.value = false
+      showNewMessage.value = false
+      await nextTick();
+      const messageElement = document.querySelector(`#message-${clickedItem.value}`);
+      if (messageElement) {
+        messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      await messageStore.handleSendMessage(payload)
+      getAllMessages(userID.value)
+      getSentMessages()
+      isSending.value = false
+    } else {
+      alert('Some fields are not filled')
     }
-    await messageStore.handleSendMessage(payload)
-    getAllMessages(userID.value)
-    getSentMessages()
-    isSending.value = false
   } catch (error) {
     console.log(error)
     isSending.value = false
@@ -374,8 +384,8 @@ function handleNewMessage(){
 </script>
 
 <template>
-  <section class="message">
-    <DashboardLayout height="100vh" overflow="hidden">
+  <section class="message msgMob:hidden">
+    <DashboardLayout height="100vh">
       <!-- <div
         class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
       >
@@ -469,6 +479,9 @@ function handleNewMessage(){
         </div>
       </section>
     </DashboardLayout>
+  </section>
+  <section class="mobileWindow hidden msgMob:block overflow-hidden h-[100vh]">
+    <ChatWidget class="w-full !h-[100vh] max-h-[100vh] overflow-hidden" defaultWidgetState=""/>
   </section>
 </template>
 

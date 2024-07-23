@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, nextTick, watch } from "vue";
 import DeleteIcon from "@/components/icons/DeleteIcon.vue";
 import ReplyIcon from "@/components/icons/ReplyIcon.vue";
 import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
@@ -20,6 +20,13 @@ const accountType = computed(() => {
   return store.getUser.data.user.type;
 });
 
+const prop = defineProps(['chat', 'id'])
+const emit = defineEmits(['reply', 'switchTab', 'closeWidget'])
+
+function handleReply(chatId){
+    emit('reply', chatId)
+}
+
 const userImg = ref('')
 
 const getUserInfo = ()=>{
@@ -27,10 +34,13 @@ const getUserInfo = ()=>{
     return userInfo.value
 }
 
-onMounted(()=>{
-    getUserInfo()
-    userImg.value = userInfo.value.company_logo || userInfo.value.image
-})
+watch(
+    () => prop.chat,
+  async () => {
+    await scrollToBottom();
+  },
+  { deep: true }
+);
 
 onMounted(() => {
   return accountType, userID;
@@ -39,6 +49,10 @@ onMounted(() => {
 onMounted(async ()=>{
     try {
     await profileStore.userProfile();
+    getUserInfo()
+    userImg.value = userInfo.value.company_logo || userInfo.value.image
+    await scrollToBottom()
+
     if (
       isOnBoarded.value &&
       !isOnBoarded.value.business_details &&
@@ -55,12 +69,18 @@ onMounted(async ()=>{
   } 
 })
 
+const chatScroll = ref(null)
 
-const prop = defineProps(['chat', 'id'])
-const emit = defineEmits(['reply', 'switchTab', 'closeWidget'])
-function handleReply(chatId){
-    emit('reply', chatId)
-}
+const scrollToBottom = async () => {
+    await nextTick()
+  if (chatScroll.value) {
+    chatScroll.value.scrollTop = chatScroll.value.scrollHeight;
+    console.log(chatScroll.value.scrollHeight)
+
+  }
+};
+
+scrollToBottom()
 
 function handleWidgetClose(){
     emit('closeWidget')
@@ -103,7 +123,7 @@ const downloadAllAttachments = (attachments) => {
             <div class="header_container">
                 <div class="bg-white mobHeader hidden w-full pt-4">
                     <div 
-                    class="flexBasic gap-4 w-full cursor-pointer" 
+                    class="flexBasic msgMob:!justify-start gap-4 w-full cursor-pointer" 
                     @click.self="handleWidgetClose"
                     >
                         <arrowLeft @click="switchTab"/>
@@ -115,18 +135,22 @@ const downloadAllAttachments = (attachments) => {
                             <h3 class="company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{chat?.receiver?.first_name }} {{chat?.receiver?.last_name }} </h3>
                             <p class="mail text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{ chat?.receiver?.email}}</p>
                         </div>
-                        <DropDownArror @click="handleWidgetClose" class="!text-[#6C8285] arrow"/>
+                        <DropDownArror @click="handleWidgetClose" class="!text-[#6C8285] arrow msgMob:hidden"/>
                     </div>
                 </div>
                 <div class="header flexBasic gap-[0.85rem]">
                     <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid place-items-center border  border-brand font-Satoshi500 text-brand">
-                        <div v-if="chat?.sender_id != userID">
-                            {{ chat?.sender?.first_name[0] }} {{chat?.sender?.last_name[0] }}
+                        <!-- <div>
+                            <img :src="userImg" alt="" class="w-full h-full object-cover">
+                        </div> -->
+                        <div>
+                            <div v-if="chat?.sender_id != userID">
+                                {{ chat?.sender?.first_name[0] }} {{chat?.sender?.last_name[0] }}
+                            </div>
+                            <div v-else>
+                                {{ chat?.receiver?.first_name[0] }} {{chat?.receiver?.last_name[0] }}
+                            </div>
                         </div>
-                        <div v-else>
-                            {{ chat?.receiver?.first_name[0] }} {{chat?.receiver?.last_name[0] }}
-                        </div>
-                    <!-- <img :src="userImg" alt="" class="w-full h-full object-cover"> -->
                     </div>
                     <div>
                         <div v-if="chat?.sender_id != userID">
@@ -150,14 +174,17 @@ const downloadAllAttachments = (attachments) => {
             </div>   
             </div>
         <hr class="border-[#EEEEEE] border-1">
-        <div id="chatScroll" class="chatScroll pt-[1.16rem] px-[1.66rem] h-[80%] overflow-y-auto hide-scrollbar">
+        <div ref="chatScroll" id="chatScroll" class="chatScroll pt-[1.16rem] px-[1.66rem] h-[80%] overflow-y-auto hide-scrollbar">
             <div class="mb-6">
                 <div class="chatPage">
                     <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat.subject }}</h3>
                     <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden">{{ chat.subject }}</h3>
                     <div>
-                        <div class="message text-[#000000bf] font-Satoshi400 leading-[1.405rem] text-[0.75rem] !mb-[1.3rem]">
-                            {{ chat.message }}
+                        <div class="message text-[#000000bf] font-Satoshi400 leading-[1.2rem] text-[0.75rem] !mb-[1.3rem]">
+                            
+                            <h3 class="w-full h-auto">
+                                {{ chat.message }}
+                            </h3>
                         </div>
                     </div>
                 </div>
@@ -174,8 +201,8 @@ const downloadAllAttachments = (attachments) => {
                     </div>
                     <div class="filesContainer mt-4 flex gap-[1.1rem]">
                         
-                        <article v-for="item in chat?.attachment">
-                            <a :href="item.file" download 
+                        <article v-for="item in chat?.attachment" :key="item.file_name">
+                            <a :href="item.file" :download="item?.file_name" 
                             target="_blank"
                             class="files flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" >
                                 <circleFileIcon />
@@ -189,7 +216,7 @@ const downloadAllAttachments = (attachments) => {
                 </div>
             </div>
             <div class="replies mb-4" v-if="chat.replies && chat.replies.length > 0">
-                <div class="mb-6" v-for="reply in chat.replies">
+                <div class="mb-6" v-for="reply in chat.replies" :key="reply.id">
                     <div class="chatPage">
                     <div class=" head flex items-center justify-between">
                         <hr class="border-[#EEEEEE] border-1 my-[1.1rem] w-[30%]">
@@ -201,26 +228,30 @@ const downloadAllAttachments = (attachments) => {
                         
                         </div>
                         <div>
-                            <div class="message text-[#000000bf] font-Satoshi400 leading-[1.405rem] text-[0.75rem] !mb-[1.3rem]">
-                                {{ reply.message }}
+                            <div class="message text-[#000000bf] font-Satoshi400 leading-[1.2rem] text-[0.75rem] !mb-[1.3rem]">
+                                <h3 class="w-full h-auto">
+                                    {{ reply.message }}
+                                </h3>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-4" v-if="reply.attachment && reply.attachment.length > 0">
+                    <div class="mb-4" v-if="reply?.attachments && reply?.attachments.length > 0">
                     <hr class="border-[#EEEEEE] border-1 my-[1.1rem]">
-                    <div>
+                    <div class="hidden">
                         <div class="flexBasic atachmentHead">
-                            <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ reply.attachment.length }} Attachment</h3>
+                            <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ reply?.attachments.length }} Attachment</h3>
                             <button class="text-[#349459] font-Satoshi500 text-[0.702rem]">Download All</button>
                         </div>
                     </div>
                     <div class="filesContainer mt-4 flex gap-[1.1rem]">
-                        <article class="files flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="item in reply?.attachment">
-                            <circleFileIcon />
-                            <div>
-                            <h3 class="font-Satosi400 text-[#244034] leading-[1.003rem] text-[0.75rem]">{{ item.file_name }}</h3>
-                            <p class="text-[#24403480] font-Satoshi400 text-[0.65rem] leading-[1.003rem]">{{ item.file_size }}</p>
-                            </div>
+                        <article v-for="item in reply?.attachments">
+                            <a :href="item.file" :download="item.file_name" target="_blank" class="files flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center">
+                                <circleFileIcon />
+                                <div>
+                                <h3 class="font-Satosi400 text-[#244034] leading-[1.003rem] text-[0.75rem]">{{ item.file_name }}</h3>
+                                <p class="text-[#24403480] font-Satoshi400 text-[0.65rem] leading-[1.003rem]">{{ item.file_size }}</p>
+                                </div>
+                            </a>
                         </article>
                     </div>
                 </div>
@@ -233,6 +264,6 @@ const downloadAllAttachments = (attachments) => {
 <style scoped>
     #chatScroll::-webkit-scrollbar {
         display: none !important;
-        scrollbar-color: red !important;
+        /* scrollbar-color: red !important; */
     }
 </style>
