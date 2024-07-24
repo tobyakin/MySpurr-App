@@ -354,11 +354,19 @@ const getUserInfo = ()=>{
                   </div>
               </div>
               <div class="messageList overflow-y-auto scroller flex-1" id="messagesContainer">
-                <ShortLoader v-if="messageLoading"/>
-                <MessageList :messageList="displayedMessages" @messageClicked="handleMessageClicked" :filter="filterSection"
-                :clickedId="clickedItem"
-                @click="showChatPane"
-                 v-else/>
+                <div v-if="messageLength">
+                  <ShortLoader v-if="messageLoading"/>
+                  <MessageList :messageList="displayedMessages" @messageClicked="handleMessageClicked" :filter="filterSection"
+                  :clickedId="clickedItem"
+                  @click="showChatPane"
+                   v-else/>
+                </div>
+                <div class="w-full h-full grid place-items-center" v-else>
+                    <div class="text-center w-[90%] mx-auto">
+                      <h1 class="font-Satoshi500 text-[1.5rem] leading-[3.5rem]">No messages yet</h1>
+                      <p>Start a conversation by sending a message</p>
+                    </div>
+                  </div>
               </div>
           </div>
           <div v-if="showChatPage" class="h-full widget flex flex-col">              
