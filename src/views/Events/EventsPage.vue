@@ -6,7 +6,7 @@ import locationIcon from "@/components/icons/eventLocationIcon.vue"
 import timerIcon from "@/components/icons/eventTimerIcon.vue"
 import rightArrowM from "@/components/icons/rightArrowM.vue"
 import { useEventStore } from "../../stores/event";
-import Loader from "../../components/ui/Loader/Loader.vue";
+//import Loader from "../../components/ui/Loader/Loader.vue";
 
 const eventStore = useEventStore();
 const events = ref([]);
