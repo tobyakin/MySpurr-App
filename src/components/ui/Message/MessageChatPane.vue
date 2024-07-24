@@ -180,11 +180,9 @@ const downloadAllAttachments = (attachments) => {
                     <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat.subject }}</h3>
                     <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden">{{ chat.subject }}</h3>
                     <div>
-                        <div class="message text-[#000000bf] font-Satoshi400 leading-[1.2rem] text-[0.75rem] !mb-[1.3rem]">
-                            
-                            <h3 class="w-full h-auto">
-                                {{ chat.message }}
-                            </h3>
+                        <div 
+                        v-html="chat?.message"
+                        class="message break-words text-justify text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] !mb-[1.3rem] w-full h-auto whitespace-pre-wrap">
                         </div>
                     </div>
                 </div>
@@ -228,10 +226,9 @@ const downloadAllAttachments = (attachments) => {
                         
                         </div>
                         <div>
-                            <div class="message text-[#000000bf] font-Satoshi400 leading-[1.2rem] text-[0.75rem] !mb-[1.3rem]">
-                                <h3 class="w-full h-auto">
-                                    {{ reply.message }}
-                                </h3>
+                            <div 
+                                v-html="reply?.message"
+                                class="message break-words text-justify text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] !mb-[1.3rem] w-full h-auto whitespace-pre-wrap">
                             </div>
                         </div>
                     </div>

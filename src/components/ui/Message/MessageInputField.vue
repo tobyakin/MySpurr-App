@@ -3,8 +3,6 @@ import DropDownArror from "@/components/icons/DropDownArrow.vue"
 import circleFileIcon from '@/components/icons/circleFileIcon.vue';
 import DeleteIcon from "@/components/icons/DeleteIcon.vue";
 import ReplyIcon from "@/components/icons/ReplyIcon.vue";
-import emojiIcon from "@/components/icons/emojiIcon.vue";
-import AttachImage from "@/components/icons/AttachImage.vue";
 import cancelIcon from "@/components/icons/cancelIcon.vue"
 import AttachFile from "@/components/icons/attachFile.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
@@ -13,10 +11,9 @@ import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import { storeToRefs } from "pinia";
 import { useUserProfile } from "@/stores/profile";
 import { useMessageStore } from "@/stores/message";
-import { errorMessages } from "vue/compiler-sfc";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 const messageStore = useMessageStore();
-const { filteredMails, errorMessage } = storeToRefs(messageStore)
+const { filteredMails } = storeToRefs(messageStore)
 let profile = useUserProfile();
 const userID = computed(() => {
   return profile.user.data.id;
@@ -29,7 +26,6 @@ const mailSubject = ref(null)
 const recieverMail = ref([])
 const mailInput = ref(null)
 const mailValue = ref('')
-const replyClicked = ref(false)
 const attachedFiles = ref([])
 
 const autoResize = () => {
@@ -93,8 +89,6 @@ const autoResize = () => {
 
   const uploadFile = (event) => {
     const file = event.target.files[0];
-    console.log(file)
-
     if (file) {
       const reader = new FileReader();
 
@@ -114,7 +108,6 @@ const autoResize = () => {
 
       emit('change', uploadedFileDetails.value)
       reader.readAsDataURL(file);
-      console.log(uploadedFileDetails.value, attachedFiles.value)
     } else {
       console.log(file)
     }
@@ -129,6 +122,11 @@ const autoResize = () => {
 
   function removeMail(index){
     recieverMail.value.splice(index, 1);
+  }
+
+  function removeFile(index){
+    attachedFiles.value.splice(index, 1)
+    uploadedFileDetails.value.splice(index, 1)
   }
 
   function addMail(mail){
@@ -206,7 +204,7 @@ const autoResize = () => {
                     <h3 class="hidden font-Satoshi500 text-[0.75rem] leading-[1.51rem] text-[#244034cc]">Cc</h3>
                     <h3 class="hidden font-Satoshi500 text-[0.75rem] leading-[1.51rem] text-[#244034cc]">Bcc</h3>
                     </div>
-                    <div class=" max-h-[15rem] absolute top-[100%] left-[10%] w-[50%] bg-white rounded-[0.3rem] py-[0.5rem] shadow-4xl" v-if=" mailValue.length > 0">
+                    <div class=" max-h-[15rem] absolute top-[100%] left-[10%] w-[50%] msgMob:w-[70%] bg-white rounded-[0.3rem] py-[0.5rem] shadow-4xl" v-if=" mailValue.length > 0">
                       <div class="w-full">
                         <ShortLoader v-if="loadingMails"/>
                         <div class="border-b" v-else>
@@ -295,12 +293,13 @@ const autoResize = () => {
                     <button class="text-[#349459] font-Satoshi500 text-[0.702rem]">Download All</button>
                 </div>
                 <div class="mt-4 flex !gap-[0.5rem] flex-wrap">
-                    <article class="flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="item in uploadedFileDetails">
+                    <article class="flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="(item, index) in uploadedFileDetails" :key="index">
                         <circleFileIcon />
                         <div>
                             <h3 class="font-Satosi400 text-[#244034] leading-[1.003rem] text-[0.75rem]">{{item.name}}</h3>
                             <p class="text-[#24403480] font-Satoshi400 text-[0.65rem] leading-[1.003rem]">{{item.size}}</p>
                         </div>
+                        <cancelIcon class="cursor-pointer" @click="removeFile(index)"/>
                     </article>
                 </div>
             </div>

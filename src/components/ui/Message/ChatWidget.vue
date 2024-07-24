@@ -1,11 +1,11 @@
 <script setup>
-  import { ref, computed, onMounted, onUnmounted, nextTick, watch } from "vue";
+  import { ref, computed, onMounted, nextTick, watch } from "vue";
   import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
   import MessageFilter from "@/components/ui/Message/MessageFilter.vue"
   import AttachFile from "@/components/icons/attachFile.vue";
   import DropDownArror from "@/components/icons/DropDownArrow.vue"
-  import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
   import MessageList from "@/components/ui/Message/MessageList.vue";
+  import cancelIcon from "@/components/icons/cancelIcon.vue"
   import smallNewMessageIcon from "@/components/icons/smallNewMessageIcon.vue";
   import NewMessage from "@/components/ui/Message/NewMessage.vue";
   import MessageChatPane from "@/components/ui/Message/MessageChatPane.vue";
@@ -16,7 +16,7 @@
   import { storeToRefs } from "pinia";
   import sendIcon from "@/components/icons/sendIcon.vue"
   import circleFileIcon from '@/components/icons/circleFileIcon.vue';
-  const clickedMessage = ref();
+
   const showChatList = ref(true)
   const showChatPage = ref(false)
   const closeWidget = ref()
@@ -25,17 +25,12 @@
 
 let store = useStore();
 
-let profile = useUserProfile();
-let message = ref("");
-const userDetails = computed(() => {
-  return profile.user.data;
-});
 const userID = computed(() => {
   return profileStore.user.data.id;
 });
 
 const messageStore = useMessageStore();
-const { sentMessages, allMessages, filteredMails, messageDetail } = storeToRefs(messageStore)
+const { sentMessages, allMessages, messageDetail } = storeToRefs(messageStore)
 const messageLoading = ref(false)
 const chatLoading = ref(false)
 const filterSection = ref('all')
@@ -49,7 +44,6 @@ const profileStore = useUserProfile();
 const isOnBoarded = computed(() => profileStore.user);
 const messageLength = ref(false)
 const attachedFiles = ref([])
-const recieverMail = ref([])
 const attached_file = ref(null)
 const userInfo = ref([])
 
@@ -169,12 +163,12 @@ const handleReplyMessage = async ()=>{
       "receiver_id": messageDetails.value.sender_id,
       "receiver_email": messageDetails.value.receiver?.email,
       "attachments": attachedFiles.value,
-      "message": textArea.value.textContent
+      "message": textArea.value.value
     })
     console.log(payload.value)
     if(payload.value.receiver_email.length > 0 && payload.value.message.length > 0){
       try {
-        textArea.value.textContent = ''
+        textArea.value.value = ''
         attachedFiles.value = []
         await messageStore.handleReplyMessage(payload.value)
         getAllMessages(userID.value)
@@ -276,8 +270,8 @@ const getUserInfo = ()=>{
 
   function handleWidgetClose (){
     const screenWidth = window.innerWidth
-    const maxWidth = 1240
-
+    const maxWidth = 1024
+    console.log(screenWidth)
     if(screenWidth >= maxWidth){
       closeWidget.value = !closeWidget.value
     }
@@ -315,7 +309,25 @@ const getUserInfo = ()=>{
         container.scrollTop = container.scrollHeight + calcHeight.value;
       }
     }
-  };
+  }
+
+  function removeFile(index){
+    attachedFiles.value.splice(index, 1)
+    uploadedFileDetails.value.splice(index, 1)
+  }
+
+  const autoResize = () => {
+  const textarea = textArea.value;
+  const maxHeight = 100; // Set your desired maximum height in pixels
+
+  textarea.style.height = 'auto'; // Reset height to auto to calculate actual size
+  if (textarea.scrollHeight <= maxHeight) {
+    textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
+  } else {
+    textarea.style.height = `${maxHeight}px`; // Set height to maxHeight if exceeded
+    textarea.style.overflowY = 'auto'; // Allow vertical scrolling if content exceeds maxHeight
+  }
+};
 
   // Experimental funtions
   </script>
@@ -337,11 +349,11 @@ const getUserInfo = ()=>{
                           <DropDownArror class="!text-[#6C8285] cursor-pointer arrow msgMob:hidden" @click="handleWidgetClose"/>
                       </div>
                   </div>
-                  <div class="px-[1.44rem] pb-4 filter">
+                  <div class="px-[1.44rem] pb-4 msgMob:pb-[0.5rem] filter">
                     <MessageFilter @all="filterAll" @read="filterRead" @unread="filterUnread" @sent="filterSent"/>
                   </div>
               </div>
-              <div class=" messageList overflow-y-auto scroller flex-1" id="messagesContainer">
+              <div class="messageList overflow-y-auto scroller flex-1" id="messagesContainer">
                 <ShortLoader v-if="messageLoading"/>
                 <MessageList :messageList="displayedMessages" @messageClicked="handleMessageClicked" :filter="filterSection"
                 :clickedId="clickedItem"
@@ -353,7 +365,7 @@ const getUserInfo = ()=>{
               <div ref="scrollContainer" class="chatPane flex-1 overflow-y-auto contScroll h-[90%]">
                 <div 
                 class="noScroll mb-[0.5rem]"
-                :class="uploadedFileDetails?.length < 1? 'h-full': 'h-[80%]'"
+                :class="uploadedFileDetails?.length < 1? 'h-full': 'h-[90%]'"
                 >
                   <ShortLoader v-if="chatLoading"/>
                   <MessageChatPane
@@ -372,12 +384,13 @@ const getUserInfo = ()=>{
                                 <h3 class="font-Satosi400 text-[#244034] leading-[0.7rem] text-[0.5rem]">{{item.name}}</h3>
                                 <p class="text-[#24403480] font-Satoshi400 text-[0.5rem] leading-[0.7rem]">{{item.size}}</p>
                             </div>
+                            <cancelIcon class="cursor-pointer" @click="removeFile(index)"/>
                         </article>
                     </div>
                 </div>
               </div>
               
-              <div class="inputField w-[95%] mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] border gap-[0.5rem] min-h-[16px] max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]">
+              <div class="inputField w-[95%] msgMob:w-full mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] msgMob:rounded-none border gap-[0.5rem] min-h-[16px] h-[40px] max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]">
                   <div>
                     <label for="upload_file">
                       <AttachFile />
@@ -392,14 +405,13 @@ const getUserInfo = ()=>{
                       id="upload_file"
                     />
                   </div>
-                  <span 
-                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 min-h-[inherit] max-h-[inherit] overflow-auto scroller leading-4" 
-                    role="textbox" 
+                  <textarea
+                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 h-full overflow-auto scroller leading-4" 
                     contenteditable
-                    @input="handleInput"
+                    @input="autoResize"
                     ref="textArea"
-                    @keyup.enter="handleReplyMessage"
-                  ></span>
+                    
+                  ></textarea>
                   <sendIcon class="!text-brand" @click="handleReplyMessage"/>
               </div>
           </div>

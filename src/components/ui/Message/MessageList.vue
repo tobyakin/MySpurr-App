@@ -1,6 +1,6 @@
 <script setup>
   import fileIcon from "@/components/icons/fileIcon.vue";
-
+  const props = defineProps(['messageList', 'filter', 'clickedId'])
   const emit = defineEmits(['messageClicked'])
   const emitMMessageId = async (id, index)=>{
     emit('messageClicked', {id: id, index: index})
