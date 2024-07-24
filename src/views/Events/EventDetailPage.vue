@@ -394,10 +394,11 @@ const handleViewMore = () => {
                                 <img :src="singleEvent.featured_speaker" alt="" class="w-full h-full" />
                             </div>
                             <div>
-                                <h3 class="font-Satoshi700 text-[#000] text-4 leading-4 eventBreak1:text-[0.9rem]">
+                                <h3 class="font-Satoshi700 text-[#000] text-4 leading-4 pb-1 eventBreak1:text-[0.9rem]">
                                     {{ singleEvent.speaker }}
                                 </h3>
-                                <div class="mt-3">
+                                <p class="text-sm font-normal">{{ singleEvent.speaker_title }}</p>
+                                <div class="mt-1">
                                     <a :href="singleEvent.linkedln" target="_blank" class="mt-[0.2rem]">
                                         <img src="../../assets/events/linkedin.svg" alt="">
                                     </a>
@@ -433,7 +434,7 @@ const handleViewMore = () => {
                     </div>
                     <div class="eventAds-container my-10">
                         <article v-for="event in relatedEvents" :key="event.id"
-                            class="eventAds grow shrink-0 basis-1/4 w-[300px]">
+                            class="eventAds grow shrink-0 basis-1/4 w-[350px]">
                             <div class="rounded-t-[1rem] h-[200px]">
                                 <img :src="event.featured_graphics" alt=""
                                     class="w-full h-full object-fit rounded-t-[1rem]" />
