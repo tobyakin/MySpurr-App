@@ -434,7 +434,7 @@ const handleViewMore = () => {
                     </div>
                     <div class="eventAds-container my-10">
                         <article v-for="event in relatedEvents" :key="event.id"
-                            class="eventAds grow shrink-0 basis-1/4 w-[350px]">
+                            class="w-[320px] gap-3">
                             <div class="rounded-t-[1rem] h-[200px]">
                                 <img :src="event.featured_graphics" alt=""
                                     class="w-full h-full object-fit rounded-t-[1rem]" />
