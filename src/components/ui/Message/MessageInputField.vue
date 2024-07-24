@@ -3,8 +3,6 @@ import DropDownArror from "@/components/icons/DropDownArrow.vue"
 import circleFileIcon from '@/components/icons/circleFileIcon.vue';
 import DeleteIcon from "@/components/icons/DeleteIcon.vue";
 import ReplyIcon from "@/components/icons/ReplyIcon.vue";
-import emojiIcon from "@/components/icons/emojiIcon.vue";
-import AttachImage from "@/components/icons/AttachImage.vue";
 import cancelIcon from "@/components/icons/cancelIcon.vue"
 import AttachFile from "@/components/icons/attachFile.vue";
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
@@ -13,10 +11,9 @@ import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import { storeToRefs } from "pinia";
 import { useUserProfile } from "@/stores/profile";
 import { useMessageStore } from "@/stores/message";
-import { errorMessages } from "vue/compiler-sfc";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 const messageStore = useMessageStore();
-const { filteredMails, errorMessage } = storeToRefs(messageStore)
+const { filteredMails } = storeToRefs(messageStore)
 let profile = useUserProfile();
 const userID = computed(() => {
   return profile.user.data.id;
@@ -29,7 +26,6 @@ const mailSubject = ref(null)
 const recieverMail = ref([])
 const mailInput = ref(null)
 const mailValue = ref('')
-const replyClicked = ref(false)
 const attachedFiles = ref([])
 
 const autoResize = () => {

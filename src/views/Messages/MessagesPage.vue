@@ -7,8 +7,6 @@ import MessageList from "@/components/ui/Message/MessageList.vue";
 import MessageChatPane from "@/components/ui/Message/MessageChatPane.vue";
 import MessageFilter from "@/components/ui/Message/MessageFilter.vue"
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
-import Loader from "@/components/ui/Loader/Loader.vue"
-import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import NewMessage from "@/components/ui/Message/NewMessage.vue";
 
 import arrowRight from "@/components/icons/arrowRightAlt.vue";
@@ -16,7 +14,6 @@ import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
 import leftArrowM from "@/components/icons/leftArrowM.vue";
 import rightArrowM from "@/components/icons/rightArrowM.vue";
 import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
-import SearchIcon from "@/components/icons/searchBarIcon.vue";
 import NewMessageIcon from "@/components/icons/NewMessageIcon.vue";
 import MessageInputField from "@/components/ui/Message/MessageInputField.vue";
 import { useSocketStore } from "@/stores/socket";
@@ -29,7 +26,6 @@ import { storeToRefs } from "pinia";
 
 let store = useStore();
 const router = useRouter();
-const conversationList = ref([])
 // const allMessages = ref([])
 let profile = useUserProfile();
 let receiverId = "211950a8-c8bd-4f12-9b92-db142c85ddd4";
@@ -40,7 +36,7 @@ const userDetails = computed(() => {
 const emit = defineEmits(['next'])
 
 const messageStore = useMessageStore();
-const { sentMessages, allMessages, filteredMails, messageDetail } = storeToRefs(messageStore)
+const { sentMessages, allMessages, messageDetail } = storeToRefs(messageStore)
 const messageLoading = ref(false)
 const chatLoading = ref(false)
 const filterSection = ref('all')
@@ -50,7 +46,6 @@ const pageLoading = ref(true)
 const detailLoaded = ref(false)
 const messageDetails = ref([])
 const clickedItem = ref()
-const clickedIndex = ref()
 const profileStore = useUserProfile();
 const tabStore = useTabStore();
 const { isLoading } = storeToRefs(tabStore);
