@@ -10,7 +10,6 @@ import Share from '@/components/ui/SocialShare.vue'
 import googleCalendarIcon from '@/components/icons/googleCalendarIcon.vue'
 import outlookCalendarIcon from '@/components/icons/outlookCalendarIcon.vue'
 import { useEventStore } from '../../stores/event'
-//import Loader from '../../components/ui/Loader/Loader.vue'
 import { storeToRefs } from 'pinia'
 import { useUserProfile } from "@/stores/profile"
 import SpinnerComponent from '../../components/spinner/SpinnerComponent.vue'
@@ -232,8 +231,8 @@ const handleViewMore = () => {
 <template>
     <section class="event-detail">
         <DashboardLayout>
-            <!-- <Loader v-if="loading" /> -->
-            <section class="w-[80%] msgMob:w-[90%] mx-auto mt-[4rem]">
+            <ShortLoader v-if="loading" />
+            <section class="w-[80%] msgMob:w-[90%] mx-auto mt-[4rem]" v-else>
                 <article class="flex justify-between flex-col md:flex-row gap-[4.65rem]">
                     <div class="flex flex-col w-full md:w-3/6">
                         <span
@@ -275,10 +274,9 @@ const handleViewMore = () => {
                         </div>
                         <div>
                         <div class="bg-[#007582] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full md:w-[380px] ms-auto"
-                            :class="{ registered: eventRegistered }">
-                            <div class="w-full grid place-items-center" v-if="!eventRegistered">
-                                <h3
-                                    class="text-[#fff] font-Satoshi500 text-[1.3rem] eventBreak1:text-[1rem]">
+                            :class="{ registered: eventRegistered }" v-if="!singleEvent.is_registered">
+                            <div class="w-full grid place-items-center">
+                                <h3 class="text-[#fff] font-Satoshi500 text-[1.3rem] eventBreak1:text-[1rem]">
                                     Register
                                 </h3>
                                 <button
@@ -288,12 +286,14 @@ const handleViewMore = () => {
                                         <span v-if="apiLoading"><SpinnerComponent /></span>
                                         <span v-else>Register for this Event</span>
                                     </div>
-                                    
                                 </button>
                             </div>
-                            <div class="w-full text-center" v-if="eventRegistered">
-                                <h3
-                                    class="text-[#000] font-Satoshi500 leading-[1.5rem] text-[1.5rem] eventBreak1:text-[1rem] !mb-[0.5rem]">
+                        </div>
+
+                        <div class="bg-[#ECFAFC] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full md:w-[380px] ms-auto"
+                            :class="{ registered: eventRegistered }" v-if="singleEvent.is_registered">
+                            <div class="w-full text-center">
+                                <h3 class="text-[#000] font-Satoshi500 text-[1.3rem] eventBreak1:text-[1rem] !mb-[0.5rem]">
                                     Thanks for registering, {{ userDetails.first_name }} {{ userDetails.last_name }}
                                 </h3>
                                 <p class="eventBreak1:text-[0.7rem] text-[1rem]">We recommend you:</p>
@@ -363,12 +363,11 @@ const handleViewMore = () => {
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <h3
-                                        class="font-Satoshi400 leading-4 text-[#000] eventBreak1:text-[0.7rem] eventBreak1:text-center">
+                                    <h3 class="text-sm">
                                         No longer attending?
-                                        <span class="!text-[#853232] pl-[0.5rem] cursor-pointer"
-                                            @click="handleCancelRegistration">
-                                            Cancel Registration</span>
+                                        <span class="!text-[#853232] cursor-pointer" @click="handleCancelRegistration"> 
+                                            Cancel Registration
+                                        </span>
                                     </h3>
                                 </div>
                             </div>
@@ -460,7 +459,7 @@ const handleViewMore = () => {
                                         </div>
                                         <router-link :to="{ name: 'event-detail', params: { slug: event.slug } }"
                                         class="event_btn">
-                                        <div class="w-[100%] flex items-center justify-between px-4 py-[0.7rem] bg-[#43D0DF] rounded-[0.46rem] btn-hover-1">
+                                        <div class="w-[100%] flex items-center justify-between px-4 py-[0.7rem] bg-[#43D0DF] rounded-[0.46rem] btn-hover-1 my-3">
                                             <h3 class="reg font-Satoshi700 text-[#000] text-[0.865rem] leading-4 eventBreak1:text-[0.7rem]">
                                             Register
                                             </h3>

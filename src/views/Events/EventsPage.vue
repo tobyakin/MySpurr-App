@@ -91,15 +91,15 @@ onMounted(() => {
 }
 
 @media (max-width: 1450px){
-      html {
-          font-size: 13.5px !important;
-      }
+    html {
+        font-size: 13.5px !important;
     }
-  
-    @media (max-width: 1024px){
-      html {
-        font-size: 16px !important;
-      }
-    } 
+}
+
+@media (max-width: 1024px){
+    html {
+    font-size: 16px !important;
+    }
+} 
    
 </style>
