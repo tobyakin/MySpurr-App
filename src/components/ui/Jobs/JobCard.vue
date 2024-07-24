@@ -80,7 +80,7 @@ const copyUrl = () => {
             class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-Satoshi500"
           >
             <TimerIcon /><span class="">Anytime</span>
-          </div> -->
+         </div> -->
         </div>
       </div>
     </div>

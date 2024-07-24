@@ -26,6 +26,7 @@ import 'vue-tel-input/vue-tel-input.css'
 import Galleria from 'primevue/galleria'
 
 import Carousel from 'primevue/carousel'
+import { createHead } from '@vueuse/head';
 
 import {
   LRectangle,
@@ -44,6 +45,7 @@ import 'leaflet/dist/leaflet.css'
 
 
 const app = createApp(App)
+const head = createHead();
 app.use(VueTelInput)
 
 app.component('Galleria', Galleria)
@@ -73,6 +75,7 @@ app.use(PrimeVue)
 app.use(createPinia())
 app.use(router)
 app.use(Antd);
+app.use(head);
 
 app.mount('#app')
 document.title = 'MySpurr | Creative talent hiring'

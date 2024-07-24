@@ -126,7 +126,7 @@ const router = createRouter({
     },
 
     {
-      path: '/events/id',
+      path: '/event/:slug',
       name: 'event-detail',
       component: EventDetailPage,
       beforeEnter: [middleware.redirectLogin]

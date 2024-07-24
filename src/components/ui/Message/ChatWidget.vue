@@ -1,254 +1,280 @@
 <script setup>
-  import { ref, computed, onMounted, onUnmounted } from "vue";
+  import { ref, computed, onMounted, nextTick, watch } from "vue";
   import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
   import MessageFilter from "@/components/ui/Message/MessageFilter.vue"
   import AttachFile from "@/components/icons/attachFile.vue";
   import DropDownArror from "@/components/icons/DropDownArrow.vue"
-  import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
   import MessageList from "@/components/ui/Message/MessageList.vue";
+  import cancelIcon from "@/components/icons/cancelIcon.vue"
   import smallNewMessageIcon from "@/components/icons/smallNewMessageIcon.vue";
   import NewMessage from "@/components/ui/Message/NewMessage.vue";
   import MessageChatPane from "@/components/ui/Message/MessageChatPane.vue";
+  import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
+  import { useStore } from "@/stores/user";
+  import { useUserProfile } from "@/stores/profile";
+  import { useMessageStore } from "@/stores/message";
+  import { storeToRefs } from "pinia";
   import sendIcon from "@/components/icons/sendIcon.vue"
-  const clickedMessage = ref();
+  import circleFileIcon from '@/components/icons/circleFileIcon.vue';
+
   const showChatList = ref(true)
   const showChatPage = ref(false)
-  const closeWidget = ref(true)
+  const closeWidget = ref()
   const newMessage = ref(false)
-  const message = ref('')
   const textArea = ref(null)
-  const userID = 0;
 
-  
-  const messages = ref([
-  {
-    senderID: 1,
-    id: 1,
-    status: "primary",
-    name: "jenny rio",
-    subject: "Work inquiry from google",
-    description:
-      "Hello, This is Jenny from google. We’r the largest online platform offer...",
-    date: "aug 22",
-    clicked: false,
-    logo: "",
-    timeStamp: "4:54AM (3 hours ago)",
-    mail: "google@inquiry.com",
-    company: "Google",
-    thread: [
-      {
-        id: 1,
-        senderID: 1,
-        recieverID: 3,
-        message: ``,
-        from: "",
-        attachment: ["details.pdf"],
-      },
-    ],
-  },
-  {
-    senderID: 1,
-    id: 2,
-    status: "unread",
-    name: "jannatul ferdaus",
-    subject: "Product Designer Opportunities",
-    description:
-      "Hello, This is Jannat from HuntX. We offer business solution to our client..",
-   
-    date: "jun 22",
-    clicked: false,
-    logo: "",
-    timeStamp: "4:54AM (3 hours ago)",
-    mail: "payoneer@inquiry.com",
-    company: "HuntX",
-    thread: [
-      {
-        id: 1,
-        senderID: 1,
-        recieverID: 3,
-        from: "",
-        message: ``,
-        attachment: [],
-      },
-    ],
-  },
-  {
-    senderID: 1,
-    recieverID: 3,
-    id: 3,
-    status: "primary",
-    name: "hasan islam",
-    subject: "Account Manager",
-    description: `Hello, Greeting from Uber. Hope you doing great. I am approaching to you for as our company need a great & talented account manager.
+let store = useStore();
 
-    What we need from you to start:
-    - Your CV
-    - Verified Gov ID
-    Our Telegram @payoneer
+const userID = computed(() => {
+  return profileStore.user.data.id;
+});
 
-    Thank you`,
-    
-    date: "jun 22",
-    clicked: true,
-    logo: "@/assets/image/logo.png",
-    timeStamp: "4:54AM (3 hours ago)",
-    mail: "payoneer@inquiry.com",
-    company: "Payoneer",
-    thread: [
-      {
-        id: 1,
-        senderID: 1,
-        message: `Hello, Greeting from Uber. Hope you doing great. 
-        I am approaching to you for as our company need a great & talented account manager.
-        What we need from you to start:
-        - Your CV
-        - Verified Gov ID 
-        
-        Our Telegram @payoneer 
-        Thank you! lorem50
-        Hello, Greeting from Uber. Hope you doing great. 
-        I am approaching to you for as our company need a great & talented account manager.
-        What we need from you to start:
-        - Your CV
-        - Verified Gov ID 
-        
-        Our Telegram @payoneer 
-        Thank you!`,
-        from: "",
-        attachment: ["details.pdf", "forms.pdf"],
-      },
-      {
-        id: 1,
-        senderID: 1,
-        message: `Hello, Greeting from Uber. Hope you doing great. 
-        I am approaching to you for as our company need a great & talented account manager.
-        What we need from you to start:
-        - Your CV
-        - Verified Gov ID 
-        
-        Our Telegram @payoneer 
-        Thank you! lorem50
-        Hello, Greeting from Uber. Hope you doing great. 
-        I am approaching to you for as our company need a great & talented account manager.
-        What we need from you to start:
-        - Your CV
-        - Verified Gov ID 
-        
-        Our Telegram @payoneer 
-        Thank you!`,
-        from: "",
-        attachment: ["details.pdf", "forms.pdf"],
-      },
-    ],
-  },
-  {
-    senderID: 1,
-    id: 4,
-    status: "read",
-    name: "jakie chan",
-    subject: "Hunting Marketing Specialist",
-    description:
-      "Hello, We’r the well known Real Estate Inc provide best interior/exterior solut...",
-    date: "jun 22",
-    clicked: false,
-    timeStamp: "4:54AM (3 hours ago)",
-    mail: "payoneer@inquiry.com",
-    company: "Real Estate Inc",
-    thread: [
-      {
-        id: 1,
-        senderID: 1,
-        recieverID: 3,
-        from: "",
-        message: ``,
-        attachment: ["details.pdf"],
-      },
-    ],
-  },
-  {
-    senderID: 5,
-    id: 5,
-    status: "primary",
-    name: "zubayer al hasan",
-    subject: "delivery man",
-    description:
-      "Hello, Greeting from Uber. Hope you doing great. I am approcing to you for...",
-    attachment: ["details & Agreement.pdf"],
-    date: "jun 22",
-    clicked: false,
-    timeStamp: "4:54AM (3 hours ago)",
-    mail: "payoneer@inquiry.com",
-    company: "Uber",
-    thread: [
-      {
-        id: 1,
-        senderID: 5,
-        recieverID: 3,
-        from: "",
-        message: ``,
-      },
-    ],
-  },
-  ]);
+const messageStore = useMessageStore();
+const { sentMessages, allMessages, messageDetail } = storeToRefs(messageStore)
+const messageLoading = ref(false)
+const chatLoading = ref(false)
+const filterSection = ref('all')
+const recievedMessages = ref([])
+const displayedMessages = ref([])
+const pageLoading = ref(true)
+const detailLoaded = ref(false)
+const messageDetails = ref([])
+const clickedItem = ref()
+const profileStore = useUserProfile();
+const isOnBoarded = computed(() => profileStore.user);
+const messageLength = ref(false)
+const attachedFiles = ref([])
+const attached_file = ref(null)
+const userInfo = ref([])
 
-  function handleInput(){
-    message.value = textArea.value.innerText
-    console.log(message.value)
+const props = defineProps(['defaultWidgetState'])
+
+watch(
+  () => props.defaultWidgetState,
+  (newVal) => {
+    closeWidget.value = newVal;
+  },
+  { immediate: true }
+);
+
+const accountType = computed(() => {
+  return store.getUser.data.user.type;
+});
+onMounted(() => {
+  return accountType;
+});
+
+function filterAll(){
+  filterSection.value = 'all'
+  getFilteredMessages()
+}
+
+function filterSent(){
+  filterSection.value = 'sent'
+  getFilteredMessages()
+}
+
+function filterRead(){
+  filterSection.value = 'read'
+  getFilteredMessages()
+}
+
+function filterUnread(){
+  filterSection.value = 'unread'
+  getFilteredMessages()
+}
+
+function getFilteredMessages(){
+  if(filterSection.value === 'all'){
+    displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userID.value)
+  } else if(filterSection.value === 'read'){
+    displayedMessages.value = recievedMessages.value.filter(message=> message.status === 'read')
+  } else if(filterSection.value === 'unread'){
+    displayedMessages.value = recievedMessages.value.filter(message=> message.status === 'unread')
+  } else if (filterSection.value === 'sent'){
+    displayedMessages.value = sentMessages.value.data
   }
 
-  
-  function assignClickedMessage() {
-    messages.value.forEach((item) => {
-      if (item.clicked === true) {
-        clickedMessage.value = item;
-      }
-    });
+  if(displayedMessages.value){
+    messageLength.value = displayedMessages.value.length > 0
   }
-  
-  assignClickedMessage();
-  
-  function showChatPane(clickedMessage) {
-  
-    messages.value.forEach((message) => {
-      message.clicked = message.id === clickedMessage.id;
-      if (message.clicked === true) {
-        clickedMessage = message;
-      }
-    });
-  
-    messages.value = [...messages.value];
-    assignClickedMessage();
-    showChatList.value = false
-    showChatPage.value = true
-  }
+  // return displayedMessages.value
+}
 
-  function handleSend(){
-    const activeChat = ref()
-    messages.value.forEach(item=>{
-      if (item.id === clickedMessage.value.id){
-        activeChat.value = item
-      }
+getFilteredMessages()
+
+  
+const getSentMessages = async () =>{
+  messageLoading.value = true
+  try {
+    await messageStore.handleSentMessages()
+    messageLoading.value = false
+  } catch (error) {
+    console.log(error)
+    messageLoading.value = false
+  }
+}
+
+const getAllMessages = async (userId)=>{
+  messageLoading.value = true
+  try {
+    await messageStore.handleGetMessages(userId)
+    messageLoading.value = false
+  } catch (error) {
+    cconsole.log(error)
+    messageLoading.value = false
+  }
+  displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+  recievedMessages.value = displayedMessages.value
+  messageLength.value = recievedMessages.value.length > 0
+  pageLoading.value = false
+  return displayedMessages.value
+}
+
+
+const getMessageDetail = async (message_id)=>{
+  chatLoading.value = true
+  try {
+    await messageStore.handleMessageDetail(message_id)
+    chatLoading.value = false
+  } catch (error) {
+    console.log(error)
+    chatLoading.value = false
+  }
+};
+
+const handleMessageClicked = async (payload)=>{
+  clickedItem.value = payload.id
+  
+  if(detailLoaded.value === false){
+    detailLoaded.value = true
+  }
+  await getMessageDetail(payload.id)
+  messageDetails.value = messageDetail.value.data
+  console.log(messageDetails.value)
+  scrollToBottom()
+  return messageDetails.value
+}
+
+const handleReplyMessage = async ()=>{
+    const payload = ref({
+      "message_id": clickedItem.value,
+      "sender_id": userID.value,
+      "receiver_id": messageDetails.value.sender_id,
+      "receiver_email": messageDetails.value.receiver?.email,
+      "attachments": attachedFiles.value,
+      "message": textArea.value.value
     })
-    console.log(activeChat.value.id)
-    activeChat.value.thread.push(
-      {
-        id: 1,
-        senderID: userID,
-        recieverID: 3,
-        message: message.value ,
-        from: "",
-        attachment: [],
-      },
-    )
-    textArea.value.innerText = ''
+    console.log(payload.value)
+    if(payload.value.receiver_email.length > 0 && payload.value.message.length > 0){
+      try {
+        textArea.value.value = ''
+        attachedFiles.value = []
+        await messageStore.handleReplyMessage(payload.value)
+        getAllMessages(userID.value)
+        await getMessageDetail(payload.value.message_id)
+        messageDetails.value = messageDetail.value.data
+        getSentMessages()
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      alert('Some fields are not properly field')
+    }
   }
-  
-  function switchTab(){
+
+const isSending = ref(false)
+
+const handleSendMessage = async (payload)=>{
+  isSending.value = true
+  try {
+    if(payload.body.length > 0 &&
+    payload.to.length > 0){
+      closeWindow()
+      await messageStore.handleSendMessage(payload)
+      getAllMessages(userID.value)
+      getSentMessages()
+      isSending.value = false
+    } else {
+      alert('Some fields are not filled')
+    }
+  } catch (error) {
+    console.log(error)
+    isSending.value = false
+  }
+}
+
+onMounted(async ()=>{
+  closeWidget.value = props.defaultWidgetState;
+  try {
+    await profileStore.userProfile();
+    if(isOnBoarded.value){
+      getSentMessages(), getAllMessages(userID.value)
+      getUserInfo()
+      console.log(userInfo.value)
+      userImg.value = userInfo.value.company_logo || userInfo.value.image
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('yes')
+  }
+})
+
+  const uploadedFileDetails = ref([]);
+  const userImg = ref('')
+
+const getUserInfo = ()=>{
+    userInfo.value = profileStore?.user?.data
+    return userInfo.value
+}
+  const uploadFile = (event) => {
+    const file = event.target.files[0];
+    console.log(file)
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        attachedFiles.value.push({
+          "file": reader.result,
+          "file_name": file.name,
+          "file_size": `${(file.size / 1048576).toFixed(2)} MB`
+        }) // Extract base64 data
+        uploadedFileDetails.value.push(
+          {
+            name: file.name,
+            size: `${(file.size / 1048576).toFixed(2)} MB`
+          }
+        );
+      };
+
+      // emit('change', uploadedFileDetails.value)
+      reader.readAsDataURL(file);
+      scrollToBottom()
+      console.log(uploadedFileDetails.value, attachedFiles.value)
+    } else {
+      console.log(file)
+    }
+  };
+
+  const switchTab = async ()=>{
       showChatList.value = true
       showChatPage.value = false
+      await nextTick();
+      const messageElement = document.querySelector(`#message-${clickedItem.value}`);
+    if (messageElement) {
+      messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   }
+
   function handleWidgetClose (){
+    const screenWidth = window.innerWidth
+    const maxWidth = 1024
+    console.log(screenWidth)
+    if(screenWidth >= maxWidth){
       closeWidget.value = !closeWidget.value
+    }
   }
 
   function handleNewMessage(){
@@ -258,54 +284,143 @@
   function closeWindow(){ 
    newMessage.value = false
   }
-  
+
+  function handleDelete(){
+    newMessage.value = false
+  }
+
+  function showChatPane() {
+    showChatList.value = false
+    showChatPage.value = true
+  }
+
+  const scrollContainer = ref(null);
+  const calcHeight = ref()
+  const elHeight = ref()
+
+  const scrollToBottom = async () => {
+    await nextTick();
+    const container = scrollContainer.value;
+    if(attached_file.value){
+      elHeight.value = attached_file.value.offsetHeight
+      if (container) {
+        calcHeight.value = 40 + elHeight.value;
+        console.log(container.scrollHeight, calcHeight.value)
+        container.scrollTop = container.scrollHeight + calcHeight.value;
+      }
+    }
+  }
+
+  function removeFile(index){
+    attachedFiles.value.splice(index, 1)
+    uploadedFileDetails.value.splice(index, 1)
+  }
+
+  const autoResize = () => {
+  const textarea = textArea.value;
+  const maxHeight = 100; // Set your desired maximum height in pixels
+
+  textarea.style.height = 'auto'; // Reset height to auto to calculate actual size
+  if (textarea.scrollHeight <= maxHeight) {
+    textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on content
+  } else {
+    textarea.style.height = `${maxHeight}px`; // Set height to maxHeight if exceeded
+    textarea.style.overflowY = 'auto'; // Allow vertical scrolling if content exceeds maxHeight
+  }
+};
+
+  // Experimental funtions
   </script>
   
   <template>
-      <section class="w-[18rem] h-[25rem] rounded-t-[1.003rem] bg-[#fff] shadow-3xl pt-4 section transitionItem" :class="{widgetClosed: closeWidget}">
+      <section class="w-[21rem] h-[32rem] rounded-t-[1.003rem] bg-[#fff] shadow-3xl section transitionItem msgMob:rounded-none" :class="{widgetClosed: closeWidget}">
           <div class="flex flex-col h-full" v-if="showChatList">
-              <div class="">
-                  <div class=" show px-[1.44rem] flexBasic">
+              <div class="msgMob:sticky">
+                  <div class="pt-4 show px-[1.44rem] flexBasic cursor-pointer" @click.self="handleWidgetClose">
                       <div class="flexBasic gap-[0.88rem]">
                           <div class="userImg w-[1.875rem] h-[1.875rem] rounded-[1.875rem] overflow-hidden">
-                              <img src="@/assets/image/userImg.png" alt="" class="w-full h-full">
+                              <img :src="userImg" alt="" class="w-full h-full">
                           </div>
                           <h3 class="text-[#000] font-Satoshi500 leading-[1.51rem]text-[0.903rem]">Messaging</h3>
                       </div>
                       <div class="flexBasic gap-4">
                           <MoreVertIcon />
                           <smallNewMessageIcon @click="handleNewMessage"/>
-                          <DropDownArror class="!text-[#6C8285] cursor-pointer arrow" @click="handleWidgetClose"/>
+                          <DropDownArror class="!text-[#6C8285] cursor-pointer arrow msgMob:hidden" @click="handleWidgetClose"/>
                       </div>
                   </div>
-                  <div class="px-[1.44rem] pb-4 filter">
-                      <MessageFilter />
+                  <div class="px-[1.44rem] pb-4 msgMob:pb-[0.5rem] filter">
+                    <MessageFilter @all="filterAll" @read="filterRead" @unread="filterUnread" @sent="filterSent"/>
                   </div>
               </div>
-              <div class=" messageList overflow-y-auto scroller flex-1" id="messagesContainer">
-                  <MessageList :messageList="messages" @click="showChatPane"/>
+              <div class="messageList overflow-y-auto scroller flex-1" id="messagesContainer">
+                <ShortLoader v-if="messageLoading"/>
+                <MessageList :messageList="displayedMessages" @messageClicked="handleMessageClicked" :filter="filterSection"
+                :clickedId="clickedItem"
+                @click="showChatPane"
+                 v-else/>
               </div>
           </div>
           <div v-if="showChatPage" class="h-full widget flex flex-col">              
-              <div class="chatPane flex-1 overflow-y-auto scroller">
-                  <MessageChatPane :chat="clickedMessage" @closeWidget="handleWidgetClose" @switchTab="switchTab" class="chat"/>
+              <div ref="scrollContainer" class="chatPane flex-1 overflow-y-auto contScroll h-[90%]">
+                <div 
+                class="noScroll mb-[0.5rem]"
+                :class="uploadedFileDetails?.length < 1? 'h-full': 'h-[90%]'"
+                >
+                  <ShortLoader v-if="chatLoading"/>
+                  <MessageChatPane
+                  :chat="messageDetails"
+                   @reply="handleReply"
+                  v-if="!chatLoading" 
+                  @switchTab="switchTab" 
+                  @closeWidget="handleWidgetClose"
+                  class="chat"/>
+                </div>
+                  <div class="attachment px-[0.5rem] !pb-[0.5rem] !my-[1rem] basis-[30%]" v-if="uploadedFileDetails?.length > 0">
+                    <div class="flex !gap-[0.5rem] flex-wrap" ref="attached_file">
+                        <article class="flex items-center p-[0.5rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="item in uploadedFileDetails">
+                            <circleFileIcon class="w-[20px] h-[20px]"/>
+                            <div>
+                                <h3 class="font-Satosi400 text-[#244034] leading-[0.7rem] text-[0.5rem]">{{item.name}}</h3>
+                                <p class="text-[#24403480] font-Satoshi400 text-[0.5rem] leading-[0.7rem]">{{item.size}}</p>
+                            </div>
+                            <cancelIcon class="cursor-pointer" @click="removeFile(index)"/>
+                        </article>
+                    </div>
+                </div>
               </div>
               
-              <div class="inputField w-[95%] mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] border gap-[0.5rem] min-h-[16px] max-h-[200px] absolute bottom-0 z-[99] left-[50%] translate-x-[-50%] backdrop-blur-[4px]">
-                  <AttachFile />
-                  <span 
-                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 min-h-[inherit] max-h-[inherit] overflow-auto scroller leading-4" 
-                    role="textbox" 
+              <div class="inputField w-[95%] msgMob:w-full mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] msgMob:rounded-none border gap-[0.5rem] min-h-[16px] h-[40px] max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]">
+                  <div>
+                    <label for="upload_file">
+                      <AttachFile />
+                    </label>
+                    <input
+                      type="file"
+                      name=""
+                      @change="uploadFile"
+                      ref="attachedFile"
+                      accept=".doc,.docx,.jpg,.png,.pdf"
+                      hidden
+                      id="upload_file"
+                    />
+                  </div>
+                  <textarea
+                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 h-full overflow-auto scroller leading-4" 
                     contenteditable
-                    @input="handleInput"
+                    @input="autoResize"
                     ref="textArea"
-                  ></span>
-                  <sendIcon class="!text-brand" @click="handleSend"/>
+                    
+                  ></textarea>
+                  <sendIcon class="!text-brand" @click="handleReplyMessage"/>
               </div>
           </div>
           <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid place-items-center" v-if="newMessage" @click.self="closeWindow">
-            <div class="messageWindow w-[50%] rounded-[0.5rem] bg-white h-[90%] transitionItem overflow-hidden">
-                <NewMessage class="h-full" :chat="clickedMessage"/>
+            <div class="messageWindow w-[50%] rounded-[0.5rem] bg-white h-[90%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
+              <NewMessage class="h-full" @send="handleSendMessage"
+              @delete="handleDelete"
+              @back="closeWindow"
+              />
             </div>
           </section>
       </section>
@@ -320,23 +435,13 @@
     content: "Enter new message";
     color: gray;
     }
-      .scroller {
-      scrollbar-width: thin;
-      scrollbar-color: #96c6cc #e6f1f3;
-      }
-  
-      .scroller::-webkit-scrollbar-thumb {
-      background: #96c6cc;
-      }
-      .scroller::-webkit-scrollbar-track {
-      background: #e6f1f3;
-      }
-      .scroller::-webkit-scrollbar {
-      max-width: 10px;
-      max-height: 10px;
-      }
-  
-      .scroller::webkit-scrollbar-button {
-      display: none;
-      }
+      
+    .contScroll{
+      scrollbar-width: thin !important;
+    } 
+
+    .noScroll #chatScroll::-webkit-scrollbar {
+      display: none !important;
+      scrollbar-color: none !important;
+    }
   </style>

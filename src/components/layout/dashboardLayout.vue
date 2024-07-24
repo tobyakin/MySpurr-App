@@ -33,6 +33,8 @@ const userDetails = computed(() => {
   return profileStore?.user?.data;
 });
 
+const props = defineProps(['height', 'overflow'])
+
 const toggle = () => {
   closeNav.value = !closeNav.value;
 
@@ -187,11 +189,15 @@ watch([userDetails, accountType], async () => {
 });
 
 function setInitials(name) {
-  initials.value = name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
+  if (typeof name === 'string' && name.trim().length > 0) {
+    initials.value = name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase();
+  } else {
+    initials.value = '';
+  }
 }
 
 function getImageSrc() {
@@ -208,7 +214,10 @@ const displayImage = computed(() => imageExists.value);
 </script>
 
 <template>
-  <div class="bg-[#FDFDF6] relative">
+  <div 
+  class="bg-[#FDFDF6] relative"
+  :style="{ height: height, overflow: overflow }"
+  >
     <div class="lg:flex">
       <div
         v-if="closeBackdrop"
@@ -384,7 +393,7 @@ const displayImage = computed(() => imageExists.value);
       </div>
       </div>
       
-      <!-- <ChatWidget v-if="showChatWidget" class="fixed bottom-0 right-[3rem] z-[99]"/> -->
+      <ChatWidget defaultWidgetState="true" v-if="showChatWidget" class="fixed bottom-0 right-[3rem] z-[99] eventBreak:hidden"/>
   </div>
 </template>
 

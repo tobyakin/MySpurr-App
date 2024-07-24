@@ -38,26 +38,26 @@ export const useUserProfile = defineStore('profile', () => {
     social_media: '',
     social_media_two: '',
     ciso: '',
-      siso: '',
+    siso: '',
 
   })
-    const bioInfo = ref({
-      first_name: '',
-      last_name: '',
-      skill_title: '',
-      rate: '',
-      location: '',
-      linkedin: '',
-      instagram: '',
-      twitter: '',
-      behance: '',
-      facebook: '',
-      ciso: '',
-      siso: '',
-      calendlylink: '',
-      experienceLevel: '',
-      phoneNumber:''
-    })
+  const bioInfo = ref({
+    first_name: '',
+    last_name: '',
+    skill_title: '',
+    rate: '',
+    location: '',
+    linkedin: '',
+    instagram: '',
+    twitter: '',
+    behance: '',
+    facebook: '',
+    ciso: '',
+    siso: '',
+    calendlylink: '',
+    experienceLevel: '',
+    phoneNumber: ''
+  })
 
   const overview = ref('')
   const employment_details = ref({
@@ -86,27 +86,28 @@ export const useUserProfile = defineStore('profile', () => {
     currently_working_here: 'no',
     certificate_date: ''
   })
-const singlePortfolio = ref({})
-    const userProfile = async () => {
-      try {
-        user.value = await getUserProfile()
-        return user.value
-      } catch (error) {
-        console.error('Error fetching user profile:', error)
-      }
-    }
+  const singlePortfolio = ref({})
 
-      const handleUpdateProfilePhoto = async () => {
-        let payload = {
-          image: profileImage.value
-        }
-        try {
-          let res = await updateProfilePhoto(payload)
-          return res
-        } catch (error) {
-          /**/
-        }
-      }
+  const userProfile = async () => {
+    try {
+      user.value = await getUserProfile()
+      return user.value
+    } catch (error) {
+      console.error('Error fetching user profile:', error)
+    }
+  }
+
+  const handleUpdateProfilePhoto = async () => {
+    let payload = {
+      image: profileImage.value
+    }
+    try {
+      let res = await updateProfilePhoto(payload)
+      return res
+    } catch (error) {
+      /**/
+    }
+  }
 
   const handleUpdateBusinessDeatils = async () => {
     let payload = {
