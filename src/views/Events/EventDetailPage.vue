@@ -139,14 +139,14 @@ const addToCalendar = () => {
         singleEvent.value.title
     )}&dates=${formatDateToUTC(startDate)}/${formatDateToUTC(endDate)}&details=${encodeURIComponent(
         singleEvent.value.content
-    )}&location=${encodeURIComponent(singleEvent.value.address)}`;
+    )}&location=${encodeURIComponent(singleEvent.value.event_link)}`;
 
     const outlookCalendarUrl = `https://outlook.live.com/owa/?path=/calendar/action/compose&subject=${encodeURIComponent(
         singleEvent.value.title
     )}&startdt=${encodeURIComponent(formatDateToOutlook(startDate))}&enddt=${encodeURIComponent(
         formatDateToOutlook(endDate)
     )}&body=${encodeURIComponent(singleEvent.value.content)}&location=${encodeURIComponent(
-        singleEvent.value.address
+        singleEvent.value.event_link
     )}`
 
     if (calendarOption.value === 'google') {
@@ -432,45 +432,47 @@ const handleViewMore = () => {
                     <div class="text-center">
                         <h3 class="font-Satoshi700 text-[#000] leading-5">Related Events</h3>
                     </div>
-                    <div class="eventAds-container my-10">
-                        <article v-for="event in relatedEvents" :key="event.id"
-                            class="w-[320px] gap-3">
-                            <div class="rounded-t-[1rem] h-[200px]">
-                                <img :src="event.featured_graphics" alt=""
-                                    class="w-full h-full object-fit rounded-t-[1rem]" />
-                            </div>
-                            <div class="px-[0.7rem] py-[0.5rem] bg-[#ECFAFC] rounded-b-[1rem]">
-                                <h1 class="text-[#000] text-[0.8rem] font-Satoshi700 leading-[1rem] mb-4">
-                                    {{ event.title }}
-                                </h1>
-                                <div class="event_details flex flex-col gap-[0.29rem] my-[0.5rem]">
-                                    <div class="flex items-center gap-[0.63rem]">
-                                        <locationIcon />
-                                        <p>{{ event.address }}</p>
+                    <div class="my-10">
+                        <div class="flex gap-3 flex-col md:flex-row">
+                            <div class="mb-4" v-for="event in relatedEvents" :key="event.id">
+                                <div class="w-full md:w-[320px]">
+                                    <div class="rounded-t-[1rem] h-[200px]">
+                                        <img :src="event.featured_graphics" alt=""
+                                        class="w-full h-full object-cover rounded-t-[1rem]" />
                                     </div>
-                                    <div class="flex items-center gap-[0.63rem]">
-                                        <calendarIcon />
-                                        <p>{{ event.event_date }}</p>
-                                    </div>
-                                    <div class="flex items-center gap-[0.63rem]">
-                                        <timerIcon />
-                                        <p>{{ event.event_time }}</p>
+                                    <div class="px-[0.7rem] py-[0.5rem] bg-[#ECFAFC] rounded-b-[1rem]">
+                                        <h1 class="text-[#000] text-[0.8rem] font-Satoshi700 leading-[1rem] mb-4">
+                                        {{ event.title }}
+                                        </h1>
+                                        <div class="event_details flex flex-col gap-[0.29rem] my-[0.5rem]">
+                                        <div class="flex items-center gap-[0.63rem]">
+                                            <locationIcon />
+                                            <p>{{ event.address }}</p>
+                                        </div>
+                                        <div class="flex items-center gap-[0.63rem]">
+                                            <calendarIcon />
+                                            <p>{{ event.event_date }}</p>
+                                        </div>
+                                        <div class="flex items-center gap-[0.63rem]">
+                                            <timerIcon />
+                                            <p>{{ event.event_time }}</p>
+                                        </div>
+                                        </div>
+                                        <router-link :to="{ name: 'event-detail', params: { slug: event.slug } }"
+                                        class="event_btn">
+                                        <div class="w-[100%] flex items-center justify-between px-4 py-[0.7rem] bg-[#43D0DF] rounded-[0.46rem] btn-hover-1">
+                                            <h3 class="reg font-Satoshi700 text-[#000] text-[0.865rem] leading-4 eventBreak1:text-[0.7rem]">
+                                            Register
+                                            </h3>
+                                            <rightArrowM class="reg" />
+                                        </div>
+                                        </router-link>
                                     </div>
                                 </div>
-                                <router-link :to="{ name: 'event-detail', params: { slug: event.slug } }"
-                                    class="event_btn">
-                                    <div
-                                        class="w-[100%] flex items-center justify-between px-4 py-[0.7rem] bg-[#43D0DF] rounded-[0.46rem] btn-hover-1">
-                                        <h3
-                                            class="reg font-Satoshi700 text-[#000] text-[0.865rem] leading-4 eventBreak1:text-[0.7rem]">
-                                            Register
-                                        </h3>
-                                        <rightArrowM class="reg" />
-                                    </div>
-                                </router-link>
                             </div>
-                        </article>
+                        </div>
                     </div>
+
                     <div class="grid place-items-center">
                         <button
                             class="bg-[#31795A] rounded-[1.7rem] py-[1rem] font-Satoshi500 leading-[0.7rem] text-[#fff] w-[30%] btn-hover-2 eventBreak1:text-[0.8rem] msgMob:w-[45%]"
