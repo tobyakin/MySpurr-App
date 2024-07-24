@@ -390,7 +390,7 @@ const handleViewMore = () => {
                         </h3>
                         <div class="mt-6 eventBreak1:mt-4 flex items-center gap-6">
                             <div class="w-[4rem] h-[4rem] rounded-[100%] overflow-hidden">
-                                <img :src="singleEvent.featured_speaker" alt="" class="w-full h-full" />
+                                <img :src="singleEvent.featured_speaker" alt="" class="w-full h-full object-contain" />
                             </div>
                             <div>
                                 <h3 class="font-Satoshi700 text-[#000] text-4 leading-4 pb-1 eventBreak1:text-[0.9rem]">
