@@ -1,8 +1,17 @@
 <script setup>
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+const props = defineProps(['filter'])
 const emit = defineEmits(['all', 'read', 'unread', 'sent'])
-const filteredSection = ref('all')
+const filteredSection = ref('')
+
+onMounted(()=>{
+    if(props.filter){
+        filteredSection.value = props.filter
+    } else {
+        filteredSection.value = 'all'
+    }
+})
 
 function filterAll(){
     emit('all')

@@ -33,7 +33,7 @@ const messageStore = useMessageStore();
 const { sentMessages, allMessages, messageDetail } = storeToRefs(messageStore)
 const messageLoading = ref(false)
 const chatLoading = ref(false)
-const filterSection = ref('all')
+const filterSection = ref('')
 const recievedMessages = ref([])
 const displayedMessages = ref([])
 const pageLoading = ref(true)
@@ -46,6 +46,9 @@ const messageLength = ref(false)
 const attachedFiles = ref([])
 const attached_file = ref(null)
 const userInfo = ref([])
+const noMessageNotification = ref('')
+const uploadedFileDetails = ref([]);
+const userImg = ref('')
 
 const props = defineProps(['defaultWidgetState'])
 
@@ -67,21 +70,25 @@ onMounted(() => {
 function filterAll(){
   filterSection.value = 'all'
   getFilteredMessages()
+  noMessageNotification.value = 'messages'
 }
 
 function filterSent(){
   filterSection.value = 'sent'
   getFilteredMessages()
+  noMessageNotification.value = 'sent message'
 }
 
 function filterRead(){
   filterSection.value = 'read'
   getFilteredMessages()
+  noMessageNotification.value = 'messages'
 }
 
 function filterUnread(){
   filterSection.value = 'unread'
   getFilteredMessages()
+  noMessageNotification.value = 'unread message'
 }
 
 function getFilteredMessages(){
@@ -204,8 +211,18 @@ const handleSendMessage = async (payload)=>{
   }
 }
 
+const userDetails = computed(() => {
+  return profileStore?.user?.data;
+});
+
+onMounted(async () => {
+  await profileStore.userProfile();
+  return userDetails.value?.image;
+});
+
 onMounted(async ()=>{
   closeWidget.value = props.defaultWidgetState;
+  filterSection.value = 'all'
   try {
     await profileStore.userProfile();
     if(isOnBoarded.value){
@@ -221,8 +238,14 @@ onMounted(async ()=>{
   }
 })
 
-  const uploadedFileDetails = ref([]);
-  const userImg = ref('')
+watch([userDetails], async () => {
+  const hasImage = userDetails.value?.image || userDetails.value?.company_logo;
+  if (hasImage) {
+   userImg.value = hasImage
+  }
+});
+
+  
 
 const getUserInfo = ()=>{
     userInfo.value = profileStore?.user?.data
@@ -259,6 +282,7 @@ const getUserInfo = ()=>{
   };
 
   const switchTab = async ()=>{
+    filterSection.value = filterSection.value
       showChatList.value = true
       showChatPage.value = false
       await nextTick();
@@ -350,7 +374,7 @@ const getUserInfo = ()=>{
                       </div>
                   </div>
                   <div class="px-[1.44rem] pb-4 msgMob:pb-[0.5rem] filter">
-                    <MessageFilter @all="filterAll" @read="filterRead" @unread="filterUnread" @sent="filterSent"/>
+                    <MessageFilter @all="filterAll" @read="filterRead" @unread="filterUnread" @sent="filterSent" :filter="filterSection"/>
                   </div>
               </div>
               <div class="messageList overflow-y-auto scroller flex-1" id="messagesContainer">
@@ -363,7 +387,7 @@ const getUserInfo = ()=>{
                 </div>
                 <div class="w-full h-full grid place-items-center" v-else>
                     <div class="text-center w-[90%] mx-auto">
-                      <h1 class="font-Satoshi500 text-[1.5rem] leading-[3.5rem]">No messages yet</h1>
+                      <h1 class="font-Satoshi500 text-[1.5rem] leading-[3.5rem]">No {{ noMessageNotification }} yet</h1>
                       <p>Start a conversation by sending a message</p>
                     </div>
                   </div>
@@ -423,8 +447,8 @@ const getUserInfo = ()=>{
                   <sendIcon class="!text-brand" @click="handleReplyMessage"/>
               </div>
           </div>
-          <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid place-items-center" v-if="newMessage" @click.self="closeWindow">
-            <div class="messageWindow w-[50%] rounded-[0.5rem] bg-white h-[90%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
+          <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
+            <div class="messageWindow w-[50%] mx-auto mt-6 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
               <NewMessage class="h-full" @send="handleSendMessage"
               @delete="handleDelete"
               @back="closeWindow"

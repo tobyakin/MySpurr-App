@@ -116,6 +116,55 @@ const downloadAllAttachments = (attachments) => {
   });
 };
 
+function parseCustomDateString(dateString) {
+    const [day, month, year, time, period] = dateString.split(/[\s]+/);
+    const [hours, minutes] = time.split(':');
+    
+    const months = {
+        Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+        Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
+    };
+
+    let parsedHours = parseInt(hours);
+    const parsedMinutes = parseInt(minutes);
+
+    if (period === "PM" && parsedHours !== 12) {
+        parsedHours += 12;
+    } else if (period === "AM" && parsedHours === 12) {
+        parsedHours = 0;
+    }
+
+    return new Date(year, months[month], parseInt(day), parsedHours, parsedMinutes);
+}
+
+
+function timeDifference(dateString) {
+    const givenDate = parseCustomDateString(dateString);
+    const now = new Date();
+
+    const diffInMs = now - givenDate;
+    const diffInSeconds = Math.floor(diffInMs / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+
+    const formattedGivenDate = givenDate.toLocaleString();
+    const formattedNow = now.toLocaleString();
+
+    console.log(`Given Date: ${formattedGivenDate}, Now: ${formattedNow}`);
+
+//    console.log(givenDate, now)
+    if (diffInSeconds < 60) {
+        return `${diffInSeconds} seconds ago`;
+    } else if (diffInMinutes < 60) {
+        return `${diffInMinutes} minutes ago`;
+    } else if (diffInHours < 24) {
+        return `${diffInHours} hours ago`;
+    } else {
+        return `${diffInDays} days ago`;
+    }
+   
+}
 </script>
 <template>
     <article class="recievedMessage w-full h-full flex flex-col !gap-0" data-id="chat.id">
@@ -216,13 +265,24 @@ const downloadAllAttachments = (attachments) => {
             <div class="replies mb-4" v-if="chat.replies && chat.replies.length > 0">
                 <div class="mb-6" v-for="reply in chat.replies" :key="reply.id">
                     <div class="chatPage">
-                    <div class=" head flex items-center justify-between">
-                        <hr class="border-[#EEEEEE] border-1 my-[1.1rem] w-[30%]">
-                        <div>
-                            <h3 class="flex-1 company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem] text-center">{{ reply.sender.first_name }} {{reply.sender.last_name }}</h3>
-                            <h3 class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 uppercase text-[0.6rem] text-center">{{ displayDate(reply.replied_at) }}, {{ displayTime(reply.replied_at) }}</h3>
+                    <div class=" head flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-[0.5rem]">
+                            <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid place-items-center border  border-brand font-Satoshi500 text-brand">
+                                <div v-if="reply?.sender?.id == userID">
+                                    {{ reply?.sender?.first_name[0] }} {{reply?.sender?.last_name[0] }}
+                                </div>
+                                <div v-else>
+                                    {{ reply?.receiver?.first_name[0] }} {{reply?.receiver?.last_name[0] }}
+                                </div>
+                            </div>
+                             <h3 class=" company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem] text-center">{{ reply.sender.first_name }} {{reply.sender.last_name }}</h3>
                         </div>
-                        <hr class="border-[#EEEEEE] border-1 my-[1.1rem] w-[30%]">
+                        <div class="flex gap-[0.1rem] items-center">
+                            <h3 class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 uppercase text-[0.6rem] text-center">{{ displayTime(reply.replied_at) }}</h3>
+                            <span class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 text-[0.6rem] text-center">({{ timeDifference(reply.replied_at) }})</span>
+                        </div>
+                        
+                        <!-- <hr class="border-[#EEEEEE] border-1 my-[1.1rem] w-[30%]"> -->
                         
                         </div>
                         <div>

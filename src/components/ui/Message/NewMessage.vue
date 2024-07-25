@@ -1,7 +1,7 @@
 <template>
     <div class="newMessage h-full flex flex-col gap-0">
         <article class="header w-full z-[49] sticky top-0 bg-white">
-            <div class="senderDetails pt-[.5rem] pb-[1.6rem] px-[1.66rem] flexBasic !items-end msgMob:pb-[.5rem] msgMob:px-[0.9rem]">
+            <div class="senderDetails pt-[1rem] pb-[1.6rem] px-[1.66rem] flexBasic !items-end msgMob:pb-[.5rem] msgMob:px-[0.9rem]">
                 <div class="flexBasic gap-[0.85rem]">
                     <div class="w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden msgMob:!hidden">
                         <img :src="userImg" alt="user image" class="w-full h-full object-cover">
@@ -18,8 +18,8 @@
             </div>
             <hr class="border-[#EEEEEE] border-1">
         </article>
-        <div class="overflow-y-auto scroller flex-1 border w-full">
-            <MessageInputField class="my-[1.66rem]" notShow="true" showSubject="true" :chat="chat" :sendButton="true" @send="handleSend" @change="handleChange"
+        <div class="overflow-y-auto scroller flex-1 w-full">
+            <MessageInputField class="my-[1.66rem]" notShow="true" :chat="chat" :sendButton="true" @send="handleSend" @change="handleChange"
             :class="uploadedFileDetails?.length < 1? 'h-[85%]': 'h-[70%]'"
             :isSending="isSendng"
             @delete="handleDelete"

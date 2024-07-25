@@ -567,6 +567,10 @@ input[type='checkbox'] {
     @apply !h-[100%]
   }
 
+  .widget .logo div {
+    @apply border text-[0.5rem]
+  }
+
   /* Events */
 
   .event_details p {
