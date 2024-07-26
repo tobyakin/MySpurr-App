@@ -39,7 +39,7 @@ const messageStore = useMessageStore();
 const { sentMessages, allMessages, messageDetail } = storeToRefs(messageStore)
 const messageLoading = ref(false)
 const chatLoading = ref(false)
-const filterSection = ref('all')
+const filterSection = ref('')
 const recievedMessages = ref([])
 const displayedMessages = ref([])
 const pageLoading = ref(true)
@@ -58,6 +58,7 @@ const isOnBoarded = computed(() => profileStore.user);
 const messageID = ref()
 const messageNum = ref()
 const messageIndex = ref()
+const noMessageNotification = ref('')
 const showMobileChats = ref(false)
 const userID = computed(() => {
   return profileStore.user.data.id;
@@ -93,6 +94,7 @@ const getMessageID = ()=>{
 function filterAll(){
   filterSection.value = 'all'
   getFilteredMessages()
+  noMessageNotification.value = 'messages'
   detailLoaded.value = false
   messageIndex.value = -1
 }
@@ -100,6 +102,7 @@ function filterAll(){
 function filterSent(){
   filterSection.value = 'sent'
   getFilteredMessages()
+  noMessageNotification.value = 'sent message'
   detailLoaded.value = false
   messageIndex.value = -1
 }
@@ -107,13 +110,16 @@ function filterSent(){
 function filterRead(){
   filterSection.value = 'read'
   getFilteredMessages()
+  noMessageNotification.value = 'messages'
   detailLoaded.value = false
 }
 
 function filterUnread(){
   filterSection.value = 'unread'
   getFilteredMessages()
-    messageIndex.value = -1
+  noMessageNotification.value = 'unread message'
+  detailLoaded.value = false
+  messageIndex.value = -1
 }
 
 function getFilteredMessages(){
@@ -438,7 +444,7 @@ onUnmounted(() => {
                   </div>
                   <div class="w-full h-full grid place-items-center" v-else>
                     <div class="text-center w-[90%] mx-auto">
-                      <h1 class="font-Satoshi500 text-[1.5rem] leading-[3.5rem]">No messages yet</h1>
+                      <h1 class="font-Satoshi500 text-[1.5rem] leading-[3.5rem]">No {{ noMessageNotification }} yet</h1>
                       <p>Start a conversation by sending a message</p>
                     </div>
                   </div>
@@ -446,14 +452,14 @@ onUnmounted(() => {
               </div>
           </div>
           <div class="w-full h-full hide-scrollbar msgTab:mx-auto msgTab:w-[80%] msgMob:w-full msgTab2:!opacity-[100] msgTab2:!z-[1]" id="chatPane" ref="chatPane" :class="showMobileChats? '!opacity-100 !z-[1]': 'reg'">
-            <div class="h-full w-full" v-if="!showNewMessage && messageLength">
-              <div v-if="!detailLoaded" class="w-full h-full bg-white grid place-items-center">
+            <div class="h-full w-full" v-if="!showNewMessage">
+              <div v-if="!detailLoaded || !messageLength" class="w-full h-full bg-white grid place-items-center">
                 <div class="flex flex-col items-center justify-center gap-4">
                   <h3 class="font-Satoshi500 text-[1.5rem]">Click Message to resume conversation</h3>
                   <p class="font-Satoshi500 text-[1.5rem] text-brand">or</p>
                   <div class="flex items-center gap-[0.5rem]">
                     <h3 class="font-Satoshi500 text-[1.5rem]">Click</h3>
-                    <NewMessageIcon />
+                    <NewMessageIcon class="" @click="handleNewMessage"/>
                     <h3 class="font-Satoshi500 text-[1.5rem]">to start a new conversation</h3>
                   </div>
                 </div>

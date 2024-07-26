@@ -12,8 +12,11 @@ import { storeToRefs } from "pinia";
 import { useUserProfile } from "@/stores/profile";
 import { useMessageStore } from "@/stores/message";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import { useRoute } from "vue-router";
 const messageStore = useMessageStore();
 const { filteredMails } = storeToRefs(messageStore)
+const route = useRoute()
+const isWidget = ref(false)
 let profile = useUserProfile();
 const userID = computed(() => {
   return profile.user.data.id;
@@ -155,6 +158,10 @@ const autoResize = () => {
     return displayedMails.value
   }
 
+  const isTargetRoute = (routeNames) => {
+    return routeNames.includes(route.name)
+  }
+
   onMounted(()=>{
     if (mailInput.value) {
       mailInput.value.addEventListener('keydown', handleEnterMail);
@@ -163,6 +170,11 @@ const autoResize = () => {
       recieverMail.value.push(props.chat?.sender?.email);
     } else {
       console.log('yes')
+    }
+    if (!isTargetRoute(['messages'])) {
+      isWidget.value = true
+      console.log('This code runs only on Home and Contact routes')
+      return isWidget.value
     }
   })
 
@@ -175,7 +187,9 @@ const autoResize = () => {
 </script>
 
 <template>
-    <article class="replyBox w-full px-[1.66rem] h-[100%] pb-4 msgMob:px-[0.9rem]">
+    <article class="replyBox w-full px-[1.66rem] h-[100%] pb-4 msgMob:px-[0.9rem]"
+    :class="isWidget? '!h-[280px]': 'reg'"
+    >
         <div class="border border-[#0000001a] rounded-[0.50175rem] h-full flex flex-col max-h-[inherit] min-h-[inherit] gap-0">
             <div class="h-fit">
                 <div class="header flex items-center justify-between px-4 py-[0.5rem] relative">
@@ -232,7 +246,7 @@ const autoResize = () => {
                     </div>
                 </div>
                 <hr class="border-[#EEEEEE] border-1">
-                <div :class="{ hidden: !showSubject }">
+                <div :class="{ hidden: showSubject }">
                     <div class="px-4 py-[0.5rem] flex items-center gap-4">
                         <h3 class="text-[#244034] font-Satoshi400 text-[0.702rem] capitalize">subject:</h3>
                         <input type="text" class="font-Satoshi400 text-[0.7rem] text-[#244034b3] leading-[1.2rem] basis-full" v-model="mailSubject">
@@ -255,6 +269,7 @@ const autoResize = () => {
                 class="textarea w-[100%] h-full p-[0.5rem] font-Satoshi400 text-[0.75rem] leading-[1.505rem] text-[#000000bf] resize-y focus:outline-0 block overflow-auto scroller"
                 placeholder="Write a message"
                 @input="autoResize"
+                :class="isWidget? '!h-[280px]': 'reg'"
                 ></textarea>
             </div>
             <div class="p-4 !pt-0 flexBasic h-fit">
@@ -288,10 +303,10 @@ const autoResize = () => {
             </div>
           </div>
           <div class="attachment px-[1.66rem] !pb-6 !my-[1.66rem] basis-[30%]" v-if="uploadedFileDetails?.length > 0">
-                <div class="flexBasic">
+                <!-- <div class="flexBasic">
                     <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ uploadedFileDetails?.length}} Attachment</h3>
                     <button class="text-[#349459] font-Satoshi500 text-[0.702rem]">Download All</button>
-                </div>
+                </div> -->
                 <div class="mt-4 flex !gap-[0.5rem] flex-wrap">
                     <article class="flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="(item, index) in uploadedFileDetails" :key="index">
                         <circleFileIcon />
