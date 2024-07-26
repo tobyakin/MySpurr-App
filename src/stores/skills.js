@@ -41,13 +41,17 @@ export const useSkillsStore = defineStore('skills', () => {
     }
   }
 const industries = ref([
-  { name: 'Advertising' },
-  { name: 'Marketing' },
-  { name: 'Public Relations' },
-  { name: 'Digital Marketing' },
-  { name: 'Performing Arts' },
-  { name: 'Visual Arts' },
-  { name: 'Entertainment' }
+  { name: 'Advertising and Marketing' },
+  { name: 'Technology and IT' },
+  { name: 'Design and Creative' },
+  { name: 'Media and Entertainment' },
+  { name: 'Education and E-Learning' },
+  { name: 'Fashion and Lifestyle' },
+  { name: 'Finance and Fintech' },
+  { name: 'Healthcare and Wellness' },
+  { name: 'E-commerce and Retail' },
+  { name: 'Consulting and Professional Services' },
+  { name: 'Agriculture' }
 
   // 'Advertising',
   // 'Marketing',

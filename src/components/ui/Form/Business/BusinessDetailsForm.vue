@@ -1,11 +1,11 @@
 <script setup>
-import { ref, onMounted, watch, reactive, computed } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { useSkillsStore } from "@/stores/skills";
 
 const userProfile = useUserProfile();
@@ -16,7 +16,6 @@ const router = useRouter();
 const skillsStore = useSkillsStore();
 const { contriesCode, states, industries } = storeToRefs(skillsStore);
 
-// let store = useStore();
 const emit = defineEmits(["next"]);
 const userDetails = computed(() => {
   return userProfile.user.data;
@@ -204,45 +203,47 @@ onMounted(async () => {
           />
         </div>
         <div
-          class="border-[0.737px] flex lg:flex-row flex-col items-center border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+          class="border-[0.737px] flex lg:flex-row flex-col items-center border-[#254035AB] rounded-[5.897px] p-4 py-1.5 gap-3"
         >
-          <div class="w-full">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
-            <div class="flex w-full items-center">
-              <a-select
-                placeholder="country or region"
-                :bordered="false"
-                :show-arrow="false"
-                class="w-full !px-0"
-                show-search
-                v-model:value="selectedCountry"
+        <div class="w-full">
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
+          <div class="flex w-full items-center">
+            <a-select
+              placeholder="country or region"
+              :bordered="false"
+              :show-arrow="false"
+              class="w-full !px-0 border-2 rounded-md my-2"
+              show-search
+              v-model:value="selectedCountry"
+            >
+              <a-select-option disabled>country or region</a-select-option>
+              <a-select-option
+                v-for="country in contriesCode?.data"
+                :key="country.id"
+                :value="country.name"
               >
-                <a-select-option disabled>country or region</a-select-option>
-                <a-select-option
-                  v-for="country in contriesCode?.data"
-                  :key="country.id"
-                  :value="country.name"
-                >
-                  {{ country.name }}
-                </a-select-option>
-              </a-select>
+                {{ country.name }}
+              </a-select-option>
+            </a-select>
             </div>
           </div>
-          <a-divider class="lg:hidden" style="height: 2px; background-color: #254035ab" />
+          <!-- <a-divider class="lg:hidden md:hidden" style="height: 1px; background-color: #254035ab" />
           <a-divider
             class="lg:flex hidden"
             style="height: 5vh; background-color: #254035ab"
             type="vertical"
-          />
+          /> -->
 
           <div class="w-full">
             <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">State</label>
             <div class="flex w-full items-center">
+              <span v-if="!states" class="p-2 px-2">loading..</span>
               <a-select
+                v-else
                 placeholder="state or city"
                 :show-arrow="false"
                 :bordered="false"
-                class="w-full !px-0"
+                class="w-full !px-0 border-2 rounded-md my-2"
                 show-search
                 v-model:value="selectedState"
               >
