@@ -11,17 +11,14 @@ import "animate.css";
 import { useRouter, useRoute } from "vue-router";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import { useMessageStore } from "@/stores/message";
 import ChatWidget from "@/components/ui/Message/ChatWidget.vue";
 
-let store = useStore();
-const accountType = computed(() => {
-  return store.getUser.data.user.type;
-});
-onMounted(() => {
-  return accountType;
-});
-
+const messageStore = useMessageStore();
 const profileStore = useUserProfile();
+const messageLength = ref()
+const messageNum = ref()
 const router = useRouter();
 const route = useRoute()
 const closeNav = ref(false);
@@ -29,11 +26,24 @@ const closeBackdrop = ref(false);
 const showDropdown = ref(false);
 const showNotificationDropdown = ref(false);
 const showChatWidget = computed(() => !route.meta.hideChatWidget);
+const receivedMessages = ref([])
+const { allMessages } = storeToRefs(messageStore)
 const userDetails = computed(() => {
   return profileStore?.user?.data;
 });
 
 const props = defineProps(['height', 'overflow'])
+
+let store = useStore();
+const accountType = computed(() => {
+  return store.getUser.data.user.type;
+});
+const userID = computed(() => {
+  return profileStore.user.data.id;
+});
+onMounted(() => {
+  return accountType, userID;
+});
 
 const toggle = () => {
   closeNav.value = !closeNav.value;
@@ -99,18 +109,8 @@ const itemss = [
     context: "Log out",
   },
 ];
-const notificationItems = [
-  {
-    id: 0,
-    name: "",
-    context: "`Lorem ipsum dolor sit amet, iat nulla pariatur. E`",
-  },
-  {
-    id: 1,
-    name: "",
-    context: "`Lorem ipsum dolor sit amet, iat nulla pariatur. E`",
-  },
-];
+const notificationItems = ref([])
+
 const toogleDropdown = () => {
   showDropdown.value = !showDropdown.value;
   if (showNotificationDropdown.value === true) {
@@ -131,10 +131,13 @@ const redirectToBookmark = () => {
 };
 onMounted(async () => {
   await profileStore.userProfile();
+  getReceivedMessages(userID.value)
   return userDetails.value?.image;
 });
+
 onUpdated(async () => {
-  // await profileStore.userProfile();
+  await profileStore.userProfile();
+  getReceivedMessages(userID.value)
   return userDetails.value?.image;
 });
 const searchQuery = ref("");
@@ -155,6 +158,21 @@ const redirectToTalentPage = () => {
 //   const searchQuery = event.target.value;
 //   redirectToJobPage(searchQuery);
 // };
+const unreadMessages = ref([])
+const getReceivedMessages = async (userId)=>{
+  try {
+    await messageStore.handleGetMessages(userId)
+  } catch (error) {
+    cconsole.log(error)
+  }
+  receivedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+  unreadMessages.value = receivedMessages.value.filter(message=>message.status == 'unread')
+  console.log(unreadMessages.value)
+  messageLength.value = unreadMessages.value.length > 0
+  messageNum.value = unreadMessages?.value.length
+  console.log(receivedMessages.value, messageLength.value, messageNum.value)
+  return receivedMessages.value
+}
 
 const redirectWithSearchQuery = () => {
   // const inputField = document.querySelector(".search-input");
@@ -174,7 +192,7 @@ function checkImageExists(url) {
   });
 }
 
-watch([userDetails, accountType], async () => {
+watch([userDetails, accountType, receivedMessages], async () => {
   const hasImage = userDetails.value?.image || userDetails.value?.company_logo;
   if (hasImage) {
     const imageSrc = getImageSrc();
@@ -186,6 +204,8 @@ watch([userDetails, accountType], async () => {
     imageExists.value = false;
     setInitials(userDetails.value?.business_name);
   }
+  await profileStore.userProfile();
+  getReceivedMessages(userID.value)
 });
 
 function setInitials(name) {
@@ -281,7 +301,12 @@ const displayImage = computed(() => imageExists.value);
                 @click="toogleNotificationDropdown"
                 role="button"
                 class="notification cusor-pointer hidden lg:block px-2"
-                ><BellIcon />
+                >
+                <div class="relative">
+                  <span v-if="messageLength" class="absolute right-[-5px] top-[-5px] w-[15px] h-[15px] bg-[red] grid place-content-center rounded-[100%] text-[0.7rem] font-Satoshi500 text-white">{{ messageNum }}</span>
+                  <BellIcon />
+                </div>
+                  
               </span>
 
               <div class="profile__dropdown">
@@ -381,6 +406,7 @@ const displayImage = computed(() => imageExists.value);
                     :showDropdown="showNotificationDropdown"
                     :link="true"
                     :items="notificationItems"
+                    :itemNum="messageNum"
                     @closeDropdown="toogleNotificationDropdown"
                   />
                 </div>
