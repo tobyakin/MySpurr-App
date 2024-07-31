@@ -213,9 +213,12 @@ const handleRegisterNotification = async () => {
     }
 }
 
+const showRegister = ref(true)
+
 function handleCloseNotification() {
     showRegistrationCompletedNotification.value = false
     showCalendarOptions.value = false
+    showRegister.value = false
     eventRegistered.value = true
 }
 
@@ -232,29 +235,28 @@ const handleViewMore = () => {
     <section class="event-detail">
         <DashboardLayout>
             <ShortLoader v-if="loading" />
-            <section class="w-[80%] msgMob:w-[90%] mx-auto mt-[4rem]" v-else>
-                <article class="flex justify-between flex-col md:flex-row gap-[4.65rem]">
-                    <div class="flex flex-col w-full md:w-3/6">
+            <section class="w-[80%] msgTab:w-[90%] mx-auto mt-[4rem]" v-else>
+                <article class="grid md:grid-cols-2 grid-cols-1  w-full gap-[4.65rem] items-end !mb-[4rem]">
+                    <div class="flex flex-col gap-4 w-full">
                         <span
-                            class="bg-[#00474F] rounded-[0.86rem] text-[#fff] font-Satoshi700 text-[0.59rem] leading-[0.39rem] py-[0.7rem] eventBreak1:text-[0.4rem] eventBreak1:w-[50%] px-[1.47] w-[40%] text-center uppercase tracking-[0.38rem] eventBreak1:tracking-[0.15rem] eventBreak1:mb-4 mb-[1.5rem]">online
+                            class="bg-[#00474F] rounded-[0.86rem] text-[#fff] font-Satoshi700 text-[0.59rem] leading-[0.39rem] py-[0.7rem] eventBreak1:text-[0.4rem] eventBreak1:w-[50%] px-[1.47] w-[40%] text-center uppercase tracking-[0.38rem] eventBreak1:tracking-[0.15rem] eventBreak1:mb-4">online
                             event</span>
                         <h3
                             class="text-[#000] font-Satoshi700 text-[2rem] eventBreak1:text-[1rem] eventBreak1:leading-[1.2rem] leading-[2.26463rem]">
                             {{ singleEvent.title }}
                         </h3>
-                        <div class="mb-10 mt-5 h-[300px]">
-                            <img :src="singleEvent.featured_graphics" alt="event image"
-                                class="object-cover rounded-[2.1875rem] w-full h-full" />
+                        <div class="md:hidden rounded-[2.1875rem] msgMob:min-h-[auto] w-full md:w-3/6">
+                            <div class="h-full rounded-[2.1875rem] overflow-hidden msgMob:rounded-[0.5rem]">
+                                <img :src="singleEvent.featured_graphics" alt="event image"
+                                class="object-cover w-full h-full min-h-[300px] msgMob:object-contain msgMob:min-h-[auto]"/>
+                            </div>
                         </div>
-                        
-                    </div>
-                    <div class="rounded-[2.1875rem] w-full md:w-3/6">
                         <div
-                            class="mt-[116px] mb-[30px] eventBreak1:mt-4 bg-[#ECFAFC] rounded-[20px] eventBreak1:px-4 px-[2.2rem] py-[1.5rem] eventBreak1:py-[0.7rem] flex gap-10 w-full md:w-[380px] ms-auto">
+                            class="eventBreak1:mt-4 bg-[#ECFAFC] rounded-[20px] eventBreak1:px-4 px-[2.2rem] py-[1.5rem] eventBreak1:py-[0.7rem] flex gap-10 justify-between w-full w-full-auto">
                             <div class="schedule flex flex-col gap-4 eventBreak1:gap-[0.5rem]">
                                 <div>
-                                    <div for="">Date</div>
-                                    <span class=" text-sm font-bold">{{ singleEvent.event_date }}</span>
+                                    <label for="date">Date</label>
+                                    <h3 id="date" class="">{{ singleEvent.event_date }}</h3>
                                 </div>
                                 <div>
                                     <label for="">Time</label>
@@ -272,114 +274,119 @@ const handleViewMore = () => {
                                 </div>
                             </div>
                         </div>
-                        <div>
-                        <div class="bg-[#007582] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full md:w-[380px] ms-auto"
-                            :class="{ registered: eventRegistered }" v-if="!singleEvent.is_registered">
-                            <div class="w-full grid place-items-center">
-                                <h3 class="text-[#fff] font-Satoshi500 text-[1.3rem] eventBreak1:text-[1rem]">
-                                    Register
-                                </h3>
-                                <button
-                                    class="mt-[1.2rem] bg-[#ECFAFC] rounded-[1.6rem] w-[70%] mx-auto text-center py-[0.6rem] text-[#000] font-Satoshi500 leading-[0.8rem] text-[1rem] eventBreak1:text-[0.7rem]"
-                                    @click="handleRegisterNotification">
-                                    <div class="flex items-center justify-center">
-                                        <span v-if="apiLoading"><SpinnerComponent /></span>
-                                        <span v-else>Register for this Event</span>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="bg-[#ECFAFC] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full md:w-[380px] ms-auto"
-                            :class="{ registered: eventRegistered }" v-if="singleEvent.is_registered">
-                            <div class="w-full text-center">
-                                <h3 class="text-[#000] font-Satoshi500 text-[1.3rem] eventBreak1:text-[1rem] !mb-[0.5rem]">
-                                    Thanks for registering, {{ userDetails.first_name }} {{ userDetails.last_name }}
-                                </h3>
-                                <p class="eventBreak1:text-[0.7rem] text-[1rem]">We recommend you:</p>
-                                <div class="relative mt-[0.6rem] recommendations">
-                                    <div class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto"
-                                        @click="showOptions = !showOptions">
-                                        <svg width="39" height="39" viewBox="0 0 39 39" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="19.0771" cy="19.6328" r="19" fill="#92E4EC" />
-                                            <path d="M18.9571 15.3128H15.7571V13.0128H21.4171V27.6328H18.9571V15.3128Z"
-                                                fill="#007582" />
-                                        </svg>
-                                        <div
-                                            class="flex items-center rounded-[0.4rem] bg-[#43D0DF] text-[#fff] w-[100%] eventBreak1:w-full py-[0.5rem] justify-center">
-                                            <calendarIcon class="!text-white" />
-                                            <div class="flex items-center gap-[0.5rem]">
-                                                <h3 class="">Add to Calendar</h3>
-                                                <rightArrowM class="!text-white rotate-90" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="w-full h-auto">
-                                        <ul class="w-[90%] mx-auto h-auto calendarIcons mt-4 transitionItem"
-                                            :class="{ hideOptions: !showOptions }">
-                                            <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 cursor-pointer"
-                                                @click="handleAddtoGoogleCalendar">
-                                                <googleCalendarIcon />
-                                                <h3>Google</h3>
-                                            </li>
-                                            <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 mt-[0.5rem] cursor-pointer"
-                                                @click="handleAddtoOutlookCalendar">
-                                                <outlookCalendarIcon />
-                                                <h3>Outlook</h3>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto">
-                                        <svg width="39" height="39" viewBox="0 0 39 39" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="19.0771" cy="19.6328" r="19" fill="#92E4EC" />
-                                            <path
-                                                d="M24.1371 27.6128L13.9971 27.6328V25.7128L18.7771 21.6728C20.7571 19.9928 21.4171 19.0328 21.4171 17.6328C21.4171 15.9728 20.5171 15.0328 18.9771 15.0328C17.3771 15.0328 16.3771 16.1528 16.3571 18.0328H13.8171C13.8371 14.8328 15.8771 12.7528 18.9771 12.7528C22.0971 12.7528 24.0371 14.5328 24.0371 17.4928C24.0371 19.5328 22.9171 21.0728 20.6971 22.9728L18.0571 25.2328H24.1371V27.6128Z"
-                                                fill="#007582" />
-                                        </svg>
-                                        <div
-                                            class="text-center rounded-[0.4rem] text-[#000] border border-[#2C4C50] w-[100%] eventBreak1:w-full py-[0.5rem] gap-4">
-                                            <h3>Invite a friend</h3>
-                                        </div>
-                                    </div>
-                                    <div class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto"
-                                        @click="showSocials = !showSocials">
-                                        <svg width="39" height="39" viewBox="0 0 39 39" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="19.0771" cy="19.6328" r="19" fill="#92E4EC" />
-                                            <path
-                                                d="M18.2571 20.3928H16.4771V18.7328L20.2371 15.2728H14.1571V13.0128H23.4371V15.0528L19.8771 18.3328C22.1171 18.7728 23.8571 20.4128 23.8571 22.9928C23.8571 25.9928 21.5171 27.8928 18.5571 27.8928C15.6971 27.8928 13.4771 26.1328 13.4771 22.9728H15.9971C15.9971 24.6528 17.0371 25.6128 18.5971 25.6128C20.1971 25.6128 21.2571 24.5728 21.2571 22.9528C21.2571 21.4728 20.2971 20.3928 18.2571 20.3928Z"
-                                                fill="#007582" />
-                                        </svg>
-                                        <div
-                                            class="text-center rounded-[0.4rem] text-[#000] border border-[#2C4C50] w-[100%] eventBreak1:w-full py-[0.5rem] gap-4">
-                                            <h3>Share</h3>
-                                        </div>
-                                    </div>
-                                    <div class="share w-[90%] ml-auto h-auto mr-4 calendarIcons mt-[0.5rem] transitionItem"
-                                        :class="{ hideOptions: !showSocials }">
-                                        <Share class="!justify-center !gap-6" />
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <h3 class="text-sm">
-                                        No longer attending?
-                                        <span class="!text-[#853232] cursor-pointer" @click="handleCancelRegistration"> 
-                                            Cancel Registration
-                                        </span>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+                    <div class="hidden md:block rounded-[2.1875rem] h-[100%] w-full">
+                        <div class="h-[100%] rounded-[2.1875rem] overflow-hidden msgMob:rounded-[0.5rem">
+                            <img :src="singleEvent.featured_graphics" alt="event image"
+                            class="object-co w-full h-full msgMob:object-contan msgMob:min-h-[auto] msgTab:border-2"/>
+                        </div>
                     </div>
                 </article>
-                <article class="detail-container !items-start gap-[5rem] mt-5 md:mt-0 md:w-3/6">
+                <article class="detail-container !items-start gap-[5rem] mt-5 msgMob:mt-0 msgMob:!gap-[3rem]">
                     <div>
                         <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">About the Event</h3>
                         <div class="about mt-6 font-Satoshi400 text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]"
                             v-html="singleEvent.content"></div>
+                    </div>
+                    <div>
+                            <div class="bg-[#007582] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full ms-auto"
+                                :class="{ registered: eventRegistered }" v-if="!singleEvent?.is_registered || !showRegister">
+                                <div class="w-full grid place-items-center">
+                                    <h3 class="text-[#fff] font-Satoshi500 text-[1.3rem] eventBreak1:text-[1rem]">
+                                        Register
+                                    </h3>
+                                    <button
+                                        class="mt-[1.2rem] bg-[#ECFAFC] rounded-[1.6rem] w-[70%] mx-auto text-center py-[0.6rem] text-[#000] font-Satoshi500 leading-[0.8rem] text-[1rem] eventBreak1:text-[0.7rem]"
+                                        @click="handleRegisterNotification">
+                                        <div class="flex items-center justify-center">
+                                            <span v-if="apiLoading"><SpinnerComponent /></span>
+                                            <span v-else>Register for this Event</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bg-[#ECFAFC] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full ms-auto"
+                                :class="{ registered: eventRegistered }" v-if="singleEvent?.is_registered || eventRegistered">
+                                <div class="w-full text-center">
+                                    <h3 class="text-[#000] font-Satoshi500 text-[1.3rem] eventBreak1:text-[1rem] !mb-[0.5rem]">
+                                        Thanks for registering, {{ userDetails.first_name }} {{ userDetails.last_name }}
+                                    </h3>
+                                    <p class="eventBreak1:text-[0.7rem] text-[1rem]">We recommend you:</p>
+                                    <div class="relative mt-[0.6rem] recommendations">
+                                        <div class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto"
+                                            @click="showOptions = !showOptions">
+                                            <svg width="39" height="39" viewBox="0 0 39 39" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="19.0771" cy="19.6328" r="19" fill="#92E4EC" />
+                                                <path d="M18.9571 15.3128H15.7571V13.0128H21.4171V27.6328H18.9571V15.3128Z"
+                                                    fill="#007582" />
+                                            </svg>
+                                            <div
+                                                class="flex items-center rounded-[0.4rem] bg-[#43D0DF] text-[#fff] w-[100%] eventBreak1:w-full py-[0.5rem] justify-center">
+                                                <calendarIcon class="!text-white" />
+                                                <div class="flex items-center gap-[0.5rem]">
+                                                    <h3 class="">Add to Calendar</h3>
+                                                    <rightArrowM class="!text-white rotate-90" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-auto">
+                                            <ul class="w-[90%] mx-auto h-auto calendarIcons mt-4 transitionItem"
+                                                :class="{ hideOptions: !showOptions }">
+                                                <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 cursor-pointer"
+                                                    @click="handleAddtoGoogleCalendar">
+                                                    <googleCalendarIcon />
+                                                    <h3>Google</h3>
+                                                </li>
+                                                <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 mt-[0.5rem] cursor-pointer"
+                                                    @click="handleAddtoOutlookCalendar">
+                                                    <outlookCalendarIcon />
+                                                    <h3>Outlook</h3>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto">
+                                            <svg width="39" height="39" viewBox="0 0 39 39" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="19.0771" cy="19.6328" r="19" fill="#92E4EC" />
+                                                <path
+                                                    d="M24.1371 27.6128L13.9971 27.6328V25.7128L18.7771 21.6728C20.7571 19.9928 21.4171 19.0328 21.4171 17.6328C21.4171 15.9728 20.5171 15.0328 18.9771 15.0328C17.3771 15.0328 16.3771 16.1528 16.3571 18.0328H13.8171C13.8371 14.8328 15.8771 12.7528 18.9771 12.7528C22.0971 12.7528 24.0371 14.5328 24.0371 17.4928C24.0371 19.5328 22.9171 21.0728 20.6971 22.9728L18.0571 25.2328H24.1371V27.6128Z"
+                                                    fill="#007582" />
+                                            </svg>
+                                            <div
+                                                class="text-center rounded-[0.4rem] text-[#000] border border-[#2C4C50] w-[100%] eventBreak1:w-full py-[0.5rem] gap-4">
+                                                <h3>Invite a friend</h3>
+                                            </div>
+                                        </div>
+                                        <div class="cursor-pointer flex items-center gap-[0.7rem] w-[90%] mx-auto"
+                                            @click="showSocials = !showSocials">
+                                            <svg width="39" height="39" viewBox="0 0 39 39" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="19.0771" cy="19.6328" r="19" fill="#92E4EC" />
+                                                <path
+                                                    d="M18.2571 20.3928H16.4771V18.7328L20.2371 15.2728H14.1571V13.0128H23.4371V15.0528L19.8771 18.3328C22.1171 18.7728 23.8571 20.4128 23.8571 22.9928C23.8571 25.9928 21.5171 27.8928 18.5571 27.8928C15.6971 27.8928 13.4771 26.1328 13.4771 22.9728H15.9971C15.9971 24.6528 17.0371 25.6128 18.5971 25.6128C20.1971 25.6128 21.2571 24.5728 21.2571 22.9528C21.2571 21.4728 20.2971 20.3928 18.2571 20.3928Z"
+                                                    fill="#007582" />
+                                            </svg>
+                                            <div
+                                                class="text-center rounded-[0.4rem] text-[#000] border border-[#2C4C50] w-[100%] eventBreak1:w-full py-[0.5rem] gap-4">
+                                                <h3>Share</h3>
+                                            </div>
+                                        </div>
+                                        <div class="share w-[90%] ml-auto h-auto mr-4 calendarIcons mt-[0.5rem] transitionItem"
+                                            :class="{ hideOptions: !showSocials }">
+                                            <Share class="!justify-center !gap-6" />
+                                        </div>
+                                    </div>
+                                    <!-- <div class="mt-4">
+                                        <h3 class="text-sm">
+                                            No longer attending?
+                                            <span class="!text-[#853232] cursor-pointer" @click="handleCancelRegistration"> 
+                                                Cancel Registration
+                                            </span>
+                                        </h3>
+                                    </div> -->
+                                </div>
+                            </div>
                     </div>
                 </article>
                 <article class="my-[3rem] msgMob:w-full w-[50%] eventBreak1:my-[2rem]">
@@ -432,14 +439,14 @@ const handleViewMore = () => {
                         <h3 class="font-Satoshi700 text-[#000] leading-5">Related Events</h3>
                     </div>
                     <div class="my-10">
-                        <div class="flex gap-3 flex-col md:flex-row">
+                        <div class="grid grid-cols-customGrid gap-3 msgMob:grid-cols-1">
                             <div class="mb-4" v-for="event in relatedEvents" :key="event.id">
-                                <div class="w-full md:w-[320px]">
-                                    <div class="rounded-t-[1rem] h-[200px]">
+                                <div class=" flex flex-col h-full">
+                                    <div class="rounded-t-[1rem]">
                                         <img :src="event.featured_graphics" alt=""
-                                        class="w-full h-full object-cover rounded-t-[1rem]" />
+                                        class="w-full object-contain h-full rounded-t-[1rem]" />
                                     </div>
-                                    <div class="px-[0.7rem] py-[0.5rem] bg-[#ECFAFC] rounded-b-[1rem]">
+                                    <div class="flex-grow px-[1.24rem] pb-[2rem] pt-4 bg-[#ECFAFC] rounded-b-[1.32038rem] flex flex-col justify-between">
                                         <h1 class="text-[#000] text-[0.8rem] font-Satoshi700 leading-[1rem] mb-4">
                                         {{ event.title }}
                                         </h1>
