@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick} from "vue";
+import { ref, computed, onMounted, onUnmounted, nextTick, onUpdated} from "vue";
 import ChatWidget from "@/components/ui/Message/ChatWidget.vue";
 import { useRouter } from "vue-router";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
@@ -245,7 +245,7 @@ const handleSendMessage = async (payload)=>{
   console.log(payload)
 }
 
-let num = 0
+
 const handleNavRight = async ()=>{
   messageIndex.value += 1
   emit('next', messageIndex.value)
@@ -339,6 +339,7 @@ const sendMessage = async () => {
 };
 
 onMounted(() => {
+  noMessageNotification.value = 'messages'
   return profile.userProfile();
 });
 onMounted(async () => {

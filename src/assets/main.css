@@ -451,6 +451,10 @@ input[type='checkbox'] {
     @apply !block capitalize 
   }
 
+  .styled-link {
+    @apply font-Satoshi500 hover:text-brand
+  }
+
   .widget .header {
     @apply w-full !justify-center text-center flex-col gap-[0rem] hidden
   }
@@ -519,9 +523,9 @@ input[type='checkbox'] {
     @apply sticky top-0 bg-white
   }
 
-  .widgetContainer .textarea {
+  /* .widgetContainer .textarea {
     @apply max-h-[160px]
-  }
+  } */
 
   .inputField .textarea {
     @apply !max-h-[185px]

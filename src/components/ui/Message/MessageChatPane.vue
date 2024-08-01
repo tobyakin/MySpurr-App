@@ -44,6 +44,40 @@ watch(
   { deep: true }
 );
 
+function discoverLinks(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    let match;
+    const links = [];
+    while ((match = urlRegex.exec(text)) !== null) {
+        links.push({
+            url: match[0],
+            index: match.index,
+            length: match[0].length
+        });
+    }
+    return links;
+}
+function displayTextWithLinks(text) {
+    const links = discoverLinks(text);
+    let lastIndex = 0;
+    let resultHTML = '';
+    if(links.length > 0){
+        links.forEach(link => {
+            // Add text before the link
+            resultHTML += text.slice(lastIndex, link.index);
+            // Add the clickable link with the class
+            resultHTML += `<a href="${link.url}" target="_blank" class="styled-link">${link.url}</a>`;
+            // Update lastIndex to the end of the current link
+            lastIndex = link.index + link.length;
+        });
+        // Add any remaining text after the last link
+        resultHTML += text.slice(lastIndex);
+    } else {
+        resultHTML = text
+    }
+    return resultHTML
+}
+
 onMounted(() => {
   return accountType, userID;
 });
@@ -267,13 +301,13 @@ function handleSaveEdit(e){
                 <div class="chatPage">
                     <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat.subject }}</h3>
                     <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden">{{ chat.subject }}</h3>
-                    <div class="field">
-                        <div class="flex flex-col !mb-[1.3rem] relative">
-                            <div id="messageBox" class="flex gap-[0.5rem] items-center cursor-pointer w-fit">
+                    <div class="field !mb-[1.3rem]">
+                        <div class="flex flex-col relative">
+                            <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer w-fit max-w-[100%]">
                                 <div 
-                                v-html="chat?.message"
+                                v-html="displayTextWithLinks(chat?.message)"
                                 contenteditable="false"
-                                class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[90%] h-auto whitespace-pre-wrap focus:outline-none"
+                                class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[92%] h-auto whitespace-pre-wrap focus:outline-none"
                                 aria-readonly="true"
                                 >
                                 </div>
@@ -345,11 +379,11 @@ function handleSaveEdit(e){
                         </div>
                         <div class="field">
                             <div class="flex flex-col !mb-[1.3rem] relative">
-                                <div id="messageBox" class="flex gap-[0.5rem] items-center cursor-pointer w-fit">
+                                <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer w-fit max-w-[100%]">
                                     <div 
-                                    v-html="chat?.message"
+                                    v-html="displayTextWithLinks(reply?.message)"
                                     contenteditable="false"
-                                    class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[90%] h-auto whitespace-pre-wrap focus:outline-none"
+                                    class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[92%] h-auto whitespace-pre-wrap focus:outline-none"
                                     aria-readonly="true"
                                     >
                                     </div>
