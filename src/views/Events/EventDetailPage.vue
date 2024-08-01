@@ -278,7 +278,7 @@ const handleViewMore = () => {
                     <div class="hidden md:block rounded-[2.1875rem] h-[100%] w-full">
                         <div class="h-[100%] rounded-[2.1875rem] overflow-hidden msgMob:rounded-[0.5rem">
                             <img :src="singleEvent.featured_graphics" alt="event image"
-                            class="object-co w-full h-full msgMob:object-contan msgMob:min-h-[auto] msgTab:border-2"/>
+                            class="object-cover w-full h-full msgMob:object-contain msgMob:min-h-[auto] msgTab:border-2"/>
                         </div>
                     </div>
                 </article>
@@ -374,7 +374,7 @@ const handleViewMore = () => {
                                         </div>
                                         <div class="share w-[90%] ml-auto h-auto mr-4 calendarIcons mt-[0.5rem] transitionItem"
                                             :class="{ hideOptions: !showSocials }">
-                                            <Share class="!justify-center !gap-6" />
+                                            <Share class="!justify-center !gap-6" :event="singleEvent"/>
                                         </div>
                                     </div>
                                     <!-- <div class="mt-4">
@@ -513,7 +513,7 @@ const handleViewMore = () => {
                             </div>
                             <div class="shareEvent flex items-center gap-[0.7rem]">
                                 <h3 class="font-Satoshi400 leading-4 text-4 msgMob:text-[0.8rem]">Share event:</h3>
-                                <Share />
+                                <Share :event="singleEvent"/>
                             </div>
                             <div class="w-full">
                                 <button
