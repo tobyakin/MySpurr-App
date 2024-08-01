@@ -5,10 +5,12 @@ import ReplyIcon from "@/components/icons/ReplyIcon.vue";
 import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
 import circleFileIcon from "@/components/icons/circleFileIcon.vue";
 import DropDownArror from "@/components/icons/DropDownArrow.vue"
+import EditIcon from "@/components/icons/pencilIcon.vue"
 import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
 const userInfo = ref([])
+const editMessage = ref(false)
 let profile = useUserProfile();
 let store = useStore();
 const userID = computed(() => {
@@ -165,6 +167,43 @@ function timeDifference(dateString) {
     }
    
 }
+
+const messageEdited = ref(false)
+
+function handleEditMessage(e) {
+    const targetElement = e.currentTarget;
+    const mainContainer = targetElement.parentElement.parentElement.parentElement
+    console.log(mainContainer)
+    mainContainer.querySelector('.editBtnContainer').classList.add('!flex')
+    const targetInput = targetElement.previousElementSibling;
+    
+    targetInput.setAttribute('aria-readonly', 'false');
+    targetInput.contentEditable = 'true';
+    targetInput.focus();
+    console.dir(targetInput);
+}
+
+function handleCancelEdit(e){
+    const targetElement = e.currentTarget;
+    const mainContainer = targetElement.parentElement.parentElement
+    const targetInput = targetElement.parentElement.previousElementSibling.querySelector('.message');  
+    targetInput.setAttribute('aria-readonly', 'true');
+    targetInput.contentEditable = 'false';
+    targetInput.blur();
+    mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+}
+
+function handleSaveEdit(e){
+     const targetElement = e.currentTarget;
+    const mainContainer = targetElement.parentElement.parentElement
+    const targetInput = targetElement.parentElement.previousElementSibling.querySelector('.message');  
+    targetInput.setAttribute('aria-readonly', 'true');
+    targetInput.contentEditable = 'false';
+    targetInput.blur();
+    mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+    mainContainer.querySelector('.editedNotifier').classList.add('!block')
+}
+
 </script>
 <template>
     <article class="recievedMessage w-full h-full flex flex-col !gap-0" data-id="chat.id">
@@ -228,10 +267,29 @@ function timeDifference(dateString) {
                 <div class="chatPage">
                     <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat.subject }}</h3>
                     <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden">{{ chat.subject }}</h3>
-                    <div>
-                        <div 
-                        v-html="chat?.message"
-                        class="message break-words text-justify text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] !mb-[1.3rem] w-full h-auto whitespace-pre-wrap">
+                    <div class="field">
+                        <div class="flex flex-col !mb-[1.3rem] relative">
+                            <div id="messageBox" class="flex gap-[0.5rem] items-center cursor-pointer w-fit">
+                                <div 
+                                v-html="chat?.message"
+                                contenteditable="false"
+                                class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[90%] h-auto whitespace-pre-wrap focus:outline-none"
+                                aria-readonly="true"
+                                >
+                                </div>
+                                <div @click="handleEditMessage" class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]">
+                                    <EditIcon class="w-full h-full"/>
+                                </div>
+                            </div>
+                            <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
+                        </div>
+                        <div class="hidden editBtnContainer gap-[0.5rem]">
+                            <button
+                            @click="handleCancelEdit"
+                             class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>
+                            <button
+                            @click="handleSaveEdit"
+                            class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -285,10 +343,29 @@ function timeDifference(dateString) {
                         <!-- <hr class="border-[#EEEEEE] border-1 my-[1.1rem] w-[30%]"> -->
                         
                         </div>
-                        <div>
-                            <div 
-                                v-html="reply?.message"
-                                class="message break-words text-justify text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] !mb-[1.3rem] w-full h-auto whitespace-pre-wrap">
+                        <div class="field">
+                            <div class="flex flex-col !mb-[1.3rem] relative">
+                                <div id="messageBox" class="flex gap-[0.5rem] items-center cursor-pointer w-fit">
+                                    <div 
+                                    v-html="chat?.message"
+                                    contenteditable="false"
+                                    class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[90%] h-auto whitespace-pre-wrap focus:outline-none"
+                                    aria-readonly="true"
+                                    >
+                                    </div>
+                                    <div @click="handleEditMessage" class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]">
+                                        <EditIcon class="w-full h-full"/>
+                                    </div>
+                                </div>
+                                <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
+                            </div>
+                            <div class="hidden editBtnContainer gap-[0.5rem]">
+                                <button
+                                @click="handleCancelEdit"
+                                class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>
+                                <button
+                                @click="handleSaveEdit"
+                                class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Submit</button>
                             </div>
                         </div>
                     </div>

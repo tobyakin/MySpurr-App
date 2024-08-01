@@ -539,6 +539,10 @@ input[type='checkbox'] {
     @apply !pb-0
   }
 
+  #messageBox:hover .editIcon{
+    @apply !opacity-100 !z-[1]
+  }
+
   .scroller {
     scrollbar-width: thin !important;
     scrollbar-color: #2F929C #e6f1f3;
