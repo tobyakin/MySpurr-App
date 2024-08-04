@@ -22,11 +22,21 @@
    import twitterIcon from "@/components/icons/eventTwitterIcon.vue";
    import { ref } from "vue";
    import { useHead } from '@vueuse/head';
+  import { computed } from "vue";
 
+  const dashboardUrl = import.meta.env.VITE_DASHBOARD;
+   const props = defineProps({
+      event: {
+        type: Object,
+        required: true,
+      },
+    });
+
+    
     const title = ref('MySpurr');
-    const description = ref('Career Coaching for Creatives: Your Path to Professional Excellence');
-    const url = ref('https://www.myspurr.net/career-development/career-coaching-for-creatives-your-path-to-professional-excellence');
-    const imageUrl = ref('https://ik.imagekit.io/ldtt3hq8g2/blog/1720275662__9fCtRfyN.jpg');
+    const description = computed(() => props.event.title || 'Default description');
+    const url = computed(() => `${dashboardUrl}event/` + props.event.title.toLowerCase().replace(/ /g, '-') || 'Default URL');
+    const imageUrl = computed(() => props.event.featured_graphics || 'Default Image URL');
     
     const encodedUrl = encodeURIComponent(url.value);
     const encodedMessage = encodeURIComponent(`${title.value} - ${description.value}`);

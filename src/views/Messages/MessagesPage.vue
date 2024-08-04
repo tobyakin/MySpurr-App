@@ -294,6 +294,26 @@ onMounted(async ()=>{
   }
 })
 
+// onUpdated(async ()=>{
+//   try {
+//     await profileStore.userProfile();
+//     if(isOnBoarded.value){
+//       await messageStore.handleGetMessages(userID.value)
+//       await messageStore.handleSentMessages()
+//       displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+//       recievedMessages.value = displayedMessages.value
+//       messageLength.value = recievedMessages.value.length > 0
+//       messageNum.value = recievedMessages?.value.length
+//       pageLoading.value = false
+//       return displayedMessages.value
+//     }
+//   } catch (error) {
+//     console.log(error)
+//   } finally {
+//     console.log('yes')
+//   }
+// })
+
 
 onMounted(async () => {
   try {

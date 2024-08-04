@@ -40,6 +40,12 @@ const autoResize = () => {
   } else {
     maxHeight = 155
   }
+  let maxHeight
+  if(!isWidgetWindow.value){
+    maxHeight = 400;
+  } else {
+    maxHeight = 155
+  }
 
   textarea.style.height = 'auto'; // Reset height to auto to calculate actual size
   if (textarea.scrollHeight <= maxHeight) {
@@ -167,6 +173,7 @@ const autoResize = () => {
   const isTargetRoute = (routeNames) => {
     return routeNames.includes(route.name)
   }
+  const isWidgetWindow = ref(false)
 
   onMounted(()=>{
     if (mailInput.value) {

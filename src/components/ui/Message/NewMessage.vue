@@ -34,7 +34,7 @@
     import MessageInputField from '@/components/ui/Message/MessageInputField.vue';
     import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
     import { useUserProfile } from "@/stores/profile";
-    import { useRoute } from "vue-router";
+import { useRoute } from "vue-router";
     const userInfo = ref([])
     let profile = useUserProfile();
     const uploadedFileDetails = ref([])
@@ -62,8 +62,11 @@
     const isTargetRoute = (routeNames) => {
         return routeNames.includes(route.name)
     }
+
     const isWidget = ref(false)
     const route = useRoute()
+   
+
 
     onMounted(()=>{
         getUserInfo()
