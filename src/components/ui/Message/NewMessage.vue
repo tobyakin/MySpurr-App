@@ -20,7 +20,7 @@
         </article>
         <div class="overflow-y-auto scroller flex-1 w-full">
             <MessageInputField class="my-[1.66rem]" notShow="true" :chat="chat" :sendButton="true" @send="handleSend" @change="handleChange"
-            :class="uploadedFileDetails?.length < 1? 'h-[85%]': 'h-[70%]'"
+            :class="[uploadedFileDetails?.length < 1? 'h-[85%]': 'h-[82%]', isWidget? '!h-[85%]': '']"
             :isSending="isSendng"
             @delete="handleDelete"
             />
@@ -34,6 +34,7 @@
     import MessageInputField from '@/components/ui/Message/MessageInputField.vue';
     import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
     import { useUserProfile } from "@/stores/profile";
+import { useRoute } from "vue-router";
     const userInfo = ref([])
     let profile = useUserProfile();
     const uploadedFileDetails = ref([])
@@ -58,10 +59,26 @@
         emit('delete')
     }
 
+    const isTargetRoute = (routeNames) => {
+        return routeNames.includes(route.name)
+    }
+
+    const isWidget = ref(false)
+    const route = useRoute()
+   
+
+
     onMounted(()=>{
         getUserInfo()
         userSkill.value = userInfo.value.skill_title || userInfo.value.business_service
         userImg.value = userInfo.value.company_logo || userInfo.value.image
+        if (!isTargetRoute(['messages'])) {
+            const screenWidth = window.innerWidth
+            if(screenWidth > 1024 ){
+                isWidget.value = true
+            }
+            return isWidget.value
+        }
     })
 
     function handleChange(fileDetails){
