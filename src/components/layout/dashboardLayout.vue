@@ -36,10 +36,10 @@ const props = defineProps(['height', 'overflow'])
 
 let store = useStore();
 const accountType = computed(() => {
-  return store.getUser.data.user.type;
+  return store.getUser?.data?.user?.type;
 });
 const userID = computed(() => {
-  return profileStore.user.data.id;
+  return profileStore?.user?.data?.id;
 });
 onMounted(() => {
   return accountType, userID;
@@ -167,10 +167,8 @@ const getReceivedMessages = async (userId)=>{
   }
   receivedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
   unreadMessages.value = receivedMessages.value.filter(message=>message.status == 'unread')
-  console.log(unreadMessages.value)
   messageLength.value = unreadMessages.value.length > 0
   messageNum.value = unreadMessages?.value.length
-  console.log(receivedMessages.value, messageLength.value, messageNum.value)
   return receivedMessages.value
 }
 
