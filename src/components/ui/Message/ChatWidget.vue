@@ -422,7 +422,7 @@ const getUserInfo = ()=>{
                 </div>
               </div>
               
-              <div class="inputField w-[95%] msgMob:w-full mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] msgMob:rounded-none border gap-[0.5rem] min-h-[16px] h-[40px] max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]">
+              <div class="inputField w-[95%] msgMob:w-full mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] msgMob:rounded-none border gap-[0.5rem] min-h-[40px] h-auto max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]">
                   <div>
                     <label for="upload_file">
                       <AttachFile />
@@ -438,7 +438,7 @@ const getUserInfo = ()=>{
                     />
                   </div>
                   <textarea
-                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 h-full overflow-auto scroller leading-4" 
+                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 h-[50px] overflow-auto scroller leading-4 " 
                     contenteditable
                     @input="autoResize"
                     ref="textArea"
@@ -448,7 +448,7 @@ const getUserInfo = ()=>{
               </div>
           </div>
           <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
-            <div class="messageWindow w-[50%] mx-auto mt-6 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
+            <div class="messageWindow w-[50%] mx-auto mt-6 msgMob:mt-0 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
               <NewMessage class="h-full" @send="handleSendMessage"
               @delete="handleDelete"
               @back="closeWindow"

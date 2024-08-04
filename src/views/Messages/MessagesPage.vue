@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick} from "vue";
+import { ref, computed, onMounted, onUnmounted, nextTick, onUpdated} from "vue";
 import ChatWidget from "@/components/ui/Message/ChatWidget.vue";
 import { useRouter } from "vue-router";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
@@ -244,8 +244,6 @@ const handleSendMessage = async (payload)=>{
 
   console.log(payload)
 }
-
-let num = 0
 const handleNavRight = async ()=>{
   messageIndex.value += 1
   emit('next', messageIndex.value)
@@ -293,6 +291,26 @@ onMounted(async ()=>{
     console.log('yes')
   }
 })
+
+// onUpdated(async ()=>{
+//   try {
+//     await profileStore.userProfile();
+//     if(isOnBoarded.value){
+//       await messageStore.handleGetMessages(userID.value)
+//       await messageStore.handleSentMessages()
+//       displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+//       recievedMessages.value = displayedMessages.value
+//       messageLength.value = recievedMessages.value.length > 0
+//       messageNum.value = recievedMessages?.value.length
+//       pageLoading.value = false
+//       return displayedMessages.value
+//     }
+//   } catch (error) {
+//     console.log(error)
+//   } finally {
+//     console.log('yes')
+//   }
+// })
 
 
 onMounted(async () => {
