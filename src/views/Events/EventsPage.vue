@@ -40,18 +40,18 @@ onMounted(() => {
   <section class="events">
     <DashboardLayout>
         <ShortLoader v-if="loading" />
-        <section class="adsContainer mx-auto !mt-[5rem] !p-0 overflow-hidden flex flex-wrap w-[80%] msgMob:!w-[90%] basis-1/4" v-else>
+        <section class="adsContainer mx-auto !mt-[5rem] !p-0 overflow-hidden w-[80%] msgMob:!w-[90%] grid grid-cols-customGrid2 gap-[2rem] h-auto" v-else>
             <div v-if="events && events.length === 0">
                 <div class="flex justify-center items-center">
                     <p class="pt-3">No data available.</p>
                 </div>
             </div>
             
-            <article v-for="event in events" :key="event.id" class="w-[300px]">
+            <article v-for="event in events" :key="event.id" class="h-full flex flex-col">
                 <div class="rounded-t-[1.13825rem]">
                     <img :src="event.featured_graphics" alt="" class="w-full h-full object-contain rounded-t-[1rem]">
                 </div>
-                <div class="px-[1.24rem] pb-[2rem] pt-4 bg-[#ECFAFC] rounded-b-[1.32038rem]">
+                <div class="flex-grow px-[1.24rem] pb-[2rem] pt-4 bg-[#ECFAFC] rounded-b-[1.32038rem] flex flex-col justify-between">
                     <h1 class="text-[#000] font-Satoshi700 leading-[1.27488rem] mb-4">{{ event.title }}</h1>
                     <div class="event_details flex flex-col gap-[0.39rem] my-4">
                         <div class="flex items-center gap-[0.63rem]">
@@ -82,14 +82,6 @@ onMounted(() => {
 </template>
 
 <style>
-.events .adsContainer {
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    width: 80%;
-    overflow-x: hidden !important;
-}
-
 @media (max-width: 1450px){
     html {
         font-size: 13.5px !important;
