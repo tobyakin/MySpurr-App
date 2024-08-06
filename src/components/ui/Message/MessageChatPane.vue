@@ -359,6 +359,9 @@ function handleSaveEdit(e){
                     <div class="chatPage">
                     <div class=" head flex items-center justify-between mb-4">
                         <div class="flex items-center gap-[0.5rem]">
+                            <!-- <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid bg-brand place-items-center border  border-brand font-Satoshi500 text-brand">
+                                <svg data-v-f87d500a="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 text-gray-100 h-5"><path data-v-f87d500a="" stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path></svg>
+                            </div> -->
                             <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid place-items-center border  border-brand font-Satoshi500 text-brand">
                                 <div v-if="reply?.sender?.id == userID">
                                     {{ reply?.sender?.first_name[0] }} {{reply?.sender?.last_name[0] }}

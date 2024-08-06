@@ -9,5 +9,3 @@ VITE_ENCRYPT_KEY = "MySpurrDashaord#$%245"
 VITE_BACKEND_BASEURL = "https://staging-api.myspurr.net/api/"
 VITE_BACKEND_BASEURL_PRODUCTION = "https://backend-api.myspurr.net/api/"
 VITE_DASHBOARD = "https://www.app.myspurr.net/"
-
-

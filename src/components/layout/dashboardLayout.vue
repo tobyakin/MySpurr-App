@@ -134,7 +134,7 @@ const redirectToBookmark = () => {
 onMounted(async () => {
   await profileStore.userProfile();
   getReceivedMessages(userID.value)
-  return userDetails.value?.image;
+  return userDetails.value?.image, accountType, userID;
 });
 
 onUpdated(async () => {
@@ -192,7 +192,7 @@ function checkImageExists(url) {
   });
 }
 
-watch([userDetails, accountType], receivedMessages, async () => {
+watch([userDetails, accountType], async () => {
   const hasImage = userDetails.value?.image || userDetails.value?.company_logo;
   if (hasImage) {
     const imageSrc = getImageSrc();
@@ -204,8 +204,6 @@ watch([userDetails, accountType], receivedMessages, async () => {
     imageExists.value = false;
     setInitials(userDetails.value?.business_name);
   }
-  await profileStore.userProfile();
-  getReceivedMessages(userID.value)
 });
 
 function setInitials(name) {

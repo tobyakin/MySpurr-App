@@ -7,12 +7,7 @@ import DocumentIcon from "@/components/icons/documentIcon.vue";
 import CircleArrowDown from "@/components/icons/circleArrowDown.vue";
 import JobStatisticsChart from "@/components/ui/Chart/JobStatisticsChart.vue";
 import SingleData from "@/components/ui/Chart/SingleData.vue";
-const props = defineProps({
-  statistics: {
-    type: Array,
-    required: true,
-  },
-});
+const props = defineProps(['statistics'])
 
 const activetab = ref("monthly");
 
