@@ -317,7 +317,7 @@ function handleSaveEdit(e){
                             </div>
                             <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
                         </div>
-                        <div class="hidden editBtnContainer gap-[0.5rem]">
+                        <div class="hidden editBtnContainer gap-[0.5rem] mt-[0.5rem]">
                             <button
                             @click="handleCancelEdit"
                              class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>
@@ -393,7 +393,7 @@ function handleSaveEdit(e){
                                 </div>
                                 <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
                             </div>
-                            <div class="hidden editBtnContainer gap-[0.5rem]">
+                            <div class="hidden editBtnContainer gap-[0.5rem] mt-[0.5rem]">
                                 <button
                                 @click="handleCancelEdit"
                                 class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>

@@ -452,7 +452,7 @@ input[type='checkbox'] {
   }
 
   .styled-link {
-    @apply font-Satoshi500 hover:text-brand
+    @apply font-Satoshi500 hover:underline
   }
 
   .widget .header {

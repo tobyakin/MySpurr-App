@@ -70,8 +70,8 @@ import { useRoute } from "vue-router";
 
     onMounted(()=>{
         getUserInfo()
-        userSkill.value = userInfo.value.skill_title || userInfo.value.business_service
-        userImg.value = userInfo.value.company_logo || userInfo.value.image
+        userSkill.value = userInfo.value?.skill_title || userInfo.value?.business_service
+        userImg.value = userInfo.value?.company_logo || userInfo.value?.image
         if (!isTargetRoute(['messages'])) {
             const screenWidth = window.innerWidth
             if(screenWidth > 1024 ){

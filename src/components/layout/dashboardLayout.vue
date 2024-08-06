@@ -38,9 +38,11 @@ let store = useStore();
 const accountType = computed(() => {
   return store.getUser?.data?.user?.type;
 });
+
 const userID = computed(() => {
   return profileStore?.user?.data?.id;
 });
+
 onMounted(() => {
   return accountType, userID;
 });
@@ -136,8 +138,8 @@ onMounted(async () => {
 });
 
 onUpdated(async () => {
-  await profileStore.userProfile();
-  getReceivedMessages(userID.value)
+  // await profileStore.userProfile();
+  // getReceivedMessages(userID.value)
   return userDetails.value?.image;
 });
 const searchQuery = ref("");
@@ -190,7 +192,7 @@ function checkImageExists(url) {
   });
 }
 
-watch([userDetails, accountType, receivedMessages], async () => {
+watch([userDetails, accountType], receivedMessages, async () => {
   const hasImage = userDetails.value?.image || userDetails.value?.company_logo;
   if (hasImage) {
     const imageSrc = getImageSrc();

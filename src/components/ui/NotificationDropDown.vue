@@ -33,6 +33,9 @@
 import { ref, computed, onMounted, defineProps, defineEmits } from "vue";
 import { useUserProfile } from "@/stores/profile";
 
+const props = defineProps(['items', 'itemNum'])
+const dropdown = ref(null);
+
 let profile = useUserProfile();
 onMounted(() => {
   return profile.userProfile();
@@ -44,9 +47,6 @@ const onClickOutside = (element, callback) => {
     if (!element.value.contains(e.target)) callback();
   });
 };
-
-const props = defineProps(['items', 'itemNum'])
-const dropdown = ref(null);
 
 const showFeaturesDropdown = computed(() => props.showDropdown);
 
