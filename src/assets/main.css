@@ -452,7 +452,7 @@ input[type='checkbox'] {
   }
 
   .styled-link {
-    @apply font-Satoshi500
+    @apply font-Satoshi500 hover:underline
   }
 
   .widget .header {
@@ -541,6 +541,10 @@ input[type='checkbox'] {
 
   .message .variableDiv {
     @apply !pb-0
+  }
+
+  #messageBox:hover .editIcon{
+    @apply !opacity-100 !z-[1]
   }
 
   .scroller {

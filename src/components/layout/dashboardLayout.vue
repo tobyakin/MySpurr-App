@@ -38,9 +38,11 @@ let store = useStore();
 const accountType = computed(() => {
   return store.getUser?.data?.user?.type;
 });
+
 const userID = computed(() => {
   return profileStore?.user?.data?.id;
 });
+
 onMounted(() => {
   return accountType, userID;
 });
@@ -132,12 +134,12 @@ const redirectToBookmark = () => {
 onMounted(async () => {
   await profileStore.userProfile();
   getReceivedMessages(userID.value)
-  return userDetails.value?.image;
+  return userDetails.value?.image, accountType, userID;
 });
 
 onUpdated(async () => {
-  await profileStore.userProfile();
-  getReceivedMessages(userID.value)
+  // await profileStore.userProfile();
+  // getReceivedMessages(userID.value)
   return userDetails.value?.image;
 });
 const searchQuery = ref("");
@@ -190,7 +192,7 @@ function checkImageExists(url) {
   });
 }
 
-watch([userDetails, accountType, receivedMessages], async () => {
+watch([userDetails, accountType], async () => {
   const hasImage = userDetails.value?.image || userDetails.value?.company_logo;
   if (hasImage) {
     const imageSrc = getImageSrc();
@@ -202,8 +204,6 @@ watch([userDetails, accountType, receivedMessages], async () => {
     imageExists.value = false;
     setInitials(userDetails.value?.business_name);
   }
-  await profileStore.userProfile();
-  getReceivedMessages(userID.value)
 });
 
 function setInitials(name) {

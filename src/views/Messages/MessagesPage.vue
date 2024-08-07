@@ -198,6 +198,7 @@ const handleMessageClicked = async (payload)=>{
   if(detailLoaded.value === false){
     detailLoaded.value = true
   }
+  console.log(payload?.id)
   await getMessageDetail(payload.id)
   messageDetails.value = messageDetail.value.data
 
@@ -244,6 +245,8 @@ const handleSendMessage = async (payload)=>{
 
   console.log(payload)
 }
+
+
 const handleNavRight = async ()=>{
   messageIndex.value += 1
   emit('next', messageIndex.value)
@@ -279,18 +282,18 @@ const handleNavLeft = async ()=>{
 }
 
 
-onMounted(async ()=>{
-  try {
-    await profileStore.userProfile();
-    if(isOnBoarded.value){
-      getSentMessages(), getAllMessages(userID.value)
-    }
-  } catch (error) {
-    console.log(error)
-  } finally {
-    console.log('yes')
-  }
-})
+// onMounted(async ()=>{
+//   try {
+//     await profileStore.userProfile();
+//     if(isOnBoarded.value){
+//       getSentMessages(), getAllMessages(userID.value)
+//     }
+//   } catch (error) {
+//     console.log(error)
+//   } finally {
+//     console.log('yes')
+//   }
+// })
 
 // onUpdated(async ()=>{
 //   try {
@@ -314,6 +317,7 @@ onMounted(async ()=>{
 
 
 onMounted(async () => {
+  noMessageNotification.value = 'messages'
   try {
     await profileStore.userProfile();
     if (
@@ -326,6 +330,9 @@ onMounted(async () => {
       } else if (accountType.value === "business") {
         router.push({ name: "business-onboarding" });
       }
+    }
+    if(isOnBoarded.value){
+      getSentMessages(), getAllMessages(userID.value)
     }
   } catch (error) {
     /* empty */
@@ -359,12 +366,12 @@ const sendMessage = async () => {
 onMounted(() => {
   return profile.userProfile();
 });
-onMounted(async () => {
-  // await store.connectSocket(receiverId);
-});
-onMounted(async () => {
-  await profile.userProfile();
-});
+// onMounted(async () => {
+//   await store.connectSocket(receiverId);
+// });
+// onMounted(async () => {
+//   await profile.userProfile();
+// });
 
 function handleReply(chatId) {
   showReplyField.value = true;

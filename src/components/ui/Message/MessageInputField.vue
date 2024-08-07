@@ -30,6 +30,7 @@ const recieverMail = ref([])
 const mailInput = ref(null)
 const mailValue = ref('')
 const attachedFiles = ref([])
+const isWidgetWindow = ref(false)
 
 const autoResize = () => {
   const textarea = textArea.value;
@@ -166,7 +167,6 @@ const autoResize = () => {
   const isTargetRoute = (routeNames) => {
     return routeNames.includes(route.name)
   }
-  const isWidgetWindow = ref(false)
 
   onMounted(()=>{
     if (mailInput.value) {
@@ -184,7 +184,6 @@ const autoResize = () => {
           isWidgetWindow.value = true
           return isWidgetWindow.value
       }
-      console.log('This code runs only on Home and Contact routes')
       return isWidget.value
     }
   })
@@ -266,13 +265,12 @@ const autoResize = () => {
                     <hr class="border-[#EEEEEE] border-1">
                 </div>
             </div>
-            <div class="px-4 w-[100%] flex-1 h-auto my-[0.5rem]">
+            <div class="px-4 w-[100%] flex-1 h-auto my-[0.5rem] quill">
                 <textarea
                 ref="textArea"
                 class="textarea w-[100%] h-full p-[0.5rem] font-Satoshi400 text-[0.75rem] leading-[1.505rem] text-[#000000bf] resize-y focus:outline-0 block overflow-auto scroller"
                 placeholder="Write a message"
                 @input="autoResize"
-                
                 ></textarea>
             </div>
             <div class="p-4 !pt-0 flexBasic h-fit">

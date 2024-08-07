@@ -41,10 +41,10 @@ let profile = useUserProfile();
 const isOnBoarded = computed(() => profile.user);
 
 const userDetails = computed(() => {
-  return profile.user.data;
+  return profile?.user?.data;
 });
 const accountType = computed(() => {
-  return store.getUser.data.user.type;
+  return store.getUser?.data?.user?.type;
 });
 onMounted(() => {
   return accountType;
