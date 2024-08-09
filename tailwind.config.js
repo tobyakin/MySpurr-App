@@ -42,7 +42,10 @@ module.exports = {
       },
       gridTemplateColumns: {
         'temp': 'auto 1fr auto',
-        'temp2': '1.5fr 3.333fr'
+        'temp2': '1.5fr 3.333fr',
+        'customGrid': 'repeat(auto-fit, minmax(200px, 1fr))',
+        'customGrid2': 'repeat(auto-fit, minmax(250px, 1fr))',
+        'customGrid3': 'repeat(auto-fit, minmax(150px, 1fr))',
       },
       gridtemplateRows: {
         'temp': 'auto 1fr auto',
@@ -52,6 +55,7 @@ module.exports = {
         'msgBreak': {'max': '1134px'},
         'msgTab': {'max': '800px'},
         'msgTab2': {'min': '800px'},
+        'msgTab3': {'min': '900px'},
         'msgMob': {'max': '576px'},
         'dashBreak': {'max': '1240px'},
         'eventBreak': {'max': '1024px'},

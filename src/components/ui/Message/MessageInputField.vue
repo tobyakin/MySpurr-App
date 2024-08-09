@@ -30,10 +30,16 @@ const recieverMail = ref([])
 const mailInput = ref(null)
 const mailValue = ref('')
 const attachedFiles = ref([])
+const isWidgetWindow = ref(false)
 
 const autoResize = () => {
   const textarea = textArea.value;
-  const maxHeight = 400; // Set your desired maximum height in pixels
+  let maxHeight
+  if(!isWidgetWindow.value){
+    maxHeight = 400;
+  } else {
+    maxHeight = 155
+  }
 
   textarea.style.height = 'auto'; // Reset height to auto to calculate actual size
   if (textarea.scrollHeight <= maxHeight) {
@@ -173,7 +179,11 @@ const autoResize = () => {
     }
     if (!isTargetRoute(['messages'])) {
       isWidget.value = true
-      console.log('This code runs only on Home and Contact routes')
+      const screenWidth = window.innerWidth
+      if(screenWidth > 1024 ){
+          isWidgetWindow.value = true
+          return isWidgetWindow.value
+      }
       return isWidget.value
     }
   })
@@ -211,6 +221,7 @@ const autoResize = () => {
                         placeholder="Enter mail"
                         class="font-Satoshi400 text-[0.7rem] text-[#244034b3] leading-[1.2rem]"
                         @input="filterMail"
+                        v-if="recieverMail?.length < 1"
                         >
                     </div>
                     </div>
@@ -254,22 +265,12 @@ const autoResize = () => {
                     <hr class="border-[#EEEEEE] border-1">
                 </div>
             </div>
-            <div class="px-4 w-[100%] flex-1 h-full my-[0.5rem] quill">
-              <!-- <QuillEditor
-                  
-                  class=""
-                 
-                  @change="handleChange"
-                  
-                  placeholder="Write about the job in details..."
-                  contentType="html"
-                /> -->
+            <div class="px-4 w-[100%] flex-1 h-auto my-[0.5rem] quill">
                 <textarea
                 ref="textArea"
                 class="textarea w-[100%] h-full p-[0.5rem] font-Satoshi400 text-[0.75rem] leading-[1.505rem] text-[#000000bf] resize-y focus:outline-0 block overflow-auto scroller"
                 placeholder="Write a message"
                 @input="autoResize"
-                :class="isWidget? '!h-[280px]': 'reg'"
                 ></textarea>
             </div>
             <div class="p-4 !pt-0 flexBasic h-fit">

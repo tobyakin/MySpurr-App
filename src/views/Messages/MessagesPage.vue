@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick} from "vue";
+import { ref, computed, onMounted, onUnmounted, nextTick, onUpdated} from "vue";
 import ChatWidget from "@/components/ui/Message/ChatWidget.vue";
 import { useRouter } from "vue-router";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
@@ -198,6 +198,7 @@ const handleMessageClicked = async (payload)=>{
   if(detailLoaded.value === false){
     detailLoaded.value = true
   }
+  console.log(payload?.id)
   await getMessageDetail(payload.id)
   messageDetails.value = messageDetail.value.data
 
@@ -245,7 +246,7 @@ const handleSendMessage = async (payload)=>{
   console.log(payload)
 }
 
-let num = 0
+
 const handleNavRight = async ()=>{
   messageIndex.value += 1
   emit('next', messageIndex.value)
@@ -281,21 +282,42 @@ const handleNavLeft = async ()=>{
 }
 
 
-onMounted(async ()=>{
-  try {
-    await profileStore.userProfile();
-    if(isOnBoarded.value){
-      getSentMessages(), getAllMessages(userID.value)
-    }
-  } catch (error) {
-    console.log(error)
-  } finally {
-    console.log('yes')
-  }
-})
+// onMounted(async ()=>{
+//   try {
+//     await profileStore.userProfile();
+//     if(isOnBoarded.value){
+//       getSentMessages(), getAllMessages(userID.value)
+//     }
+//   } catch (error) {
+//     console.log(error)
+//   } finally {
+//     console.log('yes')
+//   }
+// })
+
+// onUpdated(async ()=>{
+//   try {
+//     await profileStore.userProfile();
+//     if(isOnBoarded.value){
+//       await messageStore.handleGetMessages(userID.value)
+//       await messageStore.handleSentMessages()
+//       displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+//       recievedMessages.value = displayedMessages.value
+//       messageLength.value = recievedMessages.value.length > 0
+//       messageNum.value = recievedMessages?.value.length
+//       pageLoading.value = false
+//       return displayedMessages.value
+//     }
+//   } catch (error) {
+//     console.log(error)
+//   } finally {
+//     console.log('yes')
+//   }
+// })
 
 
 onMounted(async () => {
+  noMessageNotification.value = 'messages'
   try {
     await profileStore.userProfile();
     if (
@@ -308,6 +330,9 @@ onMounted(async () => {
       } else if (accountType.value === "business") {
         router.push({ name: "business-onboarding" });
       }
+    }
+    if(isOnBoarded.value){
+      getSentMessages(), getAllMessages(userID.value)
     }
   } catch (error) {
     /* empty */
@@ -341,12 +366,12 @@ const sendMessage = async () => {
 onMounted(() => {
   return profile.userProfile();
 });
-onMounted(async () => {
-  // await store.connectSocket(receiverId);
-});
-onMounted(async () => {
-  await profile.userProfile();
-});
+// onMounted(async () => {
+//   await store.connectSocket(receiverId);
+// });
+// onMounted(async () => {
+//   await profile.userProfile();
+// });
 
 function handleReply(chatId) {
   showReplyField.value = true;
