@@ -286,7 +286,7 @@ const router = createRouter({
       beforeEnter: [middleware.redirectLogin]
     }
   ],
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior() {
     return { top: 0 }
   }
 })
