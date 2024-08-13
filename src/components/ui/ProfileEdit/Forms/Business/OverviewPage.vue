@@ -7,38 +7,38 @@ const userProfile = useUserProfile();
 import { storeToRefs } from "pinia";
 const { businessDeatils } = storeToRefs(userProfile);
 
-// const { overview } = storeToRefs(userProfile);
+const { overview } = storeToRefs(userProfile);
 let loading = ref(false);
 const emit = defineEmits(["closeModal"]);
 
 const closeModal = () => {
   emit("closeModal");
 };
-const prefillDetails = () => {
-  businessDeatils.value.first_name = userProfile.user?.data?.first_name || "";
-  businessDeatils.value.last_name = userProfile.user?.data?.last_name || "";
-  businessDeatils.value.business_name = userProfile.user?.data?.business_name || "";
-  businessDeatils.value.location = userProfile.user?.data?.location || "";
-  businessDeatils.value.industry = userProfile.user?.data?.industry || "";
-  businessDeatils.value.about_business = userProfile.user?.data?.about_business || "";
-  businessDeatils.value.website = userProfile.user?.data?.website || "";
-  businessDeatils.value.business_service = userProfile.user?.data?.business_service || "";
-  businessDeatils.value.business_email = userProfile.user?.data?.business_email || "";
-  businessDeatils.value.company_logo = userProfile.user?.data?.company_logo || "";
-  businessDeatils.value.company_type = userProfile.user?.data?.company_type || "";
-  businessDeatils.value.social_media = userProfile.user?.data?.social_media || "";
-  businessDeatils.value.social_media_two = userProfile.user?.data?.social_media_two || "";
-  businessDeatils.value.siso = userProfile.user?.data?.siso || "";
-  businessDeatils.value.ciso = userProfile.user?.data?.ciso || "";
-};
-
 // const prefillDetails = () => {
-//   overview.value = userProfile.user?.data?.overview || "";
+//   businessDeatils.value.first_name = userProfile.user?.data?.first_name || "";
+//   businessDeatils.value.last_name = userProfile.user?.data?.last_name || "";
+//   businessDeatils.value.business_name = userProfile.user?.data?.business_name || "";
+//   businessDeatils.value.location = userProfile.user?.data?.location || "";
+//   businessDeatils.value.industry = userProfile.user?.data?.industry || "";
+//   businessDeatils.value.about_business = userProfile.user?.data?.about_business || "";
+//   businessDeatils.value.website = userProfile.user?.data?.website || "";
+//   businessDeatils.value.business_service = userProfile.user?.data?.business_service || "";
+//   businessDeatils.value.business_email = userProfile.user?.data?.business_email || "";
+//   businessDeatils.value.company_logo = userProfile.user?.data?.company_logo || "";
+//   businessDeatils.value.company_type = userProfile.user?.data?.company_type || "";
+//   businessDeatils.value.social_media = userProfile.user?.data?.social_media || "";
+//   businessDeatils.value.social_media_two = userProfile.user?.data?.social_media_two || "";
+//   businessDeatils.value.siso = userProfile.user?.data?.siso || "";
+//   businessDeatils.value.ciso = userProfile.user?.data?.ciso || "";
 // };
+
+const prefillDetails = () => {
+  overview.value = userProfile.user?.data?.about_business || "";
+};
 const onFinish = async () => {
   loading.value = true;
   try {
-    const res = await userProfile.handleUpdateBusinessDeatils();
+    const res = await userProfile.handleUpdateOverview();
     await userProfile.userProfile();
     closeModal();
     loading.value = false;
@@ -63,7 +63,7 @@ onMounted(async () => {
     <div class="flex flex-row justify-between gap-[21px]">
       <div class="w-full flex flex-col gap-2 justify-between">
         <textarea
-          v-model="businessDeatils.about_business"
+          v-model="overview"
           rows="8"
           class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-[0.737px] border-[#254035AB] rounded-[5.897px] p-2 py-1.5"
         />

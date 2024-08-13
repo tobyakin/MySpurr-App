@@ -36,6 +36,7 @@ const prefillDetails = () => {
   businessDeatils.value.location = userProfile.user?.data?.location || "";
   businessDeatils.value.industry = userProfile.user?.data?.industry || "";
   businessDeatils.value.about_business = userProfile.user?.data?.about_business || "";
+  businessDeatils.value.phone_number = userProfile.user?.data?.phone_number || "";
   businessDeatils.value.website = userProfile.user?.data?.website || "";
   businessDeatils.value.business_service = userProfile.user?.data?.business_service || "";
   businessDeatils.value.business_email = userProfile.user?.data?.business_email || "";
@@ -231,14 +232,14 @@ onMounted(async () => {
               />
             </div>
             <div
-              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] py-1"
+              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex px-3 text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
                 >Phone Number</label
               >
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.experienceLevel"
+                v-model="businessDeatils.phone_number"
                 type="text"
               />
               <!-- <div class="flex w-full items-center">
@@ -258,14 +259,14 @@ onMounted(async () => {
               </div> -->
             </div>
             <div
-              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] py-1"
+              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex px-3 text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
                 >Category</label
               >
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.experienceLevel"
+                v-model="businessDeatils.business_service"
                 type="text"
               />
               <!-- <div class="flex w-full items-center">
@@ -298,6 +299,7 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] pl-[13px] font-Satoshi400"
                 >Size</label
               >
+              <!-- No size field in userDetails response -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.calendlylink"
@@ -311,9 +313,10 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><LinkdeinIcon class="w-[11.414px] h-[10.78px]" />LinkedIn</label
               >
+              <!-- no linkedin -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.linkedin"
+                v-model="businessDeatils.social_media"
                 type="text"
               />
             </div>
@@ -325,6 +328,7 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><InstagramIcon class="w-[11.508px] h-[11.508px]" />Instagram
               </label>
+              <!-- no instagram -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.instagram"
@@ -338,9 +342,10 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><TwitterIcon class="w-[14.036px] h-[11.229px]" />X</label
               >
+              <!-- no twitter -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.twitter"
+                v-model="businessDeatils.social_media_two"
                 type="text"
               />
             </div>
@@ -352,6 +357,7 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><BeIcon class="w-[16.289px] h-[10.859px]" />Behance</label
               >
+              <!-- no behance -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.behance"
@@ -365,6 +371,7 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><FacebookIcon class="h-[13px] w-[13px]" />Facebook</label
               >
+              <!-- no facebook -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.facebook"

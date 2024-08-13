@@ -240,6 +240,9 @@ onMounted(() => {
     handleChangeScreen();
   }
 });
+const handleCurrency = (numb)=>{
+  return numb.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 </script>
 
 <template>
