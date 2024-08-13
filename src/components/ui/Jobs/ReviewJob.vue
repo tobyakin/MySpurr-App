@@ -16,6 +16,7 @@
   let numAbbr = useNumberFomateStore();
   let store = useStore();
   let loading = ref(false);
+  let payLoading = ref(false);
   let showModal = ref(false);
   let showOption = ref(false)
   const userProfile = useUserProfile();
@@ -112,7 +113,7 @@
     }
   };
   const handlejobPayment = async () => {
-    loading.value = true;
+    payLoading.value = true;
     let isHighlightedValue = isHighlighted.value === true ? 1 : 0;
     // console.log("isHighlightedValue", isHighlightedValue);
     try {
@@ -125,20 +126,20 @@
       );
       window.location.href = res.url;
       if (res.status === "true") {
-        loading.value = false;
+        payLoading.value = false;
         showModal.value = true;
         restForm();
       } else {
-        loading.value = false;
+        payLoading.value = false;
         back();
       }
-      loading.value = false;
+      payLoading.value = false;
       return res;
     } catch (error) {
       console.log(error);
       back();
     } finally {
-      loading.value = false;
+      payLoading.value = false;
       restForm();
       back();
     }
@@ -247,7 +248,13 @@
                   <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Access to exclusive talent pool</h3>
                 </div>
               </div>
-              <button class="w-full text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1">Premium Job Post</button>
+              <button 
+              class="w-full text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
+              @click="handlejobPayment"
+              >
+              <span v-if="!payLoading">premium Job Post</span>
+              <WhiteLoader v-else />
+            </button>
             </article>
             <article class="bg-[#00474F] rounded-[1rem] p-[1.5rem]">
               <h3 class="text-[#FFF] font-Satoshi700 text-[1rem] leading-[1.5rem] text-left">Standard Job Post <br>(Free)</h3>
