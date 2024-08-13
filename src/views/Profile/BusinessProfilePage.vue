@@ -375,13 +375,13 @@ onMounted(async () => {
         <div class="flex flex-col lg:flex-row mt-10 w-full">
           <div class="lg:w-[70%] p-4">
             <div class="flex flex-row items-center justify-between gap-[96px]">
-              <p class="text-[28px] text-[#000] font-Satoshi500">Overview</p>
+              <p class="text-[1.67rem] text-[#000] font-Satoshi500">Overview</p>
               <button @click="HandleToggleEditOverviewModal">
                 <EditIcon class="text-[#297F88]" />
               </button>
             </div>
             <div
-              class="text-[#000000BF] font-Satoshi400 text-justify text-[16px] mt-4 leading-[35px]"
+              class="text-[#000000BF] font-Satoshi400 text-justify text-[1rem] mt-4 leading-[2rem]"
             >
               <p>
                 {{ userDetails?.about_business }}
@@ -397,7 +397,7 @@ onMounted(async () => {
               v-if="accountType === 'business'"
               class="flex flex-row items-center justify-between my-10 gap-[96px]"
             >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Intro</p>
+              <p class="text-[1.67rem] text-[#000] font-Satoshi500">Intro</p>
               <button @click="HandleToggleEditIntro">
                 <EditIcon class="text-[#297F88]" />
               </button>
@@ -575,7 +575,7 @@ onMounted(async () => {
             </div> -->
             <p
               :class="accountType === 'talent' ? 'mt-16' : ''"
-              class="text-[20px] text-[#000] font-Satoshi500"
+              class="text-[1.67rem] text-[#000] font-Satoshi500"
             >
               Location
             </p>
@@ -589,7 +589,7 @@ onMounted(async () => {
           class="mt-12 w-full flex flex-col overflow-hidden"
         >
           <div class="flex w-full justify-between mb-4">
-            <p class="text-[18px] font-Satoshi400 text-[#244034]">Open Positions</p>
+            <p class="text-[1.67rem] text-[#000] font-Satoshi500">Open Positions</p>
 
             <router-link
               class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
@@ -602,14 +602,14 @@ onMounted(async () => {
           </div>
           <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
             <ShortLoader v-if="loadMyjobs" />
-            <div v-else class="flex gap-3 overflow-x-auto hide-scrollbar my-8 w-full">
-              <BusinessJobCard
-                class="w-full"
-                v-for="item in MyJob?.data"
-                :key="item"
-                :job="item"
-              />
-            </div>
+            <div v-else class="flex flex-col !gap-[2.31rem] overflow-x-auto hide-scrollbar my-8 w-full">
+                <BusinessJobCard
+                  class="w-full"
+                  v-for="item in MyJob?.data"
+                  :key="item"
+                  :job="item"
+                />
+              </div>
           </div>
         </div>
       </div>
