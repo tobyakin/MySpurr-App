@@ -27,6 +27,7 @@ export const useUserProfile = defineStore('profile', () => {
     first_name: '',
     last_name: '',
     business_name: '',
+    phone_number: '',
     location: '',
     industry: '',
     about_business: '',

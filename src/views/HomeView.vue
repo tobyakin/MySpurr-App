@@ -17,6 +17,9 @@ import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useJobsStore } from "@/stores/jobs";
 import { useStatisticsStore } from "@/stores/dashboardStatistics";
+import { useMessageStore } from "@/stores/message";
+const messageStore = useMessageStore();
+const { allMessages } = storeToRefs(messageStore)
 const statStore = useStatisticsStore();
 const JobsStore = useJobsStore();
 const { stat } = storeToRefs(statStore);
@@ -34,11 +37,27 @@ const isOnBoarded = computed(() => profile.user);
 const userDetails = computed(() => {
   return profile?.user?.data;
 });
+const userID = computed(() => {
+  return profile.user.data.id;
+});
 const accountType = computed(() => {
   return store.getUser?.data?.user?.type;
 });
+const recievedMessagesLength = ref()
+
+const getAllMessages = async (userId)=>{
+  try {
+    await messageStore.handleGetMessages(userId)
+  } catch (error) {
+    cconsole.log(error)
+  }
+  const recievedMessages = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+  recievedMessagesLength.value = recievedMessages.length
+
+  return recievedMessagesLength.value
+}
 onMounted(() => {
-  return accountType;
+  return accountType, userID;
 });
 onMounted(async () => {
   try {
@@ -53,6 +72,9 @@ onMounted(async () => {
       } else if (accountType.value === "business") {
         router.push({ name: "business-onboarding" });
       }
+    }
+    if(isOnBoarded.value){
+      getAllMessages(userID.value)
     }
   } catch (error) {
     /* empty */
@@ -248,7 +270,7 @@ onMounted(async () => {
           <BusinessValuesCard
             class=""
             title="Messages received"
-            digit="0"
+            :digit="recievedMessagesLength"
             :comingSoon="false"
             buttonPlaceholder="read messages"
             route="messages"
