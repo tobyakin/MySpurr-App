@@ -376,7 +376,7 @@ onMounted(async () => {
           >
         </div>
         <div class="flex flex-col w-full overflow-hidden">
-          <ShortLoader v-if="jobsLoading && Job === null" />
+          <ShortLoader v-if="jobsLoading" />
           <div v-else><TopPicksJob :job="Job" /></div>
         </div>
       </div>
