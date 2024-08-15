@@ -303,7 +303,9 @@ function handleSaveEdit(e){
                     <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden">{{ chat.subject }}</h3>
                     <div class="field !mb-[1.3rem]">
                         <div class="flex flex-col relative">
-                            <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer w-fit max-w-[100%]">
+                            <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer max-w-[100%]"
+                            :class="chat?.sender_id == userID? 'w-fit': ''"
+                            >
                                 <div 
                                 v-html="displayTextWithLinks(chat?.message)"
                                 contenteditable="false"
@@ -311,7 +313,11 @@ function handleSaveEdit(e){
                                 aria-readonly="true"
                                 >
                                 </div>
-                                <div @click="handleEditMessage" class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]">
+                                <div 
+                                @click="handleEditMessage" 
+                                class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]"
+                                v-if="chat?.sender_id == userID"
+                                >
                                     <EditIcon class="w-full h-full"/>
                                 </div>
                             </div>
@@ -382,7 +388,9 @@ function handleSaveEdit(e){
                         </div>
                         <div class="field">
                             <div class="flex flex-col !mb-[1.3rem] relative">
-                                <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer w-fit max-w-[100%]">
+                                <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer max-w-[100%]"
+                                :class="reply?.sender?.id == userID? 'w-fit': ''"
+                                >
                                     <div 
                                     v-html="displayTextWithLinks(reply?.message)"
                                     contenteditable="false"
@@ -390,7 +398,10 @@ function handleSaveEdit(e){
                                     aria-readonly="true"
                                     >
                                     </div>
-                                    <div @click="handleEditMessage" class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]">
+                                    <div 
+                                    @click="handleEditMessage" class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]"
+                                    v-if="reply?.sender?.id == userID"
+                                    >
                                         <EditIcon class="w-full h-full"/>
                                     </div>
                                 </div>
