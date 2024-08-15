@@ -43,7 +43,8 @@ const userID = computed(() => {
 const accountType = computed(() => {
   return store.getUser?.data?.user?.type;
 });
-const recievedMessagesLength = ref()
+const recievedMessagesLength = ref(0)
+const recievedMessages = ref([])
 
 const getAllMessages = async (userId)=>{
   try {
@@ -51,8 +52,9 @@ const getAllMessages = async (userId)=>{
   } catch (error) {
     cconsole.log(error)
   }
-  const recievedMessages = allMessages.value.data?.filter(message=> message?.sender_id != userId)
-  recievedMessagesLength.value = recievedMessages.length
+
+  recievedMessages.value = allMessages.value?.data?.filter(message=> message?.sender_id != userId)
+  recievedMessagesLength.value = recievedMessages.value.length || 0
 
   return recievedMessagesLength.value
 }
