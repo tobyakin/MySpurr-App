@@ -1,11 +1,8 @@
 <script setup>
 import { watchEffect, ref, computed, onMounted, reactive, watch } from "vue";
 import { storeToRefs } from "pinia";
-// import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
-import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-// import { useStore } from "@/stores/user";
 import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
 import Arrow from "@/components/icons/paginationArrow.vue";
 import Tabs from "@/components/ui/Jobs/Tabs.vue";
@@ -20,7 +17,6 @@ const { Job } = storeToRefs(jobsStore);
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
 
-// let store = useStore();
 const router = useRouter();
 const Experience = [
   { name: "Beginner ", year: "(1-2 yrs)" },
@@ -108,14 +104,6 @@ watch(range, (newRange) => {
 });
 
 const currentPage = ref(1);
-
-// Create a computed property to paginate the talent data
-// const paginatedTalent = computed(() => {
-//   const perPage = 2;
-//   const startIndex = (currentPage.value - 1) * perPage;
-//   const endIndex = startIndex + perPage;
-//   return Job.value?.data.slice(startIndex, endIndex);
-// });
 const totalPages = computed(() => Math.ceil(Job.value?.length / 2));
 
 // Function to change the current page
@@ -156,22 +144,7 @@ const filteredJobs = computed(() => {
       item.state.toLowerCase().includes(sortInput.Location.toLowerCase())
     );
   }
-  // if (sortInput.Location) {
-  //   const [state, country] = sortInput.Location.toLowerCase()
-  //     .split(",")
-  //     .map((item) => item.trim());
-  //   if (state && country) {
-  //     filtered = filtered.filter(
-  //       (item) =>
-  //         item.state.toLowerCase().includes(state) &&
-  //         item.country.toLowerCase().includes(country)
-  //     );
-  //   } else if (state) {
-  //     filtered = filtered.filter((item) => item.state.toLowerCase().includes(state));
-  //   } else if (country) {
-  //     filtered = filtered.filter((item) => item.country.toLowerCase().includes(country));
-  //   }
-  // }
+
   if (sortInput.experienceLevel) {
     filtered = filtered.filter((item) =>
       item.experience.toLowerCase().includes(sortInput.experienceLevel.toLowerCase())
@@ -421,7 +394,7 @@ watchEffect(() => {
               :job="item"
             />
           </div> -->
-          <ShortLoader v-if="loading && filteredJobs === null" />
+          <ShortLoader v-if="loading" />
           <div v-else class="mt-14 flex flex-col gap-8">
             <JobRowCard
               class="min-w-[95%] lg:min-w-[45%]"
