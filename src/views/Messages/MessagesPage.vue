@@ -189,7 +189,7 @@ const handleMessageClicked = async (payload)=>{
   if(detailLoaded.value === false){
     detailLoaded.value = true
   }
-  console.log(payload?.id)
+
   await getMessageDetail(payload.id)
   messageDetails.value = messageDetail.value.data
 
@@ -359,7 +359,8 @@ onMounted(() => {
     showMobileChats.value = true
 
   } else {
-    showNewMessage.value = !showNewMessage.value
+    showNewMessage.value = false
+    showMobileChats.value = false
   }
 });
 

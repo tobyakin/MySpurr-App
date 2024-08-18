@@ -1,24 +1,22 @@
 import axios from "../axios";
-import { catchAxiosError, catchAxiosSuccess }  from "./Response"
-import { encrypt,decrypt } from "./Encrypt"
-// import { auth }  from '../firebase';
-// import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { catchAxiosError, catchAxiosSuccess } from "./Response"
+import { encrypt, decrypt } from "./Encrypt"
 
 export const login = async (email, password) => {
 
-    let data = {
-        email,
-        password,
-    }
-    try {
-        let res = await axios.post('v1/login', data)
-        catchAxiosSuccess(res)   
-        return res;
-    } catch (error) {
-        catchAxiosError(error)   
-        throw error;
-    }
-  
+  let data = {
+    email,
+    password,
+  }
+  try {
+    let res = await axios.post('v1/login', data)
+    catchAxiosSuccess(res)
+    return res;
+  } catch (error) {
+    catchAxiosError(error)
+    throw error;
+  }
+
 }
 export const verifyLogin = async (code) => {
   let data = {
@@ -64,21 +62,21 @@ export const RsendVerifyCode = async (email) => {
 //         catchAxiosError(error)   
 //         throw error;
 //     }
-  
+
 // }
 export const registerBusiness = async (payload) => {
 
-    try {
-        let res = await axios.post('v1/business-register',payload)
-        let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
-        localStorage.setItem('_register_data', ciphertext);       
-         catchAxiosSuccess(res)   
-        return res;
-    } catch (error) {
-        catchAxiosError(error)   
-        throw error;
-    }
-  
+  try {
+    let res = await axios.post('v1/business-register', payload)
+    let ciphertext = encrypt(JSON.stringify(payload), import.meta.env.VITE_ENCRYPT_KEY)
+    localStorage.setItem('_register_data', ciphertext);
+    catchAxiosSuccess(res)
+    return res;
+  } catch (error) {
+    catchAxiosError(error)
+    throw error;
+  }
+
 }
 export const authWithGoogle = async () => {
 
@@ -93,17 +91,17 @@ export const authWithGoogle = async () => {
   }
 }
 export const registerTalent = async (payload) => {
-    try {
-        let res = await axios.post('v1/talent-register',payload)
-        let ciphertext = encrypt(JSON.stringify(payload),import.meta.env.VITE_ENCRYPT_KEY)
-        localStorage.setItem('_register_data', ciphertext);        
-        catchAxiosSuccess(res)   
-        return res;
-    } catch (error) {
-        catchAxiosError(error)   
-        throw error;
-    }
-  
+  try {
+    let res = await axios.post('v1/talent-register', payload)
+    let ciphertext = encrypt(JSON.stringify(payload), import.meta.env.VITE_ENCRYPT_KEY)
+    localStorage.setItem('_register_data', ciphertext);
+    catchAxiosSuccess(res)
+    return res;
+  } catch (error) {
+    catchAxiosError(error)
+    throw error;
+  }
+
 }
 // forgot password
 export const forgottenPassword = async (email) => {
@@ -121,7 +119,7 @@ export const forgottenPassword = async (email) => {
   }
 }
 // reset password
-export const resetPassword = async (token,email,password, password_confirmation) => {
+export const resetPassword = async (token, email, password, password_confirmation) => {
   let data = {
     token,
     email,
@@ -139,7 +137,7 @@ export const resetPassword = async (token,email,password, password_confirmation)
   }
 }
 // resend email
-export const resendEmail = async (email ) => {
+export const resendEmail = async (email) => {
   let data = {
     email
   }
@@ -154,22 +152,44 @@ export const resendEmail = async (email ) => {
   }
 }
 export const getToken = () => {
+  const encryptedData = localStorage.getItem("_user_data");
+  if (encryptedData) {
+    const user = decrypt(encryptedData, import.meta.env.VITE_ENCRYPT_KEY);
+    return user?.data?.token || null;
+  }
+  return null;
+};
 
-    let encryptedData  = localStorage.getItem("_user_data");
-    if(encryptedData){
-        let user  = decrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
-        return user.data.token;
-    }
-    return null;
-}
 export const getUser = () => {
 
-    let encryptedData  = localStorage.getItem("_user_data");
-    if(encryptedData){
-        let user  = decrypt(encryptedData,import.meta.env.VITE_ENCRYPT_KEY)
-        return user;
-    }
-    return null;
+  let encryptedData = localStorage.getItem("_user_data");
+  if (encryptedData) {
+    let user = decrypt(encryptedData, import.meta.env.VITE_ENCRYPT_KEY)
+    return user;
+  }
+  return null;
 }
+
+export const logout = async () => {
+  const token = getToken();
+
+  if (!token) {
+    console.warn('No token found, user might already be logged out.');
+    return;
+  }
+
+  try {
+    let res = await axios.post('v1/logout', {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    catchAxiosSuccess(res);
+  } catch (error) {
+    catchAxiosError(error);
+    throw error;
+  }
+};
 
 
