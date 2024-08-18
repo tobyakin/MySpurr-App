@@ -186,6 +186,14 @@ const autoResize = () => {
       }
       return isWidget.value
     }
+
+    if (route.query.email) {
+      recieverMail.value.push(route.query.email)
+      displayedMails.value = []
+      mailValue.value = ''
+    } else {
+      console.log('yes')
+    }
   })
 
   onUnmounted(()=>{
@@ -234,8 +242,9 @@ const autoResize = () => {
                         <ShortLoader v-if="loadingMails"/>
                         <div class="border-b" v-else>
                           <article class="flex items-center gap-[0.5rem] p-[0.3rem] py-[0.2rem] cursor-pointer"
-                          v-for="(mail, index) in displayedMails"
+                          v-for="(mail) in displayedMails"
                           @click="addMail(mail.email)"
+                          :key="mail.email"
                           >
                             <div class="w-[2.5rem] h-[2.5rem] border !rounded-full overflow-hidden grid place-items-center bg-brand">
                               <!-- <img src="" alt="user_img" class="object-contain"> -->
@@ -322,6 +331,3 @@ const autoResize = () => {
         </article>
 </template>
 
-<style scoped>
-  
-</style>

@@ -129,7 +129,7 @@ const getAllMessages = async (userId)=>{
     await messageStore.handleGetMessages(userId)
     messageLoading.value = false
   } catch (error) {
-    cconsole.log(error)
+    console.log(error)
     messageLoading.value = false
   }
   displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
@@ -415,7 +415,7 @@ const getUserInfo = ()=>{
                 </div>
                   <div class="attachment px-[0.5rem] !pb-[0.5rem] !my-[1rem] basis-[30%]" v-if="uploadedFileDetails?.length > 0">
                     <div class="flex !gap-[0.5rem] flex-wrap" ref="attached_file">
-                        <article class="flex items-center p-[0.5rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="item in uploadedFileDetails">
+                        <article class="flex items-center p-[0.5rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="item in uploadedFileDetails" :key="item">
                             <circleFileIcon class="w-[20px] h-[20px]"/>
                             <div>
                                 <h3 class="font-Satosi400 text-[#244034] leading-[0.7rem] text-[0.5rem]">{{item.name}}</h3>

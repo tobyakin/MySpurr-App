@@ -50,7 +50,7 @@ const getAllMessages = async (userId)=>{
   try {
     await messageStore.handleGetMessages(userId)
   } catch (error) {
-    cconsole.log(error)
+    console.log(error)
   }
 
   recievedMessages.value = allMessages.value?.data?.filter(message=> message?.sender_id != userId)
