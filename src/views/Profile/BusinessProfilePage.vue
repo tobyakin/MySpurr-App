@@ -5,16 +5,11 @@ import BusinessJobCard from "@/components/ui/Jobs/Business/JobCard.vue";
 import { useJobsStore } from "@/stores/jobs";
 
 import SearchIconVeritical from "@/components/icons/searchIconVeritical.vue";
-import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
-import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
 import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
 import Intro from "@/components/ui/ProfileEdit/Forms/Business/Intro.vue";
 import InstagramIcon from "@/components/icons/instagramIcon.vue";
 import BeIcon from "@/components/icons/beIcon.vue";
-import TwitterIcon from "@/components/icons/twitterIcon.vue";
-import RateStar from "@/components/icons/rateStar.vue";
-import CertificateBadge from "@/components/icons/certificateBadge.vue";
-import LinkIcon from "@/components/icons/linkIcon.vue";
+import TwitterIcon from "@/components/icons/twitterIcon.vue"
 import EditProfileAvater from "@/components/ui/Avater/EditProfileAvater.vue";
 import { useUserProfile } from "@/stores/profile";
 import EditIcon from "@/components/icons/editIcon.vue";
@@ -27,9 +22,7 @@ import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
 import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience.vue";
 import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
 import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.vue";
-// import Map from "@/components/ui/Map/Map.vue";
 import { storeToRefs } from "pinia";
-// import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 
 import { useClipboard } from "@vueuse/core";

@@ -10,7 +10,6 @@ import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useSkillsStore } from "@/stores/skills";
-import CalendlyIcon from "@/components/icons/CalendlyIcon.vue";
 const skillsStore = useSkillsStore();
 const { contriesCode, states } = storeToRefs(skillsStore);
 
@@ -22,12 +21,6 @@ const prefillCountry = ref("l");
 const prefillState = ref("l");
 
 const userProfile = useUserProfile();
-const Experience = [
-  { name: "Beginner ", year: "(1-2 yrs)" },
-  { name: "Intermediate ", year: "(3-5 yrs)" },
-  { name: "Expert ", year: "(6-10 yrs)" },
-  { name: "More than", year: " 10yrs" },
-];
 
 const prefillDetails = () => {
   businessDeatils.value.first_name = userProfile.user?.data?.first_name || "";
@@ -269,21 +262,6 @@ onMounted(async () => {
                 v-model="businessDeatils.business_service"
                 type="text"
               />
-              <!-- <div class="flex w-full items-center">
-                <a-select
-                  placeholder="experience level"
-                  :bordered="false"
-                  :show-arrow="false"
-                  class="w-full !px-0"
-                  show-search
-                  v-model:value="businessDeatils.experienceLevel"
-                >
-                  <a-select-option disabled>experience level</a-select-option>
-                  <a-select-option v-for="i in Experience" :key="i.name" :value="i.name">
-                    {{ i.name }}
-                  </a-select-option>
-                </a-select>
-              </div> -->
             </div>
           </div>
         </div>
@@ -381,67 +359,6 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <!-- <div class="flex flex-col w-full mt-[16px] gap-[15px]">
-        <p class="text-[24px] text-[#244034] font-Satoshi400 leading-[40.393px]">
-          Location
-        </p>
-        <div class="md:flex-row flex-col justify-between flex gap-[19px]">
-          <div
-            class="border-[0.737px] w-full border-[#254035AB] flex-col flex rounded-[5.897px] p-0 py-1"
-          >
-            <label class="text-[#01272C] px-3 flex text-[10px] font-Satoshi400"
-              >Country</label
-            >
-            <div class="flex w-full items-center">
-              <a-select
-                :placeholder="prefillCountry"
-                :bordered="false"
-                :show-arrow="false"
-                class="w-full !px-0"
-                show-search
-                v-model:value="selectedCountry"
-              >
-                <a-select-option disabled>country or region</a-select-option>
-                <a-select-option
-                  v-for="country in contriesCode?.data"
-                  :key="country.id"
-                  :value="country.name"
-                >
-                  {{ country.name }}
-                </a-select-option>
-              </a-select>
-            </div>
-
-          </div>
-
-          <div
-            class="border-[0.737px] w-full border-[#254035AB] flex-col flex rounded-[5.897px] p-0 py-1"
-          >
-            <label class="text-[#01272C] px-3 flex text-[10px] font-Satoshi400"
-              >State</label
-            >
-            <div class="flex w-full items-center">
-              <a-select
-                :placeholder="prefillState"
-                :show-arrow="false"
-                :bordered="false"
-                class="w-full !px-0"
-                show-search
-                v-model:value="selectedState"
-              >
-                <a-select-option disabled>state or city</a-select-option>
-                <a-select-option
-                  v-for="state in states?.data"
-                  :key="state.id"
-                  :value="state.name"
-                >
-                  {{ state.name }}
-                </a-select-option>
-              </a-select>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
 
     <div class="w-full flex justify-center mt-8">

@@ -121,11 +121,15 @@ export const useUserProfile = defineStore('profile', () => {
       website: businessDeatils.value.website,
       business_service: businessDeatils.value.business_service,
       business_email: businessDeatils.value.business_email,
-      company_logo: businessDeatils.value.company_logo,
       company_type: businessDeatils.value.company_type,
       social_media: businessDeatils.value.social_media,
       social_media_two: businessDeatils.value.social_media_two
     }
+
+    if (!businessDeatils.value.company_logo.startsWith('http')) {
+      payload.company_logo = businessDeatils.value.company_logo;
+    }    
+
     try {
       let res = await updateBusinessDeatils(payload)
       return res
