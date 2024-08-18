@@ -191,8 +191,6 @@ const autoResize = () => {
       recieverMail.value.push(route.query.email)
       displayedMails.value = []
       mailValue.value = ''
-    } else {
-      console.log('yes')
     }
   })
 

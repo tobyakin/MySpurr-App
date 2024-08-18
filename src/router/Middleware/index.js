@@ -11,13 +11,12 @@ const redirectLogin = () => getUserFromLocalStorage()?.token ? undefined : { nam
 const redirectDashboard = () => getUserFromLocalStorage()?.token ? { name: 'dashboard' } : undefined;
 
 const deleteSession = async() => {
-
   try {
     await logout();
   } catch (error) {
     console.log(error)
   }
-  
+
   if (localStorage.getItem('_user_data')) {
     localStorage.removeItem('_user_data')
     return { name: 'login' }

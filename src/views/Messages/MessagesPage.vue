@@ -233,10 +233,7 @@ const handleSendMessage = async (payload)=>{
     console.log(error)
     isSending.value = false
   }
-
-  console.log(payload)
 }
-
 
 const handleNavRight = async ()=>{
   messageIndex.value += 1
@@ -354,10 +351,9 @@ onMounted(() => {
   setWidgetHeight();
   window.addEventListener('resize', setWidgetHeight);
 
-  if(route.query.show === true){
+  if(route.query.show){
     showNewMessage.value = true
     showMobileChats.value = true
-
   } else {
     showNewMessage.value = false
     showMobileChats.value = false
@@ -378,8 +374,8 @@ onUnmounted(() => {
         <ComingSoon title="Messages" />
       </div> -->
       <div class="w-full h-full grid place-items-center" v-if="pageLoading">
-          <ShortLoader />
-        </div>
+        <ShortLoader />
+      </div>
       <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container h-[90vh] overflow-hidden bottom-0 sticky" v-else>
         <div class="mt-[0.47rem] flex gap-[34.16px] h-full overflow-hidden msgTab:flex-col relative">
           <div id="inboxList" class="w-[50%] msgTab:mx-auto msgTab:w-[75%] msgTab2:!opacity-[100] msgTab2:!z-[1] msgMob:w-full h-full" ref="inboxList" 
