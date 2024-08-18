@@ -10,12 +10,10 @@ import CertificateBadge from "@/components/icons/certificateBadge.vue";
 import { useTabStore } from "@/stores/tab";
 import { useJobsStore } from "@/stores/jobs";
 import { useRoute, useRouter } from "vue-router";
-import MessageInputField from "../Message/MessageInputField.vue";
 
 
 const router = useRouter();
 const route = useRoute();
-
 const jobsStore = useJobsStore();
 const Maps = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 const store = useTabStore();
