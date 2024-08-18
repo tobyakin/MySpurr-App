@@ -10,13 +10,12 @@ import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
 const userInfo = ref([])
-const editMessage = ref(false)
 let profile = useUserProfile();
 let store = useStore();
 const userID = computed(() => {
   return profile.user.data.id;
 });
-const isOnBoarded = computed(() => profileStore.user);
+const isOnBoarded = computed(() => profile.user);
 
 const accountType = computed(() => {
   return store.getUser.data.user.type;
@@ -84,7 +83,7 @@ onMounted(() => {
 
 onMounted(async ()=>{
     try {
-    await profileStore.userProfile();
+    await profile.userProfile();
     getUserInfo()
     userImg.value = userInfo.value.company_logo || userInfo.value.image
     await scrollToBottom()
@@ -124,11 +123,6 @@ function handleWidgetClose(){
 
 function switchTab(){
     emit('switchTab')
-}
-
-function displayDate(full_string){
-    let date = full_string.split(' ').slice(0, 3).join(' ');
-    return date
 }
 
 function displayTime(full_string){
@@ -201,8 +195,6 @@ function timeDifference(dateString) {
     }
    
 }
-
-const messageEdited = ref(false)
 
 function handleEditMessage(e) {
     const targetElement = e.currentTarget;
@@ -426,7 +418,7 @@ function handleSaveEdit(e){
                         </div>
                     </div>
                     <div class="filesContainer mt-4 flex gap-[1.1rem]">
-                        <article v-for="item in reply?.attachments">
+                        <article v-for="item in reply?.attachments" :key="item">
                             <a :href="item.file" :download="item.file_name" target="_blank" class="files flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center">
                                 <circleFileIcon />
                                 <div>
@@ -446,6 +438,5 @@ function handleSaveEdit(e){
 <style scoped>
     #chatScroll::-webkit-scrollbar {
         display: none !important;
-        /* scrollbar-color: red !important; */
     }
 </style>

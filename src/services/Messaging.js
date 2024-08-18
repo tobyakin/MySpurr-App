@@ -105,7 +105,7 @@ export const getMessageDetail = async (message_id) => {
 export const getMail = async (mail_input) => {
     const token = await getToken()
     try {
-        let res = await axios.get(`v1/getuser?email=${mail_input}`, {
+        let res = await axios.get(`v1/getuser?search=${mail_input}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token

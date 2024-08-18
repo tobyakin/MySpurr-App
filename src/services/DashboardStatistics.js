@@ -3,7 +3,7 @@ import { catchAxiosError } from './Response'
 import { getToken } from './Auth'
 
 export const getStatistics = async () => {
-      const token = await getToken()
+  const token = await getToken()
 
   try {
     let res = await axios.get(`v1/statistics?filter=week`, {

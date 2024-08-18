@@ -32,8 +32,6 @@ const userDetails = computed(() => {
   return profileStore?.user?.data;
 });
 
-const props = defineProps(['height', 'overflow'])
-
 let store = useStore();
 const accountType = computed(() => {
   return store.getUser?.data?.user?.type;
@@ -88,6 +86,7 @@ const items = [
     context: "Log out",
   },
 ];
+
 const itemss = [
   { id: 0, name: "profile", context: "MySpurr profile" },
   {
@@ -138,8 +137,6 @@ onMounted(async () => {
 });
 
 onUpdated(async () => {
-  // await profileStore.userProfile();
-  // getReceivedMessages(userID.value)
   return userDetails.value?.image;
 });
 const searchQuery = ref("");
@@ -156,16 +153,13 @@ const redirectToTalentPage = () => {
     query: { search: searchQuery.value },
   });
 };
-// const handleSearchInput = (event) => {
-//   const searchQuery = event.target.value;
-//   redirectToJobPage(searchQuery);
-// };
+
 const unreadMessages = ref([])
 const getReceivedMessages = async (userId)=>{
   try {
     await messageStore.handleGetMessages(userId)
   } catch (error) {
-    cconsole.log(error)
+    console.log(error)
   }
   receivedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
   unreadMessages.value = receivedMessages.value.filter(message=>message.status == 'unread')
@@ -175,11 +169,9 @@ const getReceivedMessages = async (userId)=>{
 }
 
 const redirectWithSearchQuery = () => {
-  // const inputField = document.querySelector(".search-input");
-  // if (searchQuery.value) {
   return accountType.value === "talent" ? redirectToJobPage() : redirectToTalentPage();
-  // }
 };
+
 const imageExists = ref(false);
 const initials = ref("");
 
@@ -339,6 +331,7 @@ const displayImage = computed(() => imageExists.value);
                           :src="getImageSrc()"
                           class="h-10 w-10 bg-[#0A090991] object-cover rounded-full"
                           @error="handleImageError"
+                          alt=""
                         />
                       </template>
                       <template v-else>
@@ -363,33 +356,7 @@ const displayImage = computed(() => imageExists.value);
                         />
                       </svg>
                     </template>
-                    <!-- <img
-                      v-if="userDetails?.image || userDetails?.company_logo"
-                      :src="
-                        accountType === 'talent'
-                          ? userDetails?.image
-                          : userDetails?.company_logo
-                      "
-                      class="h-10 w-10 bg-[#0A090991] rounded-full"
-                      @error="showInitial(userDetails?.business_name)" -->
-                    <!-- /> -->
 
-                    <!-- <svg
-                      v-else
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-5 text-gray-100 h-5"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                      />
-                    </svg> -->
-                    <!-- <div ref="initialContainer" class="initials-container"></div> -->
                   </div>
                   <Dropdown
                     v-if="showDropdown"
