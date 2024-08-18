@@ -186,6 +186,12 @@ const autoResize = () => {
       }
       return isWidget.value
     }
+
+    if (route.query.email) {
+      recieverMail.value.push(route.query.email)
+      displayedMails.value = []
+      mailValue.value = ''
+    }
   })
 
   onUnmounted(()=>{
@@ -323,4 +329,3 @@ const autoResize = () => {
         </article>
 </template>
 
-<style scoped></style>

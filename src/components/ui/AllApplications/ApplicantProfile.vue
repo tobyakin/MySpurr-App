@@ -1,3 +1,101 @@
+<script setup>
+import { ref, computed, onMounted, watch, defineAsyncComponent } from "vue";
+import UserAvater from "@/components/ui/Avater/UserAvater.vue";
+import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
+import InstagramIcon from "@/components/icons/instagramIcon.vue";
+import BeIcon from "@/components/icons/beIcon.vue";
+import TwitterIcon from "@/components/icons/twitterIcon.vue";
+import mailoutline from "@/components/icons/mailoutline.vue";
+import CertificateBadge from "@/components/icons/certificateBadge.vue";
+import { useTabStore } from "@/stores/tab";
+import { useJobsStore } from "@/stores/jobs";
+import { useRoute, useRouter } from "vue-router";
+import MessageInputField from "../Message/MessageInputField.vue";
+
+
+const router = useRouter();
+const route = useRoute();
+
+const jobsStore = useJobsStore();
+const Maps = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
+const store = useTabStore();
+const rating = ref([
+  { label: "Good fit", value: 3 },
+  { label: "Maybe", value: 2 },
+  { label: "Not a fit", value: 1 },
+]);
+let source = ref("");
+
+const rateTalent = ref("");
+const props = defineProps({ talents: Object });
+
+const downloadFile = (url) => {
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.target = "_blank"; // Open in a new tab
+
+  anchor.setAttribute("download", "");
+
+  // Append the anchor to the body
+  document.body.appendChild(anchor);
+
+  // Trigger a click event on the anchor
+  anchor.click();
+
+  // Clean up: remove the anchor from the body after a short delay
+  setTimeout(() => {
+    document.body.removeChild(anchor);
+  }, 100);
+};
+
+const ratingVlaue = computed(() => {
+  return props?.talents;
+});
+const prefillDetails = (SingleObject) => {
+  rateTalent.value = SingleObject.rating || "";
+};
+watch(ratingVlaue, (newSingleObject) => {
+  prefillDetails(newSingleObject);
+});
+onMounted(async () => {
+  await jobsStore.handleGetApplicantsSlug(route.params.slug);
+  prefillDetails(ratingVlaue.value);
+});
+
+const handleTalentRating = async () => {
+  let payload = {
+    job_id: route.params.id,
+    talent_id: props?.talents?.talent_id,
+    rating: rateTalent.value,
+  };
+  try {
+    const res = await jobsStore.handleAddRating(payload);
+    await jobsStore.handleGetApplicants(route.params.id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(() => {
+  source.value =
+    import.meta.env.VITE_LANDING_PAGE +
+    `talent/` +
+    `${props?.talents?.first_name}-${props?.talents?.last_name}/` +
+    props?.talents?.uniqueId;
+});
+const viewProfile = () => {
+  window.open(source.value, "_blank");
+};
+
+const goTo = (email, show) => {
+  router.push({ 
+    path: '/messages',
+    query: { email, show }
+  });
+};
+</script>
+
 <template>
   <div class="py-0">
     <div
@@ -96,7 +194,7 @@
             <button
               class="btn-brand !bg-[#31795A] !border-none text-center flex items-center lg:px-[25px] !py-[4px] !text-white"
             >
-              <span style="display: grid; place-content: center" class="">Message</span>
+              <span style="display: grid; place-content: center" @click="goTo(props.talents?.email, true)" class="">Message</span>
             </button>
           </div>
         </div>
@@ -109,12 +207,6 @@
           <p>
             {{ props?.talents?.overview }}
           </p>
-          <!-- <p class="mt-4"></p> -->
-          <!-- .slice(0, 10) -->
-          <!--               
- -->
-          <!--               {{ props?.talents?.top_skills.length - 10 }}+
- -->
         </div>
         <div class="w-full my-6">
           <button
@@ -256,133 +348,10 @@
         <p class="text-[14.038px] text-[#000] font-Satoshi500 mt-16">Location</p>
         <div class="flex flex-col gap-12 mt-4 rounded-[15px]">
           <!-- <img loading="lazy" src="@/assets/img/Map.webp" alt="" /> -->
-          <Map :lat="props?.talents?.latitude" :lng="props?.talents?.longitude" />
+          <Maps :lat="props?.talents?.latitude" :lng="props?.talents?.longitude" />
         </div>
       </div>
     </div>
   </div>
 </template>
-<script setup>
-import { ref, computed, onMounted, watch, defineAsyncComponent } from "vue";
-import UserAvater from "@/components/ui/Avater/UserAvater.vue";
-// import WorkExperience from "@/components/ui/genericComponents/WorkExperience.vue";
-// import EducationDetails from "@/components/ui/genericComponents/EducationDetails.vue";
-import LinkdeinIcon from "@/components/icons/linkdeinIcon.vue";
-import InstagramIcon from "@/components/icons/instagramIcon.vue";
-import BeIcon from "@/components/icons/beIcon.vue";
-import TwitterIcon from "@/components/icons/twitterIcon.vue";
-import mailoutline from "@/components/icons/mailoutline.vue";
-import CertificateBadge from "@/components/icons/certificateBadge.vue";
-const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
-import { useTabStore } from "@/stores/tab";
-import { useJobsStore } from "@/stores/jobs";
-import { storeToRefs } from "pinia";
-const jobsStore = useJobsStore();
-const { JobDetailsById, applicants, talentApplication } = storeToRefs(jobsStore);
-import { useRoute } from "vue-router";
-const route = useRoute();
 
-const store = useTabStore();
-const rating = ref([
-  { label: "Good fit", value: 3 },
-  { label: "Maybe", value: 2 },
-  { label: "Not a fit", value: 1 },
-]);
-let source = ref("");
-
-const rateTalent = ref("");
-// defineProps({ talents: Object });
-const props = defineProps({ talents: Object });
-// const getAnswersForQuestion = (questionId) => {
-// return talents.filter((answer) => answer.question_id === questionId);
-// };
-const downloadFile = (url, filename) => {
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.target = "_blank"; // Open in a new tab
-
-  anchor.setAttribute("download", "");
-
-  // anchor.download = filename;
-
-  // Prevent default behavior for anchor elements
-  // anchor.addEventListener("click", (event) => {
-  //   event.preventDefault();
-  // });
-
-  // Append the anchor to the body
-  document.body.appendChild(anchor);
-
-  // Trigger a click event on the anchor
-  anchor.click();
-
-  // Clean up: remove the anchor from the body after a short delay
-  setTimeout(() => {
-    document.body.removeChild(anchor);
-  }, 100);
-};
-// function downloadFile(url, filename) {
-//   // Create an anchor element
-//   const anchor = document.createElement("a");
-//   anchor.style.display = "none"; // Make it hidden
-
-//   // Set the href attribute to the URL
-//   anchor.href = url;
-
-//   // Set the download attribute to specify the filename
-//   anchor.download = filename;
-
-//   // Append the anchor to the body
-//   document.body.appendChild(anchor);
-
-//   // Trigger a click event on the anchor
-//   anchor.click();
-
-//   // Clean up: remove the anchor from the body
-//   document.body.removeChild(anchor);
-// }
-// const getAnswersForQuestion = (index) => {
-//   return props?.talents?.answers.filter((answer, answerIndex) => answerIndex === index);
-// };
-const ratingVlaue = computed(() => {
-  return props?.talents;
-});
-const prefillDetails = (SingleObject) => {
-  rateTalent.value = SingleObject.rating || "";
-};
-watch(ratingVlaue, (newSingleObject) => {
-  prefillDetails(newSingleObject);
-  // console.log(newSingleObject);
-});
-onMounted(async () => {
-  await jobsStore.handleGetApplicantsSlug(route.params.slug);
-  prefillDetails(ratingVlaue.value);
-  // console.log(ratingVlaue.value);
-});
-
-const handleTalentRating = async () => {
-  let payload = {
-    job_id: route.params.id,
-    talent_id: props?.talents?.talent_id,
-    rating: rateTalent.value,
-  };
-  try {
-    // console.log(payload, rateTalent.value);
-    const res = await jobsStore.handleAddRating(payload);
-    await jobsStore.handleGetApplicants(route.params.id);
-    return res;
-  } catch (error) {
-    console.error;
-  }
-};
-onMounted(() => {
-  source.value =
-    import.meta.env.VITE_LANDING_PAGE +
-    `talent/` +
-    `${props?.talents?.first_name}-${props?.talents?.last_name}/` +
-    props?.talents?.uniqueId;
-});
-const viewProfile = () => {
-  window.open(source.value, "_blank");
-};
-</script>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick} from "vue";
 import ChatWidget from "@/components/ui/Message/ChatWidget.vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import MessageList from "@/components/ui/Message/MessageList.vue";
 import MessageChatPane from "@/components/ui/Message/MessageChatPane.vue";
@@ -326,19 +326,19 @@ function handleDelete(){
   }
 }
 
+const showtal = ref(false)
+const route = useRoute()
+
 function handleNewMessage(){
   const screenWidth = window.innerWidth
   const maxWidth = 800
-  
+
   if(screenWidth <= maxWidth){
     showNewMessage.value = true
     showMobileChats.value = true
   } else {
     showNewMessage.value = !showNewMessage.value
   }
-
-  console.log(showNewMessage.value)
-
 }
 
 const widgetContainer = ref(null);
@@ -353,6 +353,14 @@ const setWidgetHeight = () => {
 onMounted(() => {
   setWidgetHeight();
   window.addEventListener('resize', setWidgetHeight);
+
+  if(route.query.show === true){
+    showNewMessage.value = true
+    showMobileChats.value = true
+
+  } else {
+    showNewMessage.value = !showNewMessage.value
+  }
 });
 
 onUnmounted(() => {
@@ -439,6 +447,7 @@ onUnmounted(() => {
                         @reply="handleReplyMessage"
                         @change="handleAttachment"
                         @delete="handleDelete"
+                        :showtal="showtal"
                         />
                       </div>
                     </div>

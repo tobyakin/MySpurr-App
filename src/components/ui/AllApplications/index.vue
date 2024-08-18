@@ -207,7 +207,6 @@ import { onMounted, ref, onUnmounted, reactive, computed, watch } from "vue";
 import Header from "@/components/ui/AllApplications/Header.vue";
 import ApplicantsCard from "@/components/ui/AllApplications/ApplicantsCard.vue";
 import ApplicantProfile from "@/components/ui/AllApplications/ApplicantProfile.vue";
-import FliterSection from "@/components/ui/AllApplications/FliterSection.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
@@ -252,7 +251,6 @@ const Salary = computed(() => {
 
 const handleViewProfile = (talent_id) => {
   applicantsId.value = talent_id;
-  // console.log(talent_id);
 };
 watch([applicantsId, jobId], async ([newApplicantsId, newJobSlug]) => {
   loadTalentProfile.value = true;
@@ -314,28 +312,9 @@ const filteredApplicants = computed(() => {
       applicant.rating?.toLowerCase().includes(sortInput.Rating.toLowerCase())
     );
   }
-  // rating
-  // Perform additional filtering for other criteria if needed
 
   return filtered;
 });
-// const { isLoading, isError, data, error } = useQuery(
-//   ["getJobDetailsById"],
-//   getJobDetailsById,
-//   getApplicants,
-//   {
-//     retry: 10, // Will retry failed requests 10 times before displaying an error
-//     staleTime: 10000,
-//   }
-// );
-// const { isLoading, isError, data, error } = useQuery(
-//   ["getJobDetailsById"],
-//   getApplicants,
-//   {
-//     retry: 10, // Will retry failed requests 10 times before displaying an error
-//     staleTime: 10000,
-//   }
-// );
 const { isLoading: loadTalentApplications } = useQuery(
   ["getJobDetailsById", route.params.id],
   getJobDetailsById,
@@ -347,7 +326,7 @@ const { isLoading: loadTalentApplications } = useQuery(
     },
   }
 );
-// console.log(loadTalentApplications.value);
+
 const { isLoading: loadApplicants } = useQuery(
   ["getApplicants", route.params.slug],
   getApplicants,
@@ -374,4 +353,4 @@ onMounted(async () => {
 });
 </script>
 
-<style></style>
+<style scoped></style>
