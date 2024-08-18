@@ -133,7 +133,7 @@ const router = createRouter({
     },
 
     {
-      path: '/applications/:slug/:id',
+      path: '/:businessname/applications/:slug/:id',
       name: 'applications',
       component: AllApplications,
       beforeEnter: [middleware.redirectLogin]
@@ -286,7 +286,7 @@ const router = createRouter({
       beforeEnter: [middleware.redirectLogin]
     }
   ],
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior() {
     return { top: 0 }
   }
 })

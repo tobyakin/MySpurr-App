@@ -1,14 +1,10 @@
 <script setup>
-import { computed, onMounted, reactive, watch, ref } from 'vue'
+import { computed, onMounted, watch, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-// import { useStore } from "@/stores/user";
 import DashboardLayout from '@/components/layout/dashboardLayout.vue'
-import CircleBookMarkIcon from '@/components/icons/circleBookMarkIcon.vue'
 import { storeToRefs } from 'pinia'
 import SearchIcon from '@/components/icons/circleSearchIcon.vue'
-// import CircleTick from "@/components/icons/circleTick.vue";
 import VerifyIcon from '@/components/icons/verifyIcon.vue'
-// let store = useStore();
 import { useNumberFomateStore } from '@/stores/numberFomate'
 import ShortLoader from '@/components/ui/Loader/ShortLoader.vue'
 
@@ -16,11 +12,16 @@ import WhiteLoader from '@/components/ui/WhiteLoader.vue'
 import { useQuery } from 'vue-query'
 import { useJobsStore } from '@/stores/jobs'
 import { useTabStore } from '@/stores/tab'
+import { useUserProfile } from '@/stores/profile'
 let numAbbr = useNumberFomateStore()
 
 const store = useTabStore()
 const jobsStore = useJobsStore()
+const profile = useUserProfile()
 const { JobDetailsById } = storeToRefs(jobsStore)
+
+const { user } = storeToRefs(profile)
+
 const route = useRoute()
 const router = useRouter()
 const loading = ref(false)
@@ -41,7 +42,7 @@ const closeJob = async (slug) => {
 }
 
 const gotoApplications = (slug, id) => {
-  router.push({ name: 'applications', params: { slug: slug, id: id} })
+  router.push({ name: 'applications', params: { businessname: formattedBusinessName.value, slug: slug, id: id} })
 }
 const getJobDetails = async () => {
   let response = await jobsStore.handleGetJobDetailsById(route.params.id)
@@ -69,10 +70,6 @@ function checkImageExists(url) {
 }
 const imageExists = ref(false)
 const initials = ref('')
-
-// const jobData = computed(() => {
-//   return JobDetailsById?.data;
-// });
 
 onMounted(async () => {
   await updateImageExists()
@@ -113,11 +110,13 @@ function handleImageError() {
   setInitials(JobDetailsById.value?.company?.business_name)
 }
 
-const displayImage = computed(() => imageExists.value)
+const formattedBusinessName = computed(() => {
+  return user.value?.data?.business_name
+    ?.toLowerCase()
+    .replace(/\s+/g, '');
+});
 
-// onMounted(async () => {
-//   await jobsStore.handleGetJobDetailsById(route.params.id);
-// });
+const displayImage = computed(() => imageExists.value)
 </script>
 
 <template>
@@ -135,6 +134,7 @@ const displayImage = computed(() => imageExists.value)
                   :src="getImageSrc()"
                   class="h-[61.011px] w-[61.011px] object-cover rounded-full"
                   @error="handleImageError"
+                  alt=""
                 />
               </template>
               <template v-else>

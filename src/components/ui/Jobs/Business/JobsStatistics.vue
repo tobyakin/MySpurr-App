@@ -1,22 +1,19 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import TabsVue from "./ChartCardTab.vue";
 import CircleEyeIcon from "@/components/icons/circleEyeIcon.vue";
 import CircleArrowUpIcon from "@/components/icons/CircleArrowUpIcon.vue";
 import DocumentIcon from "@/components/icons/documentIcon.vue";
 import CircleArrowDown from "@/components/icons/circleArrowDown.vue";
 import JobStatisticsChart from "@/components/ui/Chart/JobStatisticsChart.vue";
-import SingleData from "@/components/ui/Chart/SingleData.vue";
-const props = defineProps({
-  statistics: {
-    type: Array,
-    required: true,
-  },
-});
+import JobsView from "@/components/ui/Chart/JobsView.vue";
+import JobsApplied from "@/components/ui/Chart/JobsApplied.vue";
+const props = defineProps(['statistics'])
 
 const activetab = ref("monthly");
+const total_job_views = ref(0);
+const total_job_applied = ref(0);
 
-// Set initial tab value based on the prop or local storage
 onMounted(() => {
   const storedTab = localStorage.getItem("activeTab");
   if (storedTab) {
@@ -26,26 +23,30 @@ onMounted(() => {
 
 const statistics = computed(() => props.statistics);
 
-// Find the objects containing total_job_views and total_job_applied
-const totalJobViewsObj = statistics.value?.find((obj) => "total_job_views" in obj);
-const totalJobAppliedObj = statistics.value?.find((obj) => "total_job_applied" in obj);
+const totalJobViewsObj = statistics.value?.find((obj) => obj.total_job_views !== undefined);
+const totalJobAppliedObj = statistics.value?.find((obj) => obj.total_job_applied !== undefined);
 
-// Extract values or default to 0 if not found
-const total_job_views = totalJobViewsObj ? totalJobViewsObj.total_job_views : 0;
-const total_job_applied = totalJobAppliedObj ? totalJobAppliedObj.total_job_applied : 0;
+total_job_views.value = computed(() => 
+  totalJobViewsObj ? totalJobViewsObj.value.total_job_views : 0
+);
 
-// Use refs to store arrays for job_views, job_applied, and day
-const jobViews = ref(
-  statistics.value?.map((item) => item.job_views)?.filter((view) => view !== undefined)
+total_job_applied.value = computed(() => 
+  totalJobAppliedObj ? totalJobAppliedObj.value.total_job_applied : 0
 );
-const jobApplied = ref(
-  statistics.value
-    ?.map((item) => item.job_applied)
-    ?.filter((applied) => applied !== undefined)
+
+watch(
+  () => props.statistics,
+  (newStatistics) => {
+    if (Array.isArray(newStatistics)) {
+      const totalJobViewsObj = newStatistics.find((obj) => obj.total_job_views !== undefined);
+      const totalJobAppliedObj = newStatistics.find((obj) => obj.total_job_applied !== undefined);
+
+      total_job_views.value = totalJobViewsObj ? totalJobViewsObj.total_job_views : 0;
+      total_job_applied.value = totalJobAppliedObj ? totalJobAppliedObj.total_job_applied : 0;
+    }
+  },
+  { immediate: true, deep: true }
 );
-// const days = ref(
-//   statistics.value.map((item) => item.day).filter((day) => day !== undefined)
-// );
 </script>
 <template>
   <div
@@ -85,8 +86,9 @@ const jobApplied = ref(
       </div> -->
     </div>
     <TabsVue>
-      <template #tab1>Overview</template><template #tab2>Jobs View</template
-      ><template #tab3>Jobs Applied</template>
+      <template #tab1>Overview</template>
+      <template #tab2>Jobs View</template>
+      <template #tab3>Jobs Applied</template>
       <template #view1>
         <div class="flex lg:flex-row flex-col gap-4 w-full h-full">
           <div class="min-w-[95%] lg:min-w-[65.9%]">
@@ -143,13 +145,13 @@ const jobApplied = ref(
 
       <template #view2>
         <div class="flex lg:flex-row flex-col gap-4 w-full lg:h-[45vh]">
-          <SingleData :chartData="jobViews" class="w-full" />
+          <JobsView :chartData="props.statistics" class="w-full" />
         </div>
       </template>
 
       <template #view3>
         <div class="flex lg:flex-row flex-col gap-4 w-full lg:h-[45vh]">
-          <SingleData :chartData="jobApplied" class="w-full" />
+          <JobsApplied :chartData="props.statistics" class="w-full" />
         </div>
       </template>
     </TabsVue>

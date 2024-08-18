@@ -40,6 +40,7 @@ export const useSkillsStore = defineStore('skills', () => {
       console.error('Error fetching contries Code :', error)
     }
   }
+  
 const industries = ref([
   { name: 'Advertising and Marketing' },
   { name: 'Technology and IT' },

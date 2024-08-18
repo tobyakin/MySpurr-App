@@ -11,17 +11,14 @@ import "animate.css";
 import { useRouter, useRoute } from "vue-router";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import { useMessageStore } from "@/stores/message";
 import ChatWidget from "@/components/ui/Message/ChatWidget.vue";
 
-let store = useStore();
-const accountType = computed(() => {
-  return store.getUser.data.user.type;
-});
-onMounted(() => {
-  return accountType;
-});
-
+const messageStore = useMessageStore();
 const profileStore = useUserProfile();
+const messageLength = ref()
+const messageNum = ref()
 const router = useRouter();
 const route = useRoute()
 const closeNav = ref(false);
@@ -29,11 +26,24 @@ const closeBackdrop = ref(false);
 const showDropdown = ref(false);
 const showNotificationDropdown = ref(false);
 const showChatWidget = computed(() => !route.meta.hideChatWidget);
+const receivedMessages = ref([])
+const { allMessages } = storeToRefs(messageStore)
 const userDetails = computed(() => {
   return profileStore?.user?.data;
 });
 
-const props = defineProps(['height', 'overflow'])
+let store = useStore();
+const accountType = computed(() => {
+  return store.getUser?.data?.user?.type;
+});
+
+const userID = computed(() => {
+  return profileStore?.user?.data?.id;
+});
+
+onMounted(() => {
+  return accountType, userID;
+});
 
 const toggle = () => {
   closeNav.value = !closeNav.value;
@@ -76,6 +86,7 @@ const items = [
     context: "Log out",
   },
 ];
+
 const itemss = [
   { id: 0, name: "profile", context: "MySpurr profile" },
   {
@@ -99,18 +110,8 @@ const itemss = [
     context: "Log out",
   },
 ];
-const notificationItems = [
-  {
-    id: 0,
-    name: "",
-    context: "`Lorem ipsum dolor sit amet, iat nulla pariatur. E`",
-  },
-  {
-    id: 1,
-    name: "",
-    context: "`Lorem ipsum dolor sit amet, iat nulla pariatur. E`",
-  },
-];
+const notificationItems = ref([])
+
 const toogleDropdown = () => {
   showDropdown.value = !showDropdown.value;
   if (showNotificationDropdown.value === true) {
@@ -131,10 +132,11 @@ const redirectToBookmark = () => {
 };
 onMounted(async () => {
   await profileStore.userProfile();
-  return userDetails.value?.image;
+  getReceivedMessages(userID.value)
+  return userDetails.value?.image, accountType, userID;
 });
+
 onUpdated(async () => {
-  // await profileStore.userProfile();
   return userDetails.value?.image;
 });
 const searchQuery = ref("");
@@ -151,17 +153,25 @@ const redirectToTalentPage = () => {
     query: { search: searchQuery.value },
   });
 };
-// const handleSearchInput = (event) => {
-//   const searchQuery = event.target.value;
-//   redirectToJobPage(searchQuery);
-// };
+
+const unreadMessages = ref([])
+const getReceivedMessages = async (userId)=>{
+  try {
+    await messageStore.handleGetMessages(userId)
+  } catch (error) {
+    console.log(error)
+  }
+  receivedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+  unreadMessages.value = receivedMessages.value.filter(message=>message.status == 'unread')
+  messageLength.value = unreadMessages.value.length > 0
+  messageNum.value = unreadMessages?.value.length
+  return receivedMessages.value
+}
 
 const redirectWithSearchQuery = () => {
-  // const inputField = document.querySelector(".search-input");
-  // if (searchQuery.value) {
   return accountType.value === "talent" ? redirectToJobPage() : redirectToTalentPage();
-  // }
 };
+
 const imageExists = ref(false);
 const initials = ref("");
 
@@ -281,7 +291,12 @@ const displayImage = computed(() => imageExists.value);
                 @click="toogleNotificationDropdown"
                 role="button"
                 class="notification cusor-pointer hidden lg:block px-2"
-                ><BellIcon />
+                >
+                <div class="relative">
+                  <span v-if="messageLength" class="absolute right-[-5px] top-[-5px] w-[15px] h-[15px] bg-[red] grid place-content-center rounded-[100%] text-[0.7rem] font-Satoshi500 text-white">{{ messageNum }}</span>
+                  <BellIcon />
+                </div>
+                  
               </span>
 
               <div class="profile__dropdown">
@@ -316,6 +331,7 @@ const displayImage = computed(() => imageExists.value);
                           :src="getImageSrc()"
                           class="h-10 w-10 bg-[#0A090991] object-cover rounded-full"
                           @error="handleImageError"
+                          alt=""
                         />
                       </template>
                       <template v-else>
@@ -340,33 +356,7 @@ const displayImage = computed(() => imageExists.value);
                         />
                       </svg>
                     </template>
-                    <!-- <img
-                      v-if="userDetails?.image || userDetails?.company_logo"
-                      :src="
-                        accountType === 'talent'
-                          ? userDetails?.image
-                          : userDetails?.company_logo
-                      "
-                      class="h-10 w-10 bg-[#0A090991] rounded-full"
-                      @error="showInitial(userDetails?.business_name)" -->
-                    <!-- /> -->
 
-                    <!-- <svg
-                      v-else
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-5 text-gray-100 h-5"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                      />
-                    </svg> -->
-                    <!-- <div ref="initialContainer" class="initials-container"></div> -->
                   </div>
                   <Dropdown
                     v-if="showDropdown"
@@ -381,6 +371,7 @@ const displayImage = computed(() => imageExists.value);
                     :showDropdown="showNotificationDropdown"
                     :link="true"
                     :items="notificationItems"
+                    :itemNum="messageNum"
                     @closeDropdown="toogleNotificationDropdown"
                   />
                 </div>
