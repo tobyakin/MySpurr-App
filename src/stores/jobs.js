@@ -1,4 +1,4 @@
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import {
   getJobs,
@@ -35,14 +35,6 @@ export const useJobsStore = defineStore('jobs', () => {
   const talentApplication = ref({})
   const topPickedJobs = ref({})
   const ratings = ref([])
-  // const jobApplicationForm = reactive({
-  //   job_id: '',
-  //   rate: '',
-  //   available_start: '',
-  //   resume: '',
-  //   other_file: '',
-  //   question_answers: []
-  // })
   const ciso = ref('')
   const siso = ref('')
 
@@ -161,14 +153,6 @@ export const useJobsStore = defineStore('jobs', () => {
   }
 
   const applyForJob = async (payload) => {
-    // let payload = {
-    //   job_id: id,
-    //   rate: jobApplicationForm.value.rate,
-    //   available_start: jobApplicationForm.value.available_start,
-    //   resume: jobApplicationForm.value.resume,
-    //   other_file: jobApplicationForm.value.other_file,
-    //   question_answers: jobApplicationForm.value.question_answers
-    // }
     try {
       let res = await applyForJobs(payload)
       return res
@@ -177,6 +161,7 @@ export const useJobsStore = defineStore('jobs', () => {
     }
   }
   const handlePostJob = async () => {
+
     let payload = {
       job_title: postJobsValue.value.job_title,
       country_id: ciso.value,
@@ -192,9 +177,13 @@ export const useJobsStore = defineStore('jobs', () => {
       skills: postJobsValue.value.skills,
       experience: postJobsValue.value.experience,
       qualification: postJobsValue.value.qualification,
-      questions: postJobsValue.value.questions,
       currency: postJobsValue.value.currency
+    };
+  
+    if (postJobsValue.value.questions.length > 0 && postJobsValue.value.questions.some(q => q.question.trim() !== '')) {
+      payload.questions = postJobsValue.value.questions;
     }
+
     try {
       let res = await postJobs(payload)
       return res
@@ -209,6 +198,7 @@ export const useJobsStore = defineStore('jobs', () => {
     payment_redirect_url,
     is_highlighted
   ) => {
+    
     let payload = {
       business_id: business_id,
       email: email,
@@ -230,10 +220,14 @@ export const useJobsStore = defineStore('jobs', () => {
         skills: postJobsValue.value.skills,
         experience: postJobsValue.value.experience,
         qualification: postJobsValue.value.qualification,
-        questions: postJobsValue.value.questions,
         currency: postJobsValue.value.currency
       }
+    };
+
+    if (postJobsValue.value.questions.length > 0 && postJobsValue.value.questions.some(q => q.question.trim() !== '')) {
+      payload.job.questions = postJobsValue.value.questions;
     }
+
     try {
       let res = await jobPayment(payload)
       return res

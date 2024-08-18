@@ -49,7 +49,7 @@ const getAllMessages = async (userId)=>{
   try {
     await messageStore.handleGetMessages(userId)
   } catch (error) {
-    cconsole.log(error)
+    console.log(error)
   }
   const recievedMessages = allMessages.value.data?.filter(message=> message?.sender_id != userId)
   recievedMessagesLength.value = recievedMessages.length

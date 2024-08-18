@@ -1,20 +1,17 @@
 <script setup>
-  import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from "vue";
+  import { onMounted, ref, computed, reactive, watch } from "vue";
   import { storeToRefs } from "pinia";
   import { useJobsStore } from "@/stores/jobs";
-  import { useStore } from "@/stores/user";
   import { useNumberFomateStore } from "@/stores/numberFomate";
   import { useUserProfile } from "@/stores/profile";
   import WhiteLoader from "@/components/ui/WhiteLoader.vue";
   import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
   import { useRouter } from "vue-router";
   import checkIcon from "@/components/icons/checkIcon.vue"
-  import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
-  import SearchIcon from "@/components/icons/circleSearchIcon.vue";
-  import CircleTick from "@/components/icons/circleTick.vue";
   import VerifyIcon from "@/components/icons/verifyIcon.vue";
+
+
   let numAbbr = useNumberFomateStore();
-  let store = useStore();
   let loading = ref(false);
   let payLoading = ref(false);
   let showModal = ref(false);
@@ -26,7 +23,7 @@
   const isHighlighted = ref(false);
   const router = useRouter();
   const jobsStore = useJobsStore();
-  const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore);
+  const { postJobsValue, ciso, siso } = storeToRefs(jobsStore);
   const emit = defineEmits(["back"]);
   const getSuccessStatusFromURL = () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -42,6 +39,7 @@
   
   const back = () => {
     emit("back");
+    resetForm()
   };
   const hasSubscriptedToPostJob = computed(() => {
     return userProfile?.user?.data?.posted_job;
@@ -68,8 +66,8 @@
       siso.value.trim() !== ""
     );
   });
-  const restForm = () => {
-    (postJobsValue.value.job_title = ""),
+  const resetForm = () => {
+      (postJobsValue.value.job_title = ""),
       (postJobsValue.value.job_type = ""),
       (postJobsValue.value.description = ""),
       (postJobsValue.value.responsibilities = ""),
@@ -97,10 +95,8 @@
         loading.value = false;
         showOption.value = false
         showModal.value = true
-        restForm();
+        resetForm();
       } else {
-        // Handle unsuccessful submission
-        // console.log("Login failed:", res.data.message);
         loading.value = false;
         back();
       }
@@ -115,7 +111,6 @@
   const handlejobPayment = async () => {
     payLoading.value = true;
     let isHighlightedValue = isHighlighted.value === true ? 1 : 0;
-    // console.log("isHighlightedValue", isHighlightedValue);
     try {
       const res = await jobsStore.handlejobPayment(
         userDetails?.value?.id,
@@ -128,7 +123,7 @@
       if (res.status === "true") {
         payLoading.value = false;
         showModal.value = true;
-        restForm();
+        resetForm();
       } else {
         payLoading.value = false;
         back();
@@ -140,33 +135,32 @@
       back();
     } finally {
       payLoading.value = false;
-      restForm();
+      resetForm();
       back();
     }
   };
   const handleJobPosting = () => {
-    // if (hasSubscriptedToPostJob.value) {
-    //   handlejobPayment();
-    // } else {
     postJob();
-    // }
   };
+
   const handleSelectOption = ()=>{
     showOption.value = true
   }
+
   const goToJobList = () => {
     router.push({ name: "job-lists" });
   };
+
   onMounted(async () => {
     await userProfile.userProfile();
   });
+
   onMounted(() => {
-    // console.log(state.status);
     if (state.status === true) {
-      // console.log(state.status);
       showModal.value = true;
     }
   });
+
   function checkImageExists(url) {
     return new Promise((resolve) => {
       const img = new Image();
@@ -277,13 +271,13 @@
                 </div>
               </div>
               <button 
-              class="w-full text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
-              @click="handleJobPosting"
-              >
-              <span v-if="!loading">standard Job Post</span>
-              <WhiteLoader v-else />
-              
-            </button>
+                class="w-full text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
+                @click="handleJobPosting"
+                >
+                <span v-if="!loading">standard Job Post</span>
+                <WhiteLoader v-else />
+                
+              </button>
             </article>
           </div>
           <div class="w-full">
@@ -327,6 +321,7 @@
                   :src="getImageSrc()"
                   class="h-[61.011px] w-[61.011px] object-cover rounded-full"
                   @error="handleImageError"
+                  alt=""
                 />
               </template>
               <template v-else>
@@ -530,6 +525,7 @@
                       :src="getImageSrc()"
                       class="h-[61.011px] w-[61.011px] object-cover rounded-full"
                       @error="handleImageError"
+                      alt=""
                     />
                   </template>
                   <template v-else>

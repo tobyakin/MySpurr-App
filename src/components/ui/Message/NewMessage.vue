@@ -32,28 +32,22 @@
 </template>
 
 <script setup>
-    import { computed, onMounted, ref } from "vue";
-    import circleFileIcon from '@/components/icons/circleFileIcon.vue';
+    import { onMounted, ref } from "vue";
     import MessageInputField from '@/components/ui/Message/MessageInputField.vue';
     import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
     import { useUserProfile } from "@/stores/profile";
-import { useRoute } from "vue-router";
+    import { useRoute } from "vue-router";
     const userInfo = ref([])
     let profile = useUserProfile();
     const uploadedFileDetails = ref([])
-    const userID = computed(() => {
-    return profile.user.data.id;
-    });
     const userSkill = ref('')
     const userImg = ref('')
     const getUserInfo = ()=>{
         userInfo.value = profile.user.data
         return userInfo.value
     }
-    const props = defineProps(['isSendng', 'chat'])
     const emit = defineEmits(['send', 'change', 'delete', 'back'])
 
-    // console.log(userInfo.value)
     function handleBack(){
         emit('back')
     }
@@ -109,9 +103,7 @@ import { useRoute } from "vue-router";
         // Combine into desired format
         const currentTime = `${hours}:${minutesStr}${ampm}`;
         return currentTime;
-        }
-
-    const sendButton = ref(true)
+    }
 </script>
 
 
