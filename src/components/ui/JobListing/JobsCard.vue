@@ -184,7 +184,7 @@ const displayImage = computed(() => imageExists.value)
         <div class="grid grid-cols-5 justify-between mt-5">
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <p
-              class="text-[13px] capitalize font-Satoshi500 flex flex-row items-center text-[#244034E5]"
+              class="text-[0.8125rem] capitalize font-Satoshi500 flex flex-row items-center text-[#244034E5]"
             >
               <span v-html="numAbbr.formatCurrency(props?.job?.currency)"></span>
               <span>
@@ -195,14 +195,14 @@ const displayImage = computed(() => imageExists.value)
           </div>
           <div class="flex lg:flex-row flex-col gap-4 justify-end">
             <div
-              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4"
+              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-4 text-[0.8125rem]"
             >
               <p>{{ props?.job?.date_created }}</p>
             </div>
           </div>
           <div class="flex lg:flex-row flex-col gap-4 justify-end">
             <div
-              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-2"
+              class="flex lg:justify-normal lg:flex-row flex-col justify-between items-center gap-2 text-[0.8125rem]"
             >
               <p>{{ props?.job?.applicants }}</p>
               <span

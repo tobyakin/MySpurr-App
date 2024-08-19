@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, defineAsyncComponent } from "vue";
+import { ref, computed, onMounted, defineAsyncComponent, watch } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import BusinessJobCard from "@/components/ui/Jobs/Business/JobCard.vue";
 import { useJobsStore } from "@/stores/jobs";
@@ -24,6 +24,7 @@ import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
 import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.vue";
 import { storeToRefs } from "pinia";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
+import Arrow from "@/components/icons/paginationArrow.vue"
 
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
@@ -82,6 +83,46 @@ const getMyJobs = async () => {
   }
 };
 
+// Pagination Function
+
+const currentPage = ref(1);
+const pagination = computed(() => MyJob.value?.pagination || {});
+const myJobData = computed(() => MyJob.value?.data || []);
+const paginatedJob = computed(() => {
+  const perPage = pagination.value.per_page;
+  const startIndex = (currentPage.value - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  return myJobData.value.slice(startIndex, endIndex);
+});
+const totalPages = computed(() => Math.ceil(pagination.value.last_page));
+
+// Function to change the current page
+const setPage = (page) => {
+  if (page >= 1 && page <= (pagination.value.last_page || 1)) {
+    currentPage.value = page;
+  }
+};
+
+const displayedPageNumbers = computed(() => {
+  const maxDisplayedPages = 5;
+  const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1);
+  const endPage = Math.min(startPage + maxDisplayedPages - 1, totalPages.value);
+  const pageNumbers = [];
+
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
+  return pageNumbers;
+});
+
+// You can also watch the currentPage to react to page changes
+watch(currentPage, async (newPage) => {
+  console.log("Current Page:", newPage);
+  await talentsStore.allTalents(newPage);
+});
+
+// Copy Function
 const { copy, copied, isSupported } = useClipboard({ source });
 
 const HandleToggleEditImageModal = () => {
@@ -595,14 +636,41 @@ onMounted(async () => {
           </div>
           <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
             <ShortLoader v-if="loadMyjobs" />
-            <div v-else class="flex flex-col !gap-[2.31rem] overflow-x-auto hide-scrollbar my-8 w-full">
-                <BusinessJobCard
-                  class="w-full"
-                  v-for="item in MyJob?.data"
-                  :key="item"
-                  :job="item"
-                />
-              </div>
+            <div v-else class="w-full">
+              <div class="flex flex-col !gap-[2.31rem] my-8 w-full">
+                  <BusinessJobCard
+                    class="w-full"
+                    v-for="item in paginatedJob"
+                    :key="item"
+                    :job="item"
+                  />
+                </div>
+                <div class="flex w-[60%] flex-row">
+                  <button
+                    @click="setPage(currentPage - 1)"
+                    class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                  >
+                    <Arrow class="rotate-[180deg]"/>
+                  </button>
+                  <button
+                    v-for="pageNumber in displayedPageNumbers"
+                    :key="pageNumber"
+                    :class="[
+                      'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
+                      pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
+                    ]"
+                    @click="setPage(pageNumber)"
+                  >
+                    {{ pageNumber }}
+                  </button>
+                  <button
+                    @click="setPage(currentPage + 1)"
+                    class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                  >
+                    <Arrow />
+                  </button>
+                </div>
+            </div >
           </div>
         </div>
       </div>
