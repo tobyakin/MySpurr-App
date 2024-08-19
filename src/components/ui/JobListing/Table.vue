@@ -50,7 +50,7 @@
   </div>
 </template>
 <script setup>
-import { defineAsyncComponent, ref, computed, onMounted, reactive, watch } from "vue";
+import {ref, computed, watch } from "vue";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import Arrow from "@/components/icons/paginationArrow.vue"
 import { useQuery } from "vue-query";
@@ -116,8 +116,4 @@ watch(currentPage, async (newPage) => {
   console.log("Current Page:", newPage);
   await talentsStore.allTalents(newPage);
 });
-
-// onMounted(async () => {
-//   fetchData();
-// });
 </script>

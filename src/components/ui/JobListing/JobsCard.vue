@@ -5,7 +5,6 @@ import DropdownEye from '@/components/icons/DropdownEye.vue'
 import DropdownDeleteIcon from '@/components/icons/DropdownDeleteIcon.vue'
 import DropdownEditIcon from '@/components/icons/DropdownEditIcon.vue'
 import DropdownShareIcon from '@/components/icons/DropdownShareIcon.vue'
-// import GreenLoader from "@/components/ui/GreenLoader.vue";
 import PagePreLoader from '@/components/ui/Loader/PagePreLoader.vue'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tab'
@@ -156,18 +155,6 @@ const displayImage = computed(() => imageExists.value)
         <template v-else>
           <div class="initials-container text-white font-bold">{{ initials }}</div>
         </template>
-        <!-- <img
-          v-if="props?.job?.company.logo !== null"
-          class="h-[40.508px] w-[40.508px] rounded-full"
-          :src="props?.job?.company.logo"
-          alt=""
-        />
-        <img
-          v-else
-          class="h-[40.508px] w-[40.508px] rounded-full"
-          src="@/assets/image/jobIcon.svg"
-          alt=""
-        /> -->
       </div>
       <div class="w-full flex flex-col gap-4 relative">
         <div class="flex flex-col lg:flex-row items-center justify-between w-full gap-3">
