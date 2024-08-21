@@ -27,7 +27,7 @@ defineProps({
       <div>
         <img
           v-if="job?.company?.logo !== null"
-          class="h-[61.011px] w-[61.011px] rounded-full"
+          class="h-[3.792rem] w-[3.792rem] rounded-full object-cover"
           :src="job?.company?.logo"
           alt=""
         />
@@ -77,7 +77,7 @@ defineProps({
                 {{ store.abbr(job?.job_info?.salary_min) }}-{{
                   store.abbr(job?.job_info?.salary_max)
                 }}/
-                {{ job?.job_info?.salaray_type }}
+                {{ job?.job_info?.salary_type }}
               </p>
             </div>
             <div class="flex gap-2 items-center">
