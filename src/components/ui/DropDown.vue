@@ -4,11 +4,6 @@
     class="absolute bg-white top-12 w-64 z-10 lg:-left-[13rem] -left-[12rem] rounded pt-4 px-3 shadow-lg"
   >
     <div class="flex items-center gap-4 px-8 mb-4">
-      <!-- <img
-        class="w-[42.033px] h-[42.033px] rounded-full"
-        src="@/assets/image/blogImage.png"
-        alt=""
-      /> -->
       <div>
         <div
           role="button"
@@ -20,6 +15,7 @@
                 :src="getImageSrc()"
                 class="h-10 w-10 bg-[#0A090991] rounded-full"
                 @error="handleImageError"
+                alt=""
               />
             </template>
             <template v-else>
@@ -44,29 +40,6 @@
               />
             </svg>
           </template>
-
-          <!-- <img
-          v-if="userDetails?.image"
-          class="w-10 h-10 rounded-full"
-          :src="userDetails?.image"
-          alt=""
-        />
-
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-5 text-gray-100 h-5"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-          />
-        </svg> -->
         </div>
       </div>
       <div class="">
@@ -130,7 +103,6 @@ onMounted(async () => {
   await profile.userProfile();
 });
 onUpdated(() => {
-  // await profile.userProfile();
   return userDetails.value?.image;
 });
 
@@ -159,7 +131,6 @@ const showFeaturesDropdown = computed(() => props.showDropdown);
 onMounted(() => {
   setTimeout(() => {
     dropdown.value = document.getElementById(props.id);
-    // const dropdown = document.getElementById(props.id);
     onClickOutside(dropdown, () => {
       if (showFeaturesDropdown.value) {
         emit("closeDropdown", false);

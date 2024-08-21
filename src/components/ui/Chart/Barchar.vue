@@ -15,12 +15,7 @@ import VueApexCharts from "vue3-apexcharts";
 import dayjs from "dayjs";
 
 // Define props
-const props = defineProps({
-  userDetails: {
-    type: Object,
-    default: () => ({}),
-  },
-});
+const props = defineProps(['userDetails'])
 
 const chatContainerHeight = ref(null);
 const renderChart = ref(false);

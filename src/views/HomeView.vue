@@ -2,20 +2,12 @@
 import { ref, onMounted, computed } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import LogoIcon from "@/components/icons/logoIcon.vue";
-// import JobCard from "@/components/ui/Jobs/JobCard.vue";
 import BusinessJobCard from "@/components/ui/Jobs/Business/JobCard.vue";
-// import MyApplicationCard from "@/components/ui/MyApplicationCard.vue";
-// import CommunityCard from "@/components/ui/CommunityCard.vue";
-// import CourseCard from "@/components/ui/CourseCard.vue";
-// import ArticleCard from "@/components/ui/ArticleCard.vue";
 import Barchar from "@/components/ui/Chart/Barchar.vue";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
-// import { useQuery } from "vue-query";
-// import OnboardingRequest from "@/components/ui/Onboarding/OnboardingRequest.vue";
 import BusinessValuesCard from "@/components/ui/Cards/BusinessValuesCard.vue";
 import JobsStatistics from "@/components/ui/Jobs/Business/JobsStatistics.vue";
-// import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import TopPicksJob from "@/components/ui/TopPicksJob/TopPicksJob.vue";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import MyApplicationsCard from "@/components/ui/MyApplications/MyApplicationCard.vue";
@@ -25,10 +17,13 @@ import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useJobsStore } from "@/stores/jobs";
 import { useStatisticsStore } from "@/stores/dashboardStatistics";
+import { useMessageStore } from "@/stores/message";
+const messageStore = useMessageStore();
+const { allMessages } = storeToRefs(messageStore)
 const statStore = useStatisticsStore();
 const JobsStore = useJobsStore();
 const { stat } = storeToRefs(statStore);
-const { myJobsApplications, topPickedJobs, Job, MyJob } = storeToRefs(JobsStore);
+const { Job, MyJob } = storeToRefs(JobsStore);
 const router = useRouter();
 const tabStore = useTabStore();
 const { isLoading } = storeToRefs(tabStore);
@@ -36,18 +31,35 @@ const jobsLoading = ref(false);
 let loadMyjobs = ref(false);
 let store = useStore();
 let profile = useUserProfile();
-// const showPageLoader = ref(true);
 
 const isOnBoarded = computed(() => profile.user);
 
 const userDetails = computed(() => {
-  return profile.user.data;
+  return profile?.user?.data;
+});
+const userID = computed(() => {
+  return profile.user.data.id;
 });
 const accountType = computed(() => {
-  return store.getUser.data.user.type;
+  return store.getUser?.data?.user?.type;
 });
+const recievedMessagesLength = ref(0)
+const recievedMessages = ref([])
+
+const getAllMessages = async (userId)=>{
+  try {
+    await messageStore.handleGetMessages(userId)
+  } catch (error) {
+    console.log(error)
+  }
+
+  recievedMessages.value = allMessages.value?.data?.filter(message=> message?.sender_id != userId)
+  recievedMessagesLength.value = recievedMessages.value.length || 0
+
+  return recievedMessagesLength.value
+}
 onMounted(() => {
-  return accountType;
+  return accountType, userID;
 });
 onMounted(async () => {
   try {
@@ -63,18 +75,19 @@ onMounted(async () => {
         router.push({ name: "business-onboarding" });
       }
     }
+    if(isOnBoarded.value){
+      getAllMessages(userID.value)
+    }
   } catch (error) {
     /* empty */
   } finally {
     isLoading.value = !isLoading.value;
   }
 });
-//!isOnBoarded.portofoolio;
+
 const getMyJobApplications = async () => {
   if (accountType.value === "talent") {
-    // await JobsStore.handleGetTopPickedJobs();
     await JobsStore.handleMyJobApplications();
-    // await JobsStore.allJobs();
   }
 };
 const getAllJobs = async () => {
@@ -84,7 +97,6 @@ const getAllJobs = async () => {
       await JobsStore.allJobs();
       jobsLoading.value = false;
     } catch (error) {
-      console.error;
       jobsLoading.value = false;
     }
   }
@@ -94,7 +106,7 @@ const getStatistics = async () => {
     try {
       await statStore.handleGetStatistics();
     } catch (error) {
-      console.error;
+      /* empty */
     }
   }
 };
@@ -106,26 +118,23 @@ const getMyJobs = async () => {
     loadMyjobs.value = false;
     return response;
   } catch (error) {
-    console.error;
+    /* empty */
   } finally {
     loadMyjobs.value = false;
   }
 };
-// const fetchMyJobData = async () => {
-//   await Promise.all([getMyJobs(), getStatistics(), getAllJobs(), getMyJobApplications()]);
-// };
-
-// const { isLoading: loadMyjobs } = useQuery(["myJobs"], getMyJobs, {
-//   retry: 10,
-//   staleTime: 10000,
-//   onSuccess: (data) => {
-//     MyJob.value = data;
-//   },
-// });
 
 onMounted(async () => {
-  // fetchMyJobData();
-  getMyJobs(), getStatistics(), getAllJobs(), getMyJobApplications();
+  try {
+    await Promise.all([
+      getMyJobs(),
+      getStatistics(),
+      getAllJobs(),
+      getMyJobApplications()
+    ]);
+  } catch (error) {
+    console.error("An error occurred while fetching data:", error);
+  }
 });
 </script>
 
@@ -263,9 +272,10 @@ onMounted(async () => {
           <BusinessValuesCard
             class=""
             title="Messages received"
-            digit="_"
-            :comingSoon="true"
+            :digit="recievedMessagesLength"
+            :comingSoon="false"
             buttonPlaceholder="read messages"
+            route="messages"
           />
         </div>
       </div>
@@ -368,7 +378,7 @@ onMounted(async () => {
           >
         </div>
         <div class="flex flex-col w-full overflow-hidden">
-          <ShortLoader v-if="jobsLoading && Job === null" />
+          <ShortLoader v-if="jobsLoading" />
           <div v-else><TopPicksJob :job="Job" /></div>
         </div>
       </div>

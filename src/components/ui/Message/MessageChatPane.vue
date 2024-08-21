@@ -5,6 +5,7 @@ import ReplyIcon from "@/components/icons/ReplyIcon.vue";
 import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
 import circleFileIcon from "@/components/icons/circleFileIcon.vue";
 import DropDownArror from "@/components/icons/DropDownArrow.vue"
+import EditIcon from "@/components/icons/pencilIcon.vue"
 import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
@@ -14,7 +15,7 @@ let store = useStore();
 const userID = computed(() => {
   return profile.user.data.id;
 });
-const isOnBoarded = computed(() => profileStore.user);
+const isOnBoarded = computed(() => profile.user);
 
 const accountType = computed(() => {
   return store.getUser.data.user.type;
@@ -46,7 +47,6 @@ function discoverLinks(text) {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     let match;
     const links = [];
-
     while ((match = urlRegex.exec(text)) !== null) {
         links.push({
             url: match[0],
@@ -56,13 +56,10 @@ function discoverLinks(text) {
     }
     return links;
 }
-
 function displayTextWithLinks(text) {
     const links = discoverLinks(text);
-
     let lastIndex = 0;
     let resultHTML = '';
-
     if(links.length > 0){
         links.forEach(link => {
             // Add text before the link
@@ -77,7 +74,6 @@ function displayTextWithLinks(text) {
     } else {
         resultHTML = text
     }
-
     return resultHTML
 }
 
@@ -87,7 +83,7 @@ onMounted(() => {
 
 onMounted(async ()=>{
     try {
-    await profileStore.userProfile();
+    await profile.userProfile();
     getUserInfo()
     userImg.value = userInfo.value.company_logo || userInfo.value.image
     await scrollToBottom()
@@ -127,11 +123,6 @@ function handleWidgetClose(){
 
 function switchTab(){
     emit('switchTab')
-}
-
-function displayDate(full_string){
-    let date = full_string.split(' ').slice(0, 3).join(' ');
-    return date
 }
 
 function displayTime(full_string){
@@ -204,6 +195,41 @@ function timeDifference(dateString) {
     }
    
 }
+
+function handleEditMessage(e) {
+    const targetElement = e.currentTarget;
+    const mainContainer = targetElement.parentElement.parentElement.parentElement
+    console.log(mainContainer)
+    mainContainer.querySelector('.editBtnContainer').classList.add('!flex')
+    const targetInput = targetElement.previousElementSibling;
+    
+    targetInput.setAttribute('aria-readonly', 'false');
+    targetInput.contentEditable = 'true';
+    targetInput.focus();
+    console.dir(targetInput);
+}
+
+function handleCancelEdit(e){
+    const targetElement = e.currentTarget;
+    const mainContainer = targetElement.parentElement.parentElement
+    const targetInput = targetElement.parentElement.previousElementSibling.querySelector('.message');  
+    targetInput.setAttribute('aria-readonly', 'true');
+    targetInput.contentEditable = 'false';
+    targetInput.blur();
+    mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+}
+
+function handleSaveEdit(e){
+     const targetElement = e.currentTarget;
+    const mainContainer = targetElement.parentElement.parentElement
+    const targetInput = targetElement.parentElement.previousElementSibling.querySelector('.message');  
+    targetInput.setAttribute('aria-readonly', 'true');
+    targetInput.contentEditable = 'false';
+    targetInput.blur();
+    mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+    mainContainer.querySelector('.editedNotifier').classList.add('!block')
+}
+
 </script>
 <template>
     <article class="recievedMessage w-full h-full flex flex-col !gap-0" data-id="chat.id">
@@ -267,10 +293,35 @@ function timeDifference(dateString) {
                 <div class="chatPage">
                     <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat.subject }}</h3>
                     <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden">{{ chat.subject }}</h3>
-                    <div>
-                        <div 
-                        v-html="displayTextWithLinks(chat?.message)"
-                        class="message break-words text-justify text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] !mb-[1.3rem] w-full h-auto whitespace-pre-wrap">
+                    <div class="field !mb-[1.3rem]">
+                        <div class="flex flex-col relative">
+                            <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer max-w-[100%]"
+                            :class="chat?.sender_id == userID? 'w-fit': ''"
+                            >
+                                <div 
+                                v-html="displayTextWithLinks(chat?.message)"
+                                contenteditable="false"
+                                class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[92%] h-auto whitespace-pre-wrap focus:outline-none"
+                                aria-readonly="true"
+                                >
+                                </div>
+                                <div 
+                                @click="handleEditMessage" 
+                                class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]"
+                                v-if="chat?.sender_id == userID"
+                                >
+                                    <EditIcon class="w-full h-full"/>
+                                </div>
+                            </div>
+                            <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
+                        </div>
+                        <div class="hidden editBtnContainer gap-[0.5rem] mt-[0.5rem]">
+                            <button
+                            @click="handleCancelEdit"
+                             class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>
+                            <button
+                            @click="handleSaveEdit"
+                            class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -306,6 +357,9 @@ function timeDifference(dateString) {
                     <div class="chatPage">
                     <div class=" head flex items-center justify-between mb-4">
                         <div class="flex items-center gap-[0.5rem]">
+                            <!-- <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid bg-brand place-items-center border  border-brand font-Satoshi500 text-brand">
+                                <svg data-v-f87d500a="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 text-gray-100 h-5"><path data-v-f87d500a="" stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path></svg>
+                            </div> -->
                             <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid place-items-center border  border-brand font-Satoshi500 text-brand">
                                 <div v-if="reply?.sender?.id == userID">
                                     {{ reply?.sender?.first_name[0] }} {{reply?.sender?.last_name[0] }}
@@ -324,10 +378,34 @@ function timeDifference(dateString) {
                         <!-- <hr class="border-[#EEEEEE] border-1 my-[1.1rem] w-[30%]"> -->
                         
                         </div>
-                        <div>
-                            <div 
-                                v-html="reply?.message"
-                                class="message break-words text-justify text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] !mb-[1.3rem] w-full h-auto whitespace-pre-wrap">
+                        <div class="field">
+                            <div class="flex flex-col !mb-[1.3rem] relative">
+                                <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer max-w-[100%]"
+                                :class="reply?.sender?.id == userID? 'w-fit': ''"
+                                >
+                                    <div 
+                                    v-html="displayTextWithLinks(reply?.message)"
+                                    contenteditable="false"
+                                    class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[92%] h-auto whitespace-pre-wrap focus:outline-none"
+                                    aria-readonly="true"
+                                    >
+                                    </div>
+                                    <div 
+                                    @click="handleEditMessage" class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]"
+                                    v-if="reply?.sender?.id == userID"
+                                    >
+                                        <EditIcon class="w-full h-full"/>
+                                    </div>
+                                </div>
+                                <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
+                            </div>
+                            <div class="hidden editBtnContainer gap-[0.5rem] mt-[0.5rem]">
+                                <button
+                                @click="handleCancelEdit"
+                                class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>
+                                <button
+                                @click="handleSaveEdit"
+                                class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -340,7 +418,7 @@ function timeDifference(dateString) {
                         </div>
                     </div>
                     <div class="filesContainer mt-4 flex gap-[1.1rem]">
-                        <article v-for="item in reply?.attachments">
+                        <article v-for="item in reply?.attachments" :key="item">
                             <a :href="item.file" :download="item.file_name" target="_blank" class="files flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center">
                                 <circleFileIcon />
                                 <div>
@@ -360,6 +438,5 @@ function timeDifference(dateString) {
 <style scoped>
     #chatScroll::-webkit-scrollbar {
         display: none !important;
-        /* scrollbar-color: red !important; */
     }
 </style>

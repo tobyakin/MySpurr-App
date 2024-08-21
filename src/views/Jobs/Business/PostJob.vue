@@ -1,20 +1,14 @@
 <script setup>
-import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from "vue";
+import { onMounted, ref, computed, reactive, watch } from "vue";
 import { storeToRefs } from "pinia";
-import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { useStore } from "@/stores/user";
-import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
-import Arrow from "@/components/icons/paginationArrow.vue";
-import Tabs from "@/components/ui/Jobs/Tabs.vue";
 import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
 import Label from "@/components/ui/Form/Input/Label.vue";
 import CirclePlus from "@/components/icons/circlePlus.vue";
-import ViewJobDetailsPage from "@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue";
 import ReviewJob from "@/components/ui/Jobs/ReviewJob.vue";
-import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { useSkillsStore } from "@/stores/skills";
@@ -26,9 +20,11 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 let store = useStore();
+
 const accountType = computed(() => {
   return store.getUser.data.user.type;
 });
+
 onMounted(() => {
   return accountType;
 });
@@ -65,16 +61,12 @@ onMounted(async () => {
 });
 
 let profile = useUserProfile();
-// const showPageLoader = ref(true);
 
-const hasSubscriptedToPostJob = computed(() => {
-  return profile?.user?.data?.posted_job;
-});
 const skillsStore = useSkillsStore();
 const { contriesCode, states, industries } = storeToRefs(skillsStore);
 
 const jobsStore = useJobsStore();
-const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore);
+const { postJobsValue, ciso, siso } = storeToRefs(jobsStore);
 
 let options = ref([
   { name: "Design" },
@@ -91,17 +83,20 @@ let options = ref([
   { name: "Branding" },
   { name: "Finance" },
 ]);
+
 const Experience = [
   { name: "Beginner ", year: "(1-2 yrs)" },
   { name: "Intermediate ", year: "(3-5 yrs)" },
   { name: "Expert ", year: "(6-10 yrs)" },
   { name: "More than", year: " 10yrs" },
 ];
+
 const getSuccessStatusFromURL = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const successParam = urlParams.get("success");
   return successParam === "true"; // Convert the value to a boolean
 };
+
 const state = reactive({
   status: getSuccessStatusFromURL(),
 });
@@ -115,7 +110,6 @@ const changeScreen = (from, to, type = null) => {
 const search = ref("");
 const showDropdown = ref(false);
 const highlightedIndex = ref(-1);
-const displayedQuestions = ref([]);
 
 const addQuestion = () => {
   const lastQuestion =
@@ -136,9 +130,7 @@ const filterOptions = () => {
 const placeholderText = computed(() => {
   return postJobsValue.value.skills.length >= 5 ? "" : "Add skills";
 });
-// const shouldDisplayInput = computed(() => {
-//   return postJobsValue.value.skills.length < 5;
-// });
+
 
 const selectOption = (option) => {
   if (postJobsValue.value.skills.length < 5) {
@@ -240,6 +232,7 @@ onMounted(() => {
     handleChangeScreen();
   }
 });
+
 </script>
 
 <template>
@@ -639,29 +632,9 @@ onMounted(() => {
                 </a-select>
               </div>
             </div>
-
-            <!-- <SelectGroup
-              v-model="postJobsValue.experience"
-              labelClasses="font-Satoshi500 text-[15.606px]"
-              label="Experience*"
-              name="Name"
-              :items="['Freelance', 'Full Time', 'Part Time']"
-              placeholder="Experience"
-              type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup> -->
-            <!-- <SelectGroup
-              v-model="postJobsValue.qualification"
-              labelClasses="font-Satoshi500 text-[15.606px]"
-              label="Qualification*"
-              name="Name"
-              :items="['Certificate', 'Bachelors', 'Masters ', 'Doctorate ']"
-              placeholder="Qualification"
-              type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup> -->
+            
           </div>
-          <div class="flex flex-row hidden w-full gap-8">
+          <div class="flex-row hidden w-full gap-8">
             <div class="flex flex-col w-full text-left">
               <Label class="font-Satoshi500 !text-[17.792px] mb-2">Industry*</Label>
               <a-select
@@ -742,48 +715,7 @@ onMounted(() => {
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
           ></FormGroup>
         </div>
-        <!-- <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
-        Address & Location
-      </h4>
-      <div class="mt-8 flex flex-col gap-8">
-        <FormGroup
-          labelClasses="font-Satoshi500 !text-[17.792px]"
-          label="Address*"
-          name="Name"
-          placeholder="Address of Job resident"
-          type="text"
-          inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-        ></FormGroup>
-        <div class="flex flex-row w-full gap-8">
-          <SelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Country*"
-            name="Name"
-            :items="['Nigeria', 'Uk', 'Niger']"
-            placeholder="Country"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></SelectGroup>
-          <SelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="City*"
-            name="Name"
-            :items="['', '', '']"
-            placeholder="City"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></SelectGroup>
-          <SelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="State*"
-            name="Name"
-            :items="['Lagos', 'Abuja', 'Uyo']"
-            placeholder="State"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></SelectGroup>
-        </div>
-      </div> -->
+
         <div class="flex justify-end gap-4 mt-12">
           <button
             @click="changeScreen(0, 1)"

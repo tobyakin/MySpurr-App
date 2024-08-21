@@ -10,7 +10,6 @@ import { useUserProfile } from "@/stores/profile";
 import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useSkillsStore } from "@/stores/skills";
-import CalendlyIcon from "@/components/icons/CalendlyIcon.vue";
 const skillsStore = useSkillsStore();
 const { contriesCode, states } = storeToRefs(skillsStore);
 
@@ -22,12 +21,6 @@ const prefillCountry = ref("l");
 const prefillState = ref("l");
 
 const userProfile = useUserProfile();
-const Experience = [
-  { name: "Beginner ", year: "(1-2 yrs)" },
-  { name: "Intermediate ", year: "(3-5 yrs)" },
-  { name: "Expert ", year: "(6-10 yrs)" },
-  { name: "More than", year: " 10yrs" },
-];
 
 const prefillDetails = () => {
   businessDeatils.value.first_name = userProfile.user?.data?.first_name || "";
@@ -36,6 +29,7 @@ const prefillDetails = () => {
   businessDeatils.value.location = userProfile.user?.data?.location || "";
   businessDeatils.value.industry = userProfile.user?.data?.industry || "";
   businessDeatils.value.about_business = userProfile.user?.data?.about_business || "";
+  businessDeatils.value.phone_number = userProfile.user?.data?.phone_number || "";
   businessDeatils.value.website = userProfile.user?.data?.website || "";
   businessDeatils.value.business_service = userProfile.user?.data?.business_service || "";
   businessDeatils.value.business_email = userProfile.user?.data?.business_email || "";
@@ -231,14 +225,14 @@ onMounted(async () => {
               />
             </div>
             <div
-              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] py-1"
+              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex px-3 text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
                 >Phone Number</label
               >
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.experienceLevel"
+                v-model="businessDeatils.phone_number"
                 type="text"
               />
               <!-- <div class="flex w-full items-center">
@@ -258,31 +252,16 @@ onMounted(async () => {
               </div> -->
             </div>
             <div
-              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] py-1"
+              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex px-3 text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
                 >Category</label
               >
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.experienceLevel"
+                v-model="businessDeatils.business_service"
                 type="text"
               />
-              <!-- <div class="flex w-full items-center">
-                <a-select
-                  placeholder="experience level"
-                  :bordered="false"
-                  :show-arrow="false"
-                  class="w-full !px-0"
-                  show-search
-                  v-model:value="businessDeatils.experienceLevel"
-                >
-                  <a-select-option disabled>experience level</a-select-option>
-                  <a-select-option v-for="i in Experience" :key="i.name" :value="i.name">
-                    {{ i.name }}
-                  </a-select-option>
-                </a-select>
-              </div> -->
             </div>
           </div>
         </div>
@@ -298,6 +277,7 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] pl-[13px] font-Satoshi400"
                 >Size</label
               >
+              <!-- No size field in userDetails response -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.calendlylink"
@@ -311,9 +291,10 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><LinkdeinIcon class="w-[11.414px] h-[10.78px]" />LinkedIn</label
               >
+              <!-- no linkedin -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.linkedin"
+                v-model="businessDeatils.social_media"
                 type="text"
               />
             </div>
@@ -325,6 +306,7 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><InstagramIcon class="w-[11.508px] h-[11.508px]" />Instagram
               </label>
+              <!-- no instagram -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.instagram"
@@ -338,9 +320,10 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><TwitterIcon class="w-[14.036px] h-[11.229px]" />X</label
               >
+              <!-- no twitter -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.twitter"
+                v-model="businessDeatils.social_media_two"
                 type="text"
               />
             </div>
@@ -352,6 +335,7 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><BeIcon class="w-[16.289px] h-[10.859px]" />Behance</label
               >
+              <!-- no behance -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.behance"
@@ -365,6 +349,7 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><FacebookIcon class="h-[13px] w-[13px]" />Facebook</label
               >
+              <!-- no facebook -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.facebook"
@@ -374,67 +359,6 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <!-- <div class="flex flex-col w-full mt-[16px] gap-[15px]">
-        <p class="text-[24px] text-[#244034] font-Satoshi400 leading-[40.393px]">
-          Location
-        </p>
-        <div class="md:flex-row flex-col justify-between flex gap-[19px]">
-          <div
-            class="border-[0.737px] w-full border-[#254035AB] flex-col flex rounded-[5.897px] p-0 py-1"
-          >
-            <label class="text-[#01272C] px-3 flex text-[10px] font-Satoshi400"
-              >Country</label
-            >
-            <div class="flex w-full items-center">
-              <a-select
-                :placeholder="prefillCountry"
-                :bordered="false"
-                :show-arrow="false"
-                class="w-full !px-0"
-                show-search
-                v-model:value="selectedCountry"
-              >
-                <a-select-option disabled>country or region</a-select-option>
-                <a-select-option
-                  v-for="country in contriesCode?.data"
-                  :key="country.id"
-                  :value="country.name"
-                >
-                  {{ country.name }}
-                </a-select-option>
-              </a-select>
-            </div>
-
-          </div>
-
-          <div
-            class="border-[0.737px] w-full border-[#254035AB] flex-col flex rounded-[5.897px] p-0 py-1"
-          >
-            <label class="text-[#01272C] px-3 flex text-[10px] font-Satoshi400"
-              >State</label
-            >
-            <div class="flex w-full items-center">
-              <a-select
-                :placeholder="prefillState"
-                :show-arrow="false"
-                :bordered="false"
-                class="w-full !px-0"
-                show-search
-                v-model:value="selectedState"
-              >
-                <a-select-option disabled>state or city</a-select-option>
-                <a-select-option
-                  v-for="state in states?.data"
-                  :key="state.id"
-                  :value="state.name"
-                >
-                  {{ state.name }}
-                </a-select-option>
-              </a-select>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
 
     <div class="w-full flex justify-center mt-8">

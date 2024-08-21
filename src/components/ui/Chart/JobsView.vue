@@ -1,6 +1,7 @@
 <template>
   <div class="h-full bg-cover">
     <VueApexCharts
+      class="h-full"
       v-if="renderChart"
       type="bar"
       :options="chartOptions"
@@ -10,11 +11,11 @@
     />
   </div>
 </template>
-
 <script setup>
 import VueApexCharts from "vue3-apexcharts";
 import { ref, onMounted, watch, onUnmounted } from "vue";
 
+// Define props
 const props = defineProps({
   chartData: {
     type: Array,
@@ -75,15 +76,9 @@ const chartOptions = ref({
   },
 });
 
-
 const chartSeries = ref([
   {
-    name: "Jobs Applied",
-    data: [],
-    color: "#6BA336",
-  },
-  {
-    name: "Jobs Views",
+    name: "Job Views",
     data: [],
     color: "#F2C94C",
   },
@@ -103,8 +98,7 @@ watch(
     if (Array.isArray(newVal)) {
       const filteredData = newVal.filter((item) => item.day !== undefined);
 
-      chartSeries.value[0].data = filteredData.map((item) => item.job_applied || 0);
-      chartSeries.value[1].data = filteredData.map((item) => item.job_views || 0);
+      chartSeries.value[0].data = filteredData.map((item) => item.job_views || 0);
 
       chartOptions.value.xaxis.categories = filteredData.map((item) => item.day || '');
     }
@@ -117,8 +111,7 @@ onMounted(() => {
 
   const filteredData = (props.chartData || []).filter((item) => item.day !== undefined);
 
-  chartSeries.value[0].data = filteredData.map((item) => item.job_applied || 0);
-  chartSeries.value[1].data = filteredData.map((item) => item.job_views || 0);
+  chartSeries.value[0].data = filteredData.map((item) => item.job_views || 0);
   chartOptions.value.xaxis.categories = filteredData.map((item) => item.day || '');
 
   renderChart.value = true;
@@ -127,4 +120,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", setChatContainerHeight);
 });
+
+
 </script>
+

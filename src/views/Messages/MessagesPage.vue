@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick, onUpdated} from "vue";
+import { ref, computed, onMounted, onUnmounted, nextTick} from "vue";
 import ChatWidget from "@/components/ui/Message/ChatWidget.vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import MessageList from "@/components/ui/Message/MessageList.vue";
 import MessageChatPane from "@/components/ui/Message/MessageChatPane.vue";
@@ -16,8 +16,6 @@ import rightArrowM from "@/components/icons/rightArrowM.vue";
 import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
 import NewMessageIcon from "@/components/icons/NewMessageIcon.vue";
 import MessageInputField from "@/components/ui/Message/MessageInputField.vue";
-import { useSocketStore } from "@/stores/socket";
-import ComingSoon from "@/components/ui/ComingSoon/ComingSoon.vue";
 import { useTabStore } from "@/stores/tab";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
@@ -26,13 +24,7 @@ import { storeToRefs } from "pinia";
 
 let store = useStore();
 const router = useRouter();
-// const allMessages = ref([])
 let profile = useUserProfile();
-let receiverId = "211950a8-c8bd-4f12-9b92-db142c85ddd4";
-let message = ref("");
-const userDetails = computed(() => {
-  return profile.user.data;
-});
 const emit = defineEmits(['next'])
 
 const messageStore = useMessageStore();
@@ -74,7 +66,6 @@ const scrollToBottom = async () => {
 };
 
 const messageLength = ref(false)
-
 
 const accountType = computed(() => {
   return store.getUser.data.user.type;
@@ -159,7 +150,7 @@ const getAllMessages = async (userId)=>{
     await messageStore.handleGetMessages(userId)
     messageLoading.value = false
   } catch (error) {
-    cconsole.log(error)
+    console.log(error)
     messageLoading.value = false
   }
   displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
@@ -198,6 +189,7 @@ const handleMessageClicked = async (payload)=>{
   if(detailLoaded.value === false){
     detailLoaded.value = true
   }
+
   await getMessageDetail(payload.id)
   messageDetails.value = messageDetail.value.data
 
@@ -241,9 +233,8 @@ const handleSendMessage = async (payload)=>{
     console.log(error)
     isSending.value = false
   }
-
-  console.log(payload)
 }
+
 const handleNavRight = async ()=>{
   messageIndex.value += 1
   emit('next', messageIndex.value)
@@ -278,42 +269,8 @@ const handleNavLeft = async ()=>{
     messageDetails.value = messageDetail.value.data
 }
 
-
-onMounted(async ()=>{
-  try {
-    await profileStore.userProfile();
-    if(isOnBoarded.value){
-      getSentMessages(), getAllMessages(userID.value)
-    }
-  } catch (error) {
-    console.log(error)
-  } finally {
-    console.log('yes')
-  }
-})
-
-// onUpdated(async ()=>{
-//   try {
-//     await profileStore.userProfile();
-//     if(isOnBoarded.value){
-//       await messageStore.handleGetMessages(userID.value)
-//       await messageStore.handleSentMessages()
-//       displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
-//       recievedMessages.value = displayedMessages.value
-//       messageLength.value = recievedMessages.value.length > 0
-//       messageNum.value = recievedMessages?.value.length
-//       pageLoading.value = false
-//       return displayedMessages.value
-//     }
-//   } catch (error) {
-//     console.log(error)
-//   } finally {
-//     console.log('yes')
-//   }
-// })
-
-
 onMounted(async () => {
+  noMessageNotification.value = 'messages'
   try {
     await profileStore.userProfile();
     if (
@@ -327,6 +284,9 @@ onMounted(async () => {
         router.push({ name: "business-onboarding" });
       }
     }
+    if(isOnBoarded.value){
+      getSentMessages(), getAllMessages(userID.value)
+    }
   } catch (error) {
     /* empty */
   } finally {
@@ -334,39 +294,11 @@ onMounted(async () => {
   }
 });
 
-
-// const connectSocket = async () => {
-//   try {
-//     await store.connectSocket(receiverId);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-const sendMessage = async () => {
-  let payload = {
-    sender_id: userDetails.value.uniqueId,
-    receiver_id: receiverId,
-    message: message.value,
-  };
-  try {
-    await store.sendSocketMessage(receiverId, payload);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 onMounted(() => {
   return profile.userProfile();
 });
-onMounted(async () => {
-  // await store.connectSocket(receiverId);
-});
-onMounted(async () => {
-  await profile.userProfile();
-});
 
-function handleReply(chatId) {
+function handleReply() {
   showReplyField.value = true;
   scrollToBottom()
 }
@@ -391,19 +323,19 @@ function handleDelete(){
   }
 }
 
+const showtal = ref(false)
+const route = useRoute()
+
 function handleNewMessage(){
   const screenWidth = window.innerWidth
   const maxWidth = 800
-  
+
   if(screenWidth <= maxWidth){
     showNewMessage.value = true
     showMobileChats.value = true
   } else {
     showNewMessage.value = !showNewMessage.value
   }
-
-  console.log(showNewMessage.value)
-
 }
 
 const widgetContainer = ref(null);
@@ -418,6 +350,14 @@ const setWidgetHeight = () => {
 onMounted(() => {
   setWidgetHeight();
   window.addEventListener('resize', setWidgetHeight);
+
+  if(route.query.show){
+    showNewMessage.value = true
+    showMobileChats.value = true
+  } else {
+    showNewMessage.value = false
+    showMobileChats.value = false
+  }
 });
 
 onUnmounted(() => {
@@ -434,8 +374,8 @@ onUnmounted(() => {
         <ComingSoon title="Messages" />
       </div> -->
       <div class="w-full h-full grid place-items-center" v-if="pageLoading">
-          <ShortLoader />
-        </div>
+        <ShortLoader />
+      </div>
       <section class="item mx-auto w-[80%] msgBreak:w-[90%] bg-[#FDFDF6] msgTab:container h-[90vh] overflow-hidden bottom-0 sticky" v-else>
         <div class="mt-[0.47rem] flex gap-[34.16px] h-full overflow-hidden msgTab:flex-col relative">
           <div id="inboxList" class="w-[50%] msgTab:mx-auto msgTab:w-[75%] msgTab2:!opacity-[100] msgTab2:!z-[1] msgMob:w-full h-full" ref="inboxList" 
@@ -504,6 +444,7 @@ onUnmounted(() => {
                         @reply="handleReplyMessage"
                         @change="handleAttachment"
                         @delete="handleDelete"
+                        :showtal="showtal"
                         />
                       </div>
                     </div>

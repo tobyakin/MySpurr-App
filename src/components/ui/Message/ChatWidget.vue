@@ -64,6 +64,7 @@ const accountType = computed(() => {
   return store.getUser.data.user.type;
 });
 onMounted(() => {
+  noMessageNotification.value = 'messages'
   return accountType;
 });
 
@@ -128,7 +129,7 @@ const getAllMessages = async (userId)=>{
     await messageStore.handleGetMessages(userId)
     messageLoading.value = false
   } catch (error) {
-    cconsole.log(error)
+    console.log(error)
     messageLoading.value = false
   }
   displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
@@ -176,6 +177,7 @@ const handleReplyMessage = async ()=>{
     if(payload.value.receiver_email.length > 0 && payload.value.message.length > 0){
       try {
         textArea.value.value = ''
+        textArea.value.style.height = 'auto'; 
         attachedFiles.value = []
         await messageStore.handleReplyMessage(payload.value)
         getAllMessages(userID.value)
@@ -362,8 +364,11 @@ const getUserInfo = ()=>{
               <div class="msgMob:sticky">
                   <div class="pt-4 show px-[1.44rem] flexBasic cursor-pointer" @click.self="handleWidgetClose">
                       <div class="flexBasic gap-[0.88rem]">
-                          <div class="userImg w-[1.875rem] h-[1.875rem] rounded-[1.875rem] overflow-hidden">
+                          <div class="userImg w-[1.875rem] h-[1.875rem] rounded-[1.875rem] overflow-hidden" v-if="userInfo?.company_logo || userInfo?.image">
                               <img :src="userImg" alt="" class="w-full h-full">
+                          </div>
+                          <div class="userImg w-[1.875rem] h-[1.875rem] rounded-[1.875rem] overflow-hidden bg-brand grid place-items-center" v-else>
+                            <svg data-v-f87d500a="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 text-gray-100 h-5"><path data-v-f87d500a="" stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path></svg>
                           </div>
                           <h3 class="text-[#000] font-Satoshi500 leading-[1.51rem]text-[0.903rem]">Messaging</h3>
                       </div>
@@ -410,7 +415,7 @@ const getUserInfo = ()=>{
                 </div>
                   <div class="attachment px-[0.5rem] !pb-[0.5rem] !my-[1rem] basis-[30%]" v-if="uploadedFileDetails?.length > 0">
                     <div class="flex !gap-[0.5rem] flex-wrap" ref="attached_file">
-                        <article class="flex items-center p-[0.5rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="item in uploadedFileDetails">
+                        <article class="flex items-center p-[0.5rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" v-for="item in uploadedFileDetails" :key="item">
                             <circleFileIcon class="w-[20px] h-[20px]"/>
                             <div>
                                 <h3 class="font-Satosi400 text-[#244034] leading-[0.7rem] text-[0.5rem]">{{item.name}}</h3>
@@ -438,7 +443,7 @@ const getUserInfo = ()=>{
                     />
                   </div>
                   <textarea
-                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 h-[50px] overflow-auto scroller leading-4 " 
+                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 h-auto overflow-auto scroller leading-4" 
                     contenteditable
                     @input="autoResize"
                     ref="textArea"
