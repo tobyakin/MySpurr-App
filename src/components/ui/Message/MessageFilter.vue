@@ -2,28 +2,24 @@
 import SearchIcon from "@/components/icons/searchBarIcon.vue";
 import { onMounted, ref } from "vue";
 const props = defineProps(['filter'])
-const emit = defineEmits(['all', 'read', 'unread', 'sent'])
+const emit = defineEmits(['primary', 'read', 'others', 'sent'])
 const filteredSection = ref('')
 
 onMounted(()=>{
     if(props.filter){
         filteredSection.value = props.filter
     } else {
-        filteredSection.value = 'all'
+        filteredSection.value = 'primary'
     }
 })
 
-function filterAll(){
-    emit('all')
-    filteredSection.value = 'all'
+function filterPrimary(){
+    emit('primary')
+    filteredSection.value = 'primary'
 }
-function filterRead(){
-    emit('read')
-    filteredSection.value = 'read'
-}
-function filterUnread(){
-    emit('unread')
-    filteredSection.value = 'unread'
+function filterOthers(){
+    emit('others')
+    filteredSection.value = 'others'
 }
 function filterSent(){
     emit('sent')
@@ -39,17 +35,14 @@ function filterSent(){
         <SearchIcon />
     </div>
     <ul class="messageGroup flex items-center justify-between gap-[0.7rem] !mb-[0.5rem]">
-        <li class="font-Satoshi500 leading-[2rem] capitalize text-[0.6rem]"
-        :class="filteredSection === 'all'? 'active': 'reg'" @click="filterAll">all</li>
-        <li class="flex items-center gap-[0.3rem]"
-        :class="filteredSection === 'read'? 'active': 'reg'" @click="filterRead">
-            <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#949939]"></span>
-            <p class="">read</p>
+        <li class=""
+        :class="filteredSection === 'primary'? 'active': 'reg'" @click="filterPrimary">
+            <p>primary</p>
         </li>
         <li class="flex items-center gap-[0.3rem]"
-        :class="filteredSection === 'unread'? 'active': 'reg'" @click="filterUnread">
+        :class="filteredSection === 'others'? 'active': 'reg'" @click="filterOthers">
             <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#DA5252]"></span>
-            <p>unread</p>
+            <p>others</p>
         </li>
         <li class="flex items-center gap-[0.3rem]"
         :class="filteredSection === 'sent'? 'active': 'reg'" @click="filterSent">

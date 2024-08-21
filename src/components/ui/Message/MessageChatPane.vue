@@ -110,8 +110,6 @@ const scrollToBottom = async () => {
     await nextTick()
   if (chatScroll.value) {
     chatScroll.value.scrollTop = chatScroll.value.scrollHeight;
-    console.log(chatScroll.value.scrollHeight)
-
   }
 };
 
@@ -141,7 +139,6 @@ const downloadFile = (fileUrl, fileName) => {
 
 const downloadAllAttachments = (attachments) => {
   attachments.forEach(item => {
-    console.log(item)
     downloadFile(item.file, item.file_name);
   });
 };
@@ -178,12 +175,6 @@ function timeDifference(dateString) {
     const diffInHours = Math.floor(diffInMinutes / 60);
     const diffInDays = Math.floor(diffInHours / 24);
 
-    const formattedGivenDate = givenDate.toLocaleString();
-    const formattedNow = now.toLocaleString();
-
-    console.log(`Given Date: ${formattedGivenDate}, Now: ${formattedNow}`);
-
-//    console.log(givenDate, now)
     if (diffInSeconds < 60) {
         return `${diffInSeconds} seconds ago`;
     } else if (diffInMinutes < 60) {
@@ -199,14 +190,12 @@ function timeDifference(dateString) {
 function handleEditMessage(e) {
     const targetElement = e.currentTarget;
     const mainContainer = targetElement.parentElement.parentElement.parentElement
-    console.log(mainContainer)
     mainContainer.querySelector('.editBtnContainer').classList.add('!flex')
     const targetInput = targetElement.previousElementSibling;
     
     targetInput.setAttribute('aria-readonly', 'false');
     targetInput.contentEditable = 'true';
     targetInput.focus();
-    console.dir(targetInput);
 }
 
 function handleCancelEdit(e){

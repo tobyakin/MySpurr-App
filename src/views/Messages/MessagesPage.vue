@@ -82,8 +82,8 @@ const getMessageID = ()=>{
 }
 
 
-function filterAll(){
-  filterSection.value = 'all'
+function filterPrimary(){
+  filterSection.value = 'primary'
   getFilteredMessages()
   noMessageNotification.value = 'messages'
   detailLoaded.value = false
@@ -98,28 +98,19 @@ function filterSent(){
   messageIndex.value = -1
 }
 
-function filterRead(){
-  filterSection.value = 'read'
+function filterOthers(){
+  filterSection.value = 'others'
   getFilteredMessages()
-  noMessageNotification.value = 'messages'
-  detailLoaded.value = false
-}
-
-function filterUnread(){
-  filterSection.value = 'unread'
-  getFilteredMessages()
-  noMessageNotification.value = 'unread message'
+  noMessageNotification.value = 'featured message'
   detailLoaded.value = false
   messageIndex.value = -1
 }
 
 function getFilteredMessages(){
-  if(filterSection.value === 'all'){
+  if(filterSection.value === 'primary'){
     displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userID.value)
-  } else if(filterSection.value === 'read'){
-    displayedMessages.value = recievedMessages.value.filter(message=> message.status === 'read')
-  } else if(filterSection.value === 'unread'){
-    displayedMessages.value = recievedMessages.value.filter(message=> message.status === 'unread')
+  } else if(filterSection.value === 'others'){
+    displayedMessages.value = []
   } else if (filterSection.value === 'sent'){
     displayedMessages.value = sentMessages.value.data
   }
@@ -368,11 +359,6 @@ onUnmounted(() => {
 <template>
   <section class="message msgMob:hidden">
     <DashboardLayout height="100vh">
-      <!-- <div
-        class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
-      >
-        <ComingSoon title="Messages" />
-      </div> -->
       <div class="w-full h-full grid place-items-center" v-if="pageLoading">
         <ShortLoader />
       </div>
@@ -391,7 +377,10 @@ onUnmounted(() => {
                   <h3 class="font-Satoshi500 text-[#000] text-[0.90313rem] leading-[1.50519rem]">Inbox</h3>
                   <MoreVertIcon class="rotate-90"/>
                 </div>
-                <MessageFilter @all="filterAll" @read="filterRead" @unread="filterUnread" @sent="filterSent"/>
+                <MessageFilter
+                 @primary="filterPrimary" @others="filterOthers" 
+                 @sent="filterSent" 
+                 :filter="filterSection"/>
               </div>
               <div id="messagesContainer" class=" overflow-y-auto scroller pb-4 flex-1" ref="messagesContainer">
                   <div v-if="messageLength">

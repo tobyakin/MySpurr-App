@@ -226,7 +226,6 @@ const displayImage = computed(() => imageExists.value);
 <template>
   <div 
   class="bg-[#FDFDF6] relative"
-  :style="{ height: height, overflow: overflow }"
   >
     <div class="lg:flex">
       <div

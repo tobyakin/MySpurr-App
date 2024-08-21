@@ -68,37 +68,35 @@ onMounted(() => {
   return accountType;
 });
 
-function filterAll(){
-  filterSection.value = 'all'
+function filterPrimary(){
+  filterSection.value = 'primary'
   getFilteredMessages()
   noMessageNotification.value = 'messages'
+  detailLoaded.value = false
+  messageIndex.value = -1
 }
 
 function filterSent(){
   filterSection.value = 'sent'
   getFilteredMessages()
   noMessageNotification.value = 'sent message'
+  detailLoaded.value = false
+  messageIndex.value = -1
 }
 
-function filterRead(){
-  filterSection.value = 'read'
+function filterOthers(){
+  filterSection.value = 'others'
   getFilteredMessages()
-  noMessageNotification.value = 'messages'
-}
-
-function filterUnread(){
-  filterSection.value = 'unread'
-  getFilteredMessages()
-  noMessageNotification.value = 'unread message'
+  noMessageNotification.value = 'featured message'
+  detailLoaded.value = false
+  messageIndex.value = -1
 }
 
 function getFilteredMessages(){
-  if(filterSection.value === 'all'){
+  if(filterSection.value === 'primary'){
     displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userID.value)
-  } else if(filterSection.value === 'read'){
-    displayedMessages.value = recievedMessages.value.filter(message=> message.status === 'read')
-  } else if(filterSection.value === 'unread'){
-    displayedMessages.value = recievedMessages.value.filter(message=> message.status === 'unread')
+  } else if(filterSection.value === 'others'){
+    displayedMessages.value = []
   } else if (filterSection.value === 'sent'){
     displayedMessages.value = sentMessages.value.data
   }
@@ -159,7 +157,6 @@ const handleMessageClicked = async (payload)=>{
   }
   await getMessageDetail(payload.id)
   messageDetails.value = messageDetail.value.data
-  console.log(messageDetails.value)
   scrollToBottom()
   return messageDetails.value
 }
@@ -173,7 +170,6 @@ const handleReplyMessage = async ()=>{
       "attachments": attachedFiles.value,
       "message": textArea.value.value
     })
-    console.log(payload.value)
     if(payload.value.receiver_email.length > 0 && payload.value.message.length > 0){
       try {
         textArea.value.value = ''
@@ -224,13 +220,12 @@ onMounted(async () => {
 
 onMounted(async ()=>{
   closeWidget.value = props.defaultWidgetState;
-  filterSection.value = 'all'
+  filterSection.value = 'primary'
   try {
     await profileStore.userProfile();
     if(isOnBoarded.value){
       getSentMessages(), getAllMessages(userID.value)
       getUserInfo()
-      console.log(userInfo.value)
       userImg.value = userInfo.value.company_logo || userInfo.value.image
     }
   } catch (error) {
@@ -255,8 +250,6 @@ const getUserInfo = ()=>{
 }
   const uploadFile = (event) => {
     const file = event.target.files[0];
-    console.log(file)
-
     if (file) {
       const reader = new FileReader();
 
@@ -277,7 +270,6 @@ const getUserInfo = ()=>{
       // emit('change', uploadedFileDetails.value)
       reader.readAsDataURL(file);
       scrollToBottom()
-      console.log(uploadedFileDetails.value, attachedFiles.value)
     } else {
       console.log(file)
     }
@@ -297,7 +289,6 @@ const getUserInfo = ()=>{
   function handleWidgetClose (){
     const screenWidth = window.innerWidth
     const maxWidth = 1024
-    console.log(screenWidth)
     if(screenWidth >= maxWidth){
       closeWidget.value = !closeWidget.value
     }
@@ -331,7 +322,6 @@ const getUserInfo = ()=>{
       elHeight.value = attached_file.value.offsetHeight
       if (container) {
         calcHeight.value = 40 + elHeight.value;
-        console.log(container.scrollHeight, calcHeight.value)
         container.scrollTop = container.scrollHeight + calcHeight.value;
       }
     }
@@ -379,7 +369,9 @@ const getUserInfo = ()=>{
                       </div>
                   </div>
                   <div class="px-[1.44rem] pb-4 msgMob:pb-[0.5rem] filter">
-                    <MessageFilter @all="filterAll" @read="filterRead" @unread="filterUnread" @sent="filterSent" :filter="filterSection"/>
+                    <MessageFilter 
+                    @primary="filterPrimary" @others="filterOthers" @sent="filterSent" :filter="filterSection"
+                    />
                   </div>
               </div>
               <div class="messageList overflow-y-auto scroller flex-1" id="messagesContainer">
