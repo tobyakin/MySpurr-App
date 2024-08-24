@@ -56,6 +56,7 @@ const userID = computed(() => {
   return profileStore.user.data.id;
 });
 const chatContainer = ref(null);
+const isSending = ref(false)
 
 const scrollToBottom = async () => {
   await nextTick();
@@ -188,16 +189,22 @@ const handleMessageClicked = async (payload)=>{
 }
 
 const handleReplyMessage = async (payload)=>{
-  await messageStore.handleReplyMessage(payload)
-  getAllMessages(userID.value)
-  await getMessageDetail(payload.message_id)
-  messageDetails.value = messageDetail.value.data
-  showReplyField.value = false
-  getSentMessages()
-  console.log(payload)
+  isSending.value = false
+  try {
+    await messageStore.handleReplyMessage(payload)
+    getAllMessages(userID.value)
+    await getMessageDetail(payload.message_id)
+    isSending.value = false
+    messageDetails.value = messageDetail.value.data
+    showReplyField.value = false
+    getSentMessages()
+    console.log(payload)
+  } catch (error) {
+    console.log(error)
+    isSending.value = false
+  }
+  
 }
-
-const isSending = ref(false)
 
 const handleSendMessage = async (payload)=>{
   isSending.value = true
@@ -206,17 +213,18 @@ const handleSendMessage = async (payload)=>{
       payload.body.length > 0 &&
       payload.to.length > 0
     ){
-      showReplyField.value = false
-      showNewMessage.value = false
       await nextTick();
       const messageElement = document.querySelector(`#message-${clickedItem.value}`);
       if (messageElement) {
         messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       await messageStore.handleSendMessage(payload)
+      isSending.value = false
+      showReplyField.value = false
+      showNewMessage.value = false
       getAllMessages(userID.value)
       getSentMessages()
-      isSending.value = false
+
     } else {
       alert('Some fields are not filled')
     }

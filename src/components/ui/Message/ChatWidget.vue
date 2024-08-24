@@ -1,6 +1,7 @@
 <script setup>
   import { ref, computed, onMounted, nextTick, watch } from "vue";
   import MoreVertIcon from "@/components/icons/moreVertIcon.vue";
+  import WhiteLoader from '@/components/ui/WhiteLoader.vue'
   import MessageFilter from "@/components/ui/Message/MessageFilter.vue"
   import AttachFile from "@/components/icons/attachFile.vue";
   import DropDownArror from "@/components/icons/DropDownArrow.vue"
