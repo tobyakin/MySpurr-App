@@ -28,6 +28,7 @@ export const useUserProfile = defineStore('profile', () => {
     last_name: '',
     business_name: '',
     phone_number: '',
+    country_code: '',
     location: '',
     industry: '',
     about_business: '',
@@ -36,10 +37,14 @@ export const useUserProfile = defineStore('profile', () => {
     business_email: '',
     company_logo: '',
     company_type: '',
-    social_media: '',
-    social_media_two: '',
+    linkedin: '',
+    twitter: '',
+    instagram: '',
+    behance: '',
+    facebook: '',
     ciso: '',
     siso: '',
+    size: ''
 
   })
   const bioInfo = ref({
@@ -122,9 +127,16 @@ export const useUserProfile = defineStore('profile', () => {
       business_service: businessDeatils.value.business_service,
       business_email: businessDeatils.value.business_email,
       company_type: businessDeatils.value.company_type,
-      social_media: businessDeatils.value.social_media,
-      social_media_two: businessDeatils.value.social_media_two
+      size: businessDeatils.value.size,
+      // linkedin: businessDeatils.value.linkedin,
+      twitter: businessDeatils.value.twitter,
+      instagram: businessDeatils.value.instagram,
+      behance: businessDeatils.value.behance,
+      facebook: businessDeatils.value.facebook,
+      phone_number: businessDeatils.value.phone_number,
+      country_code: businessDeatils.value.country_code
     }
+    console.log(payload)
 
     if (!businessDeatils.value.company_logo.startsWith('http')) {
       payload.company_logo = businessDeatils.value.company_logo;

@@ -30,13 +30,17 @@ const prefillDetails = () => {
   businessDeatils.value.industry = userProfile.user?.data?.industry || "";
   businessDeatils.value.about_business = userProfile.user?.data?.about_business || "";
   businessDeatils.value.phone_number = userProfile.user?.data?.phone_number || "";
+  businessDeatils.value.country_code = userProfile.user?.data?.country_code || "";
   businessDeatils.value.website = userProfile.user?.data?.website || "";
   businessDeatils.value.business_service = userProfile.user?.data?.business_service || "";
   businessDeatils.value.business_email = userProfile.user?.data?.business_email || "";
   businessDeatils.value.company_logo = userProfile.user?.data?.company_logo || "";
   businessDeatils.value.company_type = userProfile.user?.data?.company_type || "";
-  businessDeatils.value.social_media = userProfile.user?.data?.social_media || "";
-  businessDeatils.value.social_media_two = userProfile.user?.data?.social_media_two || "";
+  businessDeatils.value.facebook = userProfile.user?.data?.social_media?.facebook || ""
+  businessDeatils.value.behance = userProfile.user?.data?.social_media?.behance || ""
+  businessDeatils.value.instagram = userProfile.user?.data?.social_media?.instagram || ""
+  businessDeatils.value.twitter = userProfile.user?.data?.social_media?.twitter || ""
+  businessDeatils.value.size = userProfile.user?.data?.size || "";
   businessDeatils.value.siso = userProfile.user?.data?.siso || "";
   businessDeatils.value.ciso = userProfile.user?.data?.ciso || "";
 };
@@ -228,6 +232,18 @@ onMounted(async () => {
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+                >Country Code</label
+              >
+              <GlobalInput
+                inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+                v-model="businessDeatils.country_code"
+                type="text"
+              />
+            </div>
+            <div
+              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
+            >
+              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
                 >Phone Number</label
               >
               <GlobalInput
@@ -235,21 +251,6 @@ onMounted(async () => {
                 v-model="businessDeatils.phone_number"
                 type="text"
               />
-              <!-- <div class="flex w-full items-center">
-                <a-select
-                  placeholder="experience level"
-                  :bordered="false"
-                  :show-arrow="false"
-                  class="w-full !px-0"
-                  show-search
-                  v-model:value="businessDeatils.experienceLevel"
-                >
-                  <a-select-option disabled>experience level</a-select-option>
-                  <a-select-option v-for="i in Experience" :key="i.name" :value="i.name">
-                    {{ i.name }}
-                  </a-select-option>
-                </a-select>
-              </div> -->
             </div>
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
@@ -277,10 +278,10 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] pl-[13px] font-Satoshi400"
                 >Size</label
               >
-              <!-- No size field in userDetails response -->
+              <!-- {{ businessDeatils }} -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.calendlylink"
+                v-model="businessDeatils.size"
                 type="text"
               />
             </div>
@@ -294,7 +295,7 @@ onMounted(async () => {
               <!-- no linkedin -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.social_media"
+                v-model="businessDeatils.linkedin"
                 type="text"
               />
             </div>
@@ -306,7 +307,7 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><InstagramIcon class="w-[11.508px] h-[11.508px]" />Instagram
               </label>
-              <!-- no instagram -->
+              {{ userProfile.user.data.social_media.instagram }}
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.instagram"
@@ -320,10 +321,9 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><TwitterIcon class="w-[14.036px] h-[11.229px]" />X</label
               >
-              <!-- no twitter -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.social_media_two"
+                v-model="businessDeatils.twitter"
                 type="text"
               />
             </div>

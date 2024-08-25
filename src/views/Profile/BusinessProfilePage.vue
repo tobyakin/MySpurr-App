@@ -174,6 +174,10 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
   },
 });
 
+const size = computed(()=>{
+  return userDetails.value?.size?.length > 0 ? userDetails.value?.size : '-'
+})
+
 onMounted(async () => {
   try {
     await Promise.all([
@@ -298,8 +302,7 @@ onMounted(async () => {
             <div class="flex items-center justify-center lg:justify-start lg:items-center gap-10 msgTab:flex-col msgTab:gap-4 dashBreak:order-2">
               <div class="flex flex-col gap-3 msgTab:flex-row">
                 <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Size</p>
-                <!-- no size in response -->
-                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">-</h4>
+                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">{{ size }}</h4>
               </div>
               <div class="flex flex-col gap-3 msgTab:flex-row">
                 <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Email</p>
@@ -309,7 +312,7 @@ onMounted(async () => {
               </div>
               <div class="flex flex-col gap-3 msgTab:flex-row">
                 <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Phone</p>
-                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">+{{ userDetails?.country_code }}{{ userDetails?.phone_number }}</h4>
+                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">{{ userDetails?.country_code }}{{ userDetails?.phone_number }}</h4>
               </div>
               <div class="flex flex-col gap-3 msgTab:flex-row">
                 <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Category</p>
@@ -322,29 +325,29 @@ onMounted(async () => {
 
               <div class="flex justify-end gap-3 items-center dashBreak:justify-center">
                   <a
-                    v-if="userDetails?.social_media"
-                    :href="userDetails?.linkedin"
+                    v-if="userDetails?.social_media?.linkedin"
+                    :href="userDetails?.social_media?.linkedin"
                     target="_blank"
                   >
                     <LinkdeinIcon />
                   </a>
                   <a
-                    v-if="userDetails?.instagram"
-                    :href="userDetails?.instagram"
+                    v-if="userDetails?.social_media?.instagram"
+                    :href="userDetails?.social_media?.instagram"
                     target="_blank"
                   >
                     <InstagramIcon />
                   </a>
                   <a
-                    v-if="userDetails?.behance"
-                    :href="userDetails?.behance"
+                    v-if="userDetails?.social_media?.behance"
+                    :href="userDetails?.social_media?.behance"
                     target="_blank"
                   >
                     <BeIcon />
                   </a>
                   <a
-                    v-if="userDetails?.social_media_two"
-                    :href="userDetails?.twitter"
+                    v-if="userDetails?.social_media?.twitter"
+                    :href="userDetails?.social_media?.twitter"
                     target="_blank"
                   >
                     <TwitterIcon />
