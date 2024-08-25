@@ -73,33 +73,34 @@ defineProps({
         <div class="flex flex-col justify-between mt-5">
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
-              <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
-                {{ store.abbr(job?.job_info?.salary_min) }}-{{
+              
+              <p class="text-[1.102rem] font-Satoshi500 text-[#244034B2]">
+                {{ job?.job_info?.currency }} {{ store.abbr(job?.job_info?.salary_min) }}-{{
                   store.abbr(job?.job_info?.salary_max)
                 }}/
-                {{ job?.job_info?.salary_type }}
+                {{ job?.job_info?.salaray_type }}
               </p>
             </div>
             <div class="flex gap-2 items-center">
               <div
-                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[0.625rem] lg:text-[0.89rem] text-[#DA5252] items-center font-Satoshi500"
               >
                 <CalenderIcon /><span class="py-[0.25px]">{{
                   job?.job_info?.weekly_hours
                 }}</span>
               </div>
               <div
-                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[0.625rem] lg:text-[0.89rem] text-[#DA5252] items-center font-Satoshi500"
               >
                 <LocationIcon /><span class="py-[0.25px]"
-                  >{{ job?.job_info?.state }}, {{ job?.job_info?.country }}</span
+                  >{{ job?.job_info?.state_id }}, {{ job?.job_info?.country_id }}</span
                 >
               </div>
-              <div
+              <!-- <div
                 class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
               >
                 <TimerIcon /><span class="py-[0.25px]"></span>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="flex lg:flex-row flex-col gap-4 justify-between mt-2">
