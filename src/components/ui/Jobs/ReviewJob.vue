@@ -45,6 +45,11 @@
   const hasSubscriptedToPostJob = computed(() => {
     return userProfile?.user?.data?.posted_job;
   });
+
+  const standardPostAttempt = computed(()=>{
+    return userProfile?.user?.data?.job_standard_post_attempt
+  })
+
   const landingUrl = import.meta.env.VITE_DASHBOARD + `post-job?success=true`;
   
   const isFormValid = computed(() => {
@@ -88,14 +93,16 @@
       (siso.value = "");
   };
   // handlejobPayment;
-  const postJob = async () => {
+
+  const handleJobPosting = async () => {
     loading.value = true;
     try {
       const res = await jobsStore.handlePostJob();
-      if (res.status === "true") {
+      if (res.status === true) {
         loading.value = false;
-        showOption.value = false
-        showModal.value = true
+        showOption.value = false;
+        showModal.value = true;
+        console.log(showModal)
         resetForm();
       } else {
         loading.value = false;
@@ -109,6 +116,7 @@
       loading.value = false;
     }
   };
+
   const handlejobPayment = async () => {
     payLoading.value = true;
     let isHighlightedValue = isHighlighted.value === true ? 1 : 0;
@@ -121,7 +129,7 @@
         isHighlightedValue
       );
       window.location.href = res.url;
-      if (res.status === "true") {
+      if (res.status === true) {
         payLoading.value = false;
         showModal.value = true;
         resetForm();
@@ -140,9 +148,6 @@
       back();
     }
   };
-  const handleJobPosting = () => {
-    postJob();
-  };
 
   const handleSelectOption = ()=>{
     showOption.value = true
@@ -158,6 +163,7 @@
 
   onMounted(async () => {
     await userProfile.userProfile();
+
   });
 
   onMounted(() => {
@@ -277,12 +283,12 @@
                 </div>
               </div>
               <button 
-                class="w-full text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
+                class="w-full text-center py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase "
                 @click="handleJobPosting"
+                :class="standardPostAttempt >= 3? 'bg-gray-300 cursor-not-allowed': 'bg-[#43D0DF] btn-hover-1' "
                 >
                 <span v-if="!loading">standard Job Post</span>
                 <WhiteLoader v-else />
-                
               </button>
             </article>
           </div>

@@ -177,7 +177,8 @@ export const useJobsStore = defineStore('jobs', () => {
       skills: postJobsValue.value.skills,
       experience: postJobsValue.value.experience,
       qualification: postJobsValue.value.qualification,
-      currency: postJobsValue.value.currency
+      currency: postJobsValue.value.currency,
+      type: 'standard'
     };
   
     if (postJobsValue.value.questions.length > 0 && postJobsValue.value.questions.some(q => q.question.trim() !== '')) {
@@ -205,6 +206,7 @@ export const useJobsStore = defineStore('jobs', () => {
       amount: amount,
       payment_redirect_url: payment_redirect_url,
       is_highlighted: is_highlighted,
+      type: 'premium',
       job: {
         job_title: postJobsValue.value.job_title,
         country_id: ciso.value,
