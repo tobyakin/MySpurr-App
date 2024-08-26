@@ -9,6 +9,8 @@ import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 import { useTabStore } from "@/stores/tab";
+import { useNumberFomateStore } from "@/stores/numberFomate";
+let numAbbr = useNumberFomateStore();
 
 const store = useTabStore();
 
@@ -23,13 +25,15 @@ defineProps({
   <div
     class="border-[#254035AB] border-[0.735px] bg-white rounded-[7.347px] lg:p-5 p-4 lg:px-6"
   >
+  
     <div class="flex lg:flex-row flex-col gap-3 w-full">
+
       <div>
         <img
           v-if="job?.company?.logo !== null"
           class="h-[3.792rem] w-[3.792rem] rounded-full object-cover"
           :src="job?.company?.logo"
-          alt=""
+          alt="Company Logo"
         />
         <img
           v-else
@@ -73,9 +77,9 @@ defineProps({
         <div class="flex flex-col justify-between mt-5">
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
-              
+              <!-- {{ job }} -->
               <p class="text-[1.102rem] font-Satoshi500 text-[#244034B2]">
-                {{ job?.job_info?.currency }} {{ store.abbr(job?.job_info?.salary_min) }}-{{
+                <span v-html="numAbbr.formatCurrency(job?.job_info?.currency)"></span> {{ store.abbr(job?.job_info?.salary_min) }}-{{
                   store.abbr(job?.job_info?.salary_max)
                 }}/
                 {{ job?.job_info?.salaray_type }}
@@ -86,7 +90,8 @@ defineProps({
                 class="flex gap-1 text-[0.625rem] lg:text-[0.89rem] text-[#DA5252] items-center font-Satoshi500"
               >
                 <CalenderIcon /><span class="py-[0.25px]">{{
-                  job?.job_info?.weekly_hours
+                  // job?.job_info?.weekly_hours
+                  job?.job_info?.created_at
                 }}</span>
               </div>
               <div
@@ -108,7 +113,7 @@ defineProps({
               <div
                 v-for="skill in job?.job_info?.skills"
                 :key="skill"
-                class="bg-[#F2F3EF] font-Satoshi500 text-[10px] lg:text-[12.135px] uppercase p-[4px] lg:px-6 px-4 text-[#64665D] rounded-full"
+                class="bg-[#F2F3EF] font-Satoshi500 text-[0.625rem] lg:text-[0.758rem] uppercase p-[4px] lg:px-6 px-4 text-[#64665D] rounded-full"
               >
                 {{ skill.name }}
               </div>
@@ -126,7 +131,7 @@ defineProps({
                 </button>
               </div>
               <button
-                class="bg-[#43D0DF] font-Satoshi500 capitalize text-[10.2px] p-3 px-12 text-white rounded-full"
+                class="bg-[#43D0DF] font-Satoshi500 capitalize text-[0.638rem] p-3 px-12 text-white rounded-full"
               >
                 {{ job?.status }}
               </button>
