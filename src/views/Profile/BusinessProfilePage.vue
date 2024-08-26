@@ -45,7 +45,7 @@ onMounted(async () => {
   source =
   import.meta.env.VITE_LANDING_PAGE +
     `business/` +
-    `${userDetails.value?.business_name}/` +
+    `${userDetails.value?.business_name}/`.toLowerCase().replace(/ /g, '-') +
     userDetails.value?.uniqueId
   return accountType;
 });
@@ -312,7 +312,7 @@ onMounted(async () => {
               </div>
               <div class="flex flex-col gap-3 msgTab:flex-row">
                 <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Phone</p>
-                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">{{ userDetails?.country_code }}{{ userDetails?.phone_number }}</h4>
+                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">+{{ userDetails?.country_code }}{{ userDetails?.phone_number }}</h4>
               </div>
               <div class="flex flex-col gap-3 msgTab:flex-row">
                 <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Category</p>
