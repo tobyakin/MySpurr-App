@@ -9,6 +9,7 @@
   import { useRouter } from "vue-router";
   import checkIcon from "@/components/icons/checkIcon.vue"
   import VerifyIcon from "@/components/icons/verifyIcon.vue";
+  import cancelIon from "@/components/icons/cancelIcon.vue"
 
 
   let numAbbr = useNumberFomateStore();
@@ -147,6 +148,10 @@
     showOption.value = true
   }
 
+  const closeOptionModal = ()=>{
+    showOption.value = false
+  }
+
   const goToJobList = () => {
     router.push({ name: "job-lists" });
   };
@@ -216,13 +221,14 @@
     <div>
       <CenteredModalLarge v-if="showOption"
         >
-        <div class="text-center rounded-[17.104px] lg:p-10 p-6">
+        <div class="text-center rounded-[17.104px] p-6">
           <div class="w-[90%] mx-auto mb-[2.54rem]">
+            <cancelIon class="ml-auto w-[40px] h-[20px] hover:scale-110 transitionItem" @click="closeOptionModal"/>
             <h3 class="font-Satoshi700 text-[1.78rem] leading-[2.78rem] text-[#01181B]">Choose Your Job Post Option</h3>
             <p class="text-[#00474F] font-Satoshi400 text-[1.37rem] leading-[1.6rem]">Unlock premium features and find the best talent faster with our paid option or opt for our free standard post.</p>
           </div>
           <div class="flex justify-center gap-[1.28rem] mb-[2.66rem]">
-            <article class="bg-[#00474F] rounded-[1rem] p-[1.5rem]">
+            <article class="w-[50%] bg-[#00474F] rounded-[1rem] p-[1.5rem]">
               <h3 class="text-[#FFF] font-Satoshi700 text-[1rem] leading-[1.5rem] text-left">Premium Job Post <br>(15% Fee)</h3>
               <div class="w-full mt-[1rem] mb-[1.5rem] text-left flex flex-col gap-[0.7rem]">
                 <div class="flex items-center w-full gap-[0.7rem]">
@@ -250,7 +256,7 @@
               <WhiteLoader v-else />
             </button>
             </article>
-            <article class="bg-[#00474F] rounded-[1rem] p-[1.5rem]">
+            <article class="w-[50%] bg-[#00474F] rounded-[1rem] p-[1.5rem]">
               <h3 class="text-[#FFF] font-Satoshi700 text-[1rem] leading-[1.5rem] text-left">Standard Job Post <br>(Free)</h3>
               <div class="w-full mt-[1rem] mb-[1.5rem] text-left flex flex-col gap-[0.7rem]">
                 <div class="flex items-center w-full gap-[0.7rem]">
