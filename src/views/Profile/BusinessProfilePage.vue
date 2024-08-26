@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, defineAsyncComponent } from "vue";
+import { ref, computed, onMounted, defineAsyncComponent, watch } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import BusinessJobCard from "@/components/ui/Jobs/Business/JobCard.vue";
 import { useJobsStore } from "@/stores/jobs";
@@ -17,18 +17,13 @@ import EditModal from "@/components/ui/ProfileEdit/EditModal.vue";
 import ProfilePicture from "@/components/ui/ProfileEdit/Forms/Business/ProfilePicture.vue";
 import HeadlineBio from "@/components/ui/ProfileEdit/Forms/Business/HeadlineBio.vue";
 import OverviewPage from "@/components/ui/ProfileEdit/Forms/Business/OverviewPage.vue";
-import SkillsPage from "@/components/ui/ProfileEdit/Forms/SkillsPage.vue";
-import EducationPage from "@/components/ui/ProfileEdit/Forms/EducationPage.vue";
-import WorkExperiencePage from "@/components/ui/ProfileEdit/Forms/WorkExperience.vue";
-import PortfolioPage from "@/components/ui/ProfileEdit/Forms/PortfolioPage.vue";
-import CertificatePage from "@/components/ui/ProfileEdit/Forms/CertificatePage.vue";
 import { storeToRefs } from "pinia";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
+import Arrow from "@/components/icons/paginationArrow.vue"
 
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
 import { useQuery } from "vue-query";
-import { useTabStore } from "@/stores/tab";
 import { useStore } from "@/stores/user";
 
 const userDetails = computed(() => {
@@ -49,9 +44,8 @@ onMounted(async () => {
     userDetails.value?.uniqueId
   return accountType;
 });
-const tabStore = useTabStore();
 const JobsStore = useJobsStore();
-const { Job, MyJob } = storeToRefs(JobsStore);
+const { MyJob } = storeToRefs(JobsStore);
 let loadMyjobs = ref(false);
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 
@@ -82,6 +76,46 @@ const getMyJobs = async () => {
   }
 };
 
+// Pagination Function
+
+const currentPage = ref(1);
+const pagination = computed(() => MyJob.value?.pagination || {});
+const myJobData = computed(() => MyJob.value?.data || []);
+const paginatedJob = computed(() => {
+  const perPage = pagination.value.per_page;
+  const startIndex = (currentPage.value - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  return myJobData.value.slice(startIndex, endIndex);
+});
+const totalPages = computed(() => Math.ceil(pagination.value.last_page));
+
+// Function to change the current page
+const setPage = (page) => {
+  if (page >= 1 && page <= (pagination.value.last_page || 1)) {
+    currentPage.value = page;
+  }
+};
+
+const displayedPageNumbers = computed(() => {
+  const maxDisplayedPages = 5;
+  const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1);
+  const endPage = Math.min(startPage + maxDisplayedPages - 1, totalPages.value);
+  const pageNumbers = [];
+
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
+  return pageNumbers;
+});
+
+// You can also watch the currentPage to react to page changes
+watch(currentPage, async (newPage) => {
+  console.log("Current Page:", newPage);
+  await talentsStore.allTalents(newPage);
+});
+
+// Copy Function
 const { copy, copied, isSupported } = useClipboard({ source });
 
 const HandleToggleEditImageModal = () => {
@@ -104,37 +138,9 @@ const HandleToggleEditOverviewModal = () => {
   formTitle.value = "Overview";
   view = OverviewPage;
 };
-const HandleToggleSkillsPageModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Skills";
-  view = SkillsPage;
-};
-const HandleToggleEducationPageModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Education";
-  view = EducationPage;
-};
-const HandleToggleWorkExperiencePageModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Work experience";
-  view = WorkExperiencePage;
-};
-const HandleTogglePortfolioModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Portfolio";
-  view = PortfolioPage;
-};
-const HandleToggleCertificateModal = () => {
-  showModal.value = !showModal.value;
-  formTitle.value = "Certificate";
-  view = CertificatePage;
-};
 const closeModal = () => {
   showModal.value = !showModal.value;
   view = null;
-};
-const redirectToSinglePortfolio = (id) => {
-  router.push({ name: "edit-portfolio", params: { id: id } });
 };
 const redirectToMessage = () => {
   router.push({ name: "messages"});
@@ -213,13 +219,6 @@ onMounted(async () => {
                 inputClasses="!h-[89.536px] !w-[89.536px]"
                 class=""
               />
-              <!-- <EditProfileAvater
-              v-if="accountType === 'business'"
-              :imageUrl="userDetails?.company_logo"
-              @toggleModal="HandleToggleEditImageModal"
-              inputClasses="!h-[89.536px] !w-[89.536px]"
-              class=""
-            /> -->
               <div class="lg:text-left text-center">
                 <p
                   class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]"
@@ -238,16 +237,6 @@ onMounted(async () => {
                   >
                 </p>
                 <div class="flex items-center lg:justify-start justify-center gap-2">
-                  <!-- <p
-                    v-if="accountType === 'talent'"
-                    class="lg:text-[13.625px] text-[14px] text-[#244034] font-Satoshi500"
-                  >
-                    ${{ tabStore.abbr(userDetails?.rate) }}/hr
-                  </p>
-                  <div
-                    v-if="accountType === 'talent'"
-                    class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"
-                  ></div> -->
                   <p
                     class="text-[#244034] flex gap-3 lg:text-[13.625px] text-[14px] font-Satoshi500"
                   >
@@ -266,29 +255,6 @@ onMounted(async () => {
             <div class="flex flex-col items-center lg:justify-center lg:items-end gap-6">
               
               <div class="flex items-center gap-5">
-                <!-- <div
-                  v-if="isSupported && accountType === 'talent'"
-                  class="bg-[#EDF0B8] p-2 flex relative overflow-hidden pr-6 rounded-[5.982px] mt-0"
-                >
-                  <a
-                    role="button"
-                    target="_blank"
-                    :href="
-                      `https://www.myspurr.net/` +
-                      userDetails?.first_name +
-                      `/` +
-                      userDetails?.uniqueId
-                    "
-                    @click="copyUrl()"
-                    class="text-[10.476px] font-Satoshi500 text-[#01272C]"
-                    >myspurr.net/{{ userDetails?.first_name }}</a
-                  >
-                  <div
-                    class="bg-[#2C4C50] p-1 absolute right-1 top-[6px] flex items-start rounded-full"
-                  >
-                    <LinkIcon class="h-[7.596px] w-[7.px6px]" />
-                  </div>
-                </div> -->
                 <button @click="HandleToggleEditHeadlineBioModal">
                   <EditIcon class="text-[#297F88]" />
                 </button>
@@ -382,12 +348,6 @@ onMounted(async () => {
               <p>
                 {{ userDetails?.about_business }}
               </p>
-              <!-- <p class="mt-4"></p> -->
-              <!-- .slice(0, 10) -->
-              <!--               
- -->
-              <!--               {{ talents?.top_skills.length - 10 }}+
- -->
             </div>
             <div
               v-if="accountType === 'business'"
@@ -405,170 +365,8 @@ onMounted(async () => {
             >
             
             </div>
-
-            <!-- <div
-              v-if="accountType === 'talent'"
-              class="flex flex-row items-center justify-between gap-[96px] !mb-4 mt-6"
-            >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Skills</p>
-              <button @click="HandleToggleSkillsPageModal">
-                <EditIcon class="text-[#297F88]" />
-              </button>
-            </div>
- -->
-            <!-- <div v-if="accountType === 'talent'" class="flex gap-4 flex-wrap">
-              <div
-                v-for="item in userDetails?.top_skills"
-                :key="item.name"
-                class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[17px] text-center font-Satoshi400 text-[#276A4D]"
-              >
-                {{ item.name }}
-              </div>
-
-              <div
-                class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
-              ></div>
-            </div> -->
-            <!-- <div
-              v-if="accountType === 'talent'"
-              class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
-            >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Education</p>
-              <button @click="HandleToggleEducationPageModal">
-                <EditIcon class="text-[#297F88]" />
-              </button>
-            </div> -->
-
-            <!-- <EducationDetails
-              v-if="accountType === 'talent'"
-              :items="userDetails?.education"
-            />
-            <div
-              v-if="accountType === 'talent'"
-              class="flex flex-row items-center justify-between gap-[16px] !mb-12 mt-8"
-            >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Work Experience</p>
-              <button @click="HandleToggleWorkExperiencePageModal">
-                <EditIcon class="text-[#297F88]" />
-              </button>
-            </div>
-
-            <WorkExperience
-              v-if="accountType === 'talent'"
-              :items="userDetails?.employment"
-            />
-            <div
-              v-if="accountType === 'talent'"
-              class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
-            >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
-
-              <button @click="HandleTogglePortfolioModal">
-                <EditIcon class="text-[#297F88]" />
-              </button>
-            </div>
-            <div
-              v-if="!userDetails?.portfolio && accountType === 'talent'"
-              class="flex flex-col w-full justify-center items-center"
-            >
-              <p class="text-[15px] text-[#000] font-Satoshi400 text-center !mb-12 mt-8">
-                Uploaded portfolio can be viewed here
-              </p>
-            </div>
- -->
-            <!-- <div
-              v-if="userDetails?.portfolio"
-              class="flex flex-row gap-4 w-full overflow-hidden cursor-move mt-6 hide-scrollbar overflow-x-auto"
-            >
-              <img
-                @click="redirectToSinglePortfolio(img.id)"
-                role="button"
-                v-for="img in userDetails?.portfolio"
-                :key="img"
-                :src="img.featured_image"
-                class="h-[214.078px] flex flex-col w-auto rounded-lg"
-                alt=""
-              />
-            </div> -->
-
-            <!-- <p class="text-[28px] text-[#000] font-Satoshi500 hidden !mb-12 mt-8">
-              Reviews
-            </p>
-            <div class="flex flex-col hidden gap-4">
-              <div
-                v-for="i in 3"
-                :key="i"
-                class="border-[#2440341A] border-[1.265px] rounded-[9.732px] p-6"
-              >
-                <p
-                  class="text-[#001E00] font-Satoshi400 text-[16px] mb-4 tracking-[0.6px]"
-                >
-                  Find B2B Partners for UK and US Online Tutoring Company
-                </p>
-                <div class="flex items-center gap-1 font-Satoshi400 mb-2">
-                  <RateStar v-for="i in 5" :key="i" />
-                  <span class="text-[#001E00] text-[14px]">5.00 </span
-                  ><span class="text-[#5E6D55] text-[12px]"
-                    >Dec 15, 2022 - Feb 2, 2023</span
-                  >
-                </div>
-                <p
-                  class="text-[#001E00] font-Satoshi400 italic text-[13px] mb-4 tracking-[0.6px]"
-                >
-                  "Great lead generation for education companies"
-                </p>
-                <p class="text-[#5E6D55] font-Satoshi400 text-[14px]">Private earnings</p>
-              </div>
-            </div> -->
           </div>
           <div class="lg:w-[30%] p-4">
-            
-            <!-- <div
-              v-if="accountType === 'talent'"
-              class="flex flex-row items-center justify-between gap-[26px]"
-            >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p>
-              <button @click="HandleToggleCertificateModal">
-                <EditIcon class="text-[#297F88]" />
-              </button>
-            </div> -->
-
-            <!-- <div
-              v-if="accountType === 'talent'"
-              class="bg-[#E9FAFB] p-6 border-[#F6F6F6] border-[1px] flex flex-col gap-10 mt-4 rounded-[15px]"
-            >
-              <div
-                v-for="i in userDetails?.certificate"
-                :key="i"
-                class="flex items-center gap-4"
-              >
-                <CertificateBadge />
-                <div class="flex flex-col gap-0 h-auto">
-                  <a
-                    target="_blank"
-                    :href="i.certificate_link"
-                    class="text-[15px] text-[#000] font-Satoshi500 hover:text-brand overflow-hidden"
-                  >
-                    {{ i.title }}
-                  </a>
-                  <p class="text-[14px] leading-[20px] text-[#31795A] font-Satoshi500">
-                    {{ i.institute }}
-                  </p>
-                  <div class="flex items-center gap-2">
-                    <p class="font-Satoshi500 text-[12.9px] text-[#000000]">
-                      {{ i.certificate_year }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="">
-                <button
-                  class="btn-brand !border-none !w-full !py-3 !px-2 !text-[#FFFFFF] text-center !bg-[#31795A]"
-                >
-                  <span class="text-[12.067px]">Download CV</span>
-                </button>
-              </div>
-            </div> -->
             <p
               :class="accountType === 'talent' ? 'mt-16' : ''"
               class="text-[1.67rem] text-[#000] font-Satoshi500"
@@ -598,14 +396,41 @@ onMounted(async () => {
           </div>
           <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
             <ShortLoader v-if="loadMyjobs" />
-            <div v-else class="flex flex-col !gap-[2.31rem] overflow-x-auto hide-scrollbar my-8 w-full">
-                <BusinessJobCard
-                  class="w-full"
-                  v-for="item in MyJob?.data"
-                  :key="item"
-                  :job="item"
-                />
-              </div>
+            <div v-else class="w-full">
+              <div class="flex flex-col !gap-[2.31rem] my-8 w-full">
+                  <BusinessJobCard
+                    class="w-full"
+                    v-for="item in paginatedJob"
+                    :key="item"
+                    :job="item"
+                  />
+                </div>
+                <div class="flex w-[60%] flex-row">
+                  <button
+                    @click="setPage(currentPage - 1)"
+                    class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                  >
+                    <Arrow class="rotate-[180deg]"/>
+                  </button>
+                  <button
+                    v-for="pageNumber in displayedPageNumbers"
+                    :key="pageNumber"
+                    :class="[
+                      'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
+                      pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
+                    ]"
+                    @click="setPage(pageNumber)"
+                  >
+                    {{ pageNumber }}
+                  </button>
+                  <button
+                    @click="setPage(currentPage + 1)"
+                    class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                  >
+                    <Arrow />
+                  </button>
+                </div>
+            </div >
           </div>
         </div>
       </div>
