@@ -102,7 +102,6 @@
         loading.value = false;
         showOption.value = false;
         showModal.value = true;
-        console.log(showModal)
         resetForm();
       } else {
         loading.value = false;

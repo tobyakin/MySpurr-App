@@ -205,7 +205,6 @@ export const useJobsStore = defineStore('jobs', () => {
       email: email,
       amount: amount,
       payment_redirect_url: payment_redirect_url,
-      is_highlighted: is_highlighted,
       type: 'premium',
       job: {
         job_title: postJobsValue.value.job_title,
