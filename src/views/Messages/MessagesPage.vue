@@ -56,6 +56,7 @@ const userID = computed(() => {
   return profileStore.user.data.id;
 });
 const chatContainer = ref(null);
+const isSending = ref(false)
 
 const scrollToBottom = async () => {
   await nextTick();
@@ -82,8 +83,8 @@ const getMessageID = ()=>{
 }
 
 
-function filterAll(){
-  filterSection.value = 'all'
+function filterPrimary(){
+  filterSection.value = 'primary'
   getFilteredMessages()
   noMessageNotification.value = 'messages'
   detailLoaded.value = false
@@ -98,28 +99,19 @@ function filterSent(){
   messageIndex.value = -1
 }
 
-function filterRead(){
-  filterSection.value = 'read'
+function filterOthers(){
+  filterSection.value = 'others'
   getFilteredMessages()
-  noMessageNotification.value = 'messages'
-  detailLoaded.value = false
-}
-
-function filterUnread(){
-  filterSection.value = 'unread'
-  getFilteredMessages()
-  noMessageNotification.value = 'unread message'
+  noMessageNotification.value = 'featured message'
   detailLoaded.value = false
   messageIndex.value = -1
 }
 
 function getFilteredMessages(){
-  if(filterSection.value === 'all'){
+  if(filterSection.value === 'primary'){
     displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userID.value)
-  } else if(filterSection.value === 'read'){
-    displayedMessages.value = recievedMessages.value.filter(message=> message.status === 'read')
-  } else if(filterSection.value === 'unread'){
-    displayedMessages.value = recievedMessages.value.filter(message=> message.status === 'unread')
+  } else if(filterSection.value === 'others'){
+    displayedMessages.value = []
   } else if (filterSection.value === 'sent'){
     displayedMessages.value = sentMessages.value.data
   }
@@ -176,7 +168,6 @@ const getMessageDetail = async (message_id)=>{
 const handleMessageClicked = async (payload)=>{
   clickedItem.value = payload.id
   messageIndex.value = payload.index
-  console.log(clickedItem.value)
   const screenWidth = window.innerWidth
   const maxWidth = 800
 
@@ -197,16 +188,21 @@ const handleMessageClicked = async (payload)=>{
 }
 
 const handleReplyMessage = async (payload)=>{
-  await messageStore.handleReplyMessage(payload)
-  getAllMessages(userID.value)
-  await getMessageDetail(payload.message_id)
-  messageDetails.value = messageDetail.value.data
-  showReplyField.value = false
-  getSentMessages()
-  console.log(payload)
+  isSending.value = false
+  try {
+    await messageStore.handleReplyMessage(payload)
+    getAllMessages(userID.value)
+    await getMessageDetail(payload.message_id)
+    isSending.value = false
+    messageDetails.value = messageDetail.value.data
+    showReplyField.value = false
+    getSentMessages()
+  } catch (error) {
+    console.log(error)
+    isSending.value = false
+  }
+  
 }
-
-const isSending = ref(false)
 
 const handleSendMessage = async (payload)=>{
   isSending.value = true
@@ -215,17 +211,18 @@ const handleSendMessage = async (payload)=>{
       payload.body.length > 0 &&
       payload.to.length > 0
     ){
-      showReplyField.value = false
-      showNewMessage.value = false
       await nextTick();
       const messageElement = document.querySelector(`#message-${clickedItem.value}`);
       if (messageElement) {
         messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       await messageStore.handleSendMessage(payload)
+      isSending.value = false
+      showReplyField.value = false
+      showNewMessage.value = false
       getAllMessages(userID.value)
       getSentMessages()
-      isSending.value = false
+
     } else {
       alert('Some fields are not filled')
     }
@@ -238,7 +235,6 @@ const handleSendMessage = async (payload)=>{
 const handleNavRight = async ()=>{
   messageIndex.value += 1
   emit('next', messageIndex.value)
-  console.log(messageIndex.value)
     await nextTick();
     const messageElement = messagesContainer.value.querySelector(`.index-${messageIndex.value}`);
     if (messageElement) {
@@ -258,7 +254,6 @@ const handleNavLeft = async ()=>{
     showNewMessage.value = false
   }
   messageIndex.value -= 1
-  console.log(messageIndex.value)
     await nextTick();
     const messageElement = messagesContainer.value.querySelector(`.index-${messageIndex.value}`);
     if (messageElement) {
@@ -304,14 +299,12 @@ function handleReply() {
 }
 
 function handleAttachment(){
-  console.log('yes')
   scrollToBottom()
 }
 
 function handleDelete(){
   const screenWidth = window.innerWidth
   const maxWidth = 800
-  console.log('delete')
   if(showReplyField.value === true){
     showReplyField.value = false
   }
@@ -368,11 +361,6 @@ onUnmounted(() => {
 <template>
   <section class="message msgMob:hidden">
     <DashboardLayout height="100vh">
-      <!-- <div
-        class="container flex flex-col lg:gap-[59px] gap-[34px] p-0 lg:p-0 lg:py-10 py-6 mb-10"
-      >
-        <ComingSoon title="Messages" />
-      </div> -->
       <div class="w-full h-full grid place-items-center" v-if="pageLoading">
         <ShortLoader />
       </div>
@@ -391,7 +379,10 @@ onUnmounted(() => {
                   <h3 class="font-Satoshi500 text-[#000] text-[0.90313rem] leading-[1.50519rem]">Inbox</h3>
                   <MoreVertIcon class="rotate-90"/>
                 </div>
-                <MessageFilter @all="filterAll" @read="filterRead" @unread="filterUnread" @sent="filterSent"/>
+                <MessageFilter
+                 @primary="filterPrimary" @others="filterOthers" 
+                 @sent="filterSent" 
+                 :filter="filterSection"/>
               </div>
               <div id="messagesContainer" class=" overflow-y-auto scroller pb-4 flex-1" ref="messagesContainer">
                   <div v-if="messageLength">
