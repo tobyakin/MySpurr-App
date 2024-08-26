@@ -117,6 +117,22 @@ export const getMail = async (mail_input) => {
     }
 }
 
+export const editMessage = async (message_id, payload) => {
+    const token = await getToken()
+    try {
+        let res = await axios.patch(`v1/message/edit/${message_id}`, payload, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+        catchAxiosSuccess(res)
+        return res.data
+    } catch (error) {
+        catchAxiosError(error)
+        console.log(error)
+    }
+}
+
 
 
 

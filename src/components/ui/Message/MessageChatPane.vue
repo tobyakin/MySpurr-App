@@ -9,6 +9,11 @@ import EditIcon from "@/components/icons/pencilIcon.vue"
 import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
+import { useMessageStore } from "@/stores/message";
+import { storeToRefs } from "pinia";
+
+const messageStore = useMessageStore();
+const { editMessageValue } = storeToRefs(messageStore)
 const userInfo = ref([])
 let profile = useUserProfile();
 let store = useStore();
@@ -209,6 +214,8 @@ function handleEditMessage(e) {
     console.dir(targetInput);
 }
 
+const editingMessage = ref(false)
+
 function handleCancelEdit(e){
     const targetElement = e.currentTarget;
     const mainContainer = targetElement.parentElement.parentElement
@@ -219,15 +226,29 @@ function handleCancelEdit(e){
     mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
 }
 
-function handleSaveEdit(e){
-     const targetElement = e.currentTarget;
+const handleSaveEdit = async (e, chat)=>{
+    editingMessage.value = true
+    const targetElement = e.currentTarget;
     const mainContainer = targetElement.parentElement.parentElement
-    const targetInput = targetElement.parentElement.previousElementSibling.querySelector('.message');  
-    targetInput.setAttribute('aria-readonly', 'true');
-    targetInput.contentEditable = 'false';
-    targetInput.blur();
-    mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
-    mainContainer.querySelector('.editedNotifier').classList.add('!block')
+    const targetInput = targetElement.parentElement.previousElementSibling.querySelector('.message'); 
+    console.log(chat)
+    // let payload = {
+    //     "subject": chat?.subject || '',
+    //     "body": targetInput.textContent
+    // }
+    editMessageValue.value.subject = chat?.subject || "hello"
+    editMessageValue.value.body = targetInput.textContent
+    try {
+        await messageStore.handleEditMessage(chat.id)
+        editingMessage.value = false
+        targetInput.setAttribute('aria-readonly', 'true');
+        targetInput.contentEditable = 'false';
+        targetInput.blur();
+        mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+        mainContainer.querySelector('.editedNotifier').classList.add('!block')
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 </script>
@@ -320,7 +341,7 @@ function handleSaveEdit(e){
                             @click="handleCancelEdit"
                              class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>
                             <button
-                            @click="handleSaveEdit"
+                            @click="handleSaveEdit($event, chat)"
                             class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Submit</button>
                         </div>
                     </div>
@@ -354,6 +375,7 @@ function handleSaveEdit(e){
             </div>
             <div class="replies mb-4" v-if="chat.replies && chat.replies.length > 0">
                 <div class="mb-6" v-for="reply in chat.replies" :key="reply.id">
+                    {{ reply }}
                     <div class="chatPage">
                     <div class=" head flex items-center justify-between mb-4">
                         <div class="flex items-center gap-[0.5rem]">
@@ -404,7 +426,7 @@ function handleSaveEdit(e){
                                 @click="handleCancelEdit"
                                 class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>
                                 <button
-                                @click="handleSaveEdit"
+                                @click="handleSaveEdit($event, reply)"
                                 class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Submit</button>
                             </div>
                         </div>
