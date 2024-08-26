@@ -12,25 +12,52 @@
       <a class="text-[#244034] text-[15.259px] font-normal">Action </a>
     </div>
     <ShortLoader v-if="isLoading" />
-    <div v-else class="mt-14 flex flex-col gap-8">
-      <JobsCard
-        class="min-w-[95%] lg:min-w-[45%]"
-        v-for="item in MyJob?.data"
-        :key="item"
-        :job="item"
-      />
+    <div v-else>
+      <div class="mt-14 flex flex-col gap-8">
+        <JobsCard
+          class="min-w-[95%] lg:min-w-[45%]"
+          v-for="item in paginatedJob"
+          :key="item"
+          :job="item"
+        />
+      </div>
+      <div class="mt-12 flex w-[60%] flex-row justify-center mx-auto">
+          <button
+            @click="setPage(currentPage - 1)"
+            class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+          >
+            <Arrow class="rotate-[180deg]"/>
+          </button>
+          <button
+            v-for="pageNumber in displayedPageNumbers"
+            :key="pageNumber"
+            :class="[
+              'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
+              pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
+            ]"
+            @click="setPage(pageNumber)"
+          >
+            {{ pageNumber }}
+          </button>
+          <button
+            @click="setPage(currentPage + 1)"
+            class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+          >
+            <Arrow />
+          </button>
+      </div>
     </div>
   </div>
 </template>
 <script setup>
-import { defineAsyncComponent, ref, computed, onMounted, reactive, watch } from "vue";
+import {ref, computed, watch } from "vue";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
-
+import Arrow from "@/components/icons/paginationArrow.vue"
 import { useQuery } from "vue-query";
 import JobsCard from "./JobsCard.vue";
 import { storeToRefs } from "pinia";
-
 import { useJobsStore } from "@/stores/jobs";
+
 const jobsStore = useJobsStore();
 const { MyJob } = storeToRefs(jobsStore);
 const getMyJobs = async () => {
@@ -51,7 +78,41 @@ const { isLoading } = useQuery(["myJobs"], getMyJobs, {
   },
 });
 
-// onMounted(async () => {
-//   fetchData();
-// });
+// Pagination Function
+
+const currentPage = ref(1);
+const pagination = computed(() => MyJob.value?.pagination || {});
+const myJobData = computed(() => MyJob.value?.data || []);
+const paginatedJob = computed(() => {
+  const perPage = pagination.value.per_page;
+  const startIndex = (currentPage.value - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  return myJobData.value.slice(startIndex, endIndex);
+});
+const totalPages = computed(() => Math.ceil(pagination.value.last_page));
+
+// Function to change the current page
+const setPage = (page) => {
+  if (page >= 1 && page <= (pagination.value.last_page || 1)) {
+    currentPage.value = page;
+  }
+};
+
+const displayedPageNumbers = computed(() => {
+  const maxDisplayedPages = 5;
+  const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1);
+  const endPage = Math.min(startPage + maxDisplayedPages - 1, totalPages.value);
+  const pageNumbers = [];
+
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
+  return pageNumbers;
+});
+
+// You can also watch the currentPage to react to page changes
+watch(currentPage, async (newPage) => {
+  await talentsStore.allTalents(newPage);
+});
 </script>
