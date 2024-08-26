@@ -168,7 +168,6 @@ const getMessageDetail = async (message_id)=>{
 const handleMessageClicked = async (payload)=>{
   clickedItem.value = payload.id
   messageIndex.value = payload.index
-  console.log(clickedItem.value)
   const screenWidth = window.innerWidth
   const maxWidth = 800
 
@@ -198,7 +197,6 @@ const handleReplyMessage = async (payload)=>{
     messageDetails.value = messageDetail.value.data
     showReplyField.value = false
     getSentMessages()
-    console.log(payload)
   } catch (error) {
     console.log(error)
     isSending.value = false
@@ -237,7 +235,6 @@ const handleSendMessage = async (payload)=>{
 const handleNavRight = async ()=>{
   messageIndex.value += 1
   emit('next', messageIndex.value)
-  console.log(messageIndex.value)
     await nextTick();
     const messageElement = messagesContainer.value.querySelector(`.index-${messageIndex.value}`);
     if (messageElement) {
@@ -257,7 +254,6 @@ const handleNavLeft = async ()=>{
     showNewMessage.value = false
   }
   messageIndex.value -= 1
-  console.log(messageIndex.value)
     await nextTick();
     const messageElement = messagesContainer.value.querySelector(`.index-${messageIndex.value}`);
     if (messageElement) {
@@ -303,14 +299,12 @@ function handleReply() {
 }
 
 function handleAttachment(){
-  console.log('yes')
   scrollToBottom()
 }
 
 function handleDelete(){
   const screenWidth = window.innerWidth
   const maxWidth = 800
-  console.log('delete')
   if(showReplyField.value === true){
     showReplyField.value = false
   }
