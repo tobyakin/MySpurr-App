@@ -61,7 +61,7 @@ function handleReply() {
   })
 
   emit('reply', payload.value)
-  textArea.value.value = ''
+  // textArea.value.value = ''
 }
 
 function handleSend() {
@@ -76,10 +76,9 @@ function handleSend() {
   })
 
   emit('send', payload.value)
-  textArea.value.value = ''
-  mailSubject.value = ''
-  attachedFiles.value = []
-   recieverMail.value = []
+  // if(props.isSending){
+  //   revertToDefault()
+  // }
 }
 
 function revertToDefault() {
@@ -170,8 +169,8 @@ onMounted(() => {
   if (mailInput.value) {
     mailInput.value.addEventListener('keydown', handleEnterMail)
   }
-  if (props.chat?.sender?.email) {
-    recieverMail.value.push(props.chat?.sender?.email)
+  if (props.chat?.receiver?.email) {
+    recieverMail.value.push(props.chat?.receiver?.email)
   } else {
     console.log('yes')
   }
@@ -327,13 +326,16 @@ onUnmounted(() => {
           <button
             class="bg-[#3F634D] rounded-[10.38575rem] px-[1.3rem] py-[0.3rem] font-Satoshi500 text-[#fff] text-[0.803rem] leading-[1.7rem]"
             @click="handleReply"
+            :class="isSending? 'px-[2rem] py-[1rem]': ''"
             v-if="!sendButton"
           >
-            Reply
+          <span v-if="!isSending">Reply</span>
+          <WhiteLoader v-else />
           </button>
           <button
             class="bg-[#3F634D] rounded-[10.38575rem] px-[1.3rem] py-[0.3rem] font-Satoshi500 text-[#fff] text-[0.803rem]"
             @click="handleSend"
+            :class="isSending? 'px-[2rem] py-[1rem]': ''"
             v-if="sendButton"
           >
             <span v-if="!isSending">Send</span>

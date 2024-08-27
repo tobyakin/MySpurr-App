@@ -24,7 +24,7 @@
         <div class="overflow-y-auto scroller flex-1 w-full">
             <MessageInputField class="my-[1.66rem]" notShow="true" :chat="chat" :sendButton="true" @send="handleSend" @change="handleChange"
             :class="[uploadedFileDetails?.length < 1? 'h-[85%]': 'h-[82%]', isWidget? '!h-[85%]': '']"
-            :isSending="isSendng"
+            :isSending="props.isSending"
             @delete="handleDelete"
             />
         </div>
@@ -47,6 +47,7 @@
         return userInfo.value
     }
     const emit = defineEmits(['send', 'change', 'delete', 'back'])
+    const props = defineProps(['isSending'])
 
     function handleBack(){
         emit('back')
