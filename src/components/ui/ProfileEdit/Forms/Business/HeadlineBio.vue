@@ -279,6 +279,7 @@ onMounted(async () => {
                 >Size</label
               >
               <!-- {{ businessDeatils }} -->
+                {{ userProfile.user?.data?.social_media }}
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.size"
@@ -292,7 +293,6 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
                 ><LinkdeinIcon class="w-[11.414px] h-[10.78px]" />LinkedIn</label
               >
-              <!-- no linkedin -->
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.linkedin"

@@ -288,7 +288,6 @@ onMounted(async () => {
               </div>
             </div>
             <div class="flex flex-col justify-end dashBreak:justify-center gap-4">
-
               <div class="flex justify-end gap-3 items-center dashBreak:justify-center">
                   <a
                     v-if="userDetails?.social_media?.linkedin"
