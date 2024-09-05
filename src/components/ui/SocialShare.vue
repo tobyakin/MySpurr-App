@@ -1,4 +1,5 @@
 <template>
+  {{ event.slug }}
     <div class="flex items-center gap-[0.7rem] msgMob:gap-[0.5rem]">
         <a :href="`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`" target="_blank">
         <facebookIcon class="hover:text-[#2F929C] transitionItem"/>
@@ -24,7 +25,7 @@
    import { useHead } from '@vueuse/head';
   import { computed } from "vue";
 
-  const dashboardUrl = import.meta.env.VITE_DASHBOARD;
+  const dashboardUrl = import.meta.env.VITE_LANDING_PAGE;
    const props = defineProps({
       event: {
         type: Object,
@@ -35,7 +36,7 @@
     
     const title = ref('MySpurr');
     const description = computed(() => props.event.title || 'Default description');
-    const url = computed(() => `${dashboardUrl}event/` + props.event.title.toLowerCase().replace(/ /g, '-') || 'Default URL');
+    const url = computed(() => `${dashboardUrl}events/` + props.event.slug);
     const imageUrl = computed(() => props.event.featured_graphics || 'Default Image URL');
     
     const encodedUrl = encodeURIComponent(url.value);
