@@ -40,7 +40,7 @@
   
   const back = () => {
     emit("back");
-    resetForm()
+    // resetForm()
   };
   const hasSubscriptedToPostJob = computed(() => {
     return userProfile?.user?.data?.posted_job;
