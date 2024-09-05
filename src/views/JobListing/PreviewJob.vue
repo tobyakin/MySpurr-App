@@ -251,42 +251,42 @@ const displayImage = computed(() => imageExists.value)
           </p>
         </div>
       </div>
-      <div class="flex flex-col lg:flex-row mt-10 w-full">
+      <div class="flex flex-col lg:flex-row mt-10 w-full gap-8">
         <div class="lg:w-[60%] flex flex-col gap-6 justify-between p-4">
           <div>
             <p
               v-if="JobDetailsById?.data?.description"
-              class="text-[16.236px] text-[#000] font-Satoshi500"
+              class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4"
             >
               Job Description
             </p>
 
             <div
               v-html="JobDetailsById?.data?.description"
-              class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px]"
+              class="descr"
             ></div>
 
-            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">Responsibilities</p>
+            <p class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6">Responsibilities</p>
             <div
               v-html="JobDetailsById?.data?.responsibilities"
-              class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] mt-4 leading-[24.689px]"
+              class="responsibilitie text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
 
-            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">Required Skills:</p>
+            <p class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6">Required Skills:</p>
             <div
               v-html="JobDetailsById?.data?.required_skills"
-              class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] leading-[24.689px]"
+              class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
 
             <p
               v-if="JobDetailsById?.data?.benefits"
-              class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6"
+              class="text-[1.034rem] text-[#000] editor font-Satoshi500 !mb-4 mt-6"
             >
               Benefits:
             </p>
             <div
               v-html="JobDetailsById?.data?.benefits"
-              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] leading-[24.689px]"
+              class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
           </div>
         </div>

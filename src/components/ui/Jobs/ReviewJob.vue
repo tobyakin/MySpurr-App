@@ -470,7 +470,7 @@
         <div class="lg:w-[60%] p-4">
           <p
             v-if="postJobsValue.description"
-            class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4"
+            class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
           >
             Job Description
           </p>

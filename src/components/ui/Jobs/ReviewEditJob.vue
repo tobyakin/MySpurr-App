@@ -252,51 +252,51 @@ onMounted(async () => {
         </p>
       </div>
     </div>
-    <div class="flex flex-col lg:flex-row mt-10 w-full">
+    <div class="flex flex-col lg:flex-row mt-10 w-full gap-8">
       <div class="lg:w-[60%] p-4">
         <p
           v-if="postJobsValue.description"
-          class="text-[16.236px] text-[#000] font-Satoshi500"
+          class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
         >
           Job Description
         </p>
 
         <div
           v-html="postJobsValue.description"
-          class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] mt-4 leading-[24.689px]"
+          class="descr"
         ></div>
 
         <p
           v-if="postJobsValue.responsibilities"
-          class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6"
+          class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
         >
           Responsibilities
         </p>
         <div
           v-html="postJobsValue.responsibilities"
-          class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] mt-4 leading-[24.689px]"
+          class="responsibilities text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
         ></div>
 
         <p
           v-if="postJobsValue.required_skills"
-          class="text-[16.236px] text-[#000] editor font-Satoshi500 !mb-4 mt-6"
+          class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
         >
           Required Skills:
         </p>
         <div
           v-html="postJobsValue.required_skills"
-          class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] leading-[24.689px]"
+          class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
         ></div>
 
         <p
           v-if="postJobsValue.benefits"
-          class="text-[16.236px] text-[#000] editor font-Satoshi500 !mb-4 mt-6"
+          class="text-[1.034rem] text-[#000] editor font-Satoshi500 !mb-4 mt-6"
         >
           Benefits:
         </p>
         <div
           v-html="postJobsValue.benefits"
-          class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] leading-[24.689px]"
+          class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
         ></div>
         <div>
           <!-- <button
@@ -385,14 +385,14 @@ onMounted(async () => {
     <div class="flex justify-between gap-4 mt-12">
       <button
         @click="back"
-        class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-8 p-3 w-auto"
+        class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] leading-[11.593px] rounded-full px-8 p-3 w-auto text-white btn-hover-1"
       >
         Back</button
       ><button
         @click="postJob"
         :disabled="!isFormValid"
-        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-        class="font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full px-8 p-3 w-auto"
+        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
+        class="font-Satoshi500 text-[14px] leading-[11.593px] rounded-full px-8 p-3 w-auto text-white"
       >
         <span v-if="!loading">Update</span>
         <WhiteLoader v-else />
