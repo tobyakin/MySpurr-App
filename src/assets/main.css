@@ -102,6 +102,14 @@ select {
   @apply hidden
 }
 
+.responsibilities p, .req_skills p {
+  @apply hidden
+}
+
+.descr span {
+  @apply  text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]
+}
+
 .ant-form-item-explain-error {
   @apply text-xs font-light mt-2;
 }
