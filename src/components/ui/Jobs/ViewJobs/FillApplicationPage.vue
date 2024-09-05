@@ -121,7 +121,8 @@ const handleJobApplication = async () => {
   };
   try {
     const res = await JobsStore.applyForJob(payload);
-    if (res.status === "true") {
+    console.log(typeof res.status)
+    if (res.status === true) {
       next();
       loading.value = false;
     }
