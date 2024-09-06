@@ -123,7 +123,6 @@ const handleJobApplication = async () => {
   };
   try {
     const res = await JobsStore.applyForJob(payload);
-    console.log(typeof res.status)
     if (res.status === true) {
       next();
       loading.value = false;

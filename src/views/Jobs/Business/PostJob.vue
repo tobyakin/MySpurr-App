@@ -232,9 +232,7 @@ function handleChangeScreen() {
   changeScreen(0, 1);
 }
 onMounted(() => {
-  console.log(state.status);
   if (state.status === true) {
-    console.log(state.status);
     handleChangeScreen();
   }
 });
