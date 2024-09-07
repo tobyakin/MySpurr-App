@@ -106,7 +106,7 @@ select {
   @apply hidden
 }
 
-.descr span {
+.descr span, .descr p {
   @apply  text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]
 }
 

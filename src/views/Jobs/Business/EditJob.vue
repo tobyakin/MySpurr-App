@@ -3,6 +3,7 @@ import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from 
 import { storeToRefs } from "pinia";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
+import DeleteIcon from "@/components/icons/DeleteIcon.vue"
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { useStore } from "@/stores/user";
@@ -75,6 +76,14 @@ const addQuestion = () => {
     postJobsValue.value.questions.push({ question: "" });
   }
 };
+const removeQuestion = (index) => {
+  // Ensure the index is valid (i.e., within bounds)
+  if (index >= 0 && index < postJobsValue.value.questions.length) {
+    // Remove the question at the specified index
+    postJobsValue.value.questions.splice(index, 1);
+  }
+};
+
 const filteredOptions = computed(() => {
   const searchTerm = search.value.toLowerCase();
   return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
@@ -610,7 +619,7 @@ onMounted(async () => {
         <div
           v-for="(question, index) in postJobsValue.questions"
           :key="index"
-          class="mt-8 flex flex-col gap-8"
+          class="mt-8 flex items-center gap-8"
         >
           <FormGroup
             labelClasses="font-Satoshi500 !text-[17.792px]"
@@ -620,7 +629,11 @@ onMounted(async () => {
             v-model="postJobsValue.questions[index].question"
             type="text"
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></FormGroup>
+            >
+          </FormGroup>
+          <button class="w-[26px] h-[26px] grid place-items-center" @click="removeQuestion(index)">
+            <DeleteIcon class="!text-brand"/>
+          </button>
         </div>
         <!-- <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
         Address & Location
@@ -667,13 +680,13 @@ onMounted(async () => {
         <div class="flex justify-end gap-4 mt-12">
           <button
             @click="changeScreen(0, 1)"
-            class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
+            class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] capitalize leading-[11.593px] rounded-full px-5 p-3 w-auto text-white btn-hover-1"
           >
             review</button
           ><button
-            class="bg-[#fff] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-auto"
+            class="bg-[#fff] font-Satoshi500 text-[14.153px] leading-[11.593px] rounded-full px-5 p-3 w-auto"
           >
-            CANCEL
+            Cancel
           </button>
         </div>
       </div>

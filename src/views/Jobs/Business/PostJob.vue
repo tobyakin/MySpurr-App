@@ -3,6 +3,7 @@ import { onMounted, ref, computed, reactive, watch } from "vue";
 import { storeToRefs } from "pinia";
 import "vue-slider-component/theme/antd.css";
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
+import DeleteIcon from "@/components/icons/DeleteIcon.vue"
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { useStore } from "@/stores/user";
 import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
@@ -118,6 +119,11 @@ const addQuestion = () => {
     postJobsValue.value.questions.push({ question: "" });
   }
 };
+const removeQuestion = (index) => {
+  if (index >= 0 && index < postJobsValue.value.questions.length) {
+    postJobsValue.value.questions.splice(index, 1);
+  }
+};
 const filteredOptions = computed(() => {
   const searchTerm = search.value.toLowerCase();
   return options.value.filter((option) => option.name.toLowerCase().includes(searchTerm));
@@ -226,9 +232,7 @@ function handleChangeScreen() {
   changeScreen(0, 1);
 }
 onMounted(() => {
-  console.log(state.status);
   if (state.status === true) {
-    console.log(state.status);
     handleChangeScreen();
   }
 });
@@ -703,7 +707,7 @@ onMounted(() => {
         <div
           v-for="(question, index) in postJobsValue.questions"
           :key="index"
-          class="mt-8 flex flex-col gap-8"
+          class="mt-8 flex items-center gap-8"
         >
           <FormGroup
             labelClasses="font-Satoshi500 !text-[17.792px]"
@@ -714,6 +718,9 @@ onMounted(() => {
             type="text"
             inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
           ></FormGroup>
+          <button class="w-[26px] h-[26px] grid place-items-center" @click="removeQuestion(index)">
+            <DeleteIcon class="!text-brand"/>
+          </button>
         </div>
 
         <div class="flex justify-end gap-4 mt-12">
