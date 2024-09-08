@@ -70,9 +70,13 @@ const highlightedIndex = ref(-1);
 const displayedQuestions = ref([]);
 
 const addQuestion = () => {
-  const lastQuestion =
-    postJobsValue.value.questions[postJobsValue.value.questions.length - 1].question;
-  if (lastQuestion.trim() !== "") {
+  if(postJobsValue.value.questions.length > 0){
+    const lastQuestion =
+      postJobsValue.value.questions[postJobsValue.value.questions.length - 1].question;
+    if (lastQuestion.trim() !== "") {
+      postJobsValue.value.questions.push({ question: "" });
+    }
+  } else {
     postJobsValue.value.questions.push({ question: "" });
   }
 };
