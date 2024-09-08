@@ -278,8 +278,6 @@ onMounted(async () => {
                 class="text-[#01272C] text-[10px] flex flex-row gap-[10px] pl-[13px] font-Satoshi400"
                 >Size</label
               >
-              <!-- {{ businessDeatils }} -->
-                {{ userProfile.user?.data?.social_media }}
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.size"

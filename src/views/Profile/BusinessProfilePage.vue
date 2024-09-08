@@ -20,6 +20,7 @@ import OverviewPage from "@/components/ui/ProfileEdit/Forms/Business/OverviewPag
 import { storeToRefs } from "pinia";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import Arrow from "@/components/icons/paginationArrow.vue"
+import { useTabStore } from "@/stores/tab";
 
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
