@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref, computed, watch } from "vue";
+import { onMounted, reactive, ref, computed, watch, nextTick } from "vue";
 import { useJobsStore } from "@/stores/jobs";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import LinkIcon from "@/components/icons/linkIcon.vue";
@@ -80,6 +80,8 @@ const handleButtonClick = (value) => {
 //   }
 // };
 const uploadedImageName = ref("");
+const maxEditorHeight = ref([]); 
+const quillContainer = ref([]); 
 
 const uploadFile = (event) => {
   const file = event.target.files[0];
@@ -121,7 +123,7 @@ const handleJobApplication = async () => {
   };
   try {
     const res = await JobsStore.applyForJob(payload);
-    if (res.status === "true") {
+    if (res.status === true) {
       next();
       loading.value = false;
     }
@@ -210,7 +212,9 @@ const handleJobApplication = async () => {
 //   onButton4.value = false;
 //   onButton5.value = true;
 // };
-
+const mainContainer = ref(null)
+const customHeight = ref(0)
+const questionLength = ref(0)
 const back = () => {
   emit("back");
 };
@@ -227,6 +231,10 @@ onMounted(async () => {
     console.error;
     loadPage.value = false;
   }
+  await nextTick()
+  let contHeight = mainContainer.value.clientHeight
+  questionLength.value = quillContainer.value.length
+  customHeight.value = contHeight/questionLength.value
 });
 </script>
 
@@ -559,11 +567,14 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="lg:w-[60%] lg:min-h-auto min-h-[20vh] flex flex-col gap-4">
+      <div class="lg:w-[60%] lg:min-h-auto min-h-[20vh] flex flex-col gap-4 overflow-y-auto" ref="mainContainer">
         <div
           v-for="(question, index) in singleJob?.data?.questions"
           :key="question"
-          class="border-[1.137px] bg-[#FFFFFD] h-full w-full overflow-hidden rounded-[11.367px] border-[#254035]/[0.6] p-4"
+          class="quillContainer border-[1.137px] bg-[#FFFFFD] h-full w-full rounded-[11.367px] border-[#254035]/[0.6] p-4"
+          :class="questionLength <= 1? 'hide-scrollbar overflow-hidden': 'scroller overflow-y-auto'"
+          ref="quillContainer"
+          :style="{ maxHeight: `${customHeight}px`}"
         >
           <p class="text-[#2F929C] font-Satoshi500 my-2 text-[13.552px]">
             Please answer this question from the Client
@@ -584,17 +595,20 @@ onMounted(async () => {
             cols="30"
             rows="6"
           ></textarea> -->
-          <!-- <div class="flex flex-col min-h-[30vh]"> -->
-          <QuillEditor
-            v-model:content="jobApplicationForm.question_answers[index].answer"
-            class=""
-            theme="snow"
-            placeholder=""
-            contentType="html"
-          />
+          <!-- <div class="quill-editor-container hide-scrollbar h-full max-h-full"> -->
+            <QuillEditor
+              v-model:content="jobApplicationForm.question_answers[index].answer"
+              class=""
+              theme="snow"
+              placeholder=""
+              contentType="html"
+            />
           <!-- </div> -->
         </div>
       </div>
     </div>
   </div>
 </template>
+<style>
+
+</style>

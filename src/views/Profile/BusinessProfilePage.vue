@@ -44,6 +44,9 @@ onMounted(async () => {
     userDetails.value?.uniqueId
   return accountType;
 });
+let profile = useUserProfile();
+const { user } = storeToRefs(profile);
+const tabStore = useTabStore();
 const JobsStore = useJobsStore();
 const { MyJob } = storeToRefs(JobsStore);
 let loadMyjobs = ref(false);
@@ -55,8 +58,6 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 // const showPageLoader = ref(true);
 
-let profile = useUserProfile();
-const { user } = storeToRefs(profile);
 
 
 let view = null;

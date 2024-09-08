@@ -171,41 +171,41 @@ onUnmounted(() => {
           <div>
             <p
               v-if="singleJob?.data?.description"
-              class="text-[16.236px] text-[#000] font-Satoshi500"
+              class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
             >
               Job Description
             </p>
 
             <div
               v-html="singleJob?.data?.description"
-              class="text-[#000]/[0.75] font-Satoshi400 break-words text-justify text-[16px] mt-4 leading-[1.5]"
+              class="descr"
             ></div>
 
-            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4 mt-6">
+            <p class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6">
               Responsibilities
             </p>
             <div
               v-html="singleJob?.data?.responsibilities"
-              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-4 leading-[24.689px] editor"
+              class="responsibilities text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
 
-            <p class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4">
+            <p class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6">
               Required Skills:
             </p>
             <div
               v-html="singleJob?.data?.required_skills"
-              class="text-[#000]/[0.75] font-Satoshi400 editor text-[12.546px] leading-[24.689px]"
+              class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
 
             <p
               v-if="singleJob?.data?.benefits"
-              class="text-[16.236px] text-[#000] font-Satoshi500"
+              class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
             >
               Benefits:
             </p>
             <div
               v-html="singleJob?.data?.benefits"
-              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] editor leading-[24.689px]"
+              class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
           </div>
           <div>
