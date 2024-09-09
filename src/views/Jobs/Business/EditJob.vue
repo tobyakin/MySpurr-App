@@ -1,34 +1,25 @@
 <script setup>
-import { defineAsyncComponent, onMounted, ref, computed, reactive, watch } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
 import { storeToRefs } from "pinia";
-import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 import DeleteIcon from "@/components/icons/DeleteIcon.vue"
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import { useStore } from "@/stores/user";
-import JobRowCard from "@/components/ui/Jobs/JobRowCard.vue";
-import Arrow from "@/components/icons/paginationArrow.vue";
-import Tabs from "@/components/ui/Jobs/Tabs.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { useSkillsStore } from "@/stores/skills";
 const skillsStore = useSkillsStore();
-const { contriesCode, states, industries } = storeToRefs(skillsStore);
-import { useRouter, useRoute } from "vue-router";
+const { contriesCode, states } = storeToRefs(skillsStore);
+import { useRoute } from "vue-router";
 const jobsStore = useJobsStore();
-const { Job, postJobsValue, JobDetailsById, ciso, siso } = storeToRefs(jobsStore);
+const { postJobsValue, JobDetailsById, ciso, siso } = storeToRefs(jobsStore);
 import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
 import Label from "@/components/ui/Form/Input/Label.vue";
 import CirclePlus from "@/components/icons/circlePlus.vue";
-import ViewJobDetailsPage from "@/components/ui/Jobs/ViewJobs/ViewJobDetailsPage.vue";
 import ReviewJob from "@/components/ui/Jobs/ReviewEditJob.vue";
-import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 
-const router = useRouter();
 const route = useRoute();
 const loading = ref(false);
-let store = useStore();
 let options = ref([
   { name: "Design" },
   { name: "UI" },
@@ -55,27 +46,23 @@ const Experience = [
   { name: "Expert ", year: "(6-10 yrs)" },
   { name: "More than", year: " 10yrs" },
 ];
-const CandidateType = [
-  "Freelance",
-  "Full-time ",
-  "Part-time ",
-  "Internship ",
-  "Contract ",
-];
+
 const qualification = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
 
 const search = ref("");
 const showDropdown = ref(false);
 const highlightedIndex = ref(-1);
-const displayedQuestions = ref([]);
+
+postJobsValue.value.questions = []; 
 
 const addQuestion = () => {
   const lastQuestion =
-    postJobsValue.value.questions[postJobsValue.value.questions.length - 1].question;
-  if (lastQuestion.trim() !== "") {
+    postJobsValue.value.questions[postJobsValue.value.questions.length - 1]?.question;
+  if (!lastQuestion || lastQuestion.trim() !== "") {
     postJobsValue.value.questions.push({ question: "" });
   }
 };
+
 const removeQuestion = (index) => {
   // Ensure the index is valid (i.e., within bounds)
   if (index >= 0 && index < postJobsValue.value.questions.length) {
@@ -616,24 +603,27 @@ onMounted(async () => {
 
           <button @click="addQuestion"><CirclePlus /></button>
         </div>
-        <div
-          v-for="(question, index) in postJobsValue.questions"
-          :key="index"
-          class="mt-8 flex items-center gap-8"
-        >
-          <FormGroup
-            labelClasses="font-Satoshi500 !text-[17.792px]"
-            :label="`Question ${index + 1}`"
-            :name="`Question ${index + 1}`"
-            :placeholder="`Add Question ${index + 1}`"
-            v-model="postJobsValue.questions[index].question"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            >
-          </FormGroup>
-          <button class="w-[26px] h-[26px] grid place-items-center" @click="removeQuestion(index)">
-            <DeleteIcon class="!text-brand"/>
-          </button>
+
+        <div v-if="postJobsValue.questions.length > 0">
+          <div
+            v-for="(question, index) in postJobsValue.questions"
+            :key="index"
+            class="mt-8 flex items-center gap-8"
+          >
+            <FormGroup
+              labelClasses="font-Satoshi500 !text-[17.792px]"
+              :label="`Question ${index + 1}`"
+              :name="`Question ${index + 1}`"
+              :placeholder="`Add Question ${index + 1}`"
+              v-model="postJobsValue.questions[index].question"
+              type="text"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              >
+            </FormGroup>
+            <button class="w-[26px] h-[26px] grid place-items-center" @click="removeQuestion(index)">
+              <DeleteIcon class="!text-brand"/>
+            </button>
+          </div>
         </div>
         <!-- <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
         Address & Location
