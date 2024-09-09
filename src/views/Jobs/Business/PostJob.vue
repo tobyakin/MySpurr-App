@@ -112,17 +112,16 @@ const search = ref("");
 const showDropdown = ref(false);
 const highlightedIndex = ref(-1);
 
+postJobsValue.value.questions = []; 
+
 const addQuestion = () => {
-  if(postJobsValue.value.questions.length > 0){
-    const lastQuestion =
-      postJobsValue.value.questions[postJobsValue.value.questions.length - 1].question;
-    if (lastQuestion.trim() !== "") {
-      postJobsValue.value.questions.push({ question: "" });
-    }
-  } else {
+  const lastQuestion =
+    postJobsValue.value.questions[postJobsValue.value.questions.length - 1]?.question;
+  if (!lastQuestion || lastQuestion.trim() !== "") {
     postJobsValue.value.questions.push({ question: "" });
   }
 };
+
 const removeQuestion = (index) => {
   if (index >= 0 && index < postJobsValue.value.questions.length) {
     postJobsValue.value.questions.splice(index, 1);
@@ -708,23 +707,25 @@ onMounted(() => {
 
           <button @click="addQuestion"><CirclePlus /></button>
         </div>
-        <div
-          v-for="(question, index) in postJobsValue.questions"
-          :key="index"
-          class="mt-8 flex items-center gap-8"
-        >
-          <FormGroup
-            labelClasses="font-Satoshi500 !text-[17.792px]"
-            :label="`Question ${index + 1}`"
-            :name="`Question ${index + 1}`"
-            :placeholder="`Add Question ${index + 1}`"
-            v-model="postJobsValue.questions[index].question"
-            type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-          ></FormGroup>
-          <button class="w-[26px] h-[26px] grid place-items-center" @click="removeQuestion(index)">
-            <DeleteIcon class="!text-brand"/>
-          </button>
+        <div v-if="postJobsValue.questions.length > 0">
+          <div
+            v-for="(question, index) in postJobsValue.questions"
+            :key="index"
+            class="mt-8 flex items-center gap-8"
+          >
+            <FormGroup
+              labelClasses="font-Satoshi500 !text-[17.792px]"
+              :label="`Question ${index + 1}`"
+              :name="`Question ${index + 1}`"
+              :placeholder="`Add Question ${index + 1}`"
+              v-model="postJobsValue.questions[index].question"
+              type="text"
+              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+            ></FormGroup>
+            <button class="w-[26px] h-[26px] grid place-items-center" @click="removeQuestion(index)">
+              <DeleteIcon class="!text-brand"/>
+            </button>
+          </div>
         </div>
 
         <div class="flex justify-end gap-4 mt-12">
