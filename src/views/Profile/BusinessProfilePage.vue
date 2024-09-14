@@ -78,44 +78,42 @@ const getMyJobs = async () => {
   }
 };
 
-// Pagination Function
+const scrollContainer = ref(null);
+const scrollAmount = 300; // Amount to scroll
+const isAtStart = ref(true);
+const isAtEnd = ref(false);
 
-const currentPage = ref(1);
-const pagination = computed(() => MyJob.value?.pagination || {});
-const myJobData = computed(() => MyJob.value?.data || []);
-const paginatedJob = computed(() => {
-  const perPage = pagination.value.per_page;
-  const startIndex = (currentPage.value - 1) * perPage;
-  const endIndex = startIndex + perPage;
-  return myJobData.value.slice(startIndex, endIndex);
-});
-const totalPages = computed(() => Math.ceil(pagination.value.last_page));
+const checkScrollPosition = () => {
+  const container = scrollContainer.value;
+  if (container) {
+    const scrollLeft = container.scrollLeft;
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    
+    isAtStart.value = scrollLeft === 0;
 
-// Function to change the current page
-const setPage = (page) => {
-  if (page >= 1 && page <= (pagination.value.last_page || 1)) {
-    currentPage.value = page;
+    isAtEnd.value = scrollLeft >= maxScrollLeft;
   }
 };
 
-const displayedPageNumbers = computed(() => {
-  const maxDisplayedPages = 5;
-  const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1);
-  const endPage = Math.min(startPage + maxDisplayedPages - 1, totalPages.value);
-  const pageNumbers = [];
-
-  for (let i = startPage; i <= endPage; i++) {
-    pageNumbers.push(i);
+const scrollRight = () => {
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollBy({
+      left: scrollAmount,
+      behavior: 'smooth',
+    });
   }
+  checkScrollPosition();
+};
 
-  return pageNumbers;
-});
-
-// You can also watch the currentPage to react to page changes
-watch(currentPage, async (newPage) => {
-  console.log("Current Page:", newPage);
-  await talentsStore.allTalents(newPage);
-});
+const scrollLeft = () => {
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollBy({
+      left: -scrollAmount,
+      behavior: 'smooth',
+    });
+  }
+  checkScrollPosition();
+};
 
 // Copy Function
 const { copy, copied, isSupported } = useClipboard({ source });
@@ -187,6 +185,7 @@ const size = computed(()=>{
 })
 
 onMounted(async () => {
+  checkScrollPosition();
   try {
     await Promise.all([
       getMyJobs(),
@@ -196,6 +195,7 @@ onMounted(async () => {
     console.error("An error occurred while fetching data:", error);
   }
 });
+
 </script>
 
 
@@ -398,37 +398,33 @@ onMounted(async () => {
           <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
             <ShortLoader v-if="loadMyjobs" />
             <div v-else class="w-full">
-              <div class="flex flex-col !gap-[2.31rem] my-8 w-full">
+              <div 
+              ref="scrollContainer"
+              class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
                   <BusinessJobCard
-                    class="w-full"
-                    v-for="item in paginatedJob"
+                    class="min-w-[95%] lg:min-w-[40%]"
+                    v-for="item in MyJob?.data"
                     :key="item"
                     :job="item"
                   />
                 </div>
-                <div class="flex w-[60%] flex-row">
+                <div class="flex w-[60%] flex-row gap-4">
                   <button
-                    @click="setPage(currentPage - 1)"
-                    class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                    @click="scrollLeft"
+                    :disbled="isAtStart"
+                    class="border-[#007582] border-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                    :class="{ 'opacity-50 cursor-not-allowed': isAtStart }"
                   >
-                    <Arrow class="rotate-[180deg]"/>
+                    <Arrow class="rotate-[180deg]"  :class="{ 'opacity-50 cursor-not-allowed': isAtStart }"/>
                   </button>
+                  
                   <button
-                    v-for="pageNumber in displayedPageNumbers"
-                    :key="pageNumber"
-                    :class="[
-                      'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
-                      pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
-                    ]"
-                    @click="setPage(pageNumber)"
+                    @click="scrollRight"
+                    :disbled="isAtEnd"
+                    class="border-[#007582] border-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                    :class="{ 'opacity-50 cursor-not-allowed': isAtEnd }"
                   >
-                    {{ pageNumber }}
-                  </button>
-                  <button
-                    @click="setPage(currentPage + 1)"
-                    class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
-                  >
-                    <Arrow />
+                    <Arrow :class="{ 'opacity-50 cursor-not-allowed': isAtEnd }"/>
                   </button>
                 </div>
             </div >

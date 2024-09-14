@@ -12,6 +12,7 @@ import TopPicksJob from "@/components/ui/TopPicksJob/TopPicksJob.vue";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import MyApplicationsCard from "@/components/ui/MyApplications/MyApplicationCard.vue";
 import CoursesCard from "@/components/ui/Courses/CourseCard.vue";
+import Arrow from "@/components/icons/paginationArrow.vue"
 import { useTabStore } from "@/stores/tab";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
@@ -46,6 +47,43 @@ const accountType = computed(() => {
 const recievedMessagesLength = ref(0)
 const recievedMessages = ref([])
 
+const scrollContainer = ref(null);
+const scrollAmount = 300; // Amount to scroll
+const isAtStart = ref(true);
+const isAtEnd = ref(false);
+
+const checkScrollPosition = () => {
+  const container = scrollContainer.value;
+  if (container) {
+    const scrollLeft = container.scrollLeft;
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    
+    isAtStart.value = scrollLeft === 0;
+
+    isAtEnd.value = scrollLeft >= maxScrollLeft;
+  }
+};
+
+const scrollRight = () => {
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollBy({
+      left: scrollAmount,
+      behavior: 'smooth',
+    });
+  }
+  checkScrollPosition();
+};
+
+const scrollLeft = () => {
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollBy({
+      left: -scrollAmount,
+      behavior: 'smooth',
+    });
+  }
+  checkScrollPosition();
+};
+
 const getAllMessages = async (userId)=>{
   try {
     await messageStore.handleGetMessages(userId)
@@ -59,6 +97,7 @@ const getAllMessages = async (userId)=>{
   return recievedMessagesLength.value
 }
 onMounted(() => {
+  checkScrollPosition();
   return accountType, userID;
 });
 onMounted(async () => {
@@ -351,15 +390,38 @@ onMounted(async () => {
             >View all jobs</router-link
           >
         </div>
-        <ShortLoader v-if="loadMyjobs" />
-
-        <div v-else class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
-          <BusinessJobCard
-            class="min-w-[95%] lg:min-w-[40%]"
-            v-for="item in MyJob?.data"
-            :key="item"
-            :job="item"
-          />
+        <div>
+          <ShortLoader v-if="loadMyjobs" />
+          <div v-else class="w-full">
+            <div 
+            ref="scrollContainer"
+            class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
+              <BusinessJobCard
+                class="min-w-[95%] lg:min-w-[40%]"
+                v-for="item in MyJob?.data"
+                :key="item"
+                :job="item"
+              />
+            </div>
+            <div class="flex w-[60%] flex-row gap-4">
+              <button
+                @click="scrollLeft"
+                :disbled="isAtStart"
+                class="border-[#007582] border-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                :class="{ 'opacity-50 cursor-not-allowed': isAtStart }"
+              >
+                <Arrow class="rotate-[180deg]"  :class="{ 'opacity-50 cursor-not-allowed': isAtStart }"/>
+              </button>
+              <button
+                @click="scrollRight"
+                :disbled="isAtEnd"
+                class="border-[#007582] border-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                :class="{ 'opacity-50 cursor-not-allowed': isAtEnd }"
+              >
+                <Arrow :class="{ 'opacity-50 cursor-not-allowed': isAtEnd }"/>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 

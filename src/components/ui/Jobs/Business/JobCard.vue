@@ -109,7 +109,7 @@ const displayImage = computed(() => imageExists.value)
       </div>
     </div>
     <hr class="text-[#EAEAEA]" />
-    <div class="flex flex-col justify-normal lg:min-h-[25vh] overflow-hidden mt-5">
+    <div class="flex flex-col justify-normal overflow-hidden mt-5">
       <div class="flex justify-between">
         <div class="flex flex-col w-full gap-2">
           <div class="flex flex-row justify-between gap-2">
