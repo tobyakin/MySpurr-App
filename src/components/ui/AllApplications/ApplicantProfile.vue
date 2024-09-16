@@ -10,8 +10,15 @@ import CertificateBadge from "@/components/icons/certificateBadge.vue";
 import { useTabStore } from "@/stores/tab";
 import { useJobsStore } from "@/stores/jobs";
 import { useRoute, useRouter } from "vue-router";
+import NewMessage from "@/components/ui/Message/NewMessage.vue";
+import { useMessageStore } from "@/stores/message";
+import { storeToRefs } from "pinia";
+import { useToast } from 'vue-toastification'
 
-
+const toast = useToast()
+const messageStore = useMessageStore();
+const { sentMessages, allMessages, messageDetail } = storeToRefs(messageStore)
+const newMessage = ref(false)
 const router = useRouter();
 const route = useRoute();
 const jobsStore = useJobsStore();
@@ -46,6 +53,28 @@ const downloadFile = (url) => {
   }, 100);
 };
 
+const isSending = ref(false)
+
+const handleSendMessage = async (payload)=>{
+  isSending.value = true
+  try {
+    if(payload.body.length > 0 &&
+    payload.to.length > 0){
+      closeWindow()
+      await messageStore.handleSendMessage(payload)
+      toast.success('Message sent', {
+          timeout: 4000
+        })
+      isSending.value = false
+    } else {
+      alert('Some fields are not filled')
+    }
+  } catch (error) {
+    console.log(error)
+    isSending.value = false
+  }
+}
+
 const ratingVlaue = computed(() => {
   return props?.talents;
 });
@@ -75,6 +104,17 @@ const handleTalentRating = async () => {
   }
 };
 
+function closeWindow(){ 
+  const query = { ...route.query };
+  if (query.email) {
+    delete query.email;
+    router.push({ query });
+  } else {
+    console.log("Email query not found in the URL.");
+  }
+  newMessage.value = false
+}
+
 onMounted(() => {
   source.value =
     import.meta.env.VITE_LANDING_PAGE +
@@ -86,11 +126,11 @@ const viewProfile = () => {
   window.open(source.value, "_blank");
 };
 
-const goTo = (email, show) => {
-  router.push({ 
-    path: '/messages',
-    query: { email, show }
-  });
+const goTo = async (email, show) => {
+  const query = { ...route.query };
+
+  await router.push({ query: {email, show} });
+  newMessage.value = true
 };
 </script>
 
@@ -350,6 +390,15 @@ const goTo = (email, show) => {
         </div>
       </div>
     </div>
+    <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
+      <div class="messageWindow w-[50%] mx-auto mt-6 msgMob:mt-0 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
+        <NewMessage class="h-full" @send="handleSendMessage"
+        @delete="closeWindow"
+        @back="closeWindow"
+        :email="props.talents?.email"
+        />
+      </div>
+    </section>
   </div>
 </template>
 

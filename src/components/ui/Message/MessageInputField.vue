@@ -179,13 +179,11 @@ onMounted(() => {
     const screenWidth = window.innerWidth
     if (screenWidth > 1024) {
       isWidgetWindow.value = true
-      return isWidgetWindow.value
     }
-    return isWidget.value
   }
-
-  if (route.query.email) {
-    recieverMail.value.push(route.query.email)
+  console.log(route?.query?.email)
+  if (route?.query?.email) {
+    recieverMail.value.push(route?.query?.email)
     displayedMails.value = []
     mailValue.value = ''
   }
