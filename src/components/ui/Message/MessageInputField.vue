@@ -181,7 +181,6 @@ onMounted(() => {
       isWidgetWindow.value = true
     }
   }
-  console.log(route?.query?.email)
   if (route?.query?.email) {
     recieverMail.value.push(route?.query?.email)
     displayedMails.value = []
