@@ -20,6 +20,7 @@ import OverviewPage from "@/components/ui/ProfileEdit/Forms/Business/OverviewPag
 import { storeToRefs } from "pinia";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import Arrow from "@/components/icons/paginationArrow.vue"
+import { useTabStore } from "@/stores/tab";
 
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
@@ -40,10 +41,13 @@ onMounted(async () => {
   source =
   import.meta.env.VITE_LANDING_PAGE +
     `business/` +
-    `${userDetails.value?.business_name}/` +
+    `${userDetails.value?.business_name}/`.toLowerCase().replace(/ /g, '-') +
     userDetails.value?.uniqueId
   return accountType;
 });
+let profile = useUserProfile();
+const { user } = storeToRefs(profile);
+const tabStore = useTabStore();
 const JobsStore = useJobsStore();
 const { MyJob } = storeToRefs(JobsStore);
 let loadMyjobs = ref(false);
@@ -55,8 +59,6 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 // const showPageLoader = ref(true);
 
-let profile = useUserProfile();
-const { user } = storeToRefs(profile);
 
 
 let view = null;
@@ -76,44 +78,42 @@ const getMyJobs = async () => {
   }
 };
 
-// Pagination Function
+const scrollContainer = ref(null);
+const scrollAmount = 300; // Amount to scroll
+const isAtStart = ref(true);
+const isAtEnd = ref(false);
 
-const currentPage = ref(1);
-const pagination = computed(() => MyJob.value?.pagination || {});
-const myJobData = computed(() => MyJob.value?.data || []);
-const paginatedJob = computed(() => {
-  const perPage = pagination.value.per_page;
-  const startIndex = (currentPage.value - 1) * perPage;
-  const endIndex = startIndex + perPage;
-  return myJobData.value.slice(startIndex, endIndex);
-});
-const totalPages = computed(() => Math.ceil(pagination.value.last_page));
+const checkScrollPosition = () => {
+  const container = scrollContainer.value;
+  if (container) {
+    const scrollLeft = container.scrollLeft;
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    
+    isAtStart.value = scrollLeft === 0;
 
-// Function to change the current page
-const setPage = (page) => {
-  if (page >= 1 && page <= (pagination.value.last_page || 1)) {
-    currentPage.value = page;
+    isAtEnd.value = scrollLeft >= maxScrollLeft;
   }
 };
 
-const displayedPageNumbers = computed(() => {
-  const maxDisplayedPages = 5;
-  const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1);
-  const endPage = Math.min(startPage + maxDisplayedPages - 1, totalPages.value);
-  const pageNumbers = [];
-
-  for (let i = startPage; i <= endPage; i++) {
-    pageNumbers.push(i);
+const scrollRight = () => {
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollBy({
+      left: scrollAmount,
+      behavior: 'smooth',
+    });
   }
+  checkScrollPosition();
+};
 
-  return pageNumbers;
-});
-
-// You can also watch the currentPage to react to page changes
-watch(currentPage, async (newPage) => {
-  console.log("Current Page:", newPage);
-  await talentsStore.allTalents(newPage);
-});
+const scrollLeft = () => {
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollBy({
+      left: -scrollAmount,
+      behavior: 'smooth',
+    });
+  }
+  checkScrollPosition();
+};
 
 // Copy Function
 const { copy, copied, isSupported } = useClipboard({ source });
@@ -180,7 +180,12 @@ const { isLoading } = useQuery(["profile"], getProfileData, {
   },
 });
 
+const size = computed(()=>{
+  return userDetails.value?.size?.length > 0 ? userDetails.value?.size : '-'
+})
+
 onMounted(async () => {
+  checkScrollPosition();
   try {
     await Promise.all([
       getMyJobs(),
@@ -190,6 +195,7 @@ onMounted(async () => {
     console.error("An error occurred while fetching data:", error);
   }
 });
+
 </script>
 
 
@@ -264,8 +270,7 @@ onMounted(async () => {
             <div class="flex items-center justify-center lg:justify-start lg:items-center gap-10 msgTab:flex-col msgTab:gap-4 dashBreak:order-2">
               <div class="flex flex-col gap-3 msgTab:flex-row">
                 <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Size</p>
-                <!-- no size in response -->
-                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">-</h4>
+                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">{{ size }}</h4>
               </div>
               <div class="flex flex-col gap-3 msgTab:flex-row">
                 <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Email</p>
@@ -285,32 +290,31 @@ onMounted(async () => {
               </div>
             </div>
             <div class="flex flex-col justify-end dashBreak:justify-center gap-4">
-
               <div class="flex justify-end gap-3 items-center dashBreak:justify-center">
                   <a
-                    v-if="userDetails?.social_media"
-                    :href="userDetails?.linkedin"
+                    v-if="userDetails?.social_media?.linkedin"
+                    :href="userDetails?.social_media?.linkedin"
                     target="_blank"
                   >
                     <LinkdeinIcon />
                   </a>
                   <a
-                    v-if="userDetails?.instagram"
-                    :href="userDetails?.instagram"
+                    v-if="userDetails?.social_media?.instagram"
+                    :href="userDetails?.social_media?.instagram"
                     target="_blank"
                   >
                     <InstagramIcon />
                   </a>
                   <a
-                    v-if="userDetails?.behance"
-                    :href="userDetails?.behance"
+                    v-if="userDetails?.social_media?.behance"
+                    :href="userDetails?.social_media?.behance"
                     target="_blank"
                   >
                     <BeIcon />
                   </a>
                   <a
-                    v-if="userDetails?.social_media_two"
-                    :href="userDetails?.twitter"
+                    v-if="userDetails?.social_media?.twitter"
+                    :href="userDetails?.social_media?.twitter"
                     target="_blank"
                   >
                     <TwitterIcon />
@@ -394,37 +398,33 @@ onMounted(async () => {
           <div class="flex gap-3 overflow-x-auto w-full hide-scrollbar my-8">
             <ShortLoader v-if="loadMyjobs" />
             <div v-else class="w-full">
-              <div class="flex flex-col !gap-[2.31rem] my-8 w-full">
+              <div 
+              ref="scrollContainer"
+              class="flex gap-3 overflow-x-auto hide-scrollbar my-8">
                   <BusinessJobCard
-                    class="w-full"
-                    v-for="item in paginatedJob"
+                    class="min-w-[95%] lg:min-w-[40%]"
+                    v-for="item in MyJob?.data"
                     :key="item"
                     :job="item"
                   />
                 </div>
-                <div class="flex w-[60%] flex-row">
+                <div class="flex w-[60%] flex-row gap-4">
                   <button
-                    @click="setPage(currentPage - 1)"
-                    class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                    @click="scrollLeft"
+                    :disbled="isAtStart"
+                    class="border-[#007582] border-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                    :class="{ 'opacity-50 cursor-not-allowed': isAtStart }"
                   >
-                    <Arrow class="rotate-[180deg]"/>
+                    <Arrow class="rotate-[180deg]"  :class="{ 'opacity-50 cursor-not-allowed': isAtStart }"/>
                   </button>
+                  
                   <button
-                    v-for="pageNumber in displayedPageNumbers"
-                    :key="pageNumber"
-                    :class="[
-                      'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
-                      pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
-                    ]"
-                    @click="setPage(pageNumber)"
+                    @click="scrollRight"
+                    :disbled="isAtEnd"
+                    class="border-[#007582] border-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                    :class="{ 'opacity-50 cursor-not-allowed': isAtEnd }"
                   >
-                    {{ pageNumber }}
-                  </button>
-                  <button
-                    @click="setPage(currentPage + 1)"
-                    class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
-                  >
-                    <Arrow />
+                    <Arrow :class="{ 'opacity-50 cursor-not-allowed': isAtEnd }"/>
                   </button>
                 </div>
             </div >
