@@ -149,7 +149,6 @@ const redirectToMessage = () => {
 const copyUrl = () => {
   if (isSupported) {
     if (copied) {
-      console.log(source);
       copy(source);
       toast.success("Link Copied", {
         timeout: 4000,

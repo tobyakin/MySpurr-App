@@ -79,14 +79,11 @@ const checkAmountValidity = (e) => {
   const maxSalary = parseFloat(singleJob.value?.data?.salary_max);
   if(value){
     if (amount >= minSalary && amount <= maxSalary) {
-      console.log(jobApplicationForm.rate)
       valideRateError.value = false;
       valideRateErrorMsg.value = "Amount is within the salary range.";
-      // console.log("Amount is within the range.");
     } else {
       valideRateError.value = true;
       valideRateErrorMsg.value = "Amount is outside the salary range.";
-      // console.log("Amount is outside the range.");
     }
   } else {
     valideRateError.value = false;
@@ -136,7 +133,6 @@ const handleJobApplication = async () => {
     other_file: jobApplicationForm.other_file,
     question_answers: jobApplicationForm.question_answers,
   };
-  console.log(payload)
   try {
     const res = await JobsStore.applyForJob(payload);
     if (res.status === true) {
