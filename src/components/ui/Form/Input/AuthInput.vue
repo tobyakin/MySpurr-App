@@ -1,8 +1,8 @@
 <template>
   <div class="relative">
     <input
-      :class="error ? 'border-[#DA5252]' : 'border-[#254035]'"
-      class="w-full font-light font-Satoshi400 text-[14px] !p-2 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+      :class="error ? '!border-[#DA5252]' : 'border-inherit'"
+      class="w-full font-light font-Satoshi400 text-[14px] !p-2 opacity-[0.8029] rounded-[4.074px] text-sm"
       :placeholder="placeholder"
       :type="type"
       :value="modelValue"

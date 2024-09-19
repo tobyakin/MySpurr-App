@@ -21,8 +21,8 @@ let numAbbr = useNumberFomateStore();
 const store = useTabStore();
 let loading = ref(false);
 let loadPage = ref(false);
-// const valideRateError = ref(false);
-// const valideRateErrorMsg = ref("");
+const valideRateError = ref(false);
+const valideRateErrorMsg = ref("");
 // const { jobApplicationForm } = storeToRefs(JobsStore);
 const emit = defineEmits(["back", "next"]);
 let profile = useUserProfile();
@@ -64,21 +64,36 @@ const handleButtonClick = (value) => {
   showDateInput.value = false;
   jobApplicationForm.available_start = value;
 };
-// const checkAmountValidity = () => {
-//   const amount = parseFloat(jobApplicationForm.rate);
-//   const minSalary = parseFloat(singleJob.value?.data?.salary_min);
-//   const maxSalary = parseFloat(singleJob.value?.data?.salary_max);
 
-//   if (amount >= minSalary && amount <= maxSalary) {
-//     valideRateError.value = false;
-//     valideRateErrorMsg.value = "Amount is within the salary range.";
-//     // console.log("Amount is within the range.");
-//   } else {
-//     valideRateError.value = true;
-//     valideRateErrorMsg.value = "Amount is outside the salary range.";
-//     // console.log("Amount is outside the range.");
-//   }
-// };
+function formatNumber(value) {
+  if (value === '') return '';
+  return new Intl.NumberFormat().format(value);
+}
+
+const checkAmountValidity = (e) => {
+  let value = e.target.value;
+  value = value.replace(/[^0-9]/g, ''); 
+  jobApplicationForm.rate = formatNumber(value)
+  const amount = parseFloat(jobApplicationForm.rate.replace(/,/g, ''));
+  const minSalary = parseFloat(singleJob.value?.data?.salary_min);
+  const maxSalary = parseFloat(singleJob.value?.data?.salary_max);
+  if(value){
+    if (amount >= minSalary && amount <= maxSalary) {
+      console.log(jobApplicationForm.rate)
+      valideRateError.value = false;
+      valideRateErrorMsg.value = "Amount is within the salary range.";
+      // console.log("Amount is within the range.");
+    } else {
+      valideRateError.value = true;
+      valideRateErrorMsg.value = "Amount is outside the salary range.";
+      // console.log("Amount is outside the range.");
+    }
+  } else {
+    valideRateError.value = false;
+      valideRateErrorMsg.value = "";
+  }
+};
+
 const uploadedImageName = ref("");
 const maxEditorHeight = ref([]); 
 const quillContainer = ref([]); 
@@ -115,12 +130,13 @@ const handleJobApplication = async () => {
   loading.value = true;
   let payload = {
     job_id: jobApplicationForm.job_id,
-    rate: jobApplicationForm.rate.toString(),
+    rate: jobApplicationForm.rate.replace(/,/g, '').toString(),
     available_start: jobApplicationForm.available_start,
     resume: jobApplicationForm.resume,
     other_file: jobApplicationForm.other_file,
     question_answers: jobApplicationForm.question_answers,
   };
+  console.log(payload)
   try {
     const res = await JobsStore.applyForJob(payload);
     if (res.status === true) {
@@ -397,8 +413,8 @@ onMounted(async () => {
           <span class="text-[#DA5252] text-[13.165px] font-Satoshi500 leading-[25.232px]"
             >Client budget:
             <span v-html="numAbbr.formatCurrency(singleJob?.data?.currency)"></span>
-            {{ store.abbr(singleJob?.data?.salary_min) }}-{{
-              store.abbr(singleJob?.data?.salary_max)
+            {{ store.abbr(singleJob?.data?.salary_min, 2) }}-{{
+              store.abbr(singleJob?.data?.salary_max, 2)
             }}
           </span>
           <div class="flex-col justify-between gap-2 w-full">
@@ -454,18 +470,30 @@ onMounted(async () => {
                 Custom
               </button>
             </div> -->
-            <AuthInput
-              inputClasses="border-[1.261px] w-full border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
-              type="number"
-              v-model="jobApplicationForm.rate"
-              class="mt-2"
-              :error="false"
-            />
-            <!-- :error="valideRateError" @input="checkAmountValidity" -->
+            <div 
+            class="border-[1.261px] w-full font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] overflow-hidden flex items-center"
+            :class="valideRateError ? '!border-[#DA5252]' : 'border-[#25403559]'"
+            >
+              <span
+              v-if="jobApplicationForm.rate.length > 0"
+               v-html="numAbbr.formatCurrency(singleJob?.data?.currency)" class="pl-2"></span>
+              <AuthInput
+                inputClasses="w-full !border-none font-Satoshi500 text-[#2540358C] text-[14.26px]p-2"
+                type="text"
+                v-model="jobApplicationForm.rate"
+                class="flex-1"
+                :error="valideRateError" @input="checkAmountValidity"
+                
+              />
+            </div>
+              <!-- <span v-if="errors.rateError" class="text-[#993939] font-Satoshi400 text-sm">{{
+                errorsMsg.rat
+              }}</span> -->
+            
 
-            <!-- <span v-if="valideRateError" class="text-[#993939] font-Satoshi400 text-sm">{{
+            <span v-if="valideRateError" class="text-[#993939] font-Satoshi400 text-sm">{{
               valideRateErrorMsg
-            }}</span> -->
+            }}</span>
           </div>
         </div>
         <div
@@ -568,6 +596,11 @@ onMounted(async () => {
       </div>
 
       <div class="lg:w-[60%] lg:min-h-auto min-h-[20vh] flex flex-col gap-4 overflow-y-auto" ref="mainContainer">
+        <p 
+        v-if="questionLength > 0"
+        class="text-[17.887px] font-Satoshi500 text-[#000]">
+            Answer the following Client question(s)
+          </p>
         <div
           v-for="(question, index) in singleJob?.data?.questions"
           :key="question"
@@ -576,16 +609,13 @@ onMounted(async () => {
           ref="quillContainer"
           :style="{ maxHeight: `${customHeight}px`}"
         >
-          <p class="text-[#2F929C] font-Satoshi500 my-2 text-[13.552px]">
-            Please answer this question from the Client
-          </p>
-          <div class="w-full editor">
+          <div class="w-full editor !mt-0 application !mb-2">
             <p
               v-html="question.question"
-              class="text-[16.311px] font-Satoshi500 text-[#000]"
+              class="text-[1.02rem] font-Satoshi500 text-[#000]"
             ></p>
           </div>
-          <hr class="border-[#254035AB] border-[0.596px] my-3" />
+          <!-- <hr class="border-[#254035AB] border-[0.596px] my-2" /> -->
           <!-- <textarea
             v-model="jobApplicationForm.question_answers[index].answer"
             class="w-full outline-none text-[15.816px] h-[100%] font-Satoshi500 text-[#97A6A8]"

@@ -184,6 +184,14 @@ const size = computed(()=>{
   return userDetails.value?.size?.length > 0 ? userDetails.value?.size : '-'
 })
 
+const formattedWebsite = computed(() => {
+  const website = userDetails.value?.website || '';
+  if (website && !website.startsWith('http://') && !website.startsWith('https://')) {
+    return `http://${website}`;  // You can default to http, or change to https
+  }
+  return website;
+});
+
 onMounted(async () => {
   checkScrollPosition();
   try {
@@ -245,7 +253,7 @@ onMounted(async () => {
                     {{ userDetails?.location }}
                     <a
                       v-if="accountType === 'business'"
-                      :href="userDetails?.website"
+                      :href="formattedWebsite"
                       target="_blank"
                       class="underline text-[13.63px] cursor-pointer font-Satoshi500 text-[#244034]"
                       >View Website</a
