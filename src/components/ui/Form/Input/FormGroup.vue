@@ -8,6 +8,7 @@
       :placeholder="placeholder"
       :type="type"
       :name="name"
+      @input="handleInput"
     />
     <!-- <ErrorLabel
       class="text-error text-2xl text-left"
@@ -25,7 +26,7 @@ const Input = defineAsyncComponent(() => import("./Input.vue"));
 const Label = defineAsyncComponent(() => import("./Label.vue"));
 const ErrorLabel = defineAsyncComponent(() => import("./ErrorLabel.vue"));
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", 'input']);
 
 defineProps({
   type: String,
@@ -41,6 +42,10 @@ defineProps({
 const passInputValue = (value) => {
   emit("update:modelValue", value);
 };
+const handleInput = (value) => {
+  emit("input", value);
+};
+
 </script>
 
 <style lang="scss" scoped></style>

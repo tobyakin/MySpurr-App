@@ -17,7 +17,6 @@ import { useToast } from 'vue-toastification'
 
 const toast = useToast()
 const messageStore = useMessageStore();
-const { sentMessages, allMessages, messageDetail } = storeToRefs(messageStore)
 const newMessage = ref(false)
 const router = useRouter();
 const route = useRoute();
