@@ -76,7 +76,7 @@
 
               <button @click="copyUrl"><CopyLinkIcon /></button>
             </div>
-            <button class="btn-brand">Message</button>
+            <button class="btn-brand" @click="goTo(props.talent?.email, true)">Message</button>
           </div>
         </div>
       </div>
@@ -105,10 +105,20 @@
       </p>
       <ArrowRight />
     </router-link>
+    <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
+      <div class="messageWindow w-[50%] mx-auto mt-6 msgMob:mt-0 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
+        <NewMessage class="h-full" @send="handleSendMessage"
+        @delete="closeWindow"
+        @back="closeWindow"
+        :email="props.talent?.email"
+        />
+      </div>
+    </section>
   </div>
 </template>
 <script setup>
 import { computed, onMounted, reactive, watch, ref } from "vue";
+import NewMessage from "@/components/ui/Message/NewMessage.vue";
 // import RatedBadge from "@/components/icons/ratedBadge.vue";
 import GreenIcon from "@/components/icons/greenIcon.vue";
 import LoveIcon from "@/components/icons/loveIcon.vue";
@@ -119,9 +129,56 @@ import { useTabStore } from "@/stores/tab";
 import CopyLinkIcon from "@/components/icons/copyLinkIcon.vue";
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
+import { useRoute, useRouter } from "vue-router";
+import { useMessageStore } from "@/stores/message";
+
+const messageStore = useMessageStore();
 const toast = useToast();
+const newMessage = ref(false)
+const route = useRoute()
+const router = useRouter()
 
 let source = "";
+
+const goTo = async (email, show) => {
+  const query = { ...route.query };
+
+  await router.push({ query: {email, show} });
+  newMessage.value = true
+};
+
+function closeWindow(){ 
+  const query = { ...route.query };
+  if (query.email) {
+    delete query.email;
+    router.push({ query });
+  } else {
+    console.log("Email query not found in the URL.");
+  }
+  newMessage.value = false
+}
+
+const isSending = ref(false)
+
+const handleSendMessage = async (payload)=>{
+  isSending.value = true
+  try {
+    if(payload.body.length > 0 &&
+    payload.to.length > 0){
+      closeWindow()
+      await messageStore.handleSendMessage(payload)
+      toast.success('Message sent', {
+          timeout: 4000
+        })
+      isSending.value = false
+    } else {
+      alert('Some fields are not filled')
+    }
+  } catch (error) {
+    console.log(error)
+    isSending.value = false
+  }
+}
 
 onMounted(() => {
   source =
