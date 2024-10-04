@@ -1,15 +1,12 @@
 <script setup>
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, computed, watch } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
-import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import dayjs from "dayjs";
 const OnboardingStore = useOnboardingStore();
 
 const { step, education } = storeToRefs(OnboardingStore);
-let store = useStore();
-
 const present = ref(false); // Add a variable to track if the checkbox is checked
 
 const emit = defineEmits(["next", "prev"]);

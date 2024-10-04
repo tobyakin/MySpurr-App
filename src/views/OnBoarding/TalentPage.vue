@@ -53,11 +53,9 @@ import EmploymentDetails from "@/components/ui/Form/Talent/EmploymentDetails.vue
 import Certificate from "@/components/ui/Form/Talent/Certificate.vue";
 import SuccessPage from "@/components/ui/Form/Talent/SuccessPage.vue";
 import TickCircle from "@/components/icons/tickCircle.vue";
-import { useStore } from "@/stores/user";
 const OnboardingStore = useOnboardingStore();
 const { step } = storeToRefs(OnboardingStore);
 const router = useRouter();
-let store = useStore();
 
 const prev = () => {
   if (step.value == 1) {
@@ -78,4 +76,3 @@ const next = (data) => {
 };
 </script>
 
-<style></style>

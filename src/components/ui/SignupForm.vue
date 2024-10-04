@@ -181,7 +181,6 @@
       <div class="flex gap-2 items-center">
         <p
           @click="togglrTerms()"
-          role="button"
           :class="terms ? 'bg-brand  ' : '  border-[#B3B3B3]'"
           class="w-[25px] h-[17px] flex justify-center items-center rounded-[3.018px] border"
         >
@@ -326,7 +325,6 @@ const formData = reactive({
   // business_name: "",
 });
 const confirmPassword = ref("");
-const business_name = ref("");
 const errorsMsg = {
   firstName: "First name is required",
   lastName: "Last name is required",
@@ -495,13 +493,13 @@ const handleBusinessSignupWithGoogle = async () => {
 const handleTalentSignupWithGoogle = async () => {
   loading.value = true;
 
-  try {
-    const res = authWithGoogle();
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loading.value = false;
-  }
+  // try {
+  //   const res = authWithGoogle();
+  // } catch (error) {
+  //   console.log(error);
+  // } finally {
+  //   loading.value = false;
+  // }
 };
 onMounted(() => {
   const urlString = window.location.href;

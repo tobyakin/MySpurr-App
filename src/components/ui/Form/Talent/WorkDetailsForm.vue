@@ -1,11 +1,10 @@
 <script setup>
 import { ref, onMounted, watch, computed, defineAsyncComponent, reactive } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
-// import { useStore } from "@/stores/user";
 import { useSkillsStore } from "@/stores/skills";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
-// import Multiselect from "vue-multiselect";
+
 const skillsStore = useSkillsStore();
 const { skills, jobTitle, contriesCode, states } = storeToRefs(skillsStore);
 
@@ -13,15 +12,12 @@ const OnboardingStore = useOnboardingStore();
 const SelectGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/SelectGroup.vue")
 );
-// let selectedCountry = ref("");
-// const selectedStates = ref("");
 
 const {
   step,
   skill_title,
   highest_education,
   overview,
-  location,
   rate,
   availability,
   top_skills,
@@ -29,97 +25,77 @@ const {
   ciso,
   siso,
 } = storeToRefs(OnboardingStore);
-// let store = useStore();
-//
-// let loading = ref(false);
+
 const availabilityData = ["Immediately", "One week"];
 const employmentType = [
   "Freelance",
-  "Full-time ",
-  "Part-time ",
-  "Internship ",
-  "Contract ",
+  "Full-time",
+  "Part-time",
+  "Internship",
+  "Contract",
 ];
 let options = ref([]);
 let skillTitles = ref([]);
 
-const educationLevel = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
-
-// const addTag = (newTagName) => {
-//   const tag = {
-//     name: newTagName,
-//   };
-//   options.value.push(tag);
-//   top_skills.value.push(tag);
-// };
-
-// const years = ref([]);
-
-// onMounted(() => {
-//   // Populate the years array with a range of years, e.g., from 2000 to the current year.
-//   const currentYear = new Date().getFullYear();
-//   for (let year = currentYear; year >= 1950; year--) {
-//     years.value.push(year.toString());
-//   }
-//   console.log("options", skills.value.data);
-// });
+const educationLevel = ["Certificate", "Bachelors", "Masters", "Doctorate"];
 
 const emit = defineEmits(["next"]);
+
+const minRate = ref(null);
+const maxRate = ref(null);
+const rateError = ref(null);
+
 const isFormValid = computed(() => {
+  const currentRate = parseFloat(rate.value);
   return (
-    // skill_title.value.trim() !== "" &&
-    top_skills.value.length > 0 && // Check if top_skills is not empty
+    top_skills.value.length > 0 &&
     highest_education.value.trim() !== "" &&
     overview.value.trim() !== "" &&
     ciso.value.trim() !== "" &&
     siso.value.trim() !== "" &&
     rate.value.trim() !== "" &&
+    !isNaN(currentRate) &&
+    (minRate.value === null || currentRate >= minRate.value) &&
+    (maxRate.value === null || currentRate <= maxRate.value) &&
     employment_type.value.trim() !== "" &&
     availability.value.trim() !== ""
   );
 });
-// end tag ends here
+
 const selectedCountry = ref("");
 const selectedState = ref("");
-// computed property to find the country ISO code
+
+// Compute ISO codes based on selected country and state
 const selectedIso2 = computed(() => {
   const foundCountry = contriesCode?.value?.data?.find(
     (country) => country.name.toLowerCase() === selectedCountry.value.toLowerCase()
   );
   return foundCountry ? foundCountry.iso2 : null;
 });
-// computed property to find the state ISO code
+
 const selectedsiso = computed(() => {
   const foundState = states?.value?.data?.find(
     (state) => state.name.toLowerCase() === selectedState.value.toLowerCase()
   );
   return foundState ? foundState.iso2 : null;
 });
-// watchers to update the selectedIso2 and selectedsiso
+
+// Watchers for ISO codes
 watch(selectedIso2, async (newInput) => {
   siso.value = "";
   states.value = null;
   await skillsStore.handleGetStates(newInput);
 });
-// watchers to update the selectedIso2 and selectedsiso
-watch(selectedIso2, async (newInput) => {
+
+watch(selectedIso2, (newInput) => {
   ciso.value = newInput;
 });
-//watchers to update the selectedsiso
-watch(selectedsiso, async (newInput) => {
+
+watch(selectedsiso, (newInput) => {
   siso.value = newInput;
 });
-// watch(selectedCountry, async (newInput) => {
-//   postJobsValue.value.country_id = newInput;
-// });
-// watch(selectedState, async (newInput) => {
-//   postJobsValue.value.state_id = newInput;
-// });
 
-// watch(ciso, async (newInput) => {
-//   siso.value = "";
-//   await skillsStore.handleGetStates(newInput);
-// });
+// Validation Errors
 const errors = reactive({
   top_skills: false,
   skill_title: false,
@@ -131,13 +107,14 @@ const errors = reactive({
   employment_type: false,
   availability: false,
 });
+
 const validateForm = () => {
-  // Reset errorsMsg
+  // Reset errors
   Object.keys(errors).forEach((key) => {
     errors[key] = false;
   });
 
-  // Define validation rules for each field
+  // Validation rules
   const validationRules = [
     { field: "skill_title", value: !skill_title.value },
     { field: "top_skills", value: top_skills.value.length === 0 },
@@ -150,7 +127,6 @@ const validateForm = () => {
     { field: "availability", value: !availability.value },
   ];
 
-  // Perform validation based on rules
   let isValid = true;
   validationRules.forEach((rule) => {
     if (rule.value) {
@@ -159,8 +135,9 @@ const validateForm = () => {
     }
   });
 
-  return isValid; // Only return false if there are validation errors
+  return isValid;
 };
+
 const clearInputErrors = () => {
   Object.keys(errors).forEach((key) => {
     errors[key] = false;
@@ -191,14 +168,68 @@ const next = () => {
     emit("next", step.value + 1);
   }
 };
+
 onMounted(async () => {
   await skillsStore.getskills();
   await skillsStore.getJobTitles();
   await skillsStore.getCountriesCode();
   options.value = skills.value.data;
   skillTitles.value = jobTitle.value.data;
+
+  if (skill_title.value) {
+    const selectedOption = skillTitles.value.find(option => option.name === skill_title.value);
+    if (selectedOption) {
+      minRate.value = selectedOption.min_rate || null;
+      maxRate.value = selectedOption.max_rate || null;
+    }
+  }
+
+  const foundCountry = contriesCode.value?.data.find((country) => country.iso2 === ciso.value);
+  selectedCountry.value = foundCountry ? foundCountry.name : '';
+
+  if (selectedCountry.value) {
+    await skillsStore.handleGetStates(ciso.value);
+    
+    const foundState = states.value?.data.find((state) => state.iso2 === siso.value);
+    selectedState.value = foundState ? foundState.name : '';
+  }
+
 });
 
+// Watch for changes in skill_title to update minRate and maxRate
+watch(skill_title, (newSkillTitle) => {
+  if (newSkillTitle) {
+    const selectedOption = skillTitles.value.find(option => option.name === newSkillTitle);
+    if (selectedOption) {
+      minRate.value = selectedOption.min_rate || null;
+      maxRate.value = selectedOption.max_rate || null;
+    }
+  } else {
+    minRate.value = null;
+    maxRate.value = null;
+  }
+});
+
+watch(selectedCountry, async (newCountry) => {
+  const foundCountry = contriesCode?.value?.data?.find(
+    (country) => country.name.toLowerCase() === newCountry.toLowerCase()
+  );
+  ciso.value = foundCountry ? foundCountry.iso2 : '';
+
+  if (ciso.value) {
+    states.value = null;
+    await skillsStore.handleGetStates(ciso.value);
+  }
+});
+
+watch(selectedState, (newState) => {
+  const foundState = states?.value?.data?.find(
+    (state) => state.name.toLowerCase() === newState.toLowerCase()
+  );
+  siso.value = foundState ? foundState.iso2 : '';
+});
+
+// Job Title Dropdown Logic
 const showJobTitleDropdown = ref(false);
 const highlightedJobTitleIndex = ref(-1);
 
@@ -217,6 +248,26 @@ const filterJobTitleOptions = () => {
 const selectJobTitleOptions = (option) => {
   skill_title.value = option.name;
   showJobTitleDropdown.value = false;
+  minRate.value = option.min_rate || null;
+  maxRate.value = option.max_rate || null;
+  rateError.value = null;
+};
+
+const validateAndCorrectRate = () => {
+  const currentRate = parseFloat(rate.value);
+
+  if (isNaN(currentRate)) {
+    rateError.value = 'Please enter a valid number';
+    return;
+  }
+
+  if (minRate.value && currentRate < minRate.value) {
+    rateError.value = `Rate must be greater than or equal to $${minRate.value}`;
+  } else if (maxRate.value && currentRate > maxRate.value) {
+    rateError.value = `Rate must be less than or equal to $${maxRate.value}`;
+  } else {
+    rateError.value = null;
+  }
 };
 
 const highlightNextJobTitle = () => {
@@ -236,7 +287,8 @@ const selectHighlightedJobTitleOption = () => {
     selectJobTitleOptions(filteredOptionsJobTitle.value[highlightedJobTitleIndex.value]);
   }
 };
-// multi select
+
+// Multi-select Logic for Top Skills
 const search = ref("");
 const showDropdown = ref(false);
 const highlightedIndex = ref(-1);
@@ -250,9 +302,11 @@ const filterOptions = () => {
   showDropdown.value = true;
   highlightedIndex.value = -1;
 };
+
 const placeholderText = computed(() => {
-  return top_skills.value.length >= 3 ? "" : "select your top skills Ex. Graphics Design";
+  return top_skills.value.length >= 3 ? "" : "Select your top skills (e.g., Graphics Design)";
 });
+
 const shouldDisplayInput = computed(() => {
   return top_skills.value.length < 3;
 });
@@ -281,6 +335,7 @@ const highlightPrevious = () => {
     highlightedIndex.value--;
   }
 };
+
 const getNextId = () => {
   const ids = options.value.map((option) => parseInt(option.id));
   const maxId = Math.max(...ids);
@@ -291,13 +346,13 @@ const selectHighlightedOption = () => {
   if (highlightedIndex.value >= 0) {
     selectOption(filteredOptions.value[highlightedIndex.value]);
   } else if (search.value && !filteredOptions.value.length) {
-    // If no options match the search term, add the typed item to the list
+    // Add the typed item if no matches
     const nextId = getNextId();
-
     selectOption({ id: nextId, name: search.value });
   }
 };
 </script>
+
 
 <template>
   <div class="w-full md:w-[350px] h-auto bg-[#007582] rounded-xl px-5 py-3 flex justify-between items-center mb-3 sticky top-1 z-10 lg:hidden md:hidden">
@@ -588,16 +643,21 @@ const selectHighlightedOption = () => {
                 >
                 <GlobalInput
                   v-model="rate"
+                  :min="minRate"
+                  :max="maxRate"
                   inputClasses="bg-transparent border-none"
                   placeholder="$100"
                   type="number"
+                  @input="validateAndCorrectRate"
                 />
               </div>
+              <div v-if="rateError" class="text-red-500 text-sm">{{ rateError }}</div>
             </div>
           </div>
           <div class="flex flex-row gap-5 pb-8 mt-5">
             <button
               @click="next"
+              :disabled="!isFormValid"
               :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
               class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
             >
