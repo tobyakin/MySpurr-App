@@ -362,6 +362,10 @@ onMounted(() => {
                       label: 'Full Time',
                       value: 'full-time',
                     },
+                    {
+                      label: 'Onsite',
+                      value: 'onsite',
+                    },
                   ]"
                   :key="item.value"
                   :value="item.value"
