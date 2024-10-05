@@ -388,11 +388,11 @@ const selectHighlightedOption = () => {
               add to this when your onboarding as been completed
             </p>
             <div
-              class="flex-col flex gap-6 pb-12"
+              class="flex-col flex pb-12"
             >
               <div
                 :class="errors.skill_title ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >Skill title</label
@@ -439,7 +439,7 @@ const selectHighlightedOption = () => {
               </div>
               <div
                 :class="errors.overview ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Overview</label>
                 <textarea
@@ -451,7 +451,7 @@ const selectHighlightedOption = () => {
               </div>
               <div
                 :class="errors.siso || errors.ciso ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] flex lg:flex-row flex-col items-center rounded-[5.897px] p-4 py-1.5 gap-3"
+                class="border-[0.737px] flex lg:flex-row flex-col items-center rounded-[5.897px] p-4 py-1.5 gap-3 mb-6"
               >
                 <div class="w-full">
                   <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
@@ -510,7 +510,7 @@ const selectHighlightedOption = () => {
 
               <div
                 :class="errors.top_skills ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >Select your top 3 skills</label
@@ -588,7 +588,7 @@ const selectHighlightedOption = () => {
               </div>
               <div
                 :class="errors.highest_education ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >What is your highest level of education?</label
@@ -604,7 +604,7 @@ const selectHighlightedOption = () => {
               </div>
               <div
                 :class="errors.employment_type ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >Employment type
@@ -620,7 +620,7 @@ const selectHighlightedOption = () => {
               </div>
               <div
                 :class="errors.availability ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >Availability
@@ -634,9 +634,15 @@ const selectHighlightedOption = () => {
                   class="bg-transparent border-none"
                 />
               </div>
+
+              <div class="mb-3" v-if="minRate && maxRate">
+                <p>
+                  Choose between ${{ minRate }} - ${{ maxRate }}
+                </p>
+              </div>
               <div
                 :class="errors.rate ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 m-0"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >Rate /hr ($)</label
