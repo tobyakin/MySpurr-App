@@ -11,8 +11,11 @@ import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useSkillsStore } from "@/stores/skills";
 import CalendlyIcon from "@/components/icons/CalendlyIcon.vue";
+import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
+
+
 const skillsStore = useSkillsStore();
-const { contriesCode, states } = storeToRefs(skillsStore);
+const { contriesCode, states, jobTitle } = storeToRefs(skillsStore);
 
 const profileStore = useUserProfile();
 const { bioInfo } = storeToRefs(profileStore);
@@ -20,13 +23,13 @@ let loading = ref(false);
 // Split the location string by comma
 const prefillCountry = ref("l");
 const prefillState = ref("l");
+const skillTitlesNames = ref([]);
 
 const userProfile = useUserProfile();
 const Experience = [
   { name: "Beginner ", year: "(1-2 yrs)" },
   { name: "Intermediate ", year: "(3-5 yrs)" },
   { name: "Expert ", year: "(6-10 yrs)" },
-  { name: "More than", year: " 10yrs" },
 ];
 
 const prefillDetails = () => {
@@ -104,11 +107,67 @@ const onFinish = async () => {
   }
 };
 
+let skillTitles = ref([]);
+const minRate = ref(null);
+const maxRate = ref(null);
+const rateError = ref(null);
+const isFormValid = ref(true)
+
+const handleJobTitleChange = (name) => {
+  const selected = skillTitles.value.find((item) => item.name === name);
+  selectJobTitleOptions(selected);
+};
+
+const selectJobTitleOptions = (option) => {
+  if (option) {
+    bioInfo.value.skill_title = option.name;
+    minRate.value = option.min_rate || null;
+    maxRate.value = option.max_rate || null;
+    rateError.value = null;
+
+    validateAndCorrectRate()
+  }
+};
+
+const validateAndCorrectRate = () => {
+  const currentRate = parseFloat(bioInfo.value.rate);
+
+  if (isNaN(currentRate)) {
+    rateError.value = 'Please enter a valid number';
+    return;
+  }
+
+  if (minRate.value && currentRate < minRate.value) {
+    rateError.value = `Rate must be greater than or equal to $${minRate.value}`;
+    isFormValid.value = false;
+  } else if (maxRate.value && currentRate > maxRate.value) {
+    rateError.value = `Rate must be less than or equal to $${maxRate.value}`;
+    isFormValid.value = false;
+  } else {
+    rateError.value = null;
+    isFormValid.value = true;
+  }
+};
+
 onMounted(async () => {
   prefillDetails();
   splitLocation(userProfile.user?.data?.location);
   await userProfile.userProfile();
   await skillsStore.getCountriesCode();
+  await skillsStore.getskills();
+  await skillsStore.getJobTitles();
+
+  skillTitles.value = jobTitle.value.data;
+  skillTitlesNames.value = skillTitles.value.map((item) => item.name);
+
+  if (bioInfo.value.skill_title) {
+    const selectedOption = skillTitles.value.find(option => option.name === bioInfo.value.skill_title);
+    if (selectedOption) {
+      minRate.value = selectedOption.min_rate || null;
+      maxRate.value = selectedOption.max_rate || null;
+    }
+  }
+
 });
 </script>
 <template>
@@ -151,24 +210,46 @@ onMounted(async () => {
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
                 >Skill Title</label
               >
-              <GlobalInput
+              <!-- <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="bioInfo.skill_title"
                 type="text"
-              />
+              /> -->
+
+              <SelectGroup
+                    v-model="bioInfo.skill_title"
+                    DropdownItem="level of education"
+                    placeholder=""
+                    :items="skillTitlesNames"
+                    name=""
+                    item-text="name"
+                    class="w-full flex border-none"
+                    @update:modelValue="handleJobTitleChange"
+                  />
             </div>
 
+            
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
+              <div class="mb-3" v-if="minRate && maxRate">
+                <p class="text-sm">
+                  Choose between ${{ minRate }} - ${{ maxRate }}
+                </p>
+              </div>
               <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
                 >Rate /hr</label
               >
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="bioInfo.rate"
-                type="text"
+                :min="minRate"
+                :max="maxRate"
+                type="number"
+                @input="validateAndCorrectRate"
               />
+
+              <div v-if="rateError" class="text-red-500 text-sm">{{ rateError }}</div>
             </div>
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] py-1"
@@ -375,8 +456,9 @@ onMounted(async () => {
     <div class="w-full flex justify-center mt-8">
       <button
         @click="onFinish"
-        :disabled="loading"
-        class="btn-brand !border-none !w-[30%] flex items-center justify-center mx-auto !py-3 lg:!px-10 !px-5 !text-[#FFFFFF] text-center !bg-[#2F929C]"
+        :disabled="loading || !isFormValid"
+        :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed hover:bg-gray-300' : 'btn-hover-1 bg-[#2F929C]'"
+        class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-[30%]"
       >
         <span v-if="!loading" class="text-[12.067px]">Save</span>
         <WhiteLoader class="my-1" v-if="loading" />
