@@ -36,6 +36,7 @@ const employmentType = [
 ];
 let options = ref([]);
 let skillTitles = ref([]);
+const skillTitlesNames = ref([]);
 
 const educationLevel = ["Certificate", "Bachelors", "Masters", "Doctorate"];
 
@@ -169,33 +170,6 @@ const next = () => {
   }
 };
 
-onMounted(async () => {
-  await skillsStore.getskills();
-  await skillsStore.getJobTitles();
-  await skillsStore.getCountriesCode();
-  options.value = skills.value.data;
-  skillTitles.value = jobTitle.value.data;
-
-  if (skill_title.value) {
-    const selectedOption = skillTitles.value.find(option => option.name === skill_title.value);
-    if (selectedOption) {
-      minRate.value = selectedOption.min_rate || null;
-      maxRate.value = selectedOption.max_rate || null;
-    }
-  }
-
-  const foundCountry = contriesCode.value?.data.find((country) => country.iso2 === ciso.value);
-  selectedCountry.value = foundCountry ? foundCountry.name : '';
-
-  if (selectedCountry.value) {
-    await skillsStore.handleGetStates(ciso.value);
-    
-    const foundState = states.value?.data.find((state) => state.iso2 === siso.value);
-    selectedState.value = foundState ? foundState.name : '';
-  }
-
-});
-
 // Watch for changes in skill_title to update minRate and maxRate
 watch(skill_title, (newSkillTitle) => {
   if (newSkillTitle) {
@@ -231,26 +205,22 @@ watch(selectedState, (newState) => {
 
 // Job Title Dropdown Logic
 const showJobTitleDropdown = ref(false);
-const highlightedJobTitleIndex = ref(-1);
+const selectedJobTitle = ref(null);
 
-const filteredOptionsJobTitle = computed(() => {
-  const searchJobTitle = skill_title.value.toLowerCase();
-  return skillTitles.value.filter((option) =>
-    option.name.toLowerCase().includes(searchJobTitle)
-  );
-});
-
-const filterJobTitleOptions = () => {
-  showJobTitleDropdown.value = true;
-  highlightedJobTitleIndex.value = -1;
+const handleJobTitleChange = (name) => {
+  const selected = skillTitles.value.find((item) => item.name === name);
+  selectJobTitleOptions(selected);
 };
 
 const selectJobTitleOptions = (option) => {
-  skill_title.value = option.name;
-  showJobTitleDropdown.value = false;
-  minRate.value = option.min_rate || null;
-  maxRate.value = option.max_rate || null;
-  rateError.value = null;
+  if (option) {
+    selectedJobTitle.value = option.name;
+    skill_title.value = option.name;
+    showJobTitleDropdown.value = false;
+    minRate.value = option.min_rate || null;
+    maxRate.value = option.max_rate || null;
+    rateError.value = null;
+  }
 };
 
 const validateAndCorrectRate = () => {
@@ -267,24 +237,6 @@ const validateAndCorrectRate = () => {
     rateError.value = `Rate must be less than or equal to $${maxRate.value}`;
   } else {
     rateError.value = null;
-  }
-};
-
-const highlightNextJobTitle = () => {
-  if (highlightedJobTitleIndex.value < filteredOptionsJobTitle.value.length - 1) {
-    highlightedJobTitleIndex.value++;
-  }
-};
-
-const highlightPreviousJobTitle = () => {
-  if (highlightedJobTitleIndex.value > 0) {
-    highlightedJobTitleIndex.value--;
-  }
-};
-
-const selectHighlightedJobTitleOption = () => {
-  if (highlightedJobTitleIndex.value >= 0) {
-    selectJobTitleOptions(filteredOptionsJobTitle.value[highlightedJobTitleIndex.value]);
   }
 };
 
@@ -351,8 +303,35 @@ const selectHighlightedOption = () => {
     selectOption({ id: nextId, name: search.value });
   }
 };
-</script>
 
+onMounted(async () => {
+  await skillsStore.getskills();
+  await skillsStore.getJobTitles();
+  await skillsStore.getCountriesCode();
+  options.value = skills.value.data;
+  skillTitles.value = jobTitle.value.data;
+  skillTitlesNames.value = skillTitles.value.map((item) => item.name);
+
+  if (selectedJobTitle.value) {
+    const selectedOption = skillTitles.value.find(option => option.name === selectedJobTitle.value);
+    if (selectedOption) {
+      minRate.value = selectedOption.min_rate || null;
+      maxRate.value = selectedOption.max_rate || null;
+    }
+  }
+
+  const foundCountry = contriesCode.value?.data.find((country) => country.iso2 === ciso.value);
+  selectedCountry.value = foundCountry ? foundCountry.name : '';
+
+  if (selectedCountry.value) {
+    await skillsStore.handleGetStates(ciso.value);
+    
+    const foundState = states.value?.data.find((state) => state.iso2 === siso.value);
+    selectedState.value = foundState ? foundState.name : '';
+  }
+
+});
+</script>
 
 <template>
   <div class="w-full md:w-[350px] h-auto bg-[#007582] rounded-xl px-5 py-3 flex justify-between items-center mb-3 sticky top-1 z-10 lg:hidden md:hidden">
@@ -398,44 +377,17 @@ const selectHighlightedOption = () => {
                   >Skill title</label
                 >
                 <div class="relative">
-                  <GlobalInput
-                    v-model="skill_title"
-                    @input="filterJobTitleOptions"
-                    @keydown.down="highlightNextJobTitle"
-                    @keydown.up="highlightPreviousJobTitle"
-                    @keydown.enter="selectHighlightedJobTitleOption"
-                    ref="searchInput"
-                    inputClasses="bg-transparent !border-none"
-                    placeholder="Graphics Designer"
-                    type=""
+                  <SelectGroup
+                    v-model="selectedJobTitle"
+                    DropdownItem="level of education"
+                    placeholder=""
+                    :items="skillTitlesNames"
+                    name=""
+                    item-text="name"
+                    class="w-full flex border-none"
+                    @update:modelValue="handleJobTitleChange"
                   />
-
-                  <ul
-                    v-if="showJobTitleDropdown"
-                    class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
-                  >
-                    <li
-                      v-for="(option, index) in filteredOptionsJobTitle"
-                      :key="option.id"
-                      @click="selectJobTitleOptions(option)"
-                      :class="{ highlighted: index === highlightedJobTitleIndex }"
-                      class="hover:bg-brand hover:text-white"
-                    >
-                      {{ option.name }}
-                    </li>
-                  </ul>
                 </div>
-
-                <!-- <multiselect
-                  v-model="skill_title"
-                  :options="skillTitles"
-                  placeholder="Ex. Graphics Designer"
-                  @tag="addTag"
-                  :searchable="true"
-                  :close-on-select="false"
-                  :show-labels="false"
-                >
-                </multiselect> -->
               </div>
               <div
                 :class="errors.overview ? 'border-[#DA5252]' : 'border-[#254035AB]'"
