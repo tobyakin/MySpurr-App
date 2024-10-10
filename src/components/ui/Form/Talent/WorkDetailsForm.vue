@@ -1,11 +1,10 @@
 <script setup>
 import { ref, onMounted, watch, computed, defineAsyncComponent, reactive } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
-// import { useStore } from "@/stores/user";
 import { useSkillsStore } from "@/stores/skills";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
-// import Multiselect from "vue-multiselect";
+
 const skillsStore = useSkillsStore();
 const { skills, jobTitle, contriesCode, states } = storeToRefs(skillsStore);
 
@@ -13,15 +12,12 @@ const OnboardingStore = useOnboardingStore();
 const SelectGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/SelectGroup.vue")
 );
-// let selectedCountry = ref("");
-// const selectedStates = ref("");
 
 const {
   step,
   skill_title,
   highest_education,
   overview,
-  location,
   rate,
   availability,
   top_skills,
@@ -29,97 +25,78 @@ const {
   ciso,
   siso,
 } = storeToRefs(OnboardingStore);
-// let store = useStore();
-//
-// let loading = ref(false);
+
 const availabilityData = ["Immediately", "One week"];
 const employmentType = [
   "Freelance",
-  "Full-time ",
-  "Part-time ",
-  "Internship ",
-  "Contract ",
+  "Full-time",
+  "Part-time",
+  "Internship",
+  "Contract",
 ];
 let options = ref([]);
 let skillTitles = ref([]);
+const skillTitlesNames = ref([]);
 
-const educationLevel = ["Certificate", "Bachelors", "Masters ", "Doctorate "];
-
-// const addTag = (newTagName) => {
-//   const tag = {
-//     name: newTagName,
-//   };
-//   options.value.push(tag);
-//   top_skills.value.push(tag);
-// };
-
-// const years = ref([]);
-
-// onMounted(() => {
-//   // Populate the years array with a range of years, e.g., from 2000 to the current year.
-//   const currentYear = new Date().getFullYear();
-//   for (let year = currentYear; year >= 1950; year--) {
-//     years.value.push(year.toString());
-//   }
-//   console.log("options", skills.value.data);
-// });
+const educationLevel = ["Certificate", "Bachelors", "Masters", "Doctorate"];
 
 const emit = defineEmits(["next"]);
+
+const minRate = ref(null);
+const maxRate = ref(null);
+const rateError = ref(null);
+
 const isFormValid = computed(() => {
+  const currentRate = parseFloat(rate.value);
   return (
-    // skill_title.value.trim() !== "" &&
-    top_skills.value.length > 0 && // Check if top_skills is not empty
+    top_skills.value.length > 0 &&
     highest_education.value.trim() !== "" &&
     overview.value.trim() !== "" &&
     ciso.value.trim() !== "" &&
     siso.value.trim() !== "" &&
     rate.value.trim() !== "" &&
+    !isNaN(currentRate) &&
+    (minRate.value === null || currentRate >= minRate.value) &&
+    (maxRate.value === null || currentRate <= maxRate.value) &&
     employment_type.value.trim() !== "" &&
     availability.value.trim() !== ""
   );
 });
-// end tag ends here
+
 const selectedCountry = ref("");
 const selectedState = ref("");
-// computed property to find the country ISO code
+
+// Compute ISO codes based on selected country and state
 const selectedIso2 = computed(() => {
   const foundCountry = contriesCode?.value?.data?.find(
     (country) => country.name.toLowerCase() === selectedCountry.value.toLowerCase()
   );
   return foundCountry ? foundCountry.iso2 : null;
 });
-// computed property to find the state ISO code
+
 const selectedsiso = computed(() => {
   const foundState = states?.value?.data?.find(
     (state) => state.name.toLowerCase() === selectedState.value.toLowerCase()
   );
   return foundState ? foundState.iso2 : null;
 });
-// watchers to update the selectedIso2 and selectedsiso
+
+// Watchers for ISO codes
 watch(selectedIso2, async (newInput) => {
   siso.value = "";
   states.value = null;
   await skillsStore.handleGetStates(newInput);
 });
-// watchers to update the selectedIso2 and selectedsiso
-watch(selectedIso2, async (newInput) => {
+
+watch(selectedIso2, (newInput) => {
   ciso.value = newInput;
 });
-//watchers to update the selectedsiso
-watch(selectedsiso, async (newInput) => {
+
+watch(selectedsiso, (newInput) => {
   siso.value = newInput;
 });
-// watch(selectedCountry, async (newInput) => {
-//   postJobsValue.value.country_id = newInput;
-// });
-// watch(selectedState, async (newInput) => {
-//   postJobsValue.value.state_id = newInput;
-// });
 
-// watch(ciso, async (newInput) => {
-//   siso.value = "";
-//   await skillsStore.handleGetStates(newInput);
-// });
+// Validation Errors
 const errors = reactive({
   top_skills: false,
   skill_title: false,
@@ -131,13 +108,14 @@ const errors = reactive({
   employment_type: false,
   availability: false,
 });
+
 const validateForm = () => {
-  // Reset errorsMsg
+  // Reset errors
   Object.keys(errors).forEach((key) => {
     errors[key] = false;
   });
 
-  // Define validation rules for each field
+  // Validation rules
   const validationRules = [
     { field: "skill_title", value: !skill_title.value },
     { field: "top_skills", value: top_skills.value.length === 0 },
@@ -150,7 +128,6 @@ const validateForm = () => {
     { field: "availability", value: !availability.value },
   ];
 
-  // Perform validation based on rules
   let isValid = true;
   validationRules.forEach((rule) => {
     if (rule.value) {
@@ -159,8 +136,9 @@ const validateForm = () => {
     }
   });
 
-  return isValid; // Only return false if there are validation errors
+  return isValid;
 };
+
 const clearInputErrors = () => {
   Object.keys(errors).forEach((key) => {
     errors[key] = false;
@@ -191,52 +169,78 @@ const next = () => {
     emit("next", step.value + 1);
   }
 };
-onMounted(async () => {
-  await skillsStore.getskills();
-  await skillsStore.getJobTitles();
-  await skillsStore.getCountriesCode();
-  options.value = skills.value.data;
-  skillTitles.value = jobTitle.value.data;
+
+// Watch for changes in skill_title to update minRate and maxRate
+watch(skill_title, (newSkillTitle) => {
+  if (newSkillTitle) {
+    const selectedOption = skillTitles.value.find(option => option.name === newSkillTitle);
+    if (selectedOption) {
+      minRate.value = selectedOption.min_rate || null;
+      maxRate.value = selectedOption.max_rate || null;
+    }
+  } else {
+    minRate.value = null;
+    maxRate.value = null;
+  }
 });
 
-const showJobTitleDropdown = ref(false);
-const highlightedJobTitleIndex = ref(-1);
-
-const filteredOptionsJobTitle = computed(() => {
-  const searchJobTitle = skill_title.value.toLowerCase();
-  return skillTitles.value.filter((option) =>
-    option.name.toLowerCase().includes(searchJobTitle)
+watch(selectedCountry, async (newCountry) => {
+  const foundCountry = contriesCode?.value?.data?.find(
+    (country) => country.name.toLowerCase() === newCountry.toLowerCase()
   );
+  ciso.value = foundCountry ? foundCountry.iso2 : '';
+
+  if (ciso.value) {
+    states.value = null;
+    await skillsStore.handleGetStates(ciso.value);
+  }
 });
 
-const filterJobTitleOptions = () => {
-  showJobTitleDropdown.value = true;
-  highlightedJobTitleIndex.value = -1;
+watch(selectedState, (newState) => {
+  const foundState = states?.value?.data?.find(
+    (state) => state.name.toLowerCase() === newState.toLowerCase()
+  );
+  siso.value = foundState ? foundState.iso2 : '';
+});
+
+// Job Title Dropdown Logic
+const showJobTitleDropdown = ref(false);
+const selectedJobTitle = ref(null);
+
+const handleJobTitleChange = (name) => {
+  const selected = skillTitles.value.find((item) => item.name === name);
+  selectJobTitleOptions(selected);
 };
 
 const selectJobTitleOptions = (option) => {
-  skill_title.value = option.name;
-  showJobTitleDropdown.value = false;
-};
-
-const highlightNextJobTitle = () => {
-  if (highlightedJobTitleIndex.value < filteredOptionsJobTitle.value.length - 1) {
-    highlightedJobTitleIndex.value++;
+  if (option) {
+    selectedJobTitle.value = option.name;
+    skill_title.value = option.name;
+    showJobTitleDropdown.value = false;
+    minRate.value = option.min_rate || null;
+    maxRate.value = option.max_rate || null;
+    rateError.value = null;
   }
 };
 
-const highlightPreviousJobTitle = () => {
-  if (highlightedJobTitleIndex.value > 0) {
-    highlightedJobTitleIndex.value--;
+const validateAndCorrectRate = () => {
+  const currentRate = parseFloat(rate.value);
+
+  if (isNaN(currentRate)) {
+    rateError.value = 'Please enter a valid number';
+    return;
+  }
+
+  if (minRate.value && currentRate < minRate.value) {
+    rateError.value = `Rate must be greater than or equal to $${minRate.value}`;
+  } else if (maxRate.value && currentRate > maxRate.value) {
+    rateError.value = `Rate must be less than or equal to $${maxRate.value}`;
+  } else {
+    rateError.value = null;
   }
 };
 
-const selectHighlightedJobTitleOption = () => {
-  if (highlightedJobTitleIndex.value >= 0) {
-    selectJobTitleOptions(filteredOptionsJobTitle.value[highlightedJobTitleIndex.value]);
-  }
-};
-// multi select
+// Multi-select Logic for Top Skills
 const search = ref("");
 const showDropdown = ref(false);
 const highlightedIndex = ref(-1);
@@ -250,9 +254,11 @@ const filterOptions = () => {
   showDropdown.value = true;
   highlightedIndex.value = -1;
 };
+
 const placeholderText = computed(() => {
-  return top_skills.value.length >= 3 ? "" : "select your top skills Ex. Graphics Design";
+  return top_skills.value.length >= 3 ? "" : "Select your top skills (e.g., Graphics Design)";
 });
+
 const shouldDisplayInput = computed(() => {
   return top_skills.value.length < 3;
 });
@@ -281,6 +287,7 @@ const highlightPrevious = () => {
     highlightedIndex.value--;
   }
 };
+
 const getNextId = () => {
   const ids = options.value.map((option) => parseInt(option.id));
   const maxId = Math.max(...ids);
@@ -291,12 +298,39 @@ const selectHighlightedOption = () => {
   if (highlightedIndex.value >= 0) {
     selectOption(filteredOptions.value[highlightedIndex.value]);
   } else if (search.value && !filteredOptions.value.length) {
-    // If no options match the search term, add the typed item to the list
+    // Add the typed item if no matches
     const nextId = getNextId();
-
     selectOption({ id: nextId, name: search.value });
   }
 };
+
+onMounted(async () => {
+  await skillsStore.getskills();
+  await skillsStore.getJobTitles();
+  await skillsStore.getCountriesCode();
+  options.value = skills.value.data;
+  skillTitles.value = jobTitle.value.data;
+  skillTitlesNames.value = skillTitles.value.map((item) => item.name);
+
+  if (selectedJobTitle.value) {
+    const selectedOption = skillTitles.value.find(option => option.name === selectedJobTitle.value);
+    if (selectedOption) {
+      minRate.value = selectedOption.min_rate || null;
+      maxRate.value = selectedOption.max_rate || null;
+    }
+  }
+
+  const foundCountry = contriesCode.value?.data.find((country) => country.iso2 === ciso.value);
+  selectedCountry.value = foundCountry ? foundCountry.name : '';
+
+  if (selectedCountry.value) {
+    await skillsStore.handleGetStates(ciso.value);
+    
+    const foundState = states.value?.data.find((state) => state.iso2 === siso.value);
+    selectedState.value = foundState ? foundState.name : '';
+  }
+
+});
 </script>
 
 <template>
@@ -333,58 +367,31 @@ const selectHighlightedOption = () => {
               add to this when your onboarding as been completed
             </p>
             <div
-              class="flex-col flex gap-6 pb-12"
+              class="flex-col flex pb-12"
             >
               <div
                 :class="errors.skill_title ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >Skill title</label
                 >
                 <div class="relative">
-                  <GlobalInput
-                    v-model="skill_title"
-                    @input="filterJobTitleOptions"
-                    @keydown.down="highlightNextJobTitle"
-                    @keydown.up="highlightPreviousJobTitle"
-                    @keydown.enter="selectHighlightedJobTitleOption"
-                    ref="searchInput"
-                    inputClasses="bg-transparent !border-none"
-                    placeholder="Graphics Designer"
-                    type=""
+                  <SelectGroup
+                    v-model="selectedJobTitle"
+                    DropdownItem="level of education"
+                    placeholder=""
+                    :items="skillTitlesNames"
+                    name=""
+                    item-text="name"
+                    class="w-full flex border-none"
+                    @update:modelValue="handleJobTitleChange"
                   />
-
-                  <ul
-                    v-if="showJobTitleDropdown"
-                    class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
-                  >
-                    <li
-                      v-for="(option, index) in filteredOptionsJobTitle"
-                      :key="option.id"
-                      @click="selectJobTitleOptions(option)"
-                      :class="{ highlighted: index === highlightedJobTitleIndex }"
-                      class="hover:bg-brand hover:text-white"
-                    >
-                      {{ option.name }}
-                    </li>
-                  </ul>
                 </div>
-
-                <!-- <multiselect
-                  v-model="skill_title"
-                  :options="skillTitles"
-                  placeholder="Ex. Graphics Designer"
-                  @tag="addTag"
-                  :searchable="true"
-                  :close-on-select="false"
-                  :show-labels="false"
-                >
-                </multiselect> -->
               </div>
               <div
                 :class="errors.overview ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Overview</label>
                 <textarea
@@ -396,7 +403,7 @@ const selectHighlightedOption = () => {
               </div>
               <div
                 :class="errors.siso || errors.ciso ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] flex lg:flex-row flex-col items-center rounded-[5.897px] p-4 py-1.5 gap-3"
+                class="border-[0.737px] flex lg:flex-row flex-col items-center rounded-[5.897px] p-4 py-1.5 gap-3 mb-6"
               >
                 <div class="w-full">
                   <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
@@ -455,7 +462,7 @@ const selectHighlightedOption = () => {
 
               <div
                 :class="errors.top_skills ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >Select your top 3 skills</label
@@ -533,7 +540,7 @@ const selectHighlightedOption = () => {
               </div>
               <div
                 :class="errors.highest_education ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >What is your highest level of education?</label
@@ -549,7 +556,7 @@ const selectHighlightedOption = () => {
               </div>
               <div
                 :class="errors.employment_type ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >Employment type
@@ -565,7 +572,7 @@ const selectHighlightedOption = () => {
               </div>
               <div
                 :class="errors.availability ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >Availability
@@ -579,25 +586,36 @@ const selectHighlightedOption = () => {
                   class="bg-transparent border-none"
                 />
               </div>
+
+              <div class="mb-3" v-if="minRate && maxRate">
+                <p>
+                  Choose between ${{ minRate }} - ${{ maxRate }}
+                </p>
+              </div>
               <div
                 :class="errors.rate ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+                class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 m-0"
               >
                 <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
                   >Rate /hr ($)</label
                 >
                 <GlobalInput
                   v-model="rate"
+                  :min="minRate"
+                  :max="maxRate"
                   inputClasses="bg-transparent border-none"
                   placeholder="$100"
                   type="number"
+                  @input="validateAndCorrectRate"
                 />
               </div>
+              <div v-if="rateError" class="text-red-500 text-sm">{{ rateError }}</div>
             </div>
           </div>
           <div class="flex flex-row gap-5 pb-8 mt-5">
             <button
               @click="next"
+              :disabled="!isFormValid"
               :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
               class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
             >

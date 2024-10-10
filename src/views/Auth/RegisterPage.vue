@@ -1,26 +1,26 @@
 <!-- eslint-disable no-unused-vars -->
 <script setup>
-import { ref } from "vue";
-import layout from "@/components/layout/LightAuthLayout.vue";
-import TabSelector from "@/components/ui/TabSelector.vue";
-import SignupForm from "@/components/ui/SignupForm.vue";
+import { ref } from 'vue'
+import layout from '@/components/layout/LightAuthLayout.vue'
+import TabSelector from '@/components/ui/TabSelector.vue'
+import SignupForm from '@/components/ui/SignupForm.vue'
 
 const talentsTerms = [
-  { content: "Get discovered by building your profile and portfolio" },
-  { content: "Find new job opportunities in your field" },
-  { content: "Grow by join a community of creative professionals" },
-];
+  { content: 'Get discovered by building your profile and portfolio' },
+  { content: 'Find new job opportunities in your field' },
+  { content: 'Grow by join a community of creative professionals' }
+]
 const businessTerms = [
-  { content: "Access a diverse pool of creative talent" },
-  { content: "Find the right talent for your project with ease " },
-  { content: "Manage your hiring process and payment seamlessly " },
-];
-const steps = ref([true, false]);
+  { content: 'Access a diverse pool of creative talent' },
+  { content: 'Find the right talent for your project with ease ' },
+  { content: 'Manage your hiring process and payment seamlessly ' }
+]
+const steps = ref([true, false])
 
 const changeScreen = (from, to, type = null) => {
-  steps.value[from] = false;
-  steps.value[to] = true;
-};
+  steps.value[from] = false
+  steps.value[to] = true
+}
 </script>
 
 <template>
@@ -29,13 +29,9 @@ const changeScreen = (from, to, type = null) => {
       <h1 class="md:text-[36px] font-EBGaramond500 text-2xl font-bold leading-[2.5rem]">
         How will you use MySpurr?
       </h1>
-      <p class="text-[16px] font-Satoshi400 my-4 md:!mb-8">
-        Please select an option below.
-      </p>
+      <p class="text-[16px] font-Satoshi400 my-4 md:!mb-8">Please select an option below.</p>
 
-      <div
-        class="justify-center w-full md:bg-white rounded-[11.315px] min-h-full p-2 lg:p-8"
-      >
+      <div class="justify-center w-full md:bg-white rounded-[11.315px] min-h-full p-2 lg:p-8">
         <tab-selector>
           <template #tab1> Creative talent </template>
           <template #tab2> Business </template>
@@ -60,9 +56,7 @@ const changeScreen = (from, to, type = null) => {
                       fill="#43D0DF"
                     />
                   </svg>
-                  <p
-                    class="text-[10px] text-[#011B1F] font-Satoshi400 leading-[19.572px] !mb-1"
-                  >
+                  <p class="text-[10px] text-[#011B1F] font-Satoshi400 leading-[19.572px] !mb-1">
                     {{ item.content }}
                   </p>
                 </div>
@@ -79,10 +73,7 @@ const changeScreen = (from, to, type = null) => {
             <div class="mt-4 text-center">
               <p class="font-Satoshi400 text-[17.253px]">
                 Have an account?
-                <router-link
-                  class="text-[#31795A] border-b-[#31795A] border-b-[1px]"
-                  to="/login"
-                >
+                <router-link class="text-[#31795A] border-b-[#31795A] border-b-[1px]" to="/login">
                   Sign In</router-link
                 >
               </p>
@@ -109,9 +100,7 @@ const changeScreen = (from, to, type = null) => {
                       fill="#43D0DF"
                     />
                   </svg>
-                  <p
-                    class="text-[10px] text-[#011B1F] font-Satoshi400 leading-[19.572px] !mb-1"
-                  >
+                  <p class="text-[10px] text-[#011B1F] font-Satoshi400 leading-[19.572px] !mb-1">
                     {{ item.content }}
                   </p>
                 </div>
@@ -128,10 +117,7 @@ const changeScreen = (from, to, type = null) => {
             <div class="mt-4 text-center">
               <p class="font-Satoshi400 text-[17.253px]">
                 Have an account?
-                <router-link
-                  class="text-[#31795A] border-b-[#31795A] border-b-[1px]"
-                  to="/login"
-                >
+                <router-link class="text-[#31795A] border-b-[#31795A] border-b-[1px]" to="/login">
                   Sign In</router-link
                 >
               </p>

@@ -140,6 +140,17 @@ const placeholderText = computed(() => {
   return postJobsValue.value.skills.length >= 5 ? "" : "Add skills";
 });
 
+function formatNumber(value) {
+  if (value === '') return '';
+  return new Intl.NumberFormat().format(value);
+}
+
+const handleInput = (e)=>{
+  let value = e.target.value;
+  value = value.replace(/[^0-9]/g, '');
+  // value = formatNumber(value)
+}
+
 
 const selectOption = (option) => {
   if (postJobsValue.value.skills.length < 5) {
@@ -351,6 +362,10 @@ onMounted(() => {
                       label: 'Full Time',
                       value: 'full-time',
                     },
+                    {
+                      label: 'Onsite',
+                      value: 'onsite',
+                    },
                   ]"
                   :key="item.value"
                   :value="item.value"
@@ -492,8 +507,9 @@ onMounted(() => {
               label=" "
               name="Max"
               placeholder="Max"
-              type="number"
+              type="text"
               inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2.5 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              @input="handleInput"
             ></FormGroup>
             <!-- <div class="flex flex-col w-full text-left">
               <Label class="font-Satoshi500 invisible !text-[17.792px] mb-2"></Label>

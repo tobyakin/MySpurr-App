@@ -30,7 +30,7 @@ import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
 import { computed, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { storeToRefs } from "pinia";
 

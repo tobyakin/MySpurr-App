@@ -29,7 +29,7 @@ defineProps({
   error: Boolean,
   errorsMsg: null,
 });
-const emit = defineEmits(["update:modelValue"]);
+defineEmits(["update:modelValue"]);
 
 const showPassword = ref(false);
 

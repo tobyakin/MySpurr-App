@@ -1,8 +1,8 @@
 <template>
   <div class="relative">
     <input
-      :class="error ? '!border-[#DA5252]' : 'border-inherit'"
-      class="w-full font-light font-Satoshi400 text-[14px] !p-2 opacity-[0.8029] rounded-[4.074px] text-sm"
+      :class="error ? '!border-[#DA5252]' : 'border-[#254035]'"
+      class="w-full font-light font-Satoshi400 text-[14px] !p-2 opacity-[0.8029] rounded-[4.074px] text-sm border"
       :placeholder="placeholder"
       :type="type"
       :value="modelValue"
@@ -18,14 +18,29 @@
 </template>
 
 <script setup>
-import greenInputTick from "@/components/icons/greenInputTick.vue";
 import errorInputIcon from "@/components/icons/errorInputIcon.vue";
+
 defineProps({
-  modelValue: String | Number,
-  type: String,
-  placeholder: String,
-  error: Boolean,
-  errorsMsg: null,
+  modelValue: {
+    type: [String, Number],
+    required: true
+  },
+  type: {
+    type: String,
+    required: true
+  },
+  placeholder: {
+    type: String,
+    required: true
+  },
+  error: {
+    type: Boolean,
+    default: false
+  },
+  errorsMsg: {
+    type: String,
+    default: null
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
