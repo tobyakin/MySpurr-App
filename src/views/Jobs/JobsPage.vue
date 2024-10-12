@@ -189,13 +189,14 @@ const resetFilters = () => {
   rateMax.value = "";
 };
 // You can also watch the currentPage to react to page changes
-watch(currentPage, (newPage) => {
+watch(currentPage, async (newPage) => {
   console.log("Current Page:", newPage);
+  await jobsStore.allJobs(newPage)
 });
 onMounted(async () => {
   loading.value = true;
   try {
-    await jobsStore.allJobs();
+    await jobsStore.allJobs(1);
     loading.value = false;
   } catch (error) {
     console.error;

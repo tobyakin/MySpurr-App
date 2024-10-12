@@ -78,9 +78,9 @@ export const useJobsStore = defineStore('jobs', () => {
       /**/
     }
   }
-  const allJobs = async () => {
+  const allJobs = async (page) => {
     try {
-      Job.value = await getJobs()
+      Job.value = await getJobs(page)
       return Job.value
     } catch (error) {
       console.error(error)
