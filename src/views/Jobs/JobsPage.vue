@@ -132,7 +132,6 @@ const displayedPageNumbers = computed(() => {
 
 const filteredJobs = computed(() => {
   let filtered = Job?.value?.data; // Create a shallow copy of the jobs array
-  console.log(Job.value)
 
   // Filtering based on the search criteria
   if (sortInput.name) {
@@ -190,7 +189,6 @@ const resetFilters = () => {
 };
 // You can also watch the currentPage to react to page changes
 watch(currentPage, async (newPage) => {
-  console.log("Current Page:", newPage);
   await jobsStore.allJobs(newPage)
 });
 onMounted(async () => {
