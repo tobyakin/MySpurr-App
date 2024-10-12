@@ -104,16 +104,21 @@ watch(range, (newRange) => {
 });
 
 const currentPage = ref(1);
-const totalPages = computed(() => Math.ceil(Job.value?.length / 2));
+
+const pagination = computed(() => Job.value?.pagination || {});
+
+
+const totalPages = computed(() => Math.ceil(pagination.value.last_page));
 
 // Function to change the current page
 const setPage = (page) => {
-  if (page >= 1 && page <= (2 || 1)) {
+  if (page >= 1 && page <= (pagination.value.last_page || 1)) {
     currentPage.value = page;
   }
 };
+
 const displayedPageNumbers = computed(() => {
-  const maxDisplayedPages = 4;
+  const maxDisplayedPages = 5;
   const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1);
   const endPage = Math.min(startPage + maxDisplayedPages - 1, totalPages.value);
   const pageNumbers = [];
@@ -124,8 +129,10 @@ const displayedPageNumbers = computed(() => {
 
   return pageNumbers;
 });
+
 const filteredJobs = computed(() => {
   let filtered = Job?.value?.data; // Create a shallow copy of the jobs array
+  console.log(Job.value)
 
   // Filtering based on the search criteria
   if (sortInput.name) {
@@ -405,6 +412,31 @@ watchEffect(() => {
           </div>
           <div class="mt-12 flex w-[60%] flex-row justify-center mx-auto">
             <button
+              @click="setPage(currentPage - 1)"
+              class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+            >
+              <Arrow class="rotate-[180deg]"/>
+            </button>
+            <button
+              v-for="pageNumber in displayedPageNumbers"
+              :key="pageNumber"
+              :class="[
+                'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
+                pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
+              ]"
+              @click="setPage(pageNumber)"
+            >
+              {{ pageNumber }}
+            </button>
+            <button
+              @click="setPage(currentPage + 1)"
+              class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+            >
+              <Arrow />
+            </button>
+          </div>
+          <!-- <div class="mt-12 flex w-[60%] flex-row justify-center mx-auto">
+            <button
               v-for="pageNumber in displayedPageNumbers"
               :key="pageNumber"
               :class="[
@@ -424,7 +456,7 @@ watchEffect(() => {
             >
               <Arrow />
             </button>
-          </div>
+          </div> -->
         </template>
       </Tabs>
     </div>
