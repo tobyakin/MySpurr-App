@@ -2,10 +2,10 @@ import axios from '../axios'
 import { catchAxiosError, catchAxiosSuccess } from './Response'
 import { getToken } from './Auth'
 
-export const getJobs = async () => {
+export const getJobs = async (page) => {
   const token = await getToken()
   try {
-    let res = await axios.get(`v1/get-jobs`, {
+    let res = await axios.get(`v1/get-jobs?page=${page}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
