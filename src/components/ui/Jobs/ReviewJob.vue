@@ -787,24 +787,5 @@
     </div>
   </template>
   <style scoped>
-  /* Custom radio button styling */
-
-.custom-radio.checked {
-  border: none; /* Checked border color */
-}
-
-.custom-radio.checked::after {
-  content: '';
-  width: 100%;
-  height: 100%;
-  background-color: #306d72; 
-  border-radius: 100%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: background-color 0.3s ease;
-}
-
   </style>
   
