@@ -327,6 +327,12 @@ input[type='checkbox'] {
   @apply !my-0 leading-[1.5rem]
 }
 
+.custom-radio {
+  @apply w-[1.4rem] h-[1.4rem] border-2 border-[#6C8285] rounded-[50%] relative transitionItem mr-[0.5rem]
+}
+
+
+
 .ql-video {
   width: 100%; /* Set the desired width */
   height: 600px; /* Set the desired height */

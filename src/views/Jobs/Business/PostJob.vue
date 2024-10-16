@@ -259,7 +259,7 @@ onMounted(() => {
       <div v-if="step[0]" class="">
         <div class="flex flex-col gap-[21px] mb-[53px]">
           <h3
-            class="lg:text-[45.25px] text-[30px] text-[#000000] lg:leading-[48.087px] font-Satoshi400"
+            class="lg:text-[2.83rem] text-[1.88rem] text-[#000000] lg:leading-[3rem] font-Satoshi400"
           >
             Hire with MySpurr. Share your job post with thousands of creative talents
           </h3>
