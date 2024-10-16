@@ -12,6 +12,7 @@ import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useSkillsStore } from "@/stores/skills";
 import CalendlyIcon from "@/components/icons/CalendlyIcon.vue";
 import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
+import infoIcon from "@/components/icons/infoIcon.vue"
 
 
 const skillsStore = useSkillsStore();
@@ -228,28 +229,34 @@ onMounted(async () => {
                   />
             </div>
 
-            
-            <div
-              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
-            >
+            <div>
               <div class="mb-3" v-if="minRate && maxRate">
                 <p class="text-sm">
                   Choose between ${{ minRate }} - ${{ maxRate }}
                 </p>
               </div>
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
-                >Rate /hr</label
+              <div
+                class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
               >
-              <GlobalInput
-                inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="bioInfo.rate"
-                :min="minRate"
-                :max="maxRate"
-                type="number"
-                @input="validateAndCorrectRate"
-              />
-
-              <div v-if="rateError" class="text-red-500 text-sm">{{ rateError }}</div>
+                <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+                  >Rate /hr</label
+                >
+                <GlobalInput
+                  inputClasses="bg-transparent border-none !px-0 !py-[4px]"
+                  v-model="bioInfo.rate"
+                  :min="minRate"
+                  :max="maxRate"
+                  type="number"
+                  @input="validateAndCorrectRate"
+                />
+  
+                <div v-if="rateError" class="text-red-500 text-sm">{{ rateError }}</div>
+  
+              </div>
+              <div class="flex items-center gap-[0.4rem] mt-[0.64rem] cursor-pointer">
+                <infoIcon />
+                <h3 class="text-[#DA5252] font-Satoshi400 text-[0.625rem] leading-[0.8405rem]"><span class="underline font-Satoshi700">Click</span> to view all categories and rates per hour</h3>
+              </div>
             </div>
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] py-1"

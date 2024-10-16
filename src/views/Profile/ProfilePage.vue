@@ -351,13 +351,13 @@ onMounted(async () => {
         <div class="flex flex-col lg:flex-row mt-10 w-full">
           <div class="lg:w-[70%] p-4">
             <div class="flex flex-row items-center justify-between gap-[96px]">
-              <p class="text-[28px] text-[#000] font-Satoshi500">Overview</p>
+              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Overview</p>
               <button class="exclude-from-print" @click="HandleToggleEditOverviewModal">
                 <EditIcon class="text-[#297F88]" />
               </button>
             </div>
             <div
-              class="text-[#000000BF] font-Satoshi400 text-justify text-[16px] mt-4 leading-[35px]"
+              class="text-[#000000BF] font-Satoshi400 text-justify text-[1rem] mt-4 leading-[35px]"
             >
               <p>
                 {{
@@ -377,21 +377,21 @@ onMounted(async () => {
               v-if="accountType === 'business'"
               class="flex flex-row items-center justify-between my-10 gap-[96px]"
             >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Intro</p>
+              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Intro</p>
               <button @click="HandleToggleEditOverviewModal">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
             </div>
             <div
               v-if="accountType === 'business'"
-              class="text-[#000000BF] bg-[#E1E1E1] h-[422.49px] rounded-[9.56px] border-[0.96px] border-[#E1E1E1] font-Satoshi400 text-justify text-[16px] mt-4 leading-[35px]"
+              class="text-[#000000BF] bg-[#E1E1E1] h-[422.49px] rounded-[9.56px] border-[0.96px] border-[#E1E1E1] font-Satoshi400 text-justify text-[1rem] mt-4 leading-[35px]"
             ></div>
 
             <div
               v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[96px] !mb-4 mt-6"
             >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Skills</p>
+              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Skills</p>
               <button @click="HandleToggleSkillsPageModal">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
@@ -401,20 +401,20 @@ onMounted(async () => {
               <div
                 v-for="item in userDetails?.top_skills"
                 :key="item.name"
-                class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[17px] text-center font-Satoshi400 text-[#276A4D]"
+                class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[1.06rem] text-center font-Satoshi400 text-[#276A4D]"
               >
                 {{ item.name }}
               </div>
 
               <div
-                class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
+                class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[1.06rem] font-Satoshi400 text-[#000000]"
               ></div>
             </div>
             <div
               v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
             >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Education</p>
+              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Education</p>
               <button @click="HandleToggleEducationPageModal">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
@@ -428,7 +428,7 @@ onMounted(async () => {
               v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[16px] !mb-12 mt-8"
             >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Work Experience</p>
+              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Work Experience</p>
               <button @click="HandleToggleWorkExperiencePageModal">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
@@ -443,7 +443,7 @@ onMounted(async () => {
                 v-if="accountType === 'talent'"
                 class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
               >
-                <p class="text-[28px] text-[#000] font-Satoshi500">Portfolio</p>
+                <p class="text-[1.75rem] text-[#000] font-Satoshi500">Portfolio</p>
                 <!-- @click="HandleTogglePortfolioModal" -->
                 <button @click="HandleTogglePortfolioModal">
                   <EditIcon class="text-[#297F88] exclude-from-print" />
@@ -454,7 +454,7 @@ onMounted(async () => {
                 class="flex flex-col w-full justify-center items-center"
               >
                 <p
-                  class="text-[15px] text-[#000] font-Satoshi400 text-center !mb-12 mt-8"
+                  class="text-[0.94rem] text-[#000] font-Satoshi400 text-center !mb-12 mt-8"
                 >
                   Uploaded portfolio can be viewed here
                 </p>
@@ -493,7 +493,7 @@ onMounted(async () => {
                 />
               </div> -->
             </div>
-            <p class="text-[28px] text-[#000] font-Satoshi500 hidden !mb-12 mt-8">
+            <p class="text-[1.75rem] text-[#000] font-Satoshi500 hidden !mb-12 mt-8">
               Reviews
             </p>
             <div class="flex flex-col hidden gap-4">
@@ -503,7 +503,7 @@ onMounted(async () => {
                 class="border-[#2440341A] border-[1.265px] rounded-[9.732px] p-6"
               >
                 <p
-                  class="text-[#001E00] font-Satoshi400 text-[16px] mb-4 tracking-[0.6px]"
+                  class="text-[#001E00] font-Satoshi400 text-[1rem] mb-4 tracking-[0.6px]"
                 >
                   Find B2B Partners for UK and US Online Tutoring Company
                 </p>
@@ -528,7 +528,7 @@ onMounted(async () => {
               v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[26px]"
             >
-              <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p>
+              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Certificates</p>
               <button @click="HandleToggleCertificateModal">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
@@ -548,11 +548,11 @@ onMounted(async () => {
                   <a
                     target="_blank"
                     :href="i.certificate_link"
-                    class="text-[15px] text-[#000] font-Satoshi500 hover:text-brand overflow-hidden"
+                    class="text-[0.94rem] text-[#000] font-Satoshi500 hover:text-brand overflow-hidden"
                   >
                     {{ i.title }}
                   </a>
-                  <p class="text-[14px] leading-[20px] text-[#31795A] font-Satoshi500">
+                  <p class="text-[0.88rem] leading-[20px] text-[#31795A] font-Satoshi500">
                     {{ i.institute }}
                   </p>
                   <div class="flex items-center gap-2">
@@ -574,7 +574,7 @@ onMounted(async () => {
             </div>
             <p
               :class="accountType === 'talent' ? 'mt-16' : ''"
-              class="text-[20px] text-[#000] font-Satoshi500"
+              class="text-[1.25rem] text-[#000] font-Satoshi500"
             >
               Location
             </p>
