@@ -203,7 +203,8 @@ const displayImage = computed(() => imageExists.value)
             </label>
           </article>
 
-          <div class="mt-4" v-if="selectedOption === 'no'">
+          <div class="transitionItem" 
+          :class="selectedOption === 'no'? 'h-auto mt-4': 'h-0 overflow-hidden mt-0'">
             <h3 class="text-[#6C8285] font-Satoshi400 text-[0.9rem] leading-[2rem]">
               Kindly let us know why?
             </h3>

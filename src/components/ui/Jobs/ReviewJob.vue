@@ -361,7 +361,7 @@
                   </label>
                 </article>
 
-                <div class="mt-4" v-if="selectedOption === 'invoice'">
+                <div class="transitionItem" :class="selectedOption === 'invoice'? 'h-auto mt-4': 'h-0 overflow-hidden mt-0'">
                   <h3 class="text-[#6C8285] font-Satoshi400 text-[0.9rem] leading-[2rem]">
                     Insert business email
                   </h3>
