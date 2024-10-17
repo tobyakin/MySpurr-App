@@ -5,14 +5,19 @@ import DropdownEye from '@/components/icons/DropdownEye.vue'
 import DropdownDeleteIcon from '@/components/icons/DropdownDeleteIcon.vue'
 import DropdownEditIcon from '@/components/icons/DropdownEditIcon.vue'
 import DropdownShareIcon from '@/components/icons/DropdownShareIcon.vue'
+import DropdownCloseIcon from '@/components/icons/DropdownCloseIcon.vue'
 import PagePreLoader from '@/components/ui/Loader/PagePreLoader.vue'
+import cancelIcon from '@/components/icons/cancelIcon.vue'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tab'
 import { useJobsStore } from '@/stores/jobs'
 import { useNumberFomateStore } from '@/stores/numberFomate'
 import { useClipboard } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
+import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
+
 const toast = useToast()
+const selectedOption = ref('')
 
 let source = ''
 
@@ -47,6 +52,7 @@ const store = useTabStore()
 const router = useRouter()
 const showDocument = ref({})
 const showDocumentToggle = ref(false)
+const showCloseJobOptions = ref(false)
 
 const redirectToPreviewJob = (id) => {
   router.push({ name: 'preview-job', params: { id: id } })
@@ -87,6 +93,23 @@ const deleteJob = async (id) => {
     loading.value = false
   }
 }
+
+const handleCloseJob = ()=>{
+  console.log('yes')
+  showCloseJobOptions.value = true
+}
+
+const handleSubmitCloseJob = ()=>{
+  showCloseJobOptions.value = false
+}
+
+const closeOptionModal = ()=>{
+  selectedOption.value = ''
+  showCloseJobOptions.value = false
+}
+
+
+
 function checkImageExists(url) {
   return new Promise((resolve) => {
     const img = new Image()
@@ -139,6 +162,87 @@ const displayImage = computed(() => imageExists.value)
 </script>
 <template>
   <PagePreLoader v-if="loading" />
+
+  <CenteredModalLarge v-if="showCloseJobOptions">
+    <div class="px-10 py-8">
+      <cancelIcon class="ml-auto w-[40px] h-[20px] hover:scale-110 transitionItem !mb-[2rem]" @click="closeOptionModal"/>
+      <div class="closeJobStepOne">
+        <h1 class="text-[#01181B] font-Satoshi400 text-[1.4rem] leading-[2.1875rem] !mb-[2rem]">You are about to close an active job, did you get a preferred candidate for the role?</h1>
+        <div class="flex flex-col gap-4">
+          <article class="inputField flex items-center gap-[0.5rem] cursor-pointer">
+            <input
+              type="radio"
+              name="option"
+              id="yes"
+              v-model="selectedOption"
+              value="yes"
+              class="hidden"
+            />
+            <label for="yes" class="flex items-center cursor-pointer">
+              <span class="custom-radio" :class="{ 'checked': selectedOption === 'yes' }"></span>
+              <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem]">
+                Yes, I did
+              </span>
+            </label>
+          </article>
+
+          <article class="inputField flex items-center gap-[0.5rem] cursor-pointer">
+            <input
+              type="radio"
+              name="option"
+              id="no"
+              v-model="selectedOption"
+              value="no"
+              class="hidden"
+            />
+            <label for="no" class="flex items-center cursor-pointer">
+              <span class="custom-radio" :class="{ 'checked': selectedOption === 'no' }"></span>
+              <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem]">
+                No, I didn’t
+              </span>
+            </label>
+          </article>
+
+          <div class="mt-4" v-if="selectedOption === 'no'">
+            <h3 class="text-[#6C8285] font-Satoshi400 text-[0.9rem] leading-[2rem]">
+              Kindly let us know why?
+            </h3>
+            <input
+              type="text"
+              class="w-full border border-[#000000] rounded-[0.8125rem] p-[1rem]"
+            />
+          </div>
+        </div>
+        <div class="w-full grid place-items-center mt-[2rem]">
+          <button 
+              class="w-auto text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
+              @click="handleSubmitCloseJob"
+              >
+              <span>SUBMIT</span>
+          </button>
+        </div>
+      </div>
+      <div class="text-center px-10 premiumSucessPage hidden">
+        <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+          Thank you, an invoice has been sent to the email provided. Once payment is confirmed, your job post will go live.
+        </p>
+        <div class="flex justify-center gap-4 mt-12">
+          <button
+            @click="back()"
+            class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+          >
+            VIEW CANDIDATES</button
+          ><button
+            @click="goToJobList()"
+            class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+          >
+            <span v-if="!loading">JOB LISTING </span>
+            <WhiteLoader v-else />
+          </button>
+        </div>
+      </div>
+    </div>
+  </CenteredModalLarge>
 
   <div
     class="border-[#254035AB] border-[0.4px] bg-white relative rounded-[7.347px] lg:p-5 p-4 lg:px-6"
@@ -283,6 +387,15 @@ const displayImage = computed(() => imageExists.value)
                   >
                     <DropdownEditIcon />
                     <p>Edit</p>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    @click="handleCloseJob"
+                    class="text-left p-2 flex items-center px-[20px] gap-[12px] hover:bg-gray-100 w-full"
+                  >
+                    <DropdownCloseIcon />
+                    <p>Close</p>
                   </button>
                 </li>
                 <li>
