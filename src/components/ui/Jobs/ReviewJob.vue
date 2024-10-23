@@ -29,14 +29,17 @@
   const getSuccessStatusFromURL = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const successParam = urlParams.get("success");
-    return successParam === "true"; // Convert the value to a boolean
+    return successParam === "true";
   };
   const imageExists = ref(false);
   const initials = ref("");
   const selectedOption = ref('')
   const showPremiumOptions = ref(false)
   const showPremiumSucessPage = ref(false)
-  const showMailField = ref(false)
+  const userMail = ref('')
+  const mailError = ref(false)
+   const landingUrl = import.meta.env.VITE_DASHBOARD + `processing`;
+  //  const landingUrl = `http://localhost:5173/processing`;
   
   const state = reactive({
     status: getSuccessStatusFromURL(),
@@ -53,8 +56,6 @@
   const standardPostAttempt = computed(()=>{
     return userProfile?.user?.data?.job_standard_post_attempt
   })
-
-  const landingUrl = import.meta.env.VITE_DASHBOARD + `post-job?success=true`;
   
   const isFormValid = computed(() => {
     return (
@@ -120,21 +121,23 @@
     }
   };
 
-  const handlejobPayment = async () => {
+  const handlejobPayment = async (mail) => {
     payLoading.value = true;
-    let isHighlightedValue = isHighlighted.value === true ? 1 : 0;
+    let option = selectedOption.value? selectedOption.value: ""
     try {
       const res = await jobsStore.handlejobPayment(
         userDetails?.value?.id,
-        userDetails?.value?.business_email,
-        5000,
+        mail,
         landingUrl,
-        isHighlightedValue
+        option,
       );
-      window.location.href = res.url;
+      if(res.url){
+        window.location.href = res.url;
+      }
       if (res.status === true) {
         payLoading.value = false;
-        showModal.value = true;
+        showPremiumSucessPage.value = true
+        // showModal.value = true;
         resetForm();
       } else {
         payLoading.value = false;
@@ -148,24 +151,19 @@
     } finally {
       payLoading.value = false;
       resetForm();
-      back();
+      // back();
     }
   };
 
-   // Watch for changes in the selectedOption
-  //  watch(selectedOption, (newVal) => {
-  //   if (newVal === 'onlinePayment') {
-  //     console.log('Online Payment option selected');
-  //   } else if (newVal === 'invoice') {
-      
-  //   }
-  // });
-
-  const handleSubmitPremiumOptions = ()=>{
-    if(selectedOption.value === 'onlinePayment'){
-      handlejobPayment()
+  const handleSubmitPremiumOptions = async ()=>{
+    if(selectedOption.value === 'online'){
+      await handlejobPayment(userDetails?.value?.business_email)
     } else if (selectedOption.value === 'invoice'){
-      showPremiumSucessPage.value = true
+      if(userMail.value.length > 0){
+        await handlejobPayment(userMail.value)
+      } else {
+        mailError.value = true
+      }
     }
   }
 
@@ -331,14 +329,14 @@
                   <input
                     type="radio"
                     name="option"
-                    id="onlinePayment"
+                    id="online"
                     v-model="selectedOption"
-                    value="onlinePayment"
+                    value="online"
                     class="hidden"
                   />
-                  <label for="onlinePayment" class="flex items-center cursor-pointer">
-                    <span class="custom-radio" :class="{ 'checked': selectedOption === 'onlinePayment' }"></span>
-                    <span class="text-[#01181B] font-Satoshi400 text-[1.4rem] leading-[2rem]">
+                  <label for="online" class="flex items-center cursor-pointer">
+                    <span class="custom-radio" :class="{ 'checked': selectedOption === 'online' }"></span>
+                    <span class="text-[#01181B] font-Satoshi400 text-[1.2rem] leading-[2rem]">
                       Make online payment
                     </span>
                   </label>
@@ -355,7 +353,7 @@
                   />
                   <label for="invoice" class="flex items-center cursor-pointer">
                     <span class="custom-radio" :class="{ 'checked': selectedOption === 'invoice' }"></span>
-                    <span class="text-[#01181B] font-Satoshi400 text-[1.4rem] leading-[2rem]">
+                    <span class="text-[#01181B] font-Satoshi400 text-[1.2rem] leading-[2rem]">
                       Send customer invoice
                     </span>
                   </label>
@@ -368,13 +366,16 @@
                   <input
                     type="text"
                     class="w-full border border-[#000000] rounded-[0.8125rem] p-[1rem]"
+                    v-model="userMail"
                   />
+                  <p v-if="mailError" class="text-[red] font-Satoshi400 text-[0.7rem]">Enter valid mail address</p>
                 </div>
               </div>
               <div class="w-full grid place-items-center mt-[2rem]">
                 <button 
-                    class="w-auto text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
+                    class="w-auto text-center py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem]  !uppercase"
                     @click="handleSubmitPremiumOptions"
+                    :class="selectedOption.length < 1? ' bg-gray-300 cursor-not-allowed text-[#01272C]': 'text-white bg-[#43D0DF] btn-hover-1'"
                     >
                     <span v-if="!payLoading">SUBMIT</span>
                     <WhiteLoader v-else />
@@ -382,7 +383,7 @@
               </div>
             </div>
             <div class="text-center px-10 premiumSucessPage" v-else>
-              <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+              <p class="text-[#01181B] text-[1.12rem] font-Satoshi400 mt-4">
                 Thank you, an invoice has been sent to the email provided. Once payment is confirmed, your job post will go live.
               </p>
               <div class="flex justify-center gap-4 mt-12">
@@ -390,7 +391,7 @@
                   @click="back()"
                   class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
                 >
-                  VIEW CANDIDATES</button
+                  BACK</button
                 ><button
                   @click="goToJobList()"
                   class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
@@ -405,22 +406,22 @@
       </CenteredModalLarge>
       <CenteredModalLarge v-if="showModal">
         <div class="text-center px-10 py-10">
-          <h4 class="text-[#01181B] font-Satoshi700 text-[28.537px] mt-[20px]">
+          <h4 class="text-[#01181B] font-Satoshi700 text-[1.78rem] mt-[20px]">
             Congratulations! Your job has been successfully posted on MySpurr!
           </h4>
-          <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+          <p class="text-[#01181B] text-[1.12rem] font-Satoshi400 mt-4">
             Now, talented creatives can discover and apply for your exciting opportunity.
             Stay tuned for applications and manage your job seamlessly from your dashboard.
           </p>
           <div class="flex justify-center gap-4 mt-12">
             <button
               @click="back()"
-              class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+              class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
             >
-              VIEW CANDIDATES</button
+              BACK</button
             ><button
               @click="goToJobList()"
-              class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+              class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
             >
               <span v-if="!loading">JOB LISTING </span>
               <WhiteLoader v-else />

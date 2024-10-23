@@ -95,7 +95,6 @@ const deleteJob = async (id) => {
 }
 
 const handleCloseJob = ()=>{
-  console.log('yes')
   showCloseJobOptions.value = true
 }
 
@@ -107,8 +106,6 @@ const closeOptionModal = ()=>{
   selectedOption.value = ''
   showCloseJobOptions.value = false
 }
-
-
 
 function checkImageExists(url) {
   return new Promise((resolve) => {

@@ -20,7 +20,8 @@ import {
   editJob,
   jobPayment,
   addRating,
-  getRatings
+  getRatings,
+  verifyPayment
 } from '@/services/Job'
 
 export const useJobsStore = defineStore('jobs', () => {
@@ -37,6 +38,7 @@ export const useJobsStore = defineStore('jobs', () => {
   const ratings = ref([])
   const ciso = ref('')
   const siso = ref('')
+  const verifyStatus = ref('')
 
   const postJobsValue = ref({
     job_title: '',
@@ -192,48 +194,61 @@ export const useJobsStore = defineStore('jobs', () => {
       /**/
     }
   }
+
   const handlejobPayment = async (
     business_id,
     email,
-    amount,
     payment_redirect_url,
-    is_highlighted
+    payment_option,
   ) => {
-    
+
     let payload = {
       business_id: business_id,
       email: email,
-      amount: amount,
-      payment_redirect_url: payment_redirect_url,
       type: 'premium',
-      job: {
-        job_title: postJobsValue.value.job_title,
-        country_id: ciso.value,
-        state_id: siso.value,
-        job_type: postJobsValue.value.job_type,
-        description: postJobsValue.value.description,
-        responsibilities: postJobsValue.value.responsibilities,
-        required_skills: postJobsValue.value.required_skills,
-        benefits: postJobsValue.value.benefits,
-        salaray_type: postJobsValue.value.salaray_type,
-        salary_min: postJobsValue.value.salary_min,
-        salary_max: postJobsValue.value.salary_max,
-        skills: postJobsValue.value.skills,
-        experience: postJobsValue.value.experience,
-        qualification: postJobsValue.value.qualification,
-        currency: postJobsValue.value.currency
-      }
-    };
+      payment_option: payment_option,
+      payment_redirect_url: payment_redirect_url,
+     "job": {
+        "job_title": postJobsValue.value.job_title,
+        "country_id": ciso.value,
+        "state_id": siso.value,
+        "job_type": postJobsValue.value.job_type,
+        "description": postJobsValue.value.description,
+        "responsibilities": postJobsValue.value.responsibilities,
+        "required_skills": postJobsValue.value.required_skills,
+        "benefits": postJobsValue.value.benefits,
+        "salaray_type": postJobsValue.value.salaray_type,
+        "salary_min": postJobsValue.value.salary_min,
+        "salary_max": postJobsValue.value.salary_max,
+        "currency": postJobsValue.value.currency,
+        "skills": postJobsValue.value.skills,
+        "experience": postJobsValue.value.experience,
+        "qualification": postJobsValue.value.qualification,
+    }
+  }
 
     if (postJobsValue.value.questions.length > 0 && postJobsValue.value.questions.some(q => q.question.trim() !== '')) {
       payload.job.questions = postJobsValue.value.questions;
+    } else {
+      payload.job.questions = []
     }
 
     try {
+      console.log(payload, typeof postJobsValue.value.salary_min)
       let res = await jobPayment(payload)
+      console.log(res)
       return res
     } catch (error) {
       /**/
+    }
+  }
+
+  const handlePaymentVerification = async (id, reference)=>{
+    try {
+      verifyStatus.value = await verifyPayment(id, reference)
+      return verifyStatus.value
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -338,6 +353,8 @@ export const useJobsStore = defineStore('jobs', () => {
     handlejobPayment,
     handleGetRatings,
     handleAddRating,
-    ratings
+    ratings,
+    handlePaymentVerification,
+    verifyStatus
   }
 })
