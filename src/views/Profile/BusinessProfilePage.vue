@@ -359,9 +359,9 @@ onMounted(async () => {
             </div>
             <div
               v-if="accountType === 'business'"
-              class="flex flex-row items-center justify-between my-10 gap-[96px]"
+              class="flex flex-row items-center justify-between mt-10 mb-8 gap-[96px]"
             >
-              <p class="text-[1.67rem] text-[#000] font-Satoshi500">Intro</p>
+              <p class="text-[1.67rem] text-[#000] font-Satoshi500">Introductory Video</p>
               <button @click="HandleToggleEditIntro">
                 <EditIcon class="text-[#297F88]" />
               </button>
@@ -369,10 +369,16 @@ onMounted(async () => {
             <!-- no video url in userDetails response -->
             <div
               v-if="accountType === 'business'"
+              class="text-[#000000BF]"
+            >
+              <h3>*No introductory video yet</h3>
+            </div>
+            <!-- <div
+              v-if="accountType === 'business'"
               class="text-[#000000BF] bg-[#E1E1E1] h-[422.49px] rounded-[9.56px] border-[0.96px] border-[#E1E1E1] font-Satoshi400 text-justify text-[16px] mt-4 leading-[35px]"
             >
             
-            </div>
+            </div> -->
           </div>
           <div class="lg:w-[30%] p-4">
             <p
@@ -424,7 +430,6 @@ onMounted(async () => {
                   >
                     <Arrow class="rotate-[180deg]"  :class="{ 'opacity-50 cursor-not-allowed': isAtStart }"/>
                   </button>
-                  
                   <button
                     @click="scrollRight"
                     :disbled="isAtEnd"

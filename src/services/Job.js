@@ -146,6 +146,7 @@ export const postJobs = async (payload) => {
     throw error
   }
 }
+
 export const jobPayment = async (payload) => {
   const token = await getToken()
   try {
@@ -158,6 +159,21 @@ export const jobPayment = async (payload) => {
     return res.data
   } catch (error) {
     catchAxiosError(error)
+    throw error
+  }
+}
+
+export const verifyPayment = async (id, reference)=>{
+  const token = await getToken()
+  try {
+    let res = await axios.get(`v1/verify/payment/${id}/${reference}`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    return res.data
+  } catch (error) {
+    // catchAxiosError(error)
     throw error
   }
 }
