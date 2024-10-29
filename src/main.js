@@ -12,8 +12,6 @@ import router from './router'
 import Antd from "ant-design-vue";
 import 'ant-design-vue/dist/reset.css'
 import Multiselect from 'vue-multiselect'
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { VueQueryPlugin } from 'vue-query'
 import ShortLoader from '@/components/ui/Loader/ShortLoader.vue'
 import VueApexCharts from 'vue3-apexcharts'
@@ -53,7 +51,6 @@ app.use(VueTelInput)
 app.component('Galleria', Galleria)
 app.component('Carousel', Carousel)
 app.component('ApexChart', VueApexCharts)
-app.component('QuillEditor', QuillEditor)
 app.component('Label', Label)
 app.component('DashboardLayout', DashboardLayout)
 app.component('ShortLoader', ShortLoader)
