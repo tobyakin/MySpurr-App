@@ -126,7 +126,6 @@ onUnmounted(() => {
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
           <p class="text-[#244034] text-[14.104px] font-Satoshi500">
-            <!-- <span v-html="numAbbr.formatCurrency(singleJob?.data?.currency)"></span> -->
 
             {{ singleJob?.data?.currency }}
             {{ store.abbr(singleJob?.data?.salary_min) }}-
@@ -134,12 +133,6 @@ onUnmounted(() => {
             {{ singleJob?.data?.salaray_type }}
           </p>
         </div>
-        <!-- <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Expertise</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
-          {{ singleJob?.data?.qualification }}
-        </p>
-      </div> -->
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
           <p class="text-[#244034] text-[14.104px] font-Satoshi500">
@@ -179,7 +172,8 @@ onUnmounted(() => {
             <div
               v-html="singleJob?.data?.description"
               class="descr"
-            ></div>
+            >
+            </div>
 
             <p class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6">
               Responsibilities
@@ -187,7 +181,8 @@ onUnmounted(() => {
             <div
               v-html="singleJob?.data?.responsibilities"
               class="responsibilities text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
-            ></div>
+            >
+          </div>
 
             <p class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6">
               Required Skills:

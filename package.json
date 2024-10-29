@@ -14,12 +14,13 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@vueup/vue-quill": "^1.2.0",
+    "@ckeditor/ckeditor5-vue": "^7.2.0",
     "@vueuse/core": "^11.1.0",
     "@vueuse/head": "^2.0.0",
     "animate.css": "^4.1.1",
     "ant-design-vue": "^4.2.5",
     "axios": "^1.7.7",
+    "ckeditor5": "^43.2.0",
     "crypto-js": "^4.2.0",
     "currency-symbol": "^1.0.6",
     "dayjs": "^1.11.13",

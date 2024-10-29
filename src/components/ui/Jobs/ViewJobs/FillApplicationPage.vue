@@ -6,16 +6,28 @@ import LinkIcon from "@/components/icons/linkIcon.vue";
 import CloudUploadIcon from "@/components/icons/cloudUploadIcon.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import AuthInput from "@/components/ui/Form/Input/AuthInput.vue";
-
 import { storeToRefs } from "pinia";
-const JobsStore = useJobsStore();
 import { useRoute } from "vue-router";
-const { singleJob } = storeToRefs(JobsStore);
-const route = useRoute();
 import { useUserProfile } from "@/stores/profile";
 import { useTabStore } from "@/stores/tab";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useNumberFomateStore } from "@/stores/numberFomate";
+import { editorConfig } from "@/config/ckeditorConfig";
+import { ClassicEditor } from 'ckeditor5'
+
+const isLayoutReady = ref(false)
+const editor = ClassicEditor
+
+const dynamicPlaceholder = ref('');
+
+const editorConfigs = computed(() => ({
+  ...editorConfig,
+  placeholder: dynamicPlaceholder.value,
+}));
+
+const JobsStore = useJobsStore();
+const { singleJob } = storeToRefs(JobsStore);
+const route = useRoute();
 let numAbbr = useNumberFomateStore();
 
 const store = useTabStore();
@@ -23,20 +35,12 @@ let loading = ref(false);
 let loadPage = ref(false);
 const valideRateError = ref(false);
 const valideRateErrorMsg = ref("");
-// const { jobApplicationForm } = storeToRefs(JobsStore);
 const emit = defineEmits(["back", "next"]);
 let profile = useUserProfile();
 const userDetails = computed(() => {
   return profile.user.data;
 });
 const showDateInput = ref(false);
-// let onButton1 = ref(false);
-// let onButton3 = ref(false);
-// let onButton4 = ref(false);
-// let onButton5 = ref(false);
-// let onButton5Val = ref(0);
-// let onButton2 = ref(false);
-// let toDisable = ref(true);
 const jobApplicationForm = reactive({
   job_id: route.params.id,
   rate: "",
@@ -52,9 +56,6 @@ const jobApplicationForm = reactive({
     })
   ),
 });
-// const answers = ref(
-//   Array.from({ length: singleJob.value?.data?.questions.length }, () => ({ answer: "" }))
-// );
 
 const toggleDateInput = () => {
   jobApplicationForm.available_start = "";
@@ -147,83 +148,6 @@ const handleJobApplication = async () => {
   }
 };
 
-// onMounted(() => {
-//   jobApplicationForm.rate = finalTotal.value;
-
-//   watch(finalTotal, (newFinalTotal) => {
-//     jobApplicationForm.rate = newFinalTotal;
-//     console.log(jobApplicationForm.rate);
-//   });
-// });
-
-// const disable = computed(() => {
-//   return (
-//     onButton1.value ||
-//     onButton2.value ||
-//     onButton3.value ||
-//     onButton4.value ||
-//     onButton5.value
-//   );
-// });
-
-// watch(
-//   () => [
-//     onButton1.value,
-//     onButton2.value,
-//     onButton3.value,
-//     onButton4.value,
-//     onButton5.value,
-//   ],
-//   () => {
-//     toDisable.value =
-//       onButton1.value ||
-//       onButton2.value ||
-//       onButton3.value ||
-//       onButton4.value ||
-//       onButton5.value;
-//     console.log(toDisable.value);
-//   }
-// );
-
-// const buttons = reactive({
-//   1: { price: 10, active: false },
-//   2: { price: 20, active: false },
-//   3: { price: 50, active: false },
-//   4: { price: 100, active: false },
-// });
-
-// const toggleButton = (buttonId) => {
-//   buttons[buttonId].active = !buttons[buttonId].active;
-//   onButton5.value = false;
-// };
-
-// const totalPrice = computed(() => {
-//   let total = 0;
-//   for (const button of Object.values(buttons)) {
-//     if (button.active) {
-//       total += button.price;
-//     }
-//   }
-//   return total;
-// });
-
-// const finalTotal = computed(() => {
-//   const value = onButton5.value ? onButton5Val.value : totalPrice.value;
-//   return parseInt(value);
-// });
-
-// const resetButton = () => {
-//   for (const button of Object.values(buttons)) {
-//     if (button.active) {
-//       button.active = false;
-//     }
-//   }
-//   onButton1.value = false;
-//   onButton2.value = false;
-//   onButton3.value = false;
-//   onButton4.value = false;
-//   onButton5.value = true;
-// };
 const mainContainer = ref(null)
 const customHeight = ref(0)
 const questionLength = ref(0)
@@ -247,6 +171,8 @@ onMounted(async () => {
   let contHeight = mainContainer.value.clientHeight
   questionLength.value = quillContainer.value.length
   customHeight.value = contHeight/questionLength.value
+
+  isLayoutReady.value = true
 });
 </script>
 
@@ -414,58 +340,6 @@ onMounted(async () => {
             }}
           </span>
           <div class="flex-col justify-between gap-2 w-full">
-            <!-- <div class="flex flex-wrap lg:gap-3 justify-between mt-4">
-              <button
-                @click="(onButton1 = !onButton1), toggleButton(1)"
-                :class="{
-                  'bg-brand text-white': onButton1,
-                  'bg-[#ffffff] text-[#2540358C]': !onButton1,
-                }"
-                class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[14.26px] rounded-[6.303px] p-2"
-              >
-                $10
-              </button>
-              <button
-                @click="(onButton2 = !onButton2), toggleButton(2)"
-                :class="{
-                  'bg-brand text-white': onButton2,
-                  'bg-[#ffffff] text-[#2540358C]': !onButton2,
-                }"
-                class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
-              >
-                $20
-              </button>
-              <button
-                @click="(onButton3 = !onButton3), toggleButton(3)"
-                :class="{
-                  'bg-brand text-white': onButton3,
-                  'bg-[#ffffff] text-[#2540358C]': !onButton3,
-                }"
-                class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
-              >
-                $30
-              </button>
-              <button
-                @click="(onButton4 = !onButton4), toggleButton(4)"
-                :class="{
-                  'bg-brand text-white': onButton4,
-                  'bg-[#ffffff] text-[#2540358C]': !onButton4,
-                }"
-                class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
-              >
-                $100
-              </button>
-              <button
-                @click="(onButton5 = !onButton5), resetButton()"
-                :class="{
-                  'bg-brand text-white': onButton5,
-                  'bg-[#ffffff] text-black': !onButton5,
-                }"
-                class="border-[1.261px] border-[#25403559] font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] p-2"
-              >
-                Custom
-              </button>
-            </div> -->
             <div 
             class="border-[1.261px] w-full font-Satoshi500 text-[#2540358C] text-[14.26px] rounded-[6.303px] overflow-hidden flex items-center"
             :class="valideRateError ? '!border-[#DA5252]' : 'border-[#25403559]'"
@@ -538,26 +412,6 @@ onMounted(async () => {
             class="mt-2"
           />
         </div>
-        <!-- <div
-          class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] p-4"
-        >
-          <p class="text-[17.887px] font-Satoshi500 text-[#000]">
-            Add your booking meeting url
-          </p>
-          <div class="bg-[#EDF0B8] flex relative overflow-hidden rounded-[5.982px] mt-3">
-            <GlobalInput
-              inputClasses="bg-transparent flex w-full !py-[7px] !px-[4px]  border-none"
-              placeholder="link"
-              type="text"
-            />
-
-            <div
-              class="bg-[#2C4C50] p-2 absolute right-1 top-1 flex items-start rounded-full"
-            >
-              <LinkIcon />
-            </div>
-          </div>
-        </div> -->
         <div
           class="border-[1.137px] bg-[#FFFFFD] rounded-[11.367px] border-[#254035]/[0.6] py-10 p-4"
         >
@@ -611,25 +465,12 @@ onMounted(async () => {
               class="text-[1.02rem] font-Satoshi500 text-[#000]"
             ></p>
           </div>
-          <!-- <hr class="border-[#254035AB] border-[0.596px] my-2" /> -->
-          <!-- <textarea
-            v-model="jobApplicationForm.question_answers[index].answer"
-            class="w-full outline-none text-[15.816px] h-[100%] font-Satoshi500 text-[#97A6A8]"
-            name=""
-            placeholder="Type answer here"
-            id=""
-            cols="30"
-            rows="6"
-          ></textarea> -->
-          <!-- <div class="quill-editor-container hide-scrollbar h-full max-h-full"> -->
-            <QuillEditor
-              v-model:content="jobApplicationForm.question_answers[index].answer"
-              class=""
-              theme="snow"
-              placeholder=""
-              contentType="html"
+            <ckeditor
+              v-if="isLayoutReady"
+              v-model="jobApplicationForm.question_answers[index].answer"
+              :editor="editor"
+              :config="editorConfigs"
             />
-          <!-- </div> -->
         </div>
       </div>
     </div>

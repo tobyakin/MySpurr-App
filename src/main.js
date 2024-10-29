@@ -1,4 +1,5 @@
 import './assets/main.css'
+import './assets/style.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -22,6 +23,7 @@ import PrimeVue from 'primevue/config'
 // import 'primevue/resources/themes/aura-light-green/theme.css'
 import VueTelInput from 'vue-tel-input'
 import 'vue-tel-input/vue-tel-input.css'
+import { CkeditorPlugin } from '@ckeditor/ckeditor5-vue';
 
 import Galleria from 'primevue/galleria'
 
@@ -71,6 +73,7 @@ app.component('l-geo-json', LGeoJson),
 app.use(Toast, { position: POSITION.TOP_RIGHT })
 app.use(VueQueryPlugin)
 app.use(PrimeVue)
+app.use(CkeditorPlugin)
 
 app.use(createPinia())
 app.use(router)
