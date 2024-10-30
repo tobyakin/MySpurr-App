@@ -15,6 +15,7 @@ import { useNumberFomateStore } from '@/stores/numberFomate'
 import { useClipboard } from '@vueuse/core'
 import { useToast } from 'vue-toastification'
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
+import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 
 const toast = useToast()
 const selectedOption = ref('')
@@ -53,6 +54,7 @@ const router = useRouter()
 const showDocument = ref({})
 const showDocumentToggle = ref(false)
 const showCloseJobOptions = ref(false)
+const reason = ref('')
 
 const redirectToPreviewJob = (id) => {
   router.push({ name: 'preview-job', params: { id: id } })
@@ -82,7 +84,6 @@ const closeDropdown = () => {
 
 const deleteJob = async (id) => {
   loading.value = true
-
   try {
     const res = await jobsStore.handelDeleteJob(id)
     await jobsStore.handleMyJobs()
@@ -98,7 +99,24 @@ const handleCloseJob = ()=>{
   showCloseJobOptions.value = true
 }
 
-const handleSubmitCloseJob = ()=>{
+const handleSubmitCloseJob = async ()=>{
+  let payload = {}
+  loading.value = true
+  if(selectedOption.value === 'yes'){
+    payload = {
+      "get_candidate": 1,
+      "reason": ""
+    }
+    await jobsStore.handelCloseJob(props?.job?.id, payload)
+  } else if(selectedOption.value === "no"){
+    payload = {
+      "get_candidate": 0,
+      "reason": reason.value
+    }
+    await jobsStore.handelCloseJob(props?.job?.id, payload)
+  }
+  await jobsStore.handleMyJobs()
+  loading.value = false
   showCloseJobOptions.value = false
 }
 
@@ -208,6 +226,7 @@ const displayImage = computed(() => imageExists.value)
             <input
               type="text"
               class="w-full border border-[#000000] rounded-[0.8125rem] p-[1rem]"
+              v-model="reason"
             />
           </div>
         </div>
@@ -216,7 +235,8 @@ const displayImage = computed(() => imageExists.value)
               class="w-auto text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
               @click="handleSubmitCloseJob"
               >
-              <span>SUBMIT</span>
+              <span v-if="!loading">SUBMIT</span>
+              <WhiteLoader v-else />
           </button>
         </div>
       </div>
