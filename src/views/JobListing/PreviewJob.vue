@@ -13,18 +13,23 @@ import { useQuery } from 'vue-query'
 import { useJobsStore } from '@/stores/jobs'
 import { useTabStore } from '@/stores/tab'
 import { useUserProfile } from '@/stores/profile'
+import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 let numAbbr = useNumberFomateStore()
 
 const store = useTabStore()
 const jobsStore = useJobsStore()
 const profile = useUserProfile()
 const { JobDetailsById } = storeToRefs(jobsStore)
+const showCloseJobOptions = ref(false)
+const selectedOption = ref('')
+const reason = ref('')
 
 const { user } = storeToRefs(profile)
 
 const route = useRoute()
 const router = useRouter()
 const loading = ref(false)
+
 const closeJob = async (slug) => {
   loading.value = true
   try {
@@ -116,6 +121,37 @@ const formattedBusinessName = computed(() => {
     .replace(/\s+/g, '');
 });
 
+const handleCloseJob = ()=>{
+  showCloseJobOptions.value = true
+}
+
+const handleSubmitCloseJob = async ()=>{
+  let payload = {}
+  loading.value = true
+  if(selectedOption.value === 'yes'){
+    payload = {
+      "get_candidate": 1,
+      "reason": ""
+    }
+    await jobsStore.handelCloseJob(JobDetailsById.value?.data?.id, payload, payload)
+  } else if(selectedOption.value === "no"){
+    payload = {
+      "get_candidate": 0,
+      "reason": reason.value
+    }
+    await jobsStore.handelCloseJob(JobDetailsById.value?.data?.id, payload, payload)
+  }
+  await jobsStore.handleMyJobs()
+  loading.value = false
+  showCloseJobOptions.value = false
+  router.push({ name: 'job-lists' })
+}
+
+const closeOptionModal = ()=>{
+  selectedOption.value = ''
+  showCloseJobOptions.value = false
+}
+
 const displayImage = computed(() => imageExists.value)
 </script>
 
@@ -123,6 +159,89 @@ const displayImage = computed(() => imageExists.value)
   <DashboardLayout>
     <ShortLoader v-if="isLoading" />
     <div v-else class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
+      <CenteredModalLarge v-if="showCloseJobOptions">
+        <div class="px-10 py-8">
+          <cancelIcon class="ml-auto w-[40px] h-[20px] hover:scale-110 transitionItem !mb-[2rem]" @click="closeOptionModal"/>
+          <div class="closeJobStepOne">
+            <h1 class="text-[#01181B] font-Satoshi400 text-[1.4rem] leading-[2.1875rem] !mb-[2rem]">You are about to close an active job, did you get a preferred candidate for the role?</h1>
+            <div class="flex flex-col gap-4">
+              <article class="inputField flex items-center gap-[0.5rem] cursor-pointer">
+                <input
+                  type="radio"
+                  name="option"
+                  id="yes"
+                  v-model="selectedOption"
+                  value="yes"
+                  class="hidden"
+                />
+                <label for="yes" class="flex items-center cursor-pointer">
+                  <span class="custom-radio" :class="{ 'checked': selectedOption === 'yes' }"></span>
+                  <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem]">
+                    Yes, I did
+                  </span>
+                </label>
+              </article>
+
+              <article class="inputField flex items-center gap-[0.5rem] cursor-pointer">
+                <input
+                  type="radio"
+                  name="option"
+                  id="no"
+                  v-model="selectedOption"
+                  value="no"
+                  class="hidden"
+                />
+                <label for="no" class="flex items-center cursor-pointer">
+                  <span class="custom-radio" :class="{ 'checked': selectedOption === 'no' }"></span>
+                  <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem]">
+                    No, I didn’t
+                  </span>
+                </label>
+              </article>
+
+              <div class="transitionItem" 
+              :class="selectedOption === 'no'? 'h-auto mt-4': 'h-0 overflow-hidden mt-0'">
+                <h3 class="text-[#6C8285] font-Satoshi400 text-[0.9rem] leading-[2rem]">
+                  Kindly let us know why?
+                </h3>
+                <input
+                  type="text"
+                  class="w-full border border-[#000000] rounded-[0.8125rem] p-[1rem]"
+                  v-model="reason"
+                />
+              </div>
+            </div>
+            <div class="w-full grid place-items-center mt-[2rem]">
+              <button 
+                  class="w-auto text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
+                  @click="handleSubmitCloseJob"
+                  >
+                  <span v-if="!loading">SUBMIT</span>
+                  <WhiteLoader v-else />
+              </button>
+            </div>
+          </div>
+          <div class="text-center px-10 premiumSucessPage hidden">
+            <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+              Thank you, an invoice has been sent to the email provided. Once payment is confirmed, your job post will go live.
+            </p>
+            <div class="flex justify-center gap-4 mt-12">
+              <button
+                @click="back()"
+                class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+              >
+                VIEW CANDIDATES</button
+              ><button
+                @click="goToJobList()"
+                class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+              >
+                <span v-if="!loading">JOB LISTING </span>
+                <WhiteLoader v-else />
+              </button>
+            </div>
+          </div>
+        </div>
+      </CenteredModalLarge>
       <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
         <div class="flex lg:flex-row flex-col gap-3 w-full">
           <div>
@@ -142,7 +261,6 @@ const displayImage = computed(() => imageExists.value)
                   {{ initials }}
                 </div>
               </template>
-
               <!-- <img
               class="h-[61.011px] w-[61.011px] rounded-full"
               :src="JobDetailsById?.data?.company?.company_logo"
@@ -379,7 +497,7 @@ const displayImage = computed(() => imageExists.value)
           VIEW APPLICANTS
         </button> -->
         <button
-          @click="closeJob(JobDetailsById?.data?.slug)"
+          @click="handleCloseJob"
           :disabled="loading"
           :class="loading ? 'cursor-not-allowed' : ''"
           class="bg-[#43D0DF] font-Satoshi500 capitalize text-[10.2px] p-3 px-12 text-white btn-hover-1 rounded-full"
