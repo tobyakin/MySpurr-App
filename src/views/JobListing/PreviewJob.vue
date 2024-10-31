@@ -14,6 +14,8 @@ import { useJobsStore } from '@/stores/jobs'
 import { useTabStore } from '@/stores/tab'
 import { useUserProfile } from '@/stores/profile'
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
+import cancelIcon from '@/components/icons/cancelIcon.vue'
+
 let numAbbr = useNumberFomateStore()
 
 const store = useTabStore()
@@ -160,10 +162,10 @@ const displayImage = computed(() => imageExists.value)
     <ShortLoader v-if="isLoading" />
     <div v-else class="container p-0 lg:p-6 lg:py-3 py-4 mb-5">
       <CenteredModalLarge v-if="showCloseJobOptions">
-        <div class="px-10 py-8">
+        <div class="px-10 py-8 msgMob:p-4">
           <cancelIcon class="ml-auto w-[40px] h-[20px] hover:scale-110 transitionItem !mb-[2rem]" @click="closeOptionModal"/>
           <div class="closeJobStepOne">
-            <h1 class="text-[#01181B] font-Satoshi400 text-[1.4rem] leading-[2.1875rem] !mb-[2rem]">You are about to close an active job, did you get a preferred candidate for the role?</h1>
+            <h1 class="text-[#01181B] font-Satoshi400 text-[1.4rem] leading-[2.1875rem] !mb-[2rem] msgTab4:text-[1.2rem] msgTab4:leading-[1.9rem]">You are about to close an active job, did you get a preferred candidate for the role?</h1>
             <div class="flex flex-col gap-4">
               <article class="inputField flex items-center gap-[0.5rem] cursor-pointer">
                 <input
@@ -176,7 +178,7 @@ const displayImage = computed(() => imageExists.value)
                 />
                 <label for="yes" class="flex items-center cursor-pointer">
                   <span class="custom-radio" :class="{ 'checked': selectedOption === 'yes' }"></span>
-                  <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem]">
+                  <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem] msgTab4:text-[1.2rem]">
                     Yes, I did
                   </span>
                 </label>
@@ -193,7 +195,7 @@ const displayImage = computed(() => imageExists.value)
                 />
                 <label for="no" class="flex items-center cursor-pointer">
                   <span class="custom-radio" :class="{ 'checked': selectedOption === 'no' }"></span>
-                  <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem]">
+                  <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem] msgTab4:text-[1.2rem]">
                     No, I didn’t
                   </span>
                 </label>

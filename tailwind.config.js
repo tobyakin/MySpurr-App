@@ -56,6 +56,7 @@ module.exports = {
         'msgTab': {'max': '800px'},
         'msgTab2': {'min': '800px'},
         'msgTab3': {'min': '900px'},
+        'msgTab4': {'max': '900px'},
         'msgMob': {'max': '576px'},
         'dashBreak': {'max': '1240px'},
         'dashBreak2': {'max': '1280px'},
