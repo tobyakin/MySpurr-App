@@ -129,9 +129,10 @@ export const useJobsStore = defineStore('jobs', () => {
       console.error(error)
     }
   }
-  const handelCloseJob = async (slug) => {
+  const handelCloseJob = async (slug, payload) => {
     try {
-      let res = await closeJob(slug)
+      let res = await closeJob(slug, payload)
+      console.log(res)
       return res
     } catch (error) {
       console.error(error)
