@@ -7,6 +7,18 @@ import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import dayjs from "dayjs";
 import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
+import { editorConfig } from "@/config/ckeditorConfig";
+import { ClassicEditor } from 'ckeditor5'
+
+const isLayoutReady = ref(false)
+const editor = ClassicEditor
+
+const dynamicPlaceholder = ref('Give a brief description about your work');
+
+const editorConfigs = computed(() => ({
+  ...editorConfig,
+  placeholder: dynamicPlaceholder.value,
+}));
 
 const profileStore = useUserProfile();
 const { education } = storeToRefs(profileStore);
@@ -132,6 +144,8 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
 onMounted(async () => {
   prefillDetails(SingleObject.value);
   await userProfile.userProfile();
+
+  isLayoutReady.value = true
 });
 </script>
 <template>
@@ -218,12 +232,11 @@ onMounted(async () => {
               <label class="text-[#01272C] px-4 mb-2 text-[12px] font-Satoshi400"
                 >Description</label
               >
-              <QuillEditor
-                v-model:content="formState.description"
-                class=""
-                theme="snow"
-                placeholder="Give a brief description about your work "
-                contentType="html"
+              <ckeditor
+                v-if="isLayoutReady"
+                v-model="formState.description"
+                :editor="editor"
+                :config="editorConfigs"
               />
             </div>
           </div>
@@ -331,12 +344,11 @@ onMounted(async () => {
               <label class="text-[#01272C] px-4 mb-2 text-[12px] font-Satoshi400"
                 >Description</label
               >
-              <QuillEditor
-                v-model:content="education.description"
-                class=""
-                theme="snow"
-                placeholder="Give a brief description about your work "
-                contentType="html"
+              <ckeditor
+                v-if="isLayoutReady"
+                v-model="education.description"
+                :editor="editor"
+                :config="editorConfigs"
               />
             </div>
           </div>

@@ -2,9 +2,7 @@
 import { onUnmounted, onMounted, ref, computed } from "vue";
 import { storeToRefs } from "pinia";
 import "vue-slider-component/theme/antd.css";
-// import SelectGroup from "@/components/ui/Form/Input/SelectGroup.vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-// import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useUserProfile } from "@/stores/profile";
@@ -12,8 +10,21 @@ import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useRouter } from "vue-router";
 import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
 import Label from "@/components/ui/Form/Input/Label.vue";
-const router = useRouter();
 import { useSkillsStore } from "@/stores/skills";
+import { editorConfig } from "@/config/ckeditorConfig";
+import { ClassicEditor } from 'ckeditor5'
+
+const isLayoutReady = ref(false)
+const editor = ClassicEditor
+
+const dynamicPlaceholder = ref('Write about the job in details...');
+
+const editorConfigs = computed(() => ({
+  ...editorConfig,
+  placeholder: dynamicPlaceholder.value,
+}));
+
+const router = useRouter();
 const skillsStore = useSkillsStore();
 const { skills } = storeToRefs(skillsStore);
 
@@ -61,27 +72,18 @@ onMounted(async () => {
   } finally {
     isLoading.value = !isLoading.value;
   }
+
+  isLayoutReady.value = true
 });
 
 onMounted(() => {
   return accountType;
 });
 
-// const FormGroup = defineAsyncComponent(() =>
-//   import("@/components/ui/Form/Input/FormGroup.vue")
-// );
-// const Label = defineAsyncComponent(() => import("@/components/ui/Form/Input/Label.vue"));
-// let store = useStore();
 const maxCharacters = 1000;
 
 const characterCount = computed(() => portfolio.value.description.length);
-const isDisabled = computed(() => characterCount.value >= maxCharacters);
 
-const handleChange = () => {
-  if (portfolio.value.description.length > maxCharacters) {
-    portfolio.value.description = portfolio.value.description.substring(0, maxCharacters);
-  }
-};
 // add tag
 let options = ref([
   { name: "Design" },
@@ -190,25 +192,6 @@ const restForm = () => {
     (portfolio.value.featured_image = "");
 };
 
-// const uploadImage = (event) => {
-//   const file = event.target.files[0];
-//   // if (file) {
-//   //   const imageUrl = URL.createObjectURL(file);
-//   //   portfolio.value.cover_image = file;
-//   //   uploadedImageName.value = file.name;
-//   // }
-//   if (file) {
-//     const reader = new FileReader();
-//     uploadedImageName.value = file.name;
-
-//     reader.onload = () => {
-//       portfolio.value.cover_image = reader.result;
-//     };
-//     reader.readAsDataURL(file);
-//   } else {
-//     portfolio.value.cover_image = "";
-//   }
-// };
 const uploadImage = (event, index) => {
   const file = event.target.files[0];
 
@@ -258,6 +241,7 @@ const uploadImage = (event, index) => {
     portfolio.value.project_name[index].name = null;
   }
 };
+
 const uploadFeatureImage = (event) => {
   const file = event.target.files[0];
 
@@ -325,9 +309,6 @@ const onFinish = async () => {
       router.push({ name: "profile" });
       restForm();
     }
-    // userProfile.userProfile();
-    // router.push({ name: "profile" });
-    // restForm();
     return res;
   } catch (error) {
     console.log(error);
@@ -346,9 +327,6 @@ const saveAsDraft = async () => {
       restForm();
     }
 
-    // userProfile.userProfile();
-    // router.push({ name: "profile" });
-    // restForm();
     return res;
   } catch (error) {
     console.log(error);
@@ -415,75 +393,17 @@ onMounted(async () => {
             inputClasses="w-full mt-2 font-light bg-white font-Satoshi400 !p-2 !border-[#254035AB] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
           ></SelectGroup> -->
         </div>
-        <!-- <div class="flex lg:flex-row flex-col w-full gap-8"> -->
-        <!-- <SelectGroup
-            v-model="portfolio.client_name"
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Creative work"
-            name="Name"
-            :items="['Brand Identity Design ', 'Logo Design', 'Graphic Design']"
-            placeholder="Creative work"
-            type="text"
-            inputClasses="w-full mt-2 font-light bg-white font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-          ></SelectGroup> -->
-        <!-- <SelectGroup
-            v-model="portfolio.job_type"
-            labelClasses="font-Satoshi500 text-[15.606px]"
-            label="Employment type"
-            name="Name"
-            :items="['Freelance', 'Full Time', 'Part Time']"
-            placeholder="Employment type"
-            type="text"
-            inputClasses="w-full mt-2 font-light bg-white font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-          ></SelectGroup> -->
-        <!-- </div> -->
-        <!-- <div class="flex lg:flex-row flex-col w-full gap-8">
-          <div class="lg:w-[50%]">
-            <FormGroup
-              v-model="portfolio.location"
-              labelClasses="font-Satoshi500 text-[15.606px]"
-              label="Location"
-              placeholder="Lagos, Nigeria"
-              type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-            ></FormGroup>
-          </div>
-          <div class="lg:w-[50%] flex flex-row gap-9">
-            <FormGroup
-              v-model="portfolio.min_rate"
-              labelClasses=" "
-              label="Rate (Optional)"
-              name="Min"
-              placeholder="Min"
-              type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-[10px] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-            ></FormGroup>
-            <FormGroup
-              v-model="portfolio.max_rate"
-              labelClasses=" invisible"
-              label="Max "
-              name="Max"
-              placeholder="Max"
-              type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-[10px] border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[5.897px] text-[12.68px]"
-            ></FormGroup>
-          </div>
-        </div> -->
       </div>
       <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[44.05px]">
         Describe your project (1000 words)
       </h4>
-      <div class="mt-8 flex flex-col h-[58vh]">
-        <QuillEditor
-          v-model:content="portfolio.description"
-          class=""
-          theme="snow"
-          @change="handleChange"
-          :enable="!isDisabled"
-          placeholder="Write about the job in details..."
-          contentType="html"
+      <div class="mt-8 flex flex-col">
+        <ckeditor
+          v-if="isLayoutReady"
+          v-model="portfolio.description"
+          :editor="editor"
+          :config="editorConfigs"
         />
-
         <div>{{ characterCount }} / {{ maxCharacters }}</div>
       </div>
       <h4 class="text-[#2B7551] font-Satoshi500 text-[28.468px] mt-[44.05px]">
