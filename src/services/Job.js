@@ -59,10 +59,11 @@ export const deleteJob = async (id) => {
     throw error
   }
 }
-export const closeJob = async (slug) => {
+
+export const closeJob = async (slug, payload) => {
   const token = await getToken()
   try {
-    let res = await axios.delete(`v1/job/${slug}/close`, {
+    let res = await axios.patch(`v1/job/${slug}/close`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -74,6 +75,7 @@ export const closeJob = async (slug) => {
     throw error
   }
 }
+
 export const getJobsDetails = async (id) => {
   const token = await getToken()
   try {
