@@ -1,9 +1,22 @@
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import dayjs from "dayjs";
+import { editorConfig } from "@/config/ckeditorConfig";
+import { ClassicEditor } from 'ckeditor5'
+
+const isLayoutReady = ref(false)
+const editor = ClassicEditor
+
+const dynamicPlaceholder = ref('Give a brief description about your education');
+
+const editorConfigs = computed(() => ({
+  ...editorConfig,
+  placeholder: dynamicPlaceholder.value,
+}));
+
 const OnboardingStore = useOnboardingStore();
 
 const { step, education } = storeToRefs(OnboardingStore);
@@ -57,6 +70,10 @@ watch(StartDate, (newStartDate) => {
 // Update education.value.currently_schooling_here when currentlySchoolingHere changes
 watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
   education.value.currently_schooling_here = newCurrentlySchoolingHere;
+});
+
+onMounted(async () => {
+  isLayoutReady.value = true
 });
 </script>
 
@@ -143,12 +160,11 @@ watch(currentlySchoolingHere, (newCurrentlySchoolingHere) => {
             >Description</label
           >
           <div class="flex flex-col">
-            <QuillEditor
-              v-model:content="education.description"
-              class=""
-              theme="snow"
-              placeholder="Give a brief description about your education"
-              contentType="html"
+            <ckeditor
+              v-if="isLayoutReady"
+              v-model="education.description"
+              :editor="editor"
+              :config="editorConfigs"
             />
           </div>
 

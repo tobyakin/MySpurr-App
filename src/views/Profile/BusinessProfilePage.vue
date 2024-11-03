@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, defineAsyncComponent, watch } from "vue";
+import { ref, computed, onMounted, defineAsyncComponent } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import BusinessJobCard from "@/components/ui/Jobs/Business/JobCard.vue";
 import { useJobsStore } from "@/stores/jobs";
@@ -51,15 +51,12 @@ const tabStore = useTabStore();
 const JobsStore = useJobsStore();
 const { MyJob } = storeToRefs(JobsStore);
 let loadMyjobs = ref(false);
-const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
+const Maps = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 
 const toast = useToast();
 
 import { useRouter } from "vue-router";
 const router = useRouter();
-// const showPageLoader = ref(true);
-
-
 
 let view = null;
 let showModal = ref(false);
@@ -388,7 +385,7 @@ onMounted(async () => {
               Location
             </p>
             <div class="flex flex-col gap-12 mt-4 relative rounded-[15px]">
-              <Map :lat="userDetails?.latitude" :lng="userDetails?.longitude" />
+              <Maps :lat="userDetails?.latitude" :lng="userDetails?.longitude" />
             </div>
           </div>
         </div>
