@@ -17,6 +17,18 @@ import Label from "@/components/ui/Form/Input/Label.vue";
 import CirclePlus from "@/components/icons/circlePlus.vue";
 import ReviewJob from "@/components/ui/Jobs/ReviewEditJob.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
+import { editorConfig } from "@/config/ckeditorConfig";
+import { ClassicEditor } from 'ckeditor5'
+
+const isLayoutReady = ref(false)
+const editor = ClassicEditor
+
+const dynamicPlaceholder = ref('Write about the job in details...');
+
+const editorConfigs = computed(() => ({
+  ...editorConfig,
+  placeholder: dynamicPlaceholder.value,
+}));
 
 const route = useRoute();
 const loading = ref(false);
@@ -198,6 +210,8 @@ onMounted(async () => {
     console.error;
     loading.value = false;
   }
+
+  isLayoutReady.value = true
 });
 </script>
 
@@ -207,23 +221,6 @@ onMounted(async () => {
 
     <div v-else class="container lg:py-20 py-4 mb-20">
       <div v-if="step[0]" class="">
-        <!-- <div class="flex flex-col gap-[21px] mb-[53px]">
-          <h3
-            class="lg:text-[45.259px] text-[30px] text-[#000000] lg:leading-[48.087px] font-Satoshi400"
-          >
-            Hire with MySpurr. <br />
-            Share your job post with thousands of creative talents
-          </h3>
-          <div
-            class="bg-[#EDF0B8] py-[19px] px-[30px] lg:px-[80px] flex items-center rounded-[10px]"
-          >
-            <ul class="list-disc flex flex-col gap-[8px] !mb-0">
-              <li>Post your first job for free</li>
-              <li>Post subsequent jobs for just $5/Job</li>
-              <li>GoPro for unlimited usage</li>
-            </ul>
-          </div>
-        </div> -->
         <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">
           Edit Job Details
         </h4>
@@ -310,81 +307,46 @@ onMounted(async () => {
               </a-select>
             </div>
 
-            <!-- <SelectGroup
-              v-model="postJobsValue.country_id"
-              labelClasses="font-Satoshi500 text-[15.606px]"
-              label="Country*"
-              name="Name"
-              :items="['Freelance', 'Full Time', 'Part Time']"
-              placeholder="Job Category"
-              type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup>
-            <SelectGroup
-              v-model="postJobsValue.state_id"
-              labelClasses="font-Satoshi500 text-[15.606px]"
-              label="State*"
-              name="Name"
-              :items="['Freelance', 'Full Time', 'Part Time']"
-              placeholder="Job Category"
-              type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup> -->
-            <!-- <SelectGroup
-              v-model="postJobsValue.job_type"
-              labelClasses="font-Satoshi500 text-[15.606px]"
-              label="Job Type"
-              name="Name"
-              :items="['Freelance', 'Full Time', 'Part Time']"
-              placeholder="Job Type*"
-              type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup> -->
           </div>
-          <div class="flex flex-col h-[58vh]">
+          <div class="flex flex-col">
             <Label class="font-Satoshi500 !text-[17.792px] mb-2">Job Description*</Label>
-
-            <QuillEditor
-              v-model:content="postJobsValue.description"
-              class=""
-              theme="snow"
-              placeholder="Write about the job in details..."
-              contentType="html"
+            <ckeditor
+              v-if="isLayoutReady"
+              v-model="postJobsValue.description"
+              :editor="editor"
+              :config="editorConfigs"
             />
           </div>
-          <div class="flex flex-col h-[58vh]">
+          <div class="flex flex-col">
             <Label class="font-Satoshi500 !text-[17.792px] mb-2">Responsibilities*</Label>
 
-            <QuillEditor
-              v-model:content="postJobsValue.responsibilities"
-              class=""
-              theme="snow"
-              placeholder="Write about the job in details..."
-              contentType="html"
+            <ckeditor
+              v-if="isLayoutReady"
+              v-model="postJobsValue.responsibilities"
+              :editor="editor"
+              :config="editorConfigs"
             />
           </div>
-          <div class="flex flex-col h-[58vh]">
+          <div class="flex flex-col">
             <Label class="font-Satoshi500 !text-[17.792px] mb-2">Required Skills**</Label>
 
-            <QuillEditor
-              v-model:content="postJobsValue.required_skills"
-              class=""
-              theme="snow"
-              placeholder="Write about the job in details..."
-              contentType="html"
+            <ckeditor
+              v-if="isLayoutReady"
+              v-model="postJobsValue.required_skills"
+              :editor="editor"
+              :config="editorConfigs"
             />
           </div>
-          <div class="flex flex-col h-[58vh]">
+          <div class="flex flex-col">
             <Label class="font-Satoshi500 !text-[17.792px] mb-2"
               >Benefits (If any)*</Label
             >
 
-            <QuillEditor
-              v-model:content="postJobsValue.benefits"
-              class=""
-              theme="snow"
-              placeholder="Write about the job in details..."
-              contentType="html"
+            <ckeditor
+              v-if="isLayoutReady"
+              v-model="postJobsValue.benefits"
+              :editor="editor"
+              :config="editorConfigs"
             />
           </div>
         </div>

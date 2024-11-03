@@ -33,11 +33,12 @@ import OpenTicket from '@/views/HelpCenter/OpenTicket.vue'
 import JobListingPage from '@/views/JobListing/JobListingPage.vue'
 import FindTalents from '@/views/FindTalents/FindTalents.vue'
 import PreviewJob from '@/views/JobListing/PreviewJob.vue'
-import AllApplications from '@/views/AllApplications/AllApplications.vue'
+import post from '@/views/AllApplications/AllApplications.vue'
 import PublicProfile from '@/views/Profile/PublicProfile.vue'
 import EditJob from '@/views/Jobs/Business/EditJob.vue'
 import MySchedule from '@/views/MySchedule/MySchedule.vue'
 import SuccessPage from '@/views/Jobs/Business/SuccessPage.vue'
+import PaymentProcessingPage from '@/views/Jobs/Business/PaymentProcessingPage.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -105,6 +106,12 @@ const router = createRouter({
       beforeEnter: [middleware.redirectLogin]
     },
     {
+      path: '/processing',
+      name: 'paymentProcessing',
+      component: PaymentProcessingPage,
+      beforeEnter: [middleware.redirectLogin]
+    },
+    {
       path: '/talents',
       name: 'talents',
       component: FindTalents,
@@ -135,7 +142,7 @@ const router = createRouter({
     {
       path: '/:businessname/applications/:slug/:id',
       name: 'applications',
-      component: AllApplications,
+      component: post,
       beforeEnter: [middleware.redirectLogin]
     },
 

@@ -28,16 +28,16 @@ defineProps({
   
     <div class="flex lg:flex-row flex-col gap-3 w-full">
 
-      <div>
+      <div class="h-[3.4rem] w-[3.4rem] rounded-[100%] overflow-hidden">
         <img
           v-if="job?.company?.logo !== null"
-          class="h-[3.792rem] w-[3.792rem] rounded-full object-cover"
+          class=" object-cover h-full w-full"
           :src="job?.company?.logo"
           alt="Company Logo"
         />
         <img
           v-else
-          class="h-[61.011px] w-[61.011px] rounded-full"
+          class="h-full w-full"
           src="@/assets/image/jobIcon.svg"
           alt=""
         />

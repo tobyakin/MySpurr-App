@@ -1,4 +1,5 @@
 import './assets/main.css'
+import './assets/style.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -11,8 +12,6 @@ import router from './router'
 import Antd from "ant-design-vue";
 import 'ant-design-vue/dist/reset.css'
 import Multiselect from 'vue-multiselect'
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { VueQueryPlugin } from 'vue-query'
 import ShortLoader from '@/components/ui/Loader/ShortLoader.vue'
 import VueApexCharts from 'vue3-apexcharts'
@@ -22,6 +21,7 @@ import PrimeVue from 'primevue/config'
 // import 'primevue/resources/themes/aura-light-green/theme.css'
 import VueTelInput from 'vue-tel-input'
 import 'vue-tel-input/vue-tel-input.css'
+import { CkeditorPlugin } from '@ckeditor/ckeditor5-vue';
 
 import Galleria from 'primevue/galleria'
 
@@ -51,7 +51,6 @@ app.use(VueTelInput)
 app.component('Galleria', Galleria)
 app.component('Carousel', Carousel)
 app.component('ApexChart', VueApexCharts)
-app.component('QuillEditor', QuillEditor)
 app.component('Label', Label)
 app.component('DashboardLayout', DashboardLayout)
 app.component('ShortLoader', ShortLoader)
@@ -71,6 +70,7 @@ app.component('l-geo-json', LGeoJson),
 app.use(Toast, { position: POSITION.TOP_RIGHT })
 app.use(VueQueryPlugin)
 app.use(PrimeVue)
+app.use(CkeditorPlugin)
 
 app.use(createPinia())
 app.use(router)

@@ -21,8 +21,8 @@
                 show-search
                 v-model:value="sortInput.Salary"
               >
-                <a-select-option v-for="item in Salary" :key="item" :value="item">
-                  {{ item }}
+                <a-select-option v-for="item in Salary" :key="item" :value="item.name">
+                  {{ item.name }}
                 </a-select-option>
               </a-select>
             </div>
@@ -118,8 +118,8 @@
                 show-search
                 v-model:value="sortInput.Availabilty"
               >
-                <a-select-option v-for="item in availaibility" :key="item" :value="item">
-                  {{ item }}
+                <a-select-option v-for="item in availaibility" :key="item" :value="item.value">
+                  {{ item.name }}
                 </a-select-option>
               </a-select>
             </div>
@@ -237,17 +237,26 @@ const rating = ref([
 ]);
 
 const Experience = [
+  { name: "Intern ", year: "(3 - 6 months)" },
   { name: "Beginner ", year: "(1-2 yrs)" },
   { name: "Intermediate ", year: "(3-5 yrs)" },
   { name: "Expert ", year: "(6-10 yrs)" },
   { name: "More than", year: " 10yrs" },
 ];
-const availaibility = computed(() => {
-  return applicants.value?.data?.applicants?.map((item) => item.availaibility);
-});
-const Salary = computed(() => {
-  return applicants.value?.data?.applicants?.map((item) => item.rate);
-});
+
+const Salary = [
+  { name: "50000 - 90000" },
+  { name: "100000 - 200000" },
+  { name: "300000 - 400000" },
+];
+
+const availaibility = [
+  { name: "Right away", value: "immediately" },
+  { name: "After 2 weeks", value: "after 2 weeks" }
+];
+// const Salary = computed(() => {
+//   return applicants.value?.data?.applicants?.map((item) => item.rate);
+// });
 
 const handleViewProfile = (talent_id) => {
   applicantsId.value = talent_id;
@@ -292,7 +301,7 @@ const filteredApplicants = computed(() => {
   }
   if (sortInput.Availabilty) {
     filtered = filtered?.filter((applicant) =>
-      applicant.availaibility.toLowerCase().includes(sortInput.Availabilty.toLowerCase())
+      applicant.availaibility?.toLowerCase().includes(sortInput.Availabilty.toLowerCase())
     );
   }
   if (sortInput.Location) {

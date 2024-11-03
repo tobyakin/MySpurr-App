@@ -29,10 +29,17 @@
   const getSuccessStatusFromURL = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const successParam = urlParams.get("success");
-    return successParam === "true"; // Convert the value to a boolean
+    return successParam === "true";
   };
   const imageExists = ref(false);
   const initials = ref("");
+  const selectedOption = ref('')
+  const showPremiumOptions = ref(false)
+  const showPremiumSucessPage = ref(false)
+  const userMail = ref('')
+  const mailError = ref(false)
+   const landingUrl = import.meta.env.VITE_DASHBOARD + `processing`;
+  //  const landingUrl = `http://localhost:5173/processing`;
   
   const state = reactive({
     status: getSuccessStatusFromURL(),
@@ -49,8 +56,6 @@
   const standardPostAttempt = computed(()=>{
     return userProfile?.user?.data?.job_standard_post_attempt
   })
-
-  const landingUrl = import.meta.env.VITE_DASHBOARD + `post-job?success=true`;
   
   const isFormValid = computed(() => {
     return (
@@ -116,21 +121,23 @@
     }
   };
 
-  const handlejobPayment = async () => {
+  const handlejobPayment = async (mail) => {
     payLoading.value = true;
-    let isHighlightedValue = isHighlighted.value === true ? 1 : 0;
+    let option = selectedOption.value? selectedOption.value: ""
     try {
       const res = await jobsStore.handlejobPayment(
         userDetails?.value?.id,
-        userDetails?.value?.business_email,
-        5000,
+        mail,
         landingUrl,
-        isHighlightedValue
+        option,
       );
-      window.location.href = res.url;
+      if(res.url){
+        window.location.href = res.url;
+      }
       if (res.status === true) {
         payLoading.value = false;
-        showModal.value = true;
+        showPremiumSucessPage.value = true
+        // showModal.value = true;
         resetForm();
       } else {
         payLoading.value = false;
@@ -144,9 +151,25 @@
     } finally {
       payLoading.value = false;
       resetForm();
-      back();
+      // back();
     }
   };
+
+  const handleSubmitPremiumOptions = async ()=>{
+    if(selectedOption.value === 'online'){
+      await handlejobPayment(userDetails?.value?.business_email)
+    } else if (selectedOption.value === 'invoice'){
+      if(userMail.value.length > 0){
+        await handlejobPayment(userMail.value)
+      } else {
+        mailError.value = true
+      }
+    }
+  }
+
+  const handlePremiumOptions = ()=>{
+    showPremiumOptions.value = true
+  }
 
   const handleSelectOption = ()=>{
     showOption.value = true
@@ -154,6 +177,8 @@
 
   const closeOptionModal = ()=>{
     showOption.value = false
+    showPremiumOptions.value = false
+    selectedOption.value = ''
   }
 
   const goToJobList = () => {
@@ -226,101 +251,184 @@
     <div>
       <CenteredModalLarge v-if="showOption"
         >
-        <div class="text-center rounded-[17.104px] p-6">
-          <div class="w-[90%] mx-auto mb-[2.54rem]">
-            <cancelIon class="ml-auto w-[40px] h-[20px] hover:scale-110 transitionItem" @click="closeOptionModal"/>
-            <h3 class="font-Satoshi700 text-[1.78rem] leading-[2.78rem] text-[#01181B]">Choose Your Job Post Option</h3>
-            <p class="text-[#00474F] font-Satoshi400 text-[1.37rem] leading-[1.6rem]">Unlock premium features and find the best talent faster with our paid option or opt for our free standard post.</p>
-          </div>
-          <div class="flex justify-center gap-[1.28rem] mb-[2.66rem]">
-            <article class="w-[50%] bg-[#00474F] rounded-[1rem] p-[1.5rem]">
-              <h3 class="text-[#FFF] font-Satoshi700 text-[1rem] leading-[1.5rem] text-left">Premium Job Post <br>(15% Fee)</h3>
-              <div class="w-full mt-[1rem] mb-[1.5rem] text-left flex flex-col gap-[0.7rem]">
-                <div class="flex items-center w-full gap-[0.7rem]">
-                  <checkIcon />
-                  <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Enhanced visibility</h3>
+        <div class="rounded-[17.104px] p-6">
+          <cancelIon class="ml-auto w-[40px] h-[20px] hover:scale-110 transitionItem !mb-[2rem]" @click="closeOptionModal"/>
+          <div class="text-center" v-if="!showPremiumOptions">
+            <div class="w-[90%] mx-auto mb-[2.54rem]">
+              <h3 class="font-Satoshi700 text-[1.78rem] leading-[2.78rem] text-[#01181B]">Choose Your Job Post Option</h3>
+              <p class="text-[#00474F] font-Satoshi400 text-[1.37rem] leading-[1.6rem]">Unlock premium features and find the best talent faster with our paid option or opt for our free standard post.</p>
+            </div>
+            <div class="flex justify-center gap-[1.28rem] mb-[2.66rem]">
+              <article class="w-[50%] bg-[#00474F] rounded-[1rem] p-[1.5rem]">
+                <h3 class="text-[#FFF] font-Satoshi700 text-[1rem] leading-[1.5rem] text-left">Premium Job Post <br>(15% Fee)</h3>
+                <div class="w-full mt-[1rem] mb-[1.5rem] text-left flex flex-col gap-[0.7rem]">
+                  <div class="flex items-center w-full gap-[0.7rem]">
+                    <checkIcon />
+                    <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Enhanced visibility</h3>
+                  </div>
+                  <div class="flex items-center w-full gap-[0.7rem]">
+                    <checkIcon />
+                    <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Priority support</h3>
+                  </div>
+                  <div class="flex items-center w-full gap-[0.7rem]">
+                    <checkIcon />
+                    <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Advanced filtering and matching</h3>
+                  </div>
+                  <div class="flex items-center w-full gap-[0.7rem]">
+                    <checkIcon />
+                    <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Access to exclusive talent pool</h3>
+                  </div>
                 </div>
-                <div class="flex items-center w-full gap-[0.7rem]">
-                  <checkIcon />
-                  <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Priority support</h3>
-                </div>
-                <div class="flex items-center w-full gap-[0.7rem]">
-                  <checkIcon />
-                  <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Advanced filtering and matching</h3>
-                </div>
-                <div class="flex items-center w-full gap-[0.7rem]">
-                  <checkIcon />
-                  <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Access to exclusive talent pool</h3>
-                </div>
-              </div>
-              <button 
-              class="w-full text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
-              @click="handlejobPayment"
-              >
-              <span v-if="!payLoading">premium Job Post</span>
-              <WhiteLoader v-else />
-            </button>
-            </article>
-            <article class="w-[50%] bg-[#00474F] rounded-[1rem] p-[1.5rem]">
-              <h3 class="text-[#FFF] font-Satoshi700 text-[1rem] leading-[1.5rem] text-left">Standard Job Post <br>(Free)</h3>
-              <div class="w-full mt-[1rem] mb-[1.5rem] text-left flex flex-col gap-[0.7rem]">
-                <div class="flex items-center w-full gap-[0.7rem]">
-                  <checkIcon />
-                  <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Standard visibility</h3>
-                </div>
-                <div class="flex items-center w-full gap-[0.7rem]">
-                  <checkIcon />
-                  <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">General support</h3>
-                </div>
-                <div class="flex items-center w-full gap-[0.7rem]">
-                  <checkIcon />
-                  <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Basic filtering and matching</h3>
-                </div>
-                <div class="flex items-center w-full gap-[0.7rem]">
-                  <checkIcon />
-                  <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Access to general talent pool</h3>
-                </div>
-              </div>
-              <button 
-                class="w-full text-center py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase "
-                @click="handleJobPosting"
-                :class="standardPostAttempt >= 3? 'bg-gray-300 cursor-not-allowed': 'bg-[#43D0DF] btn-hover-1' "
+                <button 
+                class="w-full text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
+                @click="handlePremiumOptions"
                 >
-                <span v-if="!loading">standard Job Post</span>
+                <span v-if="!payLoading">premium Job Post</span>
                 <WhiteLoader v-else />
               </button>
-            </article>
+              </article>
+              <article class="w-[50%] bg-[#00474F] rounded-[1rem] p-[1.5rem]">
+                <h3 class="text-[#FFF] font-Satoshi700 text-[1rem] leading-[1.5rem] text-left">Standard Job Post <br>(Free)</h3>
+                <div class="w-full mt-[1rem] mb-[1.5rem] text-left flex flex-col gap-[0.7rem]">
+                  <div class="flex items-center w-full gap-[0.7rem]">
+                    <checkIcon />
+                    <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Standard visibility</h3>
+                  </div>
+                  <div class="flex items-center w-full gap-[0.7rem]">
+                    <checkIcon />
+                    <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">General support</h3>
+                  </div>
+                  <div class="flex items-center w-full gap-[0.7rem]">
+                    <checkIcon />
+                    <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Basic filtering and matching</h3>
+                  </div>
+                  <div class="flex items-center w-full gap-[0.7rem]">
+                    <checkIcon />
+                    <h3 class="flex-1 text-[#E6F1F3] font-Satoshi400 text-[0.9rem] leading-[1.16rem]">Access to general talent pool</h3>
+                  </div>
+                </div>
+                <button 
+                  class="w-full text-center py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase "
+                  @click="handleJobPosting"
+                  :class="standardPostAttempt >= 3? 'bg-gray-300 cursor-not-allowed': 'bg-[#43D0DF] btn-hover-1' "
+                  >
+                  <span v-if="!loading">standard Job Post</span>
+                  <WhiteLoader v-else />
+                </button>
+              </article>
+            </div>
+            <div class="w-full">
+              <p class="font-Satoshi400 text-[#000000b3] text-[0.875rem] leading-[1.5rem] text-left">By choosing the 15% fee option, employers significantly improve their chances of quickly finding the right talent for their projects, supported by enhanced features and dedicated support. This model ensures that both employers and talents have a superior experience on MySpurr.</p>
+            </div>
           </div>
-          <div class="w-full">
-            <p class="font-Satoshi400 text-[#000000b3] text-[0.875rem] leading-[1.5rem] text-left">By choosing the 15% fee option, employers significantly improve their chances of quickly finding the right talent for their projects, supported by enhanced features and dedicated support. This model ensures that both employers and talents have a superior experience on MySpurr.</p>
+          <div v-else>
+            <div class="premiumStepOne px-10" v-if="!showPremiumSucessPage">
+              <h1 class="text-[#01181B] font-Satoshi400 text-[1.4rem] leading-[2.1875rem] !mb-[2rem]">Choose your preferred payment option for Premium Job post</h1>
+              <div class="flex flex-col gap-4">
+                <article class="inputField flex items-center gap-[0.5rem] cursor-pointer">
+                  <input
+                    type="radio"
+                    name="option"
+                    id="online"
+                    v-model="selectedOption"
+                    value="online"
+                    class="hidden"
+                  />
+                  <label for="online" class="flex items-center cursor-pointer">
+                    <span class="custom-radio" :class="{ 'checked': selectedOption === 'online' }"></span>
+                    <span class="text-[#01181B] font-Satoshi400 text-[1.2rem] leading-[2rem]">
+                      Make online payment
+                    </span>
+                  </label>
+                </article>
+
+                <article class="inputField flex items-center gap-[0.5rem] cursor-pointer">
+                  <input
+                    type="radio"
+                    name="option"
+                    id="invoice"
+                    v-model="selectedOption"
+                    value="invoice"
+                    class="hidden"
+                  />
+                  <label for="invoice" class="flex items-center cursor-pointer">
+                    <span class="custom-radio" :class="{ 'checked': selectedOption === 'invoice' }"></span>
+                    <span class="text-[#01181B] font-Satoshi400 text-[1.2rem] leading-[2rem]">
+                      Send customer invoice
+                    </span>
+                  </label>
+                </article>
+
+                <div class="transitionItem" :class="selectedOption === 'invoice'? 'h-auto mt-4': 'h-0 overflow-hidden mt-0'">
+                  <h3 class="text-[#6C8285] font-Satoshi400 text-[0.9rem] leading-[2rem]">
+                    Insert business email
+                  </h3>
+                  <input
+                    type="text"
+                    class="w-full border border-[#000000] rounded-[0.8125rem] p-[1rem]"
+                    v-model="userMail"
+                  />
+                  <p v-if="mailError" class="text-[red] font-Satoshi400 text-[0.7rem]">Enter valid mail address</p>
+                </div>
+              </div>
+              <div class="w-full grid place-items-center mt-[2rem]">
+                <button 
+                    class="w-auto text-center py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem]  !uppercase"
+                    @click="handleSubmitPremiumOptions"
+                    :class="selectedOption.length < 1? ' bg-gray-300 cursor-not-allowed text-[#01272C]': 'text-white bg-[#43D0DF] btn-hover-1'"
+                    >
+                    <span v-if="!payLoading">SUBMIT</span>
+                    <WhiteLoader v-else />
+                </button>
+              </div>
+            </div>
+            <div class="text-center px-10 premiumSucessPage" v-else>
+              <p class="text-[#01181B] text-[1.12rem] font-Satoshi400 mt-4">
+                Thank you, an invoice has been sent to the email provided. Once payment is confirmed, your job post will go live.
+              </p>
+              <div class="flex justify-center gap-4 mt-12">
+                <button
+                  @click="back()"
+                  class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+                >
+                  BACK</button
+                ><button
+                  @click="goToJobList()"
+                  class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+                >
+                  <span v-if="!loading">JOB LISTING </span>
+                  <WhiteLoader v-else />
+                </button>
+              </div>
+            </div>
           </div>
-  
         </div>
-    </CenteredModalLarge>
-      <CenteredModalLarge v-if="showModal"
-        ><div class="text-center px-10 py-10">
-          <h4 class="text-[#01181B] font-Satoshi700 text-[28.537px] mt-[20px]">
+      </CenteredModalLarge>
+      <CenteredModalLarge v-if="showModal">
+        <div class="text-center px-10 py-10">
+          <h4 class="text-[#01181B] font-Satoshi700 text-[1.78rem] mt-[20px]">
             Congratulations! Your job has been successfully posted on MySpurr!
           </h4>
-          <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+          <p class="text-[#01181B] text-[1.12rem] font-Satoshi400 mt-4">
             Now, talented creatives can discover and apply for your exciting opportunity.
             Stay tuned for applications and manage your job seamlessly from your dashboard.
           </p>
           <div class="flex justify-center gap-4 mt-12">
             <button
               @click="back()"
-              class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%]"
+              class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
             >
-              VIEW CANDIDATES</button
+              BACK</button
             ><button
               @click="goToJobList()"
-              class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%]"
+              class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
             >
               <span v-if="!loading">JOB LISTING </span>
               <WhiteLoader v-else />
             </button>
-          </div></div
-      ></CenteredModalLarge>
+          </div>
+        </div>
+      </CenteredModalLarge>
       <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] lg:p-10 p-6">
         <div class="flex lg:flex-row flex-col gap-3 w-full">
           <div>
@@ -350,12 +458,12 @@
           <div class="w-full">
             <div class="flex lg:flex-row flex-col gap-4 justify-between">
               <div class="">
-                <p class="text-[22.805px] font-Satoshi400 flex text-[#000]">
+                <p class="text-[1.43rem] font-Satoshi400 flex text-[#000]">
                   {{ userDetails?.business_name }}
                 </p>
                 <div class="flex mt-1 gap-1">
                   <VerifyIcon class="w-4" />
-                  <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
+                  <p class="text-[0.73rem] font-Satoshi700 text-[#000000B2]">
                     Verified Client.
                   </p>
                 </div>
@@ -380,7 +488,7 @@
             class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
           >
             <p
-              class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]"
+              class="lg:text-[1.66rem] capitalize text-[19px] font-Satoshi500 text-[#000000]"
             >
               {{ postJobsValue.job_title }}
             </p>
@@ -390,7 +498,7 @@
               :class="
                 !isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'
               "
-              class="font-Satoshi500 text-[9.708px] uppercase p-3 px-12 text-white rounded-full"
+              class="font-Satoshi500 text-[0.61rem] uppercase p-3 px-12 text-white rounded-full"
             >
               <span>Post</span>
               <!-- <WhiteLoader v-else /> -->
@@ -401,7 +509,7 @@
               <div
                 v-for="skill in postJobsValue.skills"
                 :key="skill"
-                class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
+                class="bg-[#2F929C] font-Satoshi500 text-[0.83rem] capitalize p-[4px] px-6 text-[#fff] rounded-full"
               >
                 {{ skill.name }}
               </div>
@@ -423,10 +531,10 @@
         class="bg-[#E9FAFB] border-[0.735px] flex lg:flex-row flex-col gap-5 justify-between rounded-[17.104px] mt-10 p-6 lg:px-10"
       >
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
+          <p class="text-[#244034c5] text-[1.07rem] font-Satoshi400">Salary</p>
           <p
             v-if="postJobsValue.salary_min || postJobsValue.salary_max"
-            class="text-[#244034] text-[17.104px] flex items-center font-Satoshi500"
+            class="text-[#244034] text-[1.07rem] flex items-center font-Satoshi500"
           >
             <span v-html="numAbbr.formatCurrency(postJobsValue.currency)"></span>
             {{ numAbbr.abbr(postJobsValue.salary_min) }}-{{
@@ -435,23 +543,23 @@
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Expertise</p>
-          <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[1.07rem] font-Satoshi400">Expertise</p>
+          <p class="text-[#244034] text-[1.07rem] font-Satoshi500">
             {{ postJobsValue.qualification }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
+          <p class="text-[#244034c5] text-[1.07rem] font-Satoshi400">Location</p>
           <p
             v-if="postJobsValue.state_id || postJobsValue.country_id"
-            class="text-[#244034] text-[17.104px] font-Satoshi500"
+            class="text-[#244034] text-[1.07rem] font-Satoshi500"
           >
             {{ postJobsValue.state_id }},{{ postJobsValue.country_id }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Job Type</p>
-          <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[1.07rem] font-Satoshi400">Job Type</p>
+          <p class="text-[#244034] text-[1.07rem] font-Satoshi500">
             {{ postJobsValue.job_type }}
           </p>
         </div>
@@ -460,8 +568,8 @@
           <p class="text-[#244034] text-[17.104px] font-Satoshi500">12 jun, 2022</p>
         </div> -->
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Experience</p>
-          <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[1.07rem] font-Satoshi400">Experience</p>
+          <p class="text-[#244034] text-[1.07rem] font-Satoshi500">
             {{ postJobsValue.experience }}
           </p>
         </div>
@@ -679,4 +787,6 @@
       </div>
     </div>
   </template>
+  <style scoped>
+  </style>
   

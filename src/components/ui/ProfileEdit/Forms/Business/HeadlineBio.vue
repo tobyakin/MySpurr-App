@@ -157,7 +157,8 @@ onMounted(async () => {
                   </a-select>
                 </div>
               </div>
-              <a-divider
+
+              <!-- <a-divider
                 class="lg:hidden"
                 style="height: 2px; background-color: #254035ab; margin: 0 3px"
               />
@@ -165,7 +166,7 @@ onMounted(async () => {
                 class="lg:flex hidden"
                 style="height: 5vh; background-color: #254035ab; margin: 0 4px"
                 type="vertical"
-              />
+              /> -->
 
               <div class="w-full">
                 <label class="text-[#01272C] px-3 text-[12px] font-Satoshi400"
@@ -193,18 +194,7 @@ onMounted(async () => {
               </div>
             </div>
 
-            <!-- <div
-              class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
-            >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
-                >Last Name
-              </label>
-              <GlobalInput
-                inputClasses="bg-transparent border-none !px-0 !py-[4px]"
-                v-model="businessDeatils.last_name"
-                type="text"
-              />
-            </div> -->
+
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >

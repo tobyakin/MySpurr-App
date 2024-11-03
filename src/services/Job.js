@@ -2,10 +2,10 @@ import axios from '../axios'
 import { catchAxiosError, catchAxiosSuccess } from './Response'
 import { getToken } from './Auth'
 
-export const getJobs = async () => {
+export const getJobs = async (page) => {
   const token = await getToken()
   try {
-    let res = await axios.get(`v1/get-jobs`, {
+    let res = await axios.get(`v1/get-jobs?page=${page}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -59,10 +59,11 @@ export const deleteJob = async (id) => {
     throw error
   }
 }
-export const closeJob = async (slug) => {
+
+export const closeJob = async (slug, payload) => {
   const token = await getToken()
   try {
-    let res = await axios.delete(`v1/job/${slug}/close`, {
+    let res = await axios.patch(`v1/job/${slug}/close`, payload, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -74,6 +75,7 @@ export const closeJob = async (slug) => {
     throw error
   }
 }
+
 export const getJobsDetails = async (id) => {
   const token = await getToken()
   try {
@@ -146,6 +148,7 @@ export const postJobs = async (payload) => {
     throw error
   }
 }
+
 export const jobPayment = async (payload) => {
   const token = await getToken()
   try {
@@ -158,6 +161,21 @@ export const jobPayment = async (payload) => {
     return res.data
   } catch (error) {
     catchAxiosError(error)
+    throw error
+  }
+}
+
+export const verifyPayment = async (id, reference)=>{
+  const token = await getToken()
+  try {
+    let res = await axios.get(`v1/verify/payment/${id}/${reference}`, {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    return res.data
+  } catch (error) {
+    // catchAxiosError(error)
     throw error
   }
 }

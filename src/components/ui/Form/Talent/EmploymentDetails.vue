@@ -8,6 +8,18 @@ import { useSkillsStore } from "@/stores/skills";
 const SelectGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/SelectGroup.vue")
 );
+import { editorConfig } from "@/config/ckeditorConfig";
+import { ClassicEditor } from 'ckeditor5'
+
+const isLayoutReady = ref(false)
+const editor = ClassicEditor
+
+const dynamicPlaceholder = ref('Give a brief description about your education');
+
+const editorConfigs = computed(() => ({
+  ...editorConfig,
+  placeholder: dynamicPlaceholder.value,
+}));
 
 const skillsStore = useSkillsStore();
 const { skills, jobTitle } = storeToRefs(skillsStore);
@@ -86,7 +98,10 @@ onMounted(async () => {
   await skillsStore.getJobTitles();
   options.value = skills.value.data;
   skillTitles.value = jobTitle.value.data;
+
+  isLayoutReady.value = true
 });
+
 
 const showJobTitleDropdown = ref(false);
 const highlightedJobTitleIndex = ref(-1);
@@ -236,33 +251,14 @@ const selectHighlightedJobTitleOption = () => {
             >Description</label
           >
           <div class="flex flex-col mb-3">
-            <QuillEditor
-              v-model:content="employment_details.description"
-              class=""
-              theme="snow"
-              placeholder="Give a brief description about your work "
-              contentType="html"
+            <ckeditor
+              v-if="isLayoutReady"
+              v-model="employment_details.description"
+              :editor="editor"
+              :config="editorConfigs"
             />
           </div>
         </div>
-        <!-- </div> -->
-
-        <!-- <div
-          class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
-        >
-          <div class="w-full flex flex-col gap-2 justify-between">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-              >Description</label
-            >
-            <textarea
-              v-model="employment_details.description"
-              rows="4"
-              class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
-              placeholder="Give a brief description about your work "
-            />
-          </div>
-        </div> -->
-
         <div class="flex gap-3 justify-start items-center">
           <input
             class="bg-transparent !border-[0.737px] cursor-pointer !border-[#254035AB] accent-brand rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
