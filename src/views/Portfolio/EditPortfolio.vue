@@ -14,6 +14,19 @@ import PagePreLoader from "@/components/ui/Loader/PagePreLoader.vue";
 import FormGroup from "@/components/ui/Form/Input/FormGroup.vue";
 import Label from "@/components/ui/Form/Input/Label.vue";
 import { useSkillsStore } from "@/stores/skills";
+import { editorConfig } from "@/config/ckeditorConfig";
+import { ClassicEditor } from 'ckeditor5'
+
+const isLayoutReady = ref(false)
+const editor = ClassicEditor
+
+const dynamicPlaceholder = ref('Write about the job in details...');
+
+const editorConfigs = computed(() => ({
+  ...editorConfig,
+  placeholder: dynamicPlaceholder.value,
+}));
+
 const skillsStore = useSkillsStore();
 const { skills } = storeToRefs(skillsStore);
 
@@ -376,6 +389,8 @@ onMounted(async () => {
   } finally {
     showPageLoader.value = !showPageLoader.value;
   }
+
+  isLayoutReady.value = true
 });
 onUnmounted(() => {
   restForm();
@@ -424,15 +439,12 @@ onUnmounted(() => {
       <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[44.05px]">
         Describe your project (1000 words)
       </h4>
-      <div class="mt-8 flex flex-col h-[58vh]">
-        <QuillEditor
-          v-model:content="portfolio.description"
-          class=""
-          theme="snow"
-          placeholder="Write about the job in details..."
-          contentType="html"
-          @change="handleChange"
-          :enable="!isDisabled"
+      <div class="mt-8 flex flex-col">
+        <ckeditor
+          v-if="isLayoutReady"
+          v-model="portfolio.description"
+          :editor="editor"
+          :config="editorConfigs"
         />
         <div>{{ characterCount }} / {{ maxCharacters }}</div>
       </div>
