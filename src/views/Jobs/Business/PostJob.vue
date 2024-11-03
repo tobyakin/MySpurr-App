@@ -102,6 +102,7 @@ let options = ref([
 ]);
 
 const Experience = [
+  { name: "Intern ", year: "(3 - 6 months)" },
   { name: "Beginner ", year: "(1-2 yrs)" },
   { name: "Intermediate ", year: "(3-5 yrs)" },
   { name: "Expert ", year: "(6-10 yrs)" },
