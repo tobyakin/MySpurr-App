@@ -188,15 +188,15 @@ const handleMessageClicked = async (payload)=>{
 }
 
 const handleReplyMessage = async (payload)=>{
-  isSending.value = false
+  isSending.value = true
   try {
     await messageStore.handleReplyMessage(payload)
     getAllMessages(userID.value)
     await getMessageDetail(payload.message_id)
-    isSending.value = false
     messageDetails.value = messageDetail.value.data
     showReplyField.value = false
     getSentMessages()
+    isSending.value = false
   } catch (error) {
     console.log(error)
     isSending.value = false
@@ -436,6 +436,7 @@ onUnmounted(() => {
                         @change="handleAttachment"
                         @delete="handleDelete"
                         :showtal="showtal"
+                        :isSending="isSending"
                         />
                       </div>
                     </div>
