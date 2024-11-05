@@ -17,7 +17,9 @@
   import { storeToRefs } from "pinia";
   import sendIcon from "@/components/icons/sendIcon.vue"
   import circleFileIcon from '@/components/icons/circleFileIcon.vue';
+  import { useToast } from 'vue-toastification'
 
+  const toast = useToast()
   const showChatList = ref(true)
   const showChatPage = ref(false)
   const closeWidget = ref()
@@ -51,6 +53,7 @@ const noMessageNotification = ref('')
 const uploadedFileDetails = ref([]);
 const userImg = ref('')
 const messageIndex = ref()
+const isSending = ref(false)
 
 const props = defineProps(['defaultWidgetState'])
 
@@ -69,6 +72,14 @@ onMounted(() => {
   noMessageNotification.value = 'messages'
   return accountType;
 });
+
+function filterMessages(type) {
+  filterSection.value = type;
+  getFilteredMessages();
+  noMessageNotification.value = type === 'primary' ? 'messages' : (type === 'sent' ? 'sent message' : 'featured message');
+  detailLoaded.value = false;
+  messageIndex.value = -1;
+}
 
 function filterPrimary(){
   filterSection.value = 'primary'
@@ -200,20 +211,20 @@ const handleReplyMessage = async ()=>{
     }
   }
 
-const isSending = ref(false)
-
 const handleSendMessage = async (payload)=>{
   isSending.value = true
   try {
     if(payload.body.length > 0 &&
     payload.to.length > 0){
-      closeWindow()
       await messageStore.handleSendMessage(payload)
       getAllMessages(userID.value)
       getSentMessages()
       isSending.value = false
+      closeWindow()
     } else {
-      alert('Some fields are not filled')
+      toast.error('Some field are not filled', {
+        timeout: 4000
+      })
     }
   } catch (error) {
     console.log(error)
@@ -381,9 +392,10 @@ const getUserInfo = ()=>{
                       </div>
                   </div>
                   <div class="px-[1.44rem] pb-4 msgMob:pb-[0.5rem] filter">
-                    <MessageFilter 
-                    @primary="filterPrimary" @others="filterOthers" @sent="filterSent" :filter="filterSection"
-                    />
+                    <MessageFilter
+                    @primary="filterMessages('primary')" @others="filterMessages('others')" 
+                    @sent="filterMessages('sent')" 
+                    :filter="filterSection"/>
                   </div>
               </div>
               <div class="messageList overflow-y-auto scroller flex-1" id="messagesContainer">
@@ -464,6 +476,7 @@ const getUserInfo = ()=>{
               <NewMessage class="h-full" @send="handleSendMessage"
               @delete="handleDelete"
               @back="closeWindow"
+              :isSending="isSending"
               />
             </div>
           </section>

@@ -82,29 +82,12 @@ const getMessageID = ()=>{
   return messageID.value
 }
 
-
-function filterPrimary(){
-  filterSection.value = 'primary'
-  getFilteredMessages()
-  noMessageNotification.value = 'messages'
-  detailLoaded.value = false
-  messageIndex.value = -1
-}
-
-function filterSent(){
-  filterSection.value = 'sent'
-  getFilteredMessages()
-  noMessageNotification.value = 'sent message'
-  detailLoaded.value = false
-  messageIndex.value = -1
-}
-
-function filterOthers(){
-  filterSection.value = 'others'
-  getFilteredMessages()
-  noMessageNotification.value = 'featured message'
-  detailLoaded.value = false
-  messageIndex.value = -1
+function filterMessages(type) {
+  filterSection.value = type;
+  getFilteredMessages();
+  noMessageNotification.value = type === 'primary' ? 'messages' : (type === 'sent' ? 'sent message' : 'featured message');
+  detailLoaded.value = false;
+  messageIndex.value = -1;
 }
 
 function getFilteredMessages(){
@@ -131,7 +114,7 @@ const getSentMessages = async () =>{
     await messageStore.handleSentMessages()
     messageLoading.value = false
   } catch (error) {
-    console.log(error)
+    handleError(error);
     messageLoading.value = false
   }
 }
@@ -142,7 +125,7 @@ const getAllMessages = async (userId)=>{
     await messageStore.handleGetMessages(userId)
     messageLoading.value = false
   } catch (error) {
-    console.log(error)
+    handleError(error);
     messageLoading.value = false
   }
   displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
@@ -160,7 +143,7 @@ const getMessageDetail = async (message_id)=>{
     await messageStore.handleMessageDetail(message_id)
     chatLoading.value = false
   } catch (error) {
-    console.log(error)
+    handleError(error);
     chatLoading.value = false
   }
 };
@@ -187,23 +170,39 @@ const handleMessageClicked = async (payload)=>{
   return messageDetails.value
 }
 
-const handleReplyMessage = async (payload)=>{
-  isSending.value = true
+const handleReplyMessage = async (payload) => {
+  isSending.value = true;
   try {
-    await messageStore.handleReplyMessage(payload)
-    getAllMessages(userID.value)
-    await getMessageDetail(payload.message_id)
-    messageDetails.value = messageDetail.value.data
-    showReplyField.value = false
-    getSentMessages()
-    getFilteredMessages()
-    isSending.value = false
+    await messageStore.handleReplyMessage(payload);
+    await messageStore.handleGetMessages(userID.value)
+    await getMessageDetail(payload.message_id); 
+    messageDetails.value = messageDetail.value.data;
+    showReplyField.value = false;
+    getSentMessages(); 
+    filterSection.value = filterSection.value; 
+    await getFilteredMessages(); 
+    isSending.value = false;
   } catch (error) {
-    console.log(error)
-    isSending.value = false
+    handleError(error);
+    isSending.value = false;
   }
-  
-}
+};
+
+const scrollToElement = async () => {
+  await nextTick(); // Ensure the DOM has updated with new messages
+  const messageElement = document.querySelector(`#message-${clickedItem.value}`);
+  console.log("Scrolling to element:", messageElement, "with ID:", clickedItem.value);
+  if (messageElement) {
+    messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    console.log(`Element with ID "#message-${clickedItem.value}" not found`);
+  }
+};
+
+const handleError = (error) => {
+  console.error("An error occurred:", error);
+  // Add notification or error feedback here
+};
 
 const handleSendMessage = async (payload)=>{
   isSending.value = true
@@ -228,7 +227,7 @@ const handleSendMessage = async (payload)=>{
       alert('Some fields are not filled')
     }
   } catch (error) {
-    console.log(error)
+    handleError(error);
     isSending.value = false
   }
 }
@@ -381,8 +380,8 @@ onUnmounted(() => {
                   <MoreVertIcon class="rotate-90"/>
                 </div>
                 <MessageFilter
-                 @primary="filterPrimary" @others="filterOthers" 
-                 @sent="filterSent" 
+                 @primary="filterMessages('primary')" @others="filterMessages('others')" 
+                 @sent="filterMessages('sent')" 
                  :filter="filterSection"/>
               </div>
               <div id="messagesContainer" class=" overflow-y-auto scroller pb-4 flex-1" ref="messagesContainer">

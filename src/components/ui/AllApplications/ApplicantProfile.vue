@@ -32,6 +32,7 @@ let source = ref("");
 
 const rateTalent = ref("");
 const props = defineProps({ talents: Object });
+const isSending = ref(false)
 
 const downloadFile = (url) => {
   const anchor = document.createElement("a");
@@ -52,21 +53,21 @@ const downloadFile = (url) => {
   }, 100);
 };
 
-const isSending = ref(false)
-
 const handleSendMessage = async (payload)=>{
   isSending.value = true
   try {
     if(payload.body.length > 0 &&
     payload.to.length > 0){
-      closeWindow()
       await messageStore.handleSendMessage(payload)
       toast.success('Message sent', {
-          timeout: 4000
-        })
+        timeout: 4000
+      })
       isSending.value = false
+      closeWindow()
     } else {
-      alert('Some fields are not filled')
+      toast.error('Some field are not filled', {
+        timeout: 4000
+      })
     }
   } catch (error) {
     console.log(error)
@@ -395,6 +396,7 @@ const goTo = async (email, show) => {
         @delete="closeWindow"
         @back="closeWindow"
         :email="props.talents?.email"
+        :isSending="isSending"
         />
       </div>
     </section>
