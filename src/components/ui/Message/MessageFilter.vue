@@ -20,10 +20,12 @@ function filterPrimary(){
 function filterOthers(){
     emit('others')
     filteredSection.value = 'others'
+    console.log(filteredSection.value)
 }
 function filterSent(){
     emit('sent')
     filteredSection.value = 'sent'
+    console.log(filteredSection.value)
 }
 
 
@@ -35,16 +37,16 @@ function filterSent(){
         <SearchIcon />
     </div>
     <ul class="messageGroup flex items-center justify-between gap-[0.7rem] !mb-[0.5rem]">
-        <li class=""
+        <li class=" transitionItem"
         :class="filteredSection === 'primary'? 'active': 'reg'" @click="filterPrimary">
             <p>primary</p>
         </li>
-        <li class="flex items-center gap-[0.3rem]"
+        <li class="flex items-center gap-[0.3rem] transitionItem"
         :class="filteredSection === 'others'? 'active': 'reg'" @click="filterOthers">
             <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#DA5252]"></span>
             <p>others</p>
         </li>
-        <li class="flex items-center gap-[0.3rem]"
+        <li class="flex items-center gap-[0.3rem] transitionItem"
         :class="filteredSection === 'sent'? 'active': 'reg'" @click="filterSent">
             <span class="w-[0.35119rem] h-[0.35119rem] rounded-[50%] block bg-[#007582]"></span>
             <p>sent</p>

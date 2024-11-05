@@ -196,6 +196,7 @@ const handleReplyMessage = async (payload)=>{
     messageDetails.value = messageDetail.value.data
     showReplyField.value = false
     getSentMessages()
+    getFilteredMessages()
     isSending.value = false
   } catch (error) {
     console.log(error)
