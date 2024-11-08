@@ -284,7 +284,7 @@ function handleSaveEdit(e){
                     <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden">{{ chat.subject }}</h3>
                     <div class="field !mb-[1.3rem]">
                         <div class="flex flex-col relative">
-                            <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer max-w-[100%]"
+                            <div id="messageBox" class="flex gap-[0.5rem] items-start max-w-[100%]"
                             :class="chat?.sender_id == userID? 'w-fit': ''"
                             >
                                 <div 
@@ -299,7 +299,7 @@ function handleSaveEdit(e){
                                 class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]"
                                 v-if="chat?.sender_id == userID"
                                 >
-                                    <EditIcon class="w-full h-full"/>
+                                    <!-- <EditIcon class="w-full h-full"/> -->
                                 </div>
                             </div>
                             <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
@@ -372,7 +372,7 @@ function handleSaveEdit(e){
                         </div>
                         <div class="field">
                             <div class="flex flex-col !mb-[1.3rem] relative">
-                                <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer max-w-[100%]"
+                                <div id="messageBox" class="flex gap-[0.5rem] items-start max-w-[100%]"
                                 :class="reply?.sender?.id == userID? 'w-fit': ''"
                                 >
                                     <div 
@@ -386,7 +386,7 @@ function handleSaveEdit(e){
                                     @click="handleEditMessage" class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]"
                                     v-if="reply?.sender?.id == userID"
                                     >
-                                        <EditIcon class="w-full h-full"/>
+                                        <!-- <EditIcon class="w-full h-full"/> -->
                                     </div>
                                 </div>
                                 <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
