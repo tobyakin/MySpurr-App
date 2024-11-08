@@ -43,6 +43,7 @@ module.exports = {
       gridTemplateColumns: {
         'temp': 'auto 1fr auto',
         'temp2': '1.5fr 3.333fr',
+        'temp3': '1fr 1.5fr',
         'customGrid': 'repeat(auto-fit, minmax(200px, 1fr))',
         'customGrid2': 'repeat(auto-fit, minmax(250px, 1fr))',
         'customGrid3': 'repeat(auto-fit, minmax(150px, 1fr))',
