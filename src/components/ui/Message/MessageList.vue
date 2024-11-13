@@ -55,8 +55,8 @@
           <div class="status flex items-center gap-[0.8rem] mb-[0.35rem]" :data-id="message.id">         
             <div>
               <span v-if="message.status ==='primary' " class="w-[0.40rem] h-[0.40rem] rounded-[50%] block bg-[#007582]"></span>
-              <span v-if="message.status ==='read' " class="w-[0.40rem] h-[0.40rem] rounded-[50%] block bg-[#949939]"></span>
-              <span v-if="message.status ==='unread' " class="w-[0.40rem] h-[0.40rem] rounded-[50%] block bg-[#DA5252]"></span> 
+              <span v-if="message.status ==='sent' " class="w-[0.40rem] h-[0.40rem] rounded-[50%] block bg-[#949939]"></span>
+              <span v-if="message.status ==='others' " class="w-[0.40rem] h-[0.40rem] rounded-[50%] block bg-[#DA5252]"></span> 
             </div>
             <div class="flex items-center justify-between w-full">
               <div>

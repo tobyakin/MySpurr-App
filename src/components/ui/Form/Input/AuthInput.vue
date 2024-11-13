@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <input
-      class="w-full font-light font-Satoshi400 text-[14px] !p-2 opacity-[0.8029] rounded-[4.074px] text-sm border"
+      class="w-full font-light font-Satoshi400 text-[14px] !p-2 opacity-[0.8029] rounded-[4.074px] text-sm"
       :placeholder="placeholder"
       :type="type"
       :value="modelValue"

@@ -323,19 +323,19 @@ onUnmounted(() => {
           <button
             class="bg-[#3F634D] rounded-[10.38575rem] px-[1.3rem] py-[0.3rem] font-Satoshi500 text-[#fff] text-[0.803rem] leading-[1.7rem]"
             @click="handleReply"
-            :class="isSending? 'px-[2rem] py-[1rem]': ''"
+            :class="props.isSending? 'px-[2rem] py-[1rem]': ''"
             v-if="!sendButton"
           >
-          <span v-if="!isSending">Reply</span>
+          <span v-if="!props.isSending">Reply</span>
           <WhiteLoader v-else />
           </button>
           <button
             class="bg-[#3F634D] rounded-[10.38575rem] px-[1.3rem] py-[0.3rem] font-Satoshi500 text-[#fff] text-[0.803rem]"
             @click="handleSend"
-            :class="isSending? 'px-[2rem] py-[1rem]': ''"
+            :class="props.isSending? 'px-[2rem] py-[1rem]': ''"
             v-if="sendButton"
           >
-            <span v-if="!isSending">Send</span>
+            <span v-if="!props.isSending">Send</span>
             <WhiteLoader v-else />
           </button>
         </div>
