@@ -123,7 +123,7 @@ const getAllMessages = async (userId)=>{
   messageLoading.value = true
   try {
     await messageStore.handleGetMessages(userId)
-    getSentMessages()
+    await getSentMessages()
     messageLoading.value = false
   } catch (error) {
     handleError(error);
@@ -189,16 +189,16 @@ const handleReplyMessage = async (payload) => {
   }
 };
 
-const scrollToElement = async () => {
-  await nextTick(); // Ensure the DOM has updated with new messages
-  const messageElement = document.querySelector(`#message-${clickedItem.value}`);
-  console.log("Scrolling to element:", messageElement, "with ID:", clickedItem.value);
-  if (messageElement) {
-    messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  } else {
-    console.log(`Element with ID "#message-${clickedItem.value}" not found`);
-  }
-};
+// const scrollToElement = async () => {
+//   await nextTick();
+//   const messageElement = document.querySelector(`#message-${clickedItem.value}`);
+//   console.log("Scrolling to element:", messageElement, "with ID:", clickedItem.value);
+//   if (messageElement) {
+//     messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+//   } else {
+//     console.log(`Element with ID "#message-${clickedItem.value}" not found`);
+//   }
+// };
 
 const handleError = (error) => {
   console.error("An error occurred:", error);
@@ -222,7 +222,7 @@ const handleSendMessage = async (payload)=>{
       showReplyField.value = false
       showNewMessage.value = false
       getAllMessages(userID.value)
-      getSentMessages()
+      // getSentMessages()
 
     } else {
       alert('Some fields are not filled')
@@ -281,7 +281,7 @@ onMounted(async () => {
       }
     }
     if(isOnBoarded.value){
-      getSentMessages(), getAllMessages(userID.value)
+      getAllMessages(userID.value)
     }
   } catch (error) {
     /* empty */

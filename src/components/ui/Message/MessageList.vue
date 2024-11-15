@@ -1,10 +1,20 @@
 <script setup>
   import fileIcon from "@/components/icons/fileIcon.vue";
+  import { useUserProfile } from "../../../stores/profile";
+import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
+import { computed } from "vue";
+
+  const useProfile = useUserProfile()
+  const { user } = storeToRefs(useProfile)
   const props = defineProps(['messageList', 'filter', 'clickedId'])
   const emit = defineEmits(['messageClicked'])
   const emitMMessageId = async (id, index)=>{
     emit('messageClicked', {id: id, index: index})
   }
+  const userDetails = computed(()=>{
+    return user.value
+  })
 
   // async function scroll(){
   //   console.log(props.clickedId)
@@ -42,12 +52,23 @@
     return time
   }
 
+  // Function to sort messages by the `sent_at` field
+  const sortedMessages = computed(() => {
+    return [...props.messageList].sort(
+      (a, b) => new Date(b.sent_at) - new Date(a.sent_at)
+    );
+  });
+
+  onMounted(async()=>{
+    await useProfile.userProfile()
+  })
+
 </script>
 <template>
   <div>
     <article 
     :id="'message-' + message.id" 
-    class="p-[1.25rem] border-y border-[#F3F3F3] cursor-pointer" v-for="(message, index) in messageList" :key="message.id" @click="emitMMessageId(message.id, index)"
+    class="p-[1.25rem] border-y border-[#F3F3F3] cursor-pointer" v-for="(message, index) in sortedMessages" :key="message.id" @click="emitMMessageId(message.id, index)"
     :data-id="message.id"
     :class="clickedId === index? `active index-${index}`: 'reg'"
     @next="handleNext"
@@ -60,7 +81,11 @@
             </div>
             <div class="flex items-center justify-between w-full">
               <div>
-                <h3 v-if="filter !== 'sent'" class="userName font-Satoshi500 text-messageFont leading-[2rem] text-[0.75rem] capitalize">{{ message.sender.first_name }} {{ message.sender.last_name }}</h3>
+                <div v-if="filter !== 'sent'">
+                  <h3 class="userName font-Satoshi500 text-messageFont leading-[2rem] text-[0.75rem] capitalize" v-if="userDetails?.data?.id == message?.sender_id">{{ message?.receiver?.first_name }} {{ message?.receiver?.last_name }}</h3>
+                  <h3 class="userName font-Satoshi500 text-messageFont leading-[2rem] text-[0.75rem] capitalize" v-else>{{ message.sender.first_name }} {{ message.sender.last_name }}</h3>
+                  
+                </div>
                 <h3 v-else class="userName font-Satoshi500 text-messageFont leading-[2rem] text-[0.75rem] capitalize">{{ message?.receiver?.first_name }} {{ message?.receiver?.last_name }}</h3>
               </div>
               <div>
