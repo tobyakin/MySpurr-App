@@ -10,6 +10,7 @@ import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
 import { useMessageStore } from "@/stores/message";
+import loader from '@/components/ui/WhiteLoader.vue'
 
 const messageStore = useMessageStore();
 const userInfo = ref([]);
@@ -220,8 +221,6 @@ const handleSaveEdit = async (e, id, subject)=>{
     targetInput.setAttribute('aria-readonly', 'true');
     targetInput.contentEditable = 'false';
     targetInput.blur();
-    mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
-    mainContainer.querySelector('.editedNotifier').classList.add('!block')
     let payload = {
         "subject": subject || "",
         "body": targetInput.textContent
@@ -229,9 +228,13 @@ const handleSaveEdit = async (e, id, subject)=>{
     try {
         await messageStore.handleEditMessage(id, payload)
         isEditing.value = false
+        mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+        mainContainer.querySelector('.editedNotifier').classList.add('!block')
     } catch (error) {
         console.log(error)
         isEditing.value = false
+        mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+        mainContainer.querySelector('.editedNotifier').classList.add('!block')
     }
 }
 
@@ -327,9 +330,9 @@ const handleSaveEdit = async (e, id, subject)=>{
                             <button
                             @click="handleSaveEdit($event, chat?.id, chat?.subject)"
                             class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">
-                            <span v-if="isEditing">Editing...</span>
+                            <span v-if="isEditing">...</span>
                             <span v-else>Submit</span>
-                        </button>
+                            </button>
                         </div>
                     </div>
                 </div>
