@@ -92,7 +92,7 @@ function filterMessages(type) {
 
 function getFilteredMessages(){
   if(filterSection.value === 'primary'){
-    displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userID.value)
+    displayedMessages.value = [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
   } else if(filterSection.value === 'others'){
     displayedMessages.value = []
   } else if (filterSection.value === 'sent'){
@@ -123,12 +123,13 @@ const getAllMessages = async (userId)=>{
   messageLoading.value = true
   try {
     await messageStore.handleGetMessages(userId)
+    getSentMessages()
     messageLoading.value = false
   } catch (error) {
     handleError(error);
     messageLoading.value = false
   }
-  displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+  displayedMessages.value = [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
   recievedMessages.value = displayedMessages.value
   messageLength.value = recievedMessages.value.length > 0
   messageNum.value = recievedMessages?.value.length

@@ -343,6 +343,7 @@ function handleSaveEdit(e){
             </div>
             <div class="replies mb-4" v-if="chat.replies && chat.replies.length > 0">
                 <div class="mb-6" v-for="reply in chat.replies" :key="reply.id">
+                    {{ reply }}
                     <div class="chatPage">
                     <div class=" head flex items-center justify-between mb-4">
                         <div class="flex items-center gap-[0.5rem]" v-if="reply?.sender?.id == userID">
