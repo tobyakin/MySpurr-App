@@ -10,9 +10,10 @@ import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
 import { useMessageStore } from "@/stores/message";
-import loader from '@/components/ui/WhiteLoader.vue'
+import { storeToRefs } from "pinia";
 
 const messageStore = useMessageStore();
+const { editedMessageList } = storeToRefs(messageStore)
 const userInfo = ref([]);
 let profile = useUserProfile();
 let store = useStore();
@@ -61,6 +62,7 @@ function discoverLinks(text) {
     }
     return links;
 }
+
 function displayTextWithLinks(text) {
     const links = discoverLinks(text);
     let lastIndex = 0;
@@ -81,33 +83,6 @@ function displayTextWithLinks(text) {
     }
     return resultHTML
 }
-
-onMounted(() => {
-  return accountType, userID;
-});
-
-onMounted(async ()=>{
-    try {
-    await profile.userProfile();
-    getUserInfo()
-    userImg.value = userInfo.value.company_logo || userInfo.value.image
-    await scrollToBottom()
-
-    if (
-      isOnBoarded.value &&
-      !isOnBoarded.value.business_details &&
-      !isOnBoarded.value.work_details
-    ) {
-      if (accountType.value === "talent") {
-        console.log(isOnBoarded.value.work_details)
-      } else if (accountType.value === "business") {
-        console.log(isOnBoarded.value.business_details)
-      }
-    }
-  } catch (error) {
-    /* empty */
-  } 
-})
 
 const chatScroll = ref(null)
 
@@ -226,7 +201,12 @@ const handleSaveEdit = async (e, id, subject)=>{
         "body": targetInput.textContent
     }
     try {
-        await messageStore.handleEditMessage(id, payload)
+
+        let res = await messageStore.handleEditMessage(id, payload)
+        if(res?.status === true){
+            messageStore.updateEditedMessageList(id)
+            messageStore.getEditedMessageList()
+        }
         isEditing.value = false
         mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
         mainContainer.querySelector('.editedNotifier').classList.add('!block')
@@ -237,6 +217,37 @@ const handleSaveEdit = async (e, id, subject)=>{
         mainContainer.querySelector('.editedNotifier').classList.add('!block')
     }
 }
+
+
+
+
+onMounted(async() => {
+    await messageStore.getEditedMessageList()
+    return accountType, userID;
+});
+
+onMounted(async ()=>{
+    try {
+    await profile.userProfile();
+    getUserInfo()
+    userImg.value = userInfo.value.company_logo || userInfo.value.image
+    await scrollToBottom()
+
+    if (
+      isOnBoarded.value &&
+      !isOnBoarded.value.business_details &&
+      !isOnBoarded.value.work_details
+    ) {
+      if (accountType.value === "talent") {
+        console.log(isOnBoarded.value.work_details)
+      } else if (accountType.value === "business") {
+        console.log(isOnBoarded.value.business_details)
+      }
+    }
+  } catch (error) {
+    /* empty */
+  } 
+})
 
 </script>
 <template>
@@ -321,7 +332,7 @@ const handleSaveEdit = async (e, id, subject)=>{
                                     <EditIcon class="w-full h-full"/>
                                 </div>
                             </div>
-                            <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
+                            <p class="editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500" v-if="editedMessageList && editedMessageList.includes(chat?.id)">Edited</p> 
                         </div>
                         <div class="hidden editBtnContainer gap-[0.5rem] mt-[0.5rem]">
                             <button
@@ -330,7 +341,7 @@ const handleSaveEdit = async (e, id, subject)=>{
                             <button
                             @click="handleSaveEdit($event, chat?.id, chat?.subject)"
                             class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">
-                            <span v-if="isEditing">...</span>
+                            <span v-if="isEditing">Editing...</span>
                             <span v-else>Submit</span>
                             </button>
                         </div>
@@ -411,7 +422,7 @@ const handleSaveEdit = async (e, id, subject)=>{
                                         <!-- <EditIcon class="w-full h-full"/> -->
                                     </div>
                                 </div>
-                                <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
+                                <p class="editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500" v-if="editedMessageList && editedMessageList.includes(reply?.id)">Edited</p>
                             </div>
                             <div class="hidden editBtnContainer gap-[0.5rem] mt-[0.5rem]">
                                 <button
