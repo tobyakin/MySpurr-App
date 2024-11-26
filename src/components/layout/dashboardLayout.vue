@@ -381,7 +381,7 @@ const displayImage = computed(() => imageExists.value);
 
         <slot></slot>
       </div>
-      </div>
+    </div>
       
       <ChatWidget defaultWidgetState="true" v-if="showChatWidget" class="fixed bottom-0 right-[3rem] z-[99] eventBreak:hidden"/>
   </div>
