@@ -82,34 +82,17 @@ const getMessageID = ()=>{
   return messageID.value
 }
 
-
-function filterPrimary(){
-  filterSection.value = 'primary'
-  getFilteredMessages()
-  noMessageNotification.value = 'messages'
-  detailLoaded.value = false
-  messageIndex.value = -1
-}
-
-function filterSent(){
-  filterSection.value = 'sent'
-  getFilteredMessages()
-  noMessageNotification.value = 'sent message'
-  detailLoaded.value = false
-  messageIndex.value = -1
-}
-
-function filterOthers(){
-  filterSection.value = 'others'
-  getFilteredMessages()
-  noMessageNotification.value = 'featured message'
-  detailLoaded.value = false
-  messageIndex.value = -1
+function filterMessages(type) {
+  filterSection.value = type;
+  getFilteredMessages();
+  noMessageNotification.value = type === 'primary' ? 'messages' : (type === 'sent' ? 'sent message' : 'featured message');
+  detailLoaded.value = false;
+  messageIndex.value = -1;
 }
 
 function getFilteredMessages(){
   if(filterSection.value === 'primary'){
-    displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userID.value)
+    displayedMessages.value = [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
   } else if(filterSection.value === 'others'){
     displayedMessages.value = []
   } else if (filterSection.value === 'sent'){
@@ -131,7 +114,7 @@ const getSentMessages = async () =>{
     await messageStore.handleSentMessages()
     messageLoading.value = false
   } catch (error) {
-    console.log(error)
+    handleError(error);
     messageLoading.value = false
   }
 }
@@ -140,12 +123,13 @@ const getAllMessages = async (userId)=>{
   messageLoading.value = true
   try {
     await messageStore.handleGetMessages(userId)
+    await getSentMessages()
     messageLoading.value = false
   } catch (error) {
-    console.log(error)
+    handleError(error);
     messageLoading.value = false
   }
-  displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+  displayedMessages.value = [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
   recievedMessages.value = displayedMessages.value
   messageLength.value = recievedMessages.value.length > 0
   messageNum.value = recievedMessages?.value.length
@@ -160,7 +144,7 @@ const getMessageDetail = async (message_id)=>{
     await messageStore.handleMessageDetail(message_id)
     chatLoading.value = false
   } catch (error) {
-    console.log(error)
+    handleError(error);
     chatLoading.value = false
   }
 };
@@ -187,22 +171,39 @@ const handleMessageClicked = async (payload)=>{
   return messageDetails.value
 }
 
-const handleReplyMessage = async (payload)=>{
-  isSending.value = false
+const handleReplyMessage = async (payload) => {
+  isSending.value = true;
   try {
-    await messageStore.handleReplyMessage(payload)
-    getAllMessages(userID.value)
-    await getMessageDetail(payload.message_id)
-    isSending.value = false
-    messageDetails.value = messageDetail.value.data
-    showReplyField.value = false
-    getSentMessages()
+    await messageStore.handleReplyMessage(payload);
+    await messageStore.handleGetMessages(userID.value)
+    await getMessageDetail(payload.message_id); 
+    messageDetails.value = messageDetail.value.data;
+    showReplyField.value = false;
+    getSentMessages(); 
+    filterSection.value = filterSection.value; 
+    await getFilteredMessages(); 
+    isSending.value = false;
   } catch (error) {
-    console.log(error)
-    isSending.value = false
+    handleError(error);
+    isSending.value = false;
   }
-  
-}
+};
+
+// const scrollToElement = async () => {
+//   await nextTick();
+//   const messageElement = document.querySelector(`#message-${clickedItem.value}`);
+//   console.log("Scrolling to element:", messageElement, "with ID:", clickedItem.value);
+//   if (messageElement) {
+//     messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+//   } else {
+//     console.log(`Element with ID "#message-${clickedItem.value}" not found`);
+//   }
+// };
+
+const handleError = (error) => {
+  console.error("An error occurred:", error);
+  // Add notification or error feedback here
+};
 
 const handleSendMessage = async (payload)=>{
   isSending.value = true
@@ -221,13 +222,13 @@ const handleSendMessage = async (payload)=>{
       showReplyField.value = false
       showNewMessage.value = false
       getAllMessages(userID.value)
-      getSentMessages()
+      // getSentMessages()
 
     } else {
       alert('Some fields are not filled')
     }
   } catch (error) {
-    console.log(error)
+    handleError(error);
     isSending.value = false
   }
 }
@@ -280,7 +281,7 @@ onMounted(async () => {
       }
     }
     if(isOnBoarded.value){
-      getSentMessages(), getAllMessages(userID.value)
+      getAllMessages(userID.value)
     }
   } catch (error) {
     /* empty */
@@ -380,8 +381,8 @@ onUnmounted(() => {
                   <MoreVertIcon class="rotate-90"/>
                 </div>
                 <MessageFilter
-                 @primary="filterPrimary" @others="filterOthers" 
-                 @sent="filterSent" 
+                 @primary="filterMessages('primary')" @others="filterMessages('others')" 
+                 @sent="filterMessages('sent')" 
                  :filter="filterSection"/>
               </div>
               <div id="messagesContainer" class=" overflow-y-auto scroller pb-4 flex-1" ref="messagesContainer">
@@ -436,6 +437,7 @@ onUnmounted(() => {
                         @change="handleAttachment"
                         @delete="handleDelete"
                         :showtal="showtal"
+                        :isSending="isSending"
                         />
                       </div>
                     </div>

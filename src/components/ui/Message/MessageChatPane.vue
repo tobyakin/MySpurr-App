@@ -9,9 +9,14 @@ import EditIcon from "@/components/icons/pencilIcon.vue"
 import arrowLeft from "@/components/icons/arrowLeftAlt.vue";
 import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
-const userInfo = ref([])
+import { useMessageStore } from "@/stores/message";
+import loader from '@/components/ui/WhiteLoader.vue'
+
+const messageStore = useMessageStore();
+const userInfo = ref([]);
 let profile = useUserProfile();
 let store = useStore();
+const isEditing = ref(false)
 const userID = computed(() => {
   return profile.user.data.id;
 });
@@ -208,15 +213,29 @@ function handleCancelEdit(e){
     mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
 }
 
-function handleSaveEdit(e){
-     const targetElement = e.currentTarget;
+const handleSaveEdit = async (e, id, subject)=>{
+    isEditing.value = true
+    const targetElement = e.currentTarget;
     const mainContainer = targetElement.parentElement.parentElement
     const targetInput = targetElement.parentElement.previousElementSibling.querySelector('.message');  
     targetInput.setAttribute('aria-readonly', 'true');
     targetInput.contentEditable = 'false';
     targetInput.blur();
-    mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
-    mainContainer.querySelector('.editedNotifier').classList.add('!block')
+    let payload = {
+        "subject": subject || "",
+        "body": targetInput.textContent
+    }
+    try {
+        await messageStore.handleEditMessage(id, payload)
+        isEditing.value = false
+        mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+        mainContainer.querySelector('.editedNotifier').classList.add('!block')
+    } catch (error) {
+        console.log(error)
+        isEditing.value = false
+        mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+        mainContainer.querySelector('.editedNotifier').classList.add('!block')
+    }
 }
 
 </script>
@@ -280,17 +299,17 @@ function handleSaveEdit(e){
         <div ref="chatScroll" id="chatScroll" class="chatScroll pt-[1.16rem] px-[1.66rem] h-[80%] overflow-y-auto hide-scrollbar">
             <div class="mb-6">
                 <div class="chatPage">
-                    <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat.subject }}</h3>
-                    <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden">{{ chat.subject }}</h3>
+                    <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat?.subject }}</h3>
+                    <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden">{{ chat?.subject }}</h3>
                     <div class="field !mb-[1.3rem]">
                         <div class="flex flex-col relative">
-                            <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer max-w-[100%]"
+                            <div id="messageBox" class="flex gap-[0.5rem] items-start max-w-[100%]"
                             :class="chat?.sender_id == userID? 'w-fit': ''"
                             >
                                 <div 
                                 v-html="displayTextWithLinks(chat?.message)"
                                 contenteditable="false"
-                                class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[92%] h-auto whitespace-pre-wrap focus:outline-none"
+                                class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[92%] h-auto whitespace-pre-wrap focus:outline-none cursor-pointer"
                                 aria-readonly="true"
                                 >
                                 </div>
@@ -309,8 +328,11 @@ function handleSaveEdit(e){
                             @click="handleCancelEdit"
                              class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>
                             <button
-                            @click="handleSaveEdit"
-                            class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Submit</button>
+                            @click="handleSaveEdit($event, chat?.id, chat?.subject)"
+                            class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">
+                            <span v-if="isEditing">...</span>
+                            <span v-else>Submit</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -372,7 +394,7 @@ function handleSaveEdit(e){
                         </div>
                         <div class="field">
                             <div class="flex flex-col !mb-[1.3rem] relative">
-                                <div id="messageBox" class="flex gap-[0.5rem] items-start cursor-pointer max-w-[100%]"
+                                <div id="messageBox" class="flex gap-[0.5rem] items-start max-w-[100%]"
                                 :class="reply?.sender?.id == userID? 'w-fit': ''"
                                 >
                                     <div 
@@ -386,7 +408,7 @@ function handleSaveEdit(e){
                                     @click="handleEditMessage" class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]"
                                     v-if="reply?.sender?.id == userID"
                                     >
-                                        <EditIcon class="w-full h-full"/>
+                                        <!-- <EditIcon class="w-full h-full"/> -->
                                     </div>
                                 </div>
                                 <p class="hidden editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500">Edited</p>
@@ -396,8 +418,11 @@ function handleSaveEdit(e){
                                 @click="handleCancelEdit"
                                 class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>
                                 <button
-                                @click="handleSaveEdit"
-                                class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Submit</button>
+                                @click="handleSaveEdit($event, reply?.id)"
+                                class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">
+                                <span v-if="isEditing">Editing...</span>
+                                <span v-else>Submit</span>
+                            </button>
                             </div>
                         </div>
                     </div>

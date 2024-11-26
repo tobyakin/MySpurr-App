@@ -1,22 +1,21 @@
 <template>
   <div class="flex relative p-1 justify-center">
     <div class="spinner">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      <div v-for="i in 10" :key="i" :style="{ background: color }">
+      </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {};
+<script setup>
+  import { defineProps } from 'vue';
+
+const props = defineProps({
+  color: {
+    type: String,
+    default: "#ffffff", // Default color is white
+  },
+});
 </script>
 
 <style scoped>
