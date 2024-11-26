@@ -8,7 +8,8 @@ import {
     getMessageDetail,
     getMail,
     connect,
-    editMessage
+    editMessage,
+    editReplyMessage
 } from "@/services/Messaging"
 
 export const useMessageStore = defineStore('messages', () => {
@@ -83,6 +84,15 @@ export const useMessageStore = defineStore('messages', () => {
         }
     }
 
+    const handleEditReplyMessage = async (message_id, payload) =>{
+        try {
+            let res = await editReplyMessage(message_id, payload)
+            return res
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const updateEditedMessageList = (id) => {
         let match = editedMessageList.value.find((item) => item === id);
         if (match) {
@@ -131,6 +141,8 @@ export const useMessageStore = defineStore('messages', () => {
        handleEditMessage,
        editedMessageList,
        updateEditedMessageList,
-       getEditedMessageList
+       getEditedMessageList,
+       handleEditReplyMessage
+       
     }
 })

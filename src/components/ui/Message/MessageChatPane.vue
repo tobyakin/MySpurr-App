@@ -201,8 +201,35 @@ const handleSaveEdit = async (e, id, subject)=>{
         "body": targetInput.textContent
     }
     try {
-
         let res = await messageStore.handleEditMessage(id, payload)
+        if(res?.status === true){
+            messageStore.updateEditedMessageList(id)
+            messageStore.getEditedMessageList()
+        }
+        isEditing.value = false
+        mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+        mainContainer.querySelector('.editedNotifier').classList.add('!block')
+    } catch (error) {
+        console.log(error)
+        isEditing.value = false
+        mainContainer.querySelector('.editBtnContainer').classList.remove('!flex')
+        mainContainer.querySelector('.editedNotifier').classList.add('!block')
+    }
+}
+
+const handleSaveReplyEdit = async (e, id)=>{
+    isEditing.value = true
+    const targetElement = e.currentTarget;
+    const mainContainer = targetElement.parentElement.parentElement
+    const targetInput = targetElement.parentElement.previousElementSibling.querySelector('.message');  
+    targetInput.setAttribute('aria-readonly', 'true');
+    targetInput.contentEditable = 'false';
+    targetInput.blur();
+    let payload = {
+        "message": targetInput.textContent
+    }
+    try {
+        let res = await messageStore.handleEditReplyMessage(id, payload)
         if(res?.status === true){
             messageStore.updateEditedMessageList(id)
             messageStore.getEditedMessageList()
@@ -419,7 +446,7 @@ onMounted(async ()=>{
                                     @click="handleEditMessage" class="transitionItem editIcon w-[12px] h-[12px] z-[-1] opacity-[-1]"
                                     v-if="reply?.sender?.id == userID"
                                     >
-                                        <!-- <EditIcon class="w-full h-full"/> -->
+                                        <EditIcon class="w-full h-full"/>
                                     </div>
                                 </div>
                                 <p class="editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500" v-if="editedMessageList && editedMessageList.includes(reply?.id)">Edited</p>
@@ -429,7 +456,7 @@ onMounted(async ()=>{
                                 @click="handleCancelEdit"
                                 class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">Cancel</button>
                                 <button
-                                @click="handleSaveEdit($event, reply?.id)"
+                                @click="handleSaveReplyEdit($event, reply?.id)"
                                 class="text-[0.67rem] rounded-[0.15rem] px-[0.5rem] border border-brand text-white bg-brand btn-hover-2">
                                 <span v-if="isEditing">Editing...</span>
                                 <span v-else>Submit</span>
