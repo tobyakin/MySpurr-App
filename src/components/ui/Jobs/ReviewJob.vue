@@ -596,7 +596,7 @@
           </p>
           <div
             v-html="postJobsValue.responsibilities"
-            class="responsibilities text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+            class="text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
           ></div>
   
           <p
@@ -607,7 +607,7 @@
           </p>
           <div
             v-html="postJobsValue.required_skills"
-            class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+            class="text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
           ></div>
   
           <p
@@ -618,7 +618,7 @@
           </p>
           <div
             v-html="postJobsValue.benefits"
-            class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+            class="text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
           ></div>
           <div>
             <!-- <button

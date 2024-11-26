@@ -60,14 +60,14 @@
             v-model:value="formData.country_code"
           >
             <a-select-option
-              v-for="item in contriesCode.data"
+              v-for="item in countryCode"
               :key="item.id"
-              :value="item.phonecode"
+              :value="item.dailcode.replace('+', '')"
               v-model:value="formData.country_code"
               class="!px-0"
               ><span class="flex items-center gap-1"
                 ><span class="text-[18px]" v-html="item.emoji"></span>
-                {{ item.phonecode }}</span
+                {{ item.dailcode }}</span
               >
             </a-select-option>
           </a-select>
@@ -78,28 +78,8 @@
             type="tel"
           />
         </a-input-group>
-        <!-- <a-select
-          placeholder=""
-          :bordered="false"
-          :show-arrow="true"
-          style="width: 90px"
-          class="!outline-none !px-0"
-          v-model:value="formData.country_code"
-        >
-          <a-select-option
-            v-for="item in contriesCode.data"
-            :key="item.id"
-            :value="item.phonecode"
-            class="!px-0"
-            ><span class="flex items-center gap-1"
-              ><span class="text-[18px]" v-html="item.emoji"></span>
-              {{ item.phonecode }}</span
-            >
-          </a-select-option> </a-select
-        ><a-input :bordered="false" type="tel"></a-input> -->
       </div>
-      <!-- <vue-tel-input v-model="formData.phone_number" mode="international"></vue-tel-input> -->
-
+      
       <AuthInput
         :error="errors.email"
         :errorsMsg="errorsMsg.email || !isValidEmail"
@@ -246,7 +226,7 @@ import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useTabStore } from "@/stores/tab";
 import { useSkillsStore } from "@/stores/skills";
 const skillsStore = useSkillsStore();
-const { contriesCode } = storeToRefs(skillsStore);
+const { contriesCode, countryCode } = storeToRefs(skillsStore);
 const landingUrl = import.meta.env.VITE_LANDING_PAGE;
 
 const store = useTabStore();
@@ -321,9 +301,9 @@ const formData = reactive({
   password: "",
   phone_number: "",
   country_code: "234",
-  // confirmPassword: "",
-  // business_name: "",
 });
+
+
 const confirmPassword = ref("");
 const errorsMsg = {
   firstName: "First name is required",
@@ -536,7 +516,7 @@ const handleBusinessSignup = async () => {
     last_name: formData.lastName,
     email: formData.email,
     phone_number: formData.phone_number,
-    country_code: formData.country_code,
+    country_code: formData.country_code.replace('+', ''),
     password: formData.password,
     business_name: formData.business_name,
   };
@@ -578,5 +558,6 @@ const handleTalentSignup = async () => {
 };
 onMounted(async () => {
   await skillsStore.getCountriesCode();
+  await skillsStore.getCountriesWithCodes();
 });
 </script>
