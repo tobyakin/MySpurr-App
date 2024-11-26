@@ -1,12 +1,13 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { getAllSkills, getJobTitle } from '@/services/Skills'
-import { getCountries, getStates } from '@/services/Countries'
+import { getCountries, getStates, getCountryCodes } from '@/services/Countries'
 
 export const useSkillsStore = defineStore('skills', () => {
   const skills = ref({})
   const jobTitle = ref({})
   const contriesCode = ref({})
+  const countryCode = ref({})
   const states = ref({})
   const getskills = async () => {
     try {
@@ -32,6 +33,19 @@ export const useSkillsStore = defineStore('skills', () => {
       console.error('Error fetching contries Code :', error)
     }
   }
+
+  const getCountriesWithCodes = async () => {
+    try {
+      const res = await getCountryCodes();
+      countryCode.value = res.data;
+
+      return countryCode.value;
+    } catch (error) {
+      console.error('Error fetching contries Code :', error)
+    }
+  }
+
+
   const handleGetStates = async (ciso) => {
     try {
       states.value = await getStates(ciso)
@@ -126,6 +140,8 @@ const industries = ref([
     contriesCode,
     handleGetStates,
     states,
-    industries
+    industries,
+    getCountriesWithCodes,
+    countryCode,
   }
 })
