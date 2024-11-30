@@ -438,7 +438,7 @@ onMounted(async () => {
             name=""
             @change="uploadFile"
             ref="previewImage"
-            accept=".doc,.docx,.jpg,.png,.pdf"
+            accept=".pdf"
             hidden
             id="upload_file"
           />
