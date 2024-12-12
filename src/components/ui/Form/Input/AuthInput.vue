@@ -1,7 +1,11 @@
 <template>
   <div class="relative">
     <input
-      class="w-full font-light font-Satoshi400 text-[14px] !p-2 opacity-[0.8029] rounded-[4.074px] text-sm"
+      class="w-full font-light font-Satoshi400 text-[14px] !p-2 opacity-[0.8029] rounded-[4.074px] text-sm border-[0.509px]"
+      :class="{
+        'border-[#ef4b4b]': error && showBorder,
+        'border-[#254035]': !showBorder
+      }"
       :placeholder="placeholder"
       :type="type"
       :value="modelValue"

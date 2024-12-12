@@ -72,13 +72,20 @@ function formatNumber(value) {
 }
 
 const checkAmountValidity = (e) => {
+  // Prevent non-numeric input
+  if (!/^[0-9]*$/.test(e.target.value)) {
+    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+  }
+
   let value = e.target.value;
-  value = value.replace(/[^0-9]/g, ''); 
-  jobApplicationForm.rate = formatNumber(value)
+  value = value.replace(/[^0-9]/g, ''); // Remove any non-numeric characters
+  jobApplicationForm.rate = formatNumber(value);
+
   const amount = parseFloat(jobApplicationForm.rate.replace(/,/g, ''));
   const minSalary = parseFloat(singleJob.value?.data?.salary_min);
   const maxSalary = parseFloat(singleJob.value?.data?.salary_max);
-  if(value){
+
+  if (value) {
     if (amount >= minSalary && amount <= maxSalary) {
       valideRateError.value = false;
       valideRateErrorMsg.value = "Amount is within the salary range.";
@@ -88,9 +95,10 @@ const checkAmountValidity = (e) => {
     }
   } else {
     valideRateError.value = false;
-      valideRateErrorMsg.value = "";
+    valideRateErrorMsg.value = "";
   }
 };
+
 
 const uploadedImageName = ref("");
 const maxEditorHeight = ref([]); 
@@ -347,20 +355,17 @@ onMounted(async () => {
               <span
               v-if="jobApplicationForm.rate.length > 0"
                v-html="numAbbr.formatCurrency(singleJob?.data?.currency)" class="pl-2"></span>
-              <AuthInput
-                inputClasses="w-full !border-none font-Satoshi500 text-[#2540358C] text-[14.26px]p-2"
-                type="text"
-                v-model="jobApplicationForm.rate"
-                class="flex-1"
-                :error="valideRateError" @input="checkAmountValidity"
-                
-              />
+               <div class="relative flex-1">
+                  <input
+                    class="w-full font-light font-Satoshi500 text-[0.88rem] !p-2 opacity-[0.8029] rounded-[4.074px] text-sm text-[#2540358C]"
+                    type="text"
+                    v-model="jobApplicationForm.rate"
+                    @input="checkAmountValidity"
+                  />
+                  <errorInputIcon v-if="error" class="absolute top-1 right-1" />
+                </div>
             </div>
-              <!-- <span v-if="errors.rateError" class="text-[#993939] font-Satoshi400 text-sm">{{
-                errorsMsg.rat
-              }}</span> -->
             
-
             <span v-if="valideRateError" class="text-[#993939] font-Satoshi400 text-sm">{{
               valideRateErrorMsg
             }}</span>
