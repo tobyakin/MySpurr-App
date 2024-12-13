@@ -81,34 +81,10 @@ function filterMessages(type) {
   messageIndex.value = -1;
 }
 
-function filterPrimary(){
-  filterSection.value = 'primary'
-  getFilteredMessages()
-  noMessageNotification.value = 'messages'
-  detailLoaded.value = false
-  messageIndex.value = -1
-}
-
-function filterSent(){
-  filterSection.value = 'sent'
-  getFilteredMessages()
-  noMessageNotification.value = 'sent message'
-  detailLoaded.value = false
-  messageIndex.value = -1
-}
-
-function filterOthers(){
-  filterSection.value = 'others'
-  getFilteredMessages()
-  noMessageNotification.value = 'featured message'
-  detailLoaded.value = false
-  messageIndex.value = -1
-}
-
 function getFilteredMessages(){
   messageLoading.value = true
   if(filterSection.value === 'primary'){
-    displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userID.value)
+    displayedMessages.value = [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
     messageLoading.value = false
   } else if(filterSection.value === 'others'){
     displayedMessages.value = []
@@ -146,7 +122,7 @@ const getAllMessages = async (userId)=>{
     console.log(error)
     messageLoading.value = false
   }
-  displayedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+  displayedMessages.value = [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
   recievedMessages.value = displayedMessages.value
   messageLength.value = recievedMessages.value.length > 0
   pageLoading.value = false
