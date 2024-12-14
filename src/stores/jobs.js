@@ -21,7 +21,8 @@ import {
   jobPayment,
   addRating,
   getRatings,
-  verifyPayment
+  verifyPayment,
+  getExternalJobs
 } from '@/services/Job'
 
 export const useJobsStore = defineStore('jobs', () => {
@@ -39,6 +40,7 @@ export const useJobsStore = defineStore('jobs', () => {
   const ciso = ref('')
   const siso = ref('')
   const verifyStatus = ref('')
+  const externalJobs = ref([])
 
   const postJobsValue = ref({
     job_title: '',
@@ -84,6 +86,14 @@ export const useJobsStore = defineStore('jobs', () => {
     try {
       Job.value = await getJobs(page)
       return Job.value
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const allExternalJobs = async (page) => {
+    try {
+      externalJobs.value = await getExternalJobs(page)
+      return externalJobs.value
     } catch (error) {
       console.error(error)
     }
@@ -356,6 +366,8 @@ export const useJobsStore = defineStore('jobs', () => {
     handleAddRating,
     ratings,
     handlePaymentVerification,
-    verifyStatus
+    verifyStatus,
+    allExternalJobs,
+    externalJobs
   }
 })
