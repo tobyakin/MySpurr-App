@@ -8,7 +8,8 @@ import {
     getMessageDetail,
     getMail,
     connect,
-    editMessage
+    editMessage,
+    editReplyMessage
 } from "@/services/Messaging"
 
 export const useMessageStore = defineStore('messages', () => {
@@ -18,6 +19,7 @@ export const useMessageStore = defineStore('messages', () => {
     const messageDetail = ref([])
     const errorMessage = ref(null)
     const socket = ref(null)
+    const editedMessageList = ref([])
 
     const connectSocket = async (receiverId) => {
         try {
@@ -82,6 +84,35 @@ export const useMessageStore = defineStore('messages', () => {
         }
     }
 
+    const handleEditReplyMessage = async (message_id, payload) =>{
+        try {
+            let res = await editReplyMessage(message_id, payload)
+            return res
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const updateEditedMessageList = (id) => {
+        let match = editedMessageList.value.find((item) => item === id);
+        if (match) {
+            return editedMessageList.value;
+        } else {
+            editedMessageList.value.push(id);
+        }
+
+        localStorage.setItem("editedMessageIds", JSON.stringify(editedMessageList.value));
+    };
+
+    const getEditedMessageList = ()=>{
+        const storedList = localStorage.getItem("editedMessageIds");
+        if (storedList) {
+            editedMessageList.value = JSON.parse(storedList);
+        }
+
+        return editedMessageList.value
+    }
+
     const handleFilterMails = async (mail_input)=>{
         try {
             filteredMails.value = await getMail(mail_input)
@@ -107,6 +138,11 @@ export const useMessageStore = defineStore('messages', () => {
        errorMessage,
        socket,
        connectSocket,
-       handleEditMessage
+       handleEditMessage,
+       editedMessageList,
+       updateEditedMessageList,
+       getEditedMessageList,
+       handleEditReplyMessage
+       
     }
 })
