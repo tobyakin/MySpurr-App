@@ -6,6 +6,7 @@ import locationIcon from "@/components/icons/eventLocationIcon.vue"
 import timerIcon from "@/components/icons/eventTimerIcon.vue"
 import rightArrowM from "@/components/icons/rightArrowM.vue"
 import { useEventStore } from "../../stores/event";
+import eventCard from "@/components/ui/Events/EventCard.vue"
 //import Loader from "../../components/ui/Loader/Loader.vue";
 
 const eventStore = useEventStore();
@@ -47,7 +48,13 @@ onMounted(() => {
                 </div>
             </div>
             
-            <article v-for="event in events" :key="event.id" class="h-full flex flex-col">
+            <eventCard 
+                v-for="event in events" 
+                :key="event.id"
+                :event="event"
+            />
+
+            <!-- <article v-for="event in events" :key="event.id" class="h-full flex flex-col">
                 <div class="rounded-t-[1.13825rem]">
                     <img :src="event.featured_graphics" alt="" class="w-full h-full object-contain rounded-t-[1rem]">
                 </div>
@@ -74,7 +81,7 @@ onMounted(() => {
                         </div>
                     </router-link>
                 </div>
-            </article>
+            </article> -->
         </section>
       
     </DashboardLayout>
