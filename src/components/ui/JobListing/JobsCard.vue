@@ -329,7 +329,7 @@ const displayImage = computed(() => imageExists.value)
                 :class="{
                   'bg-[#63D8E4]': props?.job?.status == 'pending',
                   'bg-[#84B358]': props?.job?.status == 'active',
-                  'bg-[#E06F6F]': props?.job?.status == 'expired'
+                  'bg-[#E06F6F]': props?.job?.status == 'closed'
                 }"
               ></div>
               <p class="capitalize font-Satoshi500 text-[17.239px] text-[#244034E5]">
