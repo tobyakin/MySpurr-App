@@ -52,14 +52,17 @@
     //  const formattedTime = time.replace(/([AP]M)$/, ' $1');
      const dateString = `${date}, ${time}`
      const formattedDateString = dateString.replace(/(\d+)(th|rd|nd|st)/, '$1');
+
+     console.log(formattedDateString)
      
      // // Parse the date string into a Date object
      const givenDate = new Date(formattedDateString);
+     console.log(givenDate)
      
      // // Check if the date parsing was successful
-     if (isNaN(givenDate)) {
-         throw new Error("Invalid date string format. Please provide a valid date and time.");
-     }
+    //  if (isNaN(givenDate)) {
+    //      throw new Error("Invalid date string format. Please provide a valid date and time.");
+    //  }
      
      // // Get the current date and time
      const currentDate = new Date();
