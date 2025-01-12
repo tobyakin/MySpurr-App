@@ -103,9 +103,9 @@ const copyUrl = () => {
             <div>
               <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
                 {{ props?.job?.currency }}
-                {{ store.abbr(props?.job.salary_min) }}-
-                {{ store.abbr(props?.job.salary_max) }}/
-                {{ props?.job.salaray_type }}
+                {{ store.abbr(props?.job.salary_min, 1) }}-
+                {{ store.abbr(props?.job.salary_max, 1) }}/
+                {{ props?.job.salaray_type || props?.job.salary_type }}
               </p>
             </div>
             <div class="flex lg:flex-row flex-col gap-2 items-center">
