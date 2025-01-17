@@ -15,6 +15,14 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
+
+    - name: Clear NPM Cache
+      run: npm cache clean --force
+
+    - name: Install Dependencies
+      run: |
+        rm -rf node_modules package-lock.json
+        npm install --legacy-peer-deps
       
     - name: 🔨 Build Project
       run: |
