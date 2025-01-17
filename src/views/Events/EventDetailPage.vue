@@ -13,6 +13,7 @@ import { useEventStore } from '../../stores/event'
 import { storeToRefs } from 'pinia'
 import { useUserProfile } from "@/stores/profile"
 import SpinnerComponent from '../../components/spinner/SpinnerComponent.vue'
+import EventCard from '@/components/ui/Events/EventCard.vue'
 
 const showCalendarOptions = ref(false)
 const calendarOption = ref()
@@ -278,7 +279,7 @@ const handleViewMore = () => {
                     <div class="hidden md:block rounded-[2.1875rem] h-[100%] w-full">
                         <div class="h-[100%] rounded-[2.1875rem] overflow-hidden msgMob:rounded-[0.5rem">
                             <img :src="singleEvent.featured_graphics" alt="event image"
-                            class="object-cover w-full h-full msgMob:object-contain msgMob:min-h-[auto] msgTab:border-2"/>
+                            class="object-fill w-full h-full msgMob:object-contain msgMob:min-h-[auto] msgTab:border-2"/>
                         </div>
                     </div>
                 </article>
@@ -440,7 +441,12 @@ const handleViewMore = () => {
                     </div>
                     <div class="my-10">
                         <div class="grid grid-cols-customGrid gap-3 msgMob:grid-cols-1">
-                            <div class="mb-4" v-for="event in relatedEvents" :key="event.id">
+                            <EventCard 
+                                v-for="(event, index) in relatedEvents?.slice(1)"
+                                :key="event?.id"
+                                :event="event"
+                            />
+                            <!-- <div class="mb-4" v-for="event in relatedEvents" :key="event.id">
                                 <div class=" flex flex-col h-full">
                                     <div class="rounded-t-[1rem]">
                                         <img :src="event.featured_graphics" alt=""
@@ -475,7 +481,7 @@ const handleViewMore = () => {
                                         </router-link>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 

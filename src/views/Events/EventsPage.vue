@@ -1,24 +1,31 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
-import calendarIcon from "@/components/icons/eventCalendarIcon.vue"
-import locationIcon from "@/components/icons/eventLocationIcon.vue"
-import timerIcon from "@/components/icons/eventTimerIcon.vue"
-import rightArrowM from "@/components/icons/rightArrowM.vue"
+import Arrow from '@/components/icons/paginationArrow.vue';
 import { useEventStore } from "../../stores/event";
-//import Loader from "../../components/ui/Loader/Loader.vue";
+import eventCard from "@/components/ui/Events/EventCard.vue"
 
 const eventStore = useEventStore();
 const events = ref([]);
 const loading = ref(false)
+const currentPage = ref(1);
+const totalPages = ref(1);
+const perPage = ref(9); // Set items per page to 9
+const displayedPageNumbers = ref([]);
 
-const fetchEvents = async () => {
+const fetchEvents = async (page = 1) => {
     loading.value = true
 
     try {
         const res = await eventStore.allEvents();
+        console.log(res.pagination)
         if (res && res.data) {
-            events.value = res.data;
+            events.value = res.data.slice((page - 1) * perPage.value, page * perPage.value);
+
+            currentPage.value = res.pagination.current_page;
+            totalPages.value = Math.ceil((events.value.length) / perPage.value);
+
+            updateDisplayedPageNumbers();
         } else {
             console.error('No data returned from API')
         }
@@ -30,6 +37,30 @@ const fetchEvents = async () => {
     }
 }
 
+const updateDisplayedPageNumbers = () => {
+  const startPage = Math.max(1, currentPage.value - 2);
+  const endPage = Math.min(totalPages.value, startPage + 4);
+  
+  displayedPageNumbers.value = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+};
+
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+
+    // Set items per page
+    const itemsPerPage = 9;
+    const start = (currentPage.value - 1) * itemsPerPage;
+    const end = currentPage.value * itemsPerPage;
+
+    // Filter and slice based on selected category and page number
+    events.value = events.value.slice(start, end)
+
+    // Update displayed page numbers if needed
+    updateDisplayedPageNumbers();
+  }
+};
+
 onMounted(() => {
     fetchEvents()
 })
@@ -39,42 +70,54 @@ onMounted(() => {
 <template>
   <section class="events">
     <DashboardLayout>
-        <ShortLoader v-if="loading" />
-        <section class="adsContainer mx-auto !mt-[5rem] !p-0 overflow-hidden w-[80%] msgMob:!w-[90%] grid grid-cols-customGrid2 gap-[2rem] h-auto" v-else>
-            <div v-if="events && events.length === 0">
-                <div class="flex justify-center items-center">
-                    <p class="pt-3">No data available.</p>
+        
+        <section class="adsContainer mx-auto !mt-[5rem] !p-0 overflow-hidden w-[80%] msgMob:!w-[90%] h-auto">
+            <ShortLoader v-if="loading" />
+            <div v-else>
+                <div v-if="events && events.length === 0">
+                    <div class="flex justify-center items-center">
+                        <p class="pt-3">No data available.</p>
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="grid grid-cols-customGrid2 gap-[2rem]">
+                        <eventCard 
+                            v-for="event in events" 
+                            :key="event.id"
+                            :event="event"
+                        />
+                    </div>
+                    <div class="mt-12 flex w-[60%] flex-row justify-center mx-auto" v-if="displayedPageNumbers?.length > 1">
+                            <button
+                            @click="goToPage(currentPage - 1)"
+                            :disabled="currentPage === 1"
+                            :class="{ 'opacity-50 !border-r-0 cursor-no': currentPage === 1 }"
+                            class="border-[#007582] border-l-2 border-r-2 border-y-2 px-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[1.41rem] items-center flex"
+                            >
+                            <Arrow class="rotate-[180deg]" />
+                            </button>
+                            <button
+                            v-for="pageNumber in displayedPageNumbers"
+                            :key="pageNumber"
+                            :class="[
+                                'border-[#007582] p-4 py-2 font-Satoshi500 text-[1.41rem] items-center flex border-y-2 border-r-2',
+                                pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
+                            ]"
+                            @click="goToPage(pageNumber)"
+                            >
+                            {{ pageNumber }}
+                            </button>
+                            <button
+                            @click="goToPage(currentPage + 1)"
+                            :disabled="currentPage === totalPages"
+                            class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[1.41rem] items-center flex"
+                            :class="{ 'opacity-50 cursor-no': currentPage === totalPages }"
+                            >
+                            <Arrow />
+                            </button>
+                        </div>
                 </div>
             </div>
-            
-            <article v-for="event in events" :key="event.id" class="h-full flex flex-col">
-                <div class="rounded-t-[1.13825rem]">
-                    <img :src="event.featured_graphics" alt="" class="w-full h-full object-contain rounded-t-[1rem]">
-                </div>
-                <div class="flex-grow px-[1.24rem] pb-[2rem] pt-4 bg-[#ECFAFC] rounded-b-[1.32038rem] flex flex-col justify-between">
-                    <h1 class="text-[#000] font-Satoshi700 leading-[1.27488rem] mb-4">{{ event.title }}</h1>
-                    <div class="event_details flex flex-col gap-[0.39rem] my-4">
-                        <div class="flex items-center gap-[0.63rem]">
-                            <locationIcon />
-                            <span class="text-[13px]">{{ event.address }}</span>
-                        </div>
-                        <div class="flex items-center gap-[0.63rem]">
-                            <calendarIcon />
-                            <span class="text-[13px]">{{ event.event_date }}</span>
-                        </div>
-                        <div class="flex items-center gap-[0.63rem]">
-                            <timerIcon />
-                            <span class="text-[13px]">{{ event.event_time }}</span>
-                        </div>
-                    </div>
-                    <router-link :to="{name: 'event-detail', params: {slug: event.slug}}" class="event_btn">
-                        <div class="w-[100%] flex items-center justify-between px-4 py-[0.7rem] bg-[#43D0DF] rounded-[0.46rem] btn-hover-1">
-                            <h3 class="reg font-Satoshi700  text-[#000] text-[0.865rem] leading-4">Register</h3>
-                            <rightArrowM class="reg"/>
-                        </div>
-                    </router-link>
-                </div>
-            </article>
         </section>
       
     </DashboardLayout>

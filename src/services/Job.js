@@ -16,6 +16,18 @@ export const getJobs = async (page) => {
     throw error
   }
 }
+
+export const getExternalJobs = async (page)=>{
+  try {
+    let res = await axios.get(`v1/external-job?page=${page}`)
+    catchAxiosSuccess(res.data)
+    return res.data
+  } catch (error) {
+    catchAxiosError(error)
+    throw error
+  }
+}
+
 export const getMyJobs = async () => {
   const token = await getToken()
   try {
