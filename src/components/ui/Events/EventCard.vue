@@ -48,28 +48,20 @@
  const props = defineProps(['event'])
  
  const isPastDate = (date, time) => {
-     // Remove 'th', 'rd', 'nd', 'st' from the date string for proper parsing
-    //  const formattedTime = time.replace(/([AP]M)$/, ' $1');
-     const dateString = `${date}, ${time}`
-     const formattedDateString = dateString.replace(/(\d+)(th|rd|nd|st)/, '$1');
+        // Remove 'th', 'rd', 'nd', 'st' from the date string for proper parsing
+        const formattedTime = time.replace(/([AP]M)$/, ' $1');
+        const dateString = `${date}, ${formattedTime}`
+        const formattedDateString = dateString.replace(/(\d+)(th|rd|nd|st)/, '$1');
+        
+        // // Parse the date string into a Date object
+        const givenDate = new Date(formattedDateString);
+            
+        // // Get the current date and time
+        const currentDate = new Date();
 
-     console.log(formattedDateString)
-     
-     // // Parse the date string into a Date object
-     const givenDate = new Date(formattedDateString);
-     console.log(givenDate)
-     
-     // // Check if the date parsing was successful
-    //  if (isNaN(givenDate)) {
-    //      throw new Error("Invalid date string format. Please provide a valid date and time.");
-    //  }
-     
-     // // Get the current date and time
-     const currentDate = new Date();
- 
-     // // Compare the given date and current date (including time)
-     return givenDate.getTime() < currentDate.getTime();
- };
+        // // Compare the given date and current date (including time)
+        return givenDate.getTime() < currentDate.getTime();
+    };
  
  
  </script>
