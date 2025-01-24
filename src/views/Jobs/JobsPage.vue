@@ -692,11 +692,18 @@ onMounted(async () => {
 
       </Tabs>
     </div>
-    <div class="mobile_filter fixed bottom-0 left-0 w-full overflow-y-auto hidden eventBreak:block transitionItem"
+
+    <!-- Mobile Filter -->
+     <!-- Overlay -->
+    <div class="w-full h-full fixed bg-[#0000004d] z-[999] top-0 left-0 backdrop-blur-sm" v-if="showMobFilter">
+
+    </div>
+    <!-- Filter -->
+    <div class="mobile_filter fixed bottom-0 left-0 w-full overflow-y-auto hidden eventBreak:block transitionItem z-[999]"
     :class="showMobFilter? 'h-[70vh]': 'h-0'"
     >
       <section class="pb-[5.83rem] pt-[2rem] px-[1.94rem] bg-[#E9FAFB] rounded-t-[1.42044rem] msgTab:px-[1rem]">
-        <div class="mb-[3rem] flex justify-end">
+        <div class="mb-[3rem] flex justify-end sticky top-[2rem] z-[99]">
           <button class="border-gray-300 border p-[0.5rem] font-Satoshi700 cursor-pointer bg-[#fff] hover:scale-105 transitionItem px-4" @click="toggleFilter">X</button>
         </div>
         <div class="w-[80%] mx-auto flex flex-col gap-[2.1rem] msgTab:w-[90%]">
