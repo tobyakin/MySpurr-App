@@ -16,6 +16,7 @@ import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
 import filterBtnIcon from "@/components/icons/filterBtnIcon.vue"
 import ComingSoon from "@/components/ui/ComingSoon/ComingSoon.vue";
+import ExternalJobsCard from "@/components/ui/Jobs/ExternalJobsCard.vue";
 
 const loading = ref(false);
 const jobsStore = useJobsStore();
@@ -124,6 +125,13 @@ const setPage = (page) => {
   }
 };
 
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // Smooth scrolling effect
+  });
+}
+
 const displayedPageNumbers = computed(() => {
   const maxDisplayedPages = 5;
   const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1);
@@ -138,6 +146,7 @@ const displayedPageNumbers = computed(() => {
 });
 
 const filteredJobs = computed(() => {
+  scrollToTop()
   let filtered
   if(activeTab.value === 'myspurr_jobs'){
       filtered = Job.value?.data; // Create a shallow copy of the jobs array
@@ -244,77 +253,6 @@ const filteredJobs = computed(() => {
   return filtered;
 });
 
-// const filteredJobs = computed(() => {
-//   let filtered = Job.value?.data; // Create a shallow copy of the jobs array
-
-//   // Filtering based on the search criteria
-//   if (sortInput.name) {
-//     filtered = filtered?.filter((item) =>
-//       item.job_title.toLowerCase().includes(sortInput.name.toLowerCase())
-//     );
-//   }
-//   if (sortInput.jobType && typeof sortInput.jobType === 'string' && sortInput.jobType !== "Job Type") {
-//     filtered = filtered?.filter((item) => {
-//       const itemJobType = item.job_type.toLowerCase().trim();
-//       const inputJobType = sortInput.jobType.toLowerCase().trim();
-      
-//       if(itemJobType.includes(inputJobType)) {
-//         return item;
-//       }
-//     });
-//   }
-
-//   if (sortInput.Location && sortInput.Location !== "Select State") {
-//     filtered = filtered?.filter((item) => {
-//       const itemLocation = item.state.toLowerCase().trim();
-//       const inputLocation = sortInput.Location.toLowerCase().trim();
-      
-//       if(itemLocation.includes(inputLocation)) {
-//         return item;
-//       }
-//     });
-//   }
-
-//   if (sortInput.experienceLevel && typeof sortInput.experienceLevel === 'string' && sortInput.experienceLevel !== "Experience") {
-//     filtered = filtered?.filter((item) => {
-//       const itemExperience = item.experience.toLowerCase().trim();
-//       const inputExperience = sortInput.experienceLevel.toLowerCase().trim();
-      
-//       if(itemExperience.includes(inputExperience)) {
-//         return item;
-//       }
-//     });
-//   }
-
-//   if (sortInput.Category && sortInput.Category !== "Search Skill Categories") {
-//     filtered = filtered.filter((item) =>
-//       item.skills.some((skill) =>
-//         skill.name.toLowerCase().includes(sortInput.Category.toLowerCase())
-//       )
-//     );
-//   }
-//   if (sortInput.currency) {
-//     filtered = filtered.filter((item) =>
-//       item.currency.toLowerCase().includes(sortInput.currency.toLowerCase())
-//     );
-//   }
-
-//   // Filtering by Rate within the specified range
-//   if (rateMin.value || rateMax.value) {
-//     filtered = filtered.filter((item) => {
-//       const salaryMin = parseFloat(item.salary_min);
-//       const salaryMax = parseFloat(item.salary_max);
-//       const min =
-//         rateMin.value !== null ? parseFloat(rateMin.value) : Number.MIN_SAFE_INTEGER;
-//       const max =
-//         rateMax.value !== null ? parseFloat(rateMax.value) : Number.MAX_SAFE_INTEGER;
-
-//       return salaryMax >= min && salaryMin <= max;
-//     });
-//   }
-//   return filtered;
-// });
-
 const handleScreenResize = (event) => {
   if (event.matches) {
     sortInput.experienceLevel = "Experience";
@@ -340,8 +278,14 @@ const resetFilters = () => {
 };
 // You can also watch the currentPage to react to page changes
 watch(currentPage, async (newPage) => {
-  await jobsStore.allJobs(newPage)
-  await jobsStore.allExternalJobs(currentPage.value)
+  scrollToTop()
+  loading.value = true
+  if(activeTab.value === 'myspurr_jobs'){
+    await jobsStore.allJobs(newPage);
+  } else if(activeTab.value === 'featured_jobs'){
+    await jobsStore.allExternalJobs(newPage)
+  }
+  loading.value = false
 });
 
 
@@ -679,107 +623,6 @@ onMounted(async () => {
                     inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                   ></FormGroup>
                 </div>
-                <!-- <div class="flex lg:flex-row flex-col gap-8">
-                  <div class="flex flex-col w-full text-left">
-                    <Label class="font-Satoshi500 !text-[15.606px] !mb-2">Job Type</Label>
-                    <div
-                      class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
-                    >
-                      <a-select
-                        placeholder="Job Type"
-                        :bordered="false"
-                        :show-arrow="false"
-                        class="w-full !outline-none !px-0"
-                        show-search
-                        v-model:value="sortInput.jobType"
-                      >
-                        <a-select-option disabled>Job Type</a-select-option>
-                        <a-select-option
-                          v-for="item in CandidateType"
-                          :key="item"
-                          :value="item"
-                        >
-                          {{ item }}
-                        </a-select-option>
-                      </a-select>
-                    </div>
-                  </div>
-    
-                  <div class="flex flex-col w-full text-left">
-                    <Label class="font-Satoshi500 !text-[15.606px] !mb-2"
-                      >Experience Level</Label
-                    >
-                    <div
-                      class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
-                    >
-                      <a-select
-                        placeholder="Experience Level"
-                        :bordered="false"
-                        :show-arrow="false"
-                        class="w-full !outline-none !px-0"
-                        show-search
-                        v-model:value="sortInput.experienceLevel"
-                      >
-                        <a-select-option disabled>Experience Level</a-select-option>
-                        <a-select-option
-                          v-for="item in Experience"
-                          :key="item"
-                          :value="item.name"
-                        >
-                          {{ item.name }} {{ item.year }}
-                        </a-select-option>
-                      </a-select>
-                    </div>
-                  </div>
-    
-                 
-                  <div class="w-full flex flex-row gap-1">
-                    <div class="flex flex-col justify-center">
-                      <Label class="font-Satoshi500 text-[15.606px]">Rate</Label>
-                      <div class="flex items-center justify-center gap-1 mt-2">
-                        <input
-                          class="w-full font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
-                          type="number"
-                          v-model="rateMin"
-                          id="start"
-                        />
-                        <div class="h-[2px] w-4 bg-black"></div>
-                        <input
-                          class="w-full font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
-                          type="number"
-                          v-model="rateMax"
-                          id="end"
-                        />
-                      </div>
-                    </div>
-                    <div class="flex flex-col w-[30%] text-left">
-                      <Label class="font-Satoshi500 !text-[15.606px] !mb-2">Currency</Label>
-                      <div
-                        class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
-                      >
-                        <a-select
-                          placeholder=" currency"
-                          :bordered="false"
-                          :show-arrow="false"
-                          class="w-full !outline-none !px-0"
-                          show-search
-                          v-model:value="sortInput.currency"
-                        >
-                          <a-select-option
-                            v-for="item in ['USD', 'NGN']"
-                            :key="item"
-                            :value="item"
-                          >
-                            {{ item }}
-                          </a-select-option>
-                        </a-select>
-                      </div>
-                    </div>
-    
-                    <div>
-                    </div>
-                  </div>
-                </div> -->
     
                 <div class="flex gap-12">
                   <button
@@ -806,7 +649,7 @@ onMounted(async () => {
               <ShortLoader v-if="loading" />
               <div v-else>
                 <div class="mt-14 flex flex-col gap-8 eventBreak:mt-0">
-                  <JobRowCard
+                  <ExternalJobsCard
                     class="min-w-[95%] lg:min-w-[45%]"
                     v-for="item in filteredJobs"
                     :key="item"
@@ -849,11 +692,18 @@ onMounted(async () => {
 
       </Tabs>
     </div>
-    <div class="mobile_filter fixed bottom-0 left-0 w-full overflow-y-auto hidden eventBreak:block transitionItem"
+
+    <!-- Mobile Filter -->
+     <!-- Overlay -->
+    <div class="w-full h-full fixed bg-[#0000004d] z-[999] top-0 left-0 backdrop-blur-sm" v-if="showMobFilter">
+
+    </div>
+    <!-- Filter -->
+    <div class="mobile_filter fixed bottom-0 left-0 w-full overflow-y-auto hidden eventBreak:block transitionItem z-[999]"
     :class="showMobFilter? 'h-[70vh]': 'h-0'"
     >
       <section class="pb-[5.83rem] pt-[2rem] px-[1.94rem] bg-[#E9FAFB] rounded-t-[1.42044rem] msgTab:px-[1rem]">
-        <div class="mb-[3rem] flex justify-end">
+        <div class="mb-[3rem] flex justify-end sticky top-[2rem] z-[99]">
           <button class="border-gray-300 border p-[0.5rem] font-Satoshi700 cursor-pointer bg-[#fff] hover:scale-105 transitionItem px-4" @click="toggleFilter">X</button>
         </div>
         <div class="w-[80%] mx-auto flex flex-col gap-[2.1rem] msgTab:w-[90%]">
