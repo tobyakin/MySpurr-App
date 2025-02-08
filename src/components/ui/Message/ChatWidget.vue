@@ -84,10 +84,10 @@ function filterMessages(type) {
 function getFilteredMessages(){
   messageLoading.value = true
   if(filterSection.value === 'primary'){
-    displayedMessages.value = [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
+    displayedMessages.value = [...allMessages.value?.data?.filter((message)=>message?.type === "primary")] || []
     messageLoading.value = false
   } else if(filterSection.value === 'others'){
-    displayedMessages.value = []
+    displayedMessages.value = [...allMessages.value?.data?.filter((message)=>message?.type === "admin")] || []
     messageLoading.value = false
   } else if (filterSection.value === 'sent'){
     displayedMessages.value = sentMessages.value.data
@@ -122,7 +122,7 @@ const getAllMessages = async (userId)=>{
     console.log(error)
     messageLoading.value = false
   }
-  displayedMessages.value = [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
+  displayedMessages.value = [...allMessages.value?.data?.filter((message)=>message?.type === "primary")] || []
   recievedMessages.value = displayedMessages.value
   messageLength.value = recievedMessages.value.length > 0
   pageLoading.value = false
