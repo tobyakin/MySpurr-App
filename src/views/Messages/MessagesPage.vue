@@ -92,11 +92,12 @@ function filterMessages(type) {
 
 function getFilteredMessages(){
   if(filterSection.value === 'primary'){
-    displayedMessages.value = [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
+    displayedMessages.value = [...allMessages.value?.data?.filter((message)=>message?.type === "primary")] || []
+    // [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
   } else if(filterSection.value === 'others'){
-    displayedMessages.value = []
+    displayedMessages.value = [...allMessages.value?.data?.filter((message)=>message?.type === "admin")] || []
   } else if (filterSection.value === 'sent'){
-    displayedMessages.value = sentMessages.value.data
+    displayedMessages.value = sentMessages.value?.data
   }
 
   if(displayedMessages.value){
@@ -129,7 +130,8 @@ const getAllMessages = async (userId)=>{
     handleError(error);
     messageLoading.value = false
   }
-  displayedMessages.value = [...allMessages.value.data?.filter(message=> message?.sender_id != userID.value), ...sentMessages.value?.data?.filter(message=> message?.has_replied)]
+  displayedMessages.value = [...allMessages.value?.data?.filter((message)=>message?.type === "primary")] || []
+  console.log(displayedMessages.value)
   recievedMessages.value = displayedMessages.value
   messageLength.value = recievedMessages.value.length > 0
   messageNum.value = recievedMessages?.value.length
