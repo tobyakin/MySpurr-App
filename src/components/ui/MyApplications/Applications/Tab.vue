@@ -31,11 +31,14 @@
 <script setup>
 import { ref } from "vue";
 
+const emit = defineEmits(['currentTab'])
 const activetab = ref("open_applications");
 
 function activateTab(tab) {
   activetab.value = tab;
+  emit("currentTab", tab)
 }
+
 </script>
 <style scoped>
 /* Style the applications_tabs */
