@@ -131,7 +131,6 @@ const getAllMessages = async (userId)=>{
     messageLoading.value = false
   }
   displayedMessages.value = [...allMessages.value?.data?.filter((message)=>message?.type === "primary")] || []
-  console.log(displayedMessages.value)
   recievedMessages.value = displayedMessages.value
   messageLength.value = recievedMessages.value.length > 0
   messageNum.value = recievedMessages?.value.length
@@ -388,13 +387,16 @@ onUnmounted(() => {
                  :filter="filterSection"/>
               </div>
               <div id="messagesContainer" class=" overflow-y-auto scroller pb-4 flex-1" ref="messagesContainer">
-                  <div v-if="messageLength">
-                    <ShortLoader v-if="messageLoading"/>
-                    <MessageList :messageList="displayedMessages" @messageClicked="handleMessageClicked" :filter="filterSection"
+                <ShortLoader v-if="messageLoading"/>
+                <div v-else>
+                  <MessageList 
+                    :messageList="displayedMessages" 
+                    @messageClicked="handleMessageClicked" 
+                    :filter="filterSection"
                     :clickedId="messageIndex"
-                     v-else/>
-                  </div>
-                  <div class="w-full h-full grid place-items-center" v-else>
+                    v-if="messageLength"
+                  />
+                  <div v-else class="grid w-full h-full place-items-center">
                     <div class="text-center w-[90%] mx-auto">
                       <h1 class="font-Satoshi500 text-[1.5rem] leading-[3.5rem]">No {{ noMessageNotification }} yet</h1>
                       <p>Start a conversation by sending a message</p>
@@ -402,6 +404,7 @@ onUnmounted(() => {
                   </div>
                 </div>
               </div>
+            </div>
           </div>
           <div class="w-full h-full hide-scrollbar msgTab:mx-auto msgTab:w-[80%] msgMob:w-full msgTab2:!opacity-[100] msgTab2:!z-[1]" id="chatPane" ref="chatPane" :class="showMobileChats? '!opacity-100 !z-[1]': 'reg'">
             <div class="h-full w-full" v-if="!showNewMessage">

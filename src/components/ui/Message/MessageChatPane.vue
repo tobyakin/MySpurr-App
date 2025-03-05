@@ -27,7 +27,7 @@ const accountType = computed(() => {
   return store.getUser.data.user.type;
 });
 
-const prop = defineProps(['chat', 'id'])
+const prop = defineProps(['chat', 'id', 'replyMessage'])
 const emit = defineEmits(['reply', 'switchTab', 'closeWidget'])
 
 function handleReply(chatId){
@@ -64,33 +64,70 @@ function discoverLinks(text) {
 }
 
 function displayTextWithLinks(text) {
-    const links = discoverLinks(text);
-    let lastIndex = 0;
-    let resultHTML = '';
-    if(links.length > 0){
-        links.forEach(link => {
-            // Add text before the link
-            resultHTML += text.slice(lastIndex, link.index);
-            // Add the clickable link with the class
-            resultHTML += `<a href="${link.url}" target="_blank" class="styled-link">${link.url}</a>`;
-            // Update lastIndex to the end of the current link
-            lastIndex = link.index + link.length;
-        });
-        // Add any remaining text after the last link
-        resultHTML += text.slice(lastIndex);
-    } else {
-        resultHTML = text
+    if (!text) return "";
+
+    // Parse the HTML message properly
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, "text/html");
+
+    // Replace <oembed> tags with iframes
+    doc.querySelectorAll("oembed").forEach(oembed => {
+        const url = oembed.getAttribute("url");
+
+        if (url.includes("youtube.com") || url.includes("youtu.be")) {
+            // Convert to embeddable YouTube format
+            const videoId = url.split("v=")[1]?.split("&")[0]; // Extract video ID
+            if (videoId) {
+                const iframe = document.createElement("iframe");
+                iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                iframe.width = "100%";
+                iframe.height = "200";
+                iframe.setAttribute("frameborder", "0");
+                iframe.setAttribute("allowfullscreen", "true");
+
+                oembed.replaceWith(iframe);
+            }
+        }
+    });
+
+    // Function to detect and replace links within text nodes
+    function processNode(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            const links = discoverLinks(node.nodeValue);
+            if (links.length > 0) {
+                let newHTML = "";
+                let lastIndex = 0;
+                links.forEach(link => {
+                    newHTML += node.nodeValue.slice(lastIndex, link.index);
+                    newHTML += `<a href="${link.url}" target="_blank" class="styled-link">${link.url}</a>`;
+                    lastIndex = link.index + link.length;
+                });
+                newHTML += node.nodeValue.slice(lastIndex);
+
+                const span = document.createElement("span");
+                span.innerHTML = newHTML;
+                node.replaceWith(span);
+            }
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+            Array.from(node.childNodes).forEach(child => processNode(child));
+        }
     }
-    return resultHTML
+
+    // Process all nodes in the parsed document
+    Array.from(doc.body.childNodes).forEach(node => processNode(node));
+
+    return doc.body.innerHTML;
 }
+
+
 
 const chatScroll = ref(null)
 
 const scrollToBottom = async () => {
     await nextTick()
-  if (chatScroll.value) {
-    chatScroll.value.scrollTop = chatScroll.value.scrollHeight;
-  }
+    if (chatScroll.value && !prop.chat?.sender?.last_name === "Admin") {
+        chatScroll.value.scrollTop = chatScroll.value.scrollHeight;
+    }
 };
 
 scrollToBottom()
@@ -259,18 +296,6 @@ onMounted(async ()=>{
     getUserInfo()
     userImg.value = userInfo.value.company_logo || userInfo.value.image
     await scrollToBottom()
-
-    if (
-      isOnBoarded.value &&
-      !isOnBoarded.value.business_details &&
-      !isOnBoarded.value.work_details
-    ) {
-      if (accountType.value === "talent") {
-        console.log(isOnBoarded.value.work_details)
-      } else if (accountType.value === "business") {
-        console.log(isOnBoarded.value.business_details)
-      }
-    }
   } catch (error) {
     /* empty */
   } 
@@ -328,7 +353,7 @@ onMounted(async ()=>{
                 <h3 class="font-Satoshi400 text-right leading-[1.204rem] text-[#24403499] text-[0.65rem]">{{ chat.sent_at }}</h3>
                 <div class="icons flex items-center justify-end gap-4 mt-[0.6rem]">
                 <DeleteIcon class="cursor-pointer"/>
-                <ReplyIcon class="cursor-pointer opacity-[0.5]" @click="handleReply(chat.id)"/>
+                <ReplyIcon class="cursor-pointer opacity-[0.5]" @click="handleReply(chat.id)" :class="chat?.sender?.last_name === 'Admin' ? 'hidden': 'block'"/>
                 <MoreVertIcon />
                 </div>
             </div>   
@@ -338,7 +363,7 @@ onMounted(async ()=>{
             <div class="mb-6">
                 <div class="chatPage">
                     <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat?.subject }}</h3>
-                    <h3 class="messageTitleMob font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem] hidden">{{ chat?.subject }}</h3>
+                    <h3 class="messageTitleMob font-Satoshi500 text-[#000] !leading-[1.15rem] text-[1.304rem] !mb-[1.11rem] hidden">{{ chat?.subject }}</h3>
                     <div class="field !mb-[1.3rem]">
                         <div class="flex flex-col relative">
                             <div id="messageBox" class="flex gap-[0.5rem] items-start max-w-[100%]"
