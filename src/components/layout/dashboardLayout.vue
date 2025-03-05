@@ -162,11 +162,17 @@ const getReceivedMessages = async (userId)=>{
     console.log(error)
   }
   receivedMessages.value = allMessages.value.data?.filter(message=> message?.sender_id != userId)
+
   unreadMessages.value = receivedMessages.value.filter(message=>message.status == 'unread')
+
   messageLength.value = unreadMessages.value.length > 0
-  messageNum.value = unreadMessages?.value.length
+  messageNum.value = unreadMessages.value?.length
   return receivedMessages.value
 }
+
+watch(unreadMessages, (newVal) => {
+  messageNum.value = newVal.length;
+});
 
 const redirectWithSearchQuery = () => {
   return accountType.value === "talent" ? redirectToJobPage() : redirectToTalentPage();
