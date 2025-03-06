@@ -381,11 +381,12 @@ const getUserInfo = ()=>{
                     :messageList="displayedMessages" 
                     @messageClicked="handleMessageClicked" 
                     :filter="filterSection"
-                    :clickedId="messageIndex"
+                    :clickedId="clickedItem"
+                    @click="showChatPane"
                     v-if="messageLength"
                   />
                   <div v-else class="grid w-full h-full place-items-center">
-                    <div class="text-center w-[90%] mx-auto">
+                    <div class="text-center w-[90%] mx-auto mt-[3rem]">
                       <h1 class="font-Satoshi500 text-[1.5rem] leading-[3.5rem]">No {{ noMessageNotification }} yet</h1>
                       <p>Start a conversation by sending a message</p>
                     </div>
@@ -422,7 +423,9 @@ const getUserInfo = ()=>{
                 </div>
               </div>
               
-              <div class="inputField w-[95%] msgMob:w-full mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] msgMob:rounded-none border gap-[0.5rem] min-h-[40px] h-auto max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]">
+              <div class="inputField w-[95%] msgMob:w-full mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] msgMob:rounded-none border gap-[0.5rem] min-h-[40px] h-auto max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]"
+              :class="messageDetail?.data?.sender?.last_name === 'Admin'? 'hidden h-0': ''"
+              >
                   <div>
                     <label for="upload_file">
                       <AttachFile />
@@ -442,7 +445,6 @@ const getUserInfo = ()=>{
                     contenteditable
                     @input="autoResize"
                     ref="textArea"
-                    
                   ></textarea>
                   <sendIcon v-if="!isSending" class="!text-brand" @click="handleReplyMessage"/>
                   <div v-else class="pr-[0.5rem]">
