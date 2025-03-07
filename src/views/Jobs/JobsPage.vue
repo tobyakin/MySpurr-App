@@ -113,7 +113,15 @@ watch(range, (newRange) => {
 
 const currentPage = ref(1);
 
-const pagination = computed(() => Job.value?.pagination || {});
+const pagination = computed(() => {
+  if(activeTab.value === 'myspurr_jobs'){
+    return Job.value?.pagination
+  } else if(activeTab.value === 'featured_jobs'){
+    return externalJobs.value?.pagination 
+  } else {
+    return {}
+  }
+});
 
 
 const totalPages = computed(() => Math.ceil(pagination.value.last_page));
