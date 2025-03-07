@@ -230,7 +230,7 @@ onMounted(async ()=>{
   } catch (error) {
     console.log(error)
   } finally {
-    console.log('yes')
+    console.log('loaded')
   }
 })
 
@@ -375,19 +375,23 @@ const getUserInfo = ()=>{
                   </div>
               </div>
               <div class="messageList overflow-y-auto scroller flex-1" id="messagesContainer">
-                <div v-if="messageLength">
-                  <ShortLoader v-if="messageLoading"/>
-                  <MessageList :messageList="displayedMessages" @messageClicked="handleMessageClicked" :filter="filterSection"
-                  :clickedId="clickedItem"
-                  @click="showChatPane"
-                   v-else/>
-                </div>
-                <div class="w-full h-full grid place-items-center" v-else>
-                    <div class="text-center w-[90%] mx-auto">
+                <ShortLoader v-if="messageLoading"/>
+                <div v-else>
+                  <MessageList 
+                    :messageList="displayedMessages" 
+                    @messageClicked="handleMessageClicked" 
+                    :filter="filterSection"
+                    :clickedId="clickedItem"
+                    @click="showChatPane"
+                    v-if="messageLength"
+                  />
+                  <div v-else class="grid w-full h-full place-items-center">
+                    <div class="text-center w-[90%] mx-auto mt-[3rem]">
                       <h1 class="font-Satoshi500 text-[1.5rem] leading-[3.5rem]">No {{ noMessageNotification }} yet</h1>
                       <p>Start a conversation by sending a message</p>
                     </div>
                   </div>
+                </div>
               </div>
           </div>
           <div v-if="showChatPage" class="h-full widget flex flex-col">              
@@ -419,7 +423,9 @@ const getUserInfo = ()=>{
                 </div>
               </div>
               
-              <div class="inputField w-[95%] msgMob:w-full mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] msgMob:rounded-none border gap-[0.5rem] min-h-[40px] h-auto max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]">
+              <div class="inputField w-[95%] msgMob:w-full mx-auto mt-[0.2rem] flex items-center bg-[#2F929C1A] p-[0.5rem] rounded-[0.5rem] msgMob:rounded-none border gap-[0.5rem] min-h-[40px] h-auto max-h-[200px] sticky bottom-0 z-[99] backdrop-blur-[4px]"
+              :class="messageDetail?.data?.sender?.last_name === 'Admin'? 'hidden h-0': ''"
+              >
                   <div>
                     <label for="upload_file">
                       <AttachFile />
@@ -435,11 +441,10 @@ const getUserInfo = ()=>{
                     />
                   </div>
                   <textarea
-                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 h-auto overflow-auto scroller leading-4" 
+                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 h-auto overflow-auto scroller leading-4 " 
                     contenteditable
                     @input="autoResize"
                     ref="textArea"
-                    
                   ></textarea>
                   <sendIcon v-if="!isSending" class="!text-brand" @click="handleReplyMessage"/>
                   <div v-else class="pr-[0.5rem]">
