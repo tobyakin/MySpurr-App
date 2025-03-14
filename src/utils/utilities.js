@@ -77,3 +77,9 @@ const discoverLinksAndEmails = (text) => {
 
     return matches.sort((a, b) => a.index - b.index); // Sort matches by position
 }
+
+export function formatNumber(value) {
+    if (value === '') return '';
+    return new Intl.NumberFormat().format(value);
+}
+  
