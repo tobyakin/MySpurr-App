@@ -11,6 +11,7 @@ import { useUserProfile } from "@/stores/profile";
 import { useStore } from "@/stores/user";
 import { useMessageStore } from "@/stores/message";
 import { storeToRefs } from "pinia";
+import { displayTextWithLinks } from "@/utils/utilities";
 
 const messageStore = useMessageStore();
 const { editedMessageList } = storeToRefs(messageStore)
@@ -48,76 +49,6 @@ watch(
   },
   { deep: true }
 );
-
-function discoverLinks(text) {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    let match;
-    const links = [];
-    while ((match = urlRegex.exec(text)) !== null) {
-        links.push({
-            url: match[0],
-            index: match.index,
-            length: match[0].length
-        });
-    }
-    return links;
-}
-
-function displayTextWithLinks(text) {
-    if (!text) return "";
-
-    // Parse the HTML message properly
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(text, "text/html");
-
-    // Replace <oembed> tags with iframes
-    doc.querySelectorAll("oembed").forEach(oembed => {
-        const url = oembed.getAttribute("url");
-
-        if (url.includes("youtube.com") || url.includes("youtu.be")) {
-            // Convert to embeddable YouTube format
-            const videoId = url.split("v=")[1]?.split("&")[0]; // Extract video ID
-            if (videoId) {
-                const iframe = document.createElement("iframe");
-                iframe.src = `https://www.youtube.com/embed/${videoId}`;
-                iframe.width = "100%";
-                iframe.height = "200";
-                iframe.setAttribute("frameborder", "0");
-                iframe.setAttribute("allowfullscreen", "true");
-
-                oembed.replaceWith(iframe);
-            }
-        }
-    });
-
-    // Function to detect and replace links within text nodes
-    function processNode(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            const links = discoverLinks(node.nodeValue);
-            if (links.length > 0) {
-                let newHTML = "";
-                let lastIndex = 0;
-                links.forEach(link => {
-                    newHTML += node.nodeValue.slice(lastIndex, link.index);
-                    newHTML += `<a href="${link.url}" target="_blank" class="styled-link">${link.url}</a>`;
-                    lastIndex = link.index + link.length;
-                });
-                newHTML += node.nodeValue.slice(lastIndex);
-
-                const span = document.createElement("span");
-                span.innerHTML = newHTML;
-                node.replaceWith(span);
-            }
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-            Array.from(node.childNodes).forEach(child => processNode(child));
-        }
-    }
-
-    // Process all nodes in the parsed document
-    Array.from(doc.body.childNodes).forEach(node => processNode(node));
-
-    return doc.body.innerHTML;
-}
 
 
 
