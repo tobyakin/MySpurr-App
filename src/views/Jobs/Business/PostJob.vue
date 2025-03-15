@@ -83,7 +83,7 @@ onMounted(async () => {
 let profile = useUserProfile();
 
 const skillsStore = useSkillsStore();
-const { contriesCode, states, industries } = storeToRefs(skillsStore);
+const { contriesCode, states, industries, skills } = storeToRefs(skillsStore);
 
 const jobsStore = useJobsStore();
 const { postJobsValue, ciso, siso } = storeToRefs(jobsStore);
@@ -159,11 +159,6 @@ const filterOptions = () => {
 const placeholderText = computed(() => {
   return postJobsValue.value.skills.length >= 5 ? "" : "Add skills";
 });
-
-// function formatNumber(value) {
-//   if (value === '') return '';
-//   return new Intl.NumberFormat().format(value);
-// }
 
 const formatSalary = (e)=>{
    // Remove any non-numeric characters from input
@@ -264,6 +259,7 @@ watch(selectedState, async (newInput) => {
 });
 onMounted(async () => {
   await skillsStore.getskills();
+  options.value = skills.value?.data
   await skillsStore.getJobTitles();
   await skillsStore.getCountriesCode();
   await profile.userProfile();

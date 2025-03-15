@@ -8,7 +8,7 @@ import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { useSkillsStore } from "@/stores/skills";
 const skillsStore = useSkillsStore();
-const { contriesCode, states } = storeToRefs(skillsStore);
+const { contriesCode, states, skills } = storeToRefs(skillsStore);
 import { useRoute } from "vue-router";
 const jobsStore = useJobsStore();
 const { postJobsValue, JobDetailsById, ciso, siso } = storeToRefs(jobsStore);
@@ -216,6 +216,7 @@ onMounted(async () => {
   loading.value = true;
   try {
     await skillsStore.getskills();
+    options.value = skills.value?.data
     await skillsStore.getJobTitles();
     await skillsStore.getCountriesCode();
     await jobsStore.handleGetJobDetailsById(route.params.id);
