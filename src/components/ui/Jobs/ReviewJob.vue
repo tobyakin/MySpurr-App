@@ -10,11 +10,13 @@
   import checkIcon from "@/components/icons/checkIcon.vue"
   import VerifyIcon from "@/components/icons/verifyIcon.vue";
   import cancelIon from "@/components/icons/cancelIcon.vue"
+  import { formatNumber } from "@/utils/utilities"
 
 
   let numAbbr = useNumberFomateStore();
   let loading = ref(false);
   let payLoading = ref(false);
+  let routingBack = ref(false)
   let showModal = ref(false);
   let showOption = ref(false)
   const userProfile = useUserProfile();
@@ -46,7 +48,12 @@
   });
   
   const back = () => {
+    if(postJobsValue.value?.salary_min || postJobsValue.value?.salary_max){
+      postJobsValue.value.salary_min = formatNumber(postJobsValue.value?.salary_min)
+      postJobsValue.value.salary_max = formatNumber(postJobsValue.value?.salary_max)
+    }
     emit("back");
+
     // resetForm()
   };
   const hasSubscriptedToPostJob = computed(() => {
@@ -186,8 +193,11 @@
   };
 
   onMounted(async () => {
+    if(postJobsValue.value?.salary_min || postJobsValue.value?.salary_max){
+      postJobsValue.value.salary_min = postJobsValue.value?.salary_min?.replace(/,/g, '').toString()
+      postJobsValue.value.salary_max = postJobsValue.value?.salary_max?.replace(/,/g, '').toString()
+    }
     await userProfile.userProfile();
-
   });
 
   onMounted(() => {
@@ -513,16 +523,6 @@
               >
                 {{ skill.name }}
               </div>
-              <!-- <div
-                class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
-              >
-                Brand identity
-              </div>
-              <div
-                class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
-              >
-                UI/UI design
-              </div> -->
             </div>
           </div>
         </div>
@@ -537,7 +537,7 @@
             class="text-[#244034] text-[1.07rem] flex items-center font-Satoshi500"
           >
             <span v-html="numAbbr.formatCurrency(postJobsValue.currency)"></span>
-            {{ numAbbr.abbr(postJobsValue.salary_min) }}-{{
+            {{ numAbbr.abbr(postJobsValue.salary_min) }} - {{
               numAbbr.abbr(postJobsValue.salary_max)
             }}
           </p>
@@ -563,10 +563,6 @@
             {{ postJobsValue.job_type }}
           </p>
         </div>
-        <!-- <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Date</p>
-          <p class="text-[#244034] text-[17.104px] font-Satoshi500">12 jun, 2022</p>
-        </div> -->
         <div class="flex flex-col gap-2">
           <p class="text-[#244034c5] text-[1.07rem] font-Satoshi400">Experience</p>
           <p class="text-[#244034] text-[1.07rem] font-Satoshi500">
@@ -714,11 +710,6 @@
                 </p>
               </div>
             </div>
-            <!-- <button
-              class="bg-[#31795A] rounded-full p-2 px-10 font-Satoshi500 text-[16.646px] text-white"
-            >
-              Message
-            </button> -->
           </div>
           <div
             v-if="hasSubscriptedToPostJob"

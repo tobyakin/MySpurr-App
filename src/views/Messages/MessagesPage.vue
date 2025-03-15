@@ -450,12 +450,14 @@ onUnmounted(() => {
                 </div>
               </div>
             </div>
-            <div id="newMessage" 
-            class="h-[100%] bg-white" 
-            v-else
-            >
-              <NewMessage @send="handleSendMessage" :isSending="isSending" @delete="handleDelete"/>
-            </div>
+            <transition name="fade">
+              <div id="newMessage" 
+              class="h-[100%] bg-white" 
+              v-if="showNewMessage"
+              >
+                <NewMessage @send="handleSendMessage" :isSending="isSending" @delete="handleDelete"/>
+              </div>
+            </transition>
           </div>
         </div>
       </section>

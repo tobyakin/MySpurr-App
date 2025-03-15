@@ -14,6 +14,7 @@ import NewMessage from "@/components/ui/Message/NewMessage.vue";
 import { useMessageStore } from "@/stores/message";
 import { storeToRefs } from "pinia";
 import { useToast } from 'vue-toastification'
+import { displayTextWithLinks } from "@/utils/utilities";
 
 const toast = useToast()
 const messageStore = useMessageStore();
@@ -332,7 +333,7 @@ const goTo = async (email, show) => {
             >
               <template v-if="answerIndex === questionIndex">
                 <p
-                  v-html="answer.answer"
+                  v-html="displayTextWithLinks(answer.answer)"
                   class="text-[#5e6466] font-Satoshi400 editor text-[14px] mt-2 tracking-[0.6px]"
                 ></p>
               </template>
@@ -390,16 +391,18 @@ const goTo = async (email, show) => {
         </div>
       </div>
     </div>
-    <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
-      <div class="messageWindow w-[50%] mx-auto mt-6 msgMob:mt-0 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
-        <NewMessage class="h-full" @send="handleSendMessage"
-        @delete="closeWindow"
-        @back="closeWindow"
-        :email="props.talents?.email"
-        :isSending="isSending"
-        />
-      </div>
-    </section>
+    <transition name="fade">
+      <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
+        <div class="messageWindow w-[50%] mx-auto mt-6 msgMob:mt-0 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
+          <NewMessage class="h-full" @send="handleSendMessage"
+          @delete="closeWindow"
+          @back="closeWindow"
+          :email="props.talents?.email"
+          :isSending="isSending"
+          />
+        </div>
+      </section>
+    </transition>
   </div>
 </template>
 
