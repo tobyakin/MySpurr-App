@@ -9,7 +9,6 @@ import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import { useRouter, useRoute } from "vue-router";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
-import { formatNumber } from "@/utils/utilities"
 
 let numAbbr = useNumberFomateStore();
 let store = useStore();
@@ -26,10 +25,6 @@ const jobsStore = useJobsStore();
 const { Job, postJobsValue, ciso, siso } = storeToRefs(jobsStore);
 const emit = defineEmits(["back"]);
 const back = () => {
-  if(postJobsValue.value?.salary_min || postJobsValue.value?.salary_max){
-      postJobsValue.value.salary_min = formatNumber(postJobsValue.value?.salary_min)
-      postJobsValue.value.salary_max = formatNumber(postJobsValue.value?.salary_max)
-    }
   emit("back");
 };
 const isFormValid = computed(() => {

@@ -10,13 +10,11 @@
   import checkIcon from "@/components/icons/checkIcon.vue"
   import VerifyIcon from "@/components/icons/verifyIcon.vue";
   import cancelIon from "@/components/icons/cancelIcon.vue"
-  import { formatNumber } from "@/utils/utilities"
 
 
   let numAbbr = useNumberFomateStore();
   let loading = ref(false);
   let payLoading = ref(false);
-  let routingBack = ref(false)
   let showModal = ref(false);
   let showOption = ref(false)
   const userProfile = useUserProfile();
@@ -48,13 +46,7 @@
   });
   
   const back = () => {
-    if(postJobsValue.value?.salary_min || postJobsValue.value?.salary_max){
-      postJobsValue.value.salary_min = formatNumber(postJobsValue.value?.salary_min)
-      postJobsValue.value.salary_max = formatNumber(postJobsValue.value?.salary_max)
-    }
     emit("back");
-
-    // resetForm()
   };
   const hasSubscriptedToPostJob = computed(() => {
     return userProfile?.user?.data?.posted_job;

@@ -19,11 +19,9 @@ import ReviewJob from "@/components/ui/Jobs/ReviewEditJob.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
-import { useNumberFomateStore } from "@/stores/numberFomate";
-import { formatNumber } from "@/utils/utilities";
 import SalaryInput from "@/components/ui/Form/Input/SalaryInput.vue";
 
-let numAbbr = useNumberFomateStore();
+
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
 
@@ -210,10 +208,6 @@ onMounted(async () => {
     await skillsStore.getCountriesCode();
     await jobsStore.handleGetJobDetailsById(route.params.id);
     prefillDetails(JobDetailsById?.value?.data);
-    if(postJobsValue.value?.salary_min || postJobsValue.value?.salary_max){
-      postJobsValue.value.salary_min = formatNumber(postJobsValue.value?.salary_min)
-      postJobsValue.value.salary_max = formatNumber(postJobsValue.value?.salary_max)
-    }
     loading.value = false;
   } catch (error) {
     console.error;
