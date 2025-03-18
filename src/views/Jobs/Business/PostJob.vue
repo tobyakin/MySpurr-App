@@ -19,7 +19,7 @@ import { useRouter } from "vue-router";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
 import { useNumberFomateStore } from "@/stores/numberFomate";
-import { formatNumber } from "@/utils/utilities";
+import SalaryInput from "@/components/ui/Form/Input/SalaryInput.vue";
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
@@ -159,18 +159,6 @@ const filterOptions = () => {
 const placeholderText = computed(() => {
   return postJobsValue.value.skills.length >= 5 ? "" : "Add skills";
 });
-
-const formatSalary = (e)=>{
-   // Remove any non-numeric characters from input
-   let value = e.target.value.replace(/[^0-9]/g, '');
-  
-  e.target.value = value; // Update the input field
-  if(e.target.name === "Min"){
-    postJobsValue.value.salary_min = formatNumber(value);
-  } else {
-    postJobsValue.value.salary_max = formatNumber(value);
-  }
-}
 
 
 const selectOption = (option) => {
@@ -498,38 +486,16 @@ onMounted(() => {
             </div>
           </div>
           <div class="lg:w-[55%] flex flex-row gap-3">
-            <div class="!bg-white p-2.5 border-[0.509px] rounded-[9.489px] overflow-hidden flex gap-[0.2rem] items-center">
-              <span 
-                v-if="postJobsValue.salary_min.length > 0 && postJobsValue.currency"
-                v-html="numAbbr.formatCurrency(postJobsValue.currency)"
-                class="opacity-[0.8029] text-[0.7rem]"
-              >
-              </span>
-              <input
-                v-model="postJobsValue.salary_min"
-                name="Min"
-                placeholder="Min"
-                type="text"
-                class="w-full font-light font-Satoshi400 text-[0.8rem] flex-1 opacity-[0.8029]"
-                @input="formatSalary"
-              >
-            </div>
-            <div class="!bg-white p-2.5 border-[0.509px] rounded-[9.489px] overflow-hidden flex gap-[0.2rem] items-center">
-              <span 
-                v-if="postJobsValue.salary_min.length > 0 && postJobsValue.currency"
-                v-html="numAbbr.formatCurrency(postJobsValue.currency)"
-                class="opacity-[0.8029] text-[0.7rem]"
-              >
-              </span>
-              <input
-                v-model="postJobsValue.salary_max"
-                name="Max"
-                placeholder="Max"
-                type="text"
-                class="w-full font-light font-Satoshi400 text-[0.8rem] flex-1 opacity-[0.8029]"
-                @input="formatSalary"
-              >
-            </div>
+            <SalaryInput
+              v-model="postJobsValue.salary_min"
+              placeholder="Min"
+              :currency="postJobsValue.currency"
+            />
+            <SalaryInput
+              v-model="postJobsValue.salary_max"
+              placeholder="Max"
+              :currency="postJobsValue.currency"
+            />
           
             <SelectGroup
               v-model="postJobsValue.currency"
