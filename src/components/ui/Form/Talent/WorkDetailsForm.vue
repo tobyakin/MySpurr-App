@@ -8,10 +8,72 @@ import { storeToRefs } from "pinia";
 const skillsStore = useSkillsStore();
 const { skills, jobTitle, contriesCode, states } = storeToRefs(skillsStore);
 
+const focusedField = ref(null);
 const OnboardingStore = useOnboardingStore();
 const SelectGroup = defineAsyncComponent(() =>
   import("@/components/ui/Form/Input/SelectGroup.vue")
 );
+
+const handleFocus = (field) => {
+  focusedField.value = field;
+  validatePreviousFields(field);
+  errors[field] = false; // Clear the error for the focused field
+};
+
+const handleBlur = () => {
+  focusedField.value = null;
+};
+
+const validatePreviousFields = (field) => {
+  const fieldsOrder = [
+    'skill_title',
+    'overview',
+    'ciso',
+    'siso',
+    'top_skills',
+    'highest_education',
+    'employment_type',
+    'availability',
+    'rate'
+  ];
+
+  const fieldIndex = fieldsOrder.indexOf(field);
+  if (fieldIndex === -1) return;
+
+  for (let i = 0; i < fieldIndex; i++) {
+    const currentField = fieldsOrder[i];
+    if (!validateField(currentField)) {
+      errors[currentField] = true;
+    } else {
+      errors[currentField] = false;
+    }
+  }
+};
+
+const validateField = (field) => {
+  switch (field) {
+    case 'skill_title':
+      return !!skill_title.value;
+    case 'overview':
+      return !!overview.value;
+    case 'ciso':
+      return !!ciso.value;
+    case 'siso':
+      return !!siso.value;
+    case 'top_skills':
+      return top_skills.value.length > 0;
+    case 'highest_education':
+      return !!highest_education.value;
+    case 'employment_type':
+      return !!employment_type.value;
+    case 'availability':
+      return !!availability.value;
+    case 'rate':
+      return !!rate.value && !isNaN(parseFloat(rate.value));
+    default:
+      return true;
+  }
+};
 
 const {
   step,
@@ -49,6 +111,7 @@ const rateError = ref(null);
 const isFormValid = computed(() => {
   const currentRate = parseFloat(rate.value);
   return (
+    skill_title.value.trim() !== "" &&
     top_skills.value.length > 0 &&
     highest_education.value.trim() !== "" &&
     overview.value.trim() !== "" &&
@@ -145,22 +208,22 @@ const clearInputErrors = () => {
   });
 };
 
-watch(
-  [
-    top_skills,
-    skill_title,
-    highest_education,
-    overview,
-    siso,
-    ciso,
-    rate,
-    employment_type,
-    availability,
-  ],
-  () => {
-    clearInputErrors();
-  }
-);
+// watch(
+//   [
+//     top_skills,
+//     skill_title,
+//     highest_education,
+//     overview,
+//     siso,
+//     ciso,
+//     rate,
+//     employment_type,
+//     availability,
+//   ],
+//   () => {
+//     clearInputErrors();
+//   }
+// );
 
 const next = () => {
   if (!validateForm()) {
@@ -386,6 +449,8 @@ onMounted(async () => {
                     item-text="name"
                     class="w-full flex border-none"
                     @update:modelValue="handleJobTitleChange"
+                    @focus="handleFocus('skill_title')"
+                    @blur="handleBlur"
                   />
                 </div>
               </div>
@@ -399,6 +464,8 @@ onMounted(async () => {
                   rows="4"
                   class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
                   placeholder="Give a brief description about yourself"
+                  @focus="handleFocus('overview')"
+                  @blur="handleBlur"
                 />
               </div>
               <div
@@ -415,6 +482,8 @@ onMounted(async () => {
                       class="w-full !px-0 border-2 rounded-md my-2"
                       show-search
                       v-model:value="selectedCountry"
+                      @focus="handleFocus('ciso')"
+                      @blur="handleBlur"
                     >
                       <a-select-option disabled>country or region</a-select-option>
                       <a-select-option
@@ -427,12 +496,6 @@ onMounted(async () => {
                     </a-select>
                   </div>
                 </div>
-                <!-- <a-divider class="lg:hidden md:hidden" style="height: 1px; background-color: #254035ab" />
-                <a-divider
-                  class="lg:flex hidden"
-                  style="height: 5vh; background-color: #254035ab"
-                  type="vertical"
-                /> -->
 
                 <div class="w-full">
                   <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">State</label>
@@ -446,6 +509,8 @@ onMounted(async () => {
                       class="w-full !px-0 border-2 rounded-md my-2"
                       show-search
                       v-model:value="selectedState"
+                      @focus="handleFocus('siso')"
+                      @blur="handleBlur"
                     >
                       <a-select-option disabled>state or city</a-select-option>
                       <a-select-option
@@ -464,25 +529,7 @@ onMounted(async () => {
                 :class="errors.top_skills ? 'border-[#DA5252]' : 'border-[#254035AB]'"
                 class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
               >
-                <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-                  >Select your top 3 skills</label
-                >
-                <!-- <multiselect
-                  v-model="top_skills"
-                  :options="options"
-                  :multiple="true"
-                  :taggable="true"
-                  :max="5"
-                  placeholder=""
-                  track-by="name"
-                  label="name"
-                  @tag="addTag"
-                  :close-on-select="false"
-                  :clear-on-select="false"
-                  :preserve-search="true"
-                  :preselect-first="false"
-                >
-                </multiselect> -->
+                <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Select your top 3 skills</label>
                 <div>
                   <div class="selected-items p-2 gap-2">
                     <div
@@ -510,17 +557,9 @@ onMounted(async () => {
                       inputClasses="bg-transparent !border-none"
                       :placeholder="placeholderText"
                       type="text"
+                      @focus="handleFocus('top_skills')"
+                      @blur="handleBlur"
                     />
-
-                    <!-- <input
-                    v-model="search"
-                    @input="filterOptions"
-                    @keydown.down="highlightNext"
-                    @keydown.up="highlightPrevious"
-                    @keydown.enter="selectHighlightedOption"
-                    ref="searchInput"
-                    placeholder="Type to add or select..."
-                  /> -->
                     <ul
                       v-if="showDropdown"
                       class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
@@ -538,6 +577,7 @@ onMounted(async () => {
                   </div>
                 </div>
               </div>
+              
               <div
                 :class="errors.highest_education ? 'border-[#DA5252]' : 'border-[#254035AB]'"
                 class="border-[0.737px] rounded-[5.897px] p-4 py-1.5 mb-6"
@@ -552,6 +592,8 @@ onMounted(async () => {
                   :items="educationLevel"
                   name=""
                   class="w-full flex border-none"
+                   @focus="handleFocus('highest_education')"
+                    @blur="handleBlur"
                 />
               </div>
               <div
@@ -568,6 +610,8 @@ onMounted(async () => {
                   placeholder="Employment type"
                   name=""
                   class="bg-transparent border-none"
+                   @focus="handleFocus('employment_type')"
+                    @blur="handleBlur"
                 />
               </div>
               <div
@@ -584,6 +628,8 @@ onMounted(async () => {
                   placeholder="Availability"
                   name=""
                   class="bg-transparent border-none"
+                    @focus="handleFocus('availability')"
+                    @blur="handleBlur"
                 />
               </div>
 
@@ -607,6 +653,8 @@ onMounted(async () => {
                   placeholder="$100"
                   type="number"
                   @input="validateAndCorrectRate"
+                  @focus="handleFocus('rate')"
+                  @blur="handleBlur"
                 />
               </div>
               <div v-if="rateError" class="text-red-500 text-sm">{{ rateError }}</div>
@@ -616,8 +664,8 @@ onMounted(async () => {
             <button
               @click="next"
               :disabled="!isFormValid"
-              :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-              class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
+              :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
+              class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full"
             >
               Next
             </button>
