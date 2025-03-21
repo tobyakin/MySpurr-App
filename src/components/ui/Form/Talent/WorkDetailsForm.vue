@@ -18,10 +18,20 @@ const handleFocus = (field) => {
   focusedField.value = field;
   validatePreviousFields(field);
   errors[field] = false; // Clear the error for the focused field
+
+  // Specific logic for the rate field
+  if (field === 'rate') {
+    validateAndCorrectRate();
+  }
 };
 
 const handleBlur = () => {
   focusedField.value = null;
+
+  // Specific logic for the rate field
+  if (field === 'rate') {
+    validateAndCorrectRate();
+  }
 };
 
 const validatePreviousFields = (field) => {
@@ -273,6 +283,7 @@ const selectedJobTitle = ref(null);
 const handleJobTitleChange = (name) => {
   const selected = skillTitles.value.find((item) => item.name === name);
   selectJobTitleOptions(selected);
+  validateAndCorrectRate()
 };
 
 const selectJobTitleOptions = (option) => {
@@ -291,15 +302,19 @@ const validateAndCorrectRate = () => {
 
   if (isNaN(currentRate)) {
     rateError.value = 'Please enter a valid number';
+    errors.rate = true
     return;
   }
 
   if (minRate.value && currentRate < minRate.value) {
     rateError.value = `Rate must be greater than or equal to $${minRate.value}`;
+    errors.rate = true;
   } else if (maxRate.value && currentRate > maxRate.value) {
     rateError.value = `Rate must be less than or equal to $${maxRate.value}`;
+    errors.rate = true;
   } else {
     rateError.value = null;
+    errors.rate = false;
   }
 };
 
@@ -319,7 +334,7 @@ const filterOptions = () => {
 };
 
 const placeholderText = computed(() => {
-  return top_skills.value.length >= 3 ? "" : "Select your top skills (e.g., Graphics Design)";
+  return top_skills.value.length >= 3 ? "" : "Start typing the letters of your skill and select from the available options (e.g., Graphics Design)";
 });
 
 const shouldDisplayInput = computed(() => {
@@ -373,7 +388,7 @@ onMounted(async () => {
   await skillsStore.getCountriesCode();
   options.value = skills.value.data;
   skillTitles.value = jobTitle.value.data;
-  skillTitlesNames.value = skillTitles.value.map((item) => item.name);
+  skillTitlesNames.value = skillTitles.value.map((item) => item.name).sort((a, b) => a.localeCompare(b));
 
   if (selectedJobTitle.value) {
     const selectedOption = skillTitles.value.find(option => option.name === selectedJobTitle.value);
