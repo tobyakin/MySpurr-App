@@ -82,4 +82,14 @@ export function formatNumber(value) {
     if (value === '') return '';
     return new Intl.NumberFormat().format(value);
 }
+
+export const validateDescriptionField = (description, errorDescription) => {
+    if (!description || description.trim() === "") {
+        errorDescription = true;
+        return false;
+    } else {
+        errorDescription = false;
+        return true;
+    }
+};
   

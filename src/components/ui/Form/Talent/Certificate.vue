@@ -30,6 +30,7 @@ const errors = reactive({
   institute: false,
   certificate_date: false,
   certificate_year: false,
+  certificate_link: false
 });
 
 // Handle focus event
@@ -50,6 +51,7 @@ const validatePreviousFields = (field) => {
     'institute',
     'certificate_date',
     'certificate_year',
+    'certificate_link'
   ];
 
   const fieldIndex = fieldsOrder.indexOf(field);
@@ -205,6 +207,8 @@ watch(CertificateDate, (newCertificateDate) => {
             inputClasses="bg-transparent border-none"
             placeholder=""
             type="link"
+            @focus="handleFocus('certificate_link')"
+            @blur="handleBlur"
           />
         </div>
       </div>

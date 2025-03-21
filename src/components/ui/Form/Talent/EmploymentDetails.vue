@@ -92,9 +92,20 @@ const validateField = (field) => {
   }
 };
 
+const validateDescriptionField = (description) => {
+  if (!description || description.trim() === "") {
+    errors.description = true;
+    return false;
+  } else {
+    errors.description = false;
+    return true;
+  }
+};
+
 const handleFocus = (field) => {
   focusedField.value = field;
   validatePreviousFields(field);
+  validateDescriptionField(employment_details.value?.description)
   errors[field] = false; // Clear the error for the focused field
 };
 

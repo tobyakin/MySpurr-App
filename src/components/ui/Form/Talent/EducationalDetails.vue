@@ -78,16 +78,28 @@ const validateField = (field) => {
   }
 };
 
+const validateDescriptionField = (description) => {
+  if (!description || description.trim() === "") {
+    errors.description = true;
+    return false;
+  } else {
+    errors.description = false;
+    return true;
+  }
+};
+
 // Handle focus event
 const handleFocus = (field) => {
   focusedField.value = field;
   validatePreviousFields(field);
+  validateDescriptionField(education.value?.description);
   errors[field] = false; // Clear the error for the focused field
 };
 
 // Handle blur event
 const handleBlur = () => {
   focusedField.value = null;
+  // validateDescriptionField()
 };
 
 const isFormValid = computed(() => {
