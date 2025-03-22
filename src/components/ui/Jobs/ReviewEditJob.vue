@@ -8,10 +8,8 @@ import { useUserProfile } from "@/stores/profile";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import CenteredModalLarge from "@/components/ui/CenteredModalLarge.vue";
 import { useRouter, useRoute } from "vue-router";
-import CircleBookMarkIcon from "@/components/icons/circleBookMarkIcon.vue";
-import SearchIcon from "@/components/icons/circleSearchIcon.vue";
-import CircleTick from "@/components/icons/circleTick.vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
+
 let numAbbr = useNumberFomateStore();
 let store = useStore();
 let loading = ref(false);
@@ -96,6 +94,10 @@ const goToVIEWCANDIDATES = () => {
   router.push({ name: "applications", params: { id: route.params.id } });
 };
 onMounted(async () => {
+  if(postJobsValue.value?.salary_min || postJobsValue.value?.salary_max){
+      postJobsValue.value.salary_min = postJobsValue.value?.salary_min?.replace(/,/g, '').toString()
+      postJobsValue.value.salary_max = postJobsValue.value?.salary_max?.replace(/,/g, '').toString()
+    }
   await userProfile.userProfile();
 });
 </script>
@@ -215,7 +217,7 @@ onMounted(async () => {
           class="text-[#244034] text-[17.104px] flex items-center font-Satoshi500"
         >
           <span v-html="numAbbr.formatCurrency(postJobsValue.currency)"></span>
-          {{ numAbbr.abbr(postJobsValue.salary_min) }}-{{
+          {{ numAbbr.abbr(postJobsValue.salary_min) }} - {{
             numAbbr.abbr(postJobsValue.salary_max)
           }}
         </p>

@@ -18,9 +18,12 @@ import { useTabStore } from "@/stores/tab";
 import { useRouter } from "vue-router";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
+import { useNumberFomateStore } from "@/stores/numberFomate";
+import SalaryInput from "@/components/ui/Form/Input/AmountFormatInput.vue";
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
+let numAbbr = useNumberFomateStore();
 
 const dynamicPlaceholder = ref('Write about the job in details...');
 
@@ -80,7 +83,7 @@ onMounted(async () => {
 let profile = useUserProfile();
 
 const skillsStore = useSkillsStore();
-const { contriesCode, states, industries } = storeToRefs(skillsStore);
+const { contriesCode, states, industries, skills } = storeToRefs(skillsStore);
 
 const jobsStore = useJobsStore();
 const { postJobsValue, ciso, siso } = storeToRefs(jobsStore);
@@ -156,17 +159,6 @@ const filterOptions = () => {
 const placeholderText = computed(() => {
   return postJobsValue.value.skills.length >= 5 ? "" : "Add skills";
 });
-
-function formatNumber(value) {
-  if (value === '') return '';
-  return new Intl.NumberFormat().format(value);
-}
-
-const handleInput = (e)=>{
-  let value = e.target.value;
-  value = value.replace(/[^0-9]/g, '');
-  // value = formatNumber(value)
-}
 
 
 const selectOption = (option) => {
@@ -255,6 +247,7 @@ watch(selectedState, async (newInput) => {
 });
 onMounted(async () => {
   await skillsStore.getskills();
+  options.value = skills.value?.data
   await skillsStore.getJobTitles();
   await skillsStore.getCountriesCode();
   await profile.userProfile();
@@ -470,15 +463,15 @@ onMounted(() => {
         <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
           Salary
         </h4>
-        <div class="flex flex-row w-full gap-3">
+        <div class="flex flex-row w-full gap-3 mt-2">
           <div class="lg:w-[45%]">
-            <div class="flex flex-col w-full text-left">
-              <Label class="font-Satoshi500 invisible !text-[17.792px] mb-2.5"></Label>
+            <div class="w-full text-left">
+              <Label class="font-Satoshi500 invisible !text-[0.8rem] mb-2.5"></Label>
               <a-select
                 placeholder=""
                 :show-arrow="true"
                 :bordered="true"
-                class="w-full !outline-none !px-1"
+                class="!w-full !outline-none !p-0 !h-full"
                 show-search
                 v-model:value="postJobsValue.salaray_type"
               >
@@ -491,64 +484,28 @@ onMounted(() => {
                 </a-select-option>
               </a-select>
             </div>
-
-            <!-- <SelectGroup
-              v-model="postJobsValue.salaray_type"
-              labelClasses="font-Satoshi500 text-[15.606px]"
-              label=""
-              name="Name"
-              :items="['Monthly', 'Yearly', 'Hourly']"
-              placeholder="Job Category"
-              type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></SelectGroup> -->
           </div>
           <div class="lg:w-[55%] flex flex-row gap-3">
-            <FormGroup
+            <SalaryInput
               v-model="postJobsValue.salary_min"
-              labelClasses=" invisible"
-              label=""
-              name="Min"
               placeholder="Min"
-              type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2.5 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></FormGroup>
-            <FormGroup
+              :currency="postJobsValue.currency"
+            />
+            <SalaryInput
               v-model="postJobsValue.salary_max"
-              labelClasses=" invisible"
-              label=" "
-              name="Max"
               placeholder="Max"
-              type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2.5 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-              @input="handleInput"
-            ></FormGroup>
-            <!-- <div class="flex flex-col w-full text-left">
-              <Label class="font-Satoshi500 invisible !text-[17.792px] mb-2"></Label>
-              <a-select
-                placeholder="state or city"
-                :show-arrow="false"
-                :bordered="true"
-                class="w-full !outline-none !px-0"
-                show-search
-                v-model:value="postJobsValue.currency"
-              >
-                <a-select-option disabled>Currency</a-select-option>
-                <a-select-option v-for="item in ['USD', 'NGN']" :key="item" :value="item">
-                  {{ item }}
-                </a-select-option>
-              </a-select>
-            </div>
- -->
+              :currency="postJobsValue.currency"
+            />
+          
             <SelectGroup
               v-model="postJobsValue.currency"
-              labelClasses="font-Satoshi500 text-[15.606px]"
+              labelClasses="font-Satoshi500 !text-[0.8rem]"
               label=""
               name="Name"
               :items="['USD', 'NGN']"
               placeholder="Currency"
               type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] h-full text-[0.7rem]"
             ></SelectGroup>
           </div>
         </div>
