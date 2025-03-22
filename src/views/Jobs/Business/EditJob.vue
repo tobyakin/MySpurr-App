@@ -19,7 +19,7 @@ import ReviewJob from "@/components/ui/Jobs/ReviewEditJob.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
-import SalaryInput from "@/components/ui/Form/Input/SalaryInput.vue";
+import SalaryInput from "@/components/ui/Form/Input/AmountFormatInput.vue";
 
 
 const isLayoutReady = ref(false)

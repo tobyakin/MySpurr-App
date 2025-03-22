@@ -19,7 +19,7 @@ import { useRouter } from "vue-router";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
 import { useNumberFomateStore } from "@/stores/numberFomate";
-import SalaryInput from "@/components/ui/Form/Input/SalaryInput.vue";
+import SalaryInput from "@/components/ui/Form/Input/AmountFormatInput.vue";
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
