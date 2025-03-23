@@ -423,17 +423,15 @@ onMounted(async () => {
                     @click="scrollLeft"
                     :disbled="isAtStart"
                     class="border-[#007582] border-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
-                    :class="{ 'opacity-50 cursor-not-allowed': isAtStart }"
                   >
-                    <Arrow class="rotate-[180deg]"  :class="{ 'opacity-50 cursor-not-allowed': isAtStart }"/>
+                    <Arrow class="rotate-[180deg]"/>
                   </button>
                   <button
                     @click="scrollRight"
                     :disbled="isAtEnd"
                     class="border-[#007582] border-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
-                    :class="{ 'opacity-50 cursor-not-allowed': isAtEnd }"
                   >
-                    <Arrow :class="{ 'opacity-50 cursor-not-allowed': isAtEnd }"/>
+                    <Arrow/>
                   </button>
                 </div>
             </div >
