@@ -76,9 +76,9 @@ onMounted(async () => {
 <template>
   <DashboardLayout>
     <div class="container p-0 lg:p-0 lg:py-10 py-6 mb-10">
-      <ComingSoon title="Wallet" />
+      <!-- <ComingSoon title="Wallet" /> -->
 
-      <div v-if="step[0]" class="flex hidden flex-col gap-[24px]">
+      <div v-if="step[0]" class="flex flex-col gap-[24px]">
         <div class="flex flex-col lg:gap-[59px] gap-[34px]">
           <div class="flex lg:flex-row flex-col lg:max-h-[326px] h-full gap-[20px]">
             <BalanceCard
