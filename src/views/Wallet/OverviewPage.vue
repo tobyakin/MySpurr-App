@@ -76,7 +76,7 @@ onMounted(async () => {
 <template>
   <DashboardLayout>
     <div class="container p-0 lg:p-0 lg:py-10 py-6 mb-10">
-      <!-- <ComingSoon title="Wallet" /> -->
+      <ComingSoon title="Wallet" class="hidden"/>
 
       <div v-if="step[0]" class="flex flex-col gap-[24px]">
         <div class="flex flex-col lg:gap-[59px] gap-[34px]">
@@ -100,7 +100,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <WithdrawFund class="hidden" @goToWallet="handleGoToWallet" v-if="step[1]" />
+      <WithdrawFund class="" @goToWallet="handleGoToWallet" v-if="step[1]" />
     </div>
   </DashboardLayout>
 </template>
