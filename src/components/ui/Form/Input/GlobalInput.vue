@@ -7,6 +7,8 @@
       :type="type"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
       required
     />
     <!-- <errorInputIcon v-if="error" class="absolute top-1 right-1" /> -->

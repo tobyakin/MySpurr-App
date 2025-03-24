@@ -8,6 +8,8 @@
       :placeholder="placeholder"
       :name="name"
       :items="items"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
     />
     <p v-if="error" class="text-red-600 pl-2 font-Satoshi400 text-left text-[10.24px]">
       {{ errorsMsg }}
