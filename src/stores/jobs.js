@@ -263,9 +263,9 @@ export const useJobsStore = defineStore('jobs', () => {
     }
   }
 
-  const allTalents = async () => {
+  const allTalents = async (page, filters) => {
     try {
-      talent.value = await getAllTalents()
+      talent.value = await getAllTalents(page, filters)
       return talent.value
     } catch (error) {
       console.error(error)

@@ -111,6 +111,7 @@
         @delete="closeWindow"
         @back="closeWindow"
         :email="props.talent?.email"
+        :isSending="isSending"
         />
       </div>
     </section>

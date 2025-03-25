@@ -71,6 +71,7 @@
           </button>
           <button
             class="btn-brand !bg-[#31795A] !border-none text-center flex items-start !py-2 !text-white"
+            @click="goTo(props.talent?.email, true)"
           >
             <span style="display: grid; place-content: center" class="">Message</span>
           </button>
@@ -217,6 +218,19 @@
         </div>
       </div>
     </div>
+
+    <transition name="fade">
+      <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
+        <div class="messageWindow w-[50%] mx-auto mt-6 msgMob:mt-0 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
+          <NewMessage class="h-full" @send="handleSendMessage"
+          @delete="closeWindow"
+          @back="closeWindow"
+          :email="props.talent?.email"
+          :isSending="isSending"
+          />
+        </div>
+      </section>
+    </transition>
   </div>
 </template>
 <script setup>
@@ -238,9 +252,19 @@ import SearchIconVeritical from "@/components/icons/searchIconVeritical.vue";
 const Map = defineAsyncComponent(() => import("@/components/ui/Map/Map.vue"));
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
-const toast = useToast();
+import NewMessage from "@/components/ui/Message/NewMessage.vue";
+import { useMessageStore } from "@/stores/message";
+import { useRoute, useRouter } from "vue-router";
+import { ref } from "vue";
 
+
+const toast = useToast();
+const messageStore = useMessageStore();
 let source = "";
+const newMessage = ref(false)
+const router = useRouter();
+const route = useRoute();
+const isSending = ref(false)
 
 onMounted(() => {
   source =
@@ -276,4 +300,44 @@ const props = defineProps({
 const redirectToSinglePortFolio = (id) => {
   window.open(`https://www.myspurr.net/portfolio/${id}`, "_blank");
 };
+
+const goTo = async (email, show) => {
+  const query = { ...route.query };
+
+  await router.push({ query: {email, show} });
+  newMessage.value = true
+};
+
+function closeWindow(){ 
+  const query = { ...route.query };
+  if (query.email) {
+    delete query.email;
+    router.push({ query });
+  } else {
+    console.log("Email query not found in the URL.");
+  }
+  newMessage.value = false
+}
+
+const handleSendMessage = async (payload)=>{
+  isSending.value = true
+  try {
+    if(payload.body.length > 0 &&
+    payload.to.length > 0){
+      await messageStore.handleSendMessage(payload)
+      toast.success('Message sent', {
+        timeout: 4000
+      })
+      isSending.value = false
+      closeWindow()
+    } else {
+      toast.error('Some field are not filled', {
+        timeout: 4000
+      })
+    }
+  } catch (error) {
+    console.log(error)
+    isSending.value = false
+  }
+}
 </script>

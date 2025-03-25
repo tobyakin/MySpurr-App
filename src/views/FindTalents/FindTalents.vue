@@ -39,6 +39,12 @@ const filterOptions = reactive({
   candidateType: "",
 });
 
+const handleFilter = async () => {
+  loading.value = true;
+  scrollToTop()
+  await getTallents(1, filters.value)
+};
+
 // Range filter
 let rateMin = ref(null);
 let rateMax = ref(null);
@@ -70,6 +76,24 @@ const isFilter = computed(() => {
   return Object.values(filterOptions).some(val => val) || rateMin.value || rateMax.value;
 });
 
+const paginatedTalent = computed(() => {
+  const perPage = pagination.value?.per_page;
+  const startIndex = (currentPage.value - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  return talentData.value?.slice(startIndex, endIndex);
+});
+
+const filters = computed(() => ({
+  search: filterOptions.name,
+  skill: filterOptions.skills !== "Search Skill Categories" ? filterOptions.skills : "",
+  location: filterOptions.location !== "Select State"  ? filterOptions.location : "",
+  experience: filterOptions.expertLevel !== "Experience" && typeof filterOptions.expertLevel === "string" ? filterOptions.expertLevel : "",
+  qualification: filterOptions.qualification !== "Qualification" && typeof filterOptions.qualification === "string" ? filterOptions.qualification : "",
+  employment_type: typeof filterOptions.candidateType === 'string' && filterOptions.candidateType !== "Candidate Type"? filterOptions.candidateType : "",
+  salary_min: rateMin.value || "",
+  salary_max: rateMax.value || ""
+}));  
+
 // Methods
 
 const setPage = (page) => {
@@ -87,6 +111,7 @@ const resetFilters = () => {
   Object.keys(filterOptions).forEach(key => filterOptions[key] = "");
   rateMin.value = null;
   rateMax.value = null;
+  currentPage.value = 1
 };
 
 const showFilter = () => {
@@ -101,67 +126,37 @@ const getCountryCode = async () => {
   await skillsStore.handleGetStates(country.value);
 };
 
-const getTallents = async () => {
-  return await jobsStore.allTalents(currentPage.value);
+const getTallents = async (page, filters) => {
+  loading.value = true
+  try {
+    await jobsStore.allTalents(page, filters);
+    loading.value = false
+  } catch (error) {
+    console.log(error)
+    loading.value = false
+  }
 };
 
-// Filtered talents
-const filteredTalents = computed(() => {
-  let filtered = talentData.value;
+// Watchers
 
-  if (filterOptions.name) {
-    filtered = filtered?.filter(item =>
-      item.first_name.toLowerCase().includes(filterOptions.name.toLowerCase())
-    );
-  }
-
-  if (filterOptions.skills) {
-    filtered = filtered?.filter(item =>
-      item.skill_title.toLowerCase().includes(filterOptions.skills.toLowerCase())
-    );
-  }
-
-  if (filterOptions.location) {
-    filtered = filtered?.filter(item =>
-      item.location.toLowerCase().includes(filterOptions.location.toLowerCase())
-    );
-  }
-
-  if (filterOptions.candidateType) {
-    filtered = filtered?.filter(item =>
-      item.employment_type.toLowerCase().includes(filterOptions.candidateType.toLowerCase())
-    );
-  }
-
-  if (filterOptions.expertLevel) {
-    filtered = filtered.filter(item =>
-      item.experience_level.toLowerCase().includes(filterOptions.expertLevel.toLowerCase())
-    );
-  }
-
-  if (filterOptions.qualification) {
-    filtered = filtered?.filter(item =>
-      item.highest_education.toLowerCase().includes(filterOptions.qualification.toLowerCase())
-    );
-  }
-
-  if (rateMin.value !== null || rateMax.value !== null) {
-    filtered = filtered.filter(item => {
-      const rate = parseFloat(item.rate);
-      const min = rateMin.value !== null ? parseFloat(rateMin.value) : Number.MIN_SAFE_INTEGER;
-      const max = rateMax.value !== null ? parseFloat(rateMax.value) : Number.MAX_SAFE_INTEGER;
-      return rate >= min && rate <= max;
-    });
-  }
-
-  return filtered;
+watch([
+  () => filterOptions.name, 
+  () => filterOptions.skills, 
+  () => filterOptions.location, 
+  () => filterOptions.expertLevel, 
+  () => filterOptions.qualification, 
+  () => filterOptions.candidateType, 
+  () => rateMin.value, 
+  () => rateMax.value
+], async () => {
+  await handleFilter();
 });
 
-watch(currentPage, async () => {
-  loading.value = true;
-  await getTallents();
-  loading.value = false;
+watch(currentPage, async (newPage) => {
+  scrollToTop()
+ await getTallents(newPage, filters.value)
 });
+
 
 watchEffect(() => {
   const searchQuery = router.currentRoute.value.query.search;
@@ -170,26 +165,7 @@ watchEffect(() => {
 
 // Lifecycle hooks
 onMounted(async () => {
-  loading.value = true;
-  try {
-    await Promise.all([
-      getTallents(),
-      skillsStore.handleGetStates("NG"),
-      skillsStore.getCountriesCode(),
-      skillsStore.getskills(),
-    ]);
-
-    if (!isOnBoarded.value?.business_details && !isOnBoarded.value?.work_details) {
-      const route = accountType.value === "talent" 
-        ? "talent-onboarding" 
-        : "business-onboarding";
-      router.push({ name: route });
-    }
-  } catch (error) {
-    console.error(error);
-  } finally {
-    loading.value = false;
-  }
+  await getTallents(1, filters.value)
 });
 </script>
 
@@ -339,56 +315,69 @@ onMounted(async () => {
           </div>
           
           <div class="my-10">
-            <p class="text-[#00000066] font-Satoshi400 text-[23.998px]">
-              All
-              <span class="text-[#000000] font-Satoshi500">{{ filteredTalents?.length || 0 }}</span>
-              candidates found
-            </p>
+            <div>
+              <p class="text-[#00000066] font-Satoshi400 text-[1.49rem] mob:text-[1.2rem]">
+                All
+                <span class="text-[#000000] font-Satoshi500">{{talent?.pagination?.total}}</span>
+                candidates found
+              </p>
+              <!-- <p v-else class="text-[#00000066] font-Satoshi400 text-[1.49rem] mob:text-[1.2rem]">
+                <span>b</span>
+                All
+                <span v-if="talent?.data?.length > 0" class="text-[#000000] 
+                font-Satoshi500">
+                  {{talent?.data?.length}}
+                </span>
+                <span v-else class="text-[#000000] 
+                font-Satoshi500">0</span> candidates found
+              </p> -->
+            </div>
           </div>
           
-          <div v-if="filteredTalents?.length < 1" class="w-full h-[20rem] grid place-items-center">
+          <div v-if="talent?.data?.length < 1" class="w-full h-[20rem] grid place-items-center">
             <h3>Sorry!! There are no talents matching your search parameters at this moment</h3>
           </div>
           
           <div v-else>
             <ShortLoader v-if="loading" />
-            <div v-else>
-              <div class="mt-14 flex flex-col gap-8 eventBreak:mt-0">
+            <div v-if="!loading">
+              <div v-if="!talent?.data" class="mt-14 flex flex-col gap-8">
                 <JobCard
-                  class="min-w-[95%] lg:min-w-[45%]"
-                  v-for="item in filteredTalents"
-                  :key="item.id"
+                  class="w-full"
+                  v-for="item in paginatedTalent"
+                  :key="item"
                   :talent="item"
                 />
               </div>
-              
-              <div class="mt-12 flex w-[60%] flex-row justify-center mx-auto">
-                <button
-                  @click="setPage(currentPage - 1)"
-                  :disabled="currentPage === 1"
-                  class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex disabled:opacity-50"
-                >
-                  <Arrow class="rotate-[180deg]"/>
-                </button>
-                <button
-                  v-for="pageNumber in displayedPageNumbers"
-                  :key="pageNumber"
-                  :class="[
-                    'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
-                    pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
-                  ]"
-                  @click="setPage(pageNumber)"
-                >
-                  {{ pageNumber }}
-                </button>
-                <button
-                  @click="setPage(currentPage + 1)"
-                  :disabled="currentPage === totalPages"
-                  class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex disabled:opacity-50"
-                >
-                  <Arrow />
-                </button>
+              <div v-else class="mt-14 flex flex-col gap-8">
+                <JobCard class="w-full" v-for="item in talent?.data" :key="item" :talent="item" />
               </div>
+ 
+              <div class="mt-12 flex w-[60%] flex-row justify-center mx-auto">
+               <button
+                 @click="setPage(currentPage - 1)"
+                 class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+               >
+                 <Arrow class="rotate-[180deg]"/>
+               </button>
+               <button
+                 v-for="pageNumber in displayedPageNumbers"
+                 :key="pageNumber"
+                 :class="[
+                   'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
+                   pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
+                 ]"
+                 @click="setPage(pageNumber)"
+               >
+                 {{ pageNumber }}
+               </button>
+               <button
+                 @click="setPage(currentPage + 1)"
+                 class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+               >
+                 <Arrow />
+               </button>
+             </div>
             </div>
           </div>
     </div>
