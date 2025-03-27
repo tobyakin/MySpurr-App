@@ -8,7 +8,29 @@ const getUserFromLocalStorage = () => {
 
 const redirectLogin = () => getUserFromLocalStorage()?.token ? undefined : { name: 'login' };
 
-const redirectDashboard = () => getUserFromLocalStorage()?.token ? { name: 'dashboard' } : undefined;
+// const redirectDashboard = () => getUserFromLocalStorage()?.token ? { name: 'dashboard' } : undefined;
+
+const redirectDashboard = (to) => {
+  const user = getUserFromLocalStorage();
+
+  if (user?.token) {
+    const { redirectTo, talentId } = to.query;
+
+    // If redirectTo is "messages" and talentId exists, go to the messages page
+    if (redirectTo === "messages" && talentId) {
+      return {
+        name: "messages",
+        query: { email: talentId },
+      };
+    }
+
+    // Otherwise, go to the dashboard
+    return { name: "dashboard" };
+  }
+
+  return undefined; // If no user, stay on login
+};
+
 
 const deleteSession = async() => {
   try {
