@@ -18,7 +18,7 @@
   import sendIcon from "@/components/icons/sendIcon.vue"
   import circleFileIcon from '@/components/icons/circleFileIcon.vue';
   import { useToast } from 'vue-toastification'
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
   const toast = useToast()
   const showChatList = ref(true)
@@ -57,6 +57,7 @@ const messageIndex = ref()
 const isSending = ref(false)
 const talentId = ref('')
 const route = useRoute()
+const router = useRouter()
 
 const props = defineProps(['defaultWidgetState'])
 
