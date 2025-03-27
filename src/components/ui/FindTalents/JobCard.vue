@@ -105,16 +105,18 @@
       </p>
       <ArrowRight />
     </router-link>
-    <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
-      <div class="messageWindow w-[50%] mx-auto mt-6 msgMob:mt-0 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
-        <NewMessage class="h-full" @send="handleSendMessage"
-        @delete="closeWindow"
-        @back="closeWindow"
-        :email="props.talent?.email"
-        :isSending="isSending"
-        />
-      </div>
-    </section>
+    <transition name="fade">
+      <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
+        <div class="messageWindow w-[50%] mx-auto mt-6 msgMob:mt-0 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
+          <NewMessage class="h-full" @send="handleSendMessage"
+          @delete="closeWindow"
+          @back="closeWindow"
+          :email="props.talent?.email"
+          :isSending="isSending"
+          />
+        </div>
+      </section>
+    </transition>
   </div>
 </template>
 <script setup>
