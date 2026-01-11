@@ -18,6 +18,7 @@
   import sendIcon from "@/components/icons/sendIcon.vue"
   import circleFileIcon from '@/components/icons/circleFileIcon.vue';
   import { useToast } from 'vue-toastification'
+import { useRoute, useRouter } from "vue-router";
 
   const toast = useToast()
   const showChatList = ref(true)
@@ -54,6 +55,9 @@ const uploadedFileDetails = ref([]);
 const userImg = ref('')
 const messageIndex = ref()
 const isSending = ref(false)
+const talentId = ref('')
+const route = useRoute()
+const router = useRouter()
 
 const props = defineProps(['defaultWidgetState'])
 
@@ -72,6 +76,10 @@ onMounted(() => {
   noMessageNotification.value = 'messages'
   return accountType;
 });
+
+const clearQueryParams = () => {
+  router.replace({ query: {} });
+};
 
 function filterMessages(type) {
   filterSection.value = type;
@@ -193,6 +201,7 @@ const handleSendMessage = async (payload)=>{
     if(payload.body.length > 0 &&
     payload.to.length > 0){
       await messageStore.handleSendMessage(payload)
+      clearQueryParams()
       getAllMessages(userID.value)
       getSentMessages()
       isSending.value = false
@@ -225,6 +234,11 @@ onMounted(async ()=>{
     if(isOnBoarded.value){
       getSentMessages(), getAllMessages(userID.value)
       getUserInfo()
+
+      talentId.value = route?.query?.email;
+      if(talentId.value){
+        newMessage.value = true
+      }
       userImg.value = userInfo.value.company_logo || userInfo.value.image
     }
   } catch (error) {
@@ -306,6 +320,7 @@ const getUserInfo = ()=>{
   }
 
   function showChatPane() {
+    clearQueryParams()
     showChatList.value = false
     showChatPage.value = true
   }

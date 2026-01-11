@@ -24,6 +24,8 @@ import { storeToRefs } from "pinia";
 
 let store = useStore();
 const router = useRouter();
+const route = useRoute()
+const showtal = ref(false)
 let profile = useUserProfile();
 const emit = defineEmits(['next'])
 
@@ -57,6 +59,7 @@ const userID = computed(() => {
 });
 const chatContainer = ref(null);
 const isSending = ref(false)
+const talentId = ref('')
 
 const scrollToBottom = async () => {
   await nextTick();
@@ -219,6 +222,7 @@ const handleSendMessage = async (payload)=>{
         messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       await messageStore.handleSendMessage(payload)
+      clearQueryParams()
       isSending.value = false
       showReplyField.value = false
       showNewMessage.value = false
@@ -267,33 +271,43 @@ const handleNavLeft = async ()=>{
 }
 
 onMounted(async () => {
-  noMessageNotification.value = 'messages'
+  noMessageNotification.value = "messages";
+  
   try {
     await profileStore.userProfile();
-    if (
-      isOnBoarded.value &&
-      !isOnBoarded.value.business_details &&
-      !isOnBoarded.value.work_details
-    ) {
-      if (accountType.value === "talent") {
-        router.push({ name: "talent-onboarding" });
-      } else if (accountType.value === "business") {
-        router.push({ name: "business-onboarding" });
+
+    if (isOnBoarded.value) {
+      if (!isOnBoarded.value.business_details && !isOnBoarded.value.work_details) {
+        if (accountType.value === "talent") {
+          return router.push({ name: "talent-onboarding" });
+        } else if (accountType.value === "business") {
+          return router.push({ name: "business-onboarding" });
+        }
+      }
+      
+      if (userID.value) {
+        getAllMessages(userID.value);
+        talentId.value = route?.query?.email;
+        if(talentId.value){
+          console.log(talentId.value)
+          showNewMessage.value = true
+        }
       }
     }
-    if(isOnBoarded.value){
-      getAllMessages(userID.value)
-    }
   } catch (error) {
-    /* empty */
+    console.error("Error fetching profile:", error);
   } finally {
-    isLoading.value = !isLoading.value;
+    isLoading.value = false; // Ensure loading state is properly set
   }
 });
 
 onMounted(() => {
   return profile.userProfile();
 });
+
+const clearQueryParams = () => {
+  router.replace({ query: {} });
+};
 
 function handleReply() {
   showReplyField.value = true;
@@ -317,9 +331,6 @@ function handleDelete(){
     showMobileChats.value = false
   }
 }
-
-const showtal = ref(false)
-const route = useRoute()
 
 function handleNewMessage(){
   const screenWidth = window.innerWidth
@@ -395,6 +406,7 @@ onUnmounted(() => {
                     :filter="filterSection"
                     :clickedId="messageIndex"
                     v-if="messageLength"
+                    @click="clearQueryParams"
                   />
                   <div v-else class="grid w-full h-full place-items-center">
                     <div class="text-center w-[90%] mx-auto">

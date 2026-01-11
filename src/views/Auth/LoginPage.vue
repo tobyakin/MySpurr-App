@@ -2,7 +2,7 @@
 import { useStore } from "@/stores/user";
 import { useUserProfile } from "@/stores/profile";
 import { ref, reactive, watch, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import layout from "@/components/layout/AuthLayout.vue";
 import { login, authWithGoogle } from "@/services/Auth";
 import PasswordInput from "@/components/ui/Form/Input/PasswordInput.vue";
@@ -14,6 +14,7 @@ const store = useStore();
 let profile = useUserProfile();
 
 const router = useRouter();
+const route = useRoute()
 let loading = ref(false);
 const getVerificationStatusFromURL = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -120,14 +121,14 @@ const onFinish = async () => {
         isOnBoarded.value &&
         !isOnBoarded.value.business_details &&
         !isOnBoarded.value.work_details
-      ) {
+      ) { 
         if (accountType.value === "talent") {
           router.push({ name: "talent-onboarding" });
         } else if (accountType.value === "business") {
           router.push({ name: "business-onboarding" });
         }
       } else {
-        router.push({ name: "dashboard" });
+        handleLoginSuccessReroute()
       }
       //router.push({ name: "verify-login", params: { email: formState.email } });
     } else {
@@ -147,6 +148,19 @@ const onFinish = async () => {
   }
 };
 
+const handleLoginSuccessReroute = () => {
+  const redirectTo = route.query?.redirectTo;
+  const talentEmail = route.query?.talentId;
+
+  if (redirectTo === "messages" && talentEmail) {
+    router.push({ name: "messages", query: { email: talentEmail } });
+    return;
+  } else {
+    router.push({ name: "dashboard", query: { redirectTo, email: talentEmail }} );
+  }
+};
+
+
 // const loginWithGoogle = async () => {
 //   loading.value = true;
 //   try {
@@ -163,6 +177,7 @@ const onFinish = async () => {
 //   showPassword.value = !showPassword.value;
 // };
 onMounted(() => {
+  console.log('Login page')
   // const urlString = window.location.href;
   // const urlParams = new URLSearchParams(urlString);
   // user.data.portfolio = urlParams.get("portfolio") === "true";

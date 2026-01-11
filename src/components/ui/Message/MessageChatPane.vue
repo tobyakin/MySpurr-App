@@ -234,7 +234,7 @@ onMounted(async ()=>{
 
 </script>
 <template>
-    <article class="recievedMessage w-full h-full flex flex-col !gap-0" data-id="chat.id">
+    <article class="recievedMessage w-full h-full flex flex-col !gap-0" data-id="chat?.id">
         <div class="senderDetails py-[2.16rem] px-[1.66rem] flexBasic h-[10%] !sticky top-0 bg-white z-[9]">
             <div class="header_container">
                 <div class="bg-white mobHeader hidden w-full pt-4">
@@ -281,10 +281,10 @@ onMounted(async ()=>{
                 </div>
             </div>
             <div class="timeStamp">
-                <h3 class="font-Satoshi400 text-right leading-[1.204rem] text-[#24403499] text-[0.65rem]">{{ chat.sent_at }}</h3>
+                <h3 class="font-Satoshi400 text-right leading-[1.204rem] text-[#24403499] text-[0.65rem]">{{ chat?.sent_at }}</h3>
                 <div class="icons flex items-center justify-end gap-4 mt-[0.6rem]">
                 <DeleteIcon class="cursor-pointer"/>
-                <ReplyIcon class="cursor-pointer opacity-[0.5]" @click="handleReply(chat.id)" :class="chat?.sender?.last_name === 'Admin' ? 'hidden': 'block'"/>
+                <ReplyIcon class="cursor-pointer opacity-[0.5]" @click="handleReply(chat?.id)" :class="chat?.sender?.last_name === 'Admin' ? 'hidden': 'block'"/>
                 <MoreVertIcon />
                 </div>
             </div>   
@@ -330,35 +330,35 @@ onMounted(async ()=>{
                         </div>
                     </div>
                 </div>
-                <div class="mb-4" v-if="chat.attachment && chat.attachment.length > 0">
+                <div class="mb-4" v-if="chat?.attachment && chat?.attachment?.length > 0">
                     <hr class="border-[#EEEEEE] border-1 my-[1.1rem]">
                     <div>
                         <div class="flexBasic atachmentHead">
-                            <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ chat.attachment.length }} Attachment</h3>
+                            <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ chat?.attachment?.length }} Attachment</h3>
                             <button 
                             class="text-[#349459] font-Satoshi500 text-[0.702rem]"
-                            @click="downloadAllAttachments(chat.attachment)"
+                            @click="downloadAllAttachments(chat?.attachment)"
                             >Download All</button>
                         </div>
                     </div>
                     <div class="filesContainer mt-4 flex gap-[1.1rem]">
                         
-                        <article v-for="item in chat?.attachment" :key="item.file_name">
+                        <article v-for="item in chat?.attachment" :key="item?.file_name">
                             <a :href="item.file" :download="item?.file_name" 
                             target="_blank"
                             class="files flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center" >
                                 <circleFileIcon />
                                 <div>
-                                <h3 class="font-Satosi400 text-[#244034] leading-[1.003rem] text-[0.75rem]">{{ item.file_name }}</h3>
-                                <p class="text-[#24403480] font-Satoshi400 text-[0.65rem] leading-[1.003rem]">{{ item.file_size }}</p>
+                                <h3 class="font-Satosi400 text-[#244034] leading-[1.003rem] text-[0.75rem]">{{ item?.file_name }}</h3>
+                                <p class="text-[#24403480] font-Satoshi400 text-[0.65rem] leading-[1.003rem]">{{ item?.file_size }}</p>
                                 </div>
                             </a>
                         </article>
                     </div>
                 </div>
             </div>
-            <div class="replies mb-4" v-if="chat.replies && chat.replies.length > 0">
-                <div class="mb-6" v-for="reply in chat.replies" :key="reply.id">
+            <div class="replies mb-4" v-if="chat?.replies && chat?.replies.length > 0">
+                <div class="mb-6" v-for="reply in chat?.replies" :key="reply.id">
                     <div class="chatPage">
                     <div class=" head flex items-center justify-between mb-4">
                         <div class="flex items-center gap-[0.5rem]" v-if="reply?.sender?.id == userID">
@@ -367,7 +367,7 @@ onMounted(async ()=>{
                                     {{ reply?.sender?.first_name[0] }} {{reply?.sender?.last_name[0] }}
                                 </div>
                             </div>
-                             <h3 class=" company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem] text-center">{{ reply.sender.first_name }} {{reply.sender.last_name }}</h3>
+                             <h3 class=" company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem] text-center">{{ reply?.sender?.first_name }} {{reply?.sender?.last_name }}</h3>
                         </div>
                         <div class="flex items-center gap-[0.5rem]" v-else>
                             
@@ -379,8 +379,8 @@ onMounted(async ()=>{
                              <h3 class=" company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem] text-center">{{ reply?.receiver?.first_name }} {{reply?.receiver?.last_name }}</h3>
                         </div>
                         <div class="flex gap-[0.1rem] items-center">
-                            <h3 class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 uppercase text-[0.6rem] text-center">{{ displayTime(reply.replied_at) }}</h3>
-                            <span class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 text-[0.6rem] text-center">({{ timeDifference(reply.replied_at) }})</span>
+                            <h3 class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 uppercase text-[0.6rem] text-center">{{ displayTime(reply?.replied_at) }}</h3>
+                            <span class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 text-[0.6rem] text-center">({{ timeDifference(reply?.replied_at) }})</span>
                         </div>
                         
                         <!-- <hr class="border-[#EEEEEE] border-1 my-[1.1rem] w-[30%]"> -->
@@ -420,21 +420,21 @@ onMounted(async ()=>{
                             </div>
                         </div>
                     </div>
-                    <div class="mb-4" v-if="reply?.attachments && reply?.attachments.length > 0">
+                    <div class="mb-4" v-if="reply?.attachments && reply?.attachments?.length > 0">
                     <hr class="border-[#EEEEEE] border-1 my-[1.1rem]">
                     <div class="hidden">
                         <div class="flexBasic atachmentHead">
-                            <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ reply?.attachments.length }} Attachment</h3>
+                            <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ reply?.attachments?.length }} Attachment</h3>
                             <button class="text-[#349459] font-Satoshi500 text-[0.702rem]">Download All</button>
                         </div>
                     </div>
                     <div class="filesContainer mt-4 flex gap-[1.1rem]">
                         <article v-for="item in reply?.attachments" :key="item">
-                            <a :href="item.file" :download="item.file_name" target="_blank" class="files flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center">
+                            <a :href="item?.file" :download="item?.file_name" target="_blank" class="files flex items-center p-[0.7rem] border rounded-[0.5rem] w-fit border-[#F0F5F3] gap-[0.6rem] justify-center">
                                 <circleFileIcon />
                                 <div>
-                                <h3 class="font-Satosi400 text-[#244034] leading-[1.003rem] text-[0.75rem]">{{ item.file_name }}</h3>
-                                <p class="text-[#24403480] font-Satoshi400 text-[0.65rem] leading-[1.003rem]">{{ item.file_size }}</p>
+                                <h3 class="font-Satosi400 text-[#244034] leading-[1.003rem] text-[0.75rem]">{{ item?.file_name }}</h3>
+                                <p class="text-[#24403480] font-Satoshi400 text-[0.65rem] leading-[1.003rem]">{{ item?.file_size }}</p>
                                 </div>
                             </a>
                         </article>
