@@ -206,9 +206,14 @@ export const myApplications = async () => {
     throw error
   }
 }
-export const getAllTalents = async () => {
+export const getAllTalents = async (page, filters) => {
   try {
-    let res = await axios.get(`v1/talents`)
+    const params = new URLSearchParams({
+      page,
+      ...filters
+    }).toString();
+
+    let res = await axios.get(`v1/talents?${params}`)
     catchAxiosSuccess(res.data)
     return res.data
   } catch (error) {

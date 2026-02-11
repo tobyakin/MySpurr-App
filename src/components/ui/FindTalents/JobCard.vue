@@ -8,15 +8,15 @@
         <div
           class="flex lg:flex-row flex-col items-center lg:justify-normal justify-center gap-6"
         >
-          <div>
+          <div class="">
             <div
               v-if="props?.talent?.image"
-              class="relative h-[100.955px] w-[100.955px] object-contain items-center flex justify-center bg-brand rounded-full"
+              class="relative h-[6.31rem] w-[6.31rem] object-contain items-center flex justify-center bg-brand rounded-full"
             >
               <template v-if="displayImage">
                 <img
                   :src="getImageSrc()"
-                  class="h-[100.955px] w-[100.955px] object-cover rounded-full"
+                  class="h-[6.31rem] w-[6.31rem] object-cover rounded-full"
                   @error="handleImageError"
                 />
               </template>
@@ -29,12 +29,12 @@
             </div>
             <div
               v-else
-              class="relative h-[100.955px] w-[100.955px] bg-brand rounded-full"
+              class="relative h-[6.31rem] w-[6.31rem] bg-brand rounded-full"
             >
               <img
                 loading="lazy"
                 :src="Icon"
-                class="h-[100.955px] w-[100.955px] rounded-full"
+                class="h-[6.31rem] w-[6.31rem] rounded-full"
                 alt=""
               />
               <GreenIcon class="absolute top-1 right-3" />
@@ -43,26 +43,26 @@
 
           <div class="lg:text-left text-center">
             <p
-              class="text-[#000000] text-[20.839px] flex gap-[8px] items-center capitalize font-Satoshi500 leading-[19.739px]"
+              class="text-[#000000] text-[1.3rem] flex gap-[8px] items-center capitalize font-Satoshi500 leading-[1.23rem]"
             >
               {{ props?.talent.first_name }}
               {{ props?.talent.last_name }}
               <span
                 v-if="props?.talent?.experience_level"
-                class="bg-[#00474F] rounded-full py-[0.5px] capitalize text-[10.519px] text-[#E6F1F3] font-medium px-[19px]"
+                class="bg-[#00474F] rounded-full py-[0.5px] capitalize text-[0.65rem] text-[#E6F1F3] font-medium px-[19px]"
                 >{{ props?.talent?.experience_level }}</span
               >
             </p>
             <p
-              class="text-[#00000066] text-[16.699px] leading-[20.739px] font-Satoshi400"
+              class="text-[#00000066] text-[1.04rem] leading-[20.739px] font-Satoshi400"
             >
               {{ props?.talent?.skill_title }}
             </p>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 justify-center msgMob:flex-col msgMob:mt-2 msg">
               <p class="lg:text-[19.319px] text-[14px] text-[#244034] font-Satoshi500">
                 ${{ store.abbr(props?.talent?.rate) }}/hr
               </p>
-              <div class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"></div>
+              <div class="h-[6px] bg-[#010101e2] w-[6px] rounded-full msgMob:hidden"></div>
               <p class="text-[#244034] lg:text-[19.319px] text-[14px] font-Satoshi500">
                 {{ props?.talent?.location }}
               </p>
@@ -76,7 +76,7 @@
 
               <button @click="copyUrl"><CopyLinkIcon /></button>
             </div>
-            <button class="btn-brand" @click="goTo(props.talent?.email, true)">Message</button>
+            <button class="btn-brand" @click.prevent="goTo(props.talent?.email, true)">Message</button>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
         v-for="item in props?.talent?.portfolio"
         :key="item"
         :src="item?.featured_image"
-        class="h-[140.078px] flex flex-col object-cover w-auto rounded-lg"
+        class="h-[140.078px] flex flex-col object-cover w-auto rounded-lg border border-yellow-300"
         alt=""
       />
     </div>
@@ -105,15 +105,18 @@
       </p>
       <ArrowRight />
     </router-link>
-    <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
-      <div class="messageWindow w-[50%] mx-auto mt-6 msgMob:mt-0 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
-        <NewMessage class="h-full" @send="handleSendMessage"
-        @delete="closeWindow"
-        @back="closeWindow"
-        :email="props.talent?.email"
-        />
-      </div>
-    </section>
+    <transition name="fade">
+      <section class="widgetContainer newMessge fixed bg-[#00000066] !z-[99] w-full h-full top-0 left-0 grid" v-if="newMessage" @click.self="closeWindow">
+        <div class="messageWindow w-[50%] mx-auto mt-6 msgMob:mt-0 rounded-[0.5rem] bg-white h-[70%] transitionItem overflow-hidden msgMob:w-full msgMob:h-full msgMob:rounded-none">
+          <NewMessage class="h-full" @send="handleSendMessage"
+          @delete="closeWindow"
+          @back="closeWindow"
+          :email="props.talent?.email"
+          :isSending="isSending"
+          />
+        </div>
+      </section>
+    </transition>
   </div>
 </template>
 <script setup>
@@ -141,9 +144,9 @@ const router = useRouter()
 let source = "";
 
 const goTo = async (email, show) => {
-  const query = { ...route.query };
-
-  await router.push({ query: {email, show} });
+  await router.push({ 
+    query: {email, show}
+  });
   newMessage.value = true
 };
 
