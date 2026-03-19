@@ -44,12 +44,12 @@ defineProps({
       </div>
       <div class="w-full">
         <div class="flex items-center gap-1">
-          <p class="text-[13.021px] font-Satoshi500 flex text-[#2F929C]">
+          <p class="text-[13.021px] font-medium flex text-[#2F929C]">
             {{ job?.company?.business_name }}
           </p>
           <div v-if="job?.verify" class="flex mt-1 gap-1">
             <VerifyIcon class="w-4" />
-            <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
+            <p class="text-[11.633px] font-satoshi700 text-[#000000B2]">
               Verified Client.
             </p>
           </div>
@@ -58,18 +58,18 @@ defineProps({
           <div
             class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14"
           >
-            <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
+            <p class="text-[13.021px] font-medium text-[#000000]">
               {{ job?.job_info?.job_title }}
             </p>
             <button
-              class="bg-[#EDF0B8] font-Satoshi500 capitalize lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
+              class="bg-[#EDF0B8] font-medium capitalize lg:text-[9.708px] text-[6px] p-2 lg:px-6 text-[#000000] rounded-full"
             >
               {{ job?.job_info?.job_type }}
             </button>
           </div>
           <a
             v-if="job?.match"
-            class="font-Satoshi500 text-[11.74px] flex items-center gap-1 text-[#000000]"
+            class="font-medium text-[11.74px] flex items-center gap-1 text-[#000000]"
           >
             <MatchIcon />You’re a Match
           </a>
@@ -78,7 +78,7 @@ defineProps({
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
               <!-- {{ job }} -->
-              <p class="text-[1.102rem] font-Satoshi500 text-[#244034B2]">
+              <p class="text-[1.102rem] font-medium text-[#244034B2]">
                 <span v-html="numAbbr.formatCurrency(job?.job_info?.currency)"></span> {{ store.abbr(job?.job_info?.salary_min) }}-{{
                   store.abbr(job?.job_info?.salary_max)
                 }}/
@@ -87,7 +87,7 @@ defineProps({
             </div>
             <div class="flex gap-2 items-center">
               <div
-                class="flex gap-1 text-[0.625rem] lg:text-[0.89rem] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[0.625rem] lg:text-[0.89rem] text-[#DA5252] items-center font-medium"
               >
                 <CalenderIcon /><span class="py-[0.25px]">{{
                   // job?.job_info?.weekly_hours
@@ -95,14 +95,14 @@ defineProps({
                 }}</span>
               </div>
               <div
-                class="flex gap-1 text-[0.625rem] lg:text-[0.89rem] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[0.625rem] lg:text-[0.89rem] text-[#DA5252] items-center font-medium"
               >
                 <LocationIcon /><span class="py-[0.25px]"
                   >{{ job?.job_info?.state_id }}, {{ job?.job_info?.country_id }}</span
                 >
               </div>
               <!-- <div
-                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-medium"
               >
                 <TimerIcon /><span class="py-[0.25px]"></span>
               </div> -->
@@ -113,7 +113,7 @@ defineProps({
               <div
                 v-for="skill in job?.job_info?.skills"
                 :key="skill"
-                class="bg-[#F2F3EF] font-Satoshi500 text-[0.625rem] lg:text-[0.758rem] uppercase p-[4px] lg:px-6 px-4 text-[#64665D] rounded-full"
+                class="bg-[#F2F3EF] font-medium text-[0.625rem] lg:text-[0.758rem] uppercase p-[4px] lg:px-6 px-4 text-[#64665D] rounded-full"
               >
                 {{ skill.name }}
               </div>
@@ -131,7 +131,7 @@ defineProps({
                 </button>
               </div>
               <button
-                class="bg-[#43D0DF] font-Satoshi500 capitalize text-[0.638rem] p-3 px-12 text-white rounded-full"
+                class="bg-[#43D0DF] font-medium capitalize text-[0.638rem] p-3 px-12 text-white rounded-full"
               >
                 {{ job?.status }}
               </button>

@@ -85,7 +85,7 @@ onMounted(async () => {
     <div class="flex flex-col gap-[28px]">
       <div>
         <h3
-          class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+          class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
         >
           Account Info
         </h3>
@@ -96,9 +96,9 @@ onMounted(async () => {
         </h3>
         <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-8">
           <div
-            class="w-full mt-2 font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full mt-2 font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >First Name
             </label>
             <GlobalInput
@@ -109,9 +109,9 @@ onMounted(async () => {
           </div>
 
           <div
-            class="w-full mt-2 font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full mt-2 font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >Last Name
             </label>
             <GlobalInput
@@ -122,13 +122,13 @@ onMounted(async () => {
           </div>
 
           <div
-            class="w-full mt-2 font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full mt-2 font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >Email Address
             </label>
             <input
-              class="bg-transparent border-none text-left !px-0 !py-[4px] w-full font-light font-Satoshi400 text-[14px] !p-2 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+              class="bg-transparent border-none text-left !px-0 !py-[4px] w-full font-light font-normal text-[14px] !p-2 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
               type="button"
               :value="settingsData.email"
             />
@@ -144,7 +144,7 @@ onMounted(async () => {
     <div class="flex flex-col gap-[28px]">
       <div>
         <h3
-          class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+          class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
         >
           Location
         </h3>
@@ -152,7 +152,7 @@ onMounted(async () => {
       <div class="flex flex-col gap-[26px]">
         <div class="flex w-full gap-8">
           <div
-            class="w-full mt-2 font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full mt-2 font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
@@ -167,7 +167,7 @@ onMounted(async () => {
     <div class="flex flex-col gap-[28px]">
       <div>
         <h3
-          class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+          class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
         >
           Region/Language
         </h3>
@@ -178,9 +178,9 @@ onMounted(async () => {
         </h3>
         <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-8">
           <div
-            class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >Country
             </label>
             <GlobalInput
@@ -191,9 +191,9 @@ onMounted(async () => {
           </div>
 
           <div
-            class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400">State </label>
+            <label class="text-[#01272C] flex text-[10px] font-normal">State </label>
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
@@ -202,9 +202,9 @@ onMounted(async () => {
           </div>
 
           <div
-            class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >Address 1
             </label>
             <GlobalInput
@@ -214,9 +214,9 @@ onMounted(async () => {
             />
           </div>
           <div
-            class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >Address 2
             </label>
             <GlobalInput
@@ -227,9 +227,9 @@ onMounted(async () => {
           </div>
 
           <div
-            class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400">City </label>
+            <label class="text-[#01272C] flex text-[10px] font-normal">City </label>
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
               type="text"
@@ -238,9 +238,9 @@ onMounted(async () => {
           </div>
 
           <div
-            class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >ZIP/Postal Code
             </label>
             <GlobalInput
@@ -271,9 +271,9 @@ onMounted(async () => {
           class="grid grid-cols-1 lg:grid-cols-2 w-full gap-8"
         >
           <div
-            class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >Primary Language
             </label>
             <GlobalInput
@@ -284,9 +284,9 @@ onMounted(async () => {
           </div>
 
           <div
-            class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >Proficiency Level
             </label>
             <GlobalInput
@@ -304,7 +304,7 @@ onMounted(async () => {
         </h3>
         <div class="flex w-full gap-8">
           <div
-            class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
             <SelectGroup
               DropdownItem=""
@@ -322,19 +322,19 @@ onMounted(async () => {
     <div class="flex flex-col gap-[0px]">
       <div>
         <h3
-          class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+          class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
         >
           Applications
         </h3>
       </div>
       <div class="flex flex-col gap-[26px]">
-        <p class="text-[18px] !font-Satoshi400 text-[#244034] lg:leading-[35.39px]">
+        <p class="text-[18px] text-[#244034] lg:leading-[35.39px]">
           Add an optional link to your job applications, directing to your preferred
           calendar scheduling tool
         </p>
         <div class="flex w-full gap-8">
           <div
-            class="w-full font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
             <GlobalInput
               inputClasses="bg-transparent border-none !px-0 !py-[4px]"
@@ -349,7 +349,7 @@ onMounted(async () => {
     <div class="flex flex-col gap-[28px]">
       <div>
         <h3
-          class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+          class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
         >
           Mobile Number
         </h3>
@@ -357,7 +357,7 @@ onMounted(async () => {
       <div class="flex flex-col gap-[26px]">
         <div class="flex w-full gap-8">
           <div
-            class="w-full flex font-light font-Satoshi400 p-4 gap-3 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full flex font-light font-normal p-4 gap-3 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
             <select
               v-model="settingsData.country_code"

@@ -22,7 +22,7 @@ const landingUrl = import.meta.env.VITE_LANDING_PAGE;
 <template>
   <div class="auth_container">
     <header class="py-8">
-      <div class="lg:px-[15px] mx-auto flex items-center justify-between font-Satoshi700">
+      <div class="lg:px-[15px] mx-auto flex items-center justify-between font-satoshi700">
         <div class="flex items-center justify-between space-x-4 lg:space-x-6">
           <router-link to="/">
             <img
@@ -44,7 +44,7 @@ const landingUrl = import.meta.env.VITE_LANDING_PAGE;
           <div v-if="showLandingUrl" role="button" class="flex gap-2">
             <a
               :href="landingUrl"
-              class="font-Satoshi400 flex gap-2 text-center items-center text-white"
+              class="font-normal flex gap-2 text-center items-center text-white"
             >
               <span>back to website </span>
               <svg

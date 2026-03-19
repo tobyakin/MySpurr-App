@@ -21,7 +21,7 @@ defineProps({
 <template>
   <div class="auth_container">
     <header class="py-8">
-      <div class="lg:px-[15px] mx-auto flex items-center justify-between font-Satoshi700">
+      <div class="lg:px-[15px] mx-auto flex items-center justify-between font-satoshi700">
         <div class="flex items-center justify-between space-x-4 lg:space-x-6">
           <router-link to="/">
             <img
@@ -37,7 +37,7 @@ defineProps({
             <a
               v-if="showLandingUrl"
               :href="landingUrl"
-              class="font-Satoshi400 flex gap-2 text-center items-center text-[#000000]"
+              class="font-normal flex gap-2 text-center items-center text-[#000000]"
             >
               <span>back to website </span>
               <svg
@@ -59,7 +59,7 @@ defineProps({
             <router-link
               v-else
               to="/signup"
-              class="font-Satoshi400 flex gap-2 text-center items-center text-[#000000]"
+              class="font-normal flex gap-2 text-center items-center text-[#000000]"
               ><span>Open Account</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

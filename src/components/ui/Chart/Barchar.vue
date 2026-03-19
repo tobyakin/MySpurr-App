@@ -66,7 +66,7 @@ const chartOptions = ref({
     tickAmount: 5,
     labels: {
       style: {
-        cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40",
+        cssClass: "!font-satoshi700 !text-[#97A6A899] !text-[12px] opacity-40",
       },
       show: false,
     },
@@ -93,7 +93,7 @@ const chartOptions = ref({
         return value.toFixed(0);
       },
       style: {
-        cssClass: "!font-Satoshi400 !text-[#97A6A899] capitalize !text-[12px] opacity-40",
+        cssClass: "font-normal !text-[#97A6A899] capitalize !text-[12px] opacity-40",
       },
     },
   },
@@ -229,7 +229,7 @@ export default {
           tickAmount: 5,
           labels: {
             style: {
-              cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
+              cssClass: "!font-satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
             },
             show: false,
           },
@@ -259,7 +259,7 @@ export default {
             },
             style: {
               cssClass:
-                "!font-Satoshi400 !text-[#97A6A899] capitalize !text-[12px] opacity-40", // Add your custom font class name here
+                "!font-normal !text-[#97A6A899] capitalize !text-[12px] opacity-40", // Add your custom font class name here
             },
           },
         },
@@ -388,7 +388,7 @@ export default {
 </script>-->
 <style>
 .apexcharts-legend-text {
-  @apply !font-Satoshi400 !text-[#7C8493] !text-[14.86px];
+  @apply font-Satoshi400 !text-[#7C8493] !text-[14.86px];
 }
 .apexcharts-legend {
   @apply lg:!px-0 pl-[22.48px] pt-2;

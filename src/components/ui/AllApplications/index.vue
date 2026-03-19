@@ -8,10 +8,10 @@
           class="bg-[#E9FAFB] border-[0.735px] flex lg:flex-row flex-col gap-3 justify-between overflow-hidden rounded-[17.104px] p-6 lg:px-6"
         >
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi400 text-[#244034c5] !text-[15.606px] !mb-2"
+            <Label class="font-normal text-[#244034c5] !text-[15.606px] !mb-2"
               >Salary</Label>
             <div
-              class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
+              class="w-full font-light font-normal bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
             >
               <a-select
                 placeholder="Salary"
@@ -28,11 +28,11 @@
             </div>
           </div>
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi400 text-[#244034c5] !text-[15.606px] !mb-2"
+            <Label class="font-normal text-[#244034c5] !text-[15.606px] !mb-2"
               >Skill</Label
             >
             <div
-              class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
+              class="w-full font-light font-normal bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
             >
               <a-select
                 placeholder="Job Type"
@@ -54,11 +54,11 @@
           </div>
 
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi400 text-[#244034c5] !text-[15.606px] !mb-2"
+            <Label class="font-normal text-[#244034c5] !text-[15.606px] !mb-2"
               >Location</Label
             >
             <div
-              class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
+              class="w-full font-light font-normal bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
             >
               <a-select
                 placeholder="Job Type"
@@ -79,11 +79,11 @@
             </div>
           </div>
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi400 text-[#244034c5] !text-[15.606px] !mb-2"
+            <Label class="font-normal text-[#244034c5] !text-[15.606px] !mb-2"
               >Experience</Label
             >
             <div
-              class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
+              class="w-full font-light font-normal bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
             >
               <a-select
                 placeholder="Job Type"
@@ -104,11 +104,11 @@
             </div>
           </div>
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi400 text-[#244034c5] !text-[15.606px] !mb-2"
+            <Label class="font-normal text-[#244034c5] !text-[15.606px] !mb-2"
               >Availabilty</Label
             >
             <div
-              class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
+              class="w-full font-light font-normal bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
             >
               <a-select
                 placeholder="Availabilty"
@@ -125,11 +125,11 @@
             </div>
           </div>
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi400 text-[#244034c5] !text-[15.606px] !mb-2"
+            <Label class="font-normal text-[#244034c5] !text-[15.606px] !mb-2"
               >Rating</Label
             >
             <div
-              class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
+              class="w-full font-light font-normal bg-transparent !p-0 border-b-[#939292] border-b-[0.9px] opacity-[0.8029] text-[12.68px]"
             >
               <a-select
                 placeholder="Rating"
@@ -152,9 +152,9 @@
         :JobDetails="JobDetailsById?.data"
         :applicantDeatails="applicants?.data?.applicants"
       /> -->
-      <h4 class="text-[#00000066] text-[14.032px] my-2 font-Satoshi400">
+      <h4 class="text-[#00000066] text-[14.032px] my-2 font-normal">
         All
-        <span class="text-[#000000] font-Satoshi500">{{
+        <span class="text-[#000000] font-medium">{{
           applicants?.data?.applicants?.length
         }}</span>
         Applicants

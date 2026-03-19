@@ -267,7 +267,7 @@ const displayImage = computed(() => imageExists.value);
           </div>
           <div class="w-[40%] relative hidden lg:flex">
             <SearchIcon class="absolute left-3 top-3" /><input
-              class="w-full font-light font-Satoshi400 text-[14px] p-3 pl-9 pr-24 border-[#F0F0F0] border-[1px] opacity-[0.8029] rounded-[7px] text-sm"
+              class="w-full font-light font-normal text-[14px] p-3 pl-9 pr-24 border-[#F0F0F0] border-[1px] opacity-[0.8029] rounded-[7px] text-sm"
               placeholder=" Search here.."
               type="text"
               v-model="searchQuery"
@@ -298,7 +298,7 @@ const displayImage = computed(() => imageExists.value);
                 class="notification cusor-pointer hidden lg:block px-2"
                 >
                 <div class="relative">
-                  <span v-if="messageLength" class="absolute right-[-5px] top-[-5px] w-[15px] h-[15px] bg-[red] grid place-content-center rounded-[100%] text-[0.7rem] font-Satoshi500 text-white">{{ messageNum }}</span>
+                  <span v-if="messageLength" class="absolute right-[-5px] top-[-5px] w-[15px] h-[15px] bg-[red] grid place-content-center rounded-[100%] text-[0.7rem] font-medium text-white">{{ messageNum }}</span>
                   <BellIcon />
                 </div>
                   

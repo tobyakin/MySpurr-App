@@ -372,13 +372,13 @@ onUnmounted(() => {
           :class="showMobileChats? 'opacity-[-1] z-[-1]': 'opacity-[1] z-[1]'"
           >
             <div class="w-full flex items-center justify-between h-[10%]">
-              <h3 class="text-[#244034] text-[1.80619rem] leading-[1.51206rem] font-Satoshi500">Message</h3>
+              <h3 class="text-[#244034] text-[1.80619rem] leading-[1.51206rem] font-medium">Message</h3>
               <NewMessageIcon class="" @click="handleNewMessage"/>
             </div>
             <div class="w-full bg-[#FFF] rounded-[1.00344rem] mt-4 h-[90%] flex flex-col">
               <div class="px-[1rem]">
                 <div class="flex items-center justify-between">
-                  <h3 class="font-Satoshi500 text-[#000] text-[0.90313rem] leading-[1.50519rem]">Inbox</h3>
+                  <h3 class="font-medium text-[#000] text-[0.90313rem] leading-[1.50519rem]">Inbox</h3>
                   <MoreVertIcon class="rotate-90"/>
                 </div>
                 <MessageFilter
@@ -398,7 +398,7 @@ onUnmounted(() => {
                   />
                   <div v-else class="grid w-full h-full place-items-center">
                     <div class="text-center w-[90%] mx-auto">
-                      <h1 class="font-Satoshi500 text-[1.5rem] leading-[3.5rem]">No {{ noMessageNotification }} yet</h1>
+                      <h1 class="font-medium text-[1.5rem] leading-[3.5rem]">No {{ noMessageNotification }} yet</h1>
                       <p>Start a conversation by sending a message</p>
                     </div>
                   </div>
@@ -410,12 +410,12 @@ onUnmounted(() => {
             <div class="h-full w-full" v-if="!showNewMessage">
               <div v-if="!detailLoaded || !messageLength" class="w-full h-full bg-white grid place-items-center">
                 <div class="flex flex-col items-center justify-center gap-4">
-                  <h3 class="font-Satoshi500 text-[1.5rem]">Click Message to resume conversation</h3>
-                  <p class="font-Satoshi500 text-[1.5rem] text-brand">or</p>
+                  <h3 class="font-medium text-[1.5rem]">Click Message to resume conversation</h3>
+                  <p class="font-medium text-[1.5rem] text-brand">or</p>
                   <div class="flex items-center gap-[0.5rem]">
-                    <h3 class="font-Satoshi500 text-[1.5rem]">Click</h3>
+                    <h3 class="font-medium text-[1.5rem]">Click</h3>
                     <NewMessageIcon class="" @click="handleNewMessage"/>
-                    <h3 class="font-Satoshi500 text-[1.5rem]">to start a new conversation</h3>
+                    <h3 class="font-medium text-[1.5rem]">to start a new conversation</h3>
                   </div>
                 </div>
               </div>
@@ -424,7 +424,7 @@ onUnmounted(() => {
                   <arrowLeft class="cursor-pointer" @click="handleNavLeft"/>
                   <div class="flexBasic gap-4 msgTab:hidden">
                     <leftArrowM />
-                    <h3 class="font-Satoshi400 text-[#000] leading-[1.51rem] text-[0.702rem]">{{ messageIndex + 1 }} of {{ messageNum }}</h3>
+                    <h3 class="font-normal text-[#000] leading-[1.51rem] text-[0.702rem]">{{ messageIndex + 1 }} of {{ messageNum }}</h3>
                     <rightArrowM />
                   </div>
                   <arrowRight class="cursor-pointer msgTab:hidden" @click="handleNavRight"/>

@@ -10,7 +10,7 @@
       :items="items"
     /> -->
     <select
-      class="form__input block w-full p-2 px-1 text-sm font-Satoshi400 text-gray-800 transition duration-500 focus:outline-none rounded"
+      class="form__input block w-full p-2 px-1 text-sm font-normal text-gray-800 transition duration-500 focus:outline-none rounded"
       :class="inputClasses"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -21,7 +21,7 @@
         {{ item.name }}
       </option>
     </select>
-    <p v-if="error" class="text-red-600 pl-2 font-Satoshi400 text-left text-[10.24px]">
+    <p v-if="error" class="text-red-600 pl-2 font-normal text-left text-[10.24px]">
       {{ errorsMsg }}
     </p>
   </div>

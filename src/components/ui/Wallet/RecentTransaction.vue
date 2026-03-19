@@ -58,11 +58,11 @@ const selectOption = (option) => {
     class="bg-[#ECFAFC] border-[#254035AB] lg:p-[28px] flex flex-col gap-[30px] p-[19px] border-[0.567px] rounded-[10px]"
   >
     <div class="flex lg:flex-row flex-col items-center gap-3 justify-between">
-      <h4 class="text-[20px text-[#000000] font-Satoshi700">Recent Transactions</h4>
+      <h4 class="text-[20px text-[#000000] font-satoshi700">Recent Transactions</h4>
       <div class="flex items-center relative gap-3">
         <button
           @click="toggleDropdown"
-          class="p-2 py-1.5 text-[#01181B] flex-row gap-1 font-Satoshi700 bg-[#E6F1F3] items-center lg:text-[12px] text-[10px] border-[#254035AB] border-[1px] rounded-[10px] flex"
+          class="p-2 py-1.5 text-[#01181B] flex-row gap-1 font-satoshi700 bg-[#E6F1F3] items-center lg:text-[12px] text-[10px] border-[#254035AB] border-[1px] rounded-[10px] flex"
         >
           {{ selectedOption }}
           <svg
@@ -106,7 +106,7 @@ const selectOption = (option) => {
           </li>
         </ul>
         <button
-          class="p-2 py-1.5 text-[#01181B] flex-row gap-1 font-Satoshi700 bg-[#E6F1F3] items-center lg:text-[12px] text-[10px] border-[#254035AB] border-[1px] rounded-[10px] flex"
+          class="p-2 py-1.5 text-[#01181B] flex-row gap-1 font-satoshi700 bg-[#E6F1F3] items-center lg:text-[12px] text-[10px] border-[#254035AB] border-[1px] rounded-[10px] flex"
         >
           <chartCalenderIcon />
           Last 7 Days

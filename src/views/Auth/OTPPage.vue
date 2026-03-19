@@ -10,10 +10,10 @@
           class="w-[100%] h-[80vh] overflow-y-auto py-6 overflow-hidden hide-scrollbar justify-center text-center items-center flex flex-col"
         >
           <div class="flex flex-col gap-[11px]">
-            <h4 class="text-[#007582] font-Satoshi700 text-[24.176px] leading-[41.907px]">
+            <h4 class="text-[#007582] font-satoshi700 text-[24.176px] leading-[41.907px]">
               Enter your OTP
             </h4>
-            <p class="text-[#000000] font-Satoshi400 text-[14.496px]">
+            <p class="text-[#000000] font-normal text-[14.496px]">
               Enter the 6-digit confirmation code sent to your email.
             </p>
           </div>
@@ -31,20 +31,20 @@
                 code.length === 6 ? 'bg-[#43D0DF]' : 'bg-gray-400 cursor-not-allowed')
               "
               @click="submitCode"
-              class="font-Satoshi500 text-white justify-center text-[14px] w-full flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium text-white justify-center text-[14px] w-full flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               <span v-if="!loading">SUBMIT</span>
               <WhiteLoader v-else />
             </button>
             <router-link
               to="/login"
-              class="text-[#000000] text-[14.496px] font-Satoshi400 underline"
+              class="text-[#000000] text-[14.496px] font-normal underline"
               >Return to Log in</router-link
             >
           </div>
         </div>
         <div>
-          <p class="text-[#000000] mb-8 text-[14.496px] font-Satoshi400">
+          <p class="text-[#000000] mb-8 text-[14.496px] font-normal">
             Didn’t receive OTP via email?
             <button
               @click="resendCode"

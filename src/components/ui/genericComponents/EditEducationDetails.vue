@@ -2,7 +2,7 @@
   <div class="">
     <div class="flex md:gap-24 gap-8 justify-between flex-row">
       <div class="w-full flex text-[#31795A] flex-col gap-5">
-        <div class="w-full font-Satoshi400 flex flex-col gap-6">
+        <div class="w-full font-normal flex flex-col gap-6">
           <div v-for="(item, index) in items" :key="item" class="flex gap-3">
             <div class="">
               <div
@@ -17,17 +17,17 @@
             <div class="flex w-full flex-row justify-between">
               <div class="flex flex-col">
                 <h1
-                  class="text-[14.878px] font-Satoshi500 text-[#000000] leading-[25.277px]"
+                  class="text-[14.878px] font-medium text-[#000000] leading-[25.277px]"
                 >
                   {{ item.field_of_study }}
                   ({{ item.degree }})
                 </h1>
 
-                <h1 class="text-[16px] font-Satoshi500 text-[#31795A] leading-[23.797px]">
+                <h1 class="text-[16px] font-medium text-[#31795A] leading-[23.797px]">
                   {{ item.school_name }}
                 </h1>
                 <p
-                  class="text-[11.572px] font-Satoshi500 !mb-3 text-[#011B1F] leading-[23.797px]"
+                  class="text-[11.572px] font-medium !mb-3 text-[#011B1F] leading-[23.797px]"
                 >
                   {{ item.start_date }} -
                   {{ item.end_date === "11 Nov 1111" ? "Present" : item.end_date }}

@@ -106,22 +106,22 @@ onMounted(async () => {
   <div>
     <CenteredModalLarge v-if="showModal"
       ><div class="text-center px-10 py-10">
-        <h4 class="text-[#01181B] font-Satoshi700 text-[28.537px] mt-[20px]">
+        <h4 class="text-[#01181B] font-satoshi700 text-[28.537px] mt-[20px]">
           Congratulations! Your job has been successfully updated on MySpurr!
         </h4>
-        <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+        <p class="text-[#01181B] text-[18px] font-normal mt-4">
           Now, talented creatives can discover and apply for your exciting opportunity.
           Stay tuned for applications and manage your job seamlessly from your dashboard.
         </p>
         <div class="flex justify-center gap-4 mt-12">
           <button
             @click="goToVIEWCANDIDATES()"
-            class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%]"
+            class="bg-[#43D0DF] font-medium text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%]"
           >
             VIEW CANDIDATES</button
           ><button
             @click="goToJobList()"
-            class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%]"
+            class="bg-[#43D0DF] font-medium text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%]"
           >
             <span v-if="!loading">JOB LISTING </span>
             <WhiteLoader v-else />
@@ -140,12 +140,12 @@ onMounted(async () => {
         <div class="w-full">
           <div class="flex lg:flex-row flex-col gap-4 justify-between">
             <div class="">
-              <p class="text-[22.805px] font-Satoshi400 flex text-[#000]">
+              <p class="text-[22.805px] font-normal flex text-[#000]">
                 {{ userDetails?.business_name }}
               </p>
               <div class="flex mt-1 gap-1">
                 <VerifyIcon class="w-4" />
-                <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
+                <p class="text-[11.633px] font-satoshi700 text-[#000000B2]">
                   Verified Client.
                 </p>
               </div>
@@ -170,7 +170,7 @@ onMounted(async () => {
           class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
         >
           <p
-            class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]"
+            class="lg:text-[26.625px] capitalize text-[19px] font-medium text-[#000000]"
           >
             {{ postJobsValue.job_title }}
           </p>
@@ -178,7 +178,7 @@ onMounted(async () => {
             @click="postJob"
             :disabled="!isFormValid"
             :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-            class="font-Satoshi500 text-[9.708px] uppercase p-3 px-12 text-[#000000] rounded-full"
+            class="font-medium text-[9.708px] uppercase p-3 px-12 text-[#000000] rounded-full"
           >
             <span v-if="!loading">Update</span>
             <WhiteLoader v-else />
@@ -189,17 +189,17 @@ onMounted(async () => {
             <div
               v-for="skill in postJobsValue.skills"
               :key="skill"
-              class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
+              class="bg-[#2F929C] font-medium text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
             >
               {{ skill.name }}
             </div>
             <!-- <div
-              class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
+              class="bg-[#2F929C] font-medium text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
             >
               Brand identity
             </div>
             <div
-              class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
+              class="bg-[#2F929C] font-medium text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
             >
               UI/UI design
             </div> -->
@@ -211,10 +211,10 @@ onMounted(async () => {
       class="bg-[#E9FAFB] border-[0.735px] flex lg:flex-row flex-col gap-5 justify-between rounded-[17.104px] mt-10 p-6 lg:px-10"
     >
       <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
+        <p class="text-[#244034c5] text-[17.104px] font-normal">Salary</p>
         <p
           v-if="postJobsValue.salary_min || postJobsValue.salary_max"
-          class="text-[#244034] text-[17.104px] flex items-center font-Satoshi500"
+          class="text-[#244034] text-[17.104px] flex items-center font-medium"
         >
           <span v-html="numAbbr.formatCurrency(postJobsValue.currency)"></span>
           {{ numAbbr.abbr(postJobsValue.salary_min) }} - {{
@@ -223,33 +223,33 @@ onMounted(async () => {
         </p>
       </div>
       <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Qualification</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p class="text-[#244034c5] text-[17.104px] font-normal">Qualification</p>
+        <p class="text-[#244034] text-[17.104px] font-medium">
           {{ postJobsValue.qualification }}
         </p>
       </div>
       <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
+        <p class="text-[#244034c5] text-[17.104px] font-normal">Location</p>
         <p
           v-if="postJobsValue.state_id || postJobsValue.country_id"
-          class="text-[#244034] text-[17.104px] font-Satoshi500"
+          class="text-[#244034] text-[17.104px] font-medium"
         >
           {{ postJobsValue.state_id }},{{ postJobsValue.country_id }}
         </p>
       </div>
       <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Job Type</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p class="text-[#244034c5] text-[17.104px] font-normal">Job Type</p>
+        <p class="text-[#244034] text-[17.104px] font-medium">
           {{ postJobsValue.job_type }}
         </p>
       </div>
       <!-- <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Date</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">12 jun, 2022</p>
+        <p class="text-[#244034c5] text-[17.104px] font-normal">Date</p>
+        <p class="text-[#244034] text-[17.104px] font-medium">12 jun, 2022</p>
       </div> -->
       <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Experience</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p class="text-[#244034c5] text-[17.104px] font-normal">Experience</p>
+        <p class="text-[#244034] text-[17.104px] font-medium">
           {{ postJobsValue.experience }}
         </p>
       </div>
@@ -258,7 +258,7 @@ onMounted(async () => {
       <div class="lg:w-[60%] p-4">
         <p
           v-if="postJobsValue.description"
-          class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
+          class="text-[1.034rem] text-[#000] font-medium !mb-4 mt-6"
         >
           Job Description
         </p>
@@ -270,40 +270,40 @@ onMounted(async () => {
 
         <p
           v-if="postJobsValue.responsibilities"
-          class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
+          class="text-[1.034rem] text-[#000] font-medium !mb-4 mt-6"
         >
           Responsibilities
         </p>
         <div
           v-html="postJobsValue.responsibilities"
-          class="responsibilities text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+          class="responsibilities text-[#000]/[0.75] font-normal editor text-[1.034rem] mt-4 leading-[1.543rem]"
         ></div>
 
         <p
           v-if="postJobsValue.required_skills"
-          class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
+          class="text-[1.034rem] text-[#000] font-medium !mb-4 mt-6"
         >
           Required Skills:
         </p>
         <div
           v-html="postJobsValue.required_skills"
-          class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+          class="req_skills text-[#000]/[0.75] font-normal editor text-[1.034rem] mt-4 leading-[1.543rem]"
         ></div>
 
         <p
           v-if="postJobsValue.benefits"
-          class="text-[1.034rem] text-[#000] editor font-Satoshi500 !mb-4 mt-6"
+          class="text-[1.034rem] text-[#000] editor font-medium !mb-4 mt-6"
         >
           Benefits:
         </p>
         <div
           v-html="postJobsValue.benefits"
-          class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+          class="req_skills text-[#000]/[0.75] font-normal editor text-[1.034rem] mt-4 leading-[1.543rem]"
         ></div>
         <div>
           <!-- <button
             @click="apply"
-            class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+            class="bg-[#43D0DF] font-medium text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
           >
             APPLY
           </button> -->
@@ -311,7 +311,7 @@ onMounted(async () => {
       </div>
       <div class="lg:w-[40%]">
         <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-6">
-          <p class="font-Satoshi700 text-[17.104px] text-[#31795A]/[0.70]">
+          <p class="font-satoshi700 text-[17.104px] text-[#31795A]/[0.70]">
             About the Company
           </p>
           <div class="flex mt-8 gap-4">
@@ -324,12 +324,12 @@ onMounted(async () => {
             </div>
             <div>
               <div class="flex gap-2 items-center">
-                <p class="text-[20.166px] font-Satoshi400 flex text-[#000]">
+                <p class="text-[20.166px] font-normal flex text-[#000]">
                   {{ userDetails?.business_name }}
                 </p>
                 <div class="flex mt-1 gap-1">
                   <VerifyIcon class="w-4" />
-                  <p class="text-[10.646px] font-Satoshi700 text-[#000000B2]">
+                  <p class="text-[10.646px] font-satoshi700 text-[#000000B2]">
                     Verified Client.
                   </p>
                 </div>
@@ -338,7 +338,7 @@ onMounted(async () => {
                 <div
                   v-for="skill in userDetails?.industry"
                   :key="skill"
-                  class="bg-[#2F929C] font-Satoshi500 text-[8.552px] capitalize p-[4px] px-4 text-[#fff] rounded-full"
+                  class="bg-[#2F929C] font-medium text-[8.552px] capitalize p-[4px] px-4 text-[#fff] rounded-full"
                 >
                   {{ skill.name }}
                 </div>
@@ -346,7 +346,7 @@ onMounted(async () => {
             </div>
           </div>
           <div
-            class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
+            class="text-[#000]/[0.75] font-normal text-[12.546px] mt-6 leading-[24.689px]"
           >
             <p>
               {{ userDetails?.about_business }}
@@ -354,7 +354,7 @@ onMounted(async () => {
           </div>
           <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
           <div
-            class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
+            class="text-[#000]/[0.75] font-normal text-[12.546px] mt-6 leading-[24.689px]"
           >
             <p>{{ userDetails?.total_opened_jobs }} Jobs opened</p>
           </div>
@@ -362,22 +362,22 @@ onMounted(async () => {
           <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
           <div class="flex rounded-[17.104px] mb-4 gap-6">
             <div class="flex flex-col gap-2">
-              <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">
+              <p class="text-[#244034c5] text-[17.104px] font-normal">
                 Completed Jobs
               </p>
-              <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+              <p class="text-[#244034] text-[17.104px] font-medium">
                 {{ userDetails?.completed_jobs }}
               </p>
             </div>
             <div class="flex flex-col gap-2">
-              <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Hired Jobs</p>
-              <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+              <p class="text-[#244034c5] text-[17.104px] font-normal">Hired Jobs</p>
+              <p class="text-[#244034] text-[17.104px] font-medium">
                 {{ userDetails?.hired_jobs }}
               </p>
             </div>
           </div>
           <!-- <button
-            class="bg-[#31795A] rounded-full p-2 px-10 font-Satoshi500 text-[16.646px] text-white"
+            class="bg-[#31795A] rounded-full p-2 px-10 font-medium text-[16.646px] text-white"
           >
             Message
           </button> -->
@@ -387,14 +387,14 @@ onMounted(async () => {
     <div class="flex justify-between gap-4 mt-12">
       <button
         @click="back"
-        class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] leading-[11.593px] rounded-full px-8 p-3 w-auto text-white btn-hover-1"
+        class="bg-[#43D0DF] font-medium text-[14.153px] leading-[11.593px] rounded-full px-8 p-3 w-auto text-white btn-hover-1"
       >
         Back</button
       ><button
         @click="postJob"
         :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
-        class="font-Satoshi500 text-[14px] leading-[11.593px] rounded-full px-8 p-3 w-auto text-white"
+        class="font-medium text-[14px] leading-[11.593px] rounded-full px-8 p-3 w-auto text-white"
       >
         <span v-if="!loading">Update</span>
         <WhiteLoader v-else />

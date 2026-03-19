@@ -215,10 +215,10 @@ onMounted(() => {
         </h1>
         <!-- <button
           @click="loginWithGoogle"
-          class="w-full flex justify-center hidden gap-2 font-light font-Satoshi400 items-center !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
+          class="w-full flex justify-center hidden gap-2 font-light font-normal items-center !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
         >
           <img class="w-[7%]" src="@/assets/svg/googleIcon.svg" alt="" />
-          <p class="text-[16px] font-Satoshi400">Sign in with Google</p>
+          <p class="text-[16px] font-normal">Sign in with Google</p>
         </button>
         <div class="flex hidden gap-2 my-5">
           <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
@@ -249,7 +249,7 @@ onMounted(() => {
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Password*"
                 v-model="formState.password"
-                class="w-full font-light font-Satoshi400 text-[14px] !p-2 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+                class="w-full font-light font-normal text-[14px] !p-2 border-[#254035] border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
               />
               <div class="absolute right-3 top-2 text-[#D1D1D6]">
                 <button type="button" @click="toggleShowPassword()" v-if="showPassword">
@@ -294,7 +294,7 @@ onMounted(() => {
           </div>
         </div>
         <div class="mt-4 text-right">
-          <p class="font-Satoshi400 text-[13.269px] text-white lg:text-[#007582]">
+          <p class="font-normal text-[13.269px] text-white lg:text-[#007582]">
             <router-link class="" to="/forgotten-password"> Forgot Password?</router-link>
           </p>
         </div>
@@ -303,14 +303,14 @@ onMounted(() => {
             :disabled="loading"
             :class="loading ? 'cursor-not-allowed' : ''"
             @click="onFinish"
-            class="bg-[#43D0DF] font-Satoshi500 text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
+            class="bg-[#43D0DF] font-medium text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
           >
             <span v-if="!loading">Log In</span>
             <WhiteLoader v-else />
           </button>
         </div>
         <div class="mt-4 text-center">
-          <p class="font-Satoshi400 text-[13.269px] text-white lg:text-[#007582]">
+          <p class="font-normal text-[13.269px] text-white lg:text-[#007582]">
             Don't have an account?
             <router-link class="" to="/signup"> Sign Up </router-link>
           </p>

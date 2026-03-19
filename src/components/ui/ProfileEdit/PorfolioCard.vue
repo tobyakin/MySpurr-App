@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full font-Satoshi400" :class="{ 'md:w-[45%]': two, 'md:w-[31%]': three }">
+  <div class="w-full font-normal" :class="{ 'md:w-[45%]': two, 'md:w-[31%]': three }">
     <div class="flex flex-col justify-between h-full">
       <router-link :to="{ name: 'edit-portfolio', params: { id: profolioId } }">
         <img
@@ -15,13 +15,13 @@
           </button>
 
           <div class="flex items-center gap-2">
-            <div class="flex items-center gap-[1px] font-Satoshi500">
+            <div class="flex items-center gap-[1px] font-medium">
               <EyeIcon class="h-[13.613px] w-[13.613px]" />
-              <span class="text-[8.377px] text-[#00000066] font-Satoshi400">1234</span>
+              <span class="text-[8.377px] text-[#00000066] font-normal">1234</span>
             </div>
-            <div class="flex items-center gap-[1px] font-Satoshi500">
+            <div class="flex items-center gap-[1px] font-medium">
               <CommentIcon class="h-[10.783px] w-[10.783px]" />
-              <span class="text-[8.377px] text-[#00000066] font-Satoshi400">15</span>
+              <span class="text-[8.377px] text-[#00000066] font-normal">15</span>
             </div>
           </div>
         </div>

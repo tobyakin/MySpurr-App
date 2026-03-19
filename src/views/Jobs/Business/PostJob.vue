@@ -270,7 +270,7 @@ onMounted(() => {
       <div v-if="step[0]" class="">
         <div class="flex flex-col gap-[21px] mb-[53px]">
           <h3
-            class="lg:text-[2.83rem] text-[1.88rem] text-[#000000] lg:leading-[3rem] font-Satoshi400"
+            class="lg:text-[2.83rem] text-[1.88rem] text-[#000000] lg:leading-[3rem] font-normal"
           >
             Hire with MySpurr. Share your job post with thousands of creative talents
           </h3>
@@ -288,28 +288,28 @@ onMounted(() => {
             <div
               class="bg-[#993939] py-[19px] px-[10px] lg:px-[20px] flex items-center rounded-[10px]"
             >
-              <p class="text-[#E6F1F3] text-[19.94px] font-Satoshi500">
+              <p class="text-[#E6F1F3] text-[19.94px] font-medium">
                 You will be charged ₦ 5,000.00 for this job post
               </p>
             </div>
           </div> -->
         </div>
-        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[20px]">
+        <h4 class="text-[#2B7551] font-medium text-[33.212px] mt-[20px]">
           Job Details
         </h4>
         <div class="mt-8 flex flex-col gap-8">
           <FormGroup
             v-model="postJobsValue.job_title"
-            labelClasses="font-Satoshi500 !text-[17.792px]"
+            labelClasses="font-medium !text-[17.792px]"
             label="Job Title*"
             name="Name"
             placeholder="Ex: Product Designer"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+            inputClasses="w-full mt-2 font-light font-normal !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
           ></FormGroup>
           <div class="flex flex-row w-full gap-8">
             <div class="flex flex-col w-full text-left">
-              <Label class="font-Satoshi500 !text-[17.792px] mb-2">Country*</Label>
+              <Label class="font-medium !text-[17.792px] mb-2">Country*</Label>
 
               <a-select
                 placeholder="country or region"
@@ -331,7 +331,7 @@ onMounted(() => {
             </div>
 
             <div class="flex flex-col w-full text-left">
-              <Label class="font-Satoshi500 !text-[17.792px] mb-2">State*</Label>
+              <Label class="font-medium !text-[17.792px] mb-2">State*</Label>
               <a-select
                 placeholder="state or city"
                 :show-arrow="false"
@@ -353,7 +353,7 @@ onMounted(() => {
               </a-select>
             </div>
             <div class="flex flex-col w-full text-left">
-              <Label class="font-Satoshi500 !text-[17.792px] mb-2">Job Type*</Label>
+              <Label class="font-medium !text-[17.792px] mb-2">Job Type*</Label>
               <a-select
                 placeholder="Job Type"
                 :show-arrow="false"
@@ -389,37 +389,37 @@ onMounted(() => {
 
             <!-- <SelectGroup
               v-model="postJobsValue.country_id"
-              labelClasses="font-Satoshi500 text-[15.606px]"
+              labelClasses="font-medium text-[15.606px]"
               label="Country*"
               name="Name"
               :items="['Freelance', 'Full Time', 'Part Time']"
               placeholder="Job Category"
               type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-normal !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></SelectGroup>
             <SelectGroup
               v-model="postJobsValue.state_id"
-              labelClasses="font-Satoshi500 text-[15.606px]"
+              labelClasses="font-medium text-[15.606px]"
               label="State*"
               name="Name"
               :items="['Freelance', 'Full Time', 'Part Time']"
               placeholder="Job Category"
               type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-normal !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></SelectGroup> -->
             <!-- <SelectGroup
               v-model="postJobsValue.job_type"
-              labelClasses="font-Satoshi500 text-[15.606px]"
+              labelClasses="font-medium text-[15.606px]"
               label="Job Type"
               name="Name"
               :items="['Freelance', 'Full Time', 'Part Time']"
               placeholder="Job Type*"
               type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-normal !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></SelectGroup> -->
           </div>
           <div class="flex flex-col">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2">Job Description*</Label>
+            <Label class="font-medium !text-[17.792px] mb-2">Job Description*</Label>
             <ckeditor
               v-if="isLayoutReady"
               v-model="postJobsValue.description"
@@ -428,7 +428,7 @@ onMounted(() => {
             />
           </div>
           <div class="flex flex-col">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2">Responsibilities*</Label>
+            <Label class="font-medium !text-[17.792px] mb-2">Responsibilities*</Label>
 
             <ckeditor
               v-if="isLayoutReady"
@@ -438,7 +438,7 @@ onMounted(() => {
             />
           </div>
           <div class="flex flex-col">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2">Required Skills**</Label>
+            <Label class="font-medium !text-[17.792px] mb-2">Required Skills**</Label>
 
             <ckeditor
               v-if="isLayoutReady"
@@ -448,7 +448,7 @@ onMounted(() => {
             />
           </div>
           <div class="flex flex-col">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2"
+            <Label class="font-medium !text-[17.792px] mb-2"
               >Benefits (If any)*</Label
             >
             <ckeditor
@@ -460,13 +460,13 @@ onMounted(() => {
           </div>
         </div>
 
-        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
+        <h4 class="text-[#2B7551] font-medium text-[33.212px] mt-[64.05px]">
           Salary
         </h4>
         <div class="flex flex-row w-full gap-3 mt-2">
           <div class="lg:w-[45%]">
             <div class="w-full text-left">
-              <Label class="font-Satoshi500 invisible !text-[0.8rem] mb-2.5"></Label>
+              <Label class="font-medium invisible !text-[0.8rem] mb-2.5"></Label>
               <a-select
                 placeholder=""
                 :show-arrow="true"
@@ -499,23 +499,23 @@ onMounted(() => {
           
             <SelectGroup
               v-model="postJobsValue.currency"
-              labelClasses="font-Satoshi500 !text-[0.8rem]"
+              labelClasses="font-medium !text-[0.8rem]"
               label=""
               name="Name"
               :items="['USD', 'NGN']"
               placeholder="Currency"
               type="text"
-              inputClasses="w-full font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] h-full text-[0.7rem]"
+              inputClasses="w-full font-light font-normal !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] h-full text-[0.7rem]"
             ></SelectGroup>
           </div>
         </div>
 
-        <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px] mt-[64.05px]">
+        <h4 class="text-[#2B7551] font-medium text-[33.212px] mt-[64.05px]">
           Skills & Experience
         </h4>
         <div class="mt-8 flex flex-col gap-8">
           <div class="mt-8 flex flex-col">
-            <Label class="font-Satoshi500 !text-[17.792px] mb-2">Skills*</Label>
+            <Label class="font-medium !text-[17.792px] mb-2">Skills*</Label>
 
             <div
               class="border-[#EDEDED] border-[0.8px] bg-white rounded-[9.489px] text-[12.68px] p-4 py-1.5"
@@ -525,7 +525,7 @@ onMounted(() => {
                   <div
                     v-for="(selectedItem, index) in postJobsValue.skills"
                     :key="selectedItem.id"
-                    class="selected-item bg-[#31795A1A] text-sm font-Satoshi400 gap-2 px-4 p-[5px] text-[#0000008A] !rounded-full"
+                    class="selected-item bg-[#31795A1A] text-sm font-normal gap-2 px-4 p-[5px] text-[#0000008A] !rounded-full"
                   >
                     {{ selectedItem.name }}
                     <span
@@ -550,7 +550,7 @@ onMounted(() => {
 
                   <ul
                     v-if="showDropdown"
-                    class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+                    class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-normal overflow-hidden"
                   >
                     <li
                       v-for="(option, index) in filteredOptions"
@@ -568,18 +568,18 @@ onMounted(() => {
           </div>
 
           <!-- <FormGroup
-            labelClasses="font-Satoshi500 !text-[17.792px]"
+            labelClasses="font-medium !text-[17.792px]"
             label="Skills*"
             name="Name"
             placeholder="Add Skills"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+            inputClasses="w-full mt-2 font-light font-normal !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
           ></FormGroup> -->
           <div class="flex flex-row w-full gap-8">
             <div class="flex flex-col w-full text-left">
-              <Label class="font-Satoshi500 !text-[15.606px] !mb-2">Experience</Label>
+              <Label class="font-medium !text-[15.606px] !mb-2">Experience</Label>
               <div
-                class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                class="w-full font-light font-normal bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
               >
                 <a-select
                   placeholder="Experience Level"
@@ -601,9 +601,9 @@ onMounted(() => {
               </div>
             </div>
             <div class="flex flex-col w-full text-left">
-              <Label class="font-Satoshi500 !text-[15.606px] !mb-2">Qualification</Label>
+              <Label class="font-medium !text-[15.606px] !mb-2">Qualification</Label>
               <div
-                class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                class="w-full font-light font-normal bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
               >
                 <a-select
                   placeholder="Qualification Level"
@@ -628,7 +628,7 @@ onMounted(() => {
           </div>
           <div class="flex-row hidden w-full gap-8">
             <div class="flex flex-col w-full text-left">
-              <Label class="font-Satoshi500 !text-[17.792px] mb-2">Industry*</Label>
+              <Label class="font-medium !text-[17.792px] mb-2">Industry*</Label>
               <a-select
                 placeholder="state or city"
                 :show-arrow="false"
@@ -642,7 +642,7 @@ onMounted(() => {
               </a-select>
             </div>
             <div class="flex flex-col w-full text-left">
-              <Label class="font-Satoshi500 !text-[17.792px] mb-2">Career Level*</Label>
+              <Label class="font-medium !text-[17.792px] mb-2">Career Level*</Label>
               <a-select
                 placeholder="Career Level"
                 :show-arrow="false"
@@ -666,27 +666,27 @@ onMounted(() => {
             </div>
 
             <!-- <SelectGroup
-              labelClasses="font-Satoshi500 text-[15.606px]"
+              labelClasses="font-medium text-[15.606px]"
               label="Industry*"
               name="Name"
               :items="industries"
               placeholder="Industry"
               type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-normal !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></SelectGroup> -->
             <!-- <SelectGroup
-              labelClasses="font-Satoshi500 text-[15.606px]"
+              labelClasses="font-medium text-[15.606px]"
               label="Career Level*"
               name="Name"
               :items="['Beginner ', 'Intermediate ', 'Expert ', 'More than 10yrs']"
               placeholder="Career Level"
               type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-normal !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></SelectGroup> -->
           </div>
         </div>
         <div class="flex flex-row justify-between items-center mt-[64.05px]">
-          <h4 class="text-[#2B7551] font-Satoshi500 text-[33.212px]">
+          <h4 class="text-[#2B7551] font-medium text-[33.212px]">
             Relevant Client Questions
           </h4>
 
@@ -699,13 +699,13 @@ onMounted(() => {
             class="mt-8 flex items-center gap-8"
           >
             <FormGroup
-              labelClasses="font-Satoshi500 !text-[17.792px]"
+              labelClasses="font-medium !text-[17.792px]"
               :label="`Question ${index + 1}`"
               :name="`Question ${index + 1}`"
               :placeholder="`Add Question ${index + 1}`"
               v-model="postJobsValue.questions[index].question"
               type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full mt-2 font-light font-normal !p-3 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
             ></FormGroup>
             <button class="w-[26px] h-[26px] grid place-items-center" @click="removeQuestion(index)">
               <DeleteIcon class="!text-brand"/>
@@ -716,11 +716,11 @@ onMounted(() => {
         <div class="flex justify-end gap-4 mt-12">
           <button
             @click="changeScreen(0, 1)"
-            class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] capitalize leading-[11.593px] rounded-full px-5 p-3 w-auto text-white btn-hover-1"
+            class="bg-[#43D0DF] font-medium text-[14.153px] capitalize leading-[11.593px] rounded-full px-5 p-3 w-auto text-white btn-hover-1"
           >
             review</button
           ><button
-            class="bg-[#fff] font-Satoshi500 text-[14.153px] leading-[11.593px] rounded-full px-5 p-3 w-auto"
+            class="bg-[#fff] font-medium text-[14.153px] leading-[11.593px] rounded-full px-5 p-3 w-auto"
           >
             Cancel
           </button>

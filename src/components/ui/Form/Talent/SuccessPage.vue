@@ -3,14 +3,14 @@
     <CenteredModalLarge>
       <div class="my-8 flex flex-col gap-10">
         <header class="">
-          <h1 class="text-[#000000] text-center text-[20px] font-Satoshi700">
+          <h1 class="text-[#000000] text-center text-[20px] font-satoshi700">
             Your details have been updated successfully
           </h1>
         </header>
         <div class="flex justify-center">
           <button
             @click="next"
-            class="bg-brand text-center font-Satoshi400 cursor-pointer rounded-md px-6 text-gray-100 py-3 btn-hover-2"
+            class="bg-brand text-center font-normal cursor-pointer rounded-md px-6 text-gray-100 py-3 btn-hover-2"
           >
             Proceed to Dashboard
           </button>

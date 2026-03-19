@@ -1,7 +1,7 @@
 <script setup>
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { defineAsyncComponent, reactive, watchEffect, computed, ref, watch } from "vue";
-// import { useHead } from "@unhead/head";
+// import { useHead } from "@unhead/vue";
 import { useQuery } from "vue-query";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
@@ -207,37 +207,37 @@ watchEffect(() => {
         <div class="flex lg:flex-row flex-col gap-12">
           <FormGroup
             v-model="filterOptions.name"
-            labelClasses="font-Satoshi500 text-[15.606px]"
+            labelClasses="font-medium text-[15.606px]"
             label=" Name or Keyword"
             name="Name"
             placeholder="Name or keyword"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+            inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
           ></FormGroup>
           <FormGroup
             v-model="filterOptions.skills"
-            labelClasses="font-Satoshi500 text-[15.606px]"
+            labelClasses="font-medium text-[15.606px]"
             label=" Skills"
             name="Name"
             placeholder="Graphics Design"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+            inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
           ></FormGroup>
           <FormGroup
             v-model="filterOptions.location"
-            labelClasses="font-Satoshi500 text-[15.606px]"
+            labelClasses="font-medium text-[15.606px]"
             label=" Location"
             name="Name"
             placeholder="Abuja. Nigeria"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+            inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
           ></FormGroup>
         </div>
         <div class="flex lg:flex-row flex-col justify-between w-full gap-12">
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi500 !text-[17.792px] !mb-2">Experience</Label>
+            <Label class="font-medium !text-[17.792px] !mb-2">Experience</Label>
             <div
-              class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+              class="w-full font-light font-normal bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
             >
               <a-select
                 placeholder="Expert Level"
@@ -259,9 +259,9 @@ watchEffect(() => {
             </div>
           </div>
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi500 !text-[17.792px] !mb-2">Qualification</Label>
+            <Label class="font-medium !text-[17.792px] !mb-2">Qualification</Label>
             <div
-              class="w-full mt-0 font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+              class="w-full mt-0 font-light font-normal bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
             >
               <a-select
                 placeholder="Qualification"
@@ -281,48 +281,48 @@ watchEffect(() => {
 
           <!-- <FormSelectGroup
             v-model="filterOptions.expertLevel"
-            labelClasses="font-Satoshi500 text-[15.606px]"
+            labelClasses="font-medium text-[15.606px]"
             label=" Expert Level"
             name="Name"
             placeholder="Expert Level"
             type="text"
-            inputClasses="w-full mt-0 font-light font-Satoshi400 bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+            inputClasses="w-full mt-0 font-light font-normal bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
           ></FormSelectGroup>
           <FormSelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
+            labelClasses="font-medium text-[15.606px]"
             label=" Qualification"
             name="Name"
             placeholder="Qualification"
             type="text"
-            inputClasses="w-full mt-0 font-light font-Satoshi400 bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+            inputClasses="w-full mt-0 font-light font-normal bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
           ></FormSelectGroup> -->
         </div>
         <div class="flex lg:flex-row flex-col justify-between w-full gap-12">
           <div class="w-full">
             <div class="flex flex-col justify-center">
-              <Label class="font-Satoshi500 text-[15.606px]">Salary Range ($/hr)</Label>
+              <Label class="font-medium text-[15.606px]">Salary Range ($/hr)</Label>
               <div class="flex items-center justify-center gap-1 mt-2">
                 <input
-                  class="w-full font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                  class="w-full font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                   type="number"
                   v-model="rateMin"
                   id="start"
                 />
                 <div class="h-[2px] w-4 bg-black"></div>
                 <input
-                  class="w-full font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                  class="w-full font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                   type="number"
                   v-model="rateMax"
                   id="end"
                 />
                 <!-- <div class="w-full">
                   <SelectGroup
-                    labelClasses="font-Satoshi500 hidden text-[15.606px]"
+                    labelClasses="font-medium hidden text-[15.606px]"
                     name="Name"
                     placeholder="currency"
                     type="text"
                     :items="['USD', 'NGN']"
-                    inputClasses="w-full mt-0 font-light font-Satoshi400 bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                    inputClasses="w-full mt-0 font-light font-normal bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                   />
                 </div> -->
               </div>
@@ -336,17 +336,17 @@ watchEffect(() => {
             </div>
           </div>
           <!-- <FormSelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
+            labelClasses="font-medium text-[15.606px]"
             label=" Salary Range"
             name="Name"
             placeholder="Salary Range"
             type="text"
-            inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-b-[#31795A33] border-b-[0.509px] !bg-transparent opacity-[0.8029]  text-[12.68px]"
+            inputClasses="w-full mt-2 font-light font-normal !p-2 border-b-[#31795A33] border-b-[0.509px] !bg-transparent opacity-[0.8029]  text-[12.68px]"
           ></FormSelectGroup> -->
           <div class="flex flex-col w-full text-left">
-            <Label class="font-Satoshi500 !text-[17.792px] !mb-2">Employment Type</Label>
+            <Label class="font-medium !text-[17.792px] !mb-2">Employment Type</Label>
             <div
-              class="w-full mt-0 font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+              class="w-full mt-0 font-light font-normal bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
             >
               <a-select
                 placeholder="Candidate Type"
@@ -364,40 +364,40 @@ watchEffect(() => {
             </div>
           </div>
           <!-- <FormSelectGroup
-            labelClasses="font-Satoshi500 text-[15.606px]"
+            labelClasses="font-medium text-[15.606px]"
             label=" Candidate Type"
             name="Name"
             placeholder="Candidate Type"
             type="text"
-            inputClasses="w-full mt-0 font-light font-Satoshi400 bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+            inputClasses="w-full mt-0 font-light font-normal bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
           ></FormSelectGroup> -->
         </div>
         <div class="flex gap-12">
           <button
             @click="resetFilters"
-            class="bg-[#31795A] text-white lg:w-[40%] w-full text-center mx-auto p-4 py-4 justify-center rounded-full font-Satoshi500 text-[12.103px] items-center flex"
+            class="bg-[#31795A] text-white lg:w-[40%] w-full text-center mx-auto p-4 py-4 justify-center rounded-full font-medium text-[12.103px] items-center flex"
           >
             Reset Filter
           </button>
         </div>
       </div>
       <div class="text-center lg:my-10 my-5 py-20 pb-10">
-        <h4 class="text-[50.549px] text-[#000000] font-Satoshi500 leading-[47.52px]">
+        <h4 class="text-[50.549px] text-[#000000] font-medium leading-[47.52px]">
           Creative Talents for Hire
         </h4>
-        <p class="text-[#007582] text-[21.194px] font-Satoshi400 lg:leading-[39.552px]">
+        <p class="text-[#007582] text-[21.194px] font-normal lg:leading-[39.552px]">
           Find you desired talent & make your work done
         </p>
       </div>
       <!-- <GoPro /> -->
       <div class="my-10">
-        <p class="text-[#00000066] font-Satoshi400 text-[23.998px]">
+        <p class="text-[#00000066] font-normal text-[23.998px]">
           All
-          <span class="text-[#000000] font-Satoshi500">{{
+          <span class="text-[#000000] font-medium">{{
             filteredJobs?.length ? filteredJobs?.length : paginatedTalent?.length
           }}</span>
           candidates found from
-          <span class="text-[#000000] font-Satoshi500">{{
+          <span class="text-[#000000] font-medium">{{
             talent?.pagination?.total
           }}</span>
         </p>
@@ -418,7 +418,7 @@ watchEffect(() => {
       <div class="mt-12 flex w-[60%] flex-row justify-center mx-auto">
           <button
             @click="setPage(currentPage - 1)"
-            class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+            class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-medium text-[22.621px] items-center flex"
           >
             <Arrow class="rotate-[180deg]"/>
           </button>
@@ -426,7 +426,7 @@ watchEffect(() => {
             v-for="pageNumber in displayedPageNumbers"
             :key="pageNumber"
             :class="[
-              'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
+              'border-[#007582] p-4 py-2 font-medium text-[22.621px] items-center flex border-y-2 border-r-2',
               pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
             ]"
             @click="setPage(pageNumber)"
@@ -435,7 +435,7 @@ watchEffect(() => {
           </button>
           <button
             @click="setPage(currentPage + 1)"
-            class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+            class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-medium text-[22.621px] items-center flex"
           >
             <Arrow />
           </button>

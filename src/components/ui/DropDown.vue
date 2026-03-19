@@ -43,14 +43,14 @@
         </div>
       </div>
       <div class="">
-        <p class="text-[19.722px] font-Satoshi500 capitalize text-[#000]">
+        <p class="text-[19.722px] font-medium capitalize text-[#000]">
           {{
             accountType === "talent"
               ? userDetails?.first_name
               : userDetails?.business_name
           }}
         </p>
-        <p class="text-[12px] font-Satoshi500 overflow-hidden text-[#E06F6F]">
+        <p class="text-[12px] font-medium overflow-hidden text-[#E06F6F]">
           Available
         </p>
       </div>
@@ -67,7 +67,7 @@
         >
           <router-link
             :to="{ name: item.name }"
-            class="text-left p-2 w-full font-Satoshi400"
+            class="text-left p-2 w-full font-normal"
           >
             {{ item.context }}
           </router-link>

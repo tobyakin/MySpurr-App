@@ -79,7 +79,7 @@ onMounted(async () => {
     <div>
       <button
         @click="goToWallet"
-        class="flex items-center gap-3 text-[#2C4C50] font-Satoshi400 text-[16px]"
+        class="flex items-center gap-3 text-[#2C4C50] font-normal text-[16px]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +111,7 @@ onMounted(async () => {
         <div v-if="step[0]" class="flex flex-col gap-[60px]">
           <div>
             <h3
-              class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+              class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
             >
               Withdraw Funds
             </h3>
@@ -121,7 +121,7 @@ onMounted(async () => {
             <div class="w-full">
               <div class="flex flex-col gap-[12px]">
                 <label
-                  class="!text-[#254035] px-2 text-[16px] leading-[37.234px] font-Satoshi400"
+                  class="!text-[#254035] px-2 text-[16px] leading-[37.234px] font-normal"
                   >How much are you withdrawing?</label
                 >
                 <GlobalInput
@@ -137,7 +137,7 @@ onMounted(async () => {
             <button
               @click="changeScreen(0, 1)"
               :class="amount === null ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-              class="font-Satoshi500 text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               Proceed
             </button>
@@ -146,7 +146,7 @@ onMounted(async () => {
         <div v-if="step[1]" class="flex flex-col gap-[60px]">
           <div>
             <h3
-              class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+              class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
             >
               Select Bank Account
             </h3>
@@ -155,7 +155,7 @@ onMounted(async () => {
             class="flex lg:flex-row flex-col items-center p-[50px] rounded-[10px] bg-[#FBEEEE] gap-[24px]"
           >
             <CautionIcon />
-            <p class="text-[#000000] text-[18px] font-Satoshi400">
+            <p class="text-[#000000] text-[18px] font-normal">
               We observed that you have not setup any beneficiary account. Being your
               first time, we would have to run few verification step to add your bank
               account.
@@ -165,7 +165,7 @@ onMounted(async () => {
             <button
               @click="changeScreen(1, 2)"
               :class="amount === null ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-              class="font-Satoshi500 text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               Proceed to Add My Bank Account
             </button>
@@ -175,11 +175,11 @@ onMounted(async () => {
         <div v-if="step[2]" class="flex flex-col gap-[60px]">
           <div class="flex flex-col gap-[13px]">
             <h3
-              class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+              class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
             >
               Select Bank Account
             </h3>
-            <p class="text-[#000000] text-[18px] font-Satoshi400 leading-[24px]">
+            <p class="text-[#000000] text-[18px] font-normal leading-[24px]">
               Select a bank you want to transfer to from your previous beneficiaries
             </p>
           </div>
@@ -213,14 +213,14 @@ onMounted(async () => {
           <div class="flex lg:flex-row flex-col gap-5 justify-between w-full">
             <button
               @click="changeScreen(2, 5)"
-              class="font-Satoshi500 text-[#43D0DF] text-center border-[#43D0DF] justify-center border-[1px] text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium text-[#43D0DF] text-center border-[#43D0DF] justify-center border-[1px] text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               Add New Bank
             </button>
             <button
               @click="changeScreen(2, 3)"
               :class="amount === null ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-              class="font-Satoshi500 text-white text-center items-center justify-center text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium text-white text-center items-center justify-center text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               Proceed
             </button>
@@ -230,17 +230,17 @@ onMounted(async () => {
         <div v-if="step[3]" class="flex flex-col gap-[60px]">
           <div class="flex flex-col gap-[13px]">
             <h3
-              class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+              class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
             >
               Enter Your Pin
             </h3>
-            <p class="text-[#000000] text-[18px] font-Satoshi400 leading-[24px]">
+            <p class="text-[#000000] text-[18px] font-normal leading-[24px]">
               This is the 4 digit pin you use for withdrawal
             </p>
           </div>
           <div class="flex flex-col gap-3">
             <p
-              class="text-[#254035] flex gap-4 items-center text-[18px] font-Satoshi400 leading-[24px]"
+              class="text-[#254035] flex gap-4 items-center text-[18px] font-normal leading-[24px]"
             >
               Enter 4 Digit Pin
               <button @click="toggleShowPassword">
@@ -262,7 +262,7 @@ onMounted(async () => {
           <div class="flex flex-row justify-between w-full">
             <button
               @click="changeScreen(3, 4)"
-              class="font-Satoshi500 bg-[#43D0DF] text-[#ECFAFC] text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium bg-[#43D0DF] text-[#ECFAFC] text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               Proceed
             </button>
@@ -273,7 +273,7 @@ onMounted(async () => {
             <h3 class="text-[#01181B] text-[56px] font-EBGaramond500 leading-[63.84px]">
               Your Money is on its way!
             </h3>
-            <p class="text-[#000000] text-[18px] font-Satoshi400 leading-[24px]">
+            <p class="text-[#000000] text-[18px] font-normal leading-[24px]">
               Your Transaction has been completed an your bank account will be credited as
               soon as possible
             </p>
@@ -282,12 +282,12 @@ onMounted(async () => {
           <div class="flex flex-row justify-start gap-8 w-full">
             <button
               @click="goToWallet"
-              class="font-Satoshi500 bg-[#43D0DF] text-[#ECFAFC] text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium bg-[#43D0DF] text-[#ECFAFC] text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               My Dashboard
             </button>
             <button
-              class="font-Satoshi500 text-[#2F929C] bg-[#fff] text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium text-[#2F929C] bg-[#fff] text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               Download Receipt
             </button>
@@ -297,7 +297,7 @@ onMounted(async () => {
         <div v-if="step[5]" class="flex flex-col gap-[60px]">
           <div>
             <h3
-              class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+              class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
             >
               Add bank account
             </h3>
@@ -306,14 +306,14 @@ onMounted(async () => {
             class="flex lg:flex-row flex-col items-center p-[50px] rounded-[10px] bg-[#FBEEEE] gap-[24px]"
           >
             <CautionIcon />
-            <p class="text-[#000000] text-[18px] font-Satoshi400">
+            <p class="text-[#000000] text-[18px] font-normal">
               For Security Reasons, we would be sending an OTP to your registered email
               address to complete this process.
             </p>
           </div>
           <div class="flex flex-col gap-[24px] w-full">
             <div class="border-[0.737px] border-[#254035AB] rounded-[8px] p-4 py-1.5">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+              <label class="text-[#01272C] px-2 text-[12px] font-normal"
                 >Account Number</label
               >
               <GlobalInput
@@ -325,10 +325,10 @@ onMounted(async () => {
             </div>
 
             <div class="border-[0.737px] border-[#254035AB] rounded-[8px] p-4 py-1.5">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Bank </label>
+              <label class="text-[#01272C] px-2 text-[12px] font-normal">Bank </label>
               <select
                 v-model="addBankState.bank_name"
-                class="form__input block w-full p-2 bg-transparent border-none px-1 text-sm font-Satoshi400 text-gray-800 transition duration-500 focus:outline-none rounded"
+                class="form__input block w-full p-2 bg-transparent border-none px-1 text-sm font-normal text-gray-800 transition duration-500 focus:outline-none rounded"
               >
                 <option disabled>Select Bank</option>
                 <option></option>
@@ -338,7 +338,7 @@ onMounted(async () => {
               </select>
             </div>
             <div class="border-[0.737px] border-[#254035AB] rounded-[8px] p-4 py-1.5">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+              <label class="text-[#01272C] px-2 text-[12px] font-normal"
                 >Beneficiary Name</label
               >
               <GlobalInput
@@ -353,7 +353,7 @@ onMounted(async () => {
             <button
               @click="addBankAccount"
               :class="amount === null ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-              class="font-Satoshi500 text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               Proceed
             </button>
@@ -363,7 +363,7 @@ onMounted(async () => {
         <div v-if="step[6]" class="flex flex-col gap-[60px]">
           <div>
             <h3
-              class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+              class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
             >
               Setup Your Withdrawal Pin
             </h3>
@@ -373,7 +373,7 @@ onMounted(async () => {
             class="flex lg:flex-row flex-col items-center p-[50px] rounded-[10px] bg-[#FBEEEE] gap-[24px]"
           >
             <CautionIcon />
-            <p class="text-[#000000] text-[18px] font-Satoshi400">
+            <p class="text-[#000000] text-[18px] font-normal">
               We Discovered You’ve Not Setup your Pin, Enter a 4-digit pin that will be
               using for withdrawal Subsequently.
             </p>
@@ -381,7 +381,7 @@ onMounted(async () => {
           <div class="flex flex-col gap-[20px]">
             <div class="flex flex-col gap-3">
               <p
-                class="text-[#254035] flex gap-4 items-center text-[18px] font-Satoshi400 leading-[24px]"
+                class="text-[#254035] flex gap-4 items-center text-[18px] font-normal leading-[24px]"
               >
                 Enter 4 Digit Pin
                 <button @click="toggleShowPassword">
@@ -402,7 +402,7 @@ onMounted(async () => {
             </div>
             <div class="flex flex-col gap-3">
               <p
-                class="text-[#254035] flex gap-4 items-center text-[18px] font-Satoshi400 leading-[24px]"
+                class="text-[#254035] flex gap-4 items-center text-[18px] font-normal leading-[24px]"
               >
                 Confirm Piin
                 <button @click="toggleShowPassword">
@@ -426,7 +426,7 @@ onMounted(async () => {
             <button
               @click="changeScreen(6, 7)"
               :class="amount === null ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-              class="font-Satoshi500 text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               Proceed
             </button>
@@ -436,7 +436,7 @@ onMounted(async () => {
         <div v-if="step[7]" class="flex flex-col gap-[60px]">
           <div>
             <h3
-              class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+              class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
             >
               Add bank account
             </h3>
@@ -447,16 +447,16 @@ onMounted(async () => {
             >
               Verify its your account!
             </h3>
-            <p class="text-[#000000] text-[18px] font-Satoshi400 leading-[24px]">
+            <p class="text-[#000000] text-[18px] font-normal leading-[24px]">
               We’ve sent a 6 digit pin to your registered email, <br />
-              <span class="text-[#000000] font-Satoshi700 text-[18px]">{{
+              <span class="text-[#000000] font-satoshi700 text-[18px]">{{
                 maskedEmail
               }}</span>
             </p>
           </div>
           <div class="flex flex-col gap-3">
             <p
-              class="text-[#254035] flex gap-4 items-center text-[18px] font-Satoshi400 leading-[24px]"
+              class="text-[#254035] flex gap-4 items-center text-[18px] font-normal leading-[24px]"
             >
               Enter OTP Here
             </p>
@@ -471,7 +471,7 @@ onMounted(async () => {
             <button
               @click="changeScreen(7, 8)"
               :class="amount === null ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-              class="font-Satoshi500 text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
+              class="font-medium text-white text-[14px] w-auto flex leading-[11.593px] rounded-full px-[65px] p-5"
             >
               Proceed
             </button>
@@ -485,7 +485,7 @@ onMounted(async () => {
               Your Bank Account and Pin <br />
               has been set successfully
             </h3>
-            <p class="text-[#000000] text-[18px] font-Satoshi400 leading-[24px]">
+            <p class="text-[#000000] text-[18px] font-normal leading-[24px]">
               You will be redirected to continue your transaction, If you are not
               redirected,
               <a

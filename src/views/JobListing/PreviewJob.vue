@@ -165,7 +165,7 @@ const displayImage = computed(() => imageExists.value)
         <div class="px-10 py-8 msgMob:p-4">
           <cancelIcon class="ml-auto w-[40px] h-[20px] hover:scale-110 transitionItem !mb-[2rem]" @click="closeOptionModal"/>
           <div class="closeJobStepOne">
-            <h1 class="text-[#01181B] font-Satoshi400 text-[1.4rem] leading-[2.1875rem] !mb-[2rem] msgTab4:text-[1.2rem] msgTab4:leading-[1.9rem]">You are about to close an active job, did you get a preferred candidate for the role?</h1>
+            <h1 class="text-[#01181B] font-normal text-[1.4rem] leading-[2.1875rem] !mb-[2rem] msgTab4:text-[1.2rem] msgTab4:leading-[1.9rem]">You are about to close an active job, did you get a preferred candidate for the role?</h1>
             <div class="flex flex-col gap-4">
               <article class="inputField flex items-center gap-[0.5rem] cursor-pointer">
                 <input
@@ -178,7 +178,7 @@ const displayImage = computed(() => imageExists.value)
                 />
                 <label for="yes" class="flex items-center cursor-pointer">
                   <span class="custom-radio" :class="{ 'checked': selectedOption === 'yes' }"></span>
-                  <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem] msgTab4:text-[1.2rem]">
+                  <span class="text-[#01181B] font-normal text-[1.3rem] leading-[2rem] msgTab4:text-[1.2rem]">
                     Yes, I did
                   </span>
                 </label>
@@ -195,7 +195,7 @@ const displayImage = computed(() => imageExists.value)
                 />
                 <label for="no" class="flex items-center cursor-pointer">
                   <span class="custom-radio" :class="{ 'checked': selectedOption === 'no' }"></span>
-                  <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem] msgTab4:text-[1.2rem]">
+                  <span class="text-[#01181B] font-normal text-[1.3rem] leading-[2rem] msgTab4:text-[1.2rem]">
                     No, I didn’t
                   </span>
                 </label>
@@ -203,7 +203,7 @@ const displayImage = computed(() => imageExists.value)
 
               <div class="transitionItem" 
               :class="selectedOption === 'no'? 'h-auto mt-4': 'h-0 overflow-hidden mt-0'">
-                <h3 class="text-[#6C8285] font-Satoshi400 text-[0.9rem] leading-[2rem]">
+                <h3 class="text-[#6C8285] font-normal text-[0.9rem] leading-[2rem]">
                   Kindly let us know why?
                 </h3>
                 <input
@@ -215,7 +215,7 @@ const displayImage = computed(() => imageExists.value)
             </div>
             <div class="w-full grid place-items-center mt-[2rem]">
               <button 
-                  class="w-auto text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
+                  class="w-auto text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-medium text-[0.8rem] text-white !uppercase btn-hover-1"
                   @click="handleSubmitCloseJob"
                   >
                   <span v-if="!loading">SUBMIT</span>
@@ -224,18 +224,18 @@ const displayImage = computed(() => imageExists.value)
             </div>
           </div>
           <div class="text-center px-10 premiumSucessPage hidden">
-            <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+            <p class="text-[#01181B] text-[18px] font-normal mt-4">
               Thank you, an invoice has been sent to the email provided. Once payment is confirmed, your job post will go live.
             </p>
             <div class="flex justify-center gap-4 mt-12">
               <button
                 @click="back()"
-                class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+                class="bg-[#43D0DF] font-medium text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
               >
                 VIEW CANDIDATES</button
               ><button
                 @click="goToJobList()"
-                class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+                class="bg-[#43D0DF] font-medium text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
               >
                 <span v-if="!loading">JOB LISTING </span>
                 <WhiteLoader v-else />
@@ -273,12 +273,12 @@ const displayImage = computed(() => imageExists.value)
           <div class="w-full">
             <div class="flex lg:flex-row flex-col gap-4 justify-between">
               <div class="">
-                <p class="text-[22.805px] font-Satoshi400 flex text-[#000]">
+                <p class="text-[22.805px] font-normal flex text-[#000]">
                   {{ JobDetailsById?.data?.company?.business_name }}
                 </p>
                 <div class="flex mt-1 gap-1">
                   <VerifyIcon class="w-4" />
-                  <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
+                  <p class="text-[11.633px] font-satoshi700 text-[#000000B2]">Verified Client.</p>
                 </div>
               </div>
               <div>
@@ -293,12 +293,12 @@ const displayImage = computed(() => imageExists.value)
         </div>
         <div class="flex flex-col justify-between mt-5">
           <div class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3">
-            <p class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]">
+            <p class="lg:text-[26.625px] capitalize text-[19px] font-medium text-[#000000]">
               {{ JobDetailsById?.data?.job_title }}
             </p>
             <button
               @click="gotoApplications(JobDetailsById?.data?.slug, JobDetailsById?.data?.id)"
-              class="bg-[#43D0DF] font-Satoshi500 text-[10.2px] capitalize p-3 px-12 text-white btn-hover-1 rounded-full"
+              class="bg-[#43D0DF] font-medium text-[10.2px] capitalize p-3 px-12 text-white btn-hover-1 rounded-full"
             >
               View applicants
             </button>
@@ -307,7 +307,7 @@ const displayImage = computed(() => imageExists.value)
               @click="closeJob(JobDetailsById?.data?.slug)"
               :disabled="loading"
               :class="loading ? 'cursor-not-allowed' : ''"
-              class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+              class="bg-[#43D0DF] font-medium uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
             >
               <span v-if="!loading"> Close job </span>
               <WhiteLoader v-else />
@@ -318,7 +318,7 @@ const displayImage = computed(() => imageExists.value)
               <div
                 v-for="skill in JobDetailsById?.data?.skills"
                 :key="skill"
-                class="bg-[#2F929C] font-Satoshi500 text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
+                class="bg-[#2F929C] font-medium text-[13.24px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
               >
                 {{ skill.name }}
               </div>
@@ -330,8 +330,8 @@ const displayImage = computed(() => imageExists.value)
         class="bg-[#E9FAFB] border-[0.735px] flex lg:flex-row flex-col gap-5 justify-between rounded-[17.104px] mt-10 p-6 lg:px-10"
       >
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
-          <p class="text-[#244034] text-[17.104px] flex items-center font-Satoshi500">
+          <p class="text-[#244034c5] text-[17.104px] font-normal">Salary</p>
+          <p class="text-[#244034] text-[17.104px] flex items-center font-medium">
             <span v-html="numAbbr.formatCurrency(JobDetailsById?.data?.currency)"></span>
 
             {{ store.abbr(JobDetailsById?.data?.salary_min) }}-
@@ -340,33 +340,33 @@ const displayImage = computed(() => imageExists.value)
           </p>
         </div>
         <!-- <div class="flex flex-col gap-2">
-        <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Expertise</p>
-        <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+        <p class="text-[#244034c5] text-[17.104px] font-normal">Expertise</p>
+        <p class="text-[#244034] text-[17.104px] font-medium">
           {{ JobDetailsById?.data?.qualification }}
         </p>
       </div> -->
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
-          <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[17.104px] font-normal">Location</p>
+          <p class="text-[#244034] text-[14.104px] font-medium">
             {{ JobDetailsById?.data?.state }},
             {{ JobDetailsById?.data?.country }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Job Type</p>
-          <p class="text-[#244034] capitalize text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[17.104px] font-normal">Job Type</p>
+          <p class="text-[#244034] capitalize text-[14.104px] font-medium">
             {{ JobDetailsById?.data?.job_type }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Date</p>
-          <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[17.104px] font-normal">Date</p>
+          <p class="text-[#244034] text-[14.104px] font-medium">
             {{ JobDetailsById?.data?.date_created }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Experience</p>
-          <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[17.104px] font-normal">Experience</p>
+          <p class="text-[#244034] text-[14.104px] font-medium">
             {{ JobDetailsById?.data?.experience }}
           </p>
         </div>
@@ -376,7 +376,7 @@ const displayImage = computed(() => imageExists.value)
           <div>
             <p
               v-if="JobDetailsById?.data?.description"
-              class="text-[16.236px] text-[#000] font-Satoshi500 !mb-4"
+              class="text-[16.236px] text-[#000] font-medium !mb-4"
             >
               Job Description
             </p>
@@ -386,33 +386,33 @@ const displayImage = computed(() => imageExists.value)
               class="descr"
             ></div>
 
-            <p class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6">Responsibilities</p>
+            <p class="text-[1.034rem] text-[#000] font-medium !mb-4 mt-6">Responsibilities</p>
             <div
               v-html="JobDetailsById?.data?.responsibilities"
-              class="responsibilitie text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+              class="responsibilitie text-[#000]/[0.75] font-normal editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
 
-            <p class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6">Required Skills:</p>
+            <p class="text-[1.034rem] text-[#000] font-medium !mb-4 mt-6">Required Skills:</p>
             <div
               v-html="JobDetailsById?.data?.required_skills"
-              class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+              class="req_skills text-[#000]/[0.75] font-normal editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
 
             <p
               v-if="JobDetailsById?.data?.benefits"
-              class="text-[1.034rem] text-[#000] editor font-Satoshi500 !mb-4 mt-6"
+              class="text-[1.034rem] text-[#000] editor font-medium !mb-4 mt-6"
             >
               Benefits:
             </p>
             <div
               v-html="JobDetailsById?.data?.benefits"
-              class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+              class="req_skills text-[#000]/[0.75] font-normal editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
           </div>
         </div>
         <div class="lg:w-[40%]">
           <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-6">
-            <p class="font-Satoshi700 text-[17.104px] text-[#31795A]/[0.70]">About the Company</p>
+            <p class="font-satoshi700 text-[17.104px] text-[#31795A]/[0.70]">About the Company</p>
             <div class="flex mt-8 gap-4">
               <div>
                 <div
@@ -440,19 +440,19 @@ const displayImage = computed(() => imageExists.value)
               </div>
               <div>
                 <div class="flex gap-2 items-center">
-                  <p class="text-[20.166px] font-Satoshi400 flex text-[#000]">
+                  <p class="text-[20.166px] font-normal flex text-[#000]">
                     {{ JobDetailsById?.data?.company.business_name }}
                   </p>
                   <div class="flex mt-1 gap-1">
                     <VerifyIcon class="w-4" />
-                    <p class="text-[10.646px] font-Satoshi700 text-[#000000B2]">Verified Client.</p>
+                    <p class="text-[10.646px] font-satoshi700 text-[#000000B2]">Verified Client.</p>
                   </div>
                 </div>
                 <div class="flex gap-3 flex-wrap mt-2 items-center">
                   <div
                     v-for="skill in JobDetailsById?.data?.company?.industry"
                     :key="skill"
-                    class="bg-[#2F929C] font-Satoshi500 text-[8.552px] capitalize p-[4px] px-4 text-[#fff] rounded-full"
+                    class="bg-[#2F929C] font-medium text-[8.552px] capitalize p-[4px] px-4 text-[#fff] rounded-full"
                   >
                     {{ skill.name }}
                   </div>
@@ -461,30 +461,30 @@ const displayImage = computed(() => imageExists.value)
             </div>
             <div
               v-html="JobDetailsById?.data?.company.about_business"
-              class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
+              class="text-[#000]/[0.75] editor font-normal text-[12.546px] mt-6 leading-[24.689px]"
             ></div>
             <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
-            <div class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]">
+            <div class="text-[#000]/[0.75] font-normal text-[12.546px] mt-6 leading-[24.689px]">
               <p>{{ JobDetailsById?.data?.total_opened_jobs }} Jobs opened</p>
             </div>
 
             <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
             <div class="flex rounded-[17.104px] mb-4 gap-6">
               <div class="flex flex-col gap-2">
-                <p class="text-[#244034] text-[17.104px] font-Satoshi500">Completed Jobs</p>
-                <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                <p class="text-[#244034] text-[17.104px] font-medium">Completed Jobs</p>
+                <p class="text-[#244034] text-[17.104px] font-medium">
                   {{ JobDetailsById?.data?.completed_jobs }}
                 </p>
               </div>
               <div class="flex flex-col gap-2">
-                <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Hired Jobs</p>
-                <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                <p class="text-[#244034c5] text-[17.104px] font-normal">Hired Jobs</p>
+                <p class="text-[#244034] text-[17.104px] font-medium">
                   {{ JobDetailsById?.data?.hired_jobs }}
                 </p>
               </div>
             </div>
             <button
-              class="bg-[#31795A] rounded-full p-2 px-10 font-Satoshi500 text-[16.646px] text-white"
+              class="bg-[#31795A] rounded-full p-2 px-10 font-medium text-[16.646px] text-white"
             >
               Message
             </button>
@@ -494,7 +494,7 @@ const displayImage = computed(() => imageExists.value)
       <div class="flex lg:flex-row flex-col gap-6 items-start mt-20 justify-start">
         <!-- <button
           @click="gotoApplications(JobDetailsById?.data?.slug)"
-          class="bg-[#43D0DF] font-Satoshi500 uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
+          class="bg-[#43D0DF] font-medium uppercase text-[9.708px] p-3 px-12 text-[#000000] rounded-full"
         >
           VIEW APPLICANTS
         </button> -->
@@ -502,7 +502,7 @@ const displayImage = computed(() => imageExists.value)
           @click="handleCloseJob"
           :disabled="loading"
           :class="loading ? 'cursor-not-allowed' : ''"
-          class="bg-[#43D0DF] font-Satoshi500 capitalize text-[10.2px] p-3 px-12 text-white btn-hover-1 rounded-full"
+          class="bg-[#43D0DF] font-medium capitalize text-[10.2px] p-3 px-12 text-white btn-hover-1 rounded-full"
         >
           <span v-if="!loading"> Close job </span>
           <WhiteLoader v-else />

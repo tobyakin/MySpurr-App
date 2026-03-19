@@ -72,7 +72,7 @@ function activateTab(tab) {
 .my_addFunds_tabs {
   scroll-padding-bottom: 0;
   text-transform: capitalize !important;
-  @apply text-[14px] leading-[18.2px] font-Satoshi500 bg-none;
+  @apply text-[14px] leading-[18.2px] font-medium bg-none;
 }
 
 .my_addFunds_tabs::-webkit-scrollbar {
@@ -82,7 +82,7 @@ function activateTab(tab) {
 .my_addFunds_tabs a {
   cursor: pointer;
   transition: color 0.2s;
-  @apply p-0 py-2 text-center text-[13.076px] text-[#244034] font-Satoshi500;
+  @apply p-0 py-2 text-center text-[13.076px] text-[#244034] font-medium;
 }
 
 .my_addFunds_tabs a:last-child {

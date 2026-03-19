@@ -150,21 +150,21 @@ const goTo = async (email, show) => {
         />
         <div class="lg:text-left text-center">
           <p
-            class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]"
+            class="text-[#000000] text-[17.518px] capitalize font-medium leading-[31.739px]"
           >
             {{ props?.talents?.first_name }} {{ props?.talents?.last_name }} Application
           </p>
           <p
-            class="text-[#00000066] text-[14.598px] capitalize leading-[31.739px] font-Satoshi400"
+            class="text-[#00000066] text-[14.598px] capitalize leading-[31.739px] font-normal"
           >
             {{ props?.talents?.skill_title }}
           </p>
           <div class="flex items-center lg:justify-start justify-center gap-2">
-            <p class="lg:text-[13.625px] text-[14px] text-[#244034] font-Satoshi500">
+            <p class="lg:text-[13.625px] text-[14px] text-[#244034] font-medium">
               ${{ store.abbr(props?.talents?.rate) }}/hr
             </p>
             <div class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"></div>
-            <p class="text-[#244034] lg:text-[13.625px] text-[14px] font-Satoshi500">
+            <p class="text-[#244034] lg:text-[13.625px] text-[14px] font-medium">
               {{ props?.talents?.location }}
             </p>
           </div>
@@ -207,7 +207,7 @@ const goTo = async (email, show) => {
         </div>
         <div class="flex items-center gap-5 w-full">
           <div
-            class="w-full font-light font-Satoshi400 bg-transparent !p-0 border-r-[#939292] border-r-[0.9px] opacity-[0.8029] text-[12.68px]"
+            class="w-full font-light font-normal bg-transparent !p-0 border-r-[#939292] border-r-[0.9px] opacity-[0.8029] text-[12.68px]"
           >
             <a-select
               placeholder="Rating"
@@ -241,8 +241,8 @@ const goTo = async (email, show) => {
     </div>
     <div class="flex flex-col lg:flex-row mt-10 w-full">
       <div class="lg:w-[70%] p-4">
-        <p class="text-[14.038px] !mb-3 text-[#000] font-Satoshi500">Overview</p>
-        <div class="text-[#000000BF] font-Satoshi400 text-[16px] mt-4 leading-[35px]">
+        <p class="text-[14.038px] !mb-3 text-[#000] font-medium">Overview</p>
+        <div class="text-[#000000BF] font-normal text-[16px] mt-4 leading-[35px]">
           <p>
             {{ props?.talents?.overview }}
           </p>
@@ -256,28 +256,28 @@ const goTo = async (email, show) => {
           </button>
         </div>
 
-        <!-- <p class="text-[14.038px] text-[#000] font-Satoshi500 !mb-4 mt-6">Skills</p>
+        <!-- <p class="text-[14.038px] text-[#000] font-medium !mb-4 mt-6">Skills</p>
         <div class="flex gap-4 flex-wrap">
           <div
             v-for="(item, index) in props?.talents?.top_skills"
             :key="item.name"
-            class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[17px] text-center font-Satoshi400 text-[#276A4D]"
+            class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[17px] text-center font-normal text-[#276A4D]"
           >
             {{ item.name }}
           </div>
           <div
-            class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
+            class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-normal text-[#000000]"
           ></div>
         </div> -->
-        <!-- <p class="text-[14.038px] text-[#000] font-Satoshi500 !mb-8 mt-8">Education</p>
+        <!-- <p class="text-[14.038px] text-[#000] font-medium !mb-8 mt-8">Education</p>
         <EducationDetails :items="props?.talents?.education" /> -->
         <!-- <SampleFive :items="items" /> -->
 
-        <!-- <p class="text-[14.038px] text-[#000] font-Satoshi500 !mb-8 mt-8">
+        <!-- <p class="text-[14.038px] text-[#000] font-medium !mb-8 mt-8">
           Work Experience
         </p>
         <WorkExperience :items="props?.talents?.employment" /> -->
-        <p cl ass="text-[14.038px] text-[#000] font-Satoshi500 !my-6">
+        <p cl ass="text-[14.038px] text-[#000] font-medium !my-6">
           Relevant File attached
         </p>
         <!-- {{ props?.talents?.other_file }} -->
@@ -313,7 +313,7 @@ const goTo = async (email, show) => {
             alt=""
           />
         </div> -->
-        <p class="text-[14.038px] text-[#000] font-Satoshi500 mb-12 mt-8">
+        <p class="text-[14.038px] text-[#000] font-medium mb-12 mt-8">
           Screening Question Responses
         </p>
         <div class="flex flex-col mt-[8px] gap-4">
@@ -323,7 +323,7 @@ const goTo = async (email, show) => {
             class="border-[#2440341A] bg-white border-[1.265px] rounded-[9.732px] p-4"
           >
             <p
-              class="text-[#001E00] font-Satoshi400 text-[15.727px] border-b-[0.392px] !pb-[4px] border-b-[#254035AB] tracking-[0.6px]"
+              class="text-[#001E00] font-normal text-[15.727px] border-b-[0.392px] !pb-[4px] border-b-[#254035AB] tracking-[0.6px]"
             >
               {{ i.question }}
             </p>
@@ -334,12 +334,12 @@ const goTo = async (email, show) => {
               <template v-if="answerIndex === questionIndex">
                 <p
                   v-html="displayTextWithLinks(answer.answer)"
-                  class="text-[#5e6466] font-Satoshi400 editor text-[14px] mt-2 tracking-[0.6px]"
+                  class="text-[#5e6466] font-normal editor text-[14px] mt-2 tracking-[0.6px]"
                 ></p>
               </template>
               <!-- <p
                 v-if="index === answerIndex"
-                class="text-[#5e6466] font-Satoshi400 text-[14px] mt-2 tracking-[0.6px]"
+                class="text-[#5e6466] font-normal text-[14px] mt-2 tracking-[0.6px]"
               >
                 {{ answer.answer }}
               </p> -->
@@ -348,7 +348,7 @@ const goTo = async (email, show) => {
         </div>
       </div>
       <div class="lg:w-[30%] w-full p-4">
-        <p class="text-[14.038px] text-[#000] font-Satoshi500">Certificates</p>
+        <p class="text-[14.038px] text-[#000] font-medium">Certificates</p>
         <div
           class="bg-[#E9FAFB] p-[17px] border-[#F6F6F6] border-[1px] flex flex-col gap-12 mt-4 rounded-[15px]"
         >
@@ -362,15 +362,15 @@ const goTo = async (email, show) => {
               <a
                 target="_blank"
                 :href="i.certificate_link"
-                class="text-[15px] text-[#000] font-Satoshi500 hover:text-brand overflow-hidden"
+                class="text-[15px] text-[#000] font-medium hover:text-brand overflow-hidden"
               >
                 {{ i.title }}
               </a>
-              <p class="text-[14px] leading-[20px] text-[#31795A] font-Satoshi500">
+              <p class="text-[14px] leading-[20px] text-[#31795A] font-medium">
                 {{ i.institute }}
               </p>
               <div class="flex items-center gap-2">
-                <p class="font-Satoshi500 text-[12.9px] text-[#000000]">
+                <p class="font-medium text-[12.9px] text-[#000000]">
                   {{ i.certificate_year }}
                 </p>
               </div>
@@ -384,7 +384,7 @@ const goTo = async (email, show) => {
             </button> -->
           <!-- </div> -->
         </div>
-        <p class="text-[14.038px] text-[#000] font-Satoshi500 mt-16">Location</p>
+        <p class="text-[14.038px] text-[#000] font-medium mt-16">Location</p>
         <div class="flex flex-col gap-12 mt-4 rounded-[15px]">
           <!-- <img loading="lazy" src="@/assets/img/Map.webp" alt="" /> -->
           <Maps :lat="props?.talents?.latitude" :lng="props?.talents?.longitude" />

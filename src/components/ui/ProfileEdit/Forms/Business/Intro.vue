@@ -149,11 +149,11 @@ onMounted(async () => {
     <div
         class="border-[0.737px] border-[#254035AB] flex rounded-[5.897px] p-4 py-1 justify-between items-start"
     >
-        <label class="text-[#01272C] flex px-3 text-[10px] font-Satoshi400"
+        <label class="text-[#01272C] flex px-3 text-[10px] font-normal"
         >Upload the video introduction of your company</label
         >
         <div class="px-0 py-4 pr-8">
-          <label for="upload_vid" class="text-[#01272C] text-[0.8rem] flex font-Satoshi500 underline leading-[1.05231rem] cursor-pointer">Choose a file</label>
+          <label for="upload_vid" class="text-[#01272C] text-[0.8rem] flex font-medium underline leading-[1.05231rem] cursor-pointer">Choose a file</label>
           <input
             type="file"
             id="upload_vid"
@@ -168,7 +168,7 @@ onMounted(async () => {
       class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
     >
       <label
-        class="text-[#01272C] flex px-3 text-[10px] font-Satoshi400"
+        class="text-[#01272C] flex px-3 text-[10px] font-normal"
         >Enter link from YoutTube</label
       >
       <GlobalInput

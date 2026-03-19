@@ -145,11 +145,11 @@ watch(userDetails, (newUserDetails) => {
           <button
             class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
           >
-            <h3 class="text-[#007582] text-[16.917px] font-Satoshi500 leading-[17.763px]">
+            <h3 class="text-[#007582] text-[16.917px] font-medium leading-[17.763px]">
               Sales
             </h3>
             <p
-              class="text-[#011B1F] text-[10.297px] font-Satoshi400 lg:leading-[12.408px]"
+              class="text-[#011B1F] text-[10.297px] font-normal lg:leading-[12.408px]"
             >
               Sales Enquiry
             </p>
@@ -157,11 +157,11 @@ watch(userDetails, (newUserDetails) => {
           <button
             class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
           >
-            <h3 class="text-[#007582] text-[16.917px] font-Satoshi500 leading-[17.763px]">
+            <h3 class="text-[#007582] text-[16.917px] font-medium leading-[17.763px]">
               Technical
             </h3>
             <p
-              class="text-[#011B1F] text-[10.297px] font-Satoshi400 lg:leading-[12.408px]"
+              class="text-[#011B1F] text-[10.297px] font-normal lg:leading-[12.408px]"
             >
               Technical Enquiries
             </p>
@@ -169,11 +169,11 @@ watch(userDetails, (newUserDetails) => {
           <button
             class="bg-[#E9FAFB] rounded-[3.465px] py-10 px-5 flex flex-col gap-[11px] items-center w-full"
           >
-            <h3 class="text-[#007582] text-[16.917px] font-Satoshi500 leading-[17.763px]">
+            <h3 class="text-[#007582] text-[16.917px] font-medium leading-[17.763px]">
               Abuse
             </h3>
             <p
-              class="text-[#011B1F] text-[10.297px] font-Satoshi400 lg:leading-[12.408px]"
+              class="text-[#011B1F] text-[10.297px] font-normal lg:leading-[12.408px]"
             >
               Network Security / Fraud Dept
             </p>
@@ -181,7 +181,7 @@ watch(userDetails, (newUserDetails) => {
         </div>
         <div>
           <h3
-            class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+            class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
           >
             Open Ticket
           </h3>
@@ -192,7 +192,7 @@ watch(userDetails, (newUserDetails) => {
               :class="errors.name ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400">Name</label>
+              <label class="text-[#01272C] flex text-[10px] font-normal">Name</label>
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 type="text"
@@ -203,7 +203,7 @@ watch(userDetails, (newUserDetails) => {
               :class="errors.subject ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-normal"
                 >Subject</label
               >
               <GlobalInput
@@ -216,7 +216,7 @@ watch(userDetails, (newUserDetails) => {
               :class="errors.priority ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-normal"
                 >Priority</label
               >
               <GlobalInput
@@ -231,7 +231,7 @@ watch(userDetails, (newUserDetails) => {
               :class="errors.email ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400">Email</label>
+              <label class="text-[#01272C] flex text-[10px] font-normal">Email</label>
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 type="text"
@@ -242,7 +242,7 @@ watch(userDetails, (newUserDetails) => {
               :class="errors.department ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-normal"
                 >Department</label
               >
               <GlobalInput
@@ -255,7 +255,7 @@ watch(userDetails, (newUserDetails) => {
               :class="errors.postalCode ? '!border-[#DA5252]' : ''"
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-normal"
                 >ZIP/Postal Code</label
               >
               <GlobalInput
@@ -270,10 +270,10 @@ watch(userDetails, (newUserDetails) => {
           :class="errors.message ? '!border-[#DA5252]' : ''"
           class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] gap-1.5 h-auto p-4 py-1"
         >
-          <label class="text-[#01272C] flex text-[10px] font-Satoshi400">Message</label>
+          <label class="text-[#01272C] flex text-[10px] font-normal">Message</label>
           <textarea
             rows="8"
-            class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 h-full p-0"
+            class="bg-transparent font-normal w-full outline-none text-sm border-0 h-full p-0"
             v-model="formState.message"
           />
         </div>
@@ -289,7 +289,7 @@ watch(userDetails, (newUserDetails) => {
           <div class="flex flex-col gap-4" f>
             <div
               v-if="formState.attachment"
-              class="w-full flex flex-row items-center justify-between rounded-[5.897px] py-[10px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
+              class="w-full flex flex-row items-center justify-between rounded-[5.897px] py-[10px] px-[28px] text-[#000000] text-[16.606px] font-normal"
             >
               <p>{{ uploadedImageName }}</p>
             </div>
@@ -298,7 +298,7 @@ watch(userDetails, (newUserDetails) => {
               <input id="cover_image" hidden type="file" @change="uploadImage" />
               <label
                 for="cover_image"
-                class="w-full flex flex-row items-center justify-between cursor-pointer rounded-[5.897px] py-[10px] px-[28px] text-[#000000] text-[16.606px] font-Satoshi400"
+                class="w-full flex flex-row items-center justify-between cursor-pointer rounded-[5.897px] py-[10px] px-[28px] text-[#000000] text-[16.606px] font-normal"
                 ><p>No file chosen</p></label
               >
             </div>
@@ -308,7 +308,7 @@ watch(userDetails, (newUserDetails) => {
       <div class="flex gap-4 w-full mt-12">
         <button
           @click="Cancel"
-          class="bg-[#ECFAFC] text-brand font-Satoshi500 text-[14.153px] capitalize leading-[11.593px] rounded-full px-5 p-[13px] flex justify-center w-full lg:w-[20%]"
+          class="bg-[#ECFAFC] text-brand font-medium text-[14.153px] capitalize leading-[11.593px] rounded-full px-5 p-[13px] flex justify-center w-full lg:w-[20%]"
         >
           Cancel
         </button>
@@ -316,7 +316,7 @@ watch(userDetails, (newUserDetails) => {
         <button
           :disabled="loading"
           @click="submitTicket"
-          class="bg-brand text-white font-Satoshi500 text-[14.153px] capitalize leading-[11.593px] rounded-full px-5 p-[13px] flex justify-center w-full lg:w-[20%]"
+          class="bg-brand text-white font-medium text-[14.153px] capitalize leading-[11.593px] rounded-full px-5 p-[13px] flex justify-center w-full lg:w-[20%]"
         >
           <span v-if="!loading">Save</span>
           <WhiteLoader v-else />

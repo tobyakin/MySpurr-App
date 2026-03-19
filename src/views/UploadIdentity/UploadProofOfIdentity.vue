@@ -132,12 +132,12 @@ onMounted(async () => {
     >
       <div class="mt-10">
         <p
-          class="lg:text-[40.705px] text-[23px] font-Satoshi400 text-center text-[#244034]"
+          class="lg:text-[40.705px] text-[23px] font-normal text-center text-[#244034]"
         >
           Upload a proof of your identity
         </p>
         <p
-          class="lg:text-[25.382px] text-[15px] font-Satoshi400 text-center text-[#244034]"
+          class="lg:text-[25.382px] text-[15px] font-normal text-center text-[#244034]"
         >
           MySpurr requires a valid government issue ID (drivers license, passport,
           national ID)
@@ -146,7 +146,7 @@ onMounted(async () => {
       <div class="flex lg:flex-row flex-col gap-10">
         <SelectGroupN
           v-model="verifyIdentityData.country"
-          labelClasses="font-Satoshi500 text-[15.606px]"
+          labelClasses="font-medium text-[15.606px]"
           label="Your Country"
           name="Name"
           :items="contriesCode.data"
@@ -154,19 +154,19 @@ onMounted(async () => {
           :errorsMsg="errorsMsg.country"
           placeholder="your country"
           type="text"
-          inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+          inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
         ></SelectGroupN>
         <SelectGroup
           v-model="verifyIdentityData.document_type"
           :error="errors.document_type"
           :errorsMsg="errorsMsg.document_type"
-          labelClasses="font-Satoshi500 text-[15.606px]"
+          labelClasses="font-medium text-[15.606px]"
           label="Document Type"
           name="Name"
           :items="['Drivers license', 'Passport', 'National ID']"
           placeholder="a document type"
           type="text"
-          inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+          inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
         ></SelectGroup>
       </div>
       <div class="flex lg:flex-row flex-col w-full gap-10">
@@ -176,7 +176,7 @@ onMounted(async () => {
         >
           <button
             v-if="verifyIdentityData.front"
-            class="absolute top-3 right-3 font-Satoshi900 text-red-600"
+            class="absolute top-3 right-3 font-satoshi900 text-red-600"
             @click="removeUploadFrontDocs"
           >
             <CloseEditModalIcon />
@@ -188,17 +188,17 @@ onMounted(async () => {
           />
 
           <div v-if="!verifyIdentityData.front">
-            <p class="font-Satoshi500 text-[25.744px] text-[#000]">
+            <p class="font-medium text-[25.744px] text-[#000]">
               Front side of your document
             </p>
-            <p class="text-[#000000] text-[13.314px] font-Satoshi500">
+            <p class="text-[#000000] text-[13.314px] font-medium">
               Upload the front side of your document. <br />
               Supports JPG, PNG, PDF
             </p>
           </div>
           <label
             v-if="!verifyIdentityData.front"
-            class="border-[#254035AB] py-5 px-10 text-center cursor-pointer rounded-full font-Satoshi500 border-[1.563px]"
+            class="border-[#254035AB] py-5 px-10 text-center cursor-pointer rounded-full font-medium border-[1.563px]"
             for="front_side_upload_file"
             >Choose a file
           </label>
@@ -215,7 +215,7 @@ onMounted(async () => {
         >
           <button
             v-if="verifyIdentityData.back"
-            class="absolute top-3 right-3 font-Satoshi900 text-red-600"
+            class="absolute top-3 right-3 font-satoshi900 text-red-600"
             @click="removeUploadBackDocs"
           >
             <CloseEditModalIcon />
@@ -227,10 +227,10 @@ onMounted(async () => {
           />
 
           <div v-if="!verifyIdentityData.back">
-            <p class="font-Satoshi500 text-[25.744px] text-[#000]">
+            <p class="font-medium text-[25.744px] text-[#000]">
               Back side of your document
             </p>
-            <p class="text-[#000000] text-[13.314px] font-Satoshi500">
+            <p class="text-[#000000] text-[13.314px] font-medium">
               Upload the front side of your document. <br />
               Supports JPG, PNG, PDF
             </p>
@@ -238,7 +238,7 @@ onMounted(async () => {
 
           <label
             v-if="!verifyIdentityData.back"
-            class="border-[#254035AB] py-5 px-10 cursor-pointer text-center font-Satoshi500 rounded-full border-[1.563px]"
+            class="border-[#254035AB] py-5 px-10 cursor-pointer text-center font-medium rounded-full border-[1.563px]"
             for="back_side_upload_file"
             >Choose a file
           </label>
@@ -253,7 +253,7 @@ onMounted(async () => {
         />
         <label
           :class="{ '!text-red-500': errors.confirm }"
-          class="text-[#244034] px-2 lg:text-[20.382px] text-[13px] font-Satoshi400"
+          class="text-[#244034] px-2 lg:text-[20.382px] text-[13px] font-normal"
           >I Confirm that I uploaded valid government-issued photo ID. This ID include my
           picture, signature, name, date of birth, and address
         </label>
@@ -262,7 +262,7 @@ onMounted(async () => {
         <button
           @click="onFinish"
           :disabled="loading"
-          class="font-Satoshi500 text-white text-[14px] uppercase w-[70%] mx-auto bg-[#2F929C] leading-[11.593px] rounded-full p-5"
+          class="font-medium text-white text-[14px] uppercase w-[70%] mx-auto bg-[#2F929C] leading-[11.593px] rounded-full p-5"
         >
           <span v-if="!loading">Continue</span>
           <WhiteLoader v-else />

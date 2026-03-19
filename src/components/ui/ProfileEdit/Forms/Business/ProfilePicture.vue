@@ -143,7 +143,7 @@ const closeModal = () => {
       </button>
     </div>
     <p
-      class="text-[14px] lg:w-[70%] text-center leading-[18.599px] text-[#011B1F] font-Satoshi400"
+      class="text-[14px] lg:w-[70%] text-center leading-[18.599px] text-[#011B1F] font-normal"
     >
       On MySpurr, we require members to use their real identities, upload a square photo
       of yourself. Photos will be cropped automatically to a preferred circular size

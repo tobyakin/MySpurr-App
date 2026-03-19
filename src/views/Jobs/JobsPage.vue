@@ -376,37 +376,37 @@ onMounted(async () => {
               <div class="flex lg:flex-row flex-col gap-8">
                 <FormGroup
                   v-model="sortInput.name"
-                  labelClasses="font-Satoshi500 text-[15.606px]"
+                  labelClasses="font-medium text-[15.606px]"
                   label=" Name or Keyword"
                   name="Name"
                   placeholder="Name or keyword"
                   type="text"
-                  inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                  inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                 ></FormGroup>
                 <FormGroup
                   v-model="sortInput.Category"
-                  labelClasses="font-Satoshi500 text-[15.606px]"
+                  labelClasses="font-medium text-[15.606px]"
                   label=" Skill"
                   name="Name"
                   placeholder="Name or keyword"
                   type="text"
-                  inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                  inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                 ></FormGroup>
                 <FormGroup
                   v-model="sortInput.Location"
-                  labelClasses="font-Satoshi500 text-[15.606px]"
+                  labelClasses="font-medium text-[15.606px]"
                   label=" Location"
                   name="Name"
                   placeholder="Name or keyword"
                   type="text"
-                  inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                  inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                 ></FormGroup>
               </div>
               <div class="flex lg:flex-row flex-col gap-8">
                 <div class="flex flex-col w-full text-left">
-                  <Label class="font-Satoshi500 !text-[15.606px] !mb-2">Job Type</Label>
+                  <Label class="font-medium !text-[15.606px] !mb-2">Job Type</Label>
                   <div
-                    class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                    class="w-full font-light font-normal bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                   >
                     <a-select
                       placeholder="Job Type"
@@ -430,19 +430,19 @@ onMounted(async () => {
   
                 <!-- <FormGroup
                   v-model="sortInput.jobType"
-                  labelClasses="font-Satoshi500 text-[15.606px]"
+                  labelClasses="font-medium text-[15.606px]"
                   label=" Job Type"
                   name="Name"
                   placeholder="Name or keyword"
                   type="text"
-                  inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                  inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                 ></FormGroup> -->
                 <div class="flex flex-col w-full text-left">
-                  <Label class="font-Satoshi500 !text-[15.606px] !mb-2"
+                  <Label class="font-medium !text-[15.606px] !mb-2"
                     >Experience Level</Label
                   >
                   <div
-                    class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                    class="w-full font-light font-normal bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                   >
                     <a-select
                       placeholder="Experience Level"
@@ -466,46 +466,46 @@ onMounted(async () => {
   
                 <!-- <FormGroup
                   v-model="sortInput.experienceLevel"
-                  labelClasses="font-Satoshi500 text-[15.606px]"
+                  labelClasses="font-medium text-[15.606px]"
                   label=" Experience Level"
                   name="Name"
                   placeholder="Name or keyword"
                   type="text"
-                  inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                  inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                 ></FormGroup> -->
                 <div class="w-full flex flex-row gap-1">
                   <div class="flex flex-col justify-center">
-                    <Label class="font-Satoshi500 text-[15.606px]">Rate</Label>
+                    <Label class="font-medium text-[15.606px]">Rate</Label>
                     <div class="flex items-center justify-center gap-1 mt-2">
                       <input
-                        class="w-full font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                        class="w-full font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                         type="number"
                         v-model="rateMin"
                         id="start"
                       />
                       <div class="h-[2px] w-4 bg-black"></div>
                       <input
-                        class="w-full font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                        class="w-full font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                         type="number"
                         v-model="rateMax"
                         id="end"
                       />
                       <!-- <div class="w-full">
                         <SelectGroup
-                          labelClasses="font-Satoshi500 hidden text-[15.606px]"
+                          labelClasses="font-medium hidden text-[15.606px]"
                           name="Name"
                           placeholder="currency"
                           type="text"
                           :items="['USD', 'NGN']"
-                          inputClasses="w-full mt-0 font-light font-Satoshi400 bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                          inputClasses="w-full mt-0 font-light font-normal bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                         />
                       </div> -->
                     </div>
                   </div>
                   <div class="flex flex-col w-[30%] text-left">
-                    <Label class="font-Satoshi500 !text-[15.606px] !mb-2">Currency</Label>
+                    <Label class="font-medium !text-[15.606px] !mb-2">Currency</Label>
                     <div
-                      class="w-full font-light font-Satoshi400 bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                      class="w-full font-light font-normal bg-white !p-0 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                     >
                       <a-select
                         placeholder=" currency"
@@ -539,7 +539,7 @@ onMounted(async () => {
               <div class="flex gap-12">
                 <button
                   @click="resetFilters"
-                  class="border-[#007582] bg-[#31795A] text-white lg:w-[40%] text-center mx-auto border-2 p-4 py-2 justify-center rounded-full font-Satoshi500 text-[10.672px] items-center flex btn-hover-2"
+                  class="border-[#007582] bg-[#31795A] text-white lg:w-[40%] text-center mx-auto border-2 p-4 py-2 justify-center rounded-full font-medium text-[10.672px] items-center flex btn-hover-2"
                 >
                   Reset
                 </button>
@@ -550,7 +550,7 @@ onMounted(async () => {
               @click="showFilter"
               class="items-center gap-[0.71rem] bg-[#31795A] text-[#fff] px-8 py-4 rounded-[2.4375rem] w-[9rem] btn-hover-2 hidden eventBreak:flex mob:py-4 mb-4">
                 <filterBtnIcon />
-                <span class="text-[1.13638rem] mob:text-[1rem] font-Satoshi500 leading-[ 2.55681rem]">Filter</span>
+                <span class="text-[1.13638rem] mob:text-[1rem] font-medium leading-[ 2.55681rem]">Filter</span>
               </button>
             </div>
           </div>
@@ -571,7 +571,7 @@ onMounted(async () => {
               <div class="mt-12 flex w-[60%] flex-row justify-center mx-auto">
                 <button
                   @click="setPage(currentPage - 1)"
-                  class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                  class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-medium text-[22.621px] items-center flex"
                 >
                   <Arrow class="rotate-[180deg]"/>
                 </button>
@@ -579,7 +579,7 @@ onMounted(async () => {
                   v-for="pageNumber in displayedPageNumbers"
                   :key="pageNumber"
                   :class="[
-                    'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
+                    'border-[#007582] p-4 py-2 font-medium text-[22.621px] items-center flex border-y-2 border-r-2',
                     pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
                   ]"
                   @click="setPage(pageNumber)"
@@ -588,7 +588,7 @@ onMounted(async () => {
                 </button>
                 <button
                   @click="setPage(currentPage + 1)"
-                  class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                  class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-medium text-[22.621px] items-center flex"
                 >
                   <Arrow />
                 </button>
@@ -605,37 +605,37 @@ onMounted(async () => {
                 <div class="flex lg:flex-row flex-col gap-8">
                   <FormGroup
                     v-model="sortInput.name"
-                    labelClasses="font-Satoshi500 text-[15.606px]"
+                    labelClasses="font-medium text-[15.606px]"
                     label=" Name or Keyword"
                     name="Name"
                     placeholder="Name or keyword"
                     type="text"
-                    inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                    inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                   ></FormGroup>
                   <!-- <FormGroup
                     v-model="sortInput.Category"
-                    labelClasses="font-Satoshi500 text-[15.606px]"
+                    labelClasses="font-medium text-[15.606px]"
                     label=" Skill"
                     name="Name"
                     placeholder="Name or keyword"
                     type="text"
-                    inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                    inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                   ></FormGroup> -->
                   <FormGroup
                     v-model="sortInput.Location"
-                    labelClasses="font-Satoshi500 text-[15.606px]"
+                    labelClasses="font-medium text-[15.606px]"
                     label=" Location"
                     name="Name"
                     placeholder="Name or keyword"
                     type="text"
-                    inputClasses="w-full mt-2 font-light font-Satoshi400 !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
+                    inputClasses="w-full mt-2 font-light font-normal !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[12.68px]"
                   ></FormGroup>
                 </div>
     
                 <div class="flex gap-12">
                   <button
                     @click="resetFilters"
-                    class="border-[#007582] bg-[#31795A] text-white lg:w-[40%] text-center mx-auto border-2 p-4 py-2 justify-center rounded-full font-Satoshi500 text-[10.672px] items-center flex btn-hover-2"
+                    class="border-[#007582] bg-[#31795A] text-white lg:w-[40%] text-center mx-auto border-2 p-4 py-2 justify-center rounded-full font-medium text-[10.672px] items-center flex btn-hover-2"
                   >
                     Reset
                   </button>
@@ -646,7 +646,7 @@ onMounted(async () => {
                 @click="showFilter"
                 class="items-center gap-[0.71rem] bg-[#31795A] text-[#fff] px-8 py-4 rounded-[2.4375rem] w-[9rem] btn-hover-2 hidden eventBreak:flex mob:py-4 mb-4">
                   <filterBtnIcon />
-                  <span class="text-[1.13638rem] mob:text-[1rem] font-Satoshi500 leading-[ 2.55681rem]">Filter</span>
+                  <span class="text-[1.13638rem] mob:text-[1rem] font-medium leading-[ 2.55681rem]">Filter</span>
                 </button>
               </div>
             </div>
@@ -667,7 +667,7 @@ onMounted(async () => {
                 <div class="mt-12 flex w-[60%] flex-row justify-center mx-auto">
                   <button
                     @click="setPage(currentPage - 1)"
-                    class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                    class="border-[#007582] border-l-2 border-r-2 border-y-2 p-4 py-2 rounded-l-[6.032px] font-medium text-[22.621px] items-center flex"
                   >
                     <Arrow class="rotate-[180deg]"/>
                   </button>
@@ -675,7 +675,7 @@ onMounted(async () => {
                     v-for="pageNumber in displayedPageNumbers"
                     :key="pageNumber"
                     :class="[
-                      'border-[#007582] p-4 py-2 font-Satoshi500 text-[22.621px] items-center flex border-y-2 border-r-2',
+                      'border-[#007582] p-4 py-2 font-medium text-[22.621px] items-center flex border-y-2 border-r-2',
                       pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
                     ]"
                     @click="setPage(pageNumber)"
@@ -684,7 +684,7 @@ onMounted(async () => {
                   </button>
                   <button
                     @click="setPage(currentPage + 1)"
-                    class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                    class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-medium text-[22.621px] items-center flex"
                   >
                     <Arrow />
                   </button>
@@ -712,33 +712,33 @@ onMounted(async () => {
     >
       <section class="pb-[5.83rem] pt-[2rem] px-[1.94rem] bg-[#E9FAFB] rounded-t-[1.42044rem] msgTab:px-[1rem]">
         <div class="mb-[3rem] flex justify-end sticky top-[2rem] z-[99]">
-          <button class="border-gray-300 border p-[0.5rem] font-Satoshi700 cursor-pointer bg-[#fff] hover:scale-105 transitionItem px-4" @click="toggleFilter">X</button>
+          <button class="border-gray-300 border p-[0.5rem] font-satoshi700 cursor-pointer bg-[#fff] hover:scale-105 transitionItem px-4" @click="toggleFilter">X</button>
         </div>
         <div class="w-[80%] mx-auto flex flex-col gap-[2.1rem] msgTab:w-[90%]">
             <FormGroup
                 v-model="sortInput.name"
-                labelClasses="font-Satoshi500 text-[1.52rem]"
+                labelClasses="font-medium text-[1.52rem]"
                 label=""
                 name="Name"
                 placeholder="Search by keywords"
                 type="text"
-                inputClasses="w-full mt-2 font-light font-Satoshi400 !p-4 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-t-[6.828px] text-[0.88rem]"
+                inputClasses="w-full mt-2 font-light font-normal !p-4 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-t-[6.828px] text-[0.88rem]"
                 >
             </FormGroup>
             <div>
-              <label for="location" class="font-Satoshi500 !text-[1rem]">Skills Categories</label>
+              <label for="location" class="font-medium !text-[1rem]">Skills Categories</label>
               <div
-                class="bg-[#fff] w-full mt-[0.5rem] font-light font-Satoshi400 !p-4 border-gray-300 border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[0.88rem]"
+                class="bg-[#fff] w-full mt-[0.5rem] font-light font-normal !p-4 border-gray-300 border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[0.88rem]"
               >
                 <select
                   v-model="sortInput.Category"
                   :bordered="false"
                   :show-arrow="false"
-                  class="w-full !outline-none !px-0 cursor-pointer text-[#000000] font-Satoshi500 leading-[1.75rem]"
+                  class="w-full !outline-none !px-0 cursor-pointer text-[#000000] font-medium leading-[1.75rem]"
                   show-search
                 >
 
-                  <option disabled value="Search Skill Categories" class="text-[1rem] font-Satoshi500">Search Skill Categories</option>
+                  <option disabled value="Search Skill Categories" class="text-[1rem] font-medium">Search Skill Categories</option>
                   <option v-for="skill in skills?.data" :key="skill.id" :value="skill.name" class="text-[0.88rem]">
                     {{ skill.name }}
                   </option>
@@ -746,19 +746,19 @@ onMounted(async () => {
               </div>
             </div>
             <div>
-              <label for="location" class="font-Satoshi500 !text-[1rem]">Location</label>
+              <label for="location" class="font-medium !text-[1rem]">Location</label>
               <div
-                class="bg-[#fff] w-full mt-[0.5rem] font-light font-Satoshi400 !p-4 border-gray-300 border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[0.88rem]"
+                class="bg-[#fff] w-full mt-[0.5rem] font-light font-normal !p-4 border-gray-300 border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[0.88rem]"
               >
                 <select
                   v-model="country"
                   :bordered="false"
                   :show-arrow="false"
-                  class="w-full !outline-none !px-0 cursor-pointer text-[#000000] font-Satoshi500 leading-[1.75rem]"
+                  class="w-full !outline-none !px-0 cursor-pointer text-[#000000] font-medium leading-[1.75rem]"
                   show-search
                   @change="getCountryCode"
                 >
-                  <option disabled value="Nigeria" class="text-[1rem] font-Satoshi500">Nigeria</option>
+                  <option disabled value="Nigeria" class="text-[1rem] font-medium">Nigeria</option>
                   <option v-for="country in contriesCode?.data" :key="country.id" :value="country.iso2" 
                   class="text-[0.88rem]"
                   >
@@ -767,16 +767,16 @@ onMounted(async () => {
                 </select>
               </div>
               <div
-                class="bg-[#fff] w-full mt-[0.5rem] font-light font-Satoshi400 !p-4 border-gray-300 border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[0.88rem]"
+                class="bg-[#fff] w-full mt-[0.5rem] font-light font-normal !p-4 border-gray-300 border-[0.509px] opacity-[0.8029] rounded-[6.828px] text-[0.88rem]"
               >
                 <select
                   v-model="sortInput.Location"
                   :bordered="false"
                   :show-arrow="false"
-                  class="w-full !outline-none !px-0 cursor-pointer text-[#000000] font-Satoshi500 leading-[1.75rem]"
+                  class="w-full !outline-none !px-0 cursor-pointer text-[#000000] font-medium leading-[1.75rem]"
                   show-search
                 >
-                  <option disabled value="Select State" class="text-[1rem] font-Satoshi500">Select State</option>
+                  <option disabled value="Select State" class="text-[1rem] font-medium">Select State</option>
                   <option v-for="state in states?.data" :key="state.id" :value="state.name" class="text-[0.88rem]">
                     {{ state.name }}
                   </option>
@@ -785,14 +785,14 @@ onMounted(async () => {
             </div>
 
             <div
-            class="w-full font-Satoshi500 !p-0 !text-[1.13638rem] leading-[2.55681rem] text-[#000] !bg-transparent !pb-6 !border-b-2 border-[#666666]"
+            class="w-full font-medium !p-0 !text-[1.13638rem] leading-[2.55681rem] text-[#000] !bg-transparent !pb-6 !border-b-2 border-[#666666]"
             >
                 <select
                     v-model="sortInput.experienceLevel"
                     placeholder="Experience"
                     :bordered="false"
                     :show-arrow="false"
-                    class="w-full !outline-none !px-0 cursor-pointer !text-[#000000] font-Satoshi500 text-[1rem] leading-[1.75rem] !bg-transparent"
+                    class="w-full !outline-none !px-0 cursor-pointer !text-[#000000] font-medium text-[1rem] leading-[1.75rem] !bg-transparent"
                     show-search
                     
                 >
@@ -803,14 +803,14 @@ onMounted(async () => {
                 </select>
             </div>
             <div
-            class="w-full font-Satoshi500 !p-0 !text-[1.13638rem] leading-[2.55681rem] text-[#000] !bg-transparent !pb-6 !border-b-2 border-[#666666]"
+            class="w-full font-medium !p-0 !text-[1.13638rem] leading-[2.55681rem] text-[#000] !bg-transparent !pb-6 !border-b-2 border-[#666666]"
             >
                 <select
                     v-model="sortInput.jobType"
                     placeholder="Employment Type"
                     :bordered="false"
                     :show-arrow="false"
-                    class="w-full !outline-none !px-0 cursor-pointer !text-[#000000] font-Satoshi500 text-[1rem] leading-[1.75rem] !bg-transparent"
+                    class="w-full !outline-none !px-0 cursor-pointer !text-[#000000] font-medium text-[1rem] leading-[1.75rem] !bg-transparent"
                     show-search
                     
                 >
@@ -823,7 +823,7 @@ onMounted(async () => {
 
             <button
               @click="toggleFilter"
-                class="bg-[#31795A] text-white w-full text-center mx-auto p-4 py-4 justify-center rounded-full font-Satoshi500 text-[12.103px] items-center flex mt-[0.5rem]"
+                class="bg-[#31795A] text-white w-full text-center mx-auto p-4 py-4 justify-center rounded-full font-medium text-[12.103px] items-center flex mt-[0.5rem]"
                 :class="
                   !isFilter
                     ? 'bg-gray-300 cursor-not-allowed'

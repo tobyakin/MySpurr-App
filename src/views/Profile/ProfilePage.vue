@@ -216,12 +216,12 @@ onMounted(async () => {
             /> -->
               <div class="lg:text-left text-center">
                 <p
-                  class="text-[#000000] text-[1.09rem] capitalize font-Satoshi500 leading-[1.98rem]"
+                  class="text-[#000000] text-[1.09rem] capitalize font-medium leading-[1.98rem]"
                 >
                   {{ userDetails?.first_name }} {{ userDetails?.last_name }}
                 </p>
                 <p
-                  class="text-[#00000066] !my-1.5 text-[0.91rem] flex gap-[8px] items-center capitalize leading-[1.98rem] font-Satoshi400"
+                  class="text-[#00000066] !my-1.5 text-[0.91rem] flex gap-[8px] items-center capitalize leading-[1.98rem] font-normal"
                 >
                   {{ userDetails?.skill_title
                   }}<span>
@@ -235,7 +235,7 @@ onMounted(async () => {
                 <div class="flex items-center lg:justify-start justify-center gap-2">
                   <p
                     v-if="accountType === 'talent'"
-                    class="lg:text-[0.85rem] text-[0.88rem] text-[#244034] font-Satoshi500"
+                    class="lg:text-[0.85rem] text-[0.88rem] text-[#244034] font-medium"
                   >
                     ${{ tabStore.abbr(userDetails?.rate) }}/hr
                   </p>
@@ -244,14 +244,14 @@ onMounted(async () => {
                     class="h-[0.38rem] bg-[#010101e2] w-[0.38rem] rounded-full"
                   ></div>
                   <p
-                    class="text-[#244034] flex gap-3 lg:text-[13.625px] text-[14px] font-Satoshi500"
+                    class="text-[#244034] flex gap-3 lg:text-[13.625px] text-[14px] font-medium"
                   >
                     {{ userDetails?.location }}
                     <a
                       v-if="accountType === 'business'"
                       :href="userDetails?.website"
                       target="_blank"
-                      class="underline text-[0.85rem] cursor-pointer font-Satoshi500 text-[#244034]"
+                      class="underline text-[0.85rem] cursor-pointer font-medium text-[#244034]"
                       >View Website</a
                     >
                   </p>
@@ -304,7 +304,7 @@ onMounted(async () => {
                       userDetails?.uniqueId
                     "
                     @click="copyUrl()"
-                    class="text-[0.65rem] font-Satoshi500 text-[#01272C]"
+                    class="text-[0.65rem] font-medium text-[#01272C]"
                     >myspurr.net/talent/{{ userDetails?.first_name }}</a
                   >
                   <div
@@ -327,22 +327,22 @@ onMounted(async () => {
             class="flex flex-row items-center lg:justify-start lg:items-center gap-10"
           >
             <div class="flex flex-col gap-3">
-              <p class="text-[#24403480] font-Satoshi400 text-[0.83rem]">Size</p>
-              <h4 class="text-[#244034] font-Satoshi500 text-[0.83rem]">.</h4>
+              <p class="text-[#24403480] font-normal text-[0.83rem]">Size</p>
+              <h4 class="text-[#244034] font-medium text-[0.83rem]">.</h4>
             </div>
             <div class="flex flex-col gap-3">
-              <p class="text-[#24403480] font-Satoshi400 text-[0.83rem]">Email</p>
-              <h4 class="text-[#244034] font-Satoshi500 text-[0.83rem]">
+              <p class="text-[#24403480] font-normal text-[0.83rem]">Email</p>
+              <h4 class="text-[#244034] font-medium text-[0.83rem]">
                 {{ userDetails?.business_email }}
               </h4>
             </div>
             <div class="flex flex-col gap-3">
-              <p class="text-[#24403480] font-Satoshi400 text-[0.83rem]">Phone</p>
-              <h4 class="text-[#244034] font-Satoshi500 text-[0.83rem]">.</h4>
+              <p class="text-[#24403480] font-normal text-[0.83rem]">Phone</p>
+              <h4 class="text-[#244034] font-medium text-[0.83rem]">.</h4>
             </div>
             <div class="flex flex-col gap-3">
-              <p class="text-[#24403480] font-Satoshi400 text-[0.83rem]">Category</p>
-              <h4 class="text-[#244034] capitalize font-Satoshi500 text-[0.83rem]">
+              <p class="text-[#24403480] font-normal text-[0.83rem]">Category</p>
+              <h4 class="text-[#244034] capitalize font-medium text-[0.83rem]">
                 {{ userDetails?.business_service }}
               </h4>
             </div>
@@ -351,13 +351,13 @@ onMounted(async () => {
         <div class="flex flex-col lg:flex-row mt-10 w-full">
           <div class="lg:w-[70%] p-4">
             <div class="flex flex-row items-center justify-between gap-[96px]">
-              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Overview</p>
+              <p class="text-[1.75rem] text-[#000] font-medium">Overview</p>
               <button class="exclude-from-print" @click="HandleToggleEditOverviewModal">
                 <EditIcon class="text-[#297F88]" />
               </button>
             </div>
             <div
-              class="text-[#000000BF] font-Satoshi400 text-justify text-[1rem] mt-4 leading-[2.19rem]"
+              class="text-[#000000BF] font-normal text-justify text-[1rem] mt-4 leading-[2.19rem]"
             >
               <p>
                 {{
@@ -377,21 +377,21 @@ onMounted(async () => {
               v-if="accountType === 'business'"
               class="flex flex-row items-center justify-between my-10 gap-[96px]"
             >
-              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Intro</p>
+              <p class="text-[1.75rem] text-[#000] font-medium">Intro</p>
               <button @click="HandleToggleEditOverviewModal">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
             </div>
             <div
               v-if="accountType === 'business'"
-              class="text-[#000000BF] bg-[#E1E1E1] h-[422.49px] rounded-[9.56px] border-[0.96px] border-[#E1E1E1] font-Satoshi400 text-justify text-[16px] mt-4 leading-[35px]"
+              class="text-[#000000BF] bg-[#E1E1E1] h-[422.49px] rounded-[9.56px] border-[0.96px] border-[#E1E1E1] font-normal text-justify text-[16px] mt-4 leading-[35px]"
             ></div>
 
             <div
               v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[96px] !mb-4 mt-6"
             >
-              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Skills</p>
+              <p class="text-[1.75rem] text-[#000] font-medium">Skills</p>
               <button @click="HandleToggleSkillsPageModal">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
@@ -401,20 +401,20 @@ onMounted(async () => {
               <div
                 v-for="item in userDetails?.top_skills"
                 :key="item.name"
-                class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[1.06rem] text-center font-Satoshi400 text-[#276A4D]"
+                class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[1.06rem] text-center font-normal text-[#276A4D]"
               >
                 {{ item.name }}
               </div>
 
               <div
-                class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
+                class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-normal text-[#000000]"
               ></div>
             </div>
             <div
               v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
             >
-              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Education</p>
+              <p class="text-[1.75rem] text-[#000] font-medium">Education</p>
               <button @click="HandleToggleEducationPageModal">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
@@ -428,7 +428,7 @@ onMounted(async () => {
               v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[16px] !mb-12 mt-8"
             >
-              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Work Experience</p>
+              <p class="text-[1.75rem] text-[#000] font-medium">Work Experience</p>
               <button @click="HandleToggleWorkExperiencePageModal">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
@@ -443,7 +443,7 @@ onMounted(async () => {
                 v-if="accountType === 'talent'"
                 class="flex flex-row items-center justify-between gap-[96px] !mb-12 mt-8"
               >
-                <p class="text-[1.75rem] text-[#000] font-Satoshi500">Portfolio</p>
+                <p class="text-[1.75rem] text-[#000] font-medium">Portfolio</p>
                 <!-- @click="HandleTogglePortfolioModal" -->
                 <button @click="HandleTogglePortfolioModal">
                   <EditIcon class="text-[#297F88] exclude-from-print" />
@@ -454,7 +454,7 @@ onMounted(async () => {
                 class="flex flex-col w-full justify-center items-center"
               >
                 <p
-                  class="text-[0.94rem] text-[#000] font-Satoshi400 text-center !mb-12 mt-8"
+                  class="text-[0.94rem] text-[#000] font-normal text-center !mb-12 mt-8"
                 >
                   Uploaded portfolio can be viewed here
                 </p>
@@ -493,7 +493,7 @@ onMounted(async () => {
                 />
               </div> -->
             </div>
-            <p class="text-[1.75rem] text-[#000] font-Satoshi500 hidden !mb-12 mt-8">
+            <p class="text-[1.75rem] text-[#000] font-medium hidden !mb-12 mt-8">
               Reviews
             </p>
             <div class="flex flex-col hidden gap-4">
@@ -503,11 +503,11 @@ onMounted(async () => {
                 class="border-[#2440341A] border-[1.265px] rounded-[9.732px] p-6"
               >
                 <p
-                  class="text-[#001E00] font-Satoshi400 text-[16px] mb-4 tracking-[0.6px]"
+                  class="text-[#001E00] font-normal text-[16px] mb-4 tracking-[0.6px]"
                 >
                   Find B2B Partners for UK and US Online Tutoring Company
                 </p>
-                <div class="flex items-center gap-1 font-Satoshi400 mb-2">
+                <div class="flex items-center gap-1 font-normal mb-2">
                   <RateStar v-for="i in 5" :key="i" />
                   <span class="text-[#001E00] text-[14px]">5.00 </span
                   ><span class="text-[#5E6D55] text-[12px]"
@@ -515,11 +515,11 @@ onMounted(async () => {
                   >
                 </div>
                 <p
-                  class="text-[#001E00] font-Satoshi400 italic text-[13px] mb-4 tracking-[0.6px]"
+                  class="text-[#001E00] font-normal italic text-[13px] mb-4 tracking-[0.6px]"
                 >
                   "Great lead generation for education companies"
                 </p>
-                <p class="text-[#5E6D55] font-Satoshi400 text-[14px]">Private earnings</p>
+                <p class="text-[#5E6D55] font-normal text-[14px]">Private earnings</p>
               </div>
             </div>
           </div>
@@ -528,7 +528,7 @@ onMounted(async () => {
               v-if="accountType === 'talent'"
               class="flex flex-row items-center justify-between gap-[26px]"
             >
-              <p class="text-[1.75rem] text-[#000] font-Satoshi500">Certificates</p>
+              <p class="text-[1.75rem] text-[#000] font-medium">Certificates</p>
               <button @click="HandleToggleCertificateModal">
                 <EditIcon class="text-[#297F88] exclude-from-print" />
               </button>
@@ -548,16 +548,16 @@ onMounted(async () => {
                   <a
                     target="_blank"
                     :href="i.certificate_link"
-                    class="text-[0.94rem] text-[#000] font-Satoshi500 hover:text-brand overflow-hidden"
+                    class="text-[0.94rem] text-[#000] font-medium hover:text-brand overflow-hidden"
                   >
                     {{ i.title }}
                   </a>
-                  <p class="text-[14px] leading-[20px] text-[#31795A] font-Satoshi500">
+                  <p class="text-[14px] leading-[20px] text-[#31795A] font-medium">
                     {{ i.institute }}
                   </p>
                   <div class="flex items-center gap-2">
                     <!-- <CalenderWithPen /> -->
-                    <p class="font-Satoshi500 text-[12.9px] text-[#000000]">
+                    <p class="font-medium text-[12.9px] text-[#000000]">
                       {{ i.certificate_year }}
                     </p>
                   </div>
@@ -574,7 +574,7 @@ onMounted(async () => {
             </div>
             <p
               :class="accountType === 'talent' ? 'mt-16' : ''"
-              class="text-[20px] text-[#000] font-Satoshi500"
+              class="text-[20px] text-[#000] font-medium"
             >
               Location
             </p>
@@ -589,10 +589,10 @@ onMounted(async () => {
           class="mt-12 w-full flex flex-col overflow-hidden"
         >
           <div class="flex w-full justify-between mb-4">
-            <p class="text-[18px] font-Satoshi400 text-[#244034]">Open Positions</p>
+            <p class="text-[18px] font-normal text-[#244034]">Open Positions</p>
 
             <router-link
-              class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+              class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-medium text-[12.299px]"
               to="/post-job"
               >Post a job</router-link
             >

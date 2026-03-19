@@ -1,17 +1,17 @@
 <template>
   <div class="bg-[#ECFAFC] border-[#254035AB] pt-[20px] border-[0.567px] rounded-[10px]">
     <div class="flex items-center flex-col lg:flex-row justify-between px-[20px]">
-      <h4 class="text-[20px text-[#000000] font-Satoshi700">Transaction Summary</h4>
+      <h4 class="text-[20px text-[#000000] font-satoshi700">Transaction Summary</h4>
       <div class="flex flex-col lg:flex-row items-center gap-3">
         <div class="flex gap-3">
           <div
-            class="text-[#7E9294] text-[12px] font-Satoshi400 flex items-center gap-[4px]"
+            class="text-[#7E9294] text-[12px] font-normal flex items-center gap-[4px]"
           >
             <div class="h-[10px] w-[10px] rounded-[4px] my-2 bg-[#A7DDFC]"></div>
             Withdrawal
           </div>
           <div
-            class="text-[#7E9294] text-[12px] font-Satoshi400 flex items-center gap-[4px]"
+            class="text-[#7E9294] text-[12px] font-normal flex items-center gap-[4px]"
           >
             <div class="h-[10px] w-[10px] rounded-[4px] my-2 bg-[#AFF5ED]"></div>
             Income
@@ -19,7 +19,7 @@
         </div>
 
         <button
-          class="p-2 py-1.5 text-[#01181B] flex-row gap-1 font-Satoshi700 bg-[#E6F1F3] items-center text-[12px] border-[#254035AB] border-[1px] rounded-[10px] flex"
+          class="p-2 py-1.5 text-[#01181B] flex-row gap-1 font-satoshi700 bg-[#E6F1F3] items-center text-[12px] border-[#254035AB] border-[1px] rounded-[10px] flex"
         >
           <chartCalenderIcon />
           This Month
@@ -116,7 +116,7 @@ export default {
           tickAmount: 10,
           labels: {
             style: {
-              cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
+              cssClass: "!font-satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
             },
           },
         },
@@ -129,7 +129,7 @@ export default {
               return value.toFixed(0) + "k"; // Replace 'Prefix' with your desired prefix
             },
             style: {
-              cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
+              cssClass: "!font-satoshi700 !text-[#97A6A899] !text-[12px] opacity-40", // Add your custom font class name here
             },
           },
         },

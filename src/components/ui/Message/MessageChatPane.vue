@@ -244,18 +244,18 @@ onMounted(async ()=>{
                     >
                         <arrowLeft @click="switchTab"/>
                         <div v-if="chat?.sender_id != userID">
-                            <h3 class="company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{chat?.sender?.first_name }} {{chat?.sender?.last_name }} </h3>
-                            <p class="mail text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{ chat?.sender?.email}}</p>
+                            <h3 class="company font-medium text-[#244034] leading-[1.204rem] text-[1.01rem]">{{chat?.sender?.first_name }} {{chat?.sender?.last_name }} </h3>
+                            <p class="mail text-[#00000066] font-normal leading-[1.204rem] text-[0.85rem]">{{ chat?.sender?.email}}</p>
                         </div>
                         <div v-else>
-                            <h3 class="company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{chat?.receiver?.first_name }} {{chat?.receiver?.last_name }} </h3>
-                            <p class="mail text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{ chat?.receiver?.email}}</p>
+                            <h3 class="company font-medium text-[#244034] leading-[1.204rem] text-[1.01rem]">{{chat?.receiver?.first_name }} {{chat?.receiver?.last_name }} </h3>
+                            <p class="mail text-[#00000066] font-normal leading-[1.204rem] text-[0.85rem]">{{ chat?.receiver?.email}}</p>
                         </div>
                         <DropDownArror @click="handleWidgetClose" class="!text-[#6C8285] arrow msgMob:hidden"/>
                     </div>
                 </div>
                 <div class="header flexBasic gap-[0.85rem]">
-                    <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid place-items-center border  border-brand font-Satoshi500 text-brand">
+                    <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid place-items-center border  border-brand font-medium text-brand">
                         <!-- <div>
                             <img :src="userImg" alt="" class="w-full h-full object-cover">
                         </div> -->
@@ -270,18 +270,18 @@ onMounted(async ()=>{
                     </div>
                     <div>
                         <div v-if="chat?.sender_id != userID">
-                            <h3 class="company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{ chat?.sender?.first_name }} {{chat?.sender?.last_name }}</h3>
-                            <p class="mail text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{ chat?.sender?.email }}</p>
+                            <h3 class="company font-medium text-[#244034] leading-[1.204rem] text-[1.01rem]">{{ chat?.sender?.first_name }} {{chat?.sender?.last_name }}</h3>
+                            <p class="mail text-[#00000066] font-normal leading-[1.204rem] text-[0.85rem]">{{ chat?.sender?.email }}</p>
                         </div>
                         <div v-else>
-                            <h3 class="company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{chat?.receiver?.first_name }} {{chat?.receiver?.last_name }} </h3>
-                            <p class="mail text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{ chat?.receiver?.email}}</p>
+                            <h3 class="company font-medium text-[#244034] leading-[1.204rem] text-[1.01rem]">{{chat?.receiver?.first_name }} {{chat?.receiver?.last_name }} </h3>
+                            <p class="mail text-[#00000066] font-normal leading-[1.204rem] text-[0.85rem]">{{ chat?.receiver?.email}}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="timeStamp">
-                <h3 class="font-Satoshi400 text-right leading-[1.204rem] text-[#24403499] text-[0.65rem]">{{ chat.sent_at }}</h3>
+                <h3 class="font-normal text-right leading-[1.204rem] text-[#24403499] text-[0.65rem]">{{ chat.sent_at }}</h3>
                 <div class="icons flex items-center justify-end gap-4 mt-[0.6rem]">
                 <DeleteIcon class="cursor-pointer"/>
                 <ReplyIcon class="cursor-pointer opacity-[0.5]" @click="handleReply(chat.id)" :class="chat?.sender?.last_name === 'Admin' ? 'hidden': 'block'"/>
@@ -293,8 +293,8 @@ onMounted(async ()=>{
         <div ref="chatScroll" id="chatScroll" class="chatScroll pt-[1.16rem] px-[1.66rem] h-[80%] overflow-y-auto hide-scrollbar">
             <div class="mb-6">
                 <div class="chatPage">
-                    <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat?.subject }}</h3>
-                    <h3 class="messageTitleMob font-Satoshi500 text-[#000] !leading-[1.15rem] text-[1.304rem] !mb-[1.11rem] hidden">{{ chat?.subject }}</h3>
+                    <h3 class="messageTitle font-medium text-[#000] leading-[1.51rem] text-[1.204rem] !mb-[1.11rem]">{{ chat?.subject }}</h3>
+                    <h3 class="messageTitleMob font-medium text-[#000] !leading-[1.15rem] text-[1.304rem] !mb-[1.11rem] hidden">{{ chat?.subject }}</h3>
                     <div class="field !mb-[1.3rem]">
                         <div class="flex flex-col relative">
                             <div id="messageBox" class="flex gap-[0.5rem] items-start max-w-[100%]"
@@ -303,7 +303,7 @@ onMounted(async ()=>{
                                 <div 
                                 v-html="displayTextWithLinks(chat?.message)"
                                 contenteditable="false"
-                                class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[92%] h-auto whitespace-pre-wrap focus:outline-none cursor-pointer"
+                                class="message break-words text-[#000000bf] font-normal leading-[1rem] text-[0.75rem] w-auto max-w-[92%] h-auto whitespace-pre-wrap focus:outline-none cursor-pointer"
                                 aria-readonly="true"
                                 >
                                 </div>
@@ -315,7 +315,7 @@ onMounted(async ()=>{
                                     <EditIcon class="w-full h-full"/>
                                 </div>
                             </div>
-                            <p class="editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500" v-if="editedMessageList && editedMessageList.includes(chat?.id)">Edited</p> 
+                            <p class="editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-medium" v-if="editedMessageList && editedMessageList.includes(chat?.id)">Edited</p> 
                         </div>
                         <div class="hidden editBtnContainer gap-[0.5rem] mt-[0.5rem]">
                             <button
@@ -334,9 +334,9 @@ onMounted(async ()=>{
                     <hr class="border-[#EEEEEE] border-1 my-[1.1rem]">
                     <div>
                         <div class="flexBasic atachmentHead">
-                            <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ chat.attachment.length }} Attachment</h3>
+                            <h3 class="font-medium leading-[normal] text-[#000] text-[0.75rem]">{{ chat.attachment.length }} Attachment</h3>
                             <button 
-                            class="text-[#349459] font-Satoshi500 text-[0.702rem]"
+                            class="text-[#349459] font-medium text-[0.702rem]"
                             @click="downloadAllAttachments(chat.attachment)"
                             >Download All</button>
                         </div>
@@ -350,7 +350,7 @@ onMounted(async ()=>{
                                 <circleFileIcon />
                                 <div>
                                 <h3 class="font-Satosi400 text-[#244034] leading-[1.003rem] text-[0.75rem]">{{ item.file_name }}</h3>
-                                <p class="text-[#24403480] font-Satoshi400 text-[0.65rem] leading-[1.003rem]">{{ item.file_size }}</p>
+                                <p class="text-[#24403480] font-normal text-[0.65rem] leading-[1.003rem]">{{ item.file_size }}</p>
                                 </div>
                             </a>
                         </article>
@@ -362,25 +362,25 @@ onMounted(async ()=>{
                     <div class="chatPage">
                     <div class=" head flex items-center justify-between mb-4">
                         <div class="flex items-center gap-[0.5rem]" v-if="reply?.sender?.id == userID">
-                            <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid place-items-center border  border-brand font-Satoshi500 text-brand">
+                            <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid place-items-center border  border-brand font-medium text-brand">
                                 <div>
                                     {{ reply?.sender?.first_name[0] }} {{reply?.sender?.last_name[0] }}
                                 </div>
                             </div>
-                             <h3 class=" company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem] text-center">{{ reply.sender.first_name }} {{reply.sender.last_name }}</h3>
+                             <h3 class=" company font-medium text-[#244034] leading-[1.204rem] text-[1.01rem] text-center">{{ reply.sender.first_name }} {{reply.sender.last_name }}</h3>
                         </div>
                         <div class="flex items-center gap-[0.5rem]" v-else>
                             
-                            <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid place-items-center border  border-brand font-Satoshi500 text-brand">
+                            <div class="logo w-[2.36rem] h-[2.36rem] rounded-full overflow-hidden grid place-items-center border  border-brand font-medium text-brand">
                                 <div>
                                     {{ reply?.receiver?.first_name[0] }} {{reply?.receiver?.last_name[0] }}
                                 </div>
                             </div>
-                             <h3 class=" company font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem] text-center">{{ reply?.receiver?.first_name }} {{reply?.receiver?.last_name }}</h3>
+                             <h3 class=" company font-medium text-[#244034] leading-[1.204rem] text-[1.01rem] text-center">{{ reply?.receiver?.first_name }} {{reply?.receiver?.last_name }}</h3>
                         </div>
                         <div class="flex gap-[0.1rem] items-center">
-                            <h3 class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 uppercase text-[0.6rem] text-center">{{ displayTime(reply.replied_at) }}</h3>
-                            <span class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 text-[0.6rem] text-center">({{ timeDifference(reply.replied_at) }})</span>
+                            <h3 class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-normal leading-4 uppercase text-[0.6rem] text-center">{{ displayTime(reply.replied_at) }}</h3>
+                            <span class="time_stamp text-[rgba(0, 0, 0, 0.50)] font-normal leading-4 text-[0.6rem] text-center">({{ timeDifference(reply.replied_at) }})</span>
                         </div>
                         
                         <!-- <hr class="border-[#EEEEEE] border-1 my-[1.1rem] w-[30%]"> -->
@@ -394,7 +394,7 @@ onMounted(async ()=>{
                                     <div 
                                     v-html="displayTextWithLinks(reply?.message)"
                                     contenteditable="false"
-                                    class="message break-words text-[#000000bf] font-Satoshi400 leading-[1rem] text-[0.75rem] w-auto max-w-[92%] h-auto whitespace-pre-wrap focus:outline-none"
+                                    class="message break-words text-[#000000bf] font-normal leading-[1rem] text-[0.75rem] w-auto max-w-[92%] h-auto whitespace-pre-wrap focus:outline-none"
                                     aria-readonly="true"
                                     >
                                     </div>
@@ -405,7 +405,7 @@ onMounted(async ()=>{
                                         <EditIcon class="w-full h-full"/>
                                     </div>
                                 </div>
-                                <p class="editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-Satoshi500" v-if="editedMessageList && editedMessageList.includes(reply?.id)">Edited</p>
+                                <p class="editedNotifier m-0 pt-[0.2rem] text-[0.5rem] font-medium" v-if="editedMessageList && editedMessageList.includes(reply?.id)">Edited</p>
                             </div>
                             <div class="hidden editBtnContainer gap-[0.5rem] mt-[0.5rem]">
                                 <button
@@ -424,8 +424,8 @@ onMounted(async ()=>{
                     <hr class="border-[#EEEEEE] border-1 my-[1.1rem]">
                     <div class="hidden">
                         <div class="flexBasic atachmentHead">
-                            <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ reply?.attachments.length }} Attachment</h3>
-                            <button class="text-[#349459] font-Satoshi500 text-[0.702rem]">Download All</button>
+                            <h3 class="font-medium leading-[normal] text-[#000] text-[0.75rem]">{{ reply?.attachments.length }} Attachment</h3>
+                            <button class="text-[#349459] font-medium text-[0.702rem]">Download All</button>
                         </div>
                     </div>
                     <div class="filesContainer mt-4 flex gap-[1.1rem]">
@@ -434,7 +434,7 @@ onMounted(async ()=>{
                                 <circleFileIcon />
                                 <div>
                                 <h3 class="font-Satosi400 text-[#244034] leading-[1.003rem] text-[0.75rem]">{{ item.file_name }}</h3>
-                                <p class="text-[#24403480] font-Satoshi400 text-[0.65rem] leading-[1.003rem]">{{ item.file_size }}</p>
+                                <p class="text-[#24403480] font-normal text-[0.65rem] leading-[1.003rem]">{{ item.file_size }}</p>
                                 </div>
                             </a>
                         </article>

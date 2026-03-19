@@ -5,7 +5,7 @@
       class="md:w-[60%] lg:w-[45%] mx-auto text-center px-3 justify-between flex lg:py-4 !mt-10"
     >
       <div
-        class="flex font-Satoshi400 md:text-[14.908px] text-[12px] justify-center items-center lg:w-[50%] gap-1"
+        class="flex font-normal md:text-[14.908px] text-[12px] justify-center items-center lg:w-[50%] gap-1"
       >
         <TickCircle class="text-[#43D0DF]" />
         <p class="mb-0">Create an account</p>
@@ -14,7 +14,7 @@
         <hr class="border-b-[#000000] lg:w-[190px] md:w-[100px] border-b-[0.932px]" />
       </div>
       <div
-        class="flex font-Satoshi400 md:text-[14.908px] text-[12px] overflow-hidden items-center justify-center lg:w-[50%] gap-1"
+        class="flex font-normal md:text-[14.908px] text-[12px] overflow-hidden items-center justify-center lg:w-[50%] gap-1"
       >
         <TickCircle :class="step >= 4 ? 'text-[#43D0DF]' : 'text-[#B2ECF2]'" />
         <p class="mb-0">Your Profile details</p>
@@ -23,7 +23,7 @@
         <hr class="border-b-[#000000] w-[41.862px] border-b-[0.932px]" />
       </div> -->
       <!-- <div
-        class="flex font-Satoshi400 text-[14.908px] overflow-hidden justify-center items-center w-[60%] gap-1"
+        class="flex font-normal text-[14.908px] overflow-hidden justify-center items-center w-[60%] gap-1"
       >
         <TickCircle :class="step > 2 ? 'text-[#43D0DF]' : 'text-[#B2ECF2]'" />
         <p>Your Porfolio</p>

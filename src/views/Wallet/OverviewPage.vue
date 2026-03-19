@@ -95,7 +95,7 @@ onMounted(async () => {
           </div>
         </div>
         <div>
-          <p class="text-[#2C4C50] text-right font-[16px] font-Satoshi500">
+          <p class="text-[#2C4C50] text-right font-[16px] font-medium">
             Download Transaction Statement
           </p>
         </div>

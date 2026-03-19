@@ -117,7 +117,7 @@ const onFinish = async () => {
           <div></div>
         </div>
         <div class="mt-4 text-left">
-          <p class="font-Satoshi400 text-[9.69px] text-[#000]">
+          <p class="font-normal text-[9.69px] text-[#000]">
             If you have an account with MySpurr, a reset password link has been sent to
             your email. Please click the link to verify your account.
           </p>
@@ -125,7 +125,7 @@ const onFinish = async () => {
         <div class="mt-4">
           <button
             @click="onFinish"
-            class="bg-[#43D0DF] reset-button font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+            class="bg-[#43D0DF] reset-button font-medium text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
           >
             <span v-if="!loading">RESET PASSWORD</span>
             <WhiteLoader v-else />
@@ -134,7 +134,7 @@ const onFinish = async () => {
         <p
           v-if="countdown > 0"
           :class="countdown <= 10 ? 'text-red-500' : 'text-green-500'"
-          class="mt-2 text-center text-[14px] font-Satoshi400"
+          class="mt-2 text-center text-[14px] font-normal"
         >
           Resend in {{ countdown }} seconds
         </p>

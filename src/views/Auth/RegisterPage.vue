@@ -29,7 +29,7 @@ const changeScreen = (from, to, type = null) => {
       <h1 class="md:text-[36px] font-EBGaramond500 text-2xl font-bold leading-[2.5rem]">
         How will you use MySpurr?
       </h1>
-      <p class="text-[16px] font-Satoshi400 my-4 md:!mb-8">Please select an option below.</p>
+      <p class="text-[16px] font-normal my-4 md:!mb-8">Please select an option below.</p>
 
       <div class="justify-center w-full md:bg-white rounded-[11.315px] min-h-full p-2 lg:p-8">
         <tab-selector>
@@ -37,7 +37,7 @@ const changeScreen = (from, to, type = null) => {
           <template #tab2> Business </template>
           <template #view1>
             <div class="bg-[#E6F1F3] rounded-[4.181px] p-4 lg:p-8 mt-10">
-              <p class="text-[12.692px] text-[#011B1F] font-Satoshi500 mb-6 md:!mb-4">
+              <p class="text-[12.692px] text-[#011B1F] font-medium mb-6 md:!mb-4">
                 Signup as a creative talent to
               </p>
               <div v-for="item in talentsTerms" :key="item">
@@ -56,7 +56,7 @@ const changeScreen = (from, to, type = null) => {
                       fill="#43D0DF"
                     />
                   </svg>
-                  <p class="text-[10px] text-[#011B1F] font-Satoshi400 leading-[19.572px] !mb-1">
+                  <p class="text-[10px] text-[#011B1F] font-normal leading-[19.572px] !mb-1">
                     {{ item.content }}
                   </p>
                 </div>
@@ -65,13 +65,13 @@ const changeScreen = (from, to, type = null) => {
             <div class="mt-8">
               <button
                 @click="changeScreen(0, 1)"
-                class="bg-[#43D0DF] font-Satoshi500 text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
+                class="bg-[#43D0DF] font-medium text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
               >
                 Next
               </button>
             </div>
             <div class="mt-4 text-center">
-              <p class="font-Satoshi400 text-[17.253px]">
+              <p class="font-normal text-[17.253px]">
                 Have an account?
                 <router-link class="text-[#31795A] border-b-[#31795A] border-b-[1px]" to="/login">
                   Sign In</router-link
@@ -81,7 +81,7 @@ const changeScreen = (from, to, type = null) => {
           </template>
           <template #view2>
             <div class="bg-[#E6F1F3] rounded-[4.181px] p-4 lg:p-8 mt-10">
-              <p class="text-[12.692px] text-[#011B1F] font-Satoshi500 mb-6 md:!mb-4">
+              <p class="text-[12.692px] text-[#011B1F] font-medium mb-6 md:!mb-4">
                 Signup as a business to
               </p>
               <div v-for="item in businessTerms" :key="item">
@@ -100,7 +100,7 @@ const changeScreen = (from, to, type = null) => {
                       fill="#43D0DF"
                     />
                   </svg>
-                  <p class="text-[10px] text-[#011B1F] font-Satoshi400 leading-[19.572px] !mb-1">
+                  <p class="text-[10px] text-[#011B1F] font-normal leading-[19.572px] !mb-1">
                     {{ item.content }}
                   </p>
                 </div>
@@ -109,13 +109,13 @@ const changeScreen = (from, to, type = null) => {
             <div class="mt-8">
               <button
                 @click="changeScreen(0, 1)"
-                class="bg-[#43D0DF] font-Satoshi500 text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
+                class="bg-[#43D0DF] font-medium text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
               >
                 Next
               </button>
             </div>
             <div class="mt-4 text-center">
-              <p class="font-Satoshi400 text-[17.253px]">
+              <p class="font-normal text-[17.253px]">
                 Have an account?
                 <router-link class="text-[#31795A] border-b-[#31795A] border-b-[1px]" to="/login">
                   Sign In</router-link

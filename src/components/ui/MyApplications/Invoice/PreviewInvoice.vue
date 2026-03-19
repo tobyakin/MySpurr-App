@@ -14,10 +14,10 @@
         <div class="flex justify-between lg:items-center lg:flex-row gap-[20px] flex-col">
           <div class="bg-[#ECFAFC] rounded-[20px] h-[180px] lg:w-[180px] w-full"></div>
           <div class="lg:text-right text-left flex flex-col gap-[10px]">
-            <h3 class="text-[#00474F] text-[18px] font-Satoshi700">
+            <h3 class="text-[#00474F] text-[18px] font-satoshi700">
               Trigon Media Limited
             </h3>
-            <div class="text-[#00000080] text-[16px] font-Satoshi400">
+            <div class="text-[#00000080] text-[16px] font-normal">
               <p>No 4, Thumbe Mobil Road, off</p>
               <p>TY Danjuma Street, Asokoro</p>
               <p>FCT, Nigeria</p>
@@ -29,19 +29,19 @@
           <div class="lg:text-right text-left flex flex-col gap-[10px]">
             <p class="text-[#254035AB] text-[14px] leading-[24px]">Invoice No</p>
 
-            <h3 class="text-[#00474F] uppercase text-[24px] font-Satoshi400">
+            <h3 class="text-[#00474F] uppercase text-[24px] font-normal">
               INV-283749
             </h3>
           </div>
           <div class="flex flex-col lg:w-[40%] gap-[12px]">
-            <h3 class="text-[#000000] text-[12px] font-Satoshi500">
+            <h3 class="text-[#000000] text-[12px] font-medium">
               Client’s Information
             </h3>
           </div>
         </div>
         <div class="flex flex-col mt-[12px] gap-[10px]">
           <h3 class="text-[#244034] text-[27px] font-EBGaramond500">Jhone Doe.</h3>
-          <div class="text-[#00000080] text-[16px] font-Satoshi400">
+          <div class="text-[#00000080] text-[16px] font-normal">
             <p>Managing Director, Company Ltf</p>
             <p>Phone: +123 456 6789</p>
             <p>FCT, Nigeria</p>
@@ -53,13 +53,13 @@
     <div class="flex lg:flex-row flex-col justify-end gap-4 w-full mt-12">
       <div class="flex justify-end w-full gap-4">
         <button
-          class="text-brand border-brand border-[1px] font-Satoshi500 text-[14.153px] capitalize rounded-full px-5 p-[13px] w-full lg:w-[18%]"
+          class="text-brand border-brand border-[1px] font-medium text-[14.153px] capitalize rounded-full px-5 p-[13px] w-full lg:w-[18%]"
         >
           Save as Draft
         </button>
 
         <button
-          class="text-white bg-brand font-Satoshi500 text-[14.153px] capitalize rounded-full px-5 p-[13px] w-full lg:w-[14%]"
+          class="text-white bg-brand font-medium text-[14.153px] capitalize rounded-full px-5 p-[13px] w-full lg:w-[14%]"
         >
           Send
         </button>

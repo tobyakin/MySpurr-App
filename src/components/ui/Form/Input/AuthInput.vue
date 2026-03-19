@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <input
-      class="w-full font-light font-Satoshi400 text-[14px] !p-2 opacity-[0.8029] rounded-[4.074px] text-sm border-[0.509px]"
+      class="w-full font-light font-normal text-[14px] !p-2 opacity-[0.8029] rounded-[4.074px] text-sm border-[0.509px]"
       :class="{
         'border-[#ef4b4b]': error && showBorder,
         'border-[#254035]': !showBorder
@@ -14,7 +14,7 @@
     />
     <errorInputIcon v-if="error" class="absolute top-1 right-1" />
     <!-- <greenInputTick v-if="modelValue.length && !error" class="absolute top-1 right-1" /> -->
-    <!-- <span v-if="error" class="text-[#993939] font-Satoshi400 text-sm">{{
+    <!-- <span v-if="error" class="text-[#993939] font-normal text-sm">{{
       errorsMsg
     }}</span> -->
   </div>

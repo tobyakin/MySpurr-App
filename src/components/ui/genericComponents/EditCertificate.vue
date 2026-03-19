@@ -2,7 +2,7 @@
   <div class="w-full">
     <div class="flex md:gap-24 gap-8 w-full justify-between flex-row">
       <div class="w-full flex text-[#31795A] flex-col gap-5">
-        <div class="w-full font-Satoshi400 flex flex-col gap-6">
+        <div class="w-full font-normal flex flex-col gap-6">
           <div v-for="(item, index) in items" :key="item" class="flex w-full gap-3">
             <div class="">
               <div
@@ -17,18 +17,18 @@
             <div class="flex w-full flex-row justify-between">
               <div class="flex w-full flex-col">
                 <h1
-                  class="text-[14.878px] capitalize font-Satoshi500 text-[#000000] leading-[25.277px]"
+                  class="text-[14.878px] capitalize font-medium text-[#000000] leading-[25.277px]"
                 >
                   {{ item.title }}
                 </h1>
 
                 <h1
-                  class="text-[16px] font-Satoshi500 capitalize text-[#31795A] leading-[23.797px]"
+                  class="text-[16px] font-medium capitalize text-[#31795A] leading-[23.797px]"
                 >
                   {{ item.institute }}
                 </h1>
                 <p
-                  class="text-[11.572px] font-Satoshi500 !mb-0 text-[#011B1F] leading-[23.797px]"
+                  class="text-[11.572px] font-medium !mb-0 text-[#011B1F] leading-[23.797px]"
                 >
                   {{ item.certificate_year }}
                 </p>

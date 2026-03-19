@@ -92,7 +92,7 @@ onMounted(() => {
 .my_settings_tabs {
   scroll-padding-bottom: 0;
   text-transform: capitalize !important;
-  @apply text-[14px] leading-[18.2px] font-Satoshi500 bg-none;
+  @apply text-[14px] leading-[18.2px] font-medium bg-none;
 }
 
 .my_settings_tabs::-webkit-scrollbar {
@@ -102,7 +102,7 @@ onMounted(() => {
 .my_settings_tabs a {
   cursor: pointer;
   transition: color 0.2s;
-  @apply p-0  text-left text-[16.917px] text-[#011B1F] font-Satoshi400;
+  @apply p-0  text-left text-[16.917px] text-[#011B1F] font-normal;
 }
 
 .my_settings_tabs a:last-child {

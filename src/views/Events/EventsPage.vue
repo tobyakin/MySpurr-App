@@ -92,7 +92,7 @@ onMounted(() => {
                             @click="goToPage(currentPage - 1)"
                             :disabled="currentPage === 1"
                             :class="{ 'opacity-50 !border-r-0 cursor-no': currentPage === 1 }"
-                            class="border-[#007582] border-l-2 border-r-2 border-y-2 px-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[1.41rem] items-center flex"
+                            class="border-[#007582] border-l-2 border-r-2 border-y-2 px-4 py-2 rounded-l-[6.032px] font-medium text-[1.41rem] items-center flex"
                             >
                             <Arrow class="rotate-[180deg]" />
                             </button>
@@ -100,7 +100,7 @@ onMounted(() => {
                             v-for="pageNumber in displayedPageNumbers"
                             :key="pageNumber"
                             :class="[
-                                'border-[#007582] p-4 py-2 font-Satoshi500 text-[1.41rem] items-center flex border-y-2 border-r-2',
+                                'border-[#007582] p-4 py-2 font-medium text-[1.41rem] items-center flex border-y-2 border-r-2',
                                 pageNumber === currentPage ? 'bg-[#007582] text-white' : '',
                             ]"
                             @click="goToPage(pageNumber)"
@@ -110,7 +110,7 @@ onMounted(() => {
                             <button
                             @click="goToPage(currentPage + 1)"
                             :disabled="currentPage === totalPages"
-                            class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[1.41rem] items-center flex"
+                            class="border-[#007582] border-r-2 border-y-2 p-4 py-2 rounded-r-[6.032px] font-medium text-[1.41rem] items-center flex"
                             :class="{ 'opacity-50 cursor-no': currentPage === totalPages }"
                             >
                             <Arrow />

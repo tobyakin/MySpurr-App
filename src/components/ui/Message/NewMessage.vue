@@ -11,12 +11,12 @@
                           </div>
                     <arrowLeft class="hidden msgMob:!block" @click="handleBack"/>
                     <div>
-                        <h3 class="font-Satoshi500 text-[#244034] leading-[1.204rem] text-[1.01rem]">{{ userInfo.first_name }} {{ userInfo.last_name }}</h3>
-                        <p class="text-[#00000066] font-Satoshi400 leading-[1.204rem] text-[0.85rem]">{{userSkill}}</p>
+                        <h3 class="font-medium text-[#244034] leading-[1.204rem] text-[1.01rem]">{{ userInfo.first_name }} {{ userInfo.last_name }}</h3>
+                        <p class="text-[#00000066] font-normal leading-[1.204rem] text-[0.85rem]">{{userSkill}}</p>
                     </div>
                 </div>
                 <div class="timeStamp">
-                    <h3 class="font-Satoshi400 text-right leading-[1.204rem] text-[#24403499] text-[0.65rem]">{{getCurrentTime()}}</h3>
+                    <h3 class="font-normal text-right leading-[1.204rem] text-[#24403499] text-[0.65rem]">{{getCurrentTime()}}</h3>
                 </div>   
             </div>
             <hr class="border-[#EEEEEE] border-1">

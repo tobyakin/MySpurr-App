@@ -137,7 +137,7 @@ const onFinish = async () => {
           </div>
         </div>
         <div class="mt-4 text-left">
-          <p class="font-Satoshi400 text-[12.69px] text-[#000]">
+          <p class="font-normal text-[12.69px] text-[#000]">
             If you have an account with MySpurr, a reset password link has been sent to
             your email. Please click the link to verify your account.
           </p>
@@ -145,7 +145,7 @@ const onFinish = async () => {
         <div class="mt-4">
           <button
             @click="onFinish"
-            class="bg-[#43D0DF] font-Satoshi500 text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+            class="bg-[#43D0DF] font-medium text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
           >
             <span v-if="!loading">update PASSWORD</span>
             <WhiteLoader v-else />

@@ -1,6 +1,6 @@
 <template>
   <div class="w-full lg:w-[65%] h-full">
-    <p class="text-[18px] font-Satoshi400 mt-8 lg:mt-0 !mb-8 text-[#244034]">Courses</p>
+    <p class="text-[18px] font-normal mt-8 lg:mt-0 !mb-8 text-[#244034]">Courses</p>
     <div class="flex flex-col w-full gap-3">
       <div
         v-for="i in course"
@@ -9,11 +9,11 @@
       >
         <div class="flex flex-col gap-3 w-full justify-between h-full p-4 py-[1.1rem]">
           <div>
-            <h3 class="text-[#244034] text-[17.11px] leading-[16.62px] font-Satoshi500">
+            <h3 class="text-[#244034] text-[17.11px] leading-[16.62px] font-medium">
               {{ i.heading }}
             </h3>
             <span
-              class="text-[9.57px] font-Satoshi700 text-[#993939] uppercase leading-[8.54px ]"
+              class="text-[9.57px] font-satoshi700 text-[#993939] uppercase leading-[8.54px ]"
               >{{ i.type }} COURSE</span
             >
           </div>
