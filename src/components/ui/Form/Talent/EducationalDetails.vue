@@ -6,9 +6,11 @@ import { storeToRefs } from "pinia";
 import dayjs from "dayjs";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
+import { reactive } from "vue";
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
+const focusedField = ref(null);
 
 const dynamicPlaceholder = ref('Give a brief description about your education');
 
@@ -27,6 +29,79 @@ const formState = ref({
   start_date: "",
   end_date: "",
 });
+
+// Validate fields logic starts here
+const errors = reactive({
+  school_name: false,
+  degree: false,
+  description: false,
+  start_date: false,
+  end_date: false,
+});
+
+const validatePreviousFields = (field) => {
+  const fieldsOrder = [
+    'school_name',
+    'degree',
+    'start_date',
+    'end_date',
+    'description',
+  ];
+
+  const fieldIndex = fieldsOrder.indexOf(field);
+  if (fieldIndex === -1) return;
+
+  for (let i = 0; i < fieldIndex; i++) {
+    const currentField = fieldsOrder[i];
+    if (!validateField(currentField)) {
+      errors[currentField] = true;
+    } else {
+      errors[currentField] = false;
+    }
+  }
+};
+
+const validateField = (field) => {
+  switch (field) {
+    case 'school_name':
+      return !!education.value.school_name.trim();
+    case 'degree':
+      return !!education.value.degree.trim();
+    case 'description':
+      return !!education.value.description.trim();
+    case 'start_date':
+      return !!education.value.start_date.trim();
+    case 'end_date':
+      return !!education.value.end_date.trim();
+    default:
+      return true;
+  }
+};
+
+const validateDescriptionField = (description) => {
+  if (!description || description.trim() === "") {
+    errors.description = true;
+    return false;
+  } else {
+    errors.description = false;
+    return true;
+  }
+};
+
+// Handle focus event
+const handleFocus = (field) => {
+  focusedField.value = field;
+  validatePreviousFields(field);
+  validateDescriptionField(education.value?.description);
+  errors[field] = false; // Clear the error for the focused field
+};
+
+// Handle blur event
+const handleBlur = () => {
+  focusedField.value = null;
+  // validateDescriptionField()
+};
+
 const isFormValid = computed(() => {
   return (
     education.value.school_name.trim() !== "" &&
@@ -83,108 +158,105 @@ onMounted(async () => {
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Educational details
       </h1>
-      <p
-        class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 my-4 md:!mb-8"
-      >
+      <p class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 my-4 md:!mb-8">
         Please provide details to your most recent educational detail. You will have a
         chance to add to this when your onboarding as been completed.
       </p>
-      <div
-        class="flex-col flex gap-6 pb-3"
-      >
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+      <div class="flex-col flex gap-6 pb-3">
+        <!-- School Name -->
+        <div
+          :class="errors.school_name ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">School</label>
           <GlobalInput
             v-model="education.school_name"
             inputClasses="bg-transparent border-none"
             placeholder="University of Nigeria, Nsuka"
             type="text"
+            @focus="handleFocus('school_name')"
+            @blur="handleBlur"
           />
         </div>
-        <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
+
+        <!-- Degree -->
+        <div
+          :class="errors.degree ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+        >
           <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Degree</label>
           <GlobalInput
             v-model="education.degree"
             inputClasses="bg-transparent border-none"
             placeholder="Ex. Bachelor of Science - BS"
             type="text"
+            @focus="handleFocus('degree')"
+            @blur="handleBlur"
           />
         </div>
+
+        <!-- Start Date -->
         <div
-          class="border-[0.737px] border-[#254035AB] hidden rounded-[5.897px] p-4 py-1.5"
-        >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Field of Study</label
-          >
-          <GlobalInput
-            v-model="education.field_of_study"
-            inputClasses="bg-transparent border-none"
-            placeholder="Computer Engineering"
-            type="text"
-          />
-        </div>
-        <div
-          class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+          :class="errors.start_date ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
           <div class="w-full flex flex-col gap-2 justify-between">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-              >Start Date</label
-            >
+            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Start Date</label>
             <a-date-picker
               :bordered="false"
               v-model:value="formState.start_date"
               class="bg-transparent border-none !outline-none w-full shadow-none"
+              @focus="handleFocus('start_date')"
+              @blur="handleBlur"
             />
           </div>
         </div>
+
+        <!-- End Date -->
         <div
-          :class="present ? 'opacity-30' : ''"
-          class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
+          :class="errors.end_date ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
           <div class="w-full flex flex-col gap-2 justify-between">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-              >End Date</label
-            >
+            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">End Date</label>
             <a-date-picker
               :bordered="false"
               v-model:value="formState.end_date"
               :disabled="present"
               class="bg-transparent border-none !outline-none w-full shadow-none"
+              @focus="handleFocus('end_date')"
+              @blur="handleBlur"
             />
           </div>
         </div>
 
-        <!-- <div class="flex flex-row h-full rounded-[5.897px] py-1.5"> -->
-        <div class="w-full flex flex-col after:gap-2 mb-4">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >Description</label
-          >
+        <!-- Description -->
+        <div
+          :class="errors.description ? 'border-[#DA5252]' : 'border-[#254035AB]'"
+          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+        >
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Description</label>
           <div class="flex flex-col">
             <ckeditor
               v-if="isLayoutReady"
               v-model="education.description"
               :editor="editor"
               :config="editorConfigs"
+              @focus="handleFocus('description')"
+              @blur="handleBlur"
             />
           </div>
-
-          <!-- <textarea
-              v-model="education.description"
-              rows="4"
-              class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
-              placeholder="Give a brief description about your education"
-            /> -->
         </div>
-        <!-- </div> -->
 
+        <!-- Currently Schooling Here Checkbox -->
         <div class="flex gap-3 justify-start items-center">
           <input
             class="bg-transparent !border-[0.737px] cursor-pointer !border-[#254035AB] rounded-[5px] p-4 h-[23.965px] w-[25.729px] py-1.5"
             type="checkbox"
             v-model="present"
           />
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
-            >I am currently still schooling here
+          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">
+            I am currently still schooling here
           </label>
         </div>
       </div>

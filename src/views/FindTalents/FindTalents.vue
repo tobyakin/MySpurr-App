@@ -1,7 +1,7 @@
 <script setup>
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { defineAsyncComponent, reactive, watchEffect, computed, ref, watch } from "vue";
-// import { useHead } from "@vueuse/head";
+// import { useHead } from "@unhead/head";
 import { useQuery } from "vue-query";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
