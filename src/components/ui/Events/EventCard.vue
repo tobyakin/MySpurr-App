@@ -32,7 +32,7 @@
                 >
                     <div class="w-[100%] flex items-center justify-between px-4 py-[0.7rem] bg-[#43D0DF] rounded-[0.46rem] btn-hover-1 cursor-pointer">
                     <h3 
-                        class="reg font-Satoshi700 text-[#000] text-[0.865rem] leading-4 tab:text-[0.7rem]"
+                        class="reg font-satoshi700 text-[#000] text-[0.865rem] leading-4 tab:text-[0.7rem]"
                     >
                         <span v-if="props.event?.youtube_link?.length > 0">Watch Replay</span>
                         <span v-else>Replay Coming Soon</span>
@@ -45,7 +45,7 @@
              <router-link :to="{name: 'event-detail', params: {slug: props.event?.slug}}" v-else>
                  <div class="event_btn">
                      <div class="w-[100%] flex items-center justify-between px-4 py-[0.7rem] bg-[#43D0DF] rounded-[0.46rem] btn-hover-1 cursor-pointer">
-                         <h3 class="reg font-Satoshi700 text-[#000] text-[0.865rem] leading-4 tab:text-[0.7rem]">Register</h3>
+                         <h3 class="reg font-satoshi700 text-[#000] text-[0.865rem] leading-4 tab:text-[0.7rem]">Register</h3>
                          <rightArrowM class="reg"/>
                      </div>
                  </div>

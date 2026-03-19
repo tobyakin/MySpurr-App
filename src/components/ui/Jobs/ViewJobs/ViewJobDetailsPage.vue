@@ -62,12 +62,12 @@ onUnmounted(() => {
               class="flex lg:flex-row flex-col gap-4 justify-center lg:items-start items-center lg:justify-between"
             >
               <div class="flex flex-col lg:items-start items-center">
-                <p class="text-[22.805px] font-Satoshi400 flex text-[#000]">
+                <p class="text-[22.805px] font-normal flex text-[#000]">
                   {{ singleJob?.data?.company?.business_name }}
                 </p>
                 <div class="flex mt-1 gap-1">
                   <VerifyIcon class="w-4" />
-                  <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
+                  <p class="text-[11.633px] font-satoshi700 text-[#000000B2]">
                     Verified Client.
                   </p>
                 </div>
@@ -94,13 +94,13 @@ onUnmounted(() => {
             class="flex lg:flex-row flex-col gap-6 items-center justify-between w-full lg:gap-3"
           >
             <p
-              class="lg:text-[26.625px] capitalize text-[19px] font-Satoshi500 text-[#000000]"
+              class="lg:text-[26.625px] capitalize text-[19px] font-medium text-[#000000]"
             >
               {{ singleJob?.data?.job_title }}
             </p>
             <button
               @click="apply"
-              class="bg-[#43D0DF] font-Satoshi500 text-[10.2px] p-3 px-12 text-white btn-hover-1 rounded-full"
+              class="bg-[#43D0DF] font-medium text-[10.2px] p-3 px-12 text-white btn-hover-1 rounded-full"
             >
               Apply
             </button>
@@ -112,7 +112,7 @@ onUnmounted(() => {
               <div
                 v-for="skill in singleJob?.data?.skills"
                 :key="skill"
-                class="bg-[#2F929C] font-Satoshi500 text-[7.58px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
+                class="bg-[#2F929C] font-medium text-[7.58px] capitalize p-[4px] px-6 text-[#fff] rounded-full"
               >
                 {{ skill.name }}
               </div>
@@ -124,8 +124,8 @@ onUnmounted(() => {
         class="bg-[#E9FAFB] border-[0.735px] flex lg:flex-row flex-col gap-5 justify-between rounded-[17.104px] mt-10 p-6 lg:px-10"
       >
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Salary</p>
-          <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[17.104px] font-normal">Salary</p>
+          <p class="text-[#244034] text-[14.104px] font-medium">
 
             {{ singleJob?.data?.currency }}
             {{ store.abbr(singleJob?.data?.salary_min) }}-
@@ -134,27 +134,27 @@ onUnmounted(() => {
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Location</p>
-          <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[17.104px] font-normal">Location</p>
+          <p class="text-[#244034] text-[14.104px] font-medium">
             {{ singleJob?.data?.state }},
             {{ singleJob?.data?.country }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Job Type</p>
-          <p class="text-[#244034] text-[14.104px] capitalize font-Satoshi500">
+          <p class="text-[#244034c5] text-[17.104px] font-normal">Job Type</p>
+          <p class="text-[#244034] text-[14.104px] capitalize font-medium">
             {{ singleJob?.data?.job_type }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Date</p>
-          <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[17.104px] font-normal">Date</p>
+          <p class="text-[#244034] text-[14.104px] font-medium">
             {{ singleJob?.data?.date_created }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Experience</p>
-          <p class="text-[#244034] text-[14.104px] font-Satoshi500">
+          <p class="text-[#244034c5] text-[17.104px] font-normal">Experience</p>
+          <p class="text-[#244034] text-[14.104px] font-medium">
             {{ singleJob?.data?.experience }}
           </p>
         </div>
@@ -164,7 +164,7 @@ onUnmounted(() => {
           <div>
             <p
               v-if="singleJob?.data?.description"
-              class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
+              class="text-[1.034rem] text-[#000] font-medium !mb-4 mt-6"
             >
               Job Description
             </p>
@@ -175,38 +175,38 @@ onUnmounted(() => {
             >
             </div>
 
-            <p class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6">
+            <p class="text-[1.034rem] text-[#000] font-medium !mb-4 mt-6">
               Responsibilities
             </p>
             <div
               v-html="singleJob?.data?.responsibilities"
-              class="responsibilities text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+              class="responsibilities text-[#000]/[0.75] font-normal editor text-[1.034rem] mt-4 leading-[1.543rem]"
             >
           </div>
 
-            <p class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6">
+            <p class="text-[1.034rem] text-[#000] font-medium !mb-4 mt-6">
               Required Skills:
             </p>
             <div
               v-html="singleJob?.data?.required_skills"
-              class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+              class="req_skills text-[#000]/[0.75] font-normal editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
 
             <p
               v-if="singleJob?.data?.benefits"
-              class="text-[1.034rem] text-[#000] font-Satoshi500 !mb-4 mt-6"
+              class="text-[1.034rem] text-[#000] font-medium !mb-4 mt-6"
             >
               Benefits:
             </p>
             <div
               v-html="singleJob?.data?.benefits"
-              class="req_skills text-[#000]/[0.75] font-Satoshi400 editor text-[1.034rem] mt-4 leading-[1.543rem]"
+              class="req_skills text-[#000]/[0.75] font-normal editor text-[1.034rem] mt-4 leading-[1.543rem]"
             ></div>
           </div>
           <div>
             <button
               @click="apply"
-              class="bg-[#43D0DF] font-Satoshi500 text-[9.708px] p-3 px-12 text-white btn-hover-1 rounded-full"
+              class="bg-[#43D0DF] font-medium text-[9.708px] p-3 px-12 text-white btn-hover-1 rounded-full"
             >
               Apply
             </button>
@@ -214,7 +214,7 @@ onUnmounted(() => {
         </div>
         <div class="lg:w-[40%]">
           <div class="bg-[#E9FAFB] border-[0.735px] rounded-[17.104px] p-6">
-            <p class="font-Satoshi700 text-[17.104px] text-[#31795A]/[0.70]">
+            <p class="font-satoshi700 text-[17.104px] text-[#31795A]/[0.70]">
               About the Company
             </p>
             <div class="flex mt-8 gap-4">
@@ -229,12 +229,12 @@ onUnmounted(() => {
               </div>
               <div>
                 <div class="flex gap-2 items-center">
-                  <p class="text-[20.166px] font-Satoshi400 flex text-[#000]">
+                  <p class="text-[20.166px] font-normal flex text-[#000]">
                     {{ singleJob?.data?.company.business_name }}
                   </p>
                   <div class="flex mt-1 gap-1">
                     <VerifyIcon class="w-4" />
-                    <p class="text-[10.646px] font-Satoshi700 text-[#000000B2]">
+                    <p class="text-[10.646px] font-satoshi700 text-[#000000B2]">
                       Verified Client.
                     </p>
                   </div>
@@ -243,7 +243,7 @@ onUnmounted(() => {
                   <div
                     v-for="skill in singleJob?.data?.company?.industry"
                     :key="skill"
-                    class="bg-[#2F929C] font-Satoshi500 text-[8.552px] capitalize p-[4px] px-4 text-[#fff] rounded-full"
+                    class="bg-[#2F929C] font-medium text-[8.552px] capitalize p-[4px] px-4 text-[#fff] rounded-full"
                   >
                     {{ skill.name }}
                   </div>
@@ -252,11 +252,11 @@ onUnmounted(() => {
             </div>
             <div
               v-html="singleJob?.data?.company.about_business"
-              class="text-[#000]/[0.75] editor font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
+              class="text-[#000]/[0.75] editor font-normal text-[12.546px] mt-6 leading-[24.689px]"
             ></div>
             <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
             <div
-              class="text-[#000]/[0.75] font-Satoshi400 text-[12.546px] mt-6 leading-[24.689px]"
+              class="text-[#000]/[0.75] font-normal text-[12.546px] mt-6 leading-[24.689px]"
             >
               <p>{{ singleJob?.data?.total_opened_jobs }} Jobs opened</p>
             </div>
@@ -264,22 +264,22 @@ onUnmounted(() => {
             <hr class="border-[#2C4C50] border-[1.14px] my-[26px]" />
             <div class="flex rounded-[17.104px] mb-4 gap-6">
               <div class="flex flex-col gap-2">
-                <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">
+                <p class="text-[#244034c5] text-[17.104px] font-normal">
                   Completed Jobs
                 </p>
-                <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                <p class="text-[#244034] text-[17.104px] font-medium">
                   {{ singleJob?.data?.completed_jobs }}
                 </p>
               </div>
               <div class="flex flex-col gap-2">
-                <p class="text-[#244034c5] text-[17.104px] font-Satoshi400">Hired Jobs</p>
-                <p class="text-[#244034] text-[17.104px] font-Satoshi500">
+                <p class="text-[#244034c5] text-[17.104px] font-normal">Hired Jobs</p>
+                <p class="text-[#244034] text-[17.104px] font-medium">
                   {{ singleJob?.data?.hired_jobs }}
                 </p>
               </div>
             </div>
             <button
-              class="bg-[#31795A] rounded-full p-2 px-10 font-Satoshi500 text-[16.646px] text-white btn-hover-2"
+              class="bg-[#31795A] rounded-full p-2 px-10 font-medium text-[16.646px] text-white btn-hover-2"
             >
               Message
             </button>

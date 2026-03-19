@@ -227,12 +227,12 @@ onMounted(async () => {
               />
               <div class="lg:text-left text-center">
                 <p
-                  class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]"
+                  class="text-[#000000] text-[17.518px] capitalize font-medium leading-[31.739px]"
                 >
                   {{ userDetails.business_name }}
                 </p>
                 <p
-                  class="text-[#00000066] !my-1.5 text-[14.598px] flex gap-[8px] items-center capitalize leading-[31.739px] font-Satoshi400"
+                  class="text-[#00000066] !my-1.5 text-[14.598px] flex gap-[8px] items-center capitalize leading-[31.739px] font-normal"
                   v-if="userDetails?.skill_title"
                 >
                   {{ userDetails?.skill_title }}
@@ -244,14 +244,14 @@ onMounted(async () => {
                 </p>
                 <div class="flex items-center lg:justify-start justify-center gap-2">
                   <p
-                    class="text-[#244034] flex gap-3 lg:text-[13.625px] text-[14px] font-Satoshi500"
+                    class="text-[#244034] flex gap-3 lg:text-[13.625px] text-[14px] font-medium"
                   >
                     {{ userDetails?.location }}
                     <a
                       v-if="accountType === 'business'"
                       :href="formattedWebsite"
                       target="_blank"
-                      class="underline text-[13.63px] cursor-pointer font-Satoshi500 text-[#244034]"
+                      class="underline text-[13.63px] cursor-pointer font-medium text-[#244034]"
                       >View Website</a
                     >
                   </p>
@@ -273,22 +273,22 @@ onMounted(async () => {
           >
             <div class="flex items-center justify-center lg:justify-start lg:items-center gap-10 msgTab:flex-col msgTab:gap-4 dashBreak:order-2">
               <div class="flex flex-col gap-3 msgTab:flex-row">
-                <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Size</p>
-                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">{{ size }}</h4>
+                <p class="text-[#24403480] font-normal text-[13.25px]">Size</p>
+                <h4 class="text-[#244034] font-medium text-[13.25px]">{{ size }}</h4>
               </div>
               <div class="flex flex-col gap-3 msgTab:flex-row">
-                <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Email</p>
-                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">
+                <p class="text-[#24403480] font-normal text-[13.25px]">Email</p>
+                <h4 class="text-[#244034] font-medium text-[13.25px]">
                   {{ userDetails?.business_email }}
                 </h4>
               </div>
               <div class="flex flex-col gap-3 msgTab:flex-row">
-                <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Phone</p>
-                <h4 class="text-[#244034] font-Satoshi500 text-[13.25px]">+{{ userDetails?.country_code }}{{ userDetails?.phone_number }}</h4>
+                <p class="text-[#24403480] font-normal text-[13.25px]">Phone</p>
+                <h4 class="text-[#244034] font-medium text-[13.25px]">+{{ userDetails?.country_code }}{{ userDetails?.phone_number }}</h4>
               </div>
               <div class="flex flex-col gap-3 msgTab:flex-row">
-                <p class="text-[#24403480] font-Satoshi400 text-[13.25px]">Category</p>
-                <h4 class="text-[#244034] capitalize font-Satoshi500 text-[13.25px]">
+                <p class="text-[#24403480] font-normal text-[13.25px]">Category</p>
+                <h4 class="text-[#244034] capitalize font-medium text-[13.25px]">
                   {{ userDetails?.business_service }}
                 </h4>
               </div>
@@ -342,13 +342,13 @@ onMounted(async () => {
         <div class="flex flex-col lg:flex-row mt-10 w-full">
           <div class="lg:w-[70%] p-4">
             <div class="flex flex-row items-center justify-between gap-[96px]">
-              <p class="text-[1.67rem] text-[#000] font-Satoshi500">Overview</p>
+              <p class="text-[1.67rem] text-[#000] font-medium">Overview</p>
               <button @click="HandleToggleEditOverviewModal">
                 <EditIcon class="text-[#297F88]" />
               </button>
             </div>
             <div
-              class="text-[#000000BF] font-Satoshi400 text-justify text-[1rem] mt-4 leading-[2rem]"
+              class="text-[#000000BF] font-normal text-justify text-[1rem] mt-4 leading-[2rem]"
             >
               <p>
                 {{ userDetails?.about_business }}
@@ -358,7 +358,7 @@ onMounted(async () => {
               v-if="accountType === 'business'"
               class="flex flex-row items-center justify-between mt-10 mb-8 gap-[96px]"
             >
-              <p class="text-[1.67rem] text-[#000] font-Satoshi500">Introductory Video</p>
+              <p class="text-[1.67rem] text-[#000] font-medium">Introductory Video</p>
               <button @click="HandleToggleEditIntro">
                 <EditIcon class="text-[#297F88]" />
               </button>
@@ -372,7 +372,7 @@ onMounted(async () => {
             </div>
             <!-- <div
               v-if="accountType === 'business'"
-              class="text-[#000000BF] bg-[#E1E1E1] h-[422.49px] rounded-[9.56px] border-[0.96px] border-[#E1E1E1] font-Satoshi400 text-justify text-[16px] mt-4 leading-[35px]"
+              class="text-[#000000BF] bg-[#E1E1E1] h-[422.49px] rounded-[9.56px] border-[0.96px] border-[#E1E1E1] font-normal text-justify text-[16px] mt-4 leading-[35px]"
             >
             
             </div> -->
@@ -380,7 +380,7 @@ onMounted(async () => {
           <div class="lg:w-[30%] p-4">
             <p
               :class="accountType === 'talent' ? 'mt-16' : ''"
-              class="text-[1.67rem] text-[#000] font-Satoshi500"
+              class="text-[1.67rem] text-[#000] font-medium"
             >
               Location
             </p>
@@ -394,10 +394,10 @@ onMounted(async () => {
           class="mt-12 w-full flex flex-col overflow-hidden"
         >
           <div class="flex w-full justify-between mb-4">
-            <p class="text-[1.67rem] text-[#000] font-Satoshi500">Open Positions</p>
+            <p class="text-[1.67rem] text-[#000] font-medium">Open Positions</p>
 
             <router-link
-              class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+              class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-medium text-[12.299px]"
               to="/post-job"
               >Post a job</router-link
             >
@@ -422,14 +422,14 @@ onMounted(async () => {
                   <button
                     @click="scrollLeft"
                     :disbled="isAtStart"
-                    class="border-[#007582] border-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                    class="border-[#007582] border-2 p-4 py-2 rounded-l-[6.032px] font-medium text-[22.621px] items-center flex"
                   >
                     <Arrow class="rotate-[180deg]"/>
                   </button>
                   <button
                     @click="scrollRight"
                     :disbled="isAtEnd"
-                    class="border-[#007582] border-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                    class="border-[#007582] border-2 p-4 py-2 rounded-r-[6.032px] font-medium text-[22.621px] items-center flex"
                   >
                     <Arrow/>
                   </button>

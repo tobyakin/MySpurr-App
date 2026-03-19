@@ -147,7 +147,7 @@ onMounted(async () => {
             <div
               v-for="(selectedItem, index) in top_skills"
               :key="selectedItem.id"
-              class="selected-item bg-brand text-sm font-Satoshi400 p-[5px] text-white rounded-[5px]"
+              class="selected-item bg-brand text-sm font-normal p-[5px] text-white rounded-[5px]"
             >
               {{ selectedItem.name }}
               <span
@@ -181,7 +181,7 @@ onMounted(async () => {
             /> -->
             <ul
               v-if="showDropdown"
-              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-normal overflow-hidden"
             >
               <li
                 v-for="(option, index) in filteredOptions"

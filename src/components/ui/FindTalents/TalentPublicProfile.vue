@@ -13,21 +13,21 @@
         />
         <div class="lg:text-left text-center">
           <p
-            class="text-[#000000] text-[17.518px] capitalize font-Satoshi500 leading-[31.739px]"
+            class="text-[#000000] text-[17.518px] capitalize font-medium leading-[31.739px]"
           >
             {{ props?.talent?.first_name }} {{ props?.talent?.last_name }}
           </p>
           <p
-            class="text-[#00000066] text-[14.598px] capitalize leading-[31.739px] font-Satoshi400"
+            class="text-[#00000066] text-[14.598px] capitalize leading-[31.739px] font-normal"
           >
             {{ props?.talent?.skill_title }}
           </p>
           <div class="flex items-center lg:justify-start justify-center gap-2">
-            <p class="lg:text-[13.625px] text-[14px] text-[#244034] font-Satoshi500">
+            <p class="lg:text-[13.625px] text-[14px] text-[#244034] font-medium">
               ${{ props?.talent?.rate }}/hr
             </p>
             <div class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"></div>
-            <p class="text-[#244034] lg:text-[13.625px] text-[14px] font-Satoshi500">
+            <p class="text-[#244034] lg:text-[13.625px] text-[14px] font-medium">
               {{ props?.talent?.location }}
             </p>
           </div>
@@ -79,10 +79,10 @@
     </div>
     <div class="flex flex-col lg:flex-row mt-10 w-full">
       <div class="lg:w-[70%] p-4">
-        <p v-if="props?.talent?.overview" class="text-[28px] text-[#000] font-Satoshi500">
+        <p v-if="props?.talent?.overview" class="text-[28px] text-[#000] font-medium">
           Overview
         </p>
-        <div class="text-[#000000BF] font-Satoshi400 text-[16px] mt-4 leading-[35px]">
+        <div class="text-[#000000BF] font-normal text-[16px] mt-4 leading-[35px]">
           <p>
             {{ props?.talent?.overview }}
           </p>
@@ -95,7 +95,7 @@
         </div>
         <p
           v-if="props?.talent?.top_skills?.length"
-          class="text-[28px] text-[#000] font-Satoshi500 mb-4 mt-6"
+          class="text-[28px] text-[#000] font-medium mb-4 mt-6"
         >
           Skills
         </p>
@@ -103,17 +103,17 @@
           <div
             v-for="item in props?.talent?.top_skills"
             :key="item.name"
-            class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[17px] text-center font-Satoshi400 text-[#276A4D]"
+            class="bg-[#EFF6F3] rounded-full p-5 py-3 text-[17px] text-center font-normal text-[#276A4D]"
           >
             {{ item.name }}
           </div>
           <div
-            class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-Satoshi400 text-[#000000]"
+            class="bg-[#D2F34C] hidden rounded-full p-4 py-3 text-[17px] font-normal text-[#000000]"
           ></div>
         </div>
         <p
           v-if="props?.talent?.education?.length"
-          class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8"
+          class="text-[28px] text-[#000] font-medium mb-12 mt-8"
         >
           Education
         </p>
@@ -122,14 +122,14 @@
 
         <p
           v-if="props?.talent?.employment?.length"
-          class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8"
+          class="text-[28px] text-[#000] font-medium mb-12 mt-8"
         >
           Work Experience
         </p>
         <WorkExperience :items="props?.talent?.employment" />
         <p
           v-if="props?.talent?.portfolio?.length"
-          class="text-[28px] text-[#000] font-Satoshi500 mb-12 mt-8"
+          class="text-[28px] text-[#000] font-medium mb-12 mt-8"
         >
           Portfolio
         </p>
@@ -147,32 +147,32 @@
             alt=""
           />
         </div>
-        <p class="text-[28px] text-[#000] font-Satoshi500 hidden mb-12 mt-8">Reviews</p>
+        <p class="text-[28px] text-[#000] font-medium hidden mb-12 mt-8">Reviews</p>
         <div class="flex hidden flex-col gap-4">
           <div
             v-for="i in 1"
             :key="i"
             class="border-[#2440341A] border-[1.265px] rounded-[9.732px] p-6"
           >
-            <p class="text-[#001E00] font-Satoshi400 text-[16px] mb-4 tracking-[0.6px]">
+            <p class="text-[#001E00] font-normal text-[16px] mb-4 tracking-[0.6px]">
               Find B2B Partners for UK and US Online Tutoring Company
             </p>
-            <div class="flex items-center gap-1 font-Satoshi400 mb-2">
+            <div class="flex items-center gap-1 font-normal mb-2">
               <RateStar v-for="i in 5" :key="i" />
               <span class="text-[#001E00] text-[14px]">5.00 </span
               ><span class="text-[#5E6D55] text-[12px]">Dec 15, 2022 - Feb 2, 2023</span>
             </div>
             <p
-              class="text-[#001E00] font-Satoshi400 italic text-[13px] mb-4 tracking-[0.6px]"
+              class="text-[#001E00] font-normal italic text-[13px] mb-4 tracking-[0.6px]"
             >
               "Great lead generation for education companies"
             </p>
-            <p class="text-[#5E6D55] font-Satoshi400 text-[14px]">Private earnings</p>
+            <p class="text-[#5E6D55] font-normal text-[14px]">Private earnings</p>
           </div>
         </div>
       </div>
       <div class="lg:w-[30%] w-full p-4">
-        <p class="text-[28px] text-[#000] font-Satoshi500">Certificates</p>
+        <p class="text-[28px] text-[#000] font-medium">Certificates</p>
         <div
           class="bg-[#E9FAFB] p-8 border-[#F6F6F6] border-[1px] flex flex-col gap-12 mt-4 rounded-[15px]"
         >
@@ -186,16 +186,16 @@
               <a
                 target="_blank"
                 :href="i.certificate_link"
-                class="text-[15px] text-[#000] font-Satoshi500 hover:text-brand overflow-hidden"
+                class="text-[15px] text-[#000] font-medium hover:text-brand overflow-hidden"
               >
                 {{ i.title }}
               </a>
-              <p class="text-[14px] leading-[20px] text-[#31795A] font-Satoshi500">
+              <p class="text-[14px] leading-[20px] text-[#31795A] font-medium">
                 {{ i.institute }}
               </p>
               <div class="flex items-center gap-2">
                 <CalenderWithPen />
-                <p class="font-Satoshi500 text-[12.9px] text-[#000000]">
+                <p class="font-medium text-[12.9px] text-[#000000]">
                   {{ i.certificate_year }}
                 </p>
               </div>
@@ -210,7 +210,7 @@
             </button>
           </div>
         </div>
-        <p class="text-[20px] text-[#000] font-Satoshi500 mt-16">Location</p>
+        <p class="text-[20px] text-[#000] font-medium mt-16">Location</p>
         <div class="flex flex-col gap-12 mt-4 rounded-[15px]">
           <!-- <img loading="lazy" src="@/assets/img/Map.webp" alt="" /> -->
           <Map :lat="props?.talent?.latitude" :lng="props?.talent?.longitude" />

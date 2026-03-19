@@ -57,27 +57,27 @@ const copyUrl = () => {
         class="h-[40px] w-[40px] rounded-full object-cover"
       />
       <div>
-        <p class="text-[13.021px] font-Satoshi500 text-[#2F929C]">
+        <p class="text-[13.021px] font-medium text-[#2F929C]">
           {{ props?.job?.company?.business_name }}
         </p>
-        <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
+        <p class="text-[13.021px] font-medium text-[#000000]">
           {{ props?.job?.job_title }}
         </p>
         <div class="flex flex-wrap items-center mt-2 gap-2">
           <div
-            class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-Satoshi500"
+            class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-medium"
           >
             <CalenderIcon /><span class=""> {{ props?.job?.date_created }} </span>
           </div>
           <div
-            class="flex gap-[2px] items-center text-[10.334px] text-[#DA5252] font-Satoshi500"
+            class="flex gap-[2px] items-center text-[10.334px] text-[#DA5252] font-medium"
           >
             <LocationIcon /><span class=""
               >{{ props?.job?.state }}, {{ props?.job?.country }}</span
             >
           </div>
           <!-- <div
-            class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-Satoshi500"
+            class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-medium"
           >
             <TimerIcon /><span class="">Anytime</span>
          </div> -->
@@ -88,7 +88,7 @@ const copyUrl = () => {
     <div class="flex flex-col justify-between mt-5">
       <div class="flex justify-between items-center">
         <div>
-          <p class="text-[17.633px] font-Satoshi500 text-[#244034B2]">
+          <p class="text-[17.633px] font-medium text-[#244034B2]">
             <span v-html="numAbbr.formatCurrency(props?.job?.currency)"></span>
             {{ store.abbr(props?.job?.salary_min) }}-
             {{ store.abbr(props?.job?.salary_max) }}/
@@ -96,14 +96,14 @@ const copyUrl = () => {
           </p>
           <div class="flex mt-1 gap-1">
             <VerifyIcon class="" />
-            <p class="text-[11.633px] font-Satoshi700 text-[#000000B2]">
+            <p class="text-[11.633px] font-satoshi700 text-[#000000B2]">
               Verified Client.
             </p>
           </div>
         </div>
         <div>
           <div
-            class="bg-[#EDF0B8] font-Satoshi500 capitalize flex items-center text-[9.708px] p-2 px-6 text-[#000000] rounded-full"
+            class="bg-[#EDF0B8] font-medium capitalize flex items-center text-[9.708px] p-2 px-6 text-[#000000] rounded-full"
           >
             {{ props?.job?.job_type }}
           </div>
@@ -118,7 +118,7 @@ const copyUrl = () => {
               ? 'bg-gray-300 cursor-not-allowed'
               : 'bg-[#43D0DF] btn-hover-1'
           "
-          class="font-Satoshi500 capitalize text-[9.708px] p-3 px-7 text-white rounded-full"
+          class="font-medium capitalize text-[9.708px] p-3 px-7 text-white rounded-full"
         >
           <span v-if="props?.job?.application_status === 'applied'">
             {{ props?.job?.application_status }}

@@ -8,7 +8,7 @@
           class="w-full py-4 hover:bg-gray-100 px-4 text-left border-b-[#000000] border-b-[0.5px]"
         >
         <router-link :to="{name: 'messages'}">
-          <span class="text-left p-2 w-full font-Satoshi400">
+          <span class="text-left p-2 w-full font-normal">
             You have {{ props.itemNum }} unread Messages
           </span>
         </router-link>
@@ -20,7 +20,7 @@
         <li
           class="w-full py-4 hover:bg-gray-100 px-4 text-left border-b-[#000000] border-b-[0.5px]"
         >
-        <span class="text-left p-2 w-full font-Satoshi400">
+        <span class="text-left p-2 w-full font-normal">
           You have no Notifications at this moment
         </span>
         </li>

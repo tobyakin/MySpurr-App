@@ -44,21 +44,21 @@
           </div>
           <div class="lg:text-left text-center">
             <p
-              class="text-[#000000] text-[12.454px] capitalize font-Satoshi500 leading-[19.739px]"
+              class="text-[#000000] text-[12.454px] capitalize font-medium leading-[19.739px]"
             >
               {{ props?.talent?.first_name }} {{ props?.talent?.last_name }}
             </p>
             <p
-              class="text-[#00000066] text-[10.378px] leading-[20.739px] font-Satoshi400"
+              class="text-[#00000066] text-[10.378px] leading-[20.739px] font-normal"
             >
               {{ props?.talent?.skill_title }}
             </p>
             <div class="flex flex-wrap items-center gap-2">
-              <p class="text-[9.686px] text-[#244034] font-Satoshi500">
+              <p class="text-[9.686px] text-[#244034] font-medium">
                 ${{ props?.talent?.rate }}/hr
               </p>
               <div class="h-[4px] bg-[#010101e2] w-[4px] rounded-full"></div>
-              <p class="text-[#244034] text-[9.686px] font-Satoshi500">
+              <p class="text-[#244034] text-[9.686px] font-medium">
                 {{ props?.talent?.location }}
               </p>
             </div>
@@ -88,7 +88,7 @@
       @click="viewProfile(props?.talent?.talent_id)"
       class="flex items-center gap-4 mt-6"
     >
-      <p class="text-[10.378px] font-Satoshi500 text-[#244034]">View Application</p>
+      <p class="text-[10.378px] font-medium text-[#244034]">View Application</p>
       <ArrowRight />
     </button>
   </div>

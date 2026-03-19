@@ -11,18 +11,18 @@ const updateIsToggled = () => {
   <div class="flex flex-col gap-[44px]">
     <div class="flex flex-row justify-between items-center gap-8">
       <h3
-        class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+        class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
       >
         Notifications
       </h3>
-      <p class="text-[#000000] text-[20px] font-Satoshi400">Email</p>
+      <p class="text-[#000000] text-[20px] font-normal">Email</p>
     </div>
     <div class="w-full flex flex-col gap-[10px]">
       <div class="flex flex-col gap-[28px] w-full">
         <div class="flex flex-col gap-[26px]">
           <div class="flex justify-between items-center flex-row">
             <h3
-              class="lg:text-[24px] text-[16px] !font-Satoshi400 text-[#000000] lg:leading-[35.39px]"
+              class="lg:text-[24px] text-[16px] font-normal text-[#000000] lg:leading-[35.39px]"
             >
               New jobs match to your saved filter criteria
             </h3>
@@ -39,7 +39,7 @@ const updateIsToggled = () => {
         <div class="flex flex-col gap-[26px]">
           <div class="flex justify-between items-center flex-row">
             <h3
-              class="lg:text-[24px] text-[16px] !font-Satoshi400 text-[#000000] lg:leading-[35.39px]"
+              class="lg:text-[24px] text-[16px] font-normal text-[#000000] lg:leading-[35.39px]"
             >
               You have been invited to a job
             </h3>
@@ -56,7 +56,7 @@ const updateIsToggled = () => {
         <div class="flex flex-col gap-[26px]">
           <div class="flex justify-between items-center flex-row">
             <h3
-              class="lg:text-[24px] text-[16px] !font-Satoshi400 text-[#000000] lg:leading-[35.39px]"
+              class="lg:text-[24px] text-[16px] font-normal text-[#000000] lg:leading-[35.39px]"
             >
               You must add banking information
             </h3>
@@ -73,7 +73,7 @@ const updateIsToggled = () => {
         <div class="flex flex-col gap-[26px]">
           <div class="flex justify-between items-center flex-row">
             <h3
-              class="lg:text-[24px] text-[16px] !font-Satoshi400 text-[#000000] lg:leading-[35.39px]"
+              class="lg:text-[24px] text-[16px] font-normal text-[#000000] lg:leading-[35.39px]"
             >
               Chat messages
             </h3>
@@ -90,7 +90,7 @@ const updateIsToggled = () => {
         <div class="flex flex-col gap-[26px]">
           <div class="flex justify-between items-center flex-row">
             <h3
-              class="lg:text-[24px] text-[16px] !font-Satoshi400 text-[#000000] lg:leading-[35.39px]"
+              class="lg:text-[24px] text-[16px] font-normal text-[#000000] lg:leading-[35.39px]"
             >
               Job referral opportunitites
             </h3>
@@ -107,7 +107,7 @@ const updateIsToggled = () => {
         <div class="flex flex-col gap-[26px]">
           <div class="flex justify-between items-center flex-row">
             <h3
-              class="lg:text-[24px] text-[16px] !font-Satoshi400 text-[#000000] lg:leading-[35.39px]"
+              class="lg:text-[24px] text-[16px] font-normal text-[#000000] lg:leading-[35.39px]"
             >
               Your application deleted due to openings removal
             </h3>
@@ -124,7 +124,7 @@ const updateIsToggled = () => {
         <div class="flex flex-col gap-[26px]">
           <div class="flex justify-between items-center flex-row">
             <h3
-              class="lg:text-[24px] text-[16px] !font-Satoshi400 text-[#000000] lg:leading-[35.39px]"
+              class="lg:text-[24px] text-[16px] font-normal text-[#000000] lg:leading-[35.39px]"
             >
               New comment on portfolio
             </h3>

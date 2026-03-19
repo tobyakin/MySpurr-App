@@ -64,7 +64,7 @@ onMounted(async () => {
 
         <div class="flex flex-col text-center gap-[20px]">
           <div class="flex flex-row justify-center items-center gap-[21px]">
-            <h4 class="text-[#dc3545] font-Satoshi500 text-[23.144px]">Delete Account</h4>
+            <h4 class="text-[#dc3545] font-medium text-[23.144px]">Delete Account</h4>
           </div>
           <p>Are you sure you want to delete your account ?</p>
         </div>
@@ -82,7 +82,7 @@ onMounted(async () => {
     <div class="flex flex-col gap-[28px]">
       <div>
         <h3
-          class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+          class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
         >
           Password
         </h3>
@@ -104,9 +104,9 @@ onMounted(async () => {
         </div>
         <div class="grid grid-cols-1 w-full gap-8">
           <div
-            class="w-full mt-2 font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full mt-2 font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >Old Password
             </label>
             <GlobalInput
@@ -119,9 +119,9 @@ onMounted(async () => {
 
         <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-8">
           <div
-            class="w-full mt-2 font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full mt-2 font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >New Password
             </label>
             <GlobalInput
@@ -132,9 +132,9 @@ onMounted(async () => {
           </div>
 
           <div
-            class="w-full mt-2 font-light font-Satoshi400 p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
+            class="w-full mt-2 font-light font-normal p-4 py-1.5 border-[#254035AB] border-[0.737px] opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px]"
           >
-            <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] flex text-[10px] font-normal"
               >Confirm Password
             </label>
             <GlobalInput
@@ -149,7 +149,7 @@ onMounted(async () => {
     <div class="flex flex-col gap-[28px]">
       <div>
         <h3
-          class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+          class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
         >
           Two-factor authentication
         </h3>
@@ -162,7 +162,7 @@ onMounted(async () => {
     <div class="flex flex-col gap-[61px]">
       <div>
         <h3
-          class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+          class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
         >
           Privacy
         </h3>
@@ -176,13 +176,13 @@ onMounted(async () => {
             My Account
           </h3>
           <h3
-            class="text-[#63D8E4] text-[26.036px] font-Satoshi400 leading-[40.393px] underline-offset-8 underline"
+            class="text-[#63D8E4] text-[26.036px] font-normal leading-[40.393px] underline-offset-8 underline"
           >
             Delete my account
           </h3>
         </div>
         <div class="flex flex-col lg:flex-row w-full justify-between items-center gap-8">
-          <p class="text-[#000000] text-[18px] font-Satoshi400">
+          <p class="text-[#000000] text-[18px] font-normal">
             MySpurr makes it easy to delete your account and all the associated data with
             it.
           </p>

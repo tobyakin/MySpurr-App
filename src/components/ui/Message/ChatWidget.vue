@@ -359,7 +359,7 @@ const getUserInfo = ()=>{
                           <div class="userImg w-[1.875rem] h-[1.875rem] rounded-[1.875rem] overflow-hidden bg-brand grid place-items-center" v-else>
                             <svg data-v-f87d500a="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 text-gray-100 h-5"><path data-v-f87d500a="" stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path></svg>
                           </div>
-                          <h3 class="text-[#000] font-Satoshi500 leading-[1.51rem]text-[0.903rem]">Messaging</h3>
+                          <h3 class="text-[#000] font-medium leading-[1.51rem]text-[0.903rem]">Messaging</h3>
                       </div>
                       <div class="flexBasic gap-4">
                           <MoreVertIcon />
@@ -387,7 +387,7 @@ const getUserInfo = ()=>{
                   />
                   <div v-else class="grid w-full h-full place-items-center">
                     <div class="text-center w-[90%] mx-auto mt-[3rem]">
-                      <h1 class="font-Satoshi500 text-[1.5rem] leading-[3.5rem]">No {{ noMessageNotification }} yet</h1>
+                      <h1 class="font-medium text-[1.5rem] leading-[3.5rem]">No {{ noMessageNotification }} yet</h1>
                       <p>Start a conversation by sending a message</p>
                     </div>
                   </div>
@@ -415,7 +415,7 @@ const getUserInfo = ()=>{
                             <circleFileIcon class="w-[20px] h-[20px]"/>
                             <div>
                                 <h3 class="font-Satosi400 text-[#244034] leading-[0.7rem] text-[0.5rem]">{{item.name}}</h3>
-                                <p class="text-[#24403480] font-Satoshi400 text-[0.5rem] leading-[0.7rem]">{{item.size}}</p>
+                                <p class="text-[#24403480] font-normal text-[0.5rem] leading-[0.7rem]">{{item.size}}</p>
                             </div>
                             <cancelIcon class="cursor-pointer" @click="removeFile(index)"/>
                         </article>
@@ -441,7 +441,7 @@ const getUserInfo = ()=>{
                     />
                   </div>
                   <textarea
-                    class="textarea flex-1 p-[0.5rem] bg-transparent font-Satoshi400 text-[0.7rem] text-[#000000] resize focus:outline-0 h-auto overflow-auto scroller leading-4 " 
+                    class="textarea flex-1 p-[0.5rem] bg-transparent font-normal text-[0.7rem] text-[#000000] resize focus:outline-0 h-auto overflow-auto scroller leading-4 " 
                     contenteditable
                     @input="autoResize"
                     ref="textArea"

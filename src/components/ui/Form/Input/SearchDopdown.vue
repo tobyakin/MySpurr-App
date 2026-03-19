@@ -1,6 +1,6 @@
 <template>
   <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-    <label class="text-[#01272C] text-[12px] font-Satoshi400">Title</label>
+    <label class="text-[#01272C] text-[12px] font-normal">Title</label>
     <GlobalInput
       v-model="formState.title"
       inputClasses="bg-transparent border-none !p-0"
@@ -12,7 +12,7 @@
     />
     <ul
       v-if="showJobTitleDropdown"
-      class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+      class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-normal overflow-hidden"
     >
       <li
         v-for="(option, index) in filteredOptionsJobTitle"

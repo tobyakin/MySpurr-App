@@ -35,31 +35,31 @@ const handleResendEmail = async () => {
           Check your inbox and confirm your email address
         </h1>
         <p
-          class="text-[11.303px] font-Satoshi400 my-4 md:mb-8 overflow-hidden text-[#01181B]"
+          class="text-[11.303px] font-normal my-4 md:mb-8 overflow-hidden text-[#01181B]"
         >
           We’ve sent a confirmation email to
-          <span class="font-Satoshi700">{{ email }}</span>
+          <span class="font-satoshi700">{{ email }}</span>
         </p>
         <p
-          class="text-[11.303px] flex items-center gap-2 font-Satoshi400 my-4 md:mb-8 text-[#DA5252]"
+          class="text-[11.303px] flex items-center gap-2 font-normal my-4 md:mb-8 text-[#DA5252]"
         >
           <ErrorOutline /> Didn't receive an email?
         </p>
-        <p class="text-[11.303px] font-Satoshi400 my-4 md:mb-8 text-[#01181B]">
+        <p class="text-[11.303px] font-normal my-4 md:mb-8 text-[#01181B]">
           If you can't find the email in your inbox or spam folder, please click below and
           we will send you a new one.
         </p>
         <div class="mt-8 flex justify-between gap-6">
           <button
             @click="handleResendEmail"
-            class="bg-[#43D0DF] font-Satoshi500 text-[10.14px] leading-[11.593px] rounded-full p-3 w-full text-white btn-hover-1"
+            class="bg-[#43D0DF] font-medium text-[10.14px] leading-[11.593px] rounded-full p-3 w-full text-white btn-hover-1"
           >
             <span v-if="!loading">Resend Email</span>
             <WhiteLoader v-else />
           </button>
           <router-link
             to="/login"
-            class="bg-[#43D0DF] font-Satoshi500 text-[10.14px] flex items-center justify-center leading-[11.593px] rounded-full p-3 w-full text-white btn-hover-1"
+            class="bg-[#43D0DF] font-medium text-[10.14px] flex items-center justify-center leading-[11.593px] rounded-full p-3 w-full text-white btn-hover-1"
           >
             Log In
           </router-link>

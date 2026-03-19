@@ -54,10 +54,10 @@ watch(
   >
     <div class="flex lg:flex-row flex-col px-4 justify-between">
       <div>
-        <h4 class="text-[23.471px] font-Satoshi700 leading-[28.762px] text-[#244034]">
+        <h4 class="text-[23.471px] font-satoshi700 leading-[28.762px] text-[#244034]">
           Jobs Statistics
         </h4>
-        <p class="text-[10.88px] leading-[17.646px] text-[#244034] font-Satoshi400">
+        <p class="text-[10.88px] leading-[17.646px] text-[#244034] font-normal">
           Showing job statistics July 19 - 25
         </p>
       </div>
@@ -65,19 +65,19 @@ watch(
         class="flex w-auto flex-row bg-[#B2ECF2] p-[3.5px] h-[40.172px] rounded-[6.695px]"
       >
         <button
-          class="border-none p-4 py-0 rounded-[3.348px] font-Satoshi500 text-[16.144px] leading-[1px] items-center flex"
+          class="border-none p-4 py-0 rounded-[3.348px] font-medium text-[16.144px] leading-[1px] items-center flex"
           @click="filterTab('Week')"
           :class="{ 'bg-[#fff] text-[#244034]': tab == 'Week' }"
         >
           Week</button
         ><button
-          class="border-none p-4 py-0 rounded-[3.348px] font-Satoshi500 text-[16.144px] leading-[1px] items-center flex"
+          class="border-none p-4 py-0 rounded-[3.348px] font-medium text-[16.144px] leading-[1px] items-center flex"
           @click="filterTab('Month')"
           :class="{ 'bg-[#fff] text-[#244034]': tab == 'Month' }"
         >
           Month</button
         ><button
-          class="border-none p-4 py-0 rounded-[3.348px] font-Satoshi500 text-[16.144px] leading-[1px] items-center flex"
+          class="border-none p-4 py-0 rounded-[3.348px] font-medium text-[16.144px] leading-[1px] items-center flex"
           @click="filterTab('Year')"
           :class="{ 'bg-[#fff] text-[#244034]': tab == 'Year' }"
         >
@@ -100,19 +100,19 @@ watch(
             >
               <div class="flex flex-col w-full">
                 <div class="flex flex-row justify-between w-full">
-                  <h4 class="text-[#244034] text-[14.4px] leading font-Satoshi700">
+                  <h4 class="text-[#244034] text-[14.4px] leading font-satoshi700">
                     Jobs Views
                   </h4>
                   <CircleEyeIcon />
                 </div>
                 <h4
-                  class="text-[#244034] font-Satoshi500 text-[38.17px] leading-[59.218px]"
+                  class="text-[#244034] font-medium text-[38.17px] leading-[59.218px]"
                 >
                   {{ total_job_views }}
                 </h4>
                 <div class="flex items-center text-[14.4px] gap-3">
                   <p>This Week</p>
-                  <p class="text-[#D3DA51] font-Satoshi700">0%</p>
+                  <p class="text-[#D3DA51] font-satoshi700">0%</p>
                   <CircleArrowUpIcon />
                 </div>
               </div>
@@ -122,19 +122,19 @@ watch(
             >
               <div class="flex flex-col w-full">
                 <div class="flex flex-row justify-between w-full">
-                  <h4 class="text-[#244034] text-[14.4px] leading font-Satoshi700">
+                  <h4 class="text-[#244034] text-[14.4px] leading font-satoshi700">
                     Jobs Applied
                   </h4>
                   <DocumentIcon />
                 </div>
                 <h4
-                  class="text-[#244034] font-Satoshi500 text-[38.17px] leading-[59.218px]"
+                  class="text-[#244034] font-medium text-[38.17px] leading-[59.218px]"
                 >
                   {{ total_job_applied }}
                 </h4>
                 <div class="flex items-center text-[14.4px] gap-3">
                   <p>This Week</p>
-                  <p class="text-[#DA5252] font-Satoshi700">0%</p>
+                  <p class="text-[#DA5252] font-satoshi700">0%</p>
                   <CircleArrowDown />
                 </div>
               </div>

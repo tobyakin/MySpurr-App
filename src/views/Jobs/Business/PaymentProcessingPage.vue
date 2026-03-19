@@ -2,10 +2,10 @@
    <CenteredModalLarge :class="verifyStatus?.data?.value.status !== 'success'? 'opacity-100 z-[1]': 'opacity-0 z-[0]'" class="transitionItems">
         <div class="text-center px-10 py-10">
             <ShortLoader />
-          <h4 class="text-[#01181B] font-Satoshi700 text-[28.537px] mt-[20px]">
+          <h4 class="text-[#01181B] font-satoshi700 text-[28.537px] mt-[20px]">
             Your payment is processing 
           </h4>
-          <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+          <p class="text-[#01181B] text-[18px] font-normal mt-4">
             Now, talented creatives can discover and apply for your exciting opportunity. Stay tuned for applications and manage your job seamlessly from your dashboard.
           </p>
         </div>
@@ -13,22 +13,22 @@
       <div v-if="verifyStatus">
         <CenteredModalLarge v-if="verifyStatus?.data?.value.status === 'success'" class="transitionItems">
           <div class="text-center px-10 py-10">
-            <h4 class="text-[#01181B] font-Satoshi700 text-[28.537px] mt-[20px]">
+            <h4 class="text-[#01181B] font-satoshi700 text-[28.537px] mt-[20px]">
               Congratulations! Your job has been successfully posted on MySpurr!
             </h4>
-            <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+            <p class="text-[#01181B] text-[18px] font-normal mt-4">
               Now, talented creatives can discover and apply for your exciting opportunity.
               Stay tuned for applications and manage your job seamlessly from your dashboard.
             </p>
             <div class="flex justify-center gap-4 mt-12">
               <button
                 @click="back()"
-                class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+                class="bg-[#43D0DF] font-medium text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
               >
                 BACK</button
               ><button
                 @click="goToJobList()"
-                class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+                class="bg-[#43D0DF] font-medium text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
               >
                 <span>JOB LISTING </span>
               </button>
@@ -37,18 +37,18 @@
         </CenteredModalLarge>
         <CenteredModalLarge v-else class="transitionItems">
           <div class="text-center px-10 py-10">
-            <h4 class="text-[#01181B] font-Satoshi700 text-[28.537px] mt-[20px]">
+            <h4 class="text-[#01181B] font-satoshi700 text-[28.537px] mt-[20px]">
               Payment Verification Failed
             </h4>
             <div class="flex justify-center gap-4 mt-12">
               <button
                 @click="back()"
-                class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+                class="bg-[#43D0DF] font-medium text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
               >
                 BACK</button
               ><button
                 @click="goToJobList()"
-                class="bg-[#43D0DF] font-Satoshi500 text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+                class="bg-[#43D0DF] font-medium text-[14.153px] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
               >
                 <span>JOB LISTING </span>
               </button>

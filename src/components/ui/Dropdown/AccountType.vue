@@ -35,7 +35,7 @@ onMounted(() => {
             <div class="dropdown-menu-title">
               Personal
             </div>
-            <div class="font-Satoshi400 text-xs">
+            <div class="font-normal text-xs">
                 business
             </div>
           </router-link>

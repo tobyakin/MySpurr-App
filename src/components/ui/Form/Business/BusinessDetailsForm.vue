@@ -183,7 +183,7 @@ onMounted(async () => {
         Your business details
       </h1>
       <p
-        class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
+        class="text-[16px] text-[#011B1F] leading-[27.734px] font-normal my-4 md:mb-8"
       >
         Please provide your business details, they will be used to
         <br class="lg:block hidden" />
@@ -193,11 +193,11 @@ onMounted(async () => {
         class="flex-col flex gap-6 max-h-[60vh] overflow-y-auto py-12 hide-scrollbar overflow-hidden"
       >
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] text-[12px] px-2 font-Satoshi400"
+          <label class="text-[#01272C] text-[12px] px-2 font-normal"
             >Business name</label
           >
           <input
-            class="w-full font-light font-Satoshi400 text-left text-[14px] !p-2 bg-transparent border-none opacity-[0.8029] rounded-[4.074px] text-sm"
+            class="w-full font-light font-normal text-left text-[14px] !p-2 bg-transparent border-none opacity-[0.8029] rounded-[4.074px] text-sm"
             type="button"
             :value="businessDetails.business_name"
           />
@@ -206,7 +206,7 @@ onMounted(async () => {
           class="border-[0.737px] flex lg:flex-row flex-col items-center border-[#254035AB] rounded-[5.897px] p-4 py-1.5 gap-3"
         >
         <div class="w-full">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Country</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">Country</label>
           <div class="flex w-full items-center">
             <a-select
               placeholder="country or region"
@@ -235,7 +235,7 @@ onMounted(async () => {
           /> -->
 
           <div class="w-full">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">State</label>
+            <label class="text-[#01272C] px-2 text-[12px] font-normal">State</label>
             <div class="flex w-full items-center">
               <span v-if="!states" class="p-2 px-2">loading..</span>
               <a-select
@@ -260,7 +260,7 @@ onMounted(async () => {
           </div>
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-normal"
             >Select your industry areas</label
           >
           <div>
@@ -268,7 +268,7 @@ onMounted(async () => {
               <div
                 v-for="(selectedItem, index) in businessDetails.industry"
                 :key="selectedItem.id"
-                class="selected-item bg-brand text-sm font-Satoshi400 p-[5px] text-white rounded-[5px]"
+                class="selected-item bg-brand text-sm font-normal p-[5px] text-white rounded-[5px]"
               >
                 {{ selectedItem.name }}
                 <span
@@ -294,7 +294,7 @@ onMounted(async () => {
 
               <ul
                 v-if="showDropdown"
-                class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+                class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-normal overflow-hidden"
               >
                 <li
                   v-for="(option, index) in filteredOptions"
@@ -311,19 +311,19 @@ onMounted(async () => {
         </div>
 
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-normal"
             >About your business</label
           >
           <textarea
             v-model="businessDetails.about_business"
             rows="4"
-            class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
+            class="bg-transparent font-normal w-full outline-none text-sm border-0 p-2 py-1.5"
             required
             placeholder="Give a brief description about your business"
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Website</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">Website</label>
           <GlobalInput
             v-model="businessDetails.website"
             inputClasses="bg-transparent border-none"
@@ -332,7 +332,7 @@ onMounted(async () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-normal"
             >Business services</label
           >
           <GlobalInput
@@ -344,9 +344,9 @@ onMounted(async () => {
           />
         </div>
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">E-mail</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">E-mail</label>
           <input
-            class="w-full font-light font-Satoshi400 text-left text-[14px] !p-2 bg-transparent border-none opacity-[0.8029] rounded-[4.074px] text-sm"
+            class="w-full font-light font-normal text-left text-[14px] !p-2 bg-transparent border-none opacity-[0.8029] rounded-[4.074px] text-sm"
             type="button"
             :value="businessDetails.business_email"
           />
@@ -358,7 +358,7 @@ onMounted(async () => {
         :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
         @click="next"
-        class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full"
+        class="font-medium text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full"
       >
         Update work details
       </button>

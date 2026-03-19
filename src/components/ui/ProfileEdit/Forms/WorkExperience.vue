@@ -231,7 +231,7 @@ onMounted(async () => {
   <div class="">
     <div v-if="step[0]" class="flex flex-col gap-[66px]">
       <div class="flex flex-row justify-between items-center gap-[21px]">
-        <h4 class="text-[#000000] font-Satoshi500 text-[23.144px]">
+        <h4 class="text-[#000000] font-medium text-[23.144px]">
           Add work experience
         </h4>
         <button @click="handleAddNew"><CirclePlus /></button>
@@ -251,7 +251,7 @@ onMounted(async () => {
           class="flex-col flex gap-6 w-full max-h-[50vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
         >
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[10px] font-Satoshi400">Company name</label>
+            <label class="text-[#01272C] text-[10px] font-normal">Company name</label>
             <GlobalInput
               v-model="formState.company_name"
               inputClasses="bg-transparent border-none !p-0"
@@ -260,7 +260,7 @@ onMounted(async () => {
             />
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-            <label class="text-[#01272C] text-[12px] font-Satoshi400">Title</label>
+            <label class="text-[#01272C] text-[12px] font-normal">Title</label>
             <GlobalInput
               v-model="formState.title"
               inputClasses="bg-transparent border-none !p-0"
@@ -272,7 +272,7 @@ onMounted(async () => {
             />
             <ul
               v-if="showJobTitleDropdown"
-              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-normal overflow-hidden"
             >
               <li
                 v-for="(option, index) in filteredOptionsJobTitle"
@@ -286,7 +286,7 @@ onMounted(async () => {
             </ul>
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[12px] font-Satoshi400"
+            <label class="text-[#01272C] text-[12px] font-normal"
               >Employment type</label
             >
             <SelectGroup
@@ -300,7 +300,7 @@ onMounted(async () => {
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <div class="w-full flex flex-col gap-1 justify-between">
-              <label class="text-[#01272C] text-[12px] font-Satoshi400">Start Date</label>
+              <label class="text-[#01272C] text-[12px] font-normal">Start Date</label>
               <a-date-picker
                 v-model="formState.start_date"
                 :bordered="false"
@@ -314,7 +314,7 @@ onMounted(async () => {
             class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1"
           >
             <div class="w-full flex flex-col gap-1 justify-between">
-              <label class="text-[#01272C] text-[12px] font-Satoshi400">End Date</label>
+              <label class="text-[#01272C] text-[12px] font-normal">End Date</label>
               <a-date-picker
                 v-model="formState.end_date"
                 :bordered="false"
@@ -326,7 +326,7 @@ onMounted(async () => {
           </div>
           <div class="flex flex-row rounded-[5.897px ] py-1.5">
             <div class="w-full flex flex-col justify-between">
-              <label class="text-[#01272C] px-4 mb-2 text-[12px] font-Satoshi400"
+              <label class="text-[#01272C] px-4 mb-2 text-[12px] font-normal"
                 >Description</label
               >
               <ckeditor
@@ -344,7 +344,7 @@ onMounted(async () => {
               type="checkbox"
               v-model="present"
             />
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            <label class="text-[#01272C] px-2 text-[12px] font-normal"
               >I am currently still schooling here
             </label>
           </div>
@@ -368,7 +368,7 @@ onMounted(async () => {
           class="flex-col flex gap-6 w-full max-h-[50vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
         >
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[10px] font-Satoshi400">Company name</label>
+            <label class="text-[#01272C] text-[10px] font-normal">Company name</label>
             <GlobalInput
               v-model="employment_details.company_name"
               inputClasses="bg-transparent border-none !p-0"
@@ -376,7 +376,7 @@ onMounted(async () => {
             />
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[12px] font-Satoshi400">Title</label>
+            <label class="text-[#01272C] text-[12px] font-normal">Title</label>
             <!-- <GlobalInput
               v-model="employment_details.title"
               inputClasses="bg-transparent border-none !p-0"
@@ -393,7 +393,7 @@ onMounted(async () => {
             />
             <ul
               v-if="showJobTitleDropdown"
-              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-normal overflow-hidden"
             >
               <li
                 v-for="(option, index) in filteredOptionsJobTitleADD"
@@ -407,7 +407,7 @@ onMounted(async () => {
             </ul>
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[12px] font-Satoshi400"
+            <label class="text-[#01272C] text-[12px] font-normal"
               >Employment type</label
             >
             <SelectGroup
@@ -421,7 +421,7 @@ onMounted(async () => {
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
             <div class="w-full flex flex-col gap-1 justify-between">
-              <label class="text-[#01272C] text-[12px] font-Satoshi400">Start Date</label>
+              <label class="text-[#01272C] text-[12px] font-normal">Start Date</label>
               <a-date-picker
                 v-model:value="formState.start_date"
                 :bordered="false"
@@ -435,7 +435,7 @@ onMounted(async () => {
             class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1"
           >
             <div class="w-full flex flex-col gap-1 justify-between">
-              <label class="text-[#01272C] text-[12px] font-Satoshi400">End Date</label>
+              <label class="text-[#01272C] text-[12px] font-normal">End Date</label>
               <a-date-picker
                 v-model:value="formState.end_date"
                 :bordered="false"
@@ -447,7 +447,7 @@ onMounted(async () => {
           </div>
           <div class="flex flex-row rounded-[5.897px] py-1.5">
             <div class="w-full flex flex-col justify-between">
-              <label class="text-[#01272C] px-4 mb-2 text-[12px] font-Satoshi400"
+              <label class="text-[#01272C] px-4 mb-2 text-[12px] font-normal"
                 >Description</label
               >
               <ckeditor
@@ -464,7 +464,7 @@ onMounted(async () => {
               type="checkbox"
               v-model="present"
             />
-            <label class="text-[#01272C] text-[12px] font-Satoshi400">
+            <label class="text-[#01272C] text-[12px] font-normal">
               I am currently working on this role
             </label>
           </div>

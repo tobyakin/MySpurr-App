@@ -84,12 +84,12 @@ const props = defineProps({
       </div>
       <div class="flex-1">
         <div class="flex lg:justify-start justify-center items-center gap-1 cursor-pointer">
-          <p class="text-[0.81rem] font-Satoshi500 flex text-[#2F929C]">
+          <p class="text-[0.81rem] font-medium flex text-[#2F929C]">
             {{ props?.job?.company_name }}
           </p>
           <div v-if="props?.job?.verify" class="flex mt-1 gap-1">
             <VerifyIcon class="w-4" />
-            <p class="text-[0.73rem] font-Satoshi700 text-[#000000B2]">
+            <p class="text-[0.73rem] font-satoshi700 text-[#000000B2]">
               Verified Client.
             </p>
           </div>
@@ -98,18 +98,18 @@ const props = defineProps({
           <div
             class="flex msgMob:flex-col items-center w-full lg:w-auto lg:justify-normal justify-center gap-2 lg:gap-14"
           >
-            <p class="text-[0.81rem] font-Satoshi500 text-[#000000]">
+            <p class="text-[0.81rem] font-medium text-[#000000]">
               {{ props?.job?.title }}
             </p>
             <button
-              class="bg-[#EDF0B8] font-Satoshi500 lg:text-[0.61rem] !text-[0.975rem] py-[0.2rem] px-4 text-[#fff] rounded-full"
+              class="bg-[#EDF0B8] font-medium lg:text-[0.61rem] !text-[0.975rem] py-[0.2rem] px-4 text-[#fff] rounded-full"
             >
               {{ props?.job?.job_type }}
             </button>
           </div>
           <a
             v-if="props?.job?.match"
-            class="font-Satoshi500 text-[0.73rem] flex items-center gap-1 text-[#000000]"
+            class="font-medium text-[0.73rem] flex items-center gap-1 text-[#000000]"
           >
             <MatchIcon />You’re a Match
           </a>
@@ -117,7 +117,7 @@ const props = defineProps({
         <div class="flex flex-col justify-between mt-5">
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <div>
-              <p class="text-[1.1rem] font-Satoshi500 text-[#244034B2]">
+              <p class="text-[1.1rem] font-medium text-[#244034B2]">
                 {{ props?.job?.currency }} {{ store.abbr(props?.job?.salary_min, 2) }}-
                 {{ store.abbr(props?.job?.salary_max, 2) }}/
                 {{ props?.job?.salary_type }}
@@ -125,19 +125,19 @@ const props = defineProps({
             </div>
             <div class="flex lg:flex-row flex-col gap-2 items-center">
               <div
-                class="flex gap-1 text-[10px] lg:text-[0.83rem] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[0.83rem] text-[#DA5252] items-center font-medium"
               >
                 <CalenderIcon /><span class="py-[0.25px]">{{ props?.job?.date_created }}</span>
               </div>
               <div
-                class="flex gap-1 text-[10px] lg:text-[0.83rem] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[0.83rem] text-[#DA5252] items-center font-medium"
               >
                 <LocationIcon /><span class="py-[0.25px]"
                   >{{ props?.job?.location }}</span
                 >
               </div>
               <!-- <div
-                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-Satoshi500"
+                class="flex gap-1 text-[10px] lg:text-[14.334px] text-[#DA5252] items-center font-medium"
               >
                 <TimerIcon /><span class="py-[0.25px]">{{ props?.job?.date_created }}</span>
               </div> -->
@@ -148,7 +148,7 @@ const props = defineProps({
               <div
                 v-for="skill in props?.job?.skills"
                 :key="skill"
-                class="bg-[#F2F3EF] font-Satoshi500 text-[10px] lg:text-[0.76rem] uppercase p-[4px] lg:px-6 px-4 text-[#64665D] rounded-full"
+                class="bg-[#F2F3EF] font-medium text-[10px] lg:text-[0.76rem] uppercase p-[4px] lg:px-6 px-4 text-[#64665D] rounded-full"
               >
                 {{ skill.name }}
               </div>
@@ -164,7 +164,7 @@ const props = defineProps({
               </div>
               <a :href="props?.job?.link" target="_blank">
                   <button
-                    class="font-Satoshi500 bg-[#43D0DF] !text-[0.9rem] p-[0.5rem] px-12 !text-white rounded-full btn-hover-1"
+                    class="font-medium bg-[#43D0DF] !text-[0.9rem] p-[0.5rem] px-12 !text-white rounded-full btn-hover-1"
                   >
                     <span>Apply</span>
                   </button>

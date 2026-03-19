@@ -19,7 +19,7 @@
           <div class="flex justify-center mt-10">
             <router-link
               :to="{ name: 'jobs' }"
-              class="border-brand py-2 rounded-lg px-6 border text-brand font-Satoshi400"
+              class="border-brand py-2 rounded-lg px-6 border text-brand font-normal"
             >
               View Jobs
             </router-link>

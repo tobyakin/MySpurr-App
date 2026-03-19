@@ -3,18 +3,18 @@
     <CenteredModalLarge>
       <div class="my-8">
         <header class="">
-          <h1 class="text-[#000000] text-center text-[20px] font-Satoshi700">
+          <h1 class="text-[#000000] text-center text-[20px] font-satoshi700">
             Complete your talent profile
           </h1>
         </header>
-        <div class="my-4 font-Satoshi400 text-center">
+        <div class="my-4 font-normal text-center">
           Please give us some information to set up your talent dashboard. <br />
           It'll take less than 3 mins
         </div>
         <div class="flex justify-center">
           <button
             @click="next"
-            class="bg-brand text-center font-Satoshi400 rounded-md px-6 text-gray-100 py-3 btn-hover-2"
+            class="bg-brand text-center font-normal rounded-md px-6 text-gray-100 py-3 btn-hover-2"
           >
             Proceed
           </button>

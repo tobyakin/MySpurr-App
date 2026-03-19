@@ -21,7 +21,7 @@
    import LinkedinIcon from "@/components/icons/eventLinkedinIcon.vue"
    import twitterIcon from "@/components/icons/eventTwitterIcon.vue";
    import { ref } from "vue";
-   import { useHead } from '@unhead/head';
+   import { useHead } from '@unhead/vue';
   import { computed } from "vue";
 
   const dashboardUrl = import.meta.env.VITE_DASHBOARD;

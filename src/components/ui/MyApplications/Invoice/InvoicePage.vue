@@ -100,7 +100,7 @@ const changeScreen = (from, to, type = null) => {
             >
               <div class="flex justify-between items-center border-b pb-2">
                 <h4
-                  class="flex items-center text-[#97A6A8] text-[13px] font-Satoshi400 gap-[11px]"
+                  class="flex items-center text-[#97A6A8] text-[13px] font-normal gap-[11px]"
                 >
                   Draft
                   <span
@@ -110,14 +110,14 @@ const changeScreen = (from, to, type = null) => {
                 </h4>
                 <button class="text-[#297F88] text-[13px]">View</button>
               </div>
-              <h4 class="text-[#01181B] text-[15px] font-Satoshi400">₦ 102,290.50</h4>
+              <h4 class="text-[#01181B] text-[15px] font-normal">₦ 102,290.50</h4>
             </div>
             <div
               class="border-[#254035AB] bg-white border-[1.137px] flex flex-col gap-[20px] rounded-[11.367px] p-[21px]"
             >
               <div class="flex justify-between items-center border-b pb-2">
                 <h4
-                  class="flex items-center text-[#97A6A8] text-[13px] font-Satoshi400 gap-[11px]"
+                  class="flex items-center text-[#97A6A8] text-[13px] font-normal gap-[11px]"
                 >
                   Awaiting Payment
                   <span
@@ -127,7 +127,7 @@ const changeScreen = (from, to, type = null) => {
                 </h4>
                 <button class="text-[#297F88] text-[13px]">View</button>
               </div>
-              <h4 class="text-[#01181B] text-[15px] font-Satoshi400">₦ 102,290.50</h4>
+              <h4 class="text-[#01181B] text-[15px] font-normal">₦ 102,290.50</h4>
             </div>
           </div>
         </div>
@@ -136,8 +136,8 @@ const changeScreen = (from, to, type = null) => {
         v-else
         class="border-[#254035AB] bg-white rounded-[11.367px] text-center py-[80px] p-4 flex flex-col gap-4 border-[1.137px]"
       >
-        <h3 class="text-[#2F929C] text-[13.552px] font-Satoshi500">No Invoice yet</h3>
-        <p class="text-[#000000] text-[16.311px] font-Satoshi500">
+        <h3 class="text-[#2F929C] text-[13.552px] font-medium">No Invoice yet</h3>
+        <p class="text-[#000000] text-[16.311px] font-medium">
           Invoices you’ve created will be shown here!
         </p>
         <div class="flex justify-center mt-[30px]">

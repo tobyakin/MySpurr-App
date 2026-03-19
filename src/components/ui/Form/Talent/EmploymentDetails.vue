@@ -225,7 +225,7 @@ const selectHighlightedJobTitleOption = () => {
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Employment details
       </h1>
-      <p class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 my-4 md:!mb-8">
+      <p class="text-[16px] text-[#011B1F] leading-[23.734px] font-normal my-4 md:!mb-8">
         Please provide details to your most recent employment details. You will have a
         chance to add to this when your onboarding as been completed.
       </p>
@@ -235,7 +235,7 @@ const selectHighlightedJobTitleOption = () => {
           :class="errors.company_name ? 'border-[#DA5252]' : 'border-[#254035AB]'"
           class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Company name</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">Company name</label>
           <GlobalInput
             v-model="employment_details.company_name"
             inputClasses="bg-transparent border-none"
@@ -251,7 +251,7 @@ const selectHighlightedJobTitleOption = () => {
           :class="errors.title ? 'border-[#DA5252]' : 'border-[#254035AB]'"
           class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Title</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">Title</label>
           <div class="relative">
             <GlobalInput
               v-model="employment_details.title"
@@ -267,7 +267,7 @@ const selectHighlightedJobTitleOption = () => {
             />
             <ul
               v-if="showJobTitleDropdown"
-              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-Satoshi400 overflow-hidden"
+              class="dropdown max-h-[20vh] overflow-y-auto pb-12 hide-scrollbar text-[12px] border-t font-normal overflow-hidden"
             >
               <li
                 v-for="(option, index) in filteredOptionsJobTitle"
@@ -287,7 +287,7 @@ const selectHighlightedJobTitleOption = () => {
           :class="errors.employment_type ? 'border-[#DA5252]' : 'border-[#254035AB]'"
           class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Employment type</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">Employment type</label>
           <SelectGroup
             v-model="employment_details.employment_type"
             DropdownItem=""
@@ -306,7 +306,7 @@ const selectHighlightedJobTitleOption = () => {
           class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
           <div class="w-full flex flex-col gap-2 justify-between">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Start Date</label>
+            <label class="text-[#01272C] px-2 text-[12px] font-normal">Start Date</label>
             <a-date-picker
               :bordered="false"
               v-model:value="formState.start_date"
@@ -323,7 +323,7 @@ const selectHighlightedJobTitleOption = () => {
           class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
           <div class="w-full flex flex-col gap-2 justify-between">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">End Date</label>
+            <label class="text-[#01272C] px-2 text-[12px] font-normal">End Date</label>
             <a-date-picker
               :bordered="false"
               v-model:value="formState.end_date"
@@ -339,7 +339,7 @@ const selectHighlightedJobTitleOption = () => {
           :class="errors.description ? 'border-[#DA5252]' : 'border-[#254035AB]'"
           class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Description</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">Description</label>
           <div class="flex flex-col mb-3">
             <ckeditor
               v-if="isLayoutReady"
@@ -359,7 +359,7 @@ const selectHighlightedJobTitleOption = () => {
             type="checkbox"
             v-model="present"
           />
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">
             I am currently working on this role
           </label>
         </div>
@@ -368,7 +368,7 @@ const selectHighlightedJobTitleOption = () => {
     <div class="flex flex-row gap-5 pb-8 mt-5">
       <button
         @click="prev"
-        class="font-Satoshi500 text-white text-[14px] capitalize bg-[#43D0DF] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
+        class="font-medium text-white text-[14px] capitalize bg-[#43D0DF] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
       >
         Prev
       </button>
@@ -376,7 +376,7 @@ const selectHighlightedJobTitleOption = () => {
         @click="next"
         :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
-        class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full"
+        class="font-medium text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full"
       >
         Next
       </button>

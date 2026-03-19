@@ -109,7 +109,7 @@ const submitForm = async () => {
         Your Business information
       </h1>
       <p
-        class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8"
+        class="text-[16px] text-[#011B1F] leading-[27.734px] font-normal my-4 md:mb-8"
       >
         Please provide us with your business information to get started on
         <br class="lg:block hidden" />
@@ -136,7 +136,7 @@ const submitForm = async () => {
           />
           <label
             for="uploadFile"
-            class="cursor-pointer w-full justify-between flex text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            class="cursor-pointer w-full justify-between flex text-[#01272C] px-2 text-[12px] font-normal"
           >
             <span v-if="!businessDetails.company_logo">Upload company logo (max 3mb)</span
             ><span v-if="businessDetails.company_logo">{{ uploadedImageName }} </span>
@@ -146,7 +146,7 @@ const submitForm = async () => {
         <div
           class="border-[0.737px] border-[rgba(37,64,53,0.67)] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-normal"
             >Company type - startup, agency, corporation</label
           >
           <SelectGroup
@@ -165,7 +165,7 @@ const submitForm = async () => {
           /> -->
         </div>
         <!-- <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-normal"
             >Please select social media 1</label
           >
           <GlobalInput
@@ -175,7 +175,7 @@ const submitForm = async () => {
         </div>
 
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+          <label class="text-[#01272C] px-2 text-[12px] font-normal"
             >Please select social media 2</label
           >
           <GlobalInput
@@ -190,7 +190,7 @@ const submitForm = async () => {
       <button
         type="primary"
         @click="prev"
-        class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
+        class="bg-[#43D0DF] font-medium text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
       >
         Back
       </button>
@@ -199,7 +199,7 @@ const submitForm = async () => {
         :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
         @click="submitForm"
-        class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full"
+        class="font-medium text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full"
       >
         <span v-if="!loading">Complete Profile</span>
         <WhiteLoader v-else />

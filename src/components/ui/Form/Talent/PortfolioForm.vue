@@ -230,7 +230,7 @@ const prev = () => {
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Your portfolio
       </h1>
-      <p class="text-[16px] text-[#011B1F] leading-[27.734px] font-Satoshi400 my-4 md:mb-8">
+      <p class="text-[16px] text-[#011B1F] leading-[27.734px] font-normal my-4 md:mb-8">
         Please provide at least one portfolio work to get started on
         <br class="lg:block hidden" />
         MySpurr.
@@ -241,7 +241,7 @@ const prev = () => {
           :class="errors.compensation ? 'border-[#DA5252]' : 'border-[#254035AB]'"
           class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">
             Rate/compensation - Per hour (USD)
           </label>
           <GlobalInput
@@ -260,7 +260,7 @@ const prev = () => {
           :class="errors.portfolio_title ? 'border-[#DA5252]' : 'border-[#254035AB]'"
           class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">
             Portfolio Title
           </label>
           <GlobalInput
@@ -278,13 +278,13 @@ const prev = () => {
           :class="errors.portfolio_description ? 'border-[#DA5252]' : 'border-[#254035AB]'"
           class="border-[0.737px] rounded-[5.897px] p-4 py-3.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">
             Portfolio description
           </label>
           <textarea
             v-model="formState.portfolio_description"
             rows="4"
-            class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-0 p-2 py-1.5"
+            class="bg-transparent font-normal w-full outline-none text-sm border-0 p-2 py-1.5"
             required
             placeholder="Give a brief description about the job, what was done?, how was it done?, what was the impact?"
             @focus="handleFocus('portfolio_description')"
@@ -309,7 +309,7 @@ const prev = () => {
           />
           <label
             for="preview_Image"
-            class="cursor-pointer w-full justify-between flex text-[#01272C] px-4 text-[12px] font-Satoshi400"
+            class="cursor-pointer w-full justify-between flex text-[#01272C] px-4 text-[12px] font-normal"
           >
             <span v-if="!file">Upload photos (max 3mb each)</span>
             <span v-if="file">{{ numUploadedImages }} Uploaded</span>
@@ -322,7 +322,7 @@ const prev = () => {
           :class="errors.social_media_link ? 'border-[#DA5252]' : 'border-[#254035AB]'"
           class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">
             Please select social media link
           </label>
           <GlobalInput
@@ -339,7 +339,7 @@ const prev = () => {
       <button
         type="primary"
         @click="prev"
-        class="bg-[#43D0DF] font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+        class="bg-[#43D0DF] font-medium text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Back
       </button>
@@ -349,7 +349,7 @@ const prev = () => {
         @click="onFinish"
         :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF]'"
-        class="font-Satoshi500 text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
+        class="font-medium text-white text-[14px] uppercase leading-[11.593px] rounded-full p-5 w-full"
       >
         Complete Profile
       </button>
@@ -359,7 +359,7 @@ const prev = () => {
 
 <style scoped>
 .multiselect__tag {
-  @apply !bg-brand font-Satoshi400;
+  @apply !bg-brand font-normal;
 }
 .multiselect__tags-wrap {
   @apply w-full;

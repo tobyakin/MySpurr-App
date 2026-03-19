@@ -5,7 +5,7 @@
     >
       <div class="relative z-10 px-[21px]">
         <div
-          class="w-full font-light flex items-center justify-between font-Satoshi400 p-4 py-1.5 border-[#F0F0F0] border-[1px] opacity-[0.8029] !bg-[#31795A00] rounded-[7px] text-[12.68px]"
+          class="w-full font-light flex items-center justify-between font-normal p-4 py-1.5 border-[#F0F0F0] border-[1px] opacity-[0.8029] !bg-[#31795A00] rounded-[7px] text-[12.68px]"
         >
           <GlobalInput
             inputClasses="bg-transparent border-none placeholder:text-[#00000080] !px-0 !py-[4px]"
@@ -20,7 +20,7 @@
               <FliterIcon />
             </span>
 
-            <span class="text-[#000000] text-[16px] font-Satoshi400">Filters</span
+            <span class="text-[#000000] text-[16px] font-normal">Filters</span
             ><DropDownArrow :class="showFilter ? 'rotate-100' : 'rotate-180'" />
           </button>
         </div>
@@ -31,7 +31,7 @@
         >
           <div class="gap-[10px] flex lg:flex-row flex-col justify-between w-[100%]">
             <div class="flex flex-col justify-between gap-[24px]">
-              <h4 class="text-[#01272C] font-Satoshi500 text-[14px]">Filter by Status</h4>
+              <h4 class="text-[#01272C] font-medium text-[14px]">Filter by Status</h4>
               <div class="flex lg:flex-row flex-col lg:items-center gap-[16px] pb-[2%]">
                 <div class="flex items-center gap-[10px]">
                   <input
@@ -40,7 +40,7 @@
                     name=""
                     id=""
                   />
-                  <label class="text-[#01272C] font-Satoshi500 text-[14px]">Draft</label>
+                  <label class="text-[#01272C] font-medium text-[14px]">Draft</label>
                 </div>
                 <div class="flex items-center gap-[10px]">
                   <input
@@ -49,7 +49,7 @@
                     name=""
                     id=""
                   />
-                  <label class="text-[#01272C] font-Satoshi500 text-[14px]">Sent</label>
+                  <label class="text-[#01272C] font-medium text-[14px]">Sent</label>
                 </div>
                 <div class="flex items-center gap-[10px]">
                   <input
@@ -58,7 +58,7 @@
                     name=""
                     id=""
                   />
-                  <label class="text-[#01272C] font-Satoshi500 text-[14px]">Paid</label>
+                  <label class="text-[#01272C] font-medium text-[14px]">Paid</label>
                 </div>
                 <div class="flex items-center gap-[10px]">
                   <input
@@ -67,7 +67,7 @@
                     name=""
                     id=""
                   />
-                  <label class="text-[#01272C] font-Satoshi500 text-[14px]"
+                  <label class="text-[#01272C] font-medium text-[14px]"
                     >Cancelled</label
                   >
                 </div>
@@ -75,19 +75,19 @@
             </div>
             <div class="flex lg:flex-row flex-col z-50 gap-[8px]">
               <div class="flex flex-col gap-[24px]">
-                <h4 class="text-[#01272C] font-Satoshi500 text-[14px]">Date From</h4>
+                <h4 class="text-[#01272C] font-medium text-[14px]">Date From</h4>
                 <div
                   class="flex flex-row items-center gap-[16px] py-1.5 px-1 opacity-[0.8029] !bg-[#31795A00] rounded-[5.897px] text-[12.68px] border-[#254035AB] border-[0.737px]"
                 >
-                  <input type="date" name="" id="" class="outline-none font-Satoshi400" />
+                  <input type="date" name="" id="" class="outline-none font-normal" />
                 </div>
               </div>
               <div class="flex flex-col gap-[24px]">
-                <h4 class="text-[#01272C] font-Satoshi500 text-[14px]">Date From</h4>
+                <h4 class="text-[#01272C] font-medium text-[14px]">Date From</h4>
                 <div
                   class="flex w-auto items-center py-1.5 px-1 rounded-[5.897px] text-[12.68px] border-[#254035AB] border-[0.737px]"
                 >
-                  <input type="date" name="" id="" class="outline-none font-Satoshi400" />
+                  <input type="date" name="" id="" class="outline-none font-normal" />
                 </div>
               </div>
             </div>
@@ -111,7 +111,7 @@
           v-if="selectedItems.length"
           class="flex justify-between mt-[20px] items-center flex-row"
         >
-          <h3 class="text-[15px] font-Satoshi500 text-[#007582] leading-[24px]">
+          <h3 class="text-[15px] font-medium text-[#007582] leading-[24px]">
             {{ selectedItems.length }} Invoices selected, Total ₦{{ totalSelectedPrice }}
           </h3>
           <button
@@ -153,7 +153,7 @@
         :class="showFilter ? 'opacity-5' : ''"
         class="table-auto w-full rounded-b-[7px]"
       >
-        <thead class="text-[#97A6A8] text-[15px] font-Satoshi400 !px-[21px]">
+        <thead class="text-[#97A6A8] text-[15px] font-normal !px-[21px]">
           <tr>
             <th class="py-4 pl-[21px] lg:flex hidden">
               <!-- checkbox to check all -->
@@ -196,22 +196,22 @@
             <td class="py-4">
               <router-link
                 to="/"
-                class="text-[15px] font-Satoshi700 overflow-hidden flex text-[#01181B]"
+                class="text-[15px] font-satoshi700 overflow-hidden flex text-[#01181B]"
                 >{{ item.invoice_number }}</router-link
               >
             </td>
             <td
-              class="text-left py-4 capitalize overflow-hidden text-[#01181B] text-[15px] font-Satoshi500"
+              class="text-left py-4 capitalize overflow-hidden text-[#01181B] text-[15px] font-medium"
             >
               {{ item.client_name }}
             </td>
             <td
-              class="text-left capitalize lg:block hidden overflow-hidden text-[#01181B] text-[15px] font-Satoshi400"
+              class="text-left capitalize lg:block hidden overflow-hidden text-[#01181B] text-[15px] font-normal"
             >
               {{ item.invoice_date }}
             </td>
             <td
-              class="text-left py-4 capitalize overflow-hidden text-[#01181B] text-[15px] font-Satoshi400"
+              class="text-left py-4 capitalize overflow-hidden text-[#01181B] text-[15px] font-normal"
             >
               ₦{{ item.amount }}
             </td>
@@ -239,7 +239,7 @@
     </div>
     <div v-if="rows" class="flex lg:flex-row flex-col items-center justify-center mt-4">
       <!-- <div
-        class="flex justify-between gap-2 items-center text-[#00000080] text-[14px] font-Satoshi400"
+        class="flex justify-between gap-2 items-center text-[#00000080] text-[14px] font-normal"
       >
         <p>Showing</p>
         <select class="bg-[#F3F4F6] px-[8px] py-[4px] outline-none" name="" id="">

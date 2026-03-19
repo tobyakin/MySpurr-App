@@ -23,7 +23,7 @@
           @input="handleInput"
           :placeholder="placeholder"
           type="text"
-          class="w-full font-light font-Satoshi400 text-[0.8rem] flex-1 opacity-[0.8029] outline-none"
+          class="w-full font-light font-normal text-[0.8rem] flex-1 opacity-[0.8029] outline-none"
         />
       </div>
   

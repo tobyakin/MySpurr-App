@@ -38,7 +38,7 @@ const next = (data) => {
   <div class="bg-[#ffffff] min-h-screen h-full">
     <div class="w-[40%] mx-auto text-center justify-between flex py-4">
       <div
-        class="flex font-Satoshi400 text-[14.908px] justify-center items-center w-[70%] gap-1"
+        class="flex font-normal text-[14.908px] justify-center items-center w-[70%] gap-1"
       >
         <TickCircle class="text-[#43D0DF]" />
         <p>Create an account</p>
@@ -47,7 +47,7 @@ const next = (data) => {
         <hr class="border-b-[#000000] w-[41.862px] border-b-[0.932px]" />
       </div>
       <div
-        class="flex font-Satoshi400 text-[14.908px] overflow-hidden items-center justify-center w-[66%] gap-1"
+        class="flex font-normal text-[14.908px] overflow-hidden items-center justify-center w-[66%] gap-1"
       >
         <TickCircle :class="step >= 3 ? 'text-[#43D0DF]' : 'text-[#B2ECF2]'" />
         <p>Your business details</p>
@@ -56,7 +56,7 @@ const next = (data) => {
         <hr class="border-b-[#000000] w-[41.862px] border-b-[0.932px]" />
       </div>
       <div
-        class="flex font-Satoshi400 text-[14.908px] overflow-hidden justify-center items-center w-[60%] gap-1"
+        class="flex font-normal text-[14.908px] overflow-hidden justify-center items-center w-[60%] gap-1"
       >
         <TickCircle :class="step > 3 ? 'text-[#43D0DF]' : 'text-[#B2ECF2]'" />
         <p>Company logo</p>

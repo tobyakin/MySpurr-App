@@ -22,7 +22,7 @@
           />
         </svg>
       </p>
-      <p class="font-Satoshi400 text-[12.129px]">
+      <p class="font-normal text-[12.129px]">
         By hitting the "Register" button, you agree to the
         <router-link class="text-[#31795A] border-b-[#31795A] border-b-[1px]" to="/"
           >Terms conditions</router-link

@@ -44,7 +44,7 @@ onMounted(async () => {
   <div class="">
     <div class="flex flex-col gap-[31px]">
       <div class="flex flex-row justify-between items-center gap-[21px]">
-        <h4 class="text-[#000000] font-Satoshi500 text-[23.144px]">Add portfolio</h4>
+        <h4 class="text-[#000000] font-medium text-[23.144px]">Add portfolio</h4>
         <button @click="redirectToSinglePortfolio"><CirclePlus /></button>
       </div>
       <div

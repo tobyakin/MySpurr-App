@@ -82,21 +82,21 @@ import { computed } from "vue";
             <div class="flex items-center justify-between w-full">
               <div>
                 <div v-if="filter !== 'sent'">
-                  <h3 class="userName font-Satoshi500 text-messageFont leading-[2rem] text-[0.75rem] capitalize" v-if="userDetails?.data?.id == message?.sender_id">{{ message?.receiver?.first_name }} {{ message?.receiver?.last_name }}</h3>
-                  <h3 class="userName font-Satoshi500 text-messageFont leading-[2rem] text-[0.75rem] capitalize" v-else>{{ message.sender.first_name }} {{ message.sender.last_name }}</h3>
+                  <h3 class="userName font-medium text-messageFont leading-[2rem] text-[0.75rem] capitalize" v-if="userDetails?.data?.id == message?.sender_id">{{ message?.receiver?.first_name }} {{ message?.receiver?.last_name }}</h3>
+                  <h3 class="userName font-medium text-messageFont leading-[2rem] text-[0.75rem] capitalize" v-else>{{ message.sender.first_name }} {{ message.sender.last_name }}</h3>
                   
                 </div>
-                <h3 v-else class="userName font-Satoshi500 text-messageFont leading-[2rem] text-[0.75rem] capitalize">{{ message?.receiver?.first_name }} {{ message?.receiver?.last_name }}</h3>
+                <h3 v-else class="userName font-medium text-messageFont leading-[2rem] text-[0.75rem] capitalize">{{ message?.receiver?.first_name }} {{ message?.receiver?.last_name }}</h3>
               </div>
               <div>
-                <h3 class="text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 uppercase text-[0.6rem] text-right">{{ displayDate(message.sent_at) }}</h3>
-                <h3 class="text-[rgba(0, 0, 0, 0.50)] font-Satoshi400 leading-4 uppercase text-[0.6rem] text-right">{{ displayTime(message.sent_at) }}</h3>
+                <h3 class="text-[rgba(0, 0, 0, 0.50)] font-normal leading-4 uppercase text-[0.6rem] text-right">{{ displayDate(message.sent_at) }}</h3>
+                <h3 class="text-[rgba(0, 0, 0, 0.50)] font-normal leading-4 uppercase text-[0.6rem] text-right">{{ displayTime(message.sent_at) }}</h3>
               </div>
             </div>
           </div>
           <div class="messageDetail pl-[1rem]">
-            <h3 class="messageTitle font-Satoshi500 text-[#000] leading-[1.5rem] text-[0.8rem] !mb-[0.3rem] capitalize" v-if="message?.subject?.length > 0">{{ message.subject }}</h3>
-            <p class="messageText text-messageFont font-Satoshi400 leading-[1.25rem] text-[0.8rem] !mb-[0.7rem]" v-html="truncate(message.message, 12)"></p>
+            <h3 class="messageTitle font-medium text-[#000] leading-[1.5rem] text-[0.8rem] !mb-[0.3rem] capitalize" v-if="message?.subject?.length > 0">{{ message.subject }}</h3>
+            <p class="messageText text-messageFont font-normal leading-[1.25rem] text-[0.8rem] !mb-[0.7rem]" v-html="truncate(message.message, 12)"></p>
             <div v-if="message?.attachment && message.attachment.length > 0" class="flex gap-[0.5rem]">                    
               <div class="attachments flex items-center gap-[0.5rem] flex-wrap" v-for="file in message?.attachment" :key="file">
                 <div class="attachment flex items-center justify-center gap-[0.24rem] bg-[#F0F5F3] w-fit px-[0.3rem] py-[0.5rem] rounded-[0.2rem]">

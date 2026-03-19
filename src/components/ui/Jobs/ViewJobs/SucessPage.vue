@@ -14,11 +14,11 @@ let store = useStore();
       Your application has<br />
       been received.
     </p>
-    <p class="text-[#244034] text-[17.633px] mt-10 leading-[27.356px] font-Satoshi400 lg:w-[70%]">
+    <p class="text-[#244034] text-[17.633px] mt-10 leading-[27.356px] font-normal lg:w-[70%]">
       Seat back and relax while the recruiter takes a look at your resume and portfolio.
       We will keep you updated about position of this job.
     </p>
-    <p class="text-[#244034] text-[17.633px] mt-6 leading-[27.356px] font-Satoshi400">
+    <p class="text-[#244034] text-[17.633px] mt-6 leading-[27.356px] font-normal">
       Cheers <br />
       The MySpurr Team
     </p>
@@ -29,9 +29,9 @@ let store = useStore();
         </div>
       </div>
       <div>
-        <h1 class="text-[#FBFBEE] font-Satoshi500 text-[2.2rem] leading-[2.7rem]">Join the MySpurr Community</h1>
-        <p class="text-[#FBFBEE] font-Satoshi500 text-[1rem] leading-[1.4rem] !my-4">Get the latest job posts, and access to mentorship, resources and updates from MySpurr</p>
-        <button class="bg-[#00474F] rounded-[2.31rem] px-[1.55rem] py-[0.85rem] text-[#ECFAFC] font-Satoshi400 leading-[0.91rem] text-[0.91rem] hover:shadow-lg transitionItem msgTab4:mt-8">
+        <h1 class="text-[#FBFBEE] font-medium text-[2.2rem] leading-[2.7rem]">Join the MySpurr Community</h1>
+        <p class="text-[#FBFBEE] font-medium text-[1rem] leading-[1.4rem] !my-4">Get the latest job posts, and access to mentorship, resources and updates from MySpurr</p>
+        <button class="bg-[#00474F] rounded-[2.31rem] px-[1.55rem] py-[0.85rem] text-[#ECFAFC] font-normal leading-[0.91rem] text-[0.91rem] hover:shadow-lg transitionItem msgTab4:mt-8">
           <a href="https://chat.whatsapp.com/J5QwboAPIQj5vUM5J69Cya" target="_blank" rel="noopener noreferrer">
             Join Community
           </a>

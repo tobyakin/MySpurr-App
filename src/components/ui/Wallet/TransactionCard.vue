@@ -6,7 +6,7 @@
       <DebitIcon v-if="items.type === 'debit'" />
       <CreditIcon v-if="items.type === 'credit'" />
       <div>
-        <p class="text-[#000000] font-Satoshi400 text-[17px]">Top Up</p>
+        <p class="text-[#000000] font-normal text-[17px]">Top Up</p>
         <div class="flex items-center gap-2">
           <div
             :class="{
@@ -17,7 +17,7 @@
             class="h-[12px] w-[12px] rounded-full"
           ></div>
           <p
-            class="text-[#7E9294CC] capitalize font-Satoshi500 leading-[37.234px] text-[16px]"
+            class="text-[#7E9294CC] capitalize font-medium leading-[37.234px] text-[16px]"
           >
             {{ items.status }}
           </p>
@@ -26,11 +26,11 @@
     </div>
     <div class="flex flex-col items-end justify-end text-right gap-4">
       <p
-        class="text-[20px] flex flex-row gap-1 text-[#01181B] text-right font-Satoshi700"
+        class="text-[20px] flex flex-row gap-1 text-[#01181B] text-right font-satoshi700"
       >
         <span class="line-through text-[12px]">N</span>12,090
       </p>
-      <p class="text-[#7E9294CC] font-Satoshi400 text-right text-[17px]">Sept 27, 2023</p>
+      <p class="text-[#7E9294CC] font-normal text-right text-[17px]">Sept 27, 2023</p>
     </div>
   </div>
 </template>

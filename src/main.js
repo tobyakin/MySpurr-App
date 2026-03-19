@@ -26,7 +26,7 @@ import { CkeditorPlugin } from '@ckeditor/ckeditor5-vue';
 import Galleria from 'primevue/galleria'
 
 import Carousel from 'primevue/carousel'
-import { createHead } from '@vueuse/head';
+import { createUnhead } from '@unhead/vue';
 
 import {
   LRectangle,
@@ -45,7 +45,9 @@ import 'leaflet/dist/leaflet.css'
 
 
 const app = createApp(App)
-const head = createHead();
+const head = createUnhead();
+
+app.use(head);
 app.use(VueTelInput)
 
 app.component('Galleria', Galleria)

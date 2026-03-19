@@ -43,7 +43,7 @@
 
           <div class="lg:text-left text-center">
             <p
-              class="text-[#000000] text-[20.839px] flex gap-[8px] items-center capitalize font-Satoshi500 leading-[19.739px]"
+              class="text-[#000000] text-[20.839px] flex gap-[8px] items-center capitalize font-medium leading-[19.739px]"
             >
               {{ props?.talent.first_name }}
               {{ props?.talent.last_name }}
@@ -54,16 +54,16 @@
               >
             </p>
             <p
-              class="text-[#00000066] text-[16.699px] leading-[20.739px] font-Satoshi400"
+              class="text-[#00000066] text-[16.699px] leading-[20.739px] font-normal"
             >
               {{ props?.talent?.skill_title }}
             </p>
             <div class="flex items-center gap-2">
-              <p class="lg:text-[19.319px] text-[14px] text-[#244034] font-Satoshi500">
+              <p class="lg:text-[19.319px] text-[14px] text-[#244034] font-medium">
                 ${{ store.abbr(props?.talent?.rate) }}/hr
               </p>
               <div class="h-[6px] bg-[#010101e2] w-[6px] rounded-full"></div>
-              <p class="text-[#244034] lg:text-[19.319px] text-[14px] font-Satoshi500">
+              <p class="text-[#244034] lg:text-[19.319px] text-[14px] font-medium">
                 {{ props?.talent?.location }}
               </p>
             </div>
@@ -100,7 +100,7 @@
       }"
       class="flex items-center gap-4 mt-6"
     >
-      <p class="lg:text-[20.699px] text-[14px] font-Satoshi500 text-[#244034]">
+      <p class="lg:text-[20.699px] text-[14px] font-medium text-[#244034]">
         View Profile
       </p>
       <ArrowRight />

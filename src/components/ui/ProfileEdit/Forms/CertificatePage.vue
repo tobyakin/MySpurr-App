@@ -122,7 +122,7 @@ onMounted(async () => {
   <div class="">
     <div v-if="step[0]" class="flex flex-col gap-[66px]">
       <div class="flex flex-row justify-between items-center gap-[21px]">
-        <h4 class="text-[#000000] font-Satoshi500 text-[23.144px]">Add certificate</h4>
+        <h4 class="text-[#000000] font-medium text-[23.144px]">Add certificate</h4>
         <button @click="handleAddNew"><CirclePlus /></button>
       </div>
       <div class="overflow-y-auto w-full hide-scrollbar h-[24vh]">
@@ -139,7 +139,7 @@ onMounted(async () => {
           class="flex-col flex gap-6 w-full max-h-[50vh] overflow-y-auto pb-12 hide-scrollbar overflow-hidden"
         >
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[10px] font-Satoshi400">Title</label>
+            <label class="text-[#01272C] text-[10px] font-normal">Title</label>
             <GlobalInput
               v-model="formState.title"
               inputClasses="bg-transparent border-none !p-0"
@@ -148,7 +148,7 @@ onMounted(async () => {
             />
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[10px] font-Satoshi400"
+            <label class="text-[#01272C] text-[10px] font-normal"
               >Institution obtained from
             </label>
             <GlobalInput
@@ -161,7 +161,7 @@ onMounted(async () => {
             class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
           >
             <div class="w-full flex flex-col gap-2 justify-between">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"> Date</label>
+              <label class="text-[#01272C] px-2 text-[12px] font-normal"> Date</label>
               <a-date-picker
                 :bordered="false"
                 v-model="formState.certificate_date"
@@ -170,7 +170,7 @@ onMounted(async () => {
               />
             </div>
             <div class="w-full flex flex-col gap-2 justify-between">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Year</label>
+              <label class="text-[#01272C] px-2 text-[12px] font-normal">Year</label>
               <a-date-picker
                 picker="year"
                 :bordered="false"
@@ -185,7 +185,7 @@ onMounted(async () => {
             class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
           >
             <div class="w-full flex flex-col justify-between">
-              <label class="text-[#01272C] text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] text-[10px] font-normal"
                 >Link to Certificate (Optional)</label
               >
               <GlobalInput
@@ -202,7 +202,7 @@ onMounted(async () => {
               type="checkbox"
               v-model="present"
             />
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            <label class="text-[#01272C] px-2 text-[12px] font-normal"
               >I am currently still schooling here
             </label>
           </div>
@@ -226,7 +226,7 @@ onMounted(async () => {
         >
           new
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[10px] font-Satoshi400">Title</label>
+            <label class="text-[#01272C] text-[10px] font-normal">Title</label>
             <GlobalInput
               v-model="certificateDetails.title"
               inputClasses="bg-transparent border-none !p-0"
@@ -234,7 +234,7 @@ onMounted(async () => {
             />
           </div>
           <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1">
-            <label class="text-[#01272C] text-[12px] font-Satoshi400"
+            <label class="text-[#01272C] text-[12px] font-normal"
               >Institution obtained from
             </label>
             <GlobalInput
@@ -247,7 +247,7 @@ onMounted(async () => {
             class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
           >
             <div class="w-full flex flex-col gap-2 justify-between">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"> Date</label>
+              <label class="text-[#01272C] px-2 text-[12px] font-normal"> Date</label>
               <a-date-picker
                 :bordered="false"
                 v-model:value="formState.certificate_date"
@@ -255,7 +255,7 @@ onMounted(async () => {
               />
             </div>
             <div class="w-full flex flex-col gap-2 justify-between">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Year</label>
+              <label class="text-[#01272C] px-2 text-[12px] font-normal">Year</label>
               <a-date-picker
                 picker="year"
                 :bordered="false"
@@ -269,7 +269,7 @@ onMounted(async () => {
             class="border-[0.737px] flex flex-row ju border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
           >
             <div class="w-full flex flex-col justify-between">
-              <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+              <label class="text-[#01272C] px-2 text-[12px] font-normal"
                 >Link to Certificate (Optional)</label
               >
               <GlobalInput
@@ -286,7 +286,7 @@ onMounted(async () => {
               type="checkbox"
               v-model="present"
             />
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400"
+            <label class="text-[#01272C] px-2 text-[12px] font-normal"
               >I am currently still schooling here
             </label>
           </div>

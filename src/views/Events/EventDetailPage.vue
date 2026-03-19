@@ -240,10 +240,10 @@ const handleViewMore = () => {
                 <article class="grid md:grid-cols-2 grid-cols-1  w-full gap-[4.65rem] items-end !mb-[4rem]">
                     <div class="flex flex-col gap-4 w-full">
                         <span
-                            class="bg-[#00474F] rounded-[0.86rem] text-[#fff] font-Satoshi700 text-[0.59rem] leading-[0.39rem] py-[0.7rem] eventBreak1:text-[0.4rem] eventBreak1:w-[50%] px-[1.47] w-[40%] text-center uppercase tracking-[0.38rem] eventBreak1:tracking-[0.15rem] eventBreak1:mb-4">online
+                            class="bg-[#00474F] rounded-[0.86rem] text-[#fff] font-satoshi700 text-[0.59rem] leading-[0.39rem] py-[0.7rem] eventBreak1:text-[0.4rem] eventBreak1:w-[50%] px-[1.47] w-[40%] text-center uppercase tracking-[0.38rem] eventBreak1:tracking-[0.15rem] eventBreak1:mb-4">online
                             event</span>
                         <h3
-                            class="text-[#000] font-Satoshi700 text-[2rem] eventBreak1:text-[1rem] eventBreak1:leading-[1.2rem] leading-[2.26463rem]">
+                            class="text-[#000] font-satoshi700 text-[2rem] eventBreak1:text-[1rem] eventBreak1:leading-[1.2rem] leading-[2.26463rem]">
                             {{ singleEvent.title }}
                         </h3>
                         <div class="md:hidden rounded-[2.1875rem] msgMob:min-h-[auto] w-full md:w-3/6">
@@ -285,19 +285,19 @@ const handleViewMore = () => {
                 </article>
                 <article class="detail-container !items-start gap-[5rem] mt-5 msgMob:mt-0 msgMob:!gap-[3rem]">
                     <div>
-                        <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">About the Event</h3>
-                        <div class="about mt-6 font-Satoshi400 text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]"
+                        <h3 class="font-satoshi700 text-[#000] text-[1rem] leading-4">About the Event</h3>
+                        <div class="about mt-6 font-normal text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]"
                             v-html="singleEvent.content"></div>
                     </div>
                     <div>
                             <div class="bg-[#007582] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full ms-auto"
                                 :class="{ registered: eventRegistered }" v-if="!singleEvent?.is_registered || !showRegister">
                                 <div class="w-full grid place-items-center">
-                                    <h3 class="text-[#fff] font-Satoshi500 text-[1.3rem] eventBreak1:text-[1rem]">
+                                    <h3 class="text-[#fff] font-medium text-[1.3rem] eventBreak1:text-[1rem]">
                                         Register
                                     </h3>
                                     <button
-                                        class="mt-[1.2rem] bg-[#ECFAFC] rounded-[1.6rem] w-[70%] mx-auto text-center py-[0.6rem] text-[#000] font-Satoshi500 leading-[0.8rem] text-[1rem] eventBreak1:text-[0.7rem]"
+                                        class="mt-[1.2rem] bg-[#ECFAFC] rounded-[1.6rem] w-[70%] mx-auto text-center py-[0.6rem] text-[#000] font-medium leading-[0.8rem] text-[1rem] eventBreak1:text-[0.7rem]"
                                         @click="handleRegisterNotification">
                                         <div class="flex items-center justify-center">
                                             <span v-if="apiLoading"><SpinnerComponent /></span>
@@ -309,7 +309,7 @@ const handleViewMore = () => {
                             <div class="bg-[#ECFAFC] rounded-[1.4rem] px-[3rem] py-[1.7rem] eventBreak1:px-[2rem] eventBreak1:py-4 eventBreak1:rounded-[0.5rem] w-full ms-auto"
                                 :class="{ registered: eventRegistered }" v-if="singleEvent?.is_registered || eventRegistered">
                                 <div class="w-full text-center">
-                                    <h3 class="text-[#000] font-Satoshi500 text-[1.3rem] eventBreak1:text-[1rem] !mb-[0.5rem]">
+                                    <h3 class="text-[#000] font-medium text-[1.3rem] eventBreak1:text-[1rem] !mb-[0.5rem]">
                                         Thanks for registering, {{ userDetails.first_name }} {{ userDetails.last_name }}
                                     </h3>
                                     <p class="eventBreak1:text-[0.7rem] text-[1rem]">We recommend you:</p>
@@ -334,12 +334,12 @@ const handleViewMore = () => {
                                         <div class="w-full h-auto">
                                             <ul class="w-[90%] mx-auto h-auto calendarIcons mt-4 transitionItem"
                                                 :class="{ hideOptions: !showOptions }">
-                                                <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 cursor-pointer"
+                                                <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-medium cursor-pointer"
                                                     @click="handleAddtoGoogleCalendar">
                                                     <googleCalendarIcon />
                                                     <h3>Google</h3>
                                                 </li>
-                                                <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 mt-[0.5rem] cursor-pointer"
+                                                <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-medium mt-[0.5rem] cursor-pointer"
                                                     @click="handleAddtoOutlookCalendar">
                                                     <outlookCalendarIcon />
                                                     <h3>Outlook</h3>
@@ -393,7 +393,7 @@ const handleViewMore = () => {
                 <article class="my-[3rem] msgMob:w-full w-[50%] eventBreak1:my-[2rem]">
                     <div class="mb-[3.5rem]">
                         <h3
-                            class="font-Satoshi700 text-[#000] text-[1.5rem] leading-6 eventBreak1:text-[1rem] eventBreak1:leading-4">
+                            class="font-satoshi700 text-[#000] text-[1.5rem] leading-6 eventBreak1:text-[1rem] eventBreak1:leading-4">
                             Speaker:
                         </h3>
                         <div class="mt-6 eventBreak1:mt-4 flex items-center gap-6">
@@ -401,7 +401,7 @@ const handleViewMore = () => {
                                 <img :src="singleEvent.featured_speaker" alt="" class="w-full h-full object-contain" />
                             </div>
                             <div>
-                                <h3 class="font-Satoshi700 text-[#000] text-4 leading-4 pb-1 eventBreak1:text-[0.9rem]">
+                                <h3 class="font-satoshi700 text-[#000] text-4 leading-4 pb-1 eventBreak1:text-[0.9rem]">
                                     {{ singleEvent.speaker }}
                                 </h3>
                                 <p class="text-sm font-normal">{{ singleEvent.speaker_title }}</p>
@@ -414,17 +414,17 @@ const handleViewMore = () => {
                         </div>
                     </div>
                     <div>
-                        <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">
+                        <h3 class="font-satoshi700 text-[#000] text-[1rem] leading-4">
                             About {{ singleEvent.speaker }}
                         </h3>
                         <p
-                            class="mt-6 font-Satoshi400 text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]">
+                            class="mt-6 font-normal text-[#000] leading-[1.5rem] text-4 eventBreak1:text-[0.8rem] eventBreak1:leading-[1.3rem]">
                             {{ singleEvent.speaker_bio }}
                         </p>
                     </div>
                 </article>
                 <article class="w-[50%] msgMob:w-full">
-                    <h3 class="font-Satoshi700 text-[#000] text-[1rem] leading-4">Sponsors</h3>
+                    <h3 class="font-satoshi700 text-[#000] text-[1rem] leading-4">Sponsors</h3>
                     <div v-if="singleEvent.brand_partners && singleEvent.brand_partners.length === 0">
                         <p class="pt-3">No sponsor available.</p>
                     </div>
@@ -437,7 +437,7 @@ const handleViewMore = () => {
                 </article>
                 <article class="w-[95%] msgMob:w-full mx-auto mt-[3rem]">
                     <div class="text-center">
-                        <h3 class="font-Satoshi700 text-[#000] leading-5">Related Events</h3>
+                        <h3 class="font-satoshi700 text-[#000] leading-5">Related Events</h3>
                     </div>
                     <div class="my-10">
                         <div class="grid grid-cols-customGrid gap-3 msgMob:grid-cols-1">
@@ -453,7 +453,7 @@ const handleViewMore = () => {
                                         class="w-full object-contain h-full rounded-t-[1rem]" />
                                     </div>
                                     <div class="flex-grow px-[1.24rem] pb-[2rem] pt-4 bg-[#ECFAFC] rounded-b-[1.32038rem] flex flex-col justify-between">
-                                        <h1 class="text-[#000] text-[0.8rem] font-Satoshi700 leading-[1rem] mb-4">
+                                        <h1 class="text-[#000] text-[0.8rem] font-satoshi700 leading-[1rem] mb-4">
                                         {{ event.title }}
                                         </h1>
                                         <div class="event_details flex flex-col gap-[0.29rem] my-[0.5rem]">
@@ -473,7 +473,7 @@ const handleViewMore = () => {
                                         <router-link :to="{ name: 'event-detail', params: { slug: event.slug } }"
                                         class="event_btn">
                                         <div class="w-[100%] flex items-center justify-between px-4 py-[0.7rem] bg-[#43D0DF] rounded-[0.46rem] btn-hover-1 my-3">
-                                            <h3 class="reg font-Satoshi700 text-[#000] text-[0.865rem] leading-4 eventBreak1:text-[0.7rem]">
+                                            <h3 class="reg font-satoshi700 text-[#000] text-[0.865rem] leading-4 eventBreak1:text-[0.7rem]">
                                             Register
                                             </h3>
                                             <rightArrowM class="reg" />
@@ -487,7 +487,7 @@ const handleViewMore = () => {
 
                     <div class="grid place-items-center">
                         <button
-                            class="bg-[#31795A] rounded-[1.7rem] py-[1rem] font-Satoshi500 leading-[0.7rem] text-[#fff] w-[30%] btn-hover-2 eventBreak1:text-[0.8rem] msgMob:w-[45%]"
+                            class="bg-[#31795A] rounded-[1.7rem] py-[1rem] font-medium leading-[0.7rem] text-[#fff] w-[30%] btn-hover-2 eventBreak1:text-[0.8rem] msgMob:w-[45%]"
                             @click="handleViewMore">
                             View More Events
                         </button>
@@ -509,16 +509,16 @@ const handleViewMore = () => {
                                 <img src="../../assets/image/Logo-img.png" alt="" />
                             </div>
                             <div class="w-[85%] msgMob:w-full mb-[0.5rem]">
-                                <h3 class="text-[#011B1F] font-Satoshi400 text-[1rem] leading-4 msgMob:text-[0.8rem]">
+                                <h3 class="text-[#011B1F] font-normal text-[1rem] leading-4 msgMob:text-[0.8rem]">
                                     You are successfully registered for:
                                 </h3>
                                 <p
-                                    class="text-[#6BA336] font-Satoshi700 text-[1rem] leading-4 mt-[0.5rem] msgMob:text-[0.8rem]">
+                                    class="text-[#6BA336] font-satoshi700 text-[1rem] leading-4 mt-[0.5rem] msgMob:text-[0.8rem]">
                                     {{ singleEvent.title }}
                                 </p>
                             </div>
                             <div class="shareEvent flex items-center gap-[0.7rem]">
-                                <h3 class="font-Satoshi400 leading-4 text-4 msgMob:text-[0.8rem]">Share event:</h3>
+                                <h3 class="font-normal leading-4 text-4 msgMob:text-[0.8rem]">Share event:</h3>
                                 <Share :event="singleEvent"/>
                             </div>
                             <div class="w-full">
@@ -529,12 +529,12 @@ const handleViewMore = () => {
                                 </button>
                                 <ul class="w-[50%] mx-auto calendarIcons mt-4 transitionItem"
                                     v-if="showCalendarOptions">
-                                    <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 cursor-pointer"
+                                    <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-medium cursor-pointer"
                                         @click="handleAddtoGoogleCalendar">
                                         <googleCalendarIcon />
                                         <h3>Google</h3>
                                     </li>
-                                    <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-Satoshi500 mt-[0.5rem] cursor-pointer"
+                                    <li class="flex items-center justify-center h-[fit] border border-[#007582] rounded-[0.5rem] py-[0.2rem] gap-4 text-[#000] font-medium mt-[0.5rem] cursor-pointer"
                                         @click="handleAddtoOutlookCalendar">
                                         <outlookCalendarIcon />
                                         <h3>Outlook</h3>

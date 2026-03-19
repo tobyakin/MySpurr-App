@@ -56,7 +56,7 @@ function activateTab(tab) {
   padding-bottom: 0 !important;
   scroll-padding-bottom: 0;
   text-transform: capitalize !important;
-  @apply text-[0.88rem] leading-[1.14rem] font-Satoshi500 bg-none;
+  @apply text-[0.88rem] leading-[1.14rem] font-medium bg-none;
 }
 
 .jobs_tabs::-webkit-scrollbar {
@@ -66,7 +66,7 @@ function activateTab(tab) {
 .jobs_tabs a {
   cursor: pointer;
   transition: color 0.2s;
-  @apply p-0 py-2 text-center lg:text-[1.19rem] text-[1.13rem] text-[#244034] font-Satoshi400;
+  @apply p-0 py-2 text-center lg:text-[1.19rem] text-[1.13rem] text-[#244034] font-normal;
 }
 
 .jobs_tabs a:last-child {

@@ -202,14 +202,14 @@ onMounted(async () => {
             </div>
             <p
               v-if="accountType === 'talent'"
-              class="text-[#011B1F] text-[12.299px] leading-[16.707px] font-Satoshi400"
+              class="text-[#011B1F] text-[12.299px] leading-[16.707px] font-normal"
             >
               You now have full access to our network of job openings and thriving
               community. Are you ready to take on new opportunities?
             </p>
             <p
               v-if="accountType !== 'talent'"
-              class="text-[#011B1F] text-[12.299px] leading-[16.707px] font-Satoshi400"
+              class="text-[#011B1F] text-[12.299px] leading-[16.707px] font-normal"
             >
               You now have full access to our network of talents and thriving community.
               Are you ready to start hiring?
@@ -218,42 +218,42 @@ onMounted(async () => {
           <div class="flex gap-4 mt-6">
             <router-link
               v-if="accountType === 'talent'"
-              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              class="text-[#011B1F] font-medium border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/profile"
               >MySpurr profile</router-link
             >
             <router-link
               v-if="accountType === 'talent'"
-              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              class="text-[#011B1F] font-medium border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/jobs"
               >Find jobs</router-link
             >
             <router-link
               v-if="accountType === 'talent'"
-              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              class="text-[#011B1F] font-medium border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/wallet"
               >Wallet</router-link
             >
             <router-link
               v-if="accountType !== 'talent'"
-              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              class="text-[#011B1F] font-medium border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/post-job"
               >Post a job</router-link
             >
             <router-link
               v-if="accountType !== 'talent'"
-              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              class="text-[#011B1F] font-medium border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/talents"
               >Find talent</router-link
             >
             <router-link
               v-if="accountType === 'talent'"
-              class="text-[#011B1F] font-Satoshi500 hidden border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              class="text-[#011B1F] font-medium hidden border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/courses"
               >Take courses</router-link
             >
             <router-link
-              class="text-[#011B1F] font-Satoshi500 hidden border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              class="text-[#011B1F] font-medium hidden border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/community"
               >Community</router-link
             >
@@ -264,11 +264,11 @@ onMounted(async () => {
         >
           <div>
             <p
-              class="text-[#244034] lg:text-[26.2px] text-[19px] leading-[51.2px] font-Satoshi500"
+              class="text-[#244034] lg:text-[26.2px] text-[19px] leading-[51.2px] font-medium"
             >
               Verify your account details
             </p>
-            <p class="text-[#011B1F] text-[12.299px] leading-[17.284px] font-Satoshi400">
+            <p class="text-[#011B1F] text-[12.299px] leading-[17.284px] font-normal">
               In order for you to receive payments, we need to
               <br class="lg:block hidden" />
               verify your identity.
@@ -276,7 +276,7 @@ onMounted(async () => {
           </div>
           <div class="flex gap-4 mt-6">
             <router-link
-              class="text-[#011B1F] font-Satoshi500 border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
+              class="text-[#011B1F] font-medium border-b-[1px] border-b-[#011B1F] text-[12.299px] underline-offset-4"
               to="/verify-identity"
             >
               Verify Identity
@@ -284,7 +284,7 @@ onMounted(async () => {
 
             <router-link
               to="/verify-identity"
-              class="text-[12.299px] font-Satoshi500 hidden text-white text-center justify-center mx-auto bg-[#43D0DF] p-3 px-[20px] w-[60%] rounded-full"
+              class="text-[12.299px] font-medium hidden text-white text-center justify-center mx-auto bg-[#43D0DF] p-3 px-[20px] w-[60%] rounded-full"
             >
               Verify Identity
             </router-link>
@@ -331,12 +331,12 @@ onMounted(async () => {
           >
             <div class="flex flex-col gap-3 h-full w-full">
               <h4
-                class="text-[#244034] leading-[17.646px] font-Satoshi700 text-[23.467px]"
+                class="text-[#244034] leading-[17.646px] font-satoshi700 text-[23.467px]"
               >
                 Jobs Open
               </h4>
               <div class="flex flex-row gap-2">
-                <h4 class="text-[#244034] font-Satoshi700 leading-none text-[60.722px]">
+                <h4 class="text-[#244034] font-satoshi700 leading-none text-[60.722px]">
                   {{ userDetails?.total_opened_jobs }}
                 </h4>
                 <div class="flex flex-col h-full justify-between">
@@ -355,12 +355,12 @@ onMounted(async () => {
           >
             <div class="flex flex-col gap-3 h-full w-full">
               <h4
-                class="text-[#244034] pl-[22.48px] leading-[19.646px] font-Satoshi700 text-[23.467px]"
+                class="text-[#244034] pl-[22.48px] leading-[19.646px] font-satoshi700 text-[23.467px]"
               >
                 Applicants Summary
               </h4>
               <div class="flex flex-row gap-2 pl-[22.48px]">
-                <h4 class="text-[#244034] font-Satoshi700 leading-none text-[60.722px]">
+                <h4 class="text-[#244034] font-satoshi700 leading-none text-[60.722px]">
                   {{ userDetails?.total_number_applicants }}
                 </h4>
                 <div class="flex flex-col h-full justify-between">
@@ -382,10 +382,10 @@ onMounted(async () => {
       <!-- jobs updates -->
       <div v-if="accountType !== 'talent'" class="mt-12">
         <div class="flex justify-between mb-4">
-          <p class="text-[18px] font-Satoshi400 text-[#244034]">Job Updates</p>
+          <p class="text-[18px] font-normal text-[#244034]">Job Updates</p>
 
           <router-link
-            class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+            class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-medium text-[12.299px]"
             to="/job-lists"
             >View all jobs</router-link
           >
@@ -406,14 +406,14 @@ onMounted(async () => {
             <div class="flex w-[60%] flex-row gap-4">
               <button
                 @click="scrollLeft"
-                class="border-[#007582] border-2 p-4 py-2 rounded-l-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                class="border-[#007582] border-2 p-4 py-2 rounded-l-[6.032px] font-medium text-[22.621px] items-center flex"
               
               >
                 <Arrow class="rotate-[180deg]" />
               </button>
               <button
                 @click="scrollRight"
-                class="border-[#007582] border-2 p-4 py-2 rounded-r-[6.032px] font-Satoshi500 text-[22.621px] items-center flex"
+                class="border-[#007582] border-2 p-4 py-2 rounded-r-[6.032px] font-medium text-[22.621px] items-center flex"
               
               >
                 <Arrow />
@@ -429,10 +429,10 @@ onMounted(async () => {
         class="mt-12 w-full flex flex-col overflow-hidden"
       >
         <div class="flex w-full justify-between mb-4">
-          <p class="text-[18px] font-Satoshi400 text-[#244034]">Top job picks for you</p>
+          <p class="text-[18px] font-normal text-[#244034]">Top job picks for you</p>
 
           <router-link
-            class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+            class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-medium text-[12.299px]"
             to="/jobs"
             >View all jobs</router-link
           >
@@ -456,10 +456,10 @@ onMounted(async () => {
         </div>
         <!-- <div class="my-8 hidden">
           <div class="flex invisible justify-between mb-8">
-            <p class="text-[18px] font-Satoshi400 text-[#244034]">My Courses</p>
+            <p class="text-[18px] font-normal text-[#244034]">My Courses</p>
 
             <router-link
-              class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+              class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-medium text-[12.299px]"
               to="/courses"
               >View all courses</router-link
             >
@@ -476,10 +476,10 @@ onMounted(async () => {
       <!-- community -->
       <!-- <div v-if="accountType === 'talent'" class="my-8 hidden">
         <div class="flex justify-between mb-4">
-          <p class="text-[18px] font-Satoshi400 text-[#244034]">Communities</p>
+          <p class="text-[18px] font-normal text-[#244034]">Communities</p>
 
           <router-link
-            class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-Satoshi500 text-[12.299px]"
+            class="text-[#011B1F] border-b-[1px] flex items-center border-b-[#011B1F] font-medium text-[12.299px]"
             to="/community"
             >View all communies</router-link
           >
@@ -490,7 +490,7 @@ onMounted(async () => {
       </div> -->
       <!-- articles -->
       <!-- <div class="mt-10 hidden overflow-x-auto">
-        <p class="text-[18px] font-Satoshi400 !mb-[60px] text-[#244034]">
+        <p class="text-[18px] font-normal !mb-[60px] text-[#244034]">
           MySpurr Articles
         </p>
         <div class="grid md:grid-cols-2 grid-cols-1 gap-3">

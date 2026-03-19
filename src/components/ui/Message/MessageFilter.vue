@@ -33,7 +33,7 @@ function filterSent(){
 
  <template>
    <div class="my-[0.8rem] rounded-[1.50519rem] bg-searchBg border-[0.803px] border-[#EFEFEF] flex items-center justify-between px-4 py-[0.1rem]">
-        <input type="text" placeholder="Search contacts" class="bg-searchBg font-Satoshi400 leading-[2rem] text-[0.8rem]">
+        <input type="text" placeholder="Search contacts" class="bg-searchBg font-normal leading-[2rem] text-[0.8rem]">
         <SearchIcon />
     </div>
     <ul class="messageGroup flex items-center justify-between gap-[0.7rem] !mb-[0.5rem]">

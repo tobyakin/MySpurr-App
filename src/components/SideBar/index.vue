@@ -20,7 +20,7 @@
         >
           <HomeIcon />
         </div>
-        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
+        <span class="place-self-center text-[16px] font-medium leading-[20.23px]"
           >Home</span
         >
       </router-link>
@@ -35,7 +35,7 @@
         >
           <MessageIcon />
         </div>
-        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
+        <span class="place-self-center text-[16px] font-medium leading-[20.23px]"
           >Messages</span
         >
       </router-link>
@@ -52,7 +52,7 @@
           <ApplicationIcon />
         </div>
         <span
-          class="place-self-center relative text-[16px] font-Satoshi500 leading-[20.23px]"
+          class="place-self-center relative text-[16px] font-medium leading-[20.23px]"
         >
           <!-- <sup class="coming-soon">coming soon</sup> -->
 
@@ -73,7 +73,7 @@
         >
           <ApplicationIcon />
         </div>
-        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
+        <span class="place-self-center text-[16px] font-medium leading-[20.23px]"
           >My Application</span
         >
       </router-link>
@@ -89,7 +89,7 @@
         >
           <MyjobsIcon />
         </div>
-        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
+        <span class="place-self-center text-[16px] font-medium leading-[20.23px]"
           >Jobs</span
         >
       </router-link>
@@ -107,7 +107,7 @@
         >
           <MyjobsIcon />
         </div>
-        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
+        <span class="place-self-center text-[16px] font-medium leading-[20.23px]"
           >Job Listing</span
         >
       </router-link>
@@ -123,7 +123,7 @@
         >
           <Courses />
         </div>
-        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
+        <span class="place-self-center text-[16px] font-medium leading-[20.23px]"
           >Courses</span
         >
       </router-link>
@@ -141,7 +141,7 @@
         >
           <MySchedule />
         </div>
-        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
+        <span class="place-self-center text-[16px] font-medium leading-[20.23px]"
           >My Schedule</span
         >
       </router-link>
@@ -159,7 +159,7 @@
         >
         <GoProIcon />
         </div>
-        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
+        <span class="place-self-center text-[16px] font-medium leading-[20.23px]"
           >Events</span
         >
       </router-link>
@@ -174,7 +174,7 @@
         >
           <GoProIcon />
         </div>
-        <span class="place-self-center text-[16px] font-Satoshi500 leading-[20.23px]"
+        <span class="place-self-center text-[16px] font-medium leading-[20.23px]"
           >Go Pro</span
         >
       </router-link>

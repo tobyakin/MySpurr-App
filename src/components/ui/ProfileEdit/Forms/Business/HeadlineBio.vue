@@ -114,14 +114,14 @@ onMounted(async () => {
     <div class="flex flex-col h-[45vh] overflow-y-auto hide-scrollbar gap-[21px]">
       <div class="flex md:flex-row flex-col justify-between gap-[21px]">
         <div class="flex flex-col md:w-[50%] gap-[20px]">
-          <p class="text-[24px] text-[#244034] font-Satoshi400 leading-[40.393px]">
+          <p class="text-[24px] text-[#244034] font-normal leading-[40.393px]">
             Basic Info
           </p>
           <div class="flex-col flex gap-[19px]">
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] text-[10px] flex font-Satoshi400"
+              <label class="text-[#01272C] text-[10px] flex font-normal"
                 >Business Name</label
               >
               <GlobalInput
@@ -134,7 +134,7 @@ onMounted(async () => {
               class="border-[0.737px] flex lg:flex-row flex-col items-center border-[#254035AB] rounded-[5.897px] p-0 py-0.5"
             >
               <div class="w-full">
-                <label class="text-[#01272C] px-3 text-[12px] font-Satoshi400"
+                <label class="text-[#01272C] px-3 text-[12px] font-normal"
                   >Country</label
                 >
                 <div class="flex w-full items-center">
@@ -169,7 +169,7 @@ onMounted(async () => {
               /> -->
 
               <div class="w-full">
-                <label class="text-[#01272C] px-3 text-[12px] font-Satoshi400"
+                <label class="text-[#01272C] px-3 text-[12px] font-normal"
                   >State</label
                 >
                 <div class="flex w-full items-center">
@@ -198,7 +198,7 @@ onMounted(async () => {
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-normal"
                 >Website</label
               >
               <GlobalInput
@@ -211,7 +211,7 @@ onMounted(async () => {
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400">Email</label>
+              <label class="text-[#01272C] flex text-[10px] font-normal">Email</label>
               <GlobalInput
                 inputClasses="bg-transparent border-none !px-0 !py-[4px]"
                 v-model="businessDeatils.business_email"
@@ -221,7 +221,7 @@ onMounted(async () => {
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-normal"
                 >Country Code</label
               >
               <GlobalInput
@@ -233,7 +233,7 @@ onMounted(async () => {
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-normal"
                 >Phone Number</label
               >
               <GlobalInput
@@ -245,7 +245,7 @@ onMounted(async () => {
             <div
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
-              <label class="text-[#01272C] flex text-[10px] font-Satoshi400"
+              <label class="text-[#01272C] flex text-[10px] font-normal"
                 >Category</label
               >
               <GlobalInput
@@ -257,7 +257,7 @@ onMounted(async () => {
           </div>
         </div>
         <div class="flex flex-col md:w-[50%] gap-[20px]">
-          <p class="text-[24px] text-[#244034] font-Satoshi400 leading-[40.393px]">
+          <p class="text-[24px] text-[#244034] font-normal leading-[40.393px]">
             Your online profiles
           </p>
           <div class="flex-col flex gap-[19px]">
@@ -265,7 +265,7 @@ onMounted(async () => {
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label
-                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] pl-[13px] font-Satoshi400"
+                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] pl-[13px] font-normal"
                 >Size</label
               >
               <GlobalInput
@@ -278,7 +278,7 @@ onMounted(async () => {
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-2"
             >
               <label
-                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
+                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-normal"
                 ><LinkdeinIcon class="w-[11.414px] h-[10.78px]" />LinkedIn</label
               >
               <GlobalInput
@@ -292,7 +292,7 @@ onMounted(async () => {
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label
-                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
+                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-normal"
                 ><InstagramIcon class="w-[11.508px] h-[11.508px]" />Instagram
               </label>
               {{ userProfile.user.data.social_media.instagram }}
@@ -306,7 +306,7 @@ onMounted(async () => {
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label
-                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
+                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-normal"
                 ><TwitterIcon class="w-[14.036px] h-[11.229px]" />X</label
               >
               <GlobalInput
@@ -320,7 +320,7 @@ onMounted(async () => {
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label
-                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
+                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-normal"
                 ><BeIcon class="w-[16.289px] h-[10.859px]" />Behance</label
               >
               <!-- no behance -->
@@ -334,7 +334,7 @@ onMounted(async () => {
               class="border-[0.737px] border-[#254035AB] flex-col flex rounded-[5.897px] p-4 py-1"
             >
               <label
-                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-Satoshi400"
+                class="text-[#01272C] text-[10px] flex flex-row gap-[10px] font-normal"
                 ><FacebookIcon class="h-[13px] w-[13px]" />Facebook</label
               >
               <!-- no facebook -->

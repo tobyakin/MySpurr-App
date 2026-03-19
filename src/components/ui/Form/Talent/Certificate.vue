@@ -139,7 +139,7 @@ watch(CertificateDate, (newCertificateDate) => {
       <h1 class="md:text-[36px] text-[#011B1F] font-EBGaramond500 text-2xl font-bold">
         Certificate
       </h1>
-      <p class="text-[16px] text-[#011B1F] leading-[23.734px] font-Satoshi400 my-4 md:!mb-8">
+      <p class="text-[16px] text-[#011B1F] leading-[23.734px] font-normal my-4 md:!mb-8">
         Please provide details of your most recent certificate. You will have a chance to
         add to this when your onboarding has been completed.
       </p>
@@ -149,7 +149,7 @@ watch(CertificateDate, (newCertificateDate) => {
           :class="errors.title ? 'border-[#DA5252]' : 'border-[#254035AB]'"
           class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Title</label>
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">Title</label>
           <GlobalInput
             v-model="certificate.title"
             inputClasses="bg-transparent border-none"
@@ -166,7 +166,7 @@ watch(CertificateDate, (newCertificateDate) => {
           :class="errors.institute ? 'border-[#DA5252]' : 'border-[#254035AB]'"
           class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">
             Institution obtained from
           </label>
           <GlobalInput
@@ -186,7 +186,7 @@ watch(CertificateDate, (newCertificateDate) => {
           class="border-[0.737px] flex flex-row border-[#254035AB] rounded-[5.897px] p-4 py-1.5"
         >
           <div class="w-full flex flex-col gap-2 justify-between">
-            <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">Date</label>
+            <label class="text-[#01272C] px-2 text-[12px] font-normal">Date</label>
             <a-date-picker
               :bordered="false"
               v-model:value="formState.certificate_date"
@@ -199,7 +199,7 @@ watch(CertificateDate, (newCertificateDate) => {
 
         <!-- Certificate Link (Optional) -->
         <div class="border-[0.737px] border-[#254035AB] rounded-[5.897px] p-4 py-1.5">
-          <label class="text-[#01272C] px-2 text-[12px] font-Satoshi400">
+          <label class="text-[#01272C] px-2 text-[12px] font-normal">
             Link to certificate (optional)
           </label>
           <GlobalInput
@@ -216,7 +216,7 @@ watch(CertificateDate, (newCertificateDate) => {
     <div class="flex flex-row gap-5 pb-8 mt-5">
       <button
         @click="prev"
-        class="font-Satoshi500 text-white text-[14px] capitalize bg-[#43D0DF] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
+        class="font-medium text-white text-[14px] capitalize bg-[#43D0DF] leading-[11.593px] rounded-full p-5 w-full btn-hover-1"
       >
         Prev
       </button>
@@ -225,7 +225,7 @@ watch(CertificateDate, (newCertificateDate) => {
         type="submit"
         :disabled="!isFormValid"
         :class="!isFormValid ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#43D0DF] btn-hover-1'"
-        class="font-Satoshi500 text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full"
+        class="font-medium text-white text-[14px] leading-[11.593px] rounded-full p-5 w-full"
       >
         <span v-if="!loading">Submit</span>
         <WhiteLoader v-else />

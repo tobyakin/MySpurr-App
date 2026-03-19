@@ -98,11 +98,11 @@ const displayImage = computed(() => imageExists.value)
         </div>
       </div>
       <div class="flex justify-between items-center w-full">
-        <p class="text-[13.021px] font-Satoshi500 text-[#2F929C]">
+        <p class="text-[13.021px] font-medium text-[#2F929C]">
           {{ props?.job?.company.business_name }}
         </p>
         <div
-          class="bg-[#EDF0B8] font-Satoshi500 text-[10.708px] capitalize p-2 px-4 text-[#000000] rounded-full"
+          class="bg-[#EDF0B8] font-medium text-[10.708px] capitalize p-2 px-4 text-[#000000] rounded-full"
         >
           {{ props?.job?.job_type }}
         </div>
@@ -113,11 +113,11 @@ const displayImage = computed(() => imageExists.value)
       <div class="flex justify-between">
         <div class="flex flex-col w-full gap-2">
           <div class="flex flex-row justify-between gap-2">
-            <p class="!text-[20.419px] font-Satoshi500 text-[#000000]">
+            <p class="!text-[20.419px] font-medium text-[#000000]">
               {{ props?.job?.job_title }}
             </p>
             <p
-              class="text-[10.988px] capitalize font-Satoshi500 flex items-center text-[#244034B2]"
+              class="text-[10.988px] capitalize font-medium flex items-center text-[#244034B2]"
             >
               <span v-html="numAbbr.formatCurrency(props?.job?.currency)"></span>
 
@@ -126,16 +126,16 @@ const displayImage = computed(() => imageExists.value)
             </p>
           </div>
           <div class="flex gap-2">
-            <div class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-Satoshi500">
+            <div class="flex gap-1 items-center text-[10.334px] text-[#DA5252] font-medium">
               <CalenderIcon /><span class="py-[0.25px]">{{ props?.job?.date_created }}</span>
             </div>
-            <div class="flex items-center gap-[2px] text-[10.334px] text-[#DA5252] font-Satoshi500">
+            <div class="flex items-center gap-[2px] text-[10.334px] text-[#DA5252] font-medium">
               <LocationIcon /><span class="py-[0.25px]"
                 >{{ props?.job?.state }}, {{ props?.job?.country }}</span
               >
             </div>
             <!-- <div
-              class="flex items-center gap-1 text-[10.334px] text-[#DA5252] font-Satoshi500"
+              class="flex items-center gap-1 text-[10.334px] text-[#DA5252] font-medium"
             >
               <TimerIcon /><span class="py-[0.25px]">Anytime</span>
             </div> -->
@@ -147,7 +147,7 @@ const displayImage = computed(() => imageExists.value)
           <div
             v-for="i in props?.job?.skills"
             :key="i"
-            class="bg-[#FBEEEE] font-Satoshi500 text-[9.708px] p-2 px-4 text-[#000000] rounded-full"
+            class="bg-[#FBEEEE] font-medium text-[9.708px] p-2 px-4 text-[#000000] rounded-full"
           >
             {{ i.name }}
           </div>
@@ -159,7 +159,7 @@ const displayImage = computed(() => imageExists.value)
             class="h-[7px] rounded-lg bg-[#2B8C97]"
           ></div>
         </div> -->
-          <p class="text-[10.252px] font-Satoshi500 leading-[15.6px] text-[#000000]">
+          <p class="text-[10.252px] font-medium leading-[15.6px] text-[#000000]">
             {{ props?.job?.applicants }} Applied
 
             <!-- <span class="text-[#6C8285]">of 10 Capacity</span> -->

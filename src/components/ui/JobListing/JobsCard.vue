@@ -182,7 +182,7 @@ const displayImage = computed(() => imageExists.value)
   <div class="px-10 py-8 msgMob:p-4">
     <cancelIcon class="ml-auto w-[40px] h-[20px] hover:scale-110 transitionItem !mb-[2rem]" @click="closeOptionModal"/>
     <div class="closeJobStepOne">
-      <h1 class="text-[#01181B] font-Satoshi400 text-[1.4rem] leading-[2.1875rem] !mb-[2rem] msgTab4:text-[1.2rem] msgTab4:leading-[1.9rem]">You are about to close an active job, did you get a preferred candidate for the role?</h1>
+      <h1 class="text-[#01181B] font-normal text-[1.4rem] leading-[2.1875rem] !mb-[2rem] msgTab4:text-[1.2rem] msgTab4:leading-[1.9rem]">You are about to close an active job, did you get a preferred candidate for the role?</h1>
       <div class="flex flex-col gap-4">
         <article class="inputField flex items-center gap-[0.5rem] cursor-pointer">
           <input
@@ -195,7 +195,7 @@ const displayImage = computed(() => imageExists.value)
           />
           <label for="yes" class="flex items-center cursor-pointer">
             <span class="custom-radio" :class="{ 'checked': selectedOption === 'yes' }"></span>
-            <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem] msgTab4:text-[1.2rem]">
+            <span class="text-[#01181B] font-normal text-[1.3rem] leading-[2rem] msgTab4:text-[1.2rem]">
               Yes, I did
             </span>
           </label>
@@ -212,7 +212,7 @@ const displayImage = computed(() => imageExists.value)
           />
           <label for="no" class="flex items-center cursor-pointer">
             <span class="custom-radio" :class="{ 'checked': selectedOption === 'no' }"></span>
-            <span class="text-[#01181B] font-Satoshi400 text-[1.3rem] leading-[2rem] msgTab4:text-[1.2rem]">
+            <span class="text-[#01181B] font-normal text-[1.3rem] leading-[2rem] msgTab4:text-[1.2rem]">
               No, I didn’t
             </span>
           </label>
@@ -220,7 +220,7 @@ const displayImage = computed(() => imageExists.value)
 
         <div class="transitionItem" 
         :class="selectedOption === 'no'? 'h-auto mt-4': 'h-0 overflow-hidden mt-0'">
-          <h3 class="text-[#6C8285] font-Satoshi400 text-[0.9rem] leading-[2rem]">
+          <h3 class="text-[#6C8285] font-normal text-[0.9rem] leading-[2rem]">
             Kindly let us know why?
           </h3>
           <input
@@ -232,7 +232,7 @@ const displayImage = computed(() => imageExists.value)
       </div>
       <div class="w-full grid place-items-center mt-[2rem]">
         <button 
-            class="w-auto text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-Satoshi500 text-[0.8rem] text-white !uppercase btn-hover-1"
+            class="w-auto text-center bg-[#43D0DF] py-[0.69rem] px-[2rem] rounded-[1rem] font-medium text-[0.8rem] text-white !uppercase btn-hover-1"
             @click="handleSubmitCloseJob"
             >
             <span v-if="!loading">SUBMIT</span>
@@ -241,18 +241,18 @@ const displayImage = computed(() => imageExists.value)
       </div>
     </div>
     <div class="text-center px-10 premiumSucessPage hidden">
-      <p class="text-[#01181B] text-[18px] font-Satoshi400 mt-4">
+      <p class="text-[#01181B] text-[18px] font-normal mt-4">
         Thank you, an invoice has been sent to the email provided. Once payment is confirmed, your job post will go live.
       </p>
       <div class="flex justify-center gap-4 mt-12">
         <button
           @click="back()"
-          class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+          class="bg-[#43D0DF] font-medium text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
         >
           VIEW CANDIDATES</button
         ><button
           @click="goToJobList()"
-          class="bg-[#43D0DF] font-Satoshi500 text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
+          class="bg-[#43D0DF] font-medium text-[0.88rem] uppercase leading-[11.593px] rounded-full px-5 p-3 w-[45%] text-[#fff] btn-hover-1"
         >
           <span v-if="!loading">JOB LISTING </span>
           <WhiteLoader v-else />
@@ -285,7 +285,7 @@ const displayImage = computed(() => imageExists.value)
             @click="redirectToPreviewJob(props?.job?.id)"
             class="flex items-center w-full lg:w-auto lg:justify-normal justify-between gap-14"
           >
-            <p class="text-[16.467px] capitalize font-Satoshi700 text-[#244034]">
+            <p class="text-[16.467px] capitalize font-satoshi700 text-[#244034]">
               {{ props?.job?.job_title }}
             </p>
           </div>
@@ -293,7 +293,7 @@ const displayImage = computed(() => imageExists.value)
         <div class="grid grid-cols-5 justify-between mt-5">
           <div class="flex lg:flex-row flex-col gap-4 items-center">
             <p
-              class="text-[0.8125rem] capitalize font-Satoshi500 flex flex-row items-center text-[#244034E5]"
+              class="text-[0.8125rem] capitalize font-medium flex flex-row items-center text-[#244034E5]"
             >
               <span v-html="numAbbr.formatCurrency(props?.job?.currency)"></span>
               <span>
@@ -332,7 +332,7 @@ const displayImage = computed(() => imageExists.value)
                   'bg-[#E06F6F]': props?.job?.status == 'closed'
                 }"
               ></div>
-              <p class="capitalize font-Satoshi500 text-[17.239px] text-[#244034E5]">
+              <p class="capitalize font-medium text-[17.239px] text-[#244034E5]">
                 {{ props?.job?.status }}
               </p>
             </div>

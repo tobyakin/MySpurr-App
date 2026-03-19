@@ -39,7 +39,7 @@ const chartOptions = ref({
     categories: [],
     labels: {
       style: {
-        cssClass: "!font-Satoshi700 !text-[#97A6A899] !text-[12px] opacity-40",
+        cssClass: "!font-satoshi700 !text-[#97A6A899] !text-[12px] opacity-40",
       },
     },
     type: "category",
@@ -54,7 +54,7 @@ const chartOptions = ref({
         return value.toFixed(0);
       },
       style: {
-        cssClass: "!font-Satoshi700 !text-[#97A6A899] capitalize !text-[12px] opacity-40",
+        cssClass: "!font-satoshi700 !text-[#97A6A899] capitalize !text-[12px] opacity-40",
       },
     },
   },

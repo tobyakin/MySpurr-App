@@ -14,10 +14,10 @@
             <img :src="item?.company?.logo" alt="" class="w-full h-full object-cover"/>
           </div>
           <div class="">
-            <p class="text-[13.021px] font-Satoshi500 text-[#000000]">
+            <p class="text-[13.021px] font-medium text-[#000000]">
               {{ item.job_info.job_title }}
             </p>
-            <p class="text-[13.021px] font-Satoshi500 text-[#2F929C]">
+            <p class="text-[13.021px] font-medium text-[#2F929C]">
               {{ item.company.business_name }}
               <span class="pl-2"> {{ item.job_info.location }}</span>
             </p>
@@ -27,7 +27,7 @@
  -->
         <div class="flex items-center">
           <span
-            class="bg-[#43D0DF] font-Satoshi500 capitalize text-[7.708px] items-center overflow-hidden flex px-4 py-3 text-white rounded-full"
+            class="bg-[#43D0DF] font-medium capitalize text-[7.708px] items-center overflow-hidden flex px-4 py-3 text-white rounded-full"
           >
             {{ item.status }}
           </span>
@@ -44,7 +44,7 @@
         <div class="flex justify-center mt-10">
           <router-link
             :to="{ name: 'jobs' }"
-            class="border-brand py-2 rounded-lg px-6 border text-brand font-Satoshi400"
+            class="border-brand py-2 rounded-lg px-6 border text-brand font-normal"
           >
             Apply now
           </router-link>

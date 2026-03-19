@@ -209,7 +209,7 @@ onUnmounted(() => {
             <div class="flexBasic gap-[0.6rem]">
               <ReplyIcon class="!opacity-1" :class="{ hidden: notShow }" />
               <DropDownArror class="cursor-pointer" :class="{ hidden: notShow }" />
-              <h3 class="font-Satoshi400 text-[#244034] text-[0.702rem]">To:</h3>
+              <h3 class="font-normal text-[#244034] text-[0.702rem]">To:</h3>
             </div>
             <div
               class="flex gap-[0.3rem] w-full overflow-hidden"
@@ -221,7 +221,7 @@ onUnmounted(() => {
                   v-for="(mail, index) in recieverMail"
                   :key="index"
                 >
-                  <h3 class="text-[#244034b3] font-Satoshi500 leading-[1.104rem] text-[0.702rem]">
+                  <h3 class="text-[#244034b3] font-medium leading-[1.104rem] text-[0.702rem]">
                     {{ mail }}
                   </h3>
                   <cancelIcon class="cursor-pointer" @click="removeMail(index)" />
@@ -232,17 +232,17 @@ onUnmounted(() => {
                 ref="mailInput"
                 v-model="mailValue"
                 placeholder="Enter mail"
-                class="font-Satoshi400 text-[0.7rem] text-[#244034b3] leading-[1.2rem]"
+                class="font-normal text-[0.7rem] text-[#244034b3] leading-[1.2rem]"
                 @input="filterMail"
                 v-if="recieverMail?.length < 1"
               />
             </div>
           </div>
           <div class="flexBasic gap-[0.8rem]">
-            <h3 class="hidden font-Satoshi500 text-[0.75rem] leading-[1.51rem] text-[#244034cc]">
+            <h3 class="hidden font-medium text-[0.75rem] leading-[1.51rem] text-[#244034cc]">
               Cc
             </h3>
-            <h3 class="hidden font-Satoshi500 text-[0.75rem] leading-[1.51rem] text-[#244034cc]">
+            <h3 class="hidden font-medium text-[0.75rem] leading-[1.51rem] text-[#244034cc]">
               Bcc
             </h3>
           </div>
@@ -268,7 +268,7 @@ onUnmounted(() => {
                     </div>
                   </div>
                   <div>
-                    <p class="capitalize font-Satoshi500 text-[0.8rem]">
+                    <p class="capitalize font-medium text-[0.8rem]">
                       {{ mail.first_name }} {{ mail.last_name }}
                     </p>
                     <h3 class="!text-[0.6rem]">{{ mail.email }}</h3>
@@ -277,7 +277,7 @@ onUnmounted(() => {
               </div>
               <div class="p-[0.3rem] pt-[0.5rem] pb-0 flex gap-[0.5rem] items-center">
                 <SearchIcon class="rotate-[90deg]" />
-                <h3 class="text-[0.8rem] font-Satoshi400">Top Results</h3>
+                <h3 class="text-[0.8rem] font-normal">Top Results</h3>
               </div>
             </div>
           </div>
@@ -285,10 +285,10 @@ onUnmounted(() => {
         <hr class="border-[#EEEEEE] border-1" />
         <div :class="{ hidden: showSubject }">
           <div class="px-4 py-[0.5rem] flex items-center gap-4">
-            <h3 class="text-[#244034] font-Satoshi400 text-[0.702rem] capitalize">subject:</h3>
+            <h3 class="text-[#244034] font-normal text-[0.702rem] capitalize">subject:</h3>
             <input
               type="text"
-              class="font-Satoshi400 text-[0.7rem] text-[#244034b3] leading-[1.2rem] basis-full"
+              class="font-normal text-[0.7rem] text-[#244034b3] leading-[1.2rem] basis-full"
               v-model="mailSubject"
             />
           </div>
@@ -298,7 +298,7 @@ onUnmounted(() => {
       <div class="px-4 w-[100%] flex-1 h-auto my-[0.5rem] quill">
         <textarea
           ref="textArea"
-          class="textarea w-[100%] h-full p-[0.5rem] font-Satoshi400 text-[0.75rem] leading-[1.505rem] text-[#000000bf] resize-y focus:outline-0 block overflow-auto scroller"
+          class="textarea w-[100%] h-full p-[0.5rem] font-normal text-[0.75rem] leading-[1.505rem] text-[#000000bf] resize-y focus:outline-0 block overflow-auto scroller"
           placeholder="Write a message"
           @input="autoResize"
         ></textarea>
@@ -321,7 +321,7 @@ onUnmounted(() => {
         <div class="flexBasic gap-4">
           <DeleteIcon class="cursor-pointer" @click="handleDelete" />
           <button
-            class="bg-[#3F634D] rounded-[10.38575rem] px-[1.3rem] py-[0.3rem] font-Satoshi500 text-[#fff] text-[0.803rem] leading-[1.7rem]"
+            class="bg-[#3F634D] rounded-[10.38575rem] px-[1.3rem] py-[0.3rem] font-medium text-[#fff] text-[0.803rem] leading-[1.7rem]"
             @click="handleReply"
             :class="props.isSending? 'px-[2rem] py-[1rem]': ''"
             v-if="!sendButton"
@@ -330,7 +330,7 @@ onUnmounted(() => {
           <WhiteLoader v-else />
           </button>
           <button
-            class="bg-[#3F634D] rounded-[10.38575rem] px-[1.3rem] py-[0.3rem] font-Satoshi500 text-[#fff] text-[0.803rem]"
+            class="bg-[#3F634D] rounded-[10.38575rem] px-[1.3rem] py-[0.3rem] font-medium text-[#fff] text-[0.803rem]"
             @click="handleSend"
             :class="props.isSending? 'px-[2rem] py-[1rem]': ''"
             v-if="sendButton"
@@ -346,8 +346,8 @@ onUnmounted(() => {
       v-if="uploadedFileDetails?.length > 0"
     >
       <!-- <div class="flexBasic">
-                    <h3 class="font-Satoshi500 leading-[normal] text-[#000] text-[0.75rem]">{{ uploadedFileDetails?.length}} Attachment</h3>
-                    <button class="text-[#349459] font-Satoshi500 text-[0.702rem]">Download All</button>
+                    <h3 class="font-medium leading-[normal] text-[#000] text-[0.75rem]">{{ uploadedFileDetails?.length}} Attachment</h3>
+                    <button class="text-[#349459] font-medium text-[0.702rem]">Download All</button>
                 </div> -->
       <div class="mt-4 flex !gap-[0.5rem] flex-wrap">
         <article
@@ -360,7 +360,7 @@ onUnmounted(() => {
             <h3 class="font-Satosi400 text-[#244034] leading-[1.003rem] text-[0.75rem]">
               {{ item.name }}
             </h3>
-            <p class="text-[#24403480] font-Satoshi400 text-[0.65rem] leading-[1.003rem]">
+            <p class="text-[#24403480] font-normal text-[0.65rem] leading-[1.003rem]">
               {{ item.size }}
             </p>
           </div>

@@ -2,10 +2,10 @@
   <div class="mt-3">
     <button
       @click="handleSignupWithGoogle"
-      class="w-full justify-center hidden gap-2 font-light font-Satoshi400 !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
+      class="w-full justify-center hidden gap-2 font-light font-normal !p-3 border-[#E5E5E5] border-[0.687px] opacity-[0.8029] rounded-[3.698px]"
     >
       <img class="w-[7%]" src="@/assets/svg/googleIcon.svg" alt="" />
-      <p class="text-[16px] font-Satoshi400">Sign up with Google</p>
+      <p class="text-[16px] font-normal">Sign up with Google</p>
     </button>
     <div class="hidden gap-2 my-3">
       <span class="border-b-[#00000033] my-3 w-full border-b-[1px]"></span>
@@ -49,7 +49,7 @@
             ? 'border-[#DA5252]'
             : 'border-[#254035]'
         "
-        class="w-full font-light flex font-Satoshi400 text-[14px] bg-white !py-1 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
+        class="w-full font-light flex font-normal text-[14px] bg-white !py-1 border-[0.509px] opacity-[0.8029] rounded-[4.074px] text-sm"
       >
         <a-input-group compact>
           <a-select
@@ -97,7 +97,7 @@
       <!-- password reg dropdown -->
       <div
         v-if="formData.password.length && !isValidPassword"
-        class="flex flex-col font-Satoshi400 text-gray-400 text-[12px] gap-2"
+        class="flex flex-col font-normal text-gray-400 text-[12px] gap-2"
       >
         <div class="flex items-center gap-2">
           <div
@@ -179,7 +179,7 @@
             />
           </svg>
         </p>
-        <p class="font-Satoshi400 text-[12.129px]">
+        <p class="font-normal text-[12.129px]">
           By hitting the "Register" button, you agree to the
           <a
             target="_blank"
@@ -197,7 +197,7 @@
           >
         </p>
       </div>
-      <div v-if="error.terms" class="text-xs my-2 font-Satoshi400 text-red-500">
+      <div v-if="error.terms" class="text-xs my-2 font-normal text-red-500">
         {{ error.terms }}
       </div>
     </div>
@@ -206,7 +206,7 @@
         :disabled="loading"
         @click="handleSignup()"
         :class="loading ? 'cursor-not-allowed' : ''"
-        class="bg-[#43D0DF] font-Satoshi500 text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
+        class="bg-[#43D0DF] font-medium text-[14px] leading-[11.593px] rounded-full p-5 w-full text-white btn-hover-1"
       >
         <span v-if="!loading"> Create my account </span>
         <WhiteLoader v-else />

@@ -17,7 +17,7 @@ defineProps({
     class="bg-[#EDF0B8] border-[#254035AB] flex flex-col gap-2 justify-between text-center lg:p-[32px] p-[20px] border-[0.567px] rounded-[10px]"
   >
     <div>
-      <p class="text-[#000000] text-[18px] font-Satoshi400">Your Total Balance</p>
+      <p class="text-[#000000] text-[18px] font-normal">Your Total Balance</p>
       <div class="flex flex-row justify-center gap-2">
         <span>&#8358;</span>
         <h4
@@ -43,7 +43,7 @@ defineProps({
           </svg>
         </button>
       </div>
-      <p class="text-[#6C8285] font-Satoshi400 leading-[27.734px] text-[16px]">
+      <p class="text-[#6C8285] font-normal leading-[27.734px] text-[16px]">
         September 27 2023 04:30PM
       </p>
     </div>
@@ -57,20 +57,20 @@ defineProps({
       >
         <WithdrawIcon />
 
-        <p class="text-[#000000] font-Satoshi500 text-[10px] leading-[18px]">Withdraw</p>
+        <p class="text-[#000000] font-medium text-[10px] leading-[18px]">Withdraw</p>
       </button>
       <button
         class="bg-white flex flex-col w-full gap-1 text-center items-center justify-center rounded-[10px] p-[10px]"
       >
         <AddFundsIcon />
-        <p class="text-[#000000] font-Satoshi500 text-[10px] leading-[18px]">Add Funds</p>
+        <p class="text-[#000000] font-medium text-[10px] leading-[18px]">Add Funds</p>
       </button>
       <button
         class="bg-white flex flex-col w-full gap-1 text-center items-center justify-center rounded-[10px] p-[10px]"
       >
         <SettingsIcon />
 
-        <p class="text-[#000000] font-Satoshi500 text-center text-[10px] leading-[18px]">
+        <p class="text-[#000000] font-medium text-center text-[10px] leading-[18px]">
           Settings
         </p>
       </button>

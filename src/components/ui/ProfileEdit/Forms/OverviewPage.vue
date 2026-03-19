@@ -46,7 +46,7 @@ onMounted(async () => {
         <textarea
           v-model="overview"
           rows="8"
-          class="bg-transparent font-Satoshi400 w-full outline-none text-sm border-[0.737px] border-[#254035AB] rounded-[5.897px] p-2 py-1.5"
+          class="bg-transparent font-normal w-full outline-none text-sm border-[0.737px] border-[#254035AB] rounded-[5.897px] p-2 py-1.5"
         />
       </div>
     </div>
