@@ -8,7 +8,7 @@ import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { useJobsStore } from "@/stores/jobs";
 import { useSkillsStore } from "@/stores/skills";
 const skillsStore = useSkillsStore();
-const { contriesCode, states } = storeToRefs(skillsStore);
+const { contriesCode, states, skills } = storeToRefs(skillsStore);
 import { useRoute } from "vue-router";
 const jobsStore = useJobsStore();
 const { postJobsValue, JobDetailsById, ciso, siso } = storeToRefs(jobsStore);
@@ -19,6 +19,8 @@ import ReviewJob from "@/components/ui/Jobs/ReviewEditJob.vue";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
+import SalaryInput from "@/components/ui/Form/Input/AmountFormatInput.vue";
+
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
@@ -201,6 +203,7 @@ onMounted(async () => {
   loading.value = true;
   try {
     await skillsStore.getskills();
+    options.value = skills.value?.data
     await skillsStore.getJobTitles();
     await skillsStore.getCountriesCode();
     await jobsStore.handleGetJobDetailsById(route.params.id);
@@ -368,33 +371,27 @@ onMounted(async () => {
             ></SelectGroup>
           </div>
           <div class="lg:w-[55%] flex flex-row gap-3">
-            <FormGroup
+            <SalaryInput
               v-model="postJobsValue.salary_min"
-              labelClasses=" invisible"
-              label=""
-              name="Min"
               placeholder="Min"
-              type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2.5 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></FormGroup>
-            <FormGroup
+              :currency="postJobsValue.currency"
+            />
+
+            <SalaryInput
               v-model="postJobsValue.salary_max"
-              labelClasses=" invisible"
-              label=" "
-              name="Max"
               placeholder="Max"
-              type="number"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2.5 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
-            ></FormGroup>
+              :currency="postJobsValue.currency"
+            />
+          
             <SelectGroup
               v-model="postJobsValue.currency"
-              labelClasses="font-Satoshi500 text-[15.606px]"
+              labelClasses="font-Satoshi500 !text-[0.8rem]"
               label=""
               name="Name"
               :items="['USD', 'NGN']"
               placeholder="Currency"
               type="text"
-              inputClasses="w-full mt-2 font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] text-[12.68px]"
+              inputClasses="w-full font-light font-Satoshi400 !bg-white !p-2 border-[#EDEDED] border-[0.509px] opacity-[0.8029] rounded-[9.489px] h-full text-[0.7rem]"
             ></SelectGroup>
           </div>
         </div>

@@ -79,8 +79,8 @@ onMounted(async () => {
           <MyJobs class="hidden" />
         </template>
         <template #view5>
-          <ComingSoon title="Invoices" />
-          <Invoices class="hidden" />
+          <ComingSoon title="Invoices" class="hidden"/>
+          <Invoices class="" />
         </template>
       </Tab>
     </div>

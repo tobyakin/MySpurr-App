@@ -98,6 +98,13 @@ const setPage = (page) => {
   }
 };
 
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // Smooth scrolling effect
+  });
+}
+
 const displayedPageNumbers = computed(() => {
   const maxDisplayedPages = 5;
   const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1);
@@ -113,6 +120,7 @@ const displayedPageNumbers = computed(() => {
 
 // You can also watch the currentPage to react to page changes
 watch(currentPage, async (newPage) => {
+  scrollToTop()
   await talentsStore.allTalents(newPage);
 });
 </script>
