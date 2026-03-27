@@ -9,7 +9,7 @@ import { useNumberFomateStore } from '@/stores/numberFomate'
 import ShortLoader from '@/components/ui/Loader/ShortLoader.vue'
 
 import WhiteLoader from '@/components/ui/WhiteLoader.vue'
-import { useQuery } from 'vue-query'
+import { useQuery } from '@tanstack/vue-query'
 import { useJobsStore } from '@/stores/jobs'
 import { useTabStore } from '@/stores/tab'
 import { useUserProfile } from '@/stores/profile'

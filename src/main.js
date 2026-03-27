@@ -12,7 +12,7 @@ import router from './router'
 import Antd from "ant-design-vue";
 import 'ant-design-vue/dist/reset.css'
 import Multiselect from 'vue-multiselect'
-import { VueQueryPlugin } from 'vue-query'
+import { VueQueryPlugin } from '@tanstack/vue-query'
 import ShortLoader from '@/components/ui/Loader/ShortLoader.vue'
 import VueApexCharts from 'vue3-apexcharts'
 import Label from '@/components/ui/Form/Input/Label.vue'
@@ -26,7 +26,7 @@ import { CkeditorPlugin } from '@ckeditor/ckeditor5-vue';
 import Galleria from 'primevue/galleria'
 
 import Carousel from 'primevue/carousel'
-import { createUnhead } from '@unhead/vue';
+import { createHead } from '@unhead/vue/client'
 
 import {
   LRectangle,
@@ -45,7 +45,7 @@ import 'leaflet/dist/leaflet.css'
 
 
 const app = createApp(App)
-const head = createUnhead();
+const head = createHead();
 
 app.use(head);
 app.use(VueTelInput)

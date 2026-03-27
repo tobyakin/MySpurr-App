@@ -1,0 +1,1 @@
+import{I as e,X as t,q as n,w as r}from"./vue.runtime.esm-bundler-NSdFDfaK.js";import{t as i}from"./_plugin-vue_export-helper-S3RvzygF.js";var a={};function o(i,a){return n(),r(`label`,e(i.$attrs,{class:`font-medium text-[15.606px]`}),[t(i.$slots,`default`)],16)}var s=i(a,[[`render`,o]]);export{s as t};

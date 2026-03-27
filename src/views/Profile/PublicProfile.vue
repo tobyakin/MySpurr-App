@@ -4,7 +4,7 @@ import DashboardLayout from '@/components/layout/dashboardLayout.vue'
 import TalentPublicProfile from '@/components/ui/FindTalents/TalentPublicProfile.vue'
 import { useTalentsStore } from '@/stores/talents'
 import { storeToRefs } from 'pinia'
-import { useQuery } from 'vue-query'
+import { useQuery } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
 const talentsStore = useTalentsStore()
 const { singleTalent } = storeToRefs(talentsStore)

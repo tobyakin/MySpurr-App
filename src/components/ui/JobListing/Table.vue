@@ -53,7 +53,7 @@
 import {ref, computed, watch } from "vue";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import Arrow from "@/components/icons/paginationArrow.vue"
-import { useQuery } from "vue-query";
+import { useQuery } from '@tanstack/vue-query';
 import JobsCard from "./JobsCard.vue";
 import { storeToRefs } from "pinia";
 import { useJobsStore } from "@/stores/jobs";
