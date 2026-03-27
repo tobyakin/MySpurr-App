@@ -210,7 +210,7 @@ import ApplicantProfile from "@/components/ui/AllApplications/ApplicantProfile.v
 import { useJobsStore } from "@/stores/jobs";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
-import { useQuery } from "vue-query";
+import { useQuery } from '@tanstack/vue-query';
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 let loadTalentProfile = ref(false);
 const route = useRoute();

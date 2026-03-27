@@ -24,7 +24,7 @@ import { useTabStore } from "@/stores/tab";
 
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
-import { useQuery } from "vue-query";
+import { useQuery } from '@tanstack/vue-query';
 import { useStore } from "@/stores/user";
 
 const userDetails = computed(() => {

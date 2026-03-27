@@ -2,7 +2,7 @@
 import DashboardLayout from "@/components/layout/dashboardLayout.vue";
 import { defineAsyncComponent, reactive, watchEffect, computed, ref, watch } from "vue";
 // import { useHead } from "@unhead/vue";
-import { useQuery } from "vue-query";
+import { useQuery } from '@tanstack/vue-query';
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 // import GoPro from "@/components/Bander/GoPro.vue";

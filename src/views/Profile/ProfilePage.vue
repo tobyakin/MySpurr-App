@@ -31,7 +31,7 @@ import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import Carousel from "@/components/ui/Carousel/index.vue";
 import { useClipboard } from "@vueuse/core";
 import { useToast } from "vue-toastification";
-// import { useQuery } from "vue-query";
+// import { useQuery } from '@tanstack/vue-query';
 import { useTabStore } from "@/stores/tab";
 import { useStore } from "@/stores/user";
 
