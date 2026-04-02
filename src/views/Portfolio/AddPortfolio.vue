@@ -34,6 +34,7 @@ const { portfolio } = storeToRefs(OnboardingStore);
 const userProfile = useUserProfile();
 import { useStore } from "@/stores/user";
 import { useTabStore } from "@/stores/tab";
+import Editor from "primevue/editor";
 
 let store = useStore();
 const accountType = computed(() => {
@@ -398,11 +399,17 @@ onMounted(async () => {
         Describe your project (1000 words)
       </h4>
       <div class="mt-8 flex flex-col">
-        <ckeditor
+        <!-- <ckeditor
           v-if="isLayoutReady"
           v-model="portfolio.description"
           :editor="editor"
           :config="editorConfigs"
+        /> -->
+
+        <Editor
+          v-if="isLayoutReady"
+          v-model="portfolio.description"
+          editorStyle="height: 200px"
         />
         <div>{{ characterCount }} / {{ maxCharacters }}</div>
       </div>

@@ -16,6 +16,7 @@ import Label from "@/components/ui/Form/Input/Label.vue";
 import { useSkillsStore } from "@/stores/skills";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
+import Editor from "primevue/editor";
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
@@ -440,11 +441,17 @@ onUnmounted(() => {
         Describe your project (1000 words)
       </h4>
       <div class="mt-8 flex flex-col">
-        <ckeditor
+        <!-- <ckeditor
           v-if="isLayoutReady"
           v-model="portfolio.description"
           :editor="editor"
           :config="editorConfigs"
+        /> -->
+
+        <Editor
+          v-if="isLayoutReady"
+          v-model="portfolio.description"
+          editorStyle="height: 200px"
         />
         <div>{{ characterCount }} / {{ maxCharacters }}</div>
       </div>

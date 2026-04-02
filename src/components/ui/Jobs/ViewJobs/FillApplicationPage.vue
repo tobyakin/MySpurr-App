@@ -14,6 +14,7 @@ import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { useNumberFomateStore } from "@/stores/numberFomate";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
+import Editor from "primevue/editor";
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
@@ -470,11 +471,17 @@ onMounted(async () => {
               class="text-[1.02rem] font-medium text-[#000]"
             ></p>
           </div>
-            <ckeditor
+            <!-- <ckeditor
               v-if="isLayoutReady"
               v-model="jobApplicationForm.question_answers[index].answer"
               :editor="editor"
               :config="editorConfigs"
+            /> -->
+
+            <Editor
+              v-if="isLayoutReady"
+              v-model="jobApplicationForm.question_answers[index].answer"
+              editorStyle="height: 200px"
             />
         </div>
       </div>

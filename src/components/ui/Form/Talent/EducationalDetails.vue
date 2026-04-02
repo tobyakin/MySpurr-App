@@ -1,12 +1,12 @@
 <script setup>
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, computed, watch, onMounted, reactive } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
 import { storeToRefs } from "pinia";
 import dayjs from "dayjs";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
-import { reactive } from "vue";
+import Editor from 'primevue/editor';
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
@@ -233,17 +233,25 @@ onMounted(async () => {
         <!-- Description -->
         <div
           :class="errors.description ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+          class=""
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-normal">Description</label>
-          <div class="flex flex-col">
-            <ckeditor
+          <label class="text-[#01272C] px-2 text-[13px] font-normal">Description</label>
+          <div class="flex flex-col mt-3">
+            <!-- <ckeditor
               v-if="isLayoutReady"
               v-model="education.description"
               :editor="editor"
               :config="editorConfigs"
               @focus="handleFocus('description')"
-              @blur="handleBlur"
+              @blur="handleBlur('description')"
+            /> -->
+
+            <Editor 
+              v-if="isLayoutReady"
+              v-model="education.description"
+              editorStyle="height: 200px"
+              @focus="handleFocus('description')"
+              @blur="handleBlur('description')"
             />
           </div>
         </div>
