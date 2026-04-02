@@ -25,7 +25,7 @@ const handleFocus = (field) => {
   }
 };
 
-const handleBlur = () => {
+const handleBlur = (field) => {
   focusedField.value = null;
 
   // Specific logic for the rate field

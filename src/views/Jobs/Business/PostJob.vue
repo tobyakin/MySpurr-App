@@ -20,6 +20,7 @@ import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
 import { useNumberFomateStore } from "@/stores/numberFomate";
 import SalaryInput from "@/components/ui/Form/Input/AmountFormatInput.vue";
+import Editor from "primevue/editor";
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
@@ -420,42 +421,66 @@ onMounted(() => {
           </div>
           <div class="flex flex-col">
             <Label class="font-medium !text-[17.792px] mb-2">Job Description*</Label>
-            <ckeditor
+            <!-- <ckeditor
               v-if="isLayoutReady"
               v-model="postJobsValue.description"
               :editor="editor"
               :config="editorConfigs"
+            /> -->
+
+            <Editor
+              v-if="isLayoutReady"
+              v-model="postJobsValue.description"
+              editorStyle="height: 200px"
             />
           </div>
           <div class="flex flex-col">
             <Label class="font-medium !text-[17.792px] mb-2">Responsibilities*</Label>
 
-            <ckeditor
+            <!-- <ckeditor
               v-if="isLayoutReady"
               v-model="postJobsValue.responsibilities"
               :editor="editor"
               :config="editorConfigs"
+            /> -->
+
+            <Editor
+              v-if="isLayoutReady"
+              v-model="postJobsValue.responsibilities"
+              editorStyle="height: 200px"
             />
           </div>
           <div class="flex flex-col">
             <Label class="font-medium !text-[17.792px] mb-2">Required Skills**</Label>
 
-            <ckeditor
+            <!-- <ckeditor
               v-if="isLayoutReady"
               v-model="postJobsValue.required_skills"
               :editor="editor"
               :config="editorConfigs"
+            /> -->
+
+            <Editor
+              v-if="isLayoutReady"
+              v-model="postJobsValue.required_skills"
+              editorStyle="height: 200px"
             />
           </div>
           <div class="flex flex-col">
             <Label class="font-medium !text-[17.792px] mb-2"
               >Benefits (If any)*</Label
             >
-            <ckeditor
+            <!-- <ckeditor
               v-if="isLayoutReady"
               v-model="postJobsValue.benefits"
               :editor="editor"
               :config="editorConfigs"
+            /> -->
+
+            <Editor
+              v-if="isLayoutReady"
+              v-model="postJobsValue.benefits"
+              editorStyle="height: 200px"
             />
           </div>
         </div>

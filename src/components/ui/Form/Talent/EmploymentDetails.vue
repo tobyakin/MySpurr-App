@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed, onMounted, defineAsyncComponent } from "vue";
+import { ref, watch, computed, onMounted, defineAsyncComponent, reactive } from "vue";
 import { useOnboardingStore } from "@/stores/onBoarding";
 import { useStore } from "@/stores/user";
 import GlobalInput from "@/components/ui/Form/Input/GlobalInput.vue";
@@ -10,6 +10,8 @@ const SelectGroup = defineAsyncComponent(() =>
 );
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
+import Editor from 'primevue/editor';
+import dayjs from "dayjs";
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
@@ -24,9 +26,6 @@ const editorConfigs = computed(() => ({
 
 const skillsStore = useSkillsStore();
 const { skills, jobTitle } = storeToRefs(skillsStore);
-
-import dayjs from "dayjs";
-import { reactive } from "vue";
 const OnboardingStore = useOnboardingStore();
 
 const { step, employment_details } = storeToRefs(OnboardingStore);
@@ -337,17 +336,25 @@ const selectHighlightedJobTitleOption = () => {
         <!-- Description -->
         <div
           :class="errors.description ? 'border-[#DA5252]' : 'border-[#254035AB]'"
-          class="border-[0.737px] rounded-[5.897px] p-4 py-1.5"
+          class=""
         >
-          <label class="text-[#01272C] px-2 text-[12px] font-normal">Description</label>
-          <div class="flex flex-col mb-3">
-            <ckeditor
+          <label class="text-[#01272C] px-2 text-[14px] font-normal">Description</label>
+          <div class="flex flex-col mb-3 mt-3">
+            <!-- <ckeditor
               v-if="isLayoutReady"
               v-model="employment_details.description"
               :editor="editor"
               :config="editorConfigs"
               @focus="handleFocus('description')"
               @blur="handleBlur"
+            /> -->
+
+            <Editor
+              v-if="isLayoutReady"
+              v-model="employment_details.description"
+              editorStyle="height: 200px"
+              @focus="handleFocus('description')"
+              @blur="handleBlur('description')"
             />
           </div>
         </div>

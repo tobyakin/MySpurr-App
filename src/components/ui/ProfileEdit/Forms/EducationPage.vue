@@ -9,6 +9,7 @@ import { storeToRefs } from "pinia";
 import WhiteLoader from "@/components/ui/WhiteLoader.vue";
 import { editorConfig } from "@/config/ckeditorConfig";
 import { ClassicEditor } from 'ckeditor5'
+import Editor from "primevue/editor";
 
 const isLayoutReady = ref(false)
 const editor = ClassicEditor
@@ -232,11 +233,17 @@ onMounted(async () => {
               <label class="text-[#01272C] px-4 mb-2 text-[12px] font-normal"
                 >Description</label
               >
-              <ckeditor
+              <!-- <ckeditor
                 v-if="isLayoutReady"
                 v-model="formState.description"
                 :editor="editor"
                 :config="editorConfigs"
+              /> -->
+
+              <Editor
+                v-if="isLayoutReady"
+                v-model="formState.description"
+                editorStyle="height: 200px"
               />
             </div>
           </div>
@@ -344,11 +351,17 @@ onMounted(async () => {
               <label class="text-[#01272C] px-4 mb-2 text-[12px] font-normal"
                 >Description</label
               >
-              <ckeditor
+              <!-- <ckeditor
                 v-if="isLayoutReady"
                 v-model="education.description"
                 :editor="editor"
                 :config="editorConfigs"
+              /> -->
+
+              <Editor 
+                v-if="isLayoutReady"
+                v-model="education.description"
+                editorStyle="height: 200px"
               />
             </div>
           </div>

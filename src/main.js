@@ -18,10 +18,11 @@ import VueApexCharts from 'vue3-apexcharts'
 import Label from '@/components/ui/Form/Input/Label.vue'
 import DashboardLayout from '@/components/layout/dashboardLayout.vue'
 import PrimeVue from 'primevue/config'
+import Aura from '@primeuix/themes/aura';
 // import 'primevue/resources/themes/aura-light-green/theme.css'
 import VueTelInput from 'vue-tel-input'
 import 'vue-tel-input/vue-tel-input.css'
-import { CkeditorPlugin } from '@ckeditor/ckeditor5-vue';
+// import { CkeditorPlugin } from '@ckeditor/ckeditor5-vue';
 
 import Galleria from 'primevue/galleria'
 
@@ -71,8 +72,18 @@ app.component('l-polygon', LPolygon)
 app.component('l-geo-json', LGeoJson),
 app.use(Toast, { position: POSITION.TOP_RIGHT })
 app.use(VueQueryPlugin)
-app.use(PrimeVue)
-app.use(CkeditorPlugin)
+app.use(PrimeVue, {
+    // Default theme configuration
+    theme: {
+        preset: Aura,
+        options: {
+            prefix: 'my',
+            darkModeSelector: '.my-dark-mode',
+            cssLayer: false
+        }
+    }
+ });
+// app.use(CkeditorPlugin)
 
 app.use(createPinia())
 app.use(router)
