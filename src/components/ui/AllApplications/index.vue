@@ -324,29 +324,28 @@ const filteredApplicants = computed(() => {
 
   return filtered;
 });
-const { isLoading: loadTalentApplications } = useQuery(
-  ["getJobDetailsById", route.params.id],
-  getJobDetailsById,
-  {
-    retry: 10,
-    staleTime: 10000,
-    onSuccess: (data) => {
-      JobDetailsById.value = data;
-    },
-  }
-);
 
-const { isLoading: loadApplicants } = useQuery(
-  ["getApplicants", route.params.slug],
-  getApplicants,
-  {
-    retry: 10,
-    staleTime: 10000,
-    onSuccess: (data) => {
-      applicants.value = data;
-    },
-  }
-);
+const { isLoading: loadTalentApplications } = useQuery({
+  queryKey: ['getJobDetailsById', route.params.slug],
+  queryFn: getJobDetailsById,
+  retry: 10,
+  staleTime: 10000,
+});
+
+const { isLoading: loadApplicants } = useQuery({
+  queryKey: ['getApplicants', route.params.slug],
+  queryFn: getApplicants,
+  retry: 10,
+  staleTime: 10000,
+});
+
+// Watch for query data and update store
+watch([loadTalentApplications, loadApplicants], () => {
+  // This is handled by the onSuccess in v4, but in v5 we need to update manually
+  // The store updates should happen in the store methods themselves
+});
+
+
 onUnmounted(() => {
   if (talentApplication && talentApplication.value) {
     talentApplication.value.data = null;

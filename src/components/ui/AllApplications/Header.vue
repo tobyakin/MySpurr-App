@@ -11,6 +11,7 @@
                 :src="getImageSrc()"
                 class="h-[61.011px] w-[61.011px] rounded-full"
                 @error="handleImageError"
+                alt=""
               />
             </template>
             <template v-else>
@@ -111,64 +112,94 @@
     </div>
   </div>
 </template>
+
+
 <script setup>
-import { computed, onMounted, reactive, watch, ref } from "vue";
+import { computed, onMounted, watch, ref } from "vue";
 import VerifyIcon from "@/components/icons/verifyIcon.vue";
 import { useTabStore } from "@/stores/tab";
+
 const store = useTabStore();
 const imageExists = ref(false);
 const initials = ref("");
 
-const props = defineProps({ JobDetails: Object });
+const props = defineProps({ 
+  JobDetails: {
+    type: Object,
+    default: () => ({ company: {} })
+  }
+});
+
 function checkImageExists(url) {
   return new Promise((resolve) => {
+    if (!url) {
+      resolve(false);
+      return;
+    }
     const img = new Image();
     img.onload = () => resolve(true);
     img.onerror = () => resolve(false);
     img.src = url;
   });
 }
-const jobData = computed(() => {
-  return props?.JobDetails;
-});
 
-onMounted(async () => {
-  await updateImageExists();
-});
-
-watch(jobData, async () => {
-  await updateImageExists();
-});
-
-async function updateImageExists() {
-  const hasImage = props?.JobDetails?.company?.company_logo;
-  if (hasImage) {
-    const imageSrc = getImageSrc();
-    imageExists.value = await checkImageExists(imageSrc);
-    if (!imageExists.value) {
-      setInitials(props?.JobDetails?.company?.business_name);
+// Simplified setInitials with safety
+function setInitials(name) {
+  try {
+    if (!name || typeof name !== 'string') {
+      initials.value = '';
+      return;
     }
-  } else {
-    imageExists.value = false;
-    setInitials(jobData.value?.company?.business_name);
+    
+    initials.value = name
+      .split(" ")
+      .filter(word => word && word.length > 0)
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase();
+  } catch (error) {
+    console.error('Error setting initials:', error);
+    initials.value = '';
   }
 }
 
-function setInitials(name) {
-  initials.value = name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
+// Simplified update function
+async function updateImageExists() {
+  try {
+    const companyLogo = props?.JobDetails?.company?.company_logo;
+    const businessName = props?.JobDetails?.company?.business_name || '';
+    
+    if (companyLogo) {
+      imageExists.value = await checkImageExists(companyLogo);
+      if (!imageExists.value) {
+        setInitials(businessName);
+      }
+    } else {
+      imageExists.value = false;
+      setInitials(businessName);
+    }
+  } catch (error) {
+    console.error('Error updating image:', error);
+    imageExists.value = false;
+    setInitials('');
+  }
 }
 
+// Watch with immediate execution
+watch(() => props.JobDetails, (newVal) => {
+  if (newVal) {
+    updateImageExists();
+  }
+}, { immediate: true, deep: true });
+
 function getImageSrc() {
-  return jobData.value?.company?.company_logo;
+  return props?.JobDetails?.company?.company_logo || '';
 }
 
 function handleImageError() {
   console.error("Image loading error");
-  setInitials(jobData.value?.company?.business_name);
+  const businessName = props?.JobDetails?.company?.business_name;
+  setInitials(businessName || '');
 }
 
 const displayImage = computed(() => imageExists.value);

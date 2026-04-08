@@ -60,13 +60,20 @@ const fetchData = async () => {
 }
 
 fetchData()
-const { isLoading } = useQuery(['JobDetails', route.params.id], getJobDetails, {
+
+const { isLoading, data } = useQuery({
+  queryKey: ['JobDetails', route.params.id],
+  queryFn: getJobDetails,
   retry: 10,
   staleTime: 10000,
-  onSuccess: (data) => {
-    JobDetailsById.value = data
-  }
 })
+
+watch(data, (newData) => {
+  if (newData) {
+    JobDetailsById.value = newData
+  }
+}, { immediate: true })
+
 function checkImageExists(url) {
   return new Promise((resolve) => {
     const img = new Image()
@@ -87,34 +94,57 @@ watch(JobDetailsById, async () => {
 })
 
 async function updateImageExists() {
-  const hasImage = JobDetailsById.value?.data?.company?.company_logo
+  const jobData = JobDetailsById.value?.data;
+  if (!jobData) {
+    imageExists.value = false;
+    initials.value = '';
+    return;
+  }
+
+  const company = jobData.company;
+  if (!company) {
+    imageExists.value = false;
+    initials.value = '';
+    return;
+  }
+
+  const hasImage = company.company_logo;
+  const businessName = company.business_name || '';
+
   if (hasImage) {
-    const imageSrc = getImageSrc()
-    imageExists.value = await checkImageExists(imageSrc)
+    const imageSrc = getImageSrc();
+    imageExists.value = await checkImageExists(imageSrc);
     if (!imageExists.value) {
-      setInitials(JobDetailsById.value?.data?.company?.business_name)
+      setInitials(businessName);
     }
   } else {
-    imageExists.value = false
-    setInitials(JobDetailsById.value?.data?.company?.business_name)
+    imageExists.value = false;
+    setInitials(businessName);
   }
 }
 
 function setInitials(name) {
+  if (!name || typeof name !== 'string') {
+    initials.value = '';
+    return;
+  }
+  
   initials.value = name
     .split(' ')
+    .filter(word => word.length > 0) // Filter out empty strings
     .map((word) => word[0])
     .join('')
-    .toUpperCase()
+    .toUpperCase();
 }
 
 function getImageSrc() {
-  return JobDetailsById.value?.company?.company_logo
+  return JobDetailsById.value?.data?.company?.company_logo || '';
 }
 
 function handleImageError() {
-  console.error('Image loading error')
-  setInitials(JobDetailsById.value?.company?.business_name)
+  console.error('Image loading error');
+  const businessName = JobDetailsById.value?.data?.company?.business_name;
+  setInitials(businessName || '');
 }
 
 const formattedBusinessName = computed(() => {

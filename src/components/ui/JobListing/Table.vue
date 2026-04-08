@@ -49,51 +49,56 @@
     </div>
   </div>
 </template>
+
 <script setup>
-import {ref, computed, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
-import Arrow from "@/components/icons/paginationArrow.vue"
-import { useQuery } from '@tanstack/vue-query';
+import Arrow from "@/components/icons/paginationArrow.vue";
+import { useQuery } from "@tanstack/vue-query";
 import JobsCard from "./JobsCard.vue";
 import { storeToRefs } from "pinia";
 import { useJobsStore } from "@/stores/jobs";
 
 const jobsStore = useJobsStore();
 const { MyJob } = storeToRefs(jobsStore);
+
+// Define the query function
 const getMyJobs = async () => {
-  let response = await jobsStore.handleMyJobs();
+  const response = await jobsStore.handleMyJobs();
   return response;
 };
-const fetchData = async () => {
-  await Promise.all([getMyJobs()]);
-};
 
-fetchData();
-
-const { isLoading } = useQuery(["myJobs"], getMyJobs, {
-  retry: 10,
-  staleTime: 1000,
-  onSuccess: (data) => {
-    MyJob.value = data;
-  },
+const { isLoading, data } = useQuery({
+  queryKey: ["myJobs"],
+  queryFn: getMyJobs,
+  retry: 3,
+  staleTime: 1000 * 60 * 5, // 5 minutes
 });
 
-// Pagination Function
+// Update MyJob when data changes
+watch(data, (newData) => {
+  if (newData) {
+    MyJob.value = newData;
+  }
+}, { immediate: true });
 
+// Pagination Function
 const currentPage = ref(1);
 const pagination = computed(() => MyJob.value?.pagination || {});
 const myJobData = computed(() => MyJob.value?.data || []);
+
 const paginatedJob = computed(() => {
   const perPage = pagination.value.per_page;
   const startIndex = (currentPage.value - 1) * perPage;
   const endIndex = startIndex + perPage;
   return myJobData.value.slice(startIndex, endIndex);
 });
-const totalPages = computed(() => Math.ceil(pagination.value.last_page));
+
+const totalPages = computed(() => Math.ceil(pagination.value.last_page || 1));
 
 // Function to change the current page
 const setPage = (page) => {
-  if (page >= 1 && page <= (pagination.value.last_page || 1)) {
+  if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page;
   }
 };
@@ -101,13 +106,16 @@ const setPage = (page) => {
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
-    behavior: 'smooth' // Smooth scrolling effect
+    behavior: "smooth",
   });
-}
+};
 
 const displayedPageNumbers = computed(() => {
   const maxDisplayedPages = 5;
-  const startPage = Math.max(currentPage.value - Math.floor(maxDisplayedPages / 2), 1);
+  const startPage = Math.max(
+    currentPage.value - Math.floor(maxDisplayedPages / 2),
+    1
+  );
   const endPage = Math.min(startPage + maxDisplayedPages - 1, totalPages.value);
   const pageNumbers = [];
 
@@ -118,9 +126,10 @@ const displayedPageNumbers = computed(() => {
   return pageNumbers;
 });
 
-// You can also watch the currentPage to react to page changes
-watch(currentPage, async (newPage) => {
-  scrollToTop()
-  await talentsStore.allTalents(newPage);
+// Watch currentPage to react to page changes
+watch(currentPage, async () => {
+  scrollToTop();
+
+  await jobsStore.allTalents(currentPage.value);
 });
 </script>
