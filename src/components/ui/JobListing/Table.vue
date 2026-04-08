@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import ShortLoader from "@/components/ui/Loader/ShortLoader.vue";
 import Arrow from "@/components/icons/paginationArrow.vue";
 import { useQuery } from "@tanstack/vue-query";
@@ -131,5 +131,9 @@ watch(currentPage, async () => {
   scrollToTop();
 
   await jobsStore.allTalents(currentPage.value);
+});
+
+onMounted(() => {
+  getMyJobs();
 });
 </script>
